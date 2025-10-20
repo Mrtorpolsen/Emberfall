@@ -18,6 +18,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private GameObject fighterPrefab;
     [SerializeField] private GameObject rangerPrefab;
     [SerializeField] private GameObject cavalierPrefab;
+    [SerializeField] private GameObject giantPrefab;
     [SerializeField] private GameObject gatePrefab;
 
     private int currentWaveIndex = 0;
@@ -97,7 +98,7 @@ public class WaveManager : MonoBehaviour
         //customise for special waves
         if ((waveNumber + 1) % 10 == 0)
         {
-            //spawn boss
+            wave.enemiesToSpawn.Add(new EnemyGroup(giantPrefab, 1, spawnDelay));
         }
         else
         {
