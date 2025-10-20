@@ -23,9 +23,8 @@ public class UnitManager : MonoBehaviour
     [SerializeField] private GameObject gatePrefab;
     [SerializeField] private GameObject towerPrefab;
 
-    [SerializeField] private string playerColor = "#B36200";
-    [SerializeField] private string enemyColor = "#DC2626";
-
+    private string playerColor = "#2E3A5E";
+    private string enemyColor = "#A0170A";
 
     private void Awake()
     {
@@ -69,13 +68,7 @@ public class UnitManager : MonoBehaviour
 
             if (sr != null) 
             {
-                string teamColorCode = team == Team.North ? enemyColor : playerColor;
-                Color teamColor;
-
-                if (UnityEngine.ColorUtility.TryParseHtmlString(teamColorCode, out teamColor))
-                {
-                    sr.color = teamColor;
-                }
+                AssignColor(sr, team);
             }
             
             UnitStats unitStats = unit.GetComponent<UnitStats>();
@@ -102,6 +95,17 @@ public class UnitManager : MonoBehaviour
             }
 
             return false;
+        }
+    }
+
+    public void AssignColor(SpriteRenderer sr, Team team)
+    {
+        string teamColorCode = team == Team.North ? enemyColor : playerColor;
+        Color teamColor;
+
+        if (UnityEngine.ColorUtility.TryParseHtmlString(teamColorCode, out teamColor))
+        {
+            sr.color = teamColor;
         }
     }
 
