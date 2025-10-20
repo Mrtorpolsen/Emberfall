@@ -183,5 +183,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerProjectile
   rb: {fileID: 6591101023804061662}
-  speed: 2.5
+  speed: 7.5
   damage: 0

@@ -10,16 +10,16 @@ public class Combat : MonoBehaviour
 
     private IUnit unit;
     private ITargetable target;
-    private EnemyMovement movement;
+    private MovementManager movement;
     private float attackCooldown;
 
     private void Awake()
     {
         unit = GetComponent<IUnit>();
         findTarget = GetComponent<FindTarget>();
-        movement = GetComponent<EnemyMovement>();
+        movement = GetComponent<MovementManager>();
     }
-
+    //look into only looking for targets in the player zone
     private void Update()
     {
         if (attackCooldown > 0) 

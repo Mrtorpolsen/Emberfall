@@ -18,7 +18,7 @@ public class FindTarget : MonoBehaviour
 
         currentTarget = GetEnemyCastle(selfUnit.GetTeam());
     }
-    
+
     void Update()
     {
 
@@ -30,13 +30,13 @@ public class FindTarget : MonoBehaviour
     private void FindClosestTarget()
     {
         var allTargets = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ITargetable>();
-        
+
         float closestDistance = Mathf.Infinity;
         ITargetable nearestEnemy = null;
 
         foreach (var target in allTargets)
         {
-            if(target.GetTeam() == selfUnit.GetTeam())
+            if (target.GetTeam() == selfUnit.GetTeam())
             {
                 continue;
             }

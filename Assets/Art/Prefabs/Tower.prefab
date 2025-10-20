@@ -161,12 +161,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerStats
   unit: {fileID: 87936472045436742}
   towerProjectilePrefab: {fileID: 9402218379871732, guid: ec5ca335582451b4c8cf482c9b7d48ce, type: 3}
-  cost: 75
+  cost: 250
   maxHealth: 100
-  attackDamage: 15
   currentHealth: 0
+  attackDamage: 30
+  attackSpeed: 1.5
   attackRange: 3.5
-  attackSpeed: 0.5
 --- !u!114 &1852405760658369969
 MonoBehaviour:
   m_ObjectHideFlags: 0

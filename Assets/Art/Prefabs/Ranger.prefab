@@ -162,6 +162,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -183,6 +185,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -283,7 +286,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3501163535796704365}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11f8ce16dba5c824fa706b184e15d45f, type: 3}
+  m_Script: {fileID: 11500000, guid: db610b7f71f012e47aaaf00fa4984694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4453514862014735567}

@@ -9,7 +9,7 @@ public class Arrow : MonoBehaviour
 
 
     [Header("Attributes")]
-    [SerializeField] private float speed = 2.5f;
+    [SerializeField] private float speed = 5f;
     [SerializeField] private int damage;
 
 
@@ -45,5 +45,9 @@ public class Arrow : MonoBehaviour
             OnHit?.Invoke(targetable, damage);
             Destroy(gameObject);
         }
+    }
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
     }
 }
