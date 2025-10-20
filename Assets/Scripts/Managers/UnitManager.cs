@@ -23,6 +23,10 @@ public class UnitManager : MonoBehaviour
     [SerializeField] private GameObject gatePrefab;
     [SerializeField] private GameObject towerPrefab;
 
+    [SerializeField] private string playerColor = "#B36200";
+    [SerializeField] private string enemyColor = "#DC2626";
+
+
     private void Awake()
     {
         if(main ==  null)
@@ -65,7 +69,7 @@ public class UnitManager : MonoBehaviour
 
             if (sr != null) 
             {
-                string teamColorCode = team == Team.North ? "#1E3A8A" : "#DC2626";
+                string teamColorCode = team == Team.North ? enemyColor : playerColor;
                 Color teamColor;
 
                 if (UnityEngine.ColorUtility.TryParseHtmlString(teamColorCode, out teamColor))
