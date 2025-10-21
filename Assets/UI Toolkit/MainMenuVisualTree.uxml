@@ -1,0 +1,31 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=ca9b1f3e9a87a7440a0404c07bc5cab7&amp;type=3#MainMenuStyle" />
+    <Bitbebop.SafeArea>
+        <ui:VisualElement name="MainContainer" class="mainContainer" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 25px; padding-right: 50px; padding-bottom: 25px; padding-left: 50px; align-items: stretch;">
+            <ui:VisualElement name="TopBarContainer" class="topBarContainer" style="flex-grow: 0; flex-direction: row; justify-content: space-between; max-height: initial; margin-top: 0; margin-bottom: 50px;">
+                <ui:Label text="Player Name" name="PlayerName" class="topBarLabel" style="justify-content: flex-start; font-size: 30px;" />
+                <ui:Label text="Player Currency" name="PlayerCurrency" class="topBarLabel" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Img_WaveAttack" class="imgWaveAttack" style="flex-grow: 1; background-color: rgb(255, 0, 0); max-height: 650px;" />
+            <ui:VisualElement name="OffersContainer" class="offersContainer" style="flex-grow: 0;">
+                <ui:Button text="Button" name="Offer" class="btnOffer" />
+                <ui:Button text="Button" name="Offer" class="btnOffer" />
+                <ui:Button text="Button" name="Offer" class="btnOffer" />
+                <ui:Button text="Button" name="Offer" class="btnOffer" />
+                <ui:Button text="Button" name="Offer" class="btnOffer" />
+            </ui:VisualElement>
+            <ui:VisualElement name="PersonalHighScore" class="personalHighScoreContainer" style="flex-grow: 0;">
+                <ui:Label text="Personal High Score:" name="HighScoreLabel" class="highScoreLabel" />
+                <ui:Label text="05:00" name="HighScore" class="highScore" />
+            </ui:VisualElement>
+            <ui:Button text="Play Now!" name="Btn_Play" class="btnPlay" />
+        </ui:VisualElement>
+        <ui:VisualElement name="NavMenuContainer" class="navMenu navMenuContainer" style="flex-grow: 0; width: auto;">
+            <ui:Button text="Button" class="btnNav" />
+            <ui:Button text="Button" class="btnNav" />
+            <ui:Button text="Button" class="btnNav" />
+            <ui:Button text="Button" class="btnNav" />
+            <ui:Button text="Button" class="btnNav" />
+        </ui:VisualElement>
+    </Bitbebop.SafeArea>
+</ui:UXML>

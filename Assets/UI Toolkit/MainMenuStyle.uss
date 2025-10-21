@@ -1,0 +1,87 @@
+.topBarLabel {
+    font-size: 30px;
+    -unity-font-style: bold;
+}
+
+.mainContainer {
+    padding-top: 25px;
+    padding-right: 50px;
+    padding-bottom: 25px;
+    padding-left: 50px;
+    flex-shrink: 0;
+}
+
+.topBarContainer {
+    margin-bottom: 100px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.imgWaveAttack {
+    margin-bottom: 100px;
+    height: auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.offersContainer {
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 100px;
+}
+
+.btnOffer {
+    min-width: 100px;
+    max-width: 120px;
+    min-height: 100px;
+    max-height: 120px;
+    width: 180px;
+    height: 180px;
+}
+
+.personalHighScoreContainer {
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+.highScoreLabel {
+    font-size: 50px;
+}
+
+.highScore {
+    font-size: 75px;
+}
+
+.btnPlay {
+    align-self: center;
+    width: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 100px;
+    padding: 30px 50px;
+    -unity-font-style: bold;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.navMenuContainer {
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-grow: 0;
+}
+
+.btnNav {
+    width: auto;
+    height: 180px;
+    flex-grow: 1;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
