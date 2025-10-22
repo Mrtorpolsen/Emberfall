@@ -1,0 +1,9 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Background" style="flex-grow: 1;">
+        <Bitbebop.SafeArea>
+            <ui:VisualElement name="Img_Splash" style="flex-grow: 1; justify-content: center;">
+                <ui:Label text="Loading...." name="Label" style="align-items: center; align-self: center; font-size: 100px;" />
+            </ui:VisualElement>
+        </Bitbebop.SafeArea>
+    </ui:VisualElement>
+</ui:UXML>

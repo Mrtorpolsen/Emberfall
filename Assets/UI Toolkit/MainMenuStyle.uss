@@ -44,10 +44,10 @@
 
 .personalHighScoreContainer {
     align-items: center;
-    margin-bottom: 100px;
+    margin-bottom: 0;
 }
 
-.highScoreLabel {
+.label {
     font-size: 50px;
 }
 
@@ -60,7 +60,7 @@
     width: auto;
     flex-grow: 0;
     flex-shrink: 0;
-    font-size: 100px;
+    font-size: 65px;
     padding: 30px 50px;
     -unity-font-style: bold;
     border-top-left-radius: 25px;
