@@ -22,11 +22,11 @@
             <ui:Button text="Ignite the Forge!" name="Btn_Play" class="btnPlay" style="margin-top: 100px; margin-bottom: 100px;" />
         </ui:VisualElement>
         <ui:VisualElement name="NavMenuContainer" class="navMenu navMenuContainer" style="flex-grow: 0; width: auto;">
-            <ui:Button text="Button" class="btnNav" />
-            <ui:Button text="Button" class="btnNav" />
-            <ui:Button text="Button" class="btnNav" />
-            <ui:Button text="Button" class="btnNav" />
-            <ui:Button text="Button" class="btnNav" />
+            <ui:Button name="Btn_Shop" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_shop.jpg?fileID=21300000&amp;guid=5805ea821afda07499280d301a30f8f4&amp;type=3#btn_shop&quot;);" />
+            <ui:Button name="Btn_Forge" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_forge.jpg?fileID=21300000&amp;guid=86a73e477da9c2843949b5425125f86b&amp;type=3#btn_forge&quot;);" />
+            <ui:Button name="Btn_Main" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_main.jpg?fileID=21300000&amp;guid=509c5f2bbd6f71847ad3e1ce414229bd&amp;type=3#btn_main&quot;);" />
+            <ui:Button name="Btn_Research" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_research.jpg?fileID=21300000&amp;guid=9964d347d80823d4191b0b00d1607f88&amp;type=3#btn_research&quot;);" />
+            <ui:Button name="Btn_Leaderboard" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_leaderboard.jpg?fileID=21300000&amp;guid=caed5ab73b5341849afeb96cdb4f1f78&amp;type=3#btn_leaderboard&quot;);" />
         </ui:VisualElement>
     </Bitbebop.SafeArea>
 </ui:UXML>

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class MainMenuEvents : MonoBehaviour, IUIScreen
 {
-    //USE NAMING CONVENTION OF BTN --- Btn_xxx
+    //USE NAMING CONVENTION OF BTN --- Btn_xxx so it can add Clicked behind
     private Dictionary<Button, Action> buttonActions = new Dictionary<Button, Action>();
 
     private void OnDisable()
@@ -61,5 +61,25 @@ public class MainMenuEvents : MonoBehaviour, IUIScreen
     private void Btn_Offer3Clicked()
     {
         Debug.Log("Btn_Offer3 clicked...");
+    }
+    private void Btn_ShopClicked()
+    {
+        Debug.Log("Btn_ShopClicked clicked...");
+    }
+    private void Btn_ForgeClicked()
+    {
+        Debug.Log("Btn_ForgeClicked clicked...");
+    }
+    private void Btn_MainClicked()
+    {
+        Debug.Log("Btn_MainClicked clicked...");
+    }
+    private void Btn_ResearchClicked()
+    {
+        Debug.Log("Btn_ResearchClicked clicked...");
+    }
+    private void Btn_LeaderboardClicked()
+    {
+        Debug.Log("Btn_LeaderboardClicked clicked...");
     }
 }
