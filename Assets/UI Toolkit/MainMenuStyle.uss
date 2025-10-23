@@ -1,6 +1,7 @@
 .topBarLabel {
     font-size: 30px;
     -unity-font-style: bold;
+    color: rgb(255, 255, 255);
 }
 
 .mainContainer {
@@ -49,10 +50,12 @@
 
 .label {
     font-size: 50px;
+    color: rgb(255, 255, 255);
 }
 
 .highScore {
     font-size: 75px;
+    color: rgb(255, 255, 255);
 }
 
 .btnPlay {

@@ -1,32 +1,35 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=ca9b1f3e9a87a7440a0404c07bc5cab7&amp;type=3#MainMenuStyle" />
+    <ui:VisualElement name="OutsideSafeArea" style="flex-grow: 1; -unity-background-image-tint-color: rgb(0, 0, 0); width: auto; height: auto;" />
     <Bitbebop.SafeArea>
-        <ui:VisualElement name="MainContainer" class="mainContainer" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 25px; padding-right: 50px; padding-bottom: 25px; padding-left: 50px; align-items: stretch;">
-            <ui:VisualElement name="TopBarContainer" class="topBarContainer" style="flex-grow: 0; flex-direction: row; justify-content: space-between; max-height: initial; margin-top: 0; margin-bottom: 50px;">
-                <ui:Label text="Player Name" name="PlayerName" class="topBarLabel" style="justify-content: flex-start; font-size: 30px;" />
-                <ui:Label text="Player Currency" name="PlayerCurrency" class="topBarLabel" />
+        <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/background.png?fileID=-7443756053782179069&amp;guid=d06bc6ebb2ce77c45a96dde194896a09&amp;type=3#background_0&quot;);">
+            <ui:VisualElement name="MainContainer" class="mainContainer" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 25px; padding-right: 50px; padding-bottom: 25px; padding-left: 50px; align-items: stretch;">
+                <ui:VisualElement name="TopBarContainer" class="topBarContainer" style="flex-grow: 0; flex-direction: row; justify-content: space-between; max-height: initial; margin-top: 0; margin-bottom: 50px;">
+                    <ui:Label text="Player Name" name="PlayerName" class="topBarLabel" style="justify-content: flex-start; font-size: 30px;" />
+                    <ui:Label text="Player Currency" name="PlayerCurrency" class="topBarLabel" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Img_WaveAttack" class="imgWaveAttack" style="flex-grow: 1; background-color: rgb(255, 0, 0); max-height: 650px;" />
+                <ui:Label text="Buy Now!" name="BuyNowLabel" class="label" style="align-items: center; justify-content: center; align-self: center; margin-bottom: 20px;" />
+                <ui:VisualElement name="OffersContainer" class="offersContainer" style="flex-grow: 0;">
+                    <ui:Button text="Button" name="Btn_Offer1" class="btnOffer" />
+                    <ui:Button text="Button" name="Btn_Offer2" class="btnOffer" />
+                    <ui:Button text="Button" name="Btn_Offer3" class="btnOffer" />
+                    <ui:Button text="Button" name="Btn_Offer4" class="btnOffer" />
+                    <ui:Button text="Button" name="Btn_Offer5" class="btnOffer" />
+                </ui:VisualElement>
+                <ui:VisualElement name="PersonalHighScore" class="personalHighScoreContainer" style="flex-grow: 0;">
+                    <ui:Label text="Personal High Score:" name="HighScoreLabel" class="highScoreLabel label" />
+                    <ui:Label text="05:00" name="HighScore" class="highScore" />
+                </ui:VisualElement>
+                <ui:Button text="Ignite the Forge!" name="Btn_Play" class="btnPlay" style="margin-top: 100px; margin-bottom: 100px;" />
             </ui:VisualElement>
-            <ui:VisualElement name="Img_WaveAttack" class="imgWaveAttack" style="flex-grow: 1; background-color: rgb(255, 0, 0); max-height: 650px;" />
-            <ui:Label text="Buy Now!" name="BuyNowLabel" class="label" style="align-items: center; justify-content: center; align-self: center; margin-bottom: 20px;" />
-            <ui:VisualElement name="OffersContainer" class="offersContainer" style="flex-grow: 0;">
-                <ui:Button text="Button" name="Btn_Offer1" class="btnOffer" />
-                <ui:Button text="Button" name="Btn_Offer2" class="btnOffer" />
-                <ui:Button text="Button" name="Btn_Offer3" class="btnOffer" />
-                <ui:Button text="Button" name="Btn_Offer4" class="btnOffer" />
-                <ui:Button text="Button" name="Btn_Offer5" class="btnOffer" />
+            <ui:VisualElement name="NavMenuContainer" class="navMenu navMenuContainer" style="flex-grow: 0; width: auto;">
+                <ui:Button name="Btn_Shop" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take1/btn_shop.jpg?fileID=5226362532507826810&amp;guid=b0715e8bf56fe4642990a50b71183bc3&amp;type=3#btn_shop_0&quot;);" />
+                <ui:Button name="Btn_Forge" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take1/btn_forge.jpg?fileID=-93563521336227806&amp;guid=3f678f525fe14724d8faef121da54168&amp;type=3#btn_forge_0&quot;);" />
+                <ui:Button name="Btn_Main" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take1/btn_main.png?fileID=1601869661957183468&amp;guid=804fcde7ae3480b4eb7f01e4a2b053d7&amp;type=3#btn_main_0&quot;);" />
+                <ui:Button name="Btn_Research" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take1/btn_research.jpg?fileID=7572292371700862392&amp;guid=fc82f6c2665e3a345b9e0fa484283514&amp;type=3#btn_research_0&quot;);" />
+                <ui:Button name="Btn_Leaderboard" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take1/btn_leaderboard.jpg?fileID=8631740531644945409&amp;guid=86215e72c21e9a84db7a53e58cae5811&amp;type=3#btn_leaderboard_0&quot;);" />
             </ui:VisualElement>
-            <ui:VisualElement name="PersonalHighScore" class="personalHighScoreContainer" style="flex-grow: 0;">
-                <ui:Label text="Personal High Score:" name="HighScoreLabel" class="highScoreLabel label" />
-                <ui:Label text="05:00" name="HighScore" class="highScore" />
-            </ui:VisualElement>
-            <ui:Button text="Ignite the Forge!" name="Btn_Play" class="btnPlay" style="margin-top: 100px; margin-bottom: 100px;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="NavMenuContainer" class="navMenu navMenuContainer" style="flex-grow: 0; width: auto;">
-            <ui:Button name="Btn_Shop" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_shop.jpg?fileID=21300000&amp;guid=5805ea821afda07499280d301a30f8f4&amp;type=3#btn_shop&quot;);" />
-            <ui:Button name="Btn_Forge" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_forge.jpg?fileID=21300000&amp;guid=86a73e477da9c2843949b5425125f86b&amp;type=3#btn_forge&quot;);" />
-            <ui:Button name="Btn_Main" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_main.jpg?fileID=21300000&amp;guid=509c5f2bbd6f71847ad3e1ce414229bd&amp;type=3#btn_main&quot;);" />
-            <ui:Button name="Btn_Research" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_research.jpg?fileID=21300000&amp;guid=9964d347d80823d4191b0b00d1607f88&amp;type=3#btn_research&quot;);" />
-            <ui:Button name="Btn_Leaderboard" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_leaderboard.jpg?fileID=21300000&amp;guid=caed5ab73b5341849afeb96cdb4f1f78&amp;type=3#btn_leaderboard&quot;);" />
         </ui:VisualElement>
     </Bitbebop.SafeArea>
 </ui:UXML>
