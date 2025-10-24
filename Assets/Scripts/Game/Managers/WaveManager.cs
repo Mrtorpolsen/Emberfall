@@ -41,7 +41,7 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator RunWaves()
     {
-        while (currentWaveIndex < totalWaves)
+        while (currentWaveIndex < totalWaves && !GameManager.main.isGameOver)
         {
             var wave = GenerateWave(currentWaveIndex);
             yield return StartCoroutine(SpawnWave(wave));
@@ -49,26 +49,23 @@ public class WaveManager : MonoBehaviour
 
             yield return new WaitForSeconds(timeBetweenWaves);
         }
-        Debug.Log("You won! You cheater...");
+        Debug.Log("You won! You cheater... or lost haha");
     }
 
     private IEnumerator SpawnWave(WaveDefinition wave)
     {
-        if(GameManager.main.isGameOver != true)
-        {
-            isSpawning = true;
-            Debug.Log($"Spawning Wave {currentWaveIndex + 1}: {wave.enemiesToSpawn.Count} groups");
+        isSpawning = true;
+        Debug.Log($"Spawning Wave {currentWaveIndex + 1}: {wave.enemiesToSpawn.Count} groups");
 
-            foreach(var group in wave.enemiesToSpawn)
+        foreach(var group in wave.enemiesToSpawn)
+        {
+            for(int i = 0; i < group.count; i++)
             {
-                for(int i = 0; i < group.count; i++)
-                {
-                    UnitManager.main.SpawnUnit(group.prefab, northSpawn, Team.North);
-                    yield return new WaitForSeconds(0);
-                }
+                UnitManager.main.SpawnUnit(group.prefab, northSpawn, Team.North);
+                yield return new WaitForSeconds(0);
             }
-            isSpawning = false;
         }
+        isSpawning = false;
     }
 
     private WaveDefinition GenerateWave(int waveNumber)

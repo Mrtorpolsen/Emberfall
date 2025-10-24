@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    //Consider seperating this into smaller bits, and have this one start/stop them all
     public static GameManager main;
 
     public TMP_Text southCurrencyText;
@@ -44,6 +46,11 @@ public class GameManager : MonoBehaviour
 
         UpdateCurrencyText();
         playerUnitBoundary = GameObject.FindGameObjectWithTag("PlayerUnitBarrier");
+    }
+
+    public void Start()
+    {
+        StartGame();
     }
 
     void Update()
@@ -90,5 +97,17 @@ public class GameManager : MonoBehaviour
         gameUI.gameObject.SetActive(isGameOver);
         isGameRunning = false;
         spawnMenu.isOpen = false;
+        //save score
+    }
+    public void StartGame()
+    {
+        main.gameUI.gameObject.SetActive(false);
+        main.isGameRunning = true;
+        TimerManager.main.StartTimer();
+
+        StartCoroutine(Utility.DoAfterDelay(3f, () =>
+        {
+            WaveManager.main.StartWaves();
+        }));
     }
 }

@@ -41,15 +41,21 @@ public class TimerManager : MonoBehaviour
     {
         if (!timerRunning) return;
         
-        float elapsed = Time.time - startTime;
-        int minutes = Mathf.FloorToInt(elapsed / 60);
-        int seconds = Mathf.FloorToInt(elapsed % 60);
-
         if(timerText != null)
         {
-            timerText.text = $"{minutes:00}:{seconds:00}";
+            timerText.text = GetFormattedTime();
         }
     }
 
+    public string FormatTime(float timeInSeconds)
+    {
+        int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
+        int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
+        return $"{minutes:00}:{seconds:00}";
+    }
+
     public float GetElapsedTime() => Time.time - startTime;
+
+    public string GetFormattedTime() => FormatTime(Time.time - startTime);
+
 }
