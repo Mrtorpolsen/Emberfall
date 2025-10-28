@@ -23,6 +23,7 @@ public class WaveManager : MonoBehaviour
 
     private int currentWaveIndex = 0;
     private bool isSpawning = false;
+    private bool isTest = false;
 
     private void Awake()
     {
@@ -36,6 +37,8 @@ public class WaveManager : MonoBehaviour
 
     public void StartWaves()
     {
+        if (isTest) return;
+
         StartCoroutine(RunWaves());
     }
 
