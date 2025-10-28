@@ -19,6 +19,7 @@ public class BuildingPlot : MonoBehaviour
         if (GameManager.main.currency[Team.South] >= tower.Cost)
         {
             BuildTower();
+            gameObject.SetActive(false);
         }
         else
         {
