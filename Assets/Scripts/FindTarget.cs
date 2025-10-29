@@ -16,7 +16,7 @@ public class FindTarget : MonoBehaviour
     {
         selfUnit = GetComponent<IUnit>();
 
-        currentTarget = GetEnemyCastle(selfUnit.GetTeam());
+        currentTarget = GetDefaultTarget(selfUnit.GetTeam());
     }
 
     void Update()
@@ -55,7 +55,8 @@ public class FindTarget : MonoBehaviour
         }
         currentTarget = nearestEnemy;
     }
-    private ITargetable GetEnemyCastle(Team selfTeam)
+
+    private ITargetable GetDefaultTarget(Team selfTeam)
     {
         if (selfUnit == null) return GameManager.main.north.GetComponent<ITargetable>();
 

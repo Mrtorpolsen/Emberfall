@@ -7,6 +7,6 @@ public interface ITargetable
     Transform GetTransform();
     void TakeDamage(int amount);
     void Die();
-    bool GetIsAlive();
     float GetHitRadius();
+    bool GetIsAlive();
 }
