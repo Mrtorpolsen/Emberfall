@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fc82f6c2665e3a345b9e0fa484283514
+guid: ba485c457d77a354486e896ed1333d8e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7572292371700862392
-    second: btn_research_0
+      213: -93563521336227806
+    second: btn_forge_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +100,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -113,12 +113,12 @@ TextureImporter:
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: btn_research_0
+      name: btn_forge_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 353
-        height: 304
+        y: 1
+        width: 512
+        height: 509
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8bd41a6dacf261960800000000000000
-      internalID: 7572292371700862392
+      spriteID: 228c1da197893bef0800000000000000
+      internalID: -93563521336227806
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      btn_research_0: 7572292371700862392
+      btn_forge_0: -93563521336227806
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

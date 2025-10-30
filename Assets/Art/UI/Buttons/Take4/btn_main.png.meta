@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 70531f5ac17e98946b40d04e190609dd
+guid: 6cf6f0190d950de44a23dfc1cf558861
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6356784322256144759
-    second: btn_research_1_0
+      213: 1601869661957183468
+    second: btn_main_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,7 +113,7 @@ TextureImporter:
     buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 49
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: btn_research_1_0
+      name: btn_main_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 986762ea65a28c7a0800000000000000
-      internalID: -6356784322256144759
+      spriteID: ce7de6178fbfa3610800000000000000
+      internalID: 1601869661957183468
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      btn_research_1_0: -6356784322256144759
+      btn_main_0: 1601869661957183468
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

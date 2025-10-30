@@ -5,11 +5,28 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager main;
+
     [Header("References")]
     [SerializeField] private TMP_Text survivalText;
+    [SerializeField] public Canvas gameUI;
 
-    private void Start()
+
+    private void Awake()
     {
+        if (main != null && main != this)
+        {
+            Destroy(main);
+        }
+        else
+        {
+            main = this;
+        }
+    }
+
+    public void Initialize()
+    {
+        gameUI.gameObject.SetActive(true);
         SetSurvivalMessage();
     }
 

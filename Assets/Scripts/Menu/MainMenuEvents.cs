@@ -30,15 +30,16 @@ public class MainMenuEvents : MonoBehaviour, IUIScreen
         var root = document.rootVisualElement;
 
         var menuButtons = root.Query<Button>().ToList();
+        var menuLabels = root.Query<Label>().ToList();
 
         foreach (var button in menuButtons)
         {
             string methodName = button.name + "Clicked";
             MethodInfo method = GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
-            
+
             if (method != null)
             {
-                // Wrap the method call in a lambda to unregister later
+                // Wrap the method so it can unregister later
                 Action action = () => method.Invoke(this, null);
 
                 // Register callback

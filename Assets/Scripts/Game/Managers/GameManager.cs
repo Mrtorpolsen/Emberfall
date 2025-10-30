@@ -20,8 +20,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<Team, float> currency;
 
     [Header("References")]
-    [SerializeField] public Canvas gameUI;
-    [SerializeField] public SpawnMenuController spawnMenu;
+    [SerializeField] GameObject spawnPanel;
 
     [Header("Attributes")]
     [SerializeField] float currencyTimer = 0f;
@@ -94,14 +93,13 @@ public class GameManager : MonoBehaviour
         TimerManager.main.StopTimer();
         isGameOver = gameOver;
         winningTeam = team == Team.North ? Team.South : Team.North;
-        gameUI.gameObject.SetActive(isGameOver);
+        UIManager.main.Initialize();
         isGameRunning = false;
-        spawnMenu.isOpen = false;
+        spawnPanel.SetActive(false);
         //save score
     }
     public void StartGame()
     {
-        main.gameUI.gameObject.SetActive(false);
         main.isGameRunning = true;
         TimerManager.main.StartTimer();
 

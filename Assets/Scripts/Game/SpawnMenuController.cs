@@ -6,8 +6,6 @@ public class SpawnMenuController : MonoBehaviour
     [SerializeField] private Animator panelAnimator;
     [SerializeField] private RectTransform menuPanel;
 
-
-
     public bool isOpen = false;
 
     public void ToggleMenu()

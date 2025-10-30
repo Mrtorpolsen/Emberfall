@@ -55,7 +55,9 @@ public class MenuManager : MonoBehaviour
         foreach (var screen in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
         {
             if (screen is IUIScreen uiScreen)
+            {
                 uiScreen.Initialize(uiDocument);
+            }
         }
     }
 
