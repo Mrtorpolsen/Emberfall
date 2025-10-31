@@ -1,0 +1,128 @@
+.topBarLabel {
+    font-size: 30px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+}
+
+.mainContainer {
+    padding-top: 25px;
+    padding-right: 50px;
+    padding-bottom: 0;
+    padding-left: 50px;
+    flex-shrink: 0;
+}
+
+.topBarContainer {
+    margin-bottom: 100px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.imgWaveAttack {
+    margin-bottom: 100px;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-grow: 0;
+    width: auto;
+    max-height: none;
+    min-height: auto;
+}
+
+.offersContainer {
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.btnOffer {
+    min-width: 100px;
+    max-width: 180px;
+    min-height: 100px;
+    max-height: 180px;
+    width: 175px;
+    height: 175px;
+    background-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+.personalHighScoreContainer {
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.label {
+    font-size: 50px;
+    color: rgb(255, 255, 255);
+}
+
+.highScore {
+    font-size: 75px;
+    color: rgb(255, 255, 255);
+}
+
+.btnPlay {
+    align-self: center;
+    width: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 85px;
+    padding: 30px 50px;
+    -unity-font-style: bold;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-top: 45px;
+    padding-right: 80px;
+    padding-bottom: 45px;
+    padding-left: 80px;
+}
+
+.navMenuContainer {
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-grow: 0;
+    margin-bottom: 25px;
+}
+
+.btnNav {
+    width: auto;
+    height: 180px;
+    flex-grow: 1;
+    margin-top: 0.2px;
+    margin-right: 0.2px;
+    margin-bottom: 0.2px;
+    margin-left: 0.2px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.text {
+    color: rgb(255, 235, 225);
+}
