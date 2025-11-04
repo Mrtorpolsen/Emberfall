@@ -13,6 +13,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float timeBetweenWaves = 10f;
     [SerializeField] private float waveGrowthRate = 1.05f;
     [SerializeField] private int baseCount = 4;
+    [SerializeField] private int bossCount = 1;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject fighterPrefab;
@@ -73,6 +74,7 @@ public class WaveManager : MonoBehaviour
 
     private WaveDefinition GenerateWave(int waveNumber)
     {
+
         var wave = new WaveDefinition
         {
             enemiesToSpawn = new List<EnemyGroup>(),
@@ -96,15 +98,16 @@ public class WaveManager : MonoBehaviour
         float spawnDelay = 0.5f;
 
         //customise for special waves
-        if ((waveNumber + 1) % 10 == 0)
-        {
-            wave.enemiesToSpawn.Add(new EnemyGroup(giantPrefab, 1, spawnDelay));
-        }
-        else
+        if (!((waveNumber + 1) % 10 == 0))
         {
             //build waves here
             wave.enemiesToSpawn.Add(new EnemyGroup(fighterPrefab, fighterCount, spawnDelay));
             wave.enemiesToSpawn.Add(new EnemyGroup(cavalierPrefab, cavalierCount, spawnDelay));
+        }
+        else
+        {
+            wave.enemiesToSpawn.Add(new EnemyGroup(giantPrefab, bossCount, spawnDelay));
+            bossCount++;
         }
         Debug.Log($"Wave: {waveNumber} spawned at: {TimerManager.main.GetElapsedTime()}");
         return wave;

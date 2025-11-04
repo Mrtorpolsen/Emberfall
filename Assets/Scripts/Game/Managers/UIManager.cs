@@ -51,7 +51,7 @@ public class UIManager : MonoBehaviour
     public void ToggleSpawnButtonsActive(float playerCurrency)
     {
         //Figure out how to add dynamic values
-        incomeBtn.interactable = (playerCurrency >= 200);
+        incomeBtn.interactable = (playerCurrency >= GameManager.main.incomeUpgradeCost);
         cavalierBtn.interactable = (playerCurrency >= 100);
         rangerBtn.interactable = (playerCurrency >= 75);
         fighterBtn.interactable = (playerCurrency >= 50);

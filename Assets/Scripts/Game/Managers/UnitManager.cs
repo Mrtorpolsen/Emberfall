@@ -44,6 +44,7 @@ public class UnitManager : MonoBehaviour
         {
             GameManager.main.UpgradeIncomeModifier();
             GameManager.main.SubtractCurrency(Team.South, GameManager.main.incomeUpgradeCost);
+            GameManager.main.incomeUpgradeCost += 50;
         }
         else
         {
