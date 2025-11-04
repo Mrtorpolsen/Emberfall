@@ -23,5 +23,4 @@ public class SpawnMenuController : MonoBehaviour
             // Optional: disable after animation ends
         }
     }
-
 }
