@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<Team, float> currency;
 
     [Header("References")]
-    [SerializeField] GameObject spawnPanel;
+    [SerializeField] GameObject gameUICanvas;
 
     [Header("Attributes")]
     [SerializeField] float currencyTimer = 0f;
@@ -71,11 +71,13 @@ public class GameManager : MonoBehaviour
     {
         currency[team] += amount;
         UpdateCurrencyText();
+        UIManager.main.ToggleSpawnButtonsActive(currency[team]);
     }
     public void SubtractCurrency(Team team, float amount)
     {
         currency[team] -= amount;
         UpdateCurrencyText();
+        UIManager.main.ToggleSpawnButtonsActive(currency[team]);
     }
     private void UpdateCurrencyText()
     {
@@ -86,7 +88,7 @@ public class GameManager : MonoBehaviour
     {
         incomeModifier = (float)(incomeModifier + 0.2);
         incomePerTick = baseIncomePerTick * incomeModifier;
-        southIncomeModifierText.text = "x" + incomeModifier.ToString();
+        southIncomeModifierText.text = "x" + incomeModifier.ToString("F1");
     }
     public void SetGameOver(bool gameOver, Team team)
     {
@@ -95,7 +97,7 @@ public class GameManager : MonoBehaviour
         winningTeam = team == Team.North ? Team.South : Team.North;
         UIManager.main.Initialize();
         isGameRunning = false;
-        spawnPanel.SetActive(false);
+        gameUICanvas.SetActive(false);
         //save score
     }
     public void StartGame()
