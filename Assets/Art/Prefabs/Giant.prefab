@@ -589,8 +589,8 @@ MonoBehaviour:
   cost: 50
   maxHealth: 1000
   currentHealth: 0
-  attackDamage: 60
-  attackSpeed: 0.5
+  attackDamage: 200
+  attackSpeed: 0.75
   attackRange: 0.8
   hitRadius: 0.65
   movementSpeed: 1

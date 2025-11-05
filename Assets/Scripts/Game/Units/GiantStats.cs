@@ -11,8 +11,8 @@ public class GiantStats : UnitStats, IUnit, ITargetable
     [SerializeField] private float cost = 50;
     [SerializeField] private int maxHealth = 1000;
     [SerializeField] private int currentHealth;
-    [SerializeField] private int attackDamage = 60;
-    [SerializeField] private float attackSpeed = 0.5f;
+    [SerializeField] private int attackDamage = 200;
+    [SerializeField] private float attackSpeed = 0.75f;
     [SerializeField] private float attackRange = 0.8f;
     [SerializeField] private float hitRadius = 0.65f;
     [SerializeField] private float movementSpeed = 1f;
