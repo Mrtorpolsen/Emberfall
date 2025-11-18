@@ -1,0 +1,23 @@
+# ninja log v5
+12	3486	7845555904907402	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	a394789304a35a6d
+140	564	7845555876054467	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	6f8fbedf421247d5
+565	806	7845555878324505	C:/Users/mrtorp/Desktop/Dev/Unity/Emberfall/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2a737220/obj/arm64-v8a/libswappywrapper.so	2bb55a626ed65c83
+88	2787	7845555898195756	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	d41a7a2aa6cca3ca
+66	2785	7845555898195756	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	4d712b55d18ae014
+38	2824	7845555898646230	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	3e57cb3070d651e1
+121	2994	7845555900366230	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	3993c360b2348fb4
+102	2849	7845555898874419	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	df8011d9abc10437
+52	2944	7845555899829781	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	5e5b774b3865a91d
+77	3253	7845555902898032	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	3d2ae8e297ae9f03
+3488	3768	7845555908029215	C:/Users/mrtorp/Desktop/Dev/Unity/Emberfall/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2a737220/obj/arm64-v8a/libgame.so	f2f48d1646eb4273
+83	337	7845562781333285	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	6f8fbedf421247d5
+338	513	7845562782955235	C:/Users/mrtorp/Desktop/Dev/Unity/Emberfall/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2a737220/obj/arm64-v8a/libswappywrapper.so	2bb55a626ed65c83
+54	1552	7845562793439361	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	d41a7a2aa6cca3ca
+36	1555	7845562793470110	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	4d712b55d18ae014
+62	1592	7845562793882523	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	df8011d9abc10437
+27	1630	7845562794234434	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	3e57cb3070d651e1
+20	1690	7845562794839719	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	5e5b774b3865a91d
+72	1786	7845562795812967	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	3993c360b2348fb4
+45	1902	7845562796964010	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	3d2ae8e297ae9f03
+12	2043	7845562798331233	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	a394789304a35a6d
+2043	2156	7845562799520604	C:/Users/mrtorp/Desktop/Dev/Unity/Emberfall/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2a737220/obj/arm64-v8a/libgame.so	f2f48d1646eb4273
