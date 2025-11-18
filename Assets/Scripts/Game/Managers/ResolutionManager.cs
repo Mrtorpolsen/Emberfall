@@ -4,29 +4,68 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class ResolutionManager : MonoBehaviour
 {
-    [SerializeField] private float targetAspect = 9f / 16f; // your base ratio
-    [SerializeField] private float orthoSizeAtTarget = 5f;   // looks good on base ratio
+    [SerializeField] private float targetAspect = 9f / 16f;
+    [SerializeField] private float orthoSizeAtTarget = 5f;
 
     private Camera cam;
+    private int lastW = 0, lastH = 0;
 
-    void Awake()
+    private void OnEnable()
     {
         cam = GetComponent<Camera>();
-        UpdateCamera();
+        SafeUpdateCamera(true);
     }
 
-    void Update()
+    private void Update()
     {
+        // --- Editor mode: update only when resolution actually changes ---
 #if UNITY_EDITOR
-        UpdateCamera(); // live update in editor
+        if (!Application.isPlaying)
+        {
+            if (Screen.width != lastW || Screen.height != lastH)
+            {
+                SafeUpdateCamera();
+            }
+            return;
+        }
 #endif
+
+        // --- Play mode: update once per frame (very cheap) ---
+        SafeUpdateCamera();
     }
 
-    void UpdateCamera()
+    /// <summary>
+    /// Safely updates camera size without producing NaN/Infinity,
+    /// even when the simulator or editor reports invalid screen sizes.
+    /// </summary>
+    private void SafeUpdateCamera(bool force = false)
     {
-        float currentAspect = (float)Screen.width / Screen.height;
+        int w = Screen.width;
+        int h = Screen.height;
 
-        // If the current screen is taller, increase the orthographic size
-        cam.orthographicSize = orthoSizeAtTarget * (targetAspect / currentAspect);
+        // Prevent division by zero or invalid resolutions
+        if (w <= 0 || h <= 0)
+            return;
+
+        // Skip if dimensions have not changed (unless forced)
+        if (!force && w == lastW && h == lastH)
+            return;
+
+        lastW = w;
+        lastH = h;
+
+        float currentAspect = (float)w / h;
+
+        // Extra sanity check
+        if (currentAspect <= 0f)
+            return;
+
+        float newSize = orthoSizeAtTarget * (targetAspect / currentAspect);
+
+        // Prevent NaN/Infinity issues
+        if (float.IsNaN(newSize) || float.IsInfinity(newSize))
+            return;
+
+        cam.orthographicSize = newSize;
     }
 }
