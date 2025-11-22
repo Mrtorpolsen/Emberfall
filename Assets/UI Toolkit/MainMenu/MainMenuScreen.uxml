@@ -1,11 +1,11 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=ca9b1f3e9a87a7440a0404c07bc5cab7&amp;type=3#MainMenuStyle" />
+    <Style src="project://database/Assets/UI%20Toolkit/MainMenu/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=ca9b1f3e9a87a7440a0404c07bc5cab7&amp;type=3#MainMenuStyle" />
     <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/background.png?fileID=-7443756053782179069&amp;guid=d06bc6ebb2ce77c45a96dde194896a09&amp;type=3#background_0&quot;);" />
     <Bitbebop.SafeArea>
         <ui:VisualElement name="MainContainer" class="mainContainer" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 25px; padding-right: 50px; padding-bottom: 0; padding-left: 50px; align-items: stretch;">
             <ui:VisualElement name="TopBarContainer" class="topBarContainer" style="flex-grow: 0; flex-direction: row; justify-content: space-between; max-height: initial; margin-top: 0; margin-bottom: 50px;">
-                <ui:Label text="Player Name" name="PlayerName" class="topBarLabel gradient-text text" style="justify-content: flex-start; font-size: 30px;" />
-                <ui:Label text="Player Currency" name="PlayerCurrency" class="topBarLabel text" />
+                <ui:Label text="User  Name" name="Label_UserName" class="topBarLabel gradient-text text" style="justify-content: flex-start; font-size: 30px;" />
+                <ui:Label text="User Currency" name="Label_UserCurrency" class="topBarLabel text" />
             </ui:VisualElement>
             <ui:VisualElement name="Img_WaveAttackContainer" style="flex-grow: 1; max-width: 100%; min-width: 100%; flex-direction: column; height: 25%; width: 100%; max-height: 750px;">
                 <ui:VisualElement name="Img_WaveAttack" class="imgWaveAttack" style="background-color: rgba(255, 0, 0, 0); background-image: url(&quot;project://database/Assets/Art/UI/attack_wave_image.png?fileID=-4530516591295330182&amp;guid=de2ae3150acfda2488e3ac2d36380774&amp;type=3#attack_wave_image_0&quot;); margin-bottom: 0; flex-direction: column; flex-wrap: nowrap; width: 100%; background-size: 100% 100%; background-position-x: center;" />
@@ -20,7 +20,7 @@
             <ui:VisualElement name="HighScorePlayButtonContainer" style="flex-grow: 1; align-content: flex-end; align-items: flex-start; justify-content: center;">
                 <ui:VisualElement name="PersonalHighScore" class="personalHighScoreContainer" style="flex-grow: 0; justify-content: flex-start; align-self: center;">
                     <ui:Label text="Personal High Score:" name="HighScoreLabel" class="highScoreLabel label text" />
-                    <ui:Label text="05:00" name="HighScore" class="highScore text" />
+                    <ui:Label text="05:00" name="Label_HighScore" class="highScore text" />
                 </ui:VisualElement>
                 <ui:Button text="Ignite the Forge!" name="Btn_Play" class="btnPlay text" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_ignite_background.png?fileID=2800000&amp;guid=710d69d6a3b879548b197721805df6a0&amp;type=3#btn_ignite_background&quot;); width: 100%; flex-direction: column; justify-content: flex-start; align-items: stretch; align-content: flex-start;" />
             </ui:VisualElement>

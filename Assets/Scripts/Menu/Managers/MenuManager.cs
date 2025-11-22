@@ -28,8 +28,10 @@ public class MenuManager : MonoBehaviour
     {
         ShowSplash(mainMenu, 3f);
     }
-
-    private void ShowSplash(VisualTreeAsset nextScreen, float delay)
+    //Use this to load in ressources, maybe move to own file
+    //Also remove the fake delay, so and make it await the actual loads of data
+    //Maybe rewrite so you call the next screen, and the throw in the funcs to await before showing
+    private async void ShowSplash(VisualTreeAsset nextScreen, float delay)
     {
         if(activeCoroutine != null)
         {
@@ -39,6 +41,8 @@ public class MenuManager : MonoBehaviour
         uiDocument.visualTreeAsset = splashScreen;
 
         activeCoroutine = StartCoroutine(SplashRoutine(nextScreen, delay));
+
+        await LeaderboardManager.main.GetUserScore();
     }
 
     private IEnumerator SplashRoutine(VisualTreeAsset nextScreen, float delay)
@@ -60,6 +64,4 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
-
-
 }

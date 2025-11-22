@@ -10,6 +10,11 @@ public class TimerManager : MonoBehaviour
     private float startTime;
     private bool timerRunning = false;
 
+    private float updateTimer = 0f;
+
+    public float GetElapsedTime() => (Time.time - startTime) * 1000f;
+    public string GetFormattedTime() => Utility.FormatTime(GetElapsedTime());
+
     private void Awake()
     {
         if(main != null && main != this)
@@ -39,23 +44,14 @@ public class TimerManager : MonoBehaviour
 
     private void Update()
     {
-        if (!timerRunning) return;
-        
-        if(timerText != null)
+        if (!timerRunning || timerText == null) return;
+
+        updateTimer += Time.deltaTime;
+
+        if (updateTimer >= 1f)
         {
             timerText.text = GetFormattedTime();
+            updateTimer = 0f;
         }
     }
-
-    public string FormatTime(float timeInSeconds)
-    {
-        int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
-        int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
-        return $"{minutes:00}:{seconds:00}";
-    }
-
-    public float GetElapsedTime() => Time.time - startTime;
-
-    public string GetFormattedTime() => FormatTime(Time.time - startTime);
-
 }

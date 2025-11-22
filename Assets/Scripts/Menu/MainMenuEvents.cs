@@ -7,6 +7,8 @@ using UnityEngine.UIElements;
 
 public class MainMenuEvents : MonoBehaviour, IUIScreen
 {
+    [SerializeField] private MainMenuView menuView;
+
     //USE NAMING CONVENTION OF BTN --- Btn_xxx so it can add Clicked behind
     private Dictionary<Button, Action> buttonActions = new Dictionary<Button, Action>();
 
@@ -27,10 +29,11 @@ public class MainMenuEvents : MonoBehaviour, IUIScreen
     //Maybe move to utility for easier use in every eventhandler
     public void Initialize(UIDocument document)
     {
+        menuView.Initialize();
+
         var root = document.rootVisualElement;
 
         var menuButtons = root.Query<Button>().ToList();
-        var menuLabels = root.Query<Label>().ToList();
 
         foreach (var button in menuButtons)
         {
@@ -82,5 +85,6 @@ public class MainMenuEvents : MonoBehaviour, IUIScreen
     private void Btn_LeaderboardClicked()
     {
         Debug.Log("Btn_LeaderboardClicked clicked...");
+        SceneManager.LoadScene("Leaderboard");
     }
 }

@@ -1,0 +1,8 @@
+:root {
+}
+
+.labelWrap {
+    width: 50%;
+    white-space: normal;
+    font-size: 35px;
+}
