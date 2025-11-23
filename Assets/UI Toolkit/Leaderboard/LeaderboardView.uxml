@@ -8,7 +8,7 @@
                 <ui:Label text="In memory of the defender who laid down their lives in protection of the forge" name="Label_SubHeading" class="text labelWrap" style="-unity-text-align: upper-center;" />
             </ui:VisualElement>
             <ui:VisualElement name="LeaderboardContainer" style="flex-grow: 1; margin-top: 50px; margin-bottom: 50px; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/big_text_background.png?fileID=-6217363497950051159&amp;guid=d85745326a4111e4d91b29773f900a8e&amp;type=3#big_text_background_0&quot;); padding-top: 35px; padding-right: 35px; padding-bottom: 35px; padding-left: 35px;">
-                <ui:ScrollView name="ScrollView_Leaderboarrd" style="flex-grow: 1;" />
+                <ui:ScrollView name="ScrollView_Leaderboard" style="flex-grow: 1;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="NavMenuContainer" class="navMenu navMenuContainer" style="flex-grow: 0; width: auto;">

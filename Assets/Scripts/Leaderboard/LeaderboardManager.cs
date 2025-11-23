@@ -1,8 +1,11 @@
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Leaderboards;
+using Unity.Services.Leaderboards.Models;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -10,7 +13,7 @@ public class LeaderboardManager : MonoBehaviour
 
     private string leaderboardId = "High_Scores";
     public float UserHighScore { get; private set; } = 0;
-
+    public List<LeaderboardEntry> userScores;
 
     public bool IsLoggedIn() => AuthenticationService.Instance.IsSignedIn;
 
@@ -40,6 +43,7 @@ public class LeaderboardManager : MonoBehaviour
                 .AddPlayerScoreAsync(leaderboardId, score);
 
             Debug.Log($"{JsonConvert.SerializeObject(userEntry)} Added");
+            //Look into only calling this if higher than previous highscore
             await GetUserScore();
 
         }
@@ -79,5 +83,13 @@ public class LeaderboardManager : MonoBehaviour
             Debug.LogError("Failed to get score: " + e.Message);
             return UserHighScore;
         }
+    }
+
+    public async Task GetScores()
+    {
+        var scoresResponse = await LeaderboardsService.Instance
+            .GetScoresAsync(leaderboardId);
+
+        userScores = scoresResponse.Results;
     }
 }

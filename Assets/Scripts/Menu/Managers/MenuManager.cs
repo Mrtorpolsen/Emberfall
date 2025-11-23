@@ -43,6 +43,7 @@ public class MenuManager : MonoBehaviour
         activeCoroutine = StartCoroutine(SplashRoutine(nextScreen, delay));
 
         await LeaderboardManager.main.GetUserScore();
+        await LeaderboardManager.main.GetScores();
     }
 
     private IEnumerator SplashRoutine(VisualTreeAsset nextScreen, float delay)

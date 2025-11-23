@@ -1,0 +1,43 @@
+:root {
+}
+
+.leaderboardRow {
+    flex-direction: row;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+.labelRank {
+    margin-right: 10px;
+    font-size: 75px;
+}
+
+.contentContainer {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.iconUsernameContainer {
+    flex-direction: row;
+}
+
+.iconTrophy {
+    width: 100px;
+    height: auto;
+    margin-right: 2px;
+}
+
+.labelUsername {
+    font-size: 75px;
+}
+
+.labelScore {
+    font-size: 75px;
+}
+
+.labelSize {
+    font-size: 50px;
+}
