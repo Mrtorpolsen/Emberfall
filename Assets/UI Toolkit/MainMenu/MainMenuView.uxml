@@ -22,15 +22,8 @@
                     <ui:Label text="Personal High Score:" name="HighScoreLabel" class="highScoreLabel label text" />
                     <ui:Label text="05:00" name="Label_HighScore" class="highScore text" />
                 </ui:VisualElement>
-                <ui:Button text="Ignite the Forge!" name="Btn_Play" class="btnPlay text" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-image: url(&quot;project://database/Assets/Art/UI/Buttons/btn_ignite_background.png?fileID=2800000&amp;guid=710d69d6a3b879548b197721805df6a0&amp;type=3#btn_ignite_background&quot;); width: 100%; flex-direction: column; justify-content: flex-start; align-items: stretch; align-content: flex-start;" />
+                <ui:Button text="Ignite the Forge!" name="Btn_Play" class="btnPlay text" style="border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/btn_ignite_background.png?fileID=2800000&amp;guid=710d69d6a3b879548b197721805df6a0&amp;type=3#btn_ignite_background&quot;); width: 100%; flex-direction: column; justify-content: flex-start; align-items: stretch; align-content: flex-start;" />
             </ui:VisualElement>
-        </ui:VisualElement>
-        <ui:VisualElement name="NavMenuContainer" class="navMenu navMenuContainer" style="flex-grow: 0; width: auto;">
-            <ui:Button name="Btn_Shop" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_shop.png?fileID=5226362532507826810&amp;guid=9e6989c2933d4454d8c45d9d44269783&amp;type=3#btn_shop_0&quot;); background-color: rgba(188, 188, 188, 0);" />
-            <ui:Button name="Btn_Forge" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_forge.png?fileID=-93563521336227806&amp;guid=ba485c457d77a354486e896ed1333d8e&amp;type=3#btn_forge_0&quot;); background-color: rgba(188, 188, 188, 0);" />
-            <ui:Button name="Btn_Main" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_main.png?fileID=1601869661957183468&amp;guid=6cf6f0190d950de44a23dfc1cf558861&amp;type=3#btn_main_0&quot;); background-color: rgba(188, 188, 188, 0);" />
-            <ui:Button name="Btn_Research" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_research.png?fileID=7572292371700862392&amp;guid=23e80b9c277711048b47ed93c18caaa8&amp;type=3#btn_research_0&quot;); background-color: rgba(188, 188, 188, 0);" />
-            <ui:Button name="Btn_Leaderboard" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_leaderboard.png?fileID=8631740531644945409&amp;guid=798bbc96e67942741b27d42d5824d79e&amp;type=3#btn_leaderboard_0&quot;); background-color: rgba(188, 188, 188, 0);" />
         </ui:VisualElement>
     </Bitbebop.SafeArea>
 </ui:UXML>

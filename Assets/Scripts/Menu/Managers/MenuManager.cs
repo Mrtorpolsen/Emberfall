@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
-    public static MenuManager main;
+    public static MenuManager main {  get; private set; }
 
     [Header("References")]
     [SerializeField] public UIDocument uiDocument;
@@ -15,13 +15,9 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        if(main != null && main != this)
-        {
-            Destroy(main);
-        } else
-        {
-            main = this;
-        }
+        if (main != null && main != this) { Destroy(gameObject); return; }
+        main = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

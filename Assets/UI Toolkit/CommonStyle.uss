@@ -40,25 +40,3 @@
     font-size: 50px;
     color: rgb(255, 255, 255);
 }
-
-.navMenuContainer {
-    align-items: flex-end;
-    flex-direction: row;
-    justify-content: space-evenly;
-    flex-grow: 0;
-    margin-bottom: 25px;
-}
-
-.btnNav {
-    width: auto;
-    height: 180px;
-    flex-grow: 1;
-    margin-top: 0.2px;
-    margin-right: 0.2px;
-    margin-bottom: 0.2px;
-    margin-left: 0.2px;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-}
