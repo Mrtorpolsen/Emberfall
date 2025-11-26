@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,6 +13,8 @@ public class MainMenuView : MonoBehaviour
     public void Initialize()
     {
         var root = uiDocument.rootVisualElement;
+
+        Debug.Log("Hello from MainMenuView");
 
         label_username = root.Q<Label>("Label_UserName");
         label_currency = root.Q<Label>("Label_UserCurrency");

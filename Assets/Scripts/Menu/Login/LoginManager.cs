@@ -41,7 +41,7 @@ public class LoginManager : MonoBehaviour
         {
             Debug.Log(AuthenticationService.Instance.PlayerName);
             UserProfile.main.userName = AuthenticationService.Instance.PlayerName;
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("UI_Root");
         }
     }
 
@@ -83,6 +83,6 @@ public class LoginManager : MonoBehaviour
     {
         SetUserName();
         Debug.Log("Login clicked");
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("UI_Root");
     }
 }

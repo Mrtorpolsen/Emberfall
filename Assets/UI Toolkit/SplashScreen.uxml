@@ -1,5 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="Background" style="flex-grow: 1;">
-        <ui:VisualElement name="Img_Splash" style="flex-grow: 1; justify-content: center; background-image: url(&quot;project://database/Assets/Art/UI/splash_screen2.png?fileID=2800000&amp;guid=cb58b8338d5e7454daa573699c22ebb5&amp;type=3#splash_screen2&quot;);" />
+    <Style src="project://database/Assets/UI%20Toolkit/SplashScreenStyle.uss?fileID=7433441132597879392&amp;guid=ef9ef076f3285c8478a0bd0459d5e8af&amp;type=3#SplashScreenStyle" />
+    <ui:VisualElement name="Background" class="splashScreen" style="flex-grow: 1; position: absolute; top: 0; left: 0; right: 0; bottom: 0; transform-origin: center;">
+        <ui:VisualElement name="Img_Splash" style="flex-grow: 1; justify-content: center; background-image: url(&quot;project://database/Assets/Art/UI/splash_screen.png?fileID=2800000&amp;guid=cb58b8338d5e7454daa573699c22ebb5&amp;type=3#splash_screen&quot;);" />
     </ui:VisualElement>
 </ui:UXML>

@@ -3,20 +3,12 @@ using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LeaderboardView : MonoBehaviour
+public class LeaderboardView : MonoBehaviour, IUIScreen
 {
     public UIDocument uiDocument;
     public VisualTreeAsset rowTemplate;
 
     private ScrollView listContainer;
-
-    private void OnEnable()
-    {
-        listContainer = uiDocument.rootVisualElement.Q<ScrollView>("ScrollView_Leaderboard");
-        listContainer.Clear();
-
-        LoadLeaderboard();
-    }
 
     private void LoadLeaderboard()
     {
@@ -44,5 +36,13 @@ public class LeaderboardView : MonoBehaviour
         //add trophy
 
         listContainer.Add(row);
+    }
+
+    public void Initialize()
+    {
+        listContainer = uiDocument.rootVisualElement.Q<ScrollView>("ScrollView_Leaderboard");
+        listContainer.Clear();
+
+        LoadLeaderboard();
     }
 }

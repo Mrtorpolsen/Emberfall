@@ -5,7 +5,6 @@ using Unity.Services.Authentication;
 using Unity.Services.Leaderboards;
 using Unity.Services.Leaderboards.Models;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -70,11 +69,11 @@ public class LeaderboardManager : MonoBehaviour
 
             if (scoreResponse != null)
             {
-                UserHighScore = (float)scoreResponse.Score; // cache it
+                UserHighScore = (float)scoreResponse.Score;
             }
             else
             {
-                UserHighScore = 0; // no score yet
+                UserHighScore = 0;
             }
             return UserHighScore;
         }

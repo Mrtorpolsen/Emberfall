@@ -1,11 +1,3 @@
-.mainContainer {
-    padding-top: 25px;
-    padding-right: 50px;
-    padding-bottom: 0;
-    padding-left: 50px;
-    flex-shrink: 0;
-}
-
 .text {
     color: rgb(255, 235, 225);
 }

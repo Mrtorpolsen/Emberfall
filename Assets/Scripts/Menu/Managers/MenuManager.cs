@@ -4,60 +4,81 @@ using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
-    public static MenuManager main {  get; private set; }
+    public static MenuManager main { get; private set; }
 
-    [Header("References")]
-    [SerializeField] public UIDocument uiDocument;
-    [SerializeField] public VisualTreeAsset mainMenu;
-    [SerializeField] public VisualTreeAsset splashScreen;
+    [Header("Root UI Document")]
+    [SerializeField] private UIDocument uiRootDocument;
 
-    private Coroutine activeCoroutine;
+    [Header("Content Screens")]
+    [SerializeField] private VisualTreeAsset mainMenuVTA;
+    [SerializeField] private VisualTreeAsset leaderboardVTA;
+
+    private VisualElement contentContainer;
+    private VisualElement currentScreen;
 
     private void Awake()
     {
-        if (main != null && main != this) { Destroy(gameObject); return; }
+        if (main != null && main != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         main = this;
         DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        ShowSplash(mainMenu, 3f);
-    }
-    //Use this to load in ressources, maybe move to own file
-    //Also remove the fake delay, so and make it await the actual loads of data
-    //Maybe rewrite so you call the next screen, and the throw in the funcs to await before showing
-    private async void ShowSplash(VisualTreeAsset nextScreen, float delay)
-    {
-        if(activeCoroutine != null)
+        var root = uiRootDocument.rootVisualElement;
+        contentContainer = root.Q<VisualElement>("ContentContainer");
+
+        if (contentContainer == null)
         {
-            StopCoroutine(activeCoroutine);
+            Debug.LogError("ContentContainer not found! Check UI_Root.uxml");
+            return;
+        }
+    }
+
+    public void LoadScreen(string screenName)
+    {
+        VisualTreeAsset screenVTA = screenName switch
+        {
+            "MainMenu" => mainMenuVTA,
+            "Leaderboard" => leaderboardVTA,
+            _ => null
+        };
+
+        if (screenVTA == null)
+        {
+            Debug.LogError($"No VTA assigned for screen '{screenName}'");
+            return;
         }
 
-        uiDocument.visualTreeAsset = splashScreen;
-
-        activeCoroutine = StartCoroutine(SplashRoutine(nextScreen, delay));
-
-        await LeaderboardManager.main.GetUserScore();
-        await LeaderboardManager.main.GetScores();
+        SwapContent(screenVTA);
     }
 
-    private IEnumerator SplashRoutine(VisualTreeAsset nextScreen, float delay)
+    private void SwapContent(VisualTreeAsset vta)
     {
-        yield return new WaitForSeconds(delay);
-        uiDocument.visualTreeAsset = nextScreen;
-        InitializeActiveScreen();
-        activeCoroutine = null;
-    }
+        // Remove previous screen
+        currentScreen?.RemoveFromHierarchy();
 
-    private void InitializeActiveScreen()
-    {
-        // Find all IUIScreen scripts in the scene and initialize them
-        foreach (var screen in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+        // Create new screen
+        currentScreen = vta.CloneTree();
+        //set templatecontainer to take space
+        currentScreen.style.flexGrow = 1;
+
+        contentContainer.Add(currentScreen);
+
+        // Inject initialization if implemented
+        foreach (var mono in GetComponentsInChildren<MonoBehaviour>(true))
         {
-            if (screen is IUIScreen uiScreen)
+            Debug.Log("Mono" + mono);
+
+            if (mono is IUIScreen screen)
             {
-                uiScreen.Initialize(uiDocument);
+                Debug.Log("Runing ini");
+                screen.Initialize();
             }
         }
     }

@@ -1,6 +1,18 @@
 :root {
 }
 
+.topBarLabel {
+    font-size: 30px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+}
+
+.topBarContainer {
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 50px;
+}
+
 .navMenuContainer {
     align-items: flex-end;
     flex-direction: row;
@@ -8,11 +20,12 @@
     flex-grow: 0;
     margin-bottom: 25px;
     align-self: auto;
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    margin-top: 50px;
 }
 
 .btnNav {
