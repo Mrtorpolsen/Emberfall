@@ -34,14 +34,13 @@ public class LeaderboardManager : MonoBehaviour
             return;
         }
 
-        int score = Mathf.FloorToInt(timeSurvived * 1000f);
+        int score = Mathf.FloorToInt(timeSurvived);
 
         try
         {
             var userEntry = await LeaderboardsService.Instance
                 .AddPlayerScoreAsync(leaderboardId, score);
 
-            Debug.Log($"{JsonConvert.SerializeObject(userEntry)} Added");
             //Look into only calling this if higher than previous highscore
             await GetUserScore();
 
@@ -64,8 +63,6 @@ public class LeaderboardManager : MonoBehaviour
         {
             var scoreResponse = await LeaderboardsService.Instance
                 .GetPlayerScoreAsync(leaderboardId);
-            Debug.Log(JsonConvert.SerializeObject(scoreResponse));
-            Debug.Log(scoreResponse.Score + " Score");
 
             if (scoreResponse != null)
             {

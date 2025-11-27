@@ -1,6 +1,14 @@
 :root {
 }
 
+.mainContainer {
+    padding-top: 25px;
+    padding-right: 50px;
+    padding-bottom: 0;
+    padding-left: 50px;
+    flex-shrink: 0;
+}
+
 .topBarLabel {
     font-size: 30px;
     -unity-font-style: bold;

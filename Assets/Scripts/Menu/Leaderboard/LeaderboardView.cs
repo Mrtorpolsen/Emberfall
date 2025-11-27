@@ -3,16 +3,15 @@ using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LeaderboardView : MonoBehaviour, IUIScreen
+public class LeaderboardView : IUIScreen
 {
-    public UIDocument uiDocument;
     public VisualTreeAsset rowTemplate;
 
+    private VisualElement root;
     private ScrollView listContainer;
 
     private void LoadLeaderboard()
     {
-        // Example data
         var scores = LeaderboardManager.main.userScores;
 
         foreach (LeaderboardEntry entry in scores)
@@ -34,13 +33,23 @@ public class LeaderboardView : MonoBehaviour, IUIScreen
         scoreLabel.text = Utility.FormatTime((float)entry.Score);
 
         //add trophy
+        switch(entry.Rank)
+        {
+            case 0: trophy.AddToClassList("gold"); break;
+            case 1: trophy.AddToClassList("silver"); break;
+            case 2: trophy.AddToClassList("bronze"); break;
+            default: break;
+        }
 
         listContainer.Add(row);
     }
 
-    public void Initialize()
+    public void Initialize(VisualElement root)
     {
-        listContainer = uiDocument.rootVisualElement.Q<ScrollView>("ScrollView_Leaderboard");
+        this.root = root;
+        rowTemplate = Resources.Load<VisualTreeAsset>("UI/LeaderboardRow");
+
+        listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
         listContainer.Clear();
 
         LoadLeaderboard();

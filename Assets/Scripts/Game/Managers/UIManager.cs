@@ -50,7 +50,8 @@ public class UIManager : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        //Use scenemanager to get root
+        SceneManager.LoadScene("UI_Root");
     }
 
     public void RestartGame()

@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class NavBarEvents : MonoBehaviour
 {
-    public static NavBarEvents main;
-
-    [Header("UI")]
+    [Header("References")]
     public UIDocument uiDocument;
 
     private VisualElement root;
@@ -15,15 +14,6 @@ public class NavBarEvents : MonoBehaviour
 
     void Awake()
     {
-        if (main != null && main != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        main = this;
-        DontDestroyOnLoad(gameObject);
-
         SetupNavBar();
     }
 

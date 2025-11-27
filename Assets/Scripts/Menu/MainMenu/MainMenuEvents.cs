@@ -5,35 +5,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class MainMenuEvents : MonoBehaviour, IUIScreen
+public class MainMenuEvents : IUIScreenEvents
 {
-    [SerializeField] private MainMenuView menuView;
     [SerializeField] private UIDocument uIDocument;
+
+    private VisualElement root;
 
     //USE NAMING CONVENTION OF BTN --- Btn_xxx so it can add Clicked behind
     private Dictionary<Button, Action> buttonActions = new Dictionary<Button, Action>();
 
-    private void OnDisable()
-    {
-        foreach (var kvp in buttonActions)
-        {
-            var button = kvp.Key;
-            var action = kvp.Value;
-
-            if (button != null && action != null)
-                button.clicked -= action;
-        }
-
-        buttonActions.Clear();
-    }
-
     //Maybe move to utility for easier use in every eventhandler
-    public void Initialize()
+    public void BindEvents(VisualElement root)
     {
-        menuView.Initialize();
-
-
-        var root = uIDocument.rootVisualElement;
+        this.root = root;
 
         var menuButtons = root.Query<Button>().ToList();
 
@@ -56,6 +40,20 @@ public class MainMenuEvents : MonoBehaviour, IUIScreen
                 Debug.Log($"Button {button.name} wired to method {methodName}");
             }
         }
+    }
+
+    public void Cleanup()
+    {
+        foreach (var kvp in buttonActions)
+        {
+            var button = kvp.Key;
+            var action = kvp.Value;
+
+            if (button != null && action != null)
+                button.clicked -= action;
+        }
+
+        buttonActions.Clear();
     }
 
     private void Btn_PlayClicked()
