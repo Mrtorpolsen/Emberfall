@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class FighterStats : UnitStats, IUnit, ITargetable
 {
     [Header("Reference")]

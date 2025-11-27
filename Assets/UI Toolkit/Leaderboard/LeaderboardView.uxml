@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
+    <Style src="project://database/Assets/UI%20Toolkit/Leaderboard/LeaderboardStyle.uss?fileID=7433441132597879392&amp;guid=40a6807c941cc634483eaff5ce2df7ea&amp;type=3#LeaderboardStyle" />
+    <ui:VisualElement name="LeaderboardContainer" class="mainContainer" style="flex-grow: 1;">
+        <ui:Label text="Leaderboard" name="Label_Heading" class="text" style="align-self: center; font-size: 85px;" />
+        <ui:VisualElement name="AlignLabel" style="flex-grow: 0; align-items: center;">
+            <ui:Label text="In memory of the defender who laid down their lives in protection of the forge" name="Label_SubHeading" class="text labelWrap" style="-unity-text-align: upper-center;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="LeaderboardContainer" style="flex-grow: 1; margin-top: 50px; margin-bottom: 50px; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/big_text_background.png?fileID=-6217363497950051159&amp;guid=d85745326a4111e4d91b29773f900a8e&amp;type=3#big_text_background_0&quot;); padding-top: 35px; padding-right: 35px; padding-bottom: 35px; padding-left: 35px; -unity-background-image-tint-color: rgb(82, 74, 74);">
+            <ui:ScrollView name="ScrollView_Leaderboard" style="flex-grow: 1; -unity-background-image-tint-color: rgba(0, 0, 0, 0);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

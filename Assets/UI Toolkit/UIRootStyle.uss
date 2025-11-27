@@ -1,0 +1,51 @@
+:root {
+}
+
+.mainContainer {
+    padding-top: 25px;
+    padding-right: 50px;
+    padding-bottom: 0;
+    padding-left: 50px;
+    flex-shrink: 0;
+}
+
+.topBarLabel {
+    font-size: 30px;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+}
+
+.topBarContainer {
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 50px;
+}
+
+.navMenuContainer {
+    align-items: flex-end;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-grow: 0;
+    margin-bottom: 25px;
+    align-self: auto;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-top: 50px;
+}
+
+.btnNav {
+    width: auto;
+    height: 180px;
+    flex-grow: 1;
+    margin-top: 0.2px;
+    margin-right: 0.2px;
+    margin-bottom: 0.2px;
+    margin-left: 0.2px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}

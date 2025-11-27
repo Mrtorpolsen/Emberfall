@@ -40,7 +40,7 @@ public class WaveManager : MonoBehaviour
     {
         if (isTest) return;
 
-        //StartCoroutine(RunWaves());
+        StartCoroutine(RunWaves());
     }
 
     private IEnumerator RunWaves()

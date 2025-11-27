@@ -1,0 +1,56 @@
+:root {
+}
+
+.leaderboardRow {
+    flex-direction: row;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+.labelRank {
+    margin-right: 10px;
+    font-size: 75px;
+}
+
+.contentContainer {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.iconUsernameContainer {
+    flex-direction: row;
+}
+
+.iconTrophy {
+    width: 100px;
+    height: auto;
+    margin-right: 2px;
+    margin-left: 20px;
+}
+
+.labelUsername {
+    font-size: 75px;
+}
+
+.labelScore {
+    font-size: 75px;
+}
+
+.labelSize {
+    font-size: 50px;
+}
+
+.gold {
+    background-image: url("project://database/Assets/Resources/UI/Icons/gold_throphy.png?fileID=-1365353590275259078&guid=8400ba95fdc1f474e805b44899c98bb1&type=3#gold_throphy_0");
+}
+
+.silver {
+    background-image: url("project://database/Assets/Resources/UI/Icons/silver_throphy.png?fileID=2918856834155887328&guid=5171e5ddb2399f84eb9602f4fbf47227&type=3#silver_throphy_0");
+}
+
+.bronze {
+    background-image: url("project://database/Assets/Resources/UI/Icons/bronze_throphy.png?fileID=-2723547533550908607&guid=ab138cb7b39213f47a8374b48b75a95d&type=3#bronze_throphy_0");
+}

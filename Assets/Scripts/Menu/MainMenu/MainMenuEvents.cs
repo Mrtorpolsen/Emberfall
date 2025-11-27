@@ -5,32 +5,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class MainMenuEvents : MonoBehaviour, IUIScreen
+public class MainMenuEvents : IUIScreenEvents
 {
+    [SerializeField] private UIDocument uIDocument;
+
+    private VisualElement root;
+
     //USE NAMING CONVENTION OF BTN --- Btn_xxx so it can add Clicked behind
     private Dictionary<Button, Action> buttonActions = new Dictionary<Button, Action>();
 
-    private void OnDisable()
-    {
-        foreach (var kvp in buttonActions)
-        {
-            var button = kvp.Key;
-            var action = kvp.Value;
-
-            if (button != null && action != null)
-                button.clicked -= action;
-        }
-
-        buttonActions.Clear();
-    }
-
     //Maybe move to utility for easier use in every eventhandler
-    public void Initialize(UIDocument document)
+    public void BindEvents(VisualElement root)
     {
-        var root = document.rootVisualElement;
+        this.root = root;
 
         var menuButtons = root.Query<Button>().ToList();
-        var menuLabels = root.Query<Label>().ToList();
 
         foreach (var button in menuButtons)
         {
@@ -53,6 +42,20 @@ public class MainMenuEvents : MonoBehaviour, IUIScreen
         }
     }
 
+    public void Cleanup()
+    {
+        foreach (var kvp in buttonActions)
+        {
+            var button = kvp.Key;
+            var action = kvp.Value;
+
+            if (button != null && action != null)
+                button.clicked -= action;
+        }
+
+        buttonActions.Clear();
+    }
+
     private void Btn_PlayClicked()
     {
         Debug.Log("Play clicked loading Game...");
@@ -62,25 +65,5 @@ public class MainMenuEvents : MonoBehaviour, IUIScreen
     private void Btn_Offer3Clicked()
     {
         Debug.Log("Btn_Offer3 clicked...");
-    }
-    private void Btn_ShopClicked()
-    {
-        Debug.Log("Btn_ShopClicked clicked...");
-    }
-    private void Btn_ForgeClicked()
-    {
-        Debug.Log("Btn_ForgeClicked clicked...");
-    }
-    private void Btn_MainClicked()
-    {
-        Debug.Log("Btn_MainClicked clicked...");
-    }
-    private void Btn_ResearchClicked()
-    {
-        Debug.Log("Btn_ResearchClicked clicked...");
-    }
-    private void Btn_LeaderboardClicked()
-    {
-        Debug.Log("Btn_LeaderboardClicked clicked...");
     }
 }

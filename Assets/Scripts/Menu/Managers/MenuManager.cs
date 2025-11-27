@@ -1,65 +1,141 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
-    public static MenuManager main;
+    public static MenuManager main { get; private set; }
 
-    [Header("References")]
-    [SerializeField] public UIDocument uiDocument;
-    [SerializeField] public VisualTreeAsset mainMenu;
-    [SerializeField] public VisualTreeAsset splashScreen;
+    [Header("UI Document")]
+    [SerializeField] private UIDocument uiDocument;
 
-    private Coroutine activeCoroutine;
+    [Header("Content Screens")]
+    [SerializeField] private VisualTreeAsset mainMenuVTA;
+    [SerializeField] private VisualTreeAsset leaderboardVTA;
+
+    private VisualElement contentContainer;
+    private VisualElement currentScreen;
+    private IUIScreen currentView;
+    private IUIScreenEvents currentEvents;
+    private bool hasInitialized = false;
+
+    private Dictionary<string, ScreenDefinition> screens =
+        new Dictionary<string, ScreenDefinition>();
 
     private void Awake()
     {
-        if(main != null && main != this)
+        if (main != null && main != this)
         {
-            Destroy(main);
-        } else
-        {
-            main = this;
+            Destroy(gameObject);
+            return;
         }
+
+        main = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Listen for any scene load
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start()
     {
-        ShowSplash(mainMenu, 3f);
-    }
+        var root = uiDocument.rootVisualElement;
+        contentContainer = root.Q<VisualElement>("ContentContainer");
 
-    private void ShowSplash(VisualTreeAsset nextScreen, float delay)
-    {
-        if(activeCoroutine != null)
+        if (contentContainer == null)
         {
-            StopCoroutine(activeCoroutine);
+            Debug.LogError("ContentContainer not found! Check UI_Root.uxml");
+            return;
         }
 
-        uiDocument.visualTreeAsset = splashScreen;
-
-        activeCoroutine = StartCoroutine(SplashRoutine(nextScreen, delay));
+        RegisterScreen<MainMenuView, MainMenuEvents>("MainMenu", mainMenuVTA);
+        RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
     }
 
-    private IEnumerator SplashRoutine(VisualTreeAsset nextScreen, float delay)
+    public void RegisterScreen<TView, TEvents>(string name, VisualTreeAsset vta)
+        where TView : IUIScreen, new()
+        where TEvents : IUIScreenEvents, new()
     {
-        yield return new WaitForSeconds(delay);
-        uiDocument.visualTreeAsset = nextScreen;
-        InitializeActiveScreen();
-        activeCoroutine = null;
+        screens[name] = new ScreenDefinition(
+            vta,
+            () => new TView(),
+            () => new TEvents()
+        );
     }
 
-    private void InitializeActiveScreen()
+    public void LoadScreen(string screenName)
     {
-        // Find all IUIScreen scripts in the scene and initialize them
-        foreach (var screen in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+        if (!screens.TryGetValue(screenName, out var def))
         {
-            if (screen is IUIScreen uiScreen)
-            {
-                uiScreen.Initialize(uiDocument);
-            }
+            Debug.LogError($"No screen registered with name '{name}'");
+            return;
         }
+
+        SwapContent(def);
     }
 
+    private void SwapContent(ScreenDefinition def)
+    {
+        // Remove previous screen
+        currentScreen?.RemoveFromHierarchy();
 
+        // Clean up old events
+        currentEvents?.Cleanup();
+
+        // Clone the template container
+        currentScreen = def.vta.CloneTree();
+        currentScreen.style.flexGrow = 1;
+        contentContainer.Add(currentScreen);
+
+        // IMPORTANT: get the first child — the real screen root
+        VisualElement screenRoot = currentScreen[0];
+
+        // Initialize view
+        currentView = def.createView();
+        currentEvents = def.createEvents();
+
+        // Bind events
+        currentView.Initialize(screenRoot);
+        currentEvents.BindEvents(screenRoot);
+    }
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        if(scene.name != "UI_Root")
+        {
+            return;
+        }
+        if(!hasInitialized)
+        {
+            hasInitialized = true;
+            return;
+        }
+
+        Debug.Log("UI_Root loaded, reinitializing MenuManager UI references");
+
+        UIDocument newUIDocument = FindFirstObjectByType<UIDocument>();
+
+        if (newUIDocument == null)
+        {
+            Debug.LogError("newUIDocument not found in UI_Root");
+        }
+
+        if (uiDocument == null)
+        {
+            uiDocument = newUIDocument;
+        }
+        // Re-query root and content container
+        var root = uiDocument.rootVisualElement;
+        contentContainer = root.Q<VisualElement>("ContentContainer");
+
+        if(contentContainer == null)
+        {
+            Debug.LogError("ContentContainer not found in UI_Root!");
+            return;
+        }
+
+        // Load main menu by default
+        LoadScreen("MainMenu");
+    }
 }
