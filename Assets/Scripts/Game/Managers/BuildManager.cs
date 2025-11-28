@@ -11,7 +11,14 @@ public class BuildManager : MonoBehaviour
 
     private void Awake()
     {
-        main = this;
+        if (main == null)
+        {
+            main = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     
     public UnitStats GetSelectedTower()
