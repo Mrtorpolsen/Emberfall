@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour
         PauseManager.OnPauseChanged -= TogglePauseMenu;
     }
 
-    public void OnPausePressed() { PauseManager.TogglePause(); }
+    public void OnPauseBtnClick() { PauseManager.TogglePause(); }
 
     private void TogglePauseMenu(bool paused)
     {

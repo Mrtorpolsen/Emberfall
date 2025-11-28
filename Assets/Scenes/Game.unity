@@ -30281,7 +30281,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1733177082}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnPausePressed
+        m_MethodName: OnPauseBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -31554,7 +31554,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1733177082}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnPausePressed
+        m_MethodName: OnPauseBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
