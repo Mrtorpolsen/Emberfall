@@ -6,7 +6,6 @@ public class TimerManager : MonoBehaviour
     public static TimerManager main;
 
     public TMP_Text timerText;
-    public static bool isPaused;
 
     private float startTime;
     private bool timerRunning = false;
@@ -37,12 +36,6 @@ public class TimerManager : MonoBehaviour
             timerText.text = GetFormattedTime();
             updateTimer = 0f;
         }
-    }
-
-    public void TogglePause()
-    {
-        isPaused = !isPaused;
-        Time.timeScale = isPaused ? 0f : 1f;
     }
 
     public void StartTimer()
