@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
             { Team.South, 300 },
         };
 
+        PauseManager.SetPaused(false);
+
         UpdateCurrencyText();
         playerUnitBoundary = GameObject.FindGameObjectWithTag("PlayerUnitBarrier");
     }
@@ -73,12 +75,14 @@ public class GameManager : MonoBehaviour
         UpdateCurrencyText();
         UIManager.main.ToggleSpawnButtonsActive(currency[team]);
     }
+
     public void SubtractCurrency(Team team, float amount)
     {
         currency[team] -= amount;
         UpdateCurrencyText();
         UIManager.main.ToggleSpawnButtonsActive(currency[team]);
     }
+
     private void UpdateCurrencyText()
     {
         //northCurrencyText.text = currency[Team.North].ToString();

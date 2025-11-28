@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text survivalText;
     [SerializeField] private TMP_Text incomeCostText;
     [SerializeField] public Canvas gameUI;
+    [SerializeField] public Canvas pauseMenu;
 
     [Header("References Spawn Buttons Mid")]
     [SerializeField] public Button incomeBtn;
@@ -35,6 +37,25 @@ public class UIManager : MonoBehaviour
         {
             main = this;
         }
+
+        ToggleSpawnButtonsActive(GameManager.main.currency[Team.South]);
+    }
+    private void OnEnable()
+    {
+        PauseManager.OnPauseChanged += TogglePauseMenu;
+    }
+
+    private void OnDisable()
+    {
+        PauseManager.OnPauseChanged -= TogglePauseMenu;
+    }
+
+    public void OnPausePressed() { PauseManager.TogglePause(); }
+
+    private void TogglePauseMenu(bool paused)
+    {
+        pauseMenu.gameObject.SetActive(paused);
+        ToggleSpawnButtonsActive(GameManager.main.currency[Team.South]);
     }
 
     public void Initialize()
@@ -62,20 +83,22 @@ public class UIManager : MonoBehaviour
     public void ToggleSpawnButtonsActive(float playerCurrency)
     {
         //Figure out how to add dynamic values
-        if(incomeBtn.interactable)
-        {
-            incomeBtn.interactable = (playerCurrency >= GameManager.main.incomeUpgradeCost);
-            cavalierBtn.interactable = (playerCurrency >= 100);
-            rangerBtn.interactable = (playerCurrency >= 75);
-            fighterBtn.interactable = (playerCurrency >= 50);
-        }
-        else
-        {
-            incomeBtnBottom.interactable = (playerCurrency >= GameManager.main.incomeUpgradeCost);
-            cavalierBtnBottom.interactable = (playerCurrency >= 100);
-            rangerBtnBottom.interactable = (playerCurrency >= 75);
-            fighterBtnBottom.interactable = (playerCurrency >= 50);
-        }
+        //Check if its top or bottom buttons that are active
+
+        //SetButtonInteractable(fighterBtn, playerCurrency, 50);
+        //SetButtonInteractable(rangerBtn, playerCurrency, 75);
+        //SetButtonInteractable(cavalierBtn, playerCurrency, 100);
+        //SetButtonInteractable(incomeBtn, playerCurrency, GameManager.main.incomeUpgradeCost);
+
+        SetButtonInteractable(fighterBtnBottom, playerCurrency, 50);
+        SetButtonInteractable(rangerBtnBottom, playerCurrency, 75);
+        SetButtonInteractable(cavalierBtnBottom, playerCurrency, 100);
+        SetButtonInteractable(incomeBtnBottom, playerCurrency, GameManager.main.incomeUpgradeCost);
+
+    }
+    private void SetButtonInteractable(Button btn, float playerCurrency, float cost)
+    {
+        btn.interactable = (!PauseManager.IsPaused && (playerCurrency >= cost));
     }
 
     public void UpdateIncomeCostText()

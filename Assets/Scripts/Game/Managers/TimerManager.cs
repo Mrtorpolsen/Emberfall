@@ -6,11 +6,12 @@ public class TimerManager : MonoBehaviour
     public static TimerManager main;
 
     public TMP_Text timerText;
+    public static bool isPaused;
 
     private float startTime;
     private bool timerRunning = false;
-
     private float updateTimer = 0f;
+
 
     public float GetElapsedTime() => (Time.time - startTime) * 1000f;
     public string GetFormattedTime() => Utility.FormatTime(GetElapsedTime());
@@ -24,6 +25,24 @@ public class TimerManager : MonoBehaviour
         }
 
         main = this;
+    }
+    private void Update()
+    {
+        if (!timerRunning || timerText == null) return;
+
+        updateTimer += Time.deltaTime;
+
+        if (updateTimer >= 1f)
+        {
+            timerText.text = GetFormattedTime();
+            updateTimer = 0f;
+        }
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
     }
 
     public void StartTimer()
@@ -42,16 +61,4 @@ public class TimerManager : MonoBehaviour
         startTime = Time.time;
     }
 
-    private void Update()
-    {
-        if (!timerRunning || timerText == null) return;
-
-        updateTimer += Time.deltaTime;
-
-        if (updateTimer >= 1f)
-        {
-            timerText.text = GetFormattedTime();
-            updateTimer = 0f;
-        }
-    }
 }
