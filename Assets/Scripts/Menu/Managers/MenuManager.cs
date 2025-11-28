@@ -99,7 +99,7 @@ public class MenuManager : MonoBehaviour
         currentView.Initialize(screenRoot);
         currentEvents.BindEvents(screenRoot);
     }
-
+    //Checks if its UI_Root that getting loaded, then reassigns references and loads mainmenu
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
     {
         if(scene.name != "UI_Root")
