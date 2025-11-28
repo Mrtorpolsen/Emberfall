@@ -66,6 +66,6 @@ public class ResolutionManager : MonoBehaviour
         if (float.IsNaN(newSize) || float.IsInfinity(newSize))
             return;
 
-        cam.orthographicSize = newSize;
+        cam.orthographicSize = 5f;
     }
 }
