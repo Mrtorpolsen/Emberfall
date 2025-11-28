@@ -1,6 +1,8 @@
+using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
@@ -24,8 +26,8 @@ public class LoginManager : MonoBehaviour
         {
             main = this;
         }
-
         await UnityServices.InitializeAsync();
+
         //If username already exists, just log in
         try
         {
@@ -45,6 +47,18 @@ public class LoginManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        var root = uiDocument.rootVisualElement;
+        input_name = root.Q<TextField>("Input_Username");
+
+        if (input_name == null)
+        {
+            Debug.LogError("Input_Username not found!");
+            return;
+        }
+    }
+
     private void OnEnable()
     {
         btn_login = uiDocument.rootVisualElement.Q<Button>("Btn_Login");
@@ -57,7 +71,7 @@ public class LoginManager : MonoBehaviour
         btn_login.UnregisterCallback<ClickEvent>(OnLoginClicked);
     }
 
-    public async void SetUserName()
+    public async Task SetUserName()
     {
         string newName = input_name.text;
 
@@ -70,6 +84,8 @@ public class LoginManager : MonoBehaviour
         try
         {
             await AuthenticationService.Instance.UpdatePlayerNameAsync(newName);
+            //To get the #XXXX need to call auth service
+            UserProfile.main.userName = AuthenticationService.Instance.PlayerName;
             Debug.Log("Name updated: " + newName);
         }
         catch (AuthenticationException e)
@@ -79,9 +95,9 @@ public class LoginManager : MonoBehaviour
     }
 
 
-    private void OnLoginClicked(ClickEvent evt)
+    private async void OnLoginClicked(ClickEvent evt)
     {
-        SetUserName();
+        await SetUserName();
         Debug.Log("Login clicked");
         SceneManager.LoadScene("UI_Root");
     }

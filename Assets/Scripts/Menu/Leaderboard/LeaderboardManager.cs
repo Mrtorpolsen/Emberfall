@@ -25,7 +25,6 @@ public class LeaderboardManager : MonoBehaviour
 
     //Think about adding score localy and then try to add it on restart,
     //incase of a service being down or no internet
-    //takes int
     public async void AddScore(float timeSurvived)
     {
         if(!IsLoggedIn())
@@ -38,6 +37,7 @@ public class LeaderboardManager : MonoBehaviour
 
         try
         {
+            //takes int
             var userEntry = await LeaderboardsService.Instance
                 .AddPlayerScoreAsync(leaderboardId, score);
 
@@ -76,7 +76,7 @@ public class LeaderboardManager : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.LogError("Failed to get score: " + e.Message);
+            Debug.Log("Failed to get score: " + e.Message);
             return UserHighScore;
         }
     }
