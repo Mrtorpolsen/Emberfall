@@ -17,13 +17,8 @@
 
 .imgContainer {
     height: 320px;
-    background-image: url("project://database/Assets/Art/UI/Backgrounds/btn_background.png?fileID=4483057878667240538&guid=e46f4d1555b939a4fb2be68a1c04b813&type=3#New Button_0");
     min-height: auto;
     max-height: 320px;
-    padding-top: 25px;
-    padding-right: 25px;
-    padding-bottom: 25px;
-    padding-left: 25px;
     background-color: rgba(0, 0, 0, 0);
     max-width: 320px;
 }
@@ -36,7 +31,6 @@
     max-height: 160px;
     max-width: none;
     background-color: rgba(0, 0, 0, 0);
-    background-image: url("project://database/Assets/Art/UI/Backgrounds/btn_upgrade_320x160.png?fileID=-9202653285723244096&guid=90fd8b4001665a842b0cb5918224325d&type=3#btn_upgrade_320x160_0");
     -unity-text-align: middle-center;
     font-size: 50px;
     border-top-width: 0;

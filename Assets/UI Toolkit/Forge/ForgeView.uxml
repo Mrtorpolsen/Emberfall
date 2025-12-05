@@ -3,31 +3,31 @@
     <Style src="project://database/Assets/UI%20Toolkit/Forge/ForgeStyle.uss?fileID=7433441132597879392&amp;guid=36f230e4e29f01a4292ae3ab9db4d03c&amp;type=3#ForgeStyle" />
     <ui:VisualElement name="ForgeContainer" style="flex-grow: 1;">
         <ui:Label text="The Eternal Forge" name="Label_Heading" class="labelHeading" style="margin-bottom: 75px;" />
-        <ui:ScrollView mode="Vertical" name="ScrollView" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" focusable="false" style="flex-grow: 1; height: auto; max-height: 100%;">
-            <ui:VisualElement name="UnitsContainer" class="unitsContainer">
+        <ui:ScrollView mode="Vertical" name="ScrollView" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" focusable="false" class="scrollViewVertical" style="flex-grow: 1; height: auto; max-height: 100%;">
+            <ui:VisualElement name="UnitsContainer" class="unitsContainer scrollViewContainer">
                 <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
-                    <ui:VisualElement name="ImgContainer" class="imgContainer" style="margin-bottom: 5px;">
+                    <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
                         <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/fighter_icon.png?fileID=-2949304628576699718&amp;guid=f30d8fa061135974db2397776c96491c&amp;type=3#fighter_icon_0&quot;); width: 50%; height: 100%; align-self: center;" />
                     </ui:VisualElement>
-                    <ui:Button text="Upgrade" name="Btn_Upg_Fighter" double-click-selects-word="true" class="btnUpg text" style="height: 160px;" />
+                    <ui:Button text="Upgrade" name="Btn_Upg_Fighter" double-click-selects-word="true" class="btnUpg text btnBackground2x1" />
                 </ui:VisualElement>
                 <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
-                    <ui:VisualElement name="ImgContainer" class="imgContainer" style="margin-bottom: 5px;">
+                    <ui:VisualElement name="ImgContainer" class="imgContainer btnPadding1x1 btnBackground1x1" style="margin-bottom: 5px;">
                         <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/ranger_icon.png?fileID=1771385593412923094&amp;guid=086e34176bb815148851ea40d660fae6&amp;type=3#ranger_icon_0&quot;);" />
                     </ui:VisualElement>
-                    <ui:Button text="Upgrade" name="Btn_Upg_Ranger" double-click-selects-word="true" class="btnUpg text" style="height: 160px;" />
+                    <ui:Button text="Upgrade" name="Btn_Upg_Ranger" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
-                    <ui:VisualElement name="ImgContainer" class="imgContainer" style="margin-bottom: 5px;">
+                    <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
                         <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/cavalier_icon.png?fileID=386069683975897929&amp;guid=d54cf944a39c2994ead7f2d58d0aad2b&amp;type=3#cavalier_icon_0&quot;);" />
                     </ui:VisualElement>
-                    <ui:Button text="Upgrade" name="Btn_Upg_Cavalier" double-click-selects-word="true" class="btnUpg text" style="height: 160px;" />
+                    <ui:Button text="Upgrade" name="Btn_Upg_Cavalier" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
-                    <ui:VisualElement name="ImgContainer" class="imgContainer" style="margin-bottom: 5px;">
+                    <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
                         <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/income_icon.png?fileID=421023817933042906&amp;guid=f2069244b447a8046871762baada4679&amp;type=3#income_icon_0&quot;);" />
                     </ui:VisualElement>
-                    <ui:Button text="Upgrade" name="Btn_Upg_Income" double-click-selects-word="true" class="btnUpg text" style="height: 160px;" />
+                    <ui:Button text="Upgrade" name="Btn_Upg_Income" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:ScrollView>

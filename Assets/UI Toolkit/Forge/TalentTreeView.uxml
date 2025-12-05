@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
+    <ui:VisualElement name="TalentContainer" style="flex-grow: 1;">
+        <ui:Label text="Upgrade Menu" name="Label_Heading" class="labelHeading" style="margin-bottom: 50px;" />
+        <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" class="scrollViewVertical">
+            <ui:VisualElement name="TalentTreeContainer" class="scrollViewContainer" style="flex-grow: 1; flex-direction: row; flex-wrap: wrap;">
+                <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                    <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                    <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/ranger_icon.png?fileID=1771385593412923094&amp;guid=086e34176bb815148851ea40d660fae6&amp;type=3#ranger_icon_0&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                    <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>
