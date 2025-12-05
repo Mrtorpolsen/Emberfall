@@ -9,53 +9,25 @@ public class MainMenuEvents : IUIScreenEvents
 {
     [SerializeField] private UIDocument uIDocument;
 
-    private VisualElement root;
 
-    //USE NAMING CONVENTION OF BTN --- Btn_xxx so it can add Clicked behind
-    private Dictionary<Button, Action> buttonActions = new Dictionary<Button, Action>();
+    private readonly Dictionary<string, string> bindings = new()
+    {
+        { "Btn_Play", nameof(Btn_PlayClicked) },
+        { "Btn_Offer3", nameof(Btn_Offer3Clicked) }
+    };
 
     //Maybe move to utility for easier use in every eventhandler
     public void BindEvents(VisualElement root)
     {
-        this.root = root;
-
-        var menuButtons = root.Query<Button>().ToList();
-
-        foreach (var button in menuButtons)
-        {
-            string methodName = button.name + "Clicked";
-            MethodInfo method = GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
-
-            if (method != null)
-            {
-                // Wrap the method so it can unregister later
-                Action action = () => method.Invoke(this, null);
-
-                // Register callback
-                button.clicked += action;
-
-                // Store for unregistration
-                buttonActions[button] = action;
-
-                Debug.Log($"Button {button.name} wired to method {methodName}");
-            }
-        }
+        UtilityUIBinding.BindEvents(root, this, bindings);
     }
 
     public void Cleanup()
     {
-        foreach (var kvp in buttonActions)
-        {
-            var button = kvp.Key;
-            var action = kvp.Value;
-
-            if (button != null && action != null)
-                button.clicked -= action;
-        }
-
-        buttonActions.Clear();
+        UtilityUIBinding.Cleanup(this);
     }
 
+    //USE NAMING CONVENTION OF BTN --- Btn_xxx so it can add Clicked behind
     private void Btn_PlayClicked()
     {
         Debug.Log("Play clicked loading Game...");

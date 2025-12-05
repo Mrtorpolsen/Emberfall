@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour
     [Header("Content Screens")]
     [SerializeField] private VisualTreeAsset mainMenuVTA;
     [SerializeField] private VisualTreeAsset leaderboardVTA;
+    [SerializeField] private VisualTreeAsset forgeVTA;
 
     private VisualElement contentContainer;
     private VisualElement currentScreen;
@@ -51,6 +52,7 @@ public class MenuManager : MonoBehaviour
 
         RegisterScreen<MainMenuView, MainMenuEvents>("MainMenu", mainMenuVTA);
         RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
+        RegisterScreen<ForgeView, ForgeEvents>("Forge", forgeVTA);
     }
 
     public void RegisterScreen<TView, TEvents>(string name, VisualTreeAsset vta)

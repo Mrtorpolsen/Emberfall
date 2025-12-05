@@ -40,6 +40,9 @@ public class NavBarEvents : MonoBehaviour
             case "Btn_Leaderboard":
                 MenuManager.main.LoadScreen("Leaderboard");
                 break;
+            case "Btn_Forge":
+                MenuManager.main.LoadScreen("Forge");
+                break;
         }
     }
 
