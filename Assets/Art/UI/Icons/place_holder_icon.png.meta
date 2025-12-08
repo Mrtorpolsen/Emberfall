@@ -1,43 +1,37 @@
 fileFormatVersion: 2
-guid: bbb892c8acec8ff40a953908dfb7a33f
+guid: 4c55f00872ecbe148863e8ade2e0550a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 448743734659500777
-    second: placeholder_icon_0
+      213: -6719134383972977059
+    second: place_holder_icon_0
   - first:
-      213: 8274670358589759031
-    second: placeholder_icon_1
+      213: 4667019562259492762
+    second: place_holder_icon_1
   - first:
-      213: -7294979713497898689
-    second: placeholder_icon_2
+      213: 2730728033636008274
+    second: place_holder_icon_2
   - first:
-      213: 4538667222493142007
-    second: placeholder_icon_3
+      213: -760813751204685275
+    second: place_holder_icon_3
   - first:
-      213: -1058370283253051257
-    second: placeholder_icon_4
+      213: -5134595216508810930
+    second: place_holder_icon_4
   - first:
-      213: -2788525453177254059
-    second: placeholder_icon_5
+      213: -6392420402673980643
+    second: place_holder_icon_5
   - first:
-      213: 2044160711131606270
-    second: placeholder_icon_6
+      213: 6198567354498548397
+    second: place_holder_icon_6
   - first:
-      213: 1942405047778225104
-    second: placeholder_icon_7
+      213: 771063944330098811
+    second: place_holder_icon_7
   - first:
-      213: 3507734828286976204
-    second: placeholder_icon_8
+      213: 1823836042244679096
+    second: place_holder_icon_8
   - first:
-      213: 5119663943337277955
-    second: placeholder_icon_9
-  - first:
-      213: 1663020833505662110
-    second: placeholder_icon_10
-  - first:
-      213: 1745164953479280112
-    second: placeholder_icon_11
+      213: -2627313442361483453
+    second: place_holder_icon_9
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -131,9 +125,9 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Android
-    maxTextureSize: 1024
+    maxTextureSize: 512
     resizeAlgorithm: 0
-    textureFormat: 47
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -144,7 +138,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: iOS
-    maxTextureSize: 1024
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: 50
     textureCompression: 1
@@ -159,233 +153,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: placeholder_icon_0
-      rect:
-        serializedVersion: 2
-        x: 495
-        y: 495
-        width: 5
-        height: 5
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9eacf839c024a3600800000000000000
-      internalID: 448743734659500777
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_1
-      rect:
-        serializedVersion: 2
-        x: 15
-        y: 59
-        width: 471
-        height: 424
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 73e523d99d885d270800000000000000
-      internalID: 8274670358589759031
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_2
-      rect:
-        serializedVersion: 2
-        x: 23
-        y: 10
-        width: 50
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f31e64dd99603ca90800000000000000
-      internalID: -7294979713497898689
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_3
-      rect:
-        serializedVersion: 2
-        x: 178
-        y: 12
-        width: 17
-        height: 56
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7fb996ebac59cfe30800000000000000
-      internalID: 4538667222493142007
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_4
-      rect:
-        serializedVersion: 2
-        x: 305
-        y: 10
-        width: 127
-        height: 60
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7805fd9b5d9ef41f0800000000000000
-      internalID: -1058370283253051257
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_5
-      rect:
-        serializedVersion: 2
-        x: 70
-        y: 10
-        width: 43
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 55f0c34efda2d49d0800000000000000
-      internalID: -2788525453177254059
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_6
-      rect:
-        serializedVersion: 2
-        x: 113
-        y: 12
-        width: 64
-        height: 46
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: efc2fca16515e5c10800000000000000
-      internalID: 2044160711131606270
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_7
-      rect:
-        serializedVersion: 2
-        x: 198
-        y: 12
-        width: 40
-        height: 46
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0db2fb2891fc4fa10800000000000000
-      internalID: 1942405047778225104
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_8
-      rect:
-        serializedVersion: 2
-        x: 238
-        y: 0
-        width: 42
-        height: 58
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cc0af46dd3afda030800000000000000
-      internalID: 3507734828286976204
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_9
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 12
-        width: 40
-        height: 46
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 30a7ef73b33bc0740800000000000000
-      internalID: 5119663943337277955
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: placeholder_icon_10
+      name: place_holder_icon_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 5
-        height: 5
+        y: 63
+        width: 500
+        height: 452
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -394,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e94dd2313ac341710800000000000000
-      internalID: 1663020833505662110
+      spriteID: d567d2590e6d0c2a0800000000000000
+      internalID: -6719134383972977059
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: placeholder_icon_11
+      name: place_holder_icon_1
       rect:
         serializedVersion: 2
-        x: 495
-        y: 0
-        width: 5
-        height: 5
+        x: 7
+        y: 11
+        width: 53
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -416,8 +190,184 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0f5f7966742183810800000000000000
-      internalID: 1745164953479280112
+      spriteID: a9fa640a09594c040800000000000000
+      internalID: 4667019562259492762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: place_holder_icon_2
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 11
+        width: 47
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2514317bdae75e520800000000000000
+      internalID: 2730728033636008274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: place_holder_icon_3
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 13
+        width: 68
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52a563b9ceb0175f0800000000000000
+      internalID: -760813751204685275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: place_holder_icon_4
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 13
+        width: 19
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e498296dad04eb8b0800000000000000
+      internalID: -5134595216508810930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: place_holder_icon_5
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 13
+        width: 43
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1b68a3238f8947a0800000000000000
+      internalID: -6392420402673980643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: place_holder_icon_6
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 0
+        width: 45
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da20831ea2cb50650800000000000000
+      internalID: 6198567354498548397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: place_holder_icon_7
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 11
+        width: 93
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7838e4729e53ba00800000000000000
+      internalID: 771063944330098811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: place_holder_icon_8
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 11
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b56c82a7319f4910800000000000000
+      internalID: 1823836042244679096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: place_holder_icon_9
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 12
+        width: 43
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34f5f622858e98bd0800000000000000
+      internalID: -2627313442361483453
       vertices: []
       indices: 
       edges: []
@@ -436,18 +386,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      placeholder_icon_0: 448743734659500777
-      placeholder_icon_1: 8274670358589759031
-      placeholder_icon_10: 1663020833505662110
-      placeholder_icon_11: 1745164953479280112
-      placeholder_icon_2: -7294979713497898689
-      placeholder_icon_3: 4538667222493142007
-      placeholder_icon_4: -1058370283253051257
-      placeholder_icon_5: -2788525453177254059
-      placeholder_icon_6: 2044160711131606270
-      placeholder_icon_7: 1942405047778225104
-      placeholder_icon_8: 3507734828286976204
-      placeholder_icon_9: 5119663943337277955
+      place_holder_icon_0: -6719134383972977059
+      place_holder_icon_1: 4667019562259492762
+      place_holder_icon_2: 2730728033636008274
+      place_holder_icon_3: -760813751204685275
+      place_holder_icon_4: -5134595216508810930
+      place_holder_icon_5: -6392420402673980643
+      place_holder_icon_6: 6198567354498548397
+      place_holder_icon_7: 771063944330098811
+      place_holder_icon_8: 1823836042244679096
+      place_holder_icon_9: -2627313442361483453
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

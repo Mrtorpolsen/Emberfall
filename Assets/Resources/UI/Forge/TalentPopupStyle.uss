@@ -1,0 +1,36 @@
+:root {
+}
+
+.imgTalent {
+    width: 75%;
+    max-width: 500px;
+    padding-bottom: 75%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#Btn_Purchase .unity-button__image {
+    height: 50px;
+    width: 50px;
+}
+
+.talentPopupContainer {
+    flex-grow: 0;
+    background-image: url("project://database/Assets/Art/UI/Backgrounds/big_text_background.png?fileID=-6217363497950051159&guid=d85745326a4111e4d91b29773f900a8e&type=3#big_text_background_0");
+    -unity-background-image-tint-color: rgb(82, 74, 74);
+    width: 60%;
+    min-width: auto;
+    min-height: auto;
+    max-height: 1000px;
+    align-self: center;
+    align-items: center;
+    padding-top: 25px;
+    padding-right: 50px;
+    padding-bottom: 25px;
+    padding-left: 50px;
+    max-width: 625px;
+    height: 52%;
+    justify-content: flex-start;
+    align-content: auto;
+}
