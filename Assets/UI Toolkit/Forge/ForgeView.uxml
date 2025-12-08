@@ -1,35 +1,172 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
     <Style src="project://database/Assets/UI%20Toolkit/Forge/ForgeStyle.uss?fileID=7433441132597879392&amp;guid=36f230e4e29f01a4292ae3ab9db4d03c&amp;type=3#ForgeStyle" />
+    <Style src="project://database/Assets/UI%20Toolkit/Forge/TalentTreeViewStyle.uss?fileID=7433441132597879392&amp;guid=06e898474ccff264092beda7a18802bf&amp;type=3#TalentTreeViewStyle" />
     <ui:VisualElement name="ForgeContainer" style="flex-grow: 1;">
-        <ui:Label text="The Eternal Forge" name="Label_Heading" class="labelHeading" style="margin-bottom: 75px;" />
-        <ui:ScrollView mode="Vertical" name="ScrollView" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" focusable="false" class="scrollViewVertical" style="flex-grow: 1; height: auto; max-height: 100%;">
-            <ui:VisualElement name="UnitsContainer" class="unitsContainer scrollViewContainer">
-                <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
-                    <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
-                        <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/fighter_icon.png?fileID=-2949304628576699718&amp;guid=f30d8fa061135974db2397776c96491c&amp;type=3#fighter_icon_0&quot;); width: 50%; height: 100%; align-self: center;" />
+        <ui:VisualElement name="ForgePanel" style="flex-grow: 1; display: flex;">
+            <ui:Label text="The Eternal Forge" name="Label_Heading" class="labelHeading" style="margin-bottom: 75px;" />
+            <ui:ScrollView mode="Vertical" name="ScrollView" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" focusable="false" class="scrollViewVertical" style="flex-grow: 1; height: auto; max-height: 100%;">
+                <ui:VisualElement name="UnitsContainer" class="unitsContainer scrollViewContainer">
+                    <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
+                        <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
+                            <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/fighter_icon.png?fileID=-2949304628576699718&amp;guid=f30d8fa061135974db2397776c96491c&amp;type=3#fighter_icon_0&quot;); width: 50%; height: 100%; align-self: center;" />
+                        </ui:VisualElement>
+                        <ui:Button text="Upgrade" name="Btn_Upg_Fighter" double-click-selects-word="true" class="btnUpg text btnBackground2x1" />
                     </ui:VisualElement>
-                    <ui:Button text="Upgrade" name="Btn_Upg_Fighter" double-click-selects-word="true" class="btnUpg text btnBackground2x1" />
-                </ui:VisualElement>
-                <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
-                    <ui:VisualElement name="ImgContainer" class="imgContainer btnPadding1x1 btnBackground1x1" style="margin-bottom: 5px;">
-                        <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/ranger_icon.png?fileID=1771385593412923094&amp;guid=086e34176bb815148851ea40d660fae6&amp;type=3#ranger_icon_0&quot;);" />
+                    <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
+                        <ui:VisualElement name="ImgContainer" class="imgContainer btnPadding1x1 btnBackground1x1" style="margin-bottom: 5px;">
+                            <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/ranger_icon.png?fileID=1771385593412923094&amp;guid=086e34176bb815148851ea40d660fae6&amp;type=3#ranger_icon_0&quot;);" />
+                        </ui:VisualElement>
+                        <ui:Button text="Upgrade" name="Btn_Upg_Ranger" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
                     </ui:VisualElement>
-                    <ui:Button text="Upgrade" name="Btn_Upg_Ranger" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
-                    <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
-                        <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/cavalier_icon.png?fileID=386069683975897929&amp;guid=d54cf944a39c2994ead7f2d58d0aad2b&amp;type=3#cavalier_icon_0&quot;);" />
+                    <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
+                        <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
+                            <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/cavalier_icon.png?fileID=386069683975897929&amp;guid=d54cf944a39c2994ead7f2d58d0aad2b&amp;type=3#cavalier_icon_0&quot;);" />
+                        </ui:VisualElement>
+                        <ui:Button text="Upgrade" name="Btn_Upg_Cavalier" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
                     </ui:VisualElement>
-                    <ui:Button text="Upgrade" name="Btn_Upg_Cavalier" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
-                    <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
-                        <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/income_icon.png?fileID=421023817933042906&amp;guid=f2069244b447a8046871762baada4679&amp;type=3#income_icon_0&quot;);" />
+                    <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
+                        <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
+                            <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/income_icon.png?fileID=421023817933042906&amp;guid=f2069244b447a8046871762baada4679&amp;type=3#income_icon_0&quot;);" />
+                        </ui:VisualElement>
+                        <ui:Button text="Upgrade" name="Btn_Upg_Income" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
                     </ui:VisualElement>
-                    <ui:Button text="Upgrade" name="Btn_Upg_Income" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
                 </ui:VisualElement>
+            </ui:ScrollView>
+        </ui:VisualElement>
+        <ui:VisualElement name="TalentTreePanel" style="flex-grow: 1; display: none;">
+            <ui:VisualElement name="TalentContainer" style="flex-grow: 1;">
+                <ui:Label text="Upgrade Menu" name="Label_Heading" class="labelHeading" style="margin-bottom: 50px;" />
+                <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" class="scrollViewVertical">
+                    <ui:VisualElement name="TalentNodesContainer" class="scrollViewContainer" style="flex-grow: 1; flex-direction: column; flex-wrap: nowrap;">
+                        <ui:VisualElement name="Row_T1" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row_T2" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row_T3" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row_T4" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row_T5" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row_T6" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row_T7" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row_T8" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row_T9" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Row_T10" class="talentTreeRow" style="flex-grow: 1;">
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-bottom: 25px;">
+                                <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+                                <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/placeholder_icon.png?fileID=21300000&amp;guid=bbb892c8acec8ff40a953908dfb7a33f&amp;type=3#placeholder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
+                                <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:ScrollView>
             </ui:VisualElement>
-        </ui:ScrollView>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

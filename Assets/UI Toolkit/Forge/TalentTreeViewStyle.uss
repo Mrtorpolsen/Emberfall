@@ -1,0 +1,14 @@
+:root {
+}
+
+.talentTreeRow {
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.temp {
+    margin-right: 50px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+}

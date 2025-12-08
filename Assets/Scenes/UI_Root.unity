@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98fe6d56a8b27614c8c9ce2a34b74165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavBarEvents
-  uiDocument: {fileID: 1570200870}
+  uIDocument: {fileID: 1570200870}
 --- !u!4 &79944180
 Transform:
   m_ObjectHideFlags: 0
