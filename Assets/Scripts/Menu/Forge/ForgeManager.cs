@@ -29,4 +29,9 @@ public class ForgeManager : IUIScreenManager
 
         //Cleanup?
     }
+
+    public void Cleanup()
+    {
+        //Todo if needed
+    }
 }

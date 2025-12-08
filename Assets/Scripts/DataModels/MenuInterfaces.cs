@@ -9,11 +9,12 @@ public interface IUIScreen
 
 public interface IUIScreenEvents
 {
-    void BindEvents(VisualElement root);
+    void BindEvents(VisualElement root, IUIScreenManager manager = null);
     void Cleanup();
 }
 
 public interface IUIScreenManager
 {
     void Initialize(VisualElement root);
+    void Cleanup();
 }

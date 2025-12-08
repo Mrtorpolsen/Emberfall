@@ -19,6 +19,7 @@ public class MenuManager : MonoBehaviour
     private VisualElement currentScreen;
     private IUIScreen currentView;
     private IUIScreenEvents currentEvents;
+    private IUIScreenManager currentManager;
     private bool hasInitialized = false;
 
     private Dictionary<string, ScreenDefinition> screens =
@@ -52,7 +53,7 @@ public class MenuManager : MonoBehaviour
 
         RegisterScreen<MainMenuView, MainMenuEvents>("MainMenu", mainMenuVTA);
         RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
-        RegisterScreen<ForgeView, ForgeEvents>("Forge", forgeVTA);
+        RegisterScreen<ForgeView, ForgeEvents, ForgeManager>("Forge", forgeVTA);
     }
 
     public void RegisterScreen<TView, TEvents>(string name, VisualTreeAsset vta)
@@ -62,7 +63,22 @@ public class MenuManager : MonoBehaviour
         screens[name] = new ScreenDefinition(
             vta,
             () => new TView(),
-            () => new TEvents()
+            () => new TEvents(),
+            null //no manager
+        );
+    }
+    public void RegisterScreen<TView, TEvents, TManager>(
+        string name,
+        VisualTreeAsset vta)
+        where TView : IUIScreen, new()
+        where TEvents : IUIScreenEvents, new()
+        where TManager : IUIScreenManager, new()
+    {
+        screens[name] = new ScreenDefinition(
+            vta,
+            () => new TView(),
+            () => new TEvents(),
+            () => new TManager() // lazy-load
         );
     }
 
@@ -85,6 +101,10 @@ public class MenuManager : MonoBehaviour
         // Clean up old events
         currentEvents?.Cleanup();
 
+        // If the previous manager is screen-scoped, clean it up
+        currentManager?.Cleanup();
+        currentManager = null;
+
         // Clone the template container
         currentScreen = def.vta.CloneTree();
         currentScreen.style.flexGrow = 1;
@@ -97,9 +117,12 @@ public class MenuManager : MonoBehaviour
         currentView = def.createView();
         currentEvents = def.createEvents();
 
+        //Create manager if its there
+        currentManager = def.createManager?.Invoke();
+
         // Bind events
         currentView.Initialize(screenRoot);
-        currentEvents.BindEvents(screenRoot);
+        currentEvents.BindEvents(screenRoot, currentManager);
     }
     //Checks if its UI_Root that getting loaded, then reassigns references and loads mainmenu
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)

@@ -35,7 +35,7 @@
             </ui:ScrollView>
         </ui:VisualElement>
         <ui:VisualElement name="TalentTreePanel" style="flex-grow: 1; display: none;">
-            <ui:VisualElement name="TalentContainer" style="flex-grow: 1;">
+            <ui:VisualElement name="TalentContainer" style="flex-grow: 1; display: flex;">
                 <ui:Label text="Upgrade Menu" name="Label_Heading" class="labelHeading" style="margin-bottom: 0;" />
                 <ui:VisualElement name="ReturnContainer" class="returnContainer" style="flex-grow: 1;">
                     <ui:Button name="Btn_Return" class="btnReturn" />

@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class ForgeEvents : IUIScreenEvents
 {
+    private ForgeManager _manager;
+
     private readonly Dictionary<string, string> bindings = new()
     {
         { "Btn_Return", nameof(Btn_Return) },
@@ -14,8 +16,11 @@ public class ForgeEvents : IUIScreenEvents
         { "Btn_Upg_Income", nameof(Btn_Upg_IncomeClicked) },
     };
 
-    public void BindEvents(VisualElement root)
+    public void BindEvents(VisualElement root, IUIScreenManager manager = null)
     {
+        _manager = manager as ForgeManager;
+        _manager.Initialize(root);
+
         UtilityUIBinding.BindEvents(root, this, bindings);
     }
 
@@ -27,11 +32,13 @@ public class ForgeEvents : IUIScreenEvents
     private void Btn_Return()
     {
         Debug.Log("Clicked " + nameof(Btn_Return));
+        _manager.BackToForge();
     }
 
     private void Btn_Upg_FighterClicked()
     {
         Debug.Log("Clicked " + nameof(Btn_Upg_FighterClicked));
+        _manager.OpenTalentTree();
     }
 
     private void Btn_Upg_IncomeClicked()

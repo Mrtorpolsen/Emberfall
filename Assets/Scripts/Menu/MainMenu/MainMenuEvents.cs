@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -18,7 +15,7 @@ public class MainMenuEvents : IUIScreenEvents
     };
 
     //Maybe move to utility for easier use in every eventhandler
-    public void BindEvents(VisualElement root)
+    public void BindEvents(VisualElement root, IUIScreenManager manager = null)
     {
         UtilityUIBinding.BindEvents(root, this, bindings);
     }
