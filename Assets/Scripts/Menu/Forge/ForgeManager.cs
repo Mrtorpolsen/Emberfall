@@ -1,16 +1,13 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ForgeManager : MonoBehaviour
+public class ForgeManager : IUIScreenManager
 {
-    private VisualElement root;
     private VisualElement forgePanel;
     private VisualElement talentTreePanel;
 
-    private void OnEnable()
+    public void Initialize(VisualElement root)
     {
-        root = GetComponent<UIDocument>().rootVisualElement;
-
         forgePanel = root.Q<VisualElement>("ForgePanel");
         talentTreePanel = root.Q<VisualElement>("TalentTreePanel");
 

@@ -16,10 +16,10 @@ public class LeaderboardView : IUIScreen
 
         foreach (LeaderboardEntry entry in scores)
         {
-            AddRow(entry);
+            GenerateRow(entry);
         }
     }
-    private void AddRow(LeaderboardEntry entry)
+    private void GenerateRow(LeaderboardEntry entry)
     {
         var row = rowTemplate.Instantiate();
 

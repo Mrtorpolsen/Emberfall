@@ -36,7 +36,11 @@
         </ui:VisualElement>
         <ui:VisualElement name="TalentTreePanel" style="flex-grow: 1; display: none;">
             <ui:VisualElement name="TalentContainer" style="flex-grow: 1;">
-                <ui:Label text="Upgrade Menu" name="Label_Heading" class="labelHeading" style="margin-bottom: 50px;" />
+                <ui:Label text="Upgrade Menu" name="Label_Heading" class="labelHeading" style="margin-bottom: 0;" />
+                <ui:VisualElement name="ReturnContainer" class="returnContainer" style="flex-grow: 1;">
+                    <ui:Button name="Btn_Return" class="btnReturn" />
+                    <ui:Label text="Go Back" name="Label_Return" class="labelReturn text" />
+                </ui:VisualElement>
                 <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" class="scrollViewVertical">
                     <ui:VisualElement name="TalentNodesContainer" class="scrollViewContainer" style="flex-grow: 1; flex-direction: column; flex-wrap: nowrap;">
                         <ui:VisualElement name="Row_T1" class="talentTreeRow" style="flex-grow: 1;">

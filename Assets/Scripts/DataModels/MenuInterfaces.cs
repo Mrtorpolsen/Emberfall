@@ -13,3 +13,7 @@ public interface IUIScreenEvents
     void Cleanup();
 }
 
+public interface IUIScreenManager
+{
+    void Initialize(VisualElement root);
+}

@@ -12,6 +12,6 @@ public class MainMenuView : IUIScreen
 
         label_highscore = root.Q<Label>("Label_HighScore");
 
-        label_highscore.text = Utility.FormatTime(LeaderboardManager.main.UserHighScore);
+        label_highscore.text = Utility.FormatTime(UserProfile.main.UserHighScore);
     }
 }

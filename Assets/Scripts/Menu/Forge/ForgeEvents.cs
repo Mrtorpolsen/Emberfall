@@ -7,6 +7,7 @@ public class ForgeEvents : IUIScreenEvents
 {
     private readonly Dictionary<string, string> bindings = new()
     {
+        { "Btn_Return", nameof(Btn_Return) },
         { "Btn_Upg_Fighter", nameof(Btn_Upg_FighterClicked) },
         { "Btn_Upg_Ranger", nameof(Btn_Upg_RangerClicked) },
         { "Btn_Upg_Cavalier", nameof(Btn_Upg_CavalierClicked) },
@@ -21,6 +22,11 @@ public class ForgeEvents : IUIScreenEvents
     public void Cleanup()
     {
         UtilityUIBinding.Cleanup(this);
+    }
+
+    private void Btn_Return()
+    {
+        Debug.Log("Clicked " + nameof(Btn_Return));
     }
 
     private void Btn_Upg_FighterClicked()

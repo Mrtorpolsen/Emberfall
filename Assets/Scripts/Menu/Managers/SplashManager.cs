@@ -40,7 +40,7 @@ public class SplashManager : MonoBehaviour
         // Load all needed data in parallel
         var loadTasks = new List<Task>
         {
-            LeaderboardManager.main.GetUserScore(),
+            UserProfile.main.GetUserScore(),
             LeaderboardManager.main.GetScores(),
         };
 
