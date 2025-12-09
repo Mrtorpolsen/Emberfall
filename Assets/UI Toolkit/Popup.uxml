@@ -1,8 +1,8 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
-    <Style src="project://database/Assets/Resources/UI/PopupStyle.uss?fileID=7433441132597879392&amp;guid=3ae99aed850e6f04f9c4440bc89a8ae3&amp;type=3#PopupStyle" />
+    <Style src="project://database/Assets/UI%20Toolkit/PopupStyle.uss?fileID=7433441132597879392&amp;guid=3ae99aed850e6f04f9c4440bc89a8ae3&amp;type=3#PopupStyle" />
     <ui:VisualElement name="PopupBlocker" style="flex-grow: 0; justify-content: center; align-self: auto; display: flex; position: absolute; width: 100%; height: 100%;">
-        <ui:VisualElement name="PopupContainer" class="popupContainer" style="height: auto; max-height: none;">
+        <ui:VisualElement name="PopupContainer" class="popupContainer" style="height: auto; max-height: none; background-image: resource(&apos;UI/Images/popup_box_opacity_95&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);">
             <ui:VisualElement name="Img" class="imgTalent" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/place_holder_icon.png?fileID=21300000&amp;guid=4c55f00872ecbe148863e8ade2e0550a&amp;type=3#place_holder_icon&quot;); max-height: 450px; max-width: 450px; display: flex;" />
             <ui:Label text="Strike Training" name="Label_Heading" class="text" style="font-size: 50px; margin-top: 10px; margin-bottom: 0;" />
             <ui:Label text="Increases fighter&apos;s attack damage by 1% per purchaseIncreases fighter&apos;s attack damage by 1% per purchase" name="Label_Description" class="text" style="font-size: 35px; white-space: normal; -unity-text-align: upper-center; flex-grow: 0; flex-shrink: 0; width: 100%; margin-top: 50px; margin-bottom: 50px;" />
