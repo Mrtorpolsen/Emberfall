@@ -1,6 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
     <Style src="project://database/Assets/UI%20Toolkit/Forge/ForgeStyle.uss?fileID=7433441132597879392&amp;guid=36f230e4e29f01a4292ae3ab9db4d03c&amp;type=3#ForgeStyle" />
+    <Style src="project://database/Assets/Resources/UI/Forge/TalentPopupStyle.uss?fileID=7433441132597879392&amp;guid=3ae99aed850e6f04f9c4440bc89a8ae3&amp;type=3#TalentPopupStyle" />
     <ui:VisualElement name="ForgeContainer" style="flex-grow: 1;">
         <ui:VisualElement name="ForgePanel" style="flex-grow: 1; display: none;">
             <ui:Label text="The Eternal Forge" name="Label_Heading" class="labelHeading" style="margin-bottom: 75px;" />
@@ -169,6 +170,17 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="FullScreenTalentPopupContainer" style="flex-grow: 0; justify-content: center; align-self: auto; display: none; position: absolute; width: 100%; height: 100%;">
+            <ui:VisualElement name="TalentPopupContainer" class="talentPopupContainer">
+                <ui:VisualElement name="Img_Talent" class="imgTalent" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/place_holder_icon.png?fileID=21300000&amp;guid=4c55f00872ecbe148863e8ade2e0550a&amp;type=3#place_holder_icon&quot;); max-height: 450px; max-width: 450px;" />
+                <ui:Label text="Strike Training" name="Label_Name" class="text" style="font-size: 50px; margin-top: 10px; margin-bottom: 25px;" />
+                <ui:Label text="Increases fighter&apos;s attack damage by 1% per purchase" name="Label_Description" class="text" style="font-size: 35px; white-space: normal; -unity-text-align: upper-center; flex-grow: 1; flex-shrink: 1; width: 100%;" />
+                <ui:Label text="0/5" name="Label_Purchases" class="text" style="font-size: 40px; align-self: center;" />
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: 100%; height: 15%; align-items: auto; align-content: auto; justify-content: flex-end; max-height: 150px; max-width: 500px;">
+                    <ui:Button text="100" name="Btn_Purchase" icon-image="project://database/Assets/Art/UI/Icons/cinder_icon.png?fileID=2800000&amp;guid=001a100086c2f304f8db9d853eff26d8&amp;type=3#cinder_icon" class="btnBackground2x1 text" style="background-color: rgba(188, 188, 188, 0); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; align-self: center; max-width: 500px; max-height: 150px; align-items: center; width: 100%; align-content: flex-end; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; font-size: 50px; flex-direction: row-reverse;" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
