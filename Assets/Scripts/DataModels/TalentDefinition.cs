@@ -1,32 +1,33 @@
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
-public class UpgradeDefinition
+public class TalentDefinition
 {
     public string Id;                        // unique id
+    public string IconId;
     public string Name;
     public string Description;
 
-    public UpgradeCategory Category;         // UnitUpgrade, TowerUpgrade, GlobalUpgrade
-    public UpgradeType Type;                 // StatModifier, AbilityUnlock, UnitUnlock, Income, etc.
+    public TalentCategory Category;         // UnitUpgrade, TowerUpgrade, GlobalUpgrade
+    public TalentType Type;                 // StatModifier, AbilityUnlock, UnitUnlock, Income, etc.
+    public int Tier;
 
-    public string TargetId;                  // "Fighter", "Ranger", "Tower_Archer", null for globals
+    public List<TalentEffect> Effects;      // one upgrade may have multiple effects
 
-    public List<UpgradeEffect> Effects;      // one upgrade may have multiple effects
+    public TalentCostModel Cost;            // dynamic cost scaling
+    public TalentPurchaseModel Purchase;    // handles max, infinite, etc.
 
-    public UpgradeCostModel Cost;            // dynamic cost scaling
-    public UpgradePurchaseModel Purchase;    // handles max, infinite, etc.
-
-    public List<UpgradePrerequisite> Prerequisites;
+    public List<TalentPrerequisite> Prerequisites;
 }
 
-public enum UpgradeCategory
+public enum TalentCategory
 {
     Unit,
     Tower,
     Global
 }
 
-public enum UpgradeType
+public enum TalentType
 {
     StatModifier,       // + HP, + Damage, multipliers, flat
     AbilityUnlock,      // unlock crit, splash, poison
@@ -35,7 +36,7 @@ public enum UpgradeType
     Income,             // increase income tick
 }
 
-public class UpgradeEffect
+public class TalentEffect
 {
     public EffectTarget Target;      // Health, Damage, AttackSpeed, AbilityName, Income, etc.
     public EffectOperation Operation; // Add, Multiply, Set
@@ -52,8 +53,8 @@ public enum EffectTarget
     SplashRadius,
     Income,
     Ability,       // e.g "Poison"
-    UnlockUnit,    // special case but fits well
-    UnlockTower,
+    UnitUnlock,    // special case but fits well
+    TowerUnlock,
 }
 
 public enum EffectOperation
@@ -63,19 +64,19 @@ public enum EffectOperation
     Set
 }
 
-public class UpgradeCostModel
+public class TalentCostModel
 {
     public float BaseCost;
     public float CostMultiplier; // e.g 1.5
 }
 
-public class UpgradePurchaseModel
+public class TalentPurchaseModel
 {
     public int Purchased;
     public int MaxPurchases;  // 0 = infinite
 }
 
-public class UpgradePrerequisite
+public class TalentPrerequisite
 {
     public string RequiredUpgradeId; 
 

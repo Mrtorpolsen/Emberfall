@@ -6,7 +6,7 @@
       "IconId": "melee_damage_1",
       "Name": "Strike Training",
       "Description": "Increases fighter's attack damage by 1% per purchase",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 1,
       "Effects": [
@@ -32,7 +32,7 @@
       "IconId": "global_health_1",
       "Name": "Basic Conditioning",
       "Description": "Increases fighter's health by 2% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 2,
       "Effects": [
@@ -60,7 +60,7 @@
       "IconId": "melee_attackspeed_1",
       "Name": "Weapon Handling",
       "Description": "Increases fighters attack speed by 2% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 2,
       "Effects": [
@@ -88,7 +88,7 @@
       "IconId": "global_health_2",
       "Name": "Tough Skin",
       "Description": "Increases fighters health by 3% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 3,
       "Effects": [
@@ -116,7 +116,7 @@
       "IconId": "melee_damage_2",
       "Name": "Sharp Blows",
       "Description": "Increases fighter's damage by 3% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 3,
       "Effects": [
@@ -144,7 +144,7 @@
       "IconId": "melee_critchance_1",
       "Name": "Battle Maneuver",
       "Description": "Increases fighters crit chance by 2% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 3,
       "Effects": [
@@ -172,7 +172,7 @@
       "IconId": "global_armor_1",
       "Name": "Footwork",
       "Description": "Increases fighter's armor by 2 per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 4,
       "Effects": [
@@ -197,10 +197,10 @@
     {
       
       "Id": "fighter_statmodifier_critdamage_1",
-      "IconId": "melee_crit_damage_1",
+      "IconId": "melee_critdamage_1",
       "Name": "Momentum",
       "Description": "Increases fighter's crit damage by 3% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 4,
       "Effects": [
@@ -228,7 +228,7 @@
       "IconId": "melee_attackspeed_2",
       "Name": "Efficient Strikes",
       "Description": "Increases fighter's attack speed by 3% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 4,
       "Effects": [
@@ -256,7 +256,7 @@
       "IconId": "melee_critchance_2",
       "Name": "Combat Instinct",
       "Description": "Increases fighter's crit chance by 2% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 5,
       "Effects": [
@@ -284,7 +284,7 @@
       "IconId": "global_health_3",
       "Name": "Reinforced Muscles",
       "Description": "Increases fighter's health by 4% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 5,
       "Effects": [
@@ -312,7 +312,7 @@
       "IconId": "melee_damage_3",
       "Name": "Weapon Mastery",
       "Description": "Increases fighter's damage by 4% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 5,
       "Effects": [
@@ -337,10 +337,10 @@
     {
       
       "Id": "fighter_statmodifier_critdamage_2",
-      "IconId": "melee_crit_damage_2",
+      "IconId": "melee_critdamage_2",
       "Name": "Executioner",
       "Description": "Increases fighter's crit damage by 4% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 6,
       "Effects": [
@@ -363,12 +363,11 @@
       ]
     },
     {
-      
       "Id": "fighter_statmodifier_health_4",
       "IconId": "global_health_4",
       "Name": "Advanced Conditioning",
       "Description": "Increases fighter's health by 5% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 6,
       "Effects": [
@@ -391,12 +390,11 @@
       ]
     },
     {
-      
       "Id": "fighter_statmodifier_critchance_3",
       "IconId": "melee_critchance_3",
       "Name": "Executioner's Blow",
       "Description": "Increases fighter's crit chance by 2% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 7,
       "Effects": [
@@ -419,12 +417,11 @@
       ]
     },
     {
-      
       "Id": "fighter_statmodifier_damage_4",
       "IconId": "melee_damage_4",
       "Name": "Battle Clarity",
       "Description": "Increases fighter's damage by 5% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 7,
       "Effects": [
@@ -447,12 +444,11 @@
       ]
     },
     {
-      
-      "Id": "fighter_abilityunlock_shieldslam_1",
-      "IconId": "unlock_ability_stun_1",
+      "Id": "fighter_abilityunlock_stun_1",
+      "IconId": "abilityunlock_stun_1",
       "Name": "Shield Slam",
       "Description": "Unlocks stun for 0.5 seconds with a 10 second cooldown",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "AbilityUnlock",
       "Tier": 8,
       "Effects": [
@@ -480,7 +476,7 @@
       "IconId": "melee_attackspeed_3",
       "Name": "Advanced Weapon Handling",
       "Description": "Increases fighter's attack speed by 4% per purchase.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 8,
       "Effects": [
@@ -508,7 +504,7 @@
       "IconId": "global_allstats_1",
       "Name": "Master Combatant",
       "Description": "Increases fighter's Attack Speed, Damage and Health by 5%.",
-      "Category": "UnitUpgrade",
+      "Category": "Unit",
       "Type": "StatModifier",
       "Tier": 9,
       "Effects": [
@@ -543,11 +539,11 @@
     {
       
       "Id": "fighter_unitunlock_berserker_1",
-      "IconId": "unlock_unit_berserker_1",
+      "IconId": "unitunlock_berserker_1",
       "Name": "Berserker",
       "Description": "Unlocks Subclass Berserker",
-      "Category": "UnitUpgrade",
-      "Type": "UnlockUnit",
+      "Category": "Unit",
+      "Type": "UnitUnlock",
       "Tier": 10,
       "Effects": [
         {
@@ -571,11 +567,11 @@
     {
       
       "Id": "fighter_unitunlock_guardian_1",
-      "IconId": "unlock_unit_guardian_1",
+      "IconId": "unitunlock_guardian_1",
       "Name": "Guardian",
       "Description": "Unlocks Subclass Guardian",
-      "Category": "UnitUpgrade",
-      "Type": "UnlockUnit",
+      "Category": "Unit",
+      "Type": "UnitUnlock",
       "Tier": 10,
       "Effects": [
         {
