@@ -43,8 +43,11 @@ public class PopupManager : MonoBehaviour
         }
 
         main = this;
+    }
 
-        root = uIDocument.rootVisualElement;
+    public void Initialize(VisualElement popupRoot)
+    {
+        root = popupRoot;
 
         blocker = root.Q<VisualElement>(BLOCKER_NAME);
         container = root.Q<VisualElement>(CONTAINER_NAME);
@@ -59,6 +62,8 @@ public class PopupManager : MonoBehaviour
         blocker.RegisterCallback<ClickEvent>(OnBackgroundClicked);
         // Stop clicks from bubbling up from the popup container
         container.RegisterCallback<ClickEvent>(evt => evt.StopPropagation());
+
+        blocker.style.display = DisplayStyle.None;
     }
 
     private void OnBackgroundClicked(ClickEvent evt)

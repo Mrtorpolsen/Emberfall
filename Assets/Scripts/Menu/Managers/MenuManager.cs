@@ -14,7 +14,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private VisualTreeAsset mainMenuVTA;
     [SerializeField] private VisualTreeAsset leaderboardVTA;
     [SerializeField] private VisualTreeAsset forgeVTA;
+    [SerializeField] private VisualTreeAsset popupVTA;
 
+    private VisualElement popupBlockerContainer;
     private VisualElement contentContainer;
     private VisualElement currentScreen;
     private IUIScreen currentView;
@@ -24,6 +26,8 @@ public class MenuManager : MonoBehaviour
 
     private Dictionary<string, ScreenDefinition> screens =
         new Dictionary<string, ScreenDefinition>();
+
+    private const string POPUP_BLOCKER_CONTAINER = "safe-area-content-container";
 
     private void Awake()
     {
@@ -54,6 +58,22 @@ public class MenuManager : MonoBehaviour
         RegisterScreen<MainMenuView, MainMenuEvents>("MainMenu", mainMenuVTA);
         RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
         RegisterScreen<ForgeView, ForgeEvents, ForgeManager>("Forge", forgeVTA);
+
+        //Setup for popup, delaing with the template container
+        popupBlockerContainer = root.Q<VisualElement>(POPUP_BLOCKER_CONTAINER);
+
+        var popupVE = popupVTA.CloneTree();
+        popupBlockerContainer.Add(popupVE);
+
+        popupVE.style.position = Position.Absolute;
+        popupVE.style.top = 0;
+        popupVE.style.left = 0;
+        popupVE.style.right = 0;
+        popupVE.style.bottom = 0;
+        popupVE.pickingMode = PickingMode.Ignore;
+
+        popupBlockerContainer.Add(popupVE);
+        PopupManager.main.Initialize(popupVE);
     }
 
     public void RegisterScreen<TView, TEvents>(string name, VisualTreeAsset vta)
@@ -67,6 +87,7 @@ public class MenuManager : MonoBehaviour
             null //no manager
         );
     }
+
     public void RegisterScreen<TView, TEvents, TManager>(
         string name,
         VisualTreeAsset vta)
@@ -124,7 +145,8 @@ public class MenuManager : MonoBehaviour
         currentView.Initialize(screenRoot);
         currentEvents.BindEvents(screenRoot, currentManager);
     }
-    //Checks if its UI_Root that getting loaded, then reassigns references and loads mainmenu
+
+    //Checks if its UI_Root that gets loaded, then reassigns references and loads mainmenu
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
     {
         if(scene.name != "UI_Root")

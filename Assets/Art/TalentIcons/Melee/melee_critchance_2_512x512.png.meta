@@ -1,0 +1,481 @@
+fileFormatVersion: 2
+guid: 57fe89e97a3827a4687c433ec55782d4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7319362901416604403
+    second: melee_critchance_2_512x512_0
+  - first:
+      213: 1566772416752058889
+    second: melee_critchance_2_512x512_1
+  - first:
+      213: -2751329644596019864
+    second: melee_critchance_2_512x512_2
+  - first:
+      213: 1384416778524108682
+    second: melee_critchance_2_512x512_3
+  - first:
+      213: -785772058259794276
+    second: melee_critchance_2_512x512_4
+  - first:
+      213: -163368975306068236
+    second: melee_critchance_2_512x512_5
+  - first:
+      213: -5875686804155604517
+    second: melee_critchance_2_512x512_6
+  - first:
+      213: -9091263067587556301
+    second: melee_critchance_2_512x512_7
+  - first:
+      213: -6270497588147304151
+    second: melee_critchance_2_512x512_8
+  - first:
+      213: 5706283730100569823
+    second: melee_critchance_2_512x512_9
+  - first:
+      213: 8236951598800160113
+    second: melee_critchance_2_512x512_10
+  - first:
+      213: 5146541446097047123
+    second: melee_critchance_2_512x512_11
+  - first:
+      213: 428642488942312545
+    second: melee_critchance_2_512x512_12
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 512
+    resizeAlgorithm: 0
+    textureFormat: 50
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 512
+    resizeAlgorithm: 0
+    textureFormat: 50
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_0
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 384
+        width: 112
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0d04e688366c6a90800000000000000
+      internalID: -7319362901416604403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_1
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 384
+        width: 83
+        height: 114
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9020360463b4eb510800000000000000
+      internalID: 1566772416752058889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 172
+        width: 41
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86d3ad1f34051d9d0800000000000000
+      internalID: -2751329644596019864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_3
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 97
+        width: 73
+        height: 147
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a872501a9bf663310800000000000000
+      internalID: 1384416778524108682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_4
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 171
+        width: 72
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c965ff8e9706815f0800000000000000
+      internalID: -785772058259794276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_5
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 42
+        width: 84
+        height: 163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4feef8358c89bbdf0800000000000000
+      internalID: -163368975306068236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_6
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 135
+        width: 90
+        height: 203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd1eada7bfd557ea0800000000000000
+      internalID: -5875686804155604517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_7
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 13
+        width: 90
+        height: 217
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33cc0d8586855d180800000000000000
+      internalID: -9091263067587556301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_8
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 151
+        width: 96
+        height: 208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92949858aa7baf8a0800000000000000
+      internalID: -6270497588147304151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_9
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 1
+        width: 102
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd64c30c1dac03f40800000000000000
+      internalID: 5706283730100569823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_10
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 137
+        width: 97
+        height: 212
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 175c19e76d78f4270800000000000000
+      internalID: 8236951598800160113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_11
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 1
+        width: 84
+        height: 216
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35e807c7d203c6740800000000000000
+      internalID: 5146541446097047123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: melee_critchance_2_512x512_12
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 103
+        width: 81
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16cbb099218d2f500800000000000000
+      internalID: 428642488942312545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      melee_critchance_2_512x512_0: -7319362901416604403
+      melee_critchance_2_512x512_1: 1566772416752058889
+      melee_critchance_2_512x512_10: 8236951598800160113
+      melee_critchance_2_512x512_11: 5146541446097047123
+      melee_critchance_2_512x512_12: 428642488942312545
+      melee_critchance_2_512x512_2: -2751329644596019864
+      melee_critchance_2_512x512_3: 1384416778524108682
+      melee_critchance_2_512x512_4: -785772058259794276
+      melee_critchance_2_512x512_5: -163368975306068236
+      melee_critchance_2_512x512_6: -5875686804155604517
+      melee_critchance_2_512x512_7: -9091263067587556301
+      melee_critchance_2_512x512_8: -6270497588147304151
+      melee_critchance_2_512x512_9: 5706283730100569823
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

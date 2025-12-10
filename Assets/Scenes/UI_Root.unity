@@ -333,6 +333,7 @@ MonoBehaviour:
   mainMenuVTA: {fileID: 9197481963319205126, guid: 72f3bce826269a544a61c836cb8bdde9, type: 3}
   leaderboardVTA: {fileID: 9197481963319205126, guid: 04f2a23f590d9884ebf7efd6c599f9fc, type: 3}
   forgeVTA: {fileID: 9197481963319205126, guid: 57e629cdf0c43f242b561ea9e36e9be0, type: 3}
+  popupVTA: {fileID: 9197481963319205126, guid: 4007ec9b27626f7478b70b5df30e46dc, type: 3}
 --- !u!4 &782218188
 Transform:
   m_ObjectHideFlags: 0
