@@ -17,6 +17,7 @@ public class NavBarEvents : MonoBehaviour
         { "Btn_Leaderboard", nameof(Btn_Leaderboard) },
         { "Btn_Forge", nameof(Btn_Forge) },
     };
+
     void Awake()
     {
         root = uIDocument.rootVisualElement.Q<VisualElement>("NavMenuContainer");
