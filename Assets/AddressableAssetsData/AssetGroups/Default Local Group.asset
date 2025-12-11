@@ -15,8 +15,108 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 3ee3576e77730c64d9cda2266a9e7e94
   m_SerializeEntries:
+  - m_GUID: 0045a7dd68f0a3548b5d770d30063b2c
+    m_Address: unitunlock_guardian_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b93a132750b30546ba471545f8aab26
+    m_Address: global_health_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 456bd81cc881cec499aca2e1dc9f38f6
+    m_Address: global_armor_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46708895c269def418234a7dbe5f6b91
+    m_Address: melee_damage_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 53ba011f56d2ff748bfc6c85ac3da3f6
+    m_Address: abilityunlock_stun_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55f32d0752d5c5644a7022a3892beb4a
+    m_Address: global_health_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57fe89e97a3827a4687c433ec55782d4
+    m_Address: melee_critchance_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6751bee341ddefa45951ddfb60510e2f
+    m_Address: unitunlock_berserker_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6de964e89e6e63642be92a5234612725
+    m_Address: global_health_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 724321157cd001f4782d16e0cd46fc3d
+    m_Address: melee_attackspeed_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a44a7545a1989141bb72c46a025e1ad
+    m_Address: melee_attackspeed_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af13899dae3f27a46a5c60c4919bba42
+    m_Address: global_health_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b2c996f594448dd42b08d293acddc136
+    m_Address: melee_critchance_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b8eaa886a277ef94a969f6af8c1044a7
+    m_Address: melee_critdamage_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1196f9ec5b55ad4d8a6f3c1cf8794b8
+    m_Address: melee_damage_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3a60e21837662a42ad83c4e4e2148c9
+    m_Address: melee_attackspeed_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c67f09e4a67cdf949a8ac4dc9b2c0865
+    m_Address: melee_damage_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc2fa7303f470b4469abf8a48e901aff
+    m_Address: melee_critchance_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d51bfa575faa33a428e5f70d3de76cdc
+    m_Address: melee_critdamage_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: efee10c3fa28a5542af60e06dbdb0cd9
+    m_Address: global_allstats_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f3a5a0a1dde9e484485cfc45326bfae0
-    m_Address: Assets/Art/TalentIcons/Melee/melee_damage_1_512x512.png
+    m_Address: melee_damage_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
