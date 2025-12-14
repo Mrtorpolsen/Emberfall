@@ -14,8 +14,7 @@ public class MainMenuEvents : IUIScreenEvents
         { "Btn_Offer3", nameof(Btn_Offer3Clicked) }
     };
 
-    //Maybe move to utility for easier use in every eventhandler
-    public void BindEvents(VisualElement root, IUIScreenManager manager = null)
+    public void BindEvents(VisualElement root, IUIScreenManager manager = null, IUIScreenView view = null)
     {
         UtilityUIBinding.BindEvents(root, this, bindings);
     }

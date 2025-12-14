@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
-public interface IUIScreen
+public interface IUIScreenView
 {
     void Initialize(VisualElement root);
 }
 
 public interface IUIScreenEvents
 {
-    void BindEvents(VisualElement root, IUIScreenManager manager = null);
+    void BindEvents(VisualElement root, IUIScreenManager manager = null, IUIScreenView view = null);
     void Cleanup();
 }
 

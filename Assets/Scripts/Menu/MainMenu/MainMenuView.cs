@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MainMenuView : IUIScreen
+public class MainMenuView : IUIScreenView
 {
     private Label label_highscore;
 

@@ -5,6 +5,8 @@ using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class ValidateTalentIcons
 {
@@ -31,42 +33,46 @@ public class ValidateTalentIcons
         Debug.Log($"Found {addresses.Count} Addressable addresses.");
 
         // 2. Load upgrade JSON
-        string jsonPath = "Assets/Resources/Data/Talents.json";
-        if (!File.Exists(jsonPath))
+        string talentJsonAddress = "Talents"; // <-- Use the Addressable address you set for Talents.json
+
+        Addressables.LoadAssetAsync<TextAsset>(talentJsonAddress).Completed += handle =>
         {
-            Debug.LogError($"JSON file not found at path: {jsonPath}");
-            return;
-        }
-
-        string jsonText = File.ReadAllText(jsonPath);
-
-        TalentDatabase db = JsonUtility.FromJson<TalentDatabase>(jsonText);
-        if (db == null)
-        {
-            Debug.LogError("Failed to parse JSON.");
-            return;
-        }
-
-        List<Talent> fighterTalents = db.talents.fighter;
-        //List<Talent> rangerTalents = db.talents.ranger;
-        //List<Talent> cavalryTalents = db.talents.cavalry;
-
-        // 3. Check each iconId
-        bool anyMissing = false;
-        foreach (var unitType in new List<List<Talent>> { db.talents.fighter/*, db.talents.ranger, db.talents.cavalry */})
-        {
-            foreach (var talent in unitType)
+            if (handle.Status != AsyncOperationStatus.Succeeded)
             {
-                if (!addresses.Contains(talent.IconId))
+                Debug.LogError($"Failed to load JSON via Addressables at address: {talentJsonAddress}");
+                return;
+            }
+
+            string jsonText = handle.Result.text;
+
+            TalentDatabase db;
+            try
+            {
+                db = JsonUtility.FromJson<TalentDatabase>(jsonText);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to parse JSON: {e.Message}");
+                return;
+            }
+
+            // 3. Validate icon IDs
+            bool anyMissing = false;
+            foreach (var unitType in new List<List<Talent>> { db.talents.fighter/*, db.talents.ranger, db.talents.cavalry*/ })
+            {
+                foreach (var talent in unitType)
                 {
-                    Debug.LogError($"Missing Addressable for iconId: {talent.IconId}");
-                    anyMissing = true;
+                    if (!addresses.Contains(talent.IconId))
+                    {
+                        Debug.LogError($"Missing Addressable for iconId: {talent.IconId}");
+                        anyMissing = true;
+                    }
                 }
             }
-        }
 
-        if (!anyMissing)
-            Debug.Log("All iconIds match Addressables!");
+            if (!anyMissing)
+                Debug.Log("All iconIds match Addressables!");
+        };
     }
 }
 

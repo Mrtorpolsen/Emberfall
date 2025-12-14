@@ -9,7 +9,7 @@ public class TalentIconAddressSetup
     [MenuItem("Tools/Update Talent Icon Addresses")]
     public static void UpdateAddresses()
     {
-        string folderPath = "Assets/Art/TalentIcons"; // Adjust to your folder
+        string folderPath = "Assets/Art/TalentIcons";
         string[] files = Directory.GetFiles(folderPath, "*.png", SearchOption.AllDirectories);
 
         AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;

@@ -19,7 +19,7 @@ public class MenuManager : MonoBehaviour
     private VisualElement popupBlockerContainer;
     private VisualElement contentContainer;
     private VisualElement currentScreen;
-    private IUIScreen currentView;
+    private IUIScreenView currentView;
     private IUIScreenEvents currentEvents;
     private IUIScreenManager currentManager;
     private bool hasInitialized = false;
@@ -77,7 +77,7 @@ public class MenuManager : MonoBehaviour
     }
 
     public void RegisterScreen<TView, TEvents>(string name, VisualTreeAsset vta)
-        where TView : IUIScreen, new()
+        where TView : IUIScreenView, new()
         where TEvents : IUIScreenEvents, new()
     {
         screens[name] = new ScreenDefinition(
@@ -91,7 +91,7 @@ public class MenuManager : MonoBehaviour
     public void RegisterScreen<TView, TEvents, TManager>(
         string name,
         VisualTreeAsset vta)
-        where TView : IUIScreen, new()
+        where TView : IUIScreenView, new()
         where TEvents : IUIScreenEvents, new()
         where TManager : IUIScreenManager, new()
     {
@@ -99,7 +99,7 @@ public class MenuManager : MonoBehaviour
             vta,
             () => new TView(),
             () => new TEvents(),
-            () => new TManager() // lazy-load
+            () => new TManager()
         );
     }
 
@@ -143,7 +143,7 @@ public class MenuManager : MonoBehaviour
 
         // Bind events
         currentView.Initialize(screenRoot);
-        currentEvents.BindEvents(screenRoot, currentManager);
+        currentEvents.BindEvents(screenRoot, currentManager, currentView);
     }
 
     //Checks if its UI_Root that gets loaded, then reassigns references and loads mainmenu

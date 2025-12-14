@@ -68,29 +68,26 @@
     margin-bottom: 50px;
 }
 
-.btnReturn {
-    background-image: url("project://database/Assets/Art/UI/Icons/return_arrow_icon.png?fileID=2800000&guid=383f5cb4f5435b3458fe31195d6c11e2&type=3#return_arrow_icon");
-    -unity-background-image-tint-color: rgb(255, 255, 255);
-    margin-top: 0;
+.btnReturn > .unity-button__image {
+    width: 80px;
+    height: 80px;
     margin-right: 10px;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 40px;
-    padding-right: 40px;
-    padding-bottom: 40px;
-    padding-left: 40px;
-    background-color: rgba(0, 0, 0, 0);
+}
+
+.btnReturn {
+    font-size: 40px;
     border-top-width: 0;
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.labelReturn {
-    font-size: 40px;
-    -unity-text-align: lower-left;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }

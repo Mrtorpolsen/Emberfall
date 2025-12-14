@@ -1,5 +1,18 @@
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using Newtonsoft.Json;
+
+public class TalentTree
+{
+    // Dictionary maps class name to list of talents
+    [JsonProperty("talents")]
+    public Dictionary<string, List<TalentDefinition>> TalentsByClass { get; set; }
+
+    public List<TalentDefinition> GetTalents(string className)
+    {
+        TalentsByClass.TryGetValue(className.ToLower(), out var talents);
+        return talents;
+    }
+}
 
 public class TalentDefinition
 {
@@ -18,6 +31,15 @@ public class TalentDefinition
     public TalentPurchaseModel Purchase;    // handles max, infinite, etc.
 
     public List<TalentPrerequisite> Prerequisites;
+
+    public float GetCurrentCost()
+    {
+        float baseCost = Cost.BaseCost;      // e.g. 100
+        float multiplier = Cost.CostMultiplier; // e.g. 1.5
+        int purchased = Purchase.Purchased;
+
+        return baseCost + (baseCost * multiplier * purchased);
+    }
 }
 
 public enum TalentCategory
@@ -47,14 +69,15 @@ public enum EffectTarget
 {
     Health,
     Damage,
+    Armor,
     AttackSpeed,
     CritChance,
     CritDamage,
     SplashRadius,
     Income,
-    Ability,       // e.g "Poison"
-    UnitUnlock,    // special case but fits well
-    TowerUnlock,
+    ShieldSlam,       
+    Berserker,
+    Guardian
 }
 
 public enum EffectOperation

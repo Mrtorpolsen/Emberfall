@@ -42,13 +42,14 @@ public class SplashManager : MonoBehaviour
         {
             UserProfile.main.GetUserScore(),
             LeaderboardManager.main.GetScores(),
+            TalentManager.main.LoadPlayerTalentsAsync(),
         };
 
         await Task.WhenAll(loadTasks);
 
         //Remove when done testing
         //await Task.Delay(3000);
-
+        
         splashContainer.Remove(splashPanel);
 
         splashPanel.style.display = DisplayStyle.None;

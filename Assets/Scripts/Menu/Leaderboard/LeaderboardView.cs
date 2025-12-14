@@ -3,7 +3,7 @@ using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LeaderboardView : IUIScreen
+public class LeaderboardView : IUIScreenView
 {
     public VisualTreeAsset rowTemplate;
 
