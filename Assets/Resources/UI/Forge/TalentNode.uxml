@@ -1,8 +1,10 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
-    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 200px; max-height: 200px; width: 100%; height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-right: 50px; margin-bottom: 20px; margin-left: 50px;">
-        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 22px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
-        <ui:VisualElement name="Img_Talent" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Icons/place_holder_icon.png?fileID=21300000&amp;guid=4c55f00872ecbe148863e8ade2e0550a&amp;type=3#place_holder_icon&quot;); width: 80%; height: 100%; align-items: stretch; align-self: center;" />
-        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 22px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp" style="max-width: 250px; max-height: 250px; width: 100%; height: auto; padding-right: 25px; padding-left: 25px; padding-top: 10px; padding-bottom: 10px; min-width: 150px; min-height: 150px; margin-right: 50px; margin-bottom: 20px; margin-left: 50px; align-items: center;">
+        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;" />
+        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
+            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);" />
+        </ui:VisualElement>
+        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
     </ui:VisualElement>
 </ui:UXML>

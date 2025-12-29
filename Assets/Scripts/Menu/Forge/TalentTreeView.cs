@@ -42,7 +42,10 @@ public class TalentTreeView
 
         foreach (var node in talentNodes)
         {
-            var visualNode = talentNode.Instantiate();
+            //Extract the actuale root
+            var nodeTemplate = talentNode.Instantiate();
+            VisualElement visualNode = nodeTemplate[0];
+            nodeTemplate.RemoveAt(0);
 
             var LabelCost = visualNode.Q<Label>("Label_Cost");
             var imgTalent = visualNode.Q<VisualElement>("Img_Talent");

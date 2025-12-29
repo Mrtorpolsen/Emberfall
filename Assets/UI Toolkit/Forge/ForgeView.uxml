@@ -41,16 +41,16 @@
                 </ui:VisualElement>
                 <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" class="scrollViewVertical">
                     <ui:VisualElement name="TalentNodesContainer" class="scrollViewContainer" style="flex-grow: 1; flex-direction: column; flex-wrap: nowrap;">
-                        <ui:VisualElement name="Row_T1" class="talentTreeRow" style="flex-grow: 1;" />
-                        <ui:VisualElement name="Row_T2" class="talentTreeRow" style="flex-grow: 1;" />
-                        <ui:VisualElement name="Row_T3" class="talentTreeRow" style="flex-grow: 1;" />
-                        <ui:VisualElement name="Row_T4" class="talentTreeRow" style="flex-grow: 1;" />
-                        <ui:VisualElement name="Row_T5" class="talentTreeRow" style="flex-grow: 1;" />
-                        <ui:VisualElement name="Row_T6" class="talentTreeRow" style="flex-grow: 1;" />
-                        <ui:VisualElement name="Row_T7" class="talentTreeRow" style="flex-grow: 1;" />
-                        <ui:VisualElement name="Row_T8" class="talentTreeRow" style="flex-grow: 1;" />
-                        <ui:VisualElement name="Row_T9" class="talentTreeRow" style="flex-grow: 1;" />
-                        <ui:VisualElement name="Row_T10" class="talentTreeRow" style="flex-grow: 1;" />
+                        <ui:VisualElement name="Row_T1" class="talentTreeRow" />
+                        <ui:VisualElement name="Row_T2" class="talentTreeRow" />
+                        <ui:VisualElement name="Row_T3" class="talentTreeRow" />
+                        <ui:VisualElement name="Row_T4" class="talentTreeRow" />
+                        <ui:VisualElement name="Row_T5" class="talentTreeRow" />
+                        <ui:VisualElement name="Row_T6" class="talentTreeRow" />
+                        <ui:VisualElement name="Row_T7" class="talentTreeRow" />
+                        <ui:VisualElement name="Row_T8" class="talentTreeRow" />
+                        <ui:VisualElement name="Row_T9" class="talentTreeRow" />
+                        <ui:VisualElement name="Row_T10" class="talentTreeRow" />
                     </ui:VisualElement>
                 </ui:ScrollView>
             </ui:VisualElement>
