@@ -47,6 +47,8 @@ public class SplashManager : MonoBehaviour
 
         await Task.WhenAll(loadTasks);
 
+        UtilityLoadAdressable.PreloadPlaceholder();
+
         //Remove when done testing
         //await Task.Delay(3000);
         

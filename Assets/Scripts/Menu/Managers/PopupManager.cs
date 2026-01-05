@@ -74,7 +74,7 @@ public class PopupManager : MonoBehaviour
 
 
     public void OpenPopup(
-        string imagePath = null,
+        string imgAddress = null,
         string title = null,
         string desc = null,
         PopupButtonDefinition buttonDefinition = null)
@@ -82,20 +82,9 @@ public class PopupManager : MonoBehaviour
         blocker.style.display = DisplayStyle.Flex;
 
         // Load image from path
-        if (!string.IsNullOrEmpty(imagePath))
+        if (!string.IsNullOrEmpty(imgAddress))
         {
-            Sprite sprite = Resources.Load<Sprite>(imagePath);
-
-            if (sprite != null)
-            {
-                img.style.display = DisplayStyle.Flex;
-                img.style.backgroundImage = new StyleBackground(sprite.texture);
-            }
-            else
-            {
-                img.style.display = DisplayStyle.None;
-                Debug.LogWarning("imgPath is there but img not found");
-            }
+            UtilityLoadAdressable.LoadAdressableIcon(imgAddress, img);
         }
         else
         {

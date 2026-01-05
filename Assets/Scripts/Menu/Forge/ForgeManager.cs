@@ -45,7 +45,6 @@ public class ForgeManager : IUIScreenManager
 
     public void Cleanup()
     {
-        talentTreeView.Cleanup();
     }
 
     public void OpenPopup()
@@ -57,7 +56,7 @@ public class ForgeManager : IUIScreenManager
             BtnIconPath = "UI/Images/Talents/cinder_icon",
             OnClick = () => Debug.Log("Button clicked!")
         };
-        PopupManager.main.OpenPopup("UI/Images/Talents/place_holder_icon", "Strike Training", "Increases fighter's attack damage by 1% per purchase", buttonBaby);
+        PopupManager.main.OpenPopup("place_holder_icon", "Strike Training", "Increases fighter's attack damage by 1% per purchase", buttonBaby);
         //Todo if needed
     }
 
@@ -86,6 +85,8 @@ public class ForgeManager : IUIScreenManager
 
             onClick = () =>
             {
+                Debug.Log(talent.IconId);
+
                 var popupBtn = new PopupButtonDefinition
                 {
                     LabelText = $"{talent.Purchase.Purchased}/{talent.Purchase.MaxPurchases}",
@@ -98,6 +99,7 @@ public class ForgeManager : IUIScreenManager
                         //TODO: add purchase func
                     }
                 };
+                PopupManager.main.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);
             }
         };
     }
