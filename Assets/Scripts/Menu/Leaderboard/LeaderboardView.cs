@@ -47,7 +47,7 @@ public class LeaderboardView : IUIScreenView
     public void Initialize(VisualElement root)
     {
         this.root = root;
-        rowTemplate = Resources.Load<VisualTreeAsset>("UI/LeaderboardRow");
+        rowTemplate = Resources.Load<VisualTreeAsset>("UI/Leaderboard/LeaderboardRow");
 
         listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
         listContainer.Clear();
