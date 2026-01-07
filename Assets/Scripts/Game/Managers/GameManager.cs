@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
         UIManager.main.Initialize();
         isGameRunning = false;
         gameUICanvas.SetActive(false);
-        //save score 
+        //save score, throws error if not logged in
         LeaderboardManager.main.AddScore(TimerManager.main.GetElapsedTime());
     }
     public void StartGame()

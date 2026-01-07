@@ -19,14 +19,21 @@ public class GateStats : UnitStats, IUnit, ITargetable
 
     public override Team Team { get; set; }
     public override float Cost => cost;
-    public GameObject GetGameObject() => gameObject;
-    public Team GetTeam() => Team;
-    public float GetAttackRange() => attackRange;
-    public int GetAttackDamage() => attackDamage;
-    public float GetAttackSpeed() => attackSpeed;
-    public bool GetIsAlive() => currentHealth > 0;
-    public float GetHitRadius() => hitRadius;
-    public float GetMovementSpeed() => movementSpeed;
+    public float AttackRange => attackRange;
+
+    public int AttackDamage => attackDamage;
+
+    public float AttackSpeed => attackSpeed;
+
+    public float MovementSpeed => movementSpeed;
+
+    public GameObject GameObject => gameObject;
+
+    public Transform Transform => (this != null) ? transform : null;
+
+    public float HitRadius => hitRadius;
+
+    public bool IsAlive => currentHealth > 0;
 
     void Start()
     {
@@ -38,7 +45,7 @@ public class GateStats : UnitStats, IUnit, ITargetable
         currentHealth = maxHealth;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
 
-        gate.layer = GetTeam() == Team.North ? LayerMask.NameToLayer("SouthTeamGate") : LayerMask.NameToLayer("NorthTeamGate");
+        gate.layer = Team == Team.North ? LayerMask.NameToLayer("SouthTeamGate") : LayerMask.NameToLayer("NorthTeamGate");
     }
     public void TakeDamage(int amount)
     {
@@ -53,11 +60,6 @@ public class GateStats : UnitStats, IUnit, ITargetable
     void Die()
     {
         Destroy(gate);
-    }
-
-    public Transform GetTransform()
-    {
-        return (this != null) ? transform : null;
     }
 
     void ITargetable.Die()

@@ -24,7 +24,7 @@ public class Arrow : MonoBehaviour
 
     public void SetTarget(ITargetable _target)
     {
-        target = _target.GetTransform();
+        target = _target.Transform;
     }
 
     private void FixedUpdate()
@@ -40,7 +40,7 @@ public class Arrow : MonoBehaviour
     {
         var targetable = collision.gameObject.GetComponent<ITargetable>();
 
-        if (targetable != null && targetable.GetIsAlive())
+        if (targetable != null && targetable.IsAlive)
         {
             OnHit?.Invoke(targetable, damage);
             Destroy(gameObject);

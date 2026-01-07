@@ -17,15 +17,24 @@ public class CastleStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] public float hitRadius = 0.26f;
     [SerializeField] public float movementSpeed = 0f;
 
-    [SerializeField] public Team team;
-    public GameObject GetGameObject() => gameObject;
-    public Team GetTeam() => team;
-    public float GetAttackRange() => attackRange;
-    public int GetAttackDamage() => attackDamage;
-    public float GetAttackSpeed() => attackSpeed;
-    public bool GetIsAlive() => currentHealth > 0;
-    public float GetHitRadius() => hitRadius;
-    public float GetMovementSpeed() => movementSpeed;
+    public Team Team;
+    Team IHasTeam.Team => Team;
+    public float AttackRange => attackRange;
+
+    public int AttackDamage => attackDamage;
+
+    public float AttackSpeed => attackSpeed;
+
+    public float MovementSpeed => movementSpeed;
+
+    public GameObject GameObject => gameObject;
+
+    public Transform Transform => (this != null) ? transform : null;
+
+    public float HitRadius => hitRadius;
+
+    public bool IsAlive => currentHealth > 0;
+
 
     void Start()
     {
@@ -50,12 +59,7 @@ public class CastleStats : MonoBehaviour, IUnit, ITargetable
     void Die()
     {
         Destroy(castle);
-        GameManager.main.SetGameOver(true, team);
-    }
-
-    public Transform GetTransform()
-    {
-        return (this != null) ? transform : null;
+        GameManager.main.SetGameOver(true, Team);
     }
 
     void ITargetable.Die()

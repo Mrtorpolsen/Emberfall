@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public interface IUnit
+public interface IUnit : IHasTeam
 {
-    float GetAttackRange();
-    int GetAttackDamage();
-    float GetAttackSpeed();
-    float GetMovementSpeed();
-    Team GetTeam();
+    float AttackRange { get; }
+    int AttackDamage { get; }
+    float AttackSpeed { get; }
+    float MovementSpeed { get; }
 }

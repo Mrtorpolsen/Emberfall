@@ -32927,7 +32927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ba10be899d631438c7bbbb7d90e3a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultTarget
-  target: {fileID: 2026395837}
+  unit: {fileID: 0}
   maxHealth: 1
   currentHealth: 0
   hitRadius: 0.1
@@ -33974,6 +33974,10 @@ PrefabInstance:
     - target: {fileID: 5206781072161077831, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
+      propertyPath: Team
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
       propertyPath: team

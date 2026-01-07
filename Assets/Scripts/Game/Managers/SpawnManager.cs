@@ -1,9 +1,9 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class UnitManager : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
-    public static UnitManager main;
+    public static SpawnManager main;
 
     [Header("North Reference")]
     [SerializeField] private Transform northSpawn;

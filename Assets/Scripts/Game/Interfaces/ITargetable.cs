@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public interface ITargetable
+public interface ITargetable : IHasTeam
 {
-    GameObject GetGameObject();
-    Team GetTeam();
-    Transform GetTransform();
+    GameObject GameObject { get; }
+    Transform Transform { get; }
+    float HitRadius { get; }
+    bool IsAlive { get; }
+
     void TakeDamage(int amount);
     void Die();
-    float GetHitRadius();
-    bool GetIsAlive();
 }

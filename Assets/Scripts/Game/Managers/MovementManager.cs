@@ -8,11 +8,11 @@ public class MovementManager : MonoBehaviour
     [Header("Attributes")]
     [SerializeField] public bool canMove;
 
-    private FindTarget findTarget;
+    private TargetManager findTarget;
     
     void Awake()
     {
-        findTarget = GetComponent<FindTarget>();
+        findTarget = GetComponent<TargetManager>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
     
@@ -32,12 +32,12 @@ public class MovementManager : MonoBehaviour
 
         if (target != null)
         {
-            Transform t = target.GetTransform();
+            Transform t = target.Transform;
 
             if (t != null)
             {
-                Vector2 direction = (target.GetTransform().position - transform.position).normalized;
-                rb.linearVelocity = direction * rb.GetComponent<IUnit>().GetMovementSpeed();
+                Vector2 direction = (target.Transform.position - transform.position).normalized;
+                rb.linearVelocity = direction * rb.GetComponent<IUnit>().MovementSpeed;
             }
 
             //Sets Y barrier

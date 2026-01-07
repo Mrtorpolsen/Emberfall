@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class FindTarget : MonoBehaviour
+public class TargetManager : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField] private float detectionRange = 100f;
@@ -16,14 +16,14 @@ public class FindTarget : MonoBehaviour
     {
         selfUnit = GetComponent<IUnit>();
 
-        currentTarget = GetDefaultTarget(selfUnit.GetTeam());
+        currentTarget = GetDefaultTarget(selfUnit.Team);
     }
 
     void Update()
     {
 
         FindClosestTarget();
-        debugTarget = currentTarget?.GetTransform()?.gameObject;
+        debugTarget = currentTarget?.Transform?.gameObject;
 
     }
 
@@ -36,16 +36,16 @@ public class FindTarget : MonoBehaviour
 
         foreach (var target in allTargets)
         {
-            if (target.GetTeam() == selfUnit.GetTeam())
+            if (target.Team == selfUnit.Team)
             {
                 continue;
             }
 
-            Transform t = target.GetTransform();
+            Transform t = target.Transform;
             if (t != null)
             {
 
-                float dist = Vector2.Distance(transform.position, target.GetTransform().position);
+                float dist = Vector2.Distance(transform.position, target.Transform.position);
                 if (dist < closestDistance && dist <= detectionRange)
                 {
                     closestDistance = dist;
@@ -60,7 +60,7 @@ public class FindTarget : MonoBehaviour
     {
         if (selfUnit == null) return GameManager.main.north.GetComponent<ITargetable>();
 
-        return currentTarget = (selfUnit.GetTeam() == Team.North)
+        return currentTarget = (selfUnit.Team == Team.North)
            ? GameManager.main.south.GetComponent<ITargetable>()
            : GameManager.main.north.GetComponent<ITargetable>();
     }

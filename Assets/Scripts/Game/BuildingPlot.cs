@@ -31,6 +31,6 @@ public class BuildingPlot : MonoBehaviour
     {
         if (tower == null) return;
 
-        UnitManager.main.SpawnSouthTower(this.transform);
+        SpawnManager.main.SpawnSouthTower(this.transform);
     }
 }

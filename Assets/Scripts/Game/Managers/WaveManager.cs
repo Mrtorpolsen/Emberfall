@@ -65,7 +65,7 @@ public class WaveManager : MonoBehaviour
         {
             for(int i = 0; i < group.count; i++)
             {
-                UnitManager.main.SpawnUnit(group.prefab, northSpawn, Team.North);
+                SpawnManager.main.SpawnUnit(group.prefab, northSpawn, Team.North);
                 yield return new WaitForSeconds(0);
             }
         }
