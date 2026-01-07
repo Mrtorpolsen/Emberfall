@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -11,27 +12,31 @@ public static class UtilityLoadAdressable
     private static Sprite placeholderSprite;
     private static bool placeholderLoading;
 
-    public static void PreloadPlaceholder()
+    public static async Task PreloadPlaceholder()
     {
+        // Already loaded or loading → just return
         if (placeholderSprite != null || placeholderLoading)
             return;
 
         placeholderLoading = true;
 
-        var handle = Addressables.LoadAssetAsync<Sprite>("place_holder_icon");
-        handle.Completed += op =>
+        try
+        {
+            // Load the asset asynchronously
+            var handle = Addressables.LoadAssetAsync<Sprite>("place_holder_icon");
+            placeholderSprite = await handle.Task; // await instead of using Completed event
+
+            if (placeholderSprite == null)
+                Debug.LogError("Failed to load placeholder icon (null result)");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to load placeholder icon: {e}");
+        }
+        finally
         {
             placeholderLoading = false;
-
-            if (op.Status == AsyncOperationStatus.Succeeded)
-            {
-                placeholderSprite = op.Result;
-            }
-            else
-            {
-                Debug.LogError("Failed to load placeholder icon");
-            }
-        };
+        }
     }
 
     public static void LoadAdressableIcon(string address, VisualElement target)

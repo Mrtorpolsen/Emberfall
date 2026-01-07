@@ -37,17 +37,20 @@ public class SplashManager : MonoBehaviour
         splashPanel.style.right = 0;
         splashPanel.style.bottom = 0;
 
+
+
         // Load all needed data in parallel
         var loadTasks = new List<Task>
         {
             UserProfile.main.GetUserScore(),
             LeaderboardManager.main.GetScores(),
             TalentManager.main.LoadPlayerTalentsAsync(),
+            UtilityLoadAdressable.PreloadPlaceholder(),
         };
 
         await Task.WhenAll(loadTasks);
 
-        UtilityLoadAdressable.PreloadPlaceholder();
+        SaveService.main.Load();
 
         //Remove when done testing
         //await Task.Delay(3000);

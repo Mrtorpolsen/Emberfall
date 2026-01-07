@@ -2,103 +2,134 @@ using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
+[DisallowMultipleComponent]
 public class LoginManager : MonoBehaviour
 {
     public static LoginManager main;
 
     [Header("References")]
-    [SerializeField] public UIDocument uiDocument;
+    [SerializeField] private UIDocument uiDocument;
 
     private TextField input_name;
     private Button btn_login;
 
-    async void Awake()
+    private void Awake()
     {
         if (main != null && main != this)
         {
-            Destroy(main);
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            main = this;
-        }
+
+        main = this;
+    }
+
+    private async void Start()
+    {
         await UnityServices.InitializeAsync();
 
-        //If username already exists, just log in
-        try
+        //Clears saved token FOR TESTING
+        //AuthenticationService.Instance.ClearSessionToken();
+
+        if (!AuthenticationService.Instance.IsSignedIn)
         {
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            Debug.Log("Signed in! PlayerID: " + AuthenticationService.Instance.PlayerId);
-        }
-        catch (AuthenticationException e)
-        {
-            Debug.LogError(e);
+            try
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                Debug.Log("Signed in! PlayerID: " + AuthenticationService.Instance.PlayerId);
+            }
+            catch (AuthenticationException e)
+            {
+                Debug.LogError("Authentication failed: " + e);
+                return;
+            }
         }
 
         if (!string.IsNullOrEmpty(AuthenticationService.Instance.PlayerName))
         {
-            Debug.Log(AuthenticationService.Instance.PlayerName);
             UserProfile.main.userName = AuthenticationService.Instance.PlayerName;
-            SceneManager.LoadScene("UI_Root");
-        }
-    }
-
-    private void Start()
-    {
-        var root = uiDocument.rootVisualElement;
-        input_name = root.Q<TextField>("Input_Username");
-
-        if (input_name == null)
-        {
-            Debug.LogError("Input_Username not found!");
+            Login();
             return;
         }
+
+        // ensure rootVisualElement is ready
+        uiDocument.rootVisualElement.schedule.Execute(_ => InitializeUI());
     }
 
-    private void OnEnable()
+    private void InitializeUI()
     {
-        btn_login = uiDocument.rootVisualElement.Q<Button>("Btn_Login");
-
-        btn_login.RegisterCallback<ClickEvent>(OnLoginClicked);
-    }
-
-    private void OnDisable()
-    {
-        btn_login.UnregisterCallback<ClickEvent>(OnLoginClicked);
-    }
-
-    public async Task SetUserName()
-    {
-        string newName = input_name.text;
-
-        if(string.IsNullOrEmpty(newName))
+        if (uiDocument == null)
         {
-            //insert error message and profanity filter with new clause
+            Debug.LogError("UIDocument reference is missing!");
+            return;
+        }
+
+        var root = uiDocument.rootVisualElement;
+        if (root == null)
+        {
+            Debug.LogError("rootVisualElement is null!");
+            return;
+        }
+
+        input_name = root.Q<TextField>("Input_Username");
+        btn_login = root.Q<Button>("Btn_Login");
+
+        if (input_name == null || btn_login == null)
+        {
+            Debug.LogError("UI Elements not found! Check names in UXML.");
+            return;
+        }
+
+        btn_login.clicked += OnLoginClicked;
+    }
+
+    private async void OnLoginClicked()
+    {
+        await SetUserName();
+    }
+
+    private async Task SetUserName()
+    {
+        if (input_name == null)
+        {
+            Debug.LogError("Input field is null!");
+            return;
+        }
+
+        string newName = input_name.text.Trim();
+        if (string.IsNullOrEmpty(newName))
+        {
+            Debug.LogWarning("Username cannot be empty!");
             return;
         }
 
         try
         {
             await AuthenticationService.Instance.UpdatePlayerNameAsync(newName);
-            //To get the #XXXX need to call auth service
             UserProfile.main.userName = AuthenticationService.Instance.PlayerName;
             Debug.Log("Name updated: " + newName);
+
+            Login();
         }
         catch (AuthenticationException e)
         {
-            Debug.LogError(e);
+            Debug.LogError("Failed to update username: " + e);
         }
     }
 
-
-    private async void OnLoginClicked(ClickEvent evt)
+    private void OnDestroy()
     {
-        await SetUserName();
-        Debug.Log("Login clicked");
+        if (btn_login != null)
+        {
+            btn_login.clicked -= OnLoginClicked;
+        }
+    }
+
+    private void Login()
+    {
         SceneManager.LoadScene("UI_Root");
     }
 }
