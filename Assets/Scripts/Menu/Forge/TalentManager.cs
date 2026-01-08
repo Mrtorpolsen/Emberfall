@@ -7,20 +7,20 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class TalentManager : MonoBehaviour
 {
-    public static TalentManager main;
+    public static TalentManager Instance;
     public TalentTree playerTalentTree;
 
     private const string TALENTS_ADDRESSABLE = "Talents";
 
     private void Awake()
     {
-        if (main != null && main != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        main = this;
+        Instance = this;
     }
 
     public async Task LoadPlayerTalentsAsync()

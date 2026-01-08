@@ -50,7 +50,7 @@ public class LoginManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(AuthenticationService.Instance.PlayerName))
         {
-            UserProfile.main.userName = AuthenticationService.Instance.PlayerName;
+            UserProfile.Instance.userName = AuthenticationService.Instance.PlayerName;
             Login();
             return;
         }
@@ -109,7 +109,7 @@ public class LoginManager : MonoBehaviour
         try
         {
             await AuthenticationService.Instance.UpdatePlayerNameAsync(newName);
-            UserProfile.main.userName = AuthenticationService.Instance.PlayerName;
+            UserProfile.Instance.userName = AuthenticationService.Instance.PlayerName;
             Debug.Log("Name updated: " + newName);
 
             Login();

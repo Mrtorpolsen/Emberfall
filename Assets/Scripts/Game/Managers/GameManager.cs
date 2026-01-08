@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     //Consider seperating this into smaller bits, and have this one start/stop them all
-    public static GameManager main;
+    public static GameManager Instance;
 
     public TMP_Text southCurrencyText;
     public TMP_Text southIncomeModifierText;
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        main = this;
+        Instance = this;
 
         currency = new Dictionary<Team, float>()
         {
@@ -73,14 +73,14 @@ public class GameManager : MonoBehaviour
     {
         currency[team] += amount;
         UpdateCurrencyText();
-        UIManager.main.ToggleSpawnButtonsActive(currency[team]);
+        UIManager.Instance.ToggleSpawnButtonsActive(currency[team]);
     }
 
     public void SubtractCurrency(Team team, float amount)
     {
         currency[team] -= amount;
         UpdateCurrencyText();
-        UIManager.main.ToggleSpawnButtonsActive(currency[team]);
+        UIManager.Instance.ToggleSpawnButtonsActive(currency[team]);
     }
 
     private void UpdateCurrencyText()
@@ -96,23 +96,23 @@ public class GameManager : MonoBehaviour
     }
     public void SetGameOver(bool gameOver, Team team)
     {
-        TimerManager.main.StopTimer();
+        TimerManager.Instance.StopTimer();
         isGameOver = gameOver;
         winningTeam = team == Team.North ? Team.South : Team.North;
-        UIManager.main.Initialize();
+        UIManager.Instance.Initialize();
         isGameRunning = false;
         gameUICanvas.SetActive(false);
         //save score, throws error if not logged in
-        LeaderboardManager.main.AddScore(TimerManager.main.GetElapsedTime());
+        LeaderboardManager.Instance.AddScore(TimerManager.Instance.GetElapsedTime());
     }
     public void StartGame()
     {
-        main.isGameRunning = true;
-        TimerManager.main.StartTimer();
+        Instance.isGameRunning = true;
+        TimerManager.Instance.StartTimer();
 
         StartCoroutine(Utility.DoAfterDelay(3f, () =>
         {
-            WaveManager.main.StartWaves();
+            WaveManager.Instance.StartWaves();
         }));
     }
 }

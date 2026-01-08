@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
-    public static WaveManager main;
+    public static WaveManager Instance;
 
     [Header("Settings")]
     [SerializeField] private Transform northSpawn;
@@ -28,12 +28,12 @@ public class WaveManager : MonoBehaviour
 
     private void Awake()
     {
-        if (main != null && main != this)
+        if (Instance != null && Instance != this)
         {
-            Destroy(main);
+            Destroy(Instance);
             return;
         }
-        main = this;
+        Instance = this;
     }
 
     public void StartWaves()
@@ -45,7 +45,7 @@ public class WaveManager : MonoBehaviour
 
     private IEnumerator RunWaves()
     {
-        while (currentWaveIndex < totalWaves && !GameManager.main.isGameOver)
+        while (currentWaveIndex < totalWaves && !GameManager.Instance.isGameOver)
         {
             var wave = GenerateWave(currentWaveIndex);
             yield return StartCoroutine(SpawnWave(wave));
@@ -65,7 +65,7 @@ public class WaveManager : MonoBehaviour
         {
             for(int i = 0; i < group.count; i++)
             {
-                SpawnManager.main.SpawnUnit(group.prefab, northSpawn, Team.North);
+                SpawnManager.Instance.SpawnUnit(group.prefab, northSpawn, Team.North);
                 yield return new WaitForSeconds(0);
             }
         }
@@ -109,7 +109,7 @@ public class WaveManager : MonoBehaviour
             wave.enemiesToSpawn.Add(new EnemyGroup(giantPrefab, bossCount, spawnDelay));
             bossCount++;
         }
-        Debug.Log($"Wave: {waveNumber} spawned at: {TimerManager.main.GetElapsedTime()}");
+        Debug.Log($"Wave: {waveNumber} spawned at: {TimerManager.Instance.GetElapsedTime()}");
         return wave;
     }
 

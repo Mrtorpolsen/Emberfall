@@ -32,15 +32,15 @@ public class NavBarEvents : MonoBehaviour
 
     private void Btn_Main()
     {
-        MenuManager.main.LoadScreen("MainMenu");
+        MenuManager.Instance.LoadScreen("MainMenu");
     }
     private void Btn_Leaderboard()
     {
-        MenuManager.main.LoadScreen("Leaderboard");
+        MenuManager.Instance.LoadScreen("Leaderboard");
     }
     private void Btn_Forge()
     {
-        MenuManager.main.LoadScreen("Forge");
+        MenuManager.Instance.LoadScreen("Forge");
     }
 }
 

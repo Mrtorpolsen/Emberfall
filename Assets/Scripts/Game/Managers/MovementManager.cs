@@ -44,7 +44,7 @@ public class MovementManager : MonoBehaviour
             if (rb.GetComponent<UnitStats>().Team == Team.South)
             {
                 Vector2 pos = rb.position;
-                pos.y = Mathf.Min(pos.y, GameManager.main.playerUnitBoundary.transform.position.y);
+                pos.y = Mathf.Min(pos.y, GameManager.Instance.playerUnitBoundary.transform.position.y);
                 rb.position = pos;
             }
         }

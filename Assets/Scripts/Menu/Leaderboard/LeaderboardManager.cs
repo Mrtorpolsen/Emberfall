@@ -8,7 +8,7 @@ using UnityEngine;
 //Needs to be initialized earlier and a singleton since its used in game scene.
 public class LeaderboardManager : MonoBehaviour
 {
-    public static LeaderboardManager main;
+    public static LeaderboardManager Instance;
 
     private string leaderboardId = "High_Scores";
     public List<LeaderboardEntry> userScores;
@@ -17,8 +17,8 @@ public class LeaderboardManager : MonoBehaviour
 
     private void Awake()
     {
-        if (main != null) { Destroy(gameObject); return; }
-        main = this;
+        if (Instance != null) { Destroy(gameObject); return; }
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -34,7 +34,7 @@ public class LeaderboardManager : MonoBehaviour
 
         int score = Mathf.FloorToInt(timeSurvived);
 
-        if (UserProfile.main.UserHighScore > score)
+        if (UserProfile.Instance.UserHighScore > score)
         {
             Debug.Log("Score too low to record");
             return;
@@ -48,7 +48,7 @@ public class LeaderboardManager : MonoBehaviour
 
             //Look into only calling this if higher than previous highscore
 
-            await UserProfile.main.GetUserScore();
+            await UserProfile.Instance.GetUserScore();
 
         }
         catch (System.Exception e)

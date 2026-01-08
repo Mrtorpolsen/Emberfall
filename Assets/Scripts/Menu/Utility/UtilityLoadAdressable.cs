@@ -27,7 +27,9 @@ public static class UtilityLoadAdressable
             placeholderSprite = await handle.Task; // await instead of using Completed event
 
             if (placeholderSprite == null)
+            {
                 Debug.LogError("Failed to load placeholder icon (null result)");
+            }
         }
         catch (System.Exception e)
         {

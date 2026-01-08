@@ -14,9 +14,9 @@ public class TopBarView : MonoBehaviour
         label_username = uiDocument.rootVisualElement.Q<Label>("Label_UserName");
         label_currency = uiDocument.rootVisualElement.Q<Label>("Label_UserCurrency");
 
-        if (!string.IsNullOrEmpty(UserProfile.main?.userName))
+        if (!string.IsNullOrEmpty(UserProfile.Instance?.userName))
         {
-            label_username.text = UserProfile.main.userName;
+            label_username.text = UserProfile.Instance.userName;
         }
         else
         {

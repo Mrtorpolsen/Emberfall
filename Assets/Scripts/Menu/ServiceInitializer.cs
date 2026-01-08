@@ -5,14 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class ServiceInitializer : MonoBehaviour
 {
-    void Awake()
+    private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        
-        var _ = IdentityService.main;
-        var __ = SaveService.main;
+
+        InitializeServices();
 
         SceneManager.LoadScene("Login");
+    }
+
+    private void InitializeServices()
+    {
+        IdentityService.Create();
+        SaveService.Create();
+
+        Debug.Log("All services initialized");
     }
 
 }

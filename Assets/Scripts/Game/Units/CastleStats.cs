@@ -59,7 +59,7 @@ public class CastleStats : MonoBehaviour, IUnit, ITargetable
     void Die()
     {
         Destroy(castle);
-        GameManager.main.SetGameOver(true, Team);
+        GameManager.Instance.SetGameOver(true, Team);
     }
 
     void ITargetable.Die()

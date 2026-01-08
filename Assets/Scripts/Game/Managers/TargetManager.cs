@@ -58,11 +58,11 @@ public class TargetManager : MonoBehaviour
 
     private ITargetable GetDefaultTarget(Team selfTeam)
     {
-        if (selfUnit == null) return GameManager.main.north.GetComponent<ITargetable>();
+        if (selfUnit == null) return GameManager.Instance.north.GetComponent<ITargetable>();
 
         return currentTarget = (selfUnit.Team == Team.North)
-           ? GameManager.main.south.GetComponent<ITargetable>()
-           : GameManager.main.north.GetComponent<ITargetable>();
+           ? GameManager.Instance.south.GetComponent<ITargetable>()
+           : GameManager.Instance.north.GetComponent<ITargetable>();
     }
     public ITargetable GetCurrentTarget() => currentTarget;
 }

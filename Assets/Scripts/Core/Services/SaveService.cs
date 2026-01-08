@@ -2,26 +2,15 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class SaveService : MonoBehaviour
+public class SaveService : GameService<SaveService>
 {
-    public static SaveService main;
-
     public SaveGame Current { get; private set; }
 
     private string savePath;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (main != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        main = this;
-        DontDestroyOnLoad(gameObject);
-        
-        savePath = Path.Combine(Application.persistentDataPath, $"{IdentityService.main.Current.GetPlayerId()}_save.json");
+        base.Awake();
     }
 
     public void CreateSave()
@@ -30,8 +19,10 @@ public class SaveService : MonoBehaviour
         Save();
     }
 
-    public async void Load()
+    public async Task Load()
     {
+        savePath = Path.Combine(Application.persistentDataPath, $"{IdentityService.Instance.Current.GetPlayerId()}_save.json");
+        Debug.LogWarning(savePath);
         if (!File.Exists(savePath))
         {
             CreateSave();

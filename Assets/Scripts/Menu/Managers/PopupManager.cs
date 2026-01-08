@@ -6,7 +6,7 @@ using UnityEngine.UIElements.Experimental;
 
 public class PopupManager : MonoBehaviour
 {
-    public static PopupManager main { get; private set; }
+    public static PopupManager Instance { get; private set; }
 
     [SerializeField] private UIDocument uIDocument;
 
@@ -36,13 +36,13 @@ public class PopupManager : MonoBehaviour
 
     private void Awake()
     {
-        if (main != null && main != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        main = this;
+        Instance = this;
     }
 
     public void Initialize(VisualElement popupRoot)

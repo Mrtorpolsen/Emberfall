@@ -12,7 +12,7 @@ public class LeaderboardView : IUIScreenView
 
     private void LoadLeaderboard()
     {
-        var scores = LeaderboardManager.main.userScores;
+        var scores = LeaderboardManager.Instance.userScores;
 
         foreach (LeaderboardEntry entry in scores)
         {

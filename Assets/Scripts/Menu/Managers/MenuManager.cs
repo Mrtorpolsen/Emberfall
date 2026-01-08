@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
-    public static MenuManager main { get; private set; }
+    public static MenuManager Instance { get; private set; }
 
     [Header("UI Document")]
     [SerializeField] private UIDocument uiDocument;
@@ -31,13 +31,13 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        if (main != null && main != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        main = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
 
         // Listen for any scene load
@@ -73,7 +73,7 @@ public class MenuManager : MonoBehaviour
         popupVE.pickingMode = PickingMode.Ignore;
 
         popupBlockerContainer.Add(popupVE);
-        PopupManager.main.Initialize(popupVE);
+        PopupManager.Instance.Initialize(popupVE);
     }
 
     public void RegisterScreen<TView, TEvents>(string name, VisualTreeAsset vta)

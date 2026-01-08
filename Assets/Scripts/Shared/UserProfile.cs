@@ -7,7 +7,7 @@ using UnityEngine.SocialPlatforms.Impl;
 [DisallowMultipleComponent]
 public class UserProfile : MonoBehaviour
 {
-    public static UserProfile main;
+    public static UserProfile Instance;
 
     public string userName;
     public int currency;
@@ -18,13 +18,13 @@ public class UserProfile : MonoBehaviour
 
     private void Awake()
     {
-        if (main != null && main != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        main = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 

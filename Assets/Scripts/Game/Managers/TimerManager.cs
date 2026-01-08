@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TimerManager : MonoBehaviour
 {
-    public static TimerManager main;
+    public static TimerManager Instance;
 
     public TMP_Text timerText;
 
@@ -17,13 +17,13 @@ public class TimerManager : MonoBehaviour
 
     private void Awake()
     {
-        if(main != null && main != this)
+        if(Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        main = this;
+        Instance = this;
     }
     private void Update()
     {
