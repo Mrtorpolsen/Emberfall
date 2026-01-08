@@ -16,6 +16,7 @@ public class BuildingPlot : MonoBehaviour
 
     public void OnPlotClicked()
     {
+        Debug.Log("Plot clicked!!!");
         if (GameManager.Instance.currency[Team.South] >= tower.Cost)
         {
             BuildTower();
