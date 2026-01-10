@@ -43,6 +43,13 @@ public class SplashManager : MonoBehaviour
             return;
         }
 
+        if (IdentityService.Instance.Current == null)
+        {
+            Debug.LogError("Identity not authenticated before Splash");
+            return;
+        }
+
+        SaveService.Instance.InitializeForPlayer(IdentityService.Instance.Current.GetPlayerId());
         await SaveService.Instance.Load();
 
         // Load all needed data

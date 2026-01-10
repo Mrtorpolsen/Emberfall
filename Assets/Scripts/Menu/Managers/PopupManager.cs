@@ -163,7 +163,6 @@ public class PopupManager : MonoBehaviour
     private void CTAWrapper()
     {
         confirmAction?.Invoke();
-        ClosePopup();
     }
 
     public void ClosePopup()
@@ -183,5 +182,19 @@ public class PopupManager : MonoBehaviour
 
         btn.clicked -= CTAWrapper;
         confirmAction = null;
+    }
+
+    public void ButtonIsActive(bool active)
+    {
+        btn.SetEnabled(active);
+        //btn.style.opacity = active ? 1f : 0.5f; //gray out when disabled
+    }
+
+    public void UpdateButtonLabel(string text)
+    {
+        if (btnLabel != null)
+        {
+            btnLabel.text = text;
+        }
     }
 }

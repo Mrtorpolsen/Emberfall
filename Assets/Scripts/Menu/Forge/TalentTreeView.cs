@@ -11,7 +11,6 @@ public class TalentTreeView
 
     private VisualElement _root;
     private VisualElement talentNodeContainer;
-    private Sprite placeholderIcon;
 
     private Dictionary<string, AsyncOperationHandle<Sprite>> iconHandles = new();
 
@@ -32,7 +31,7 @@ public class TalentTreeView
 
         foreach (var node in talentNodes)
         {
-            //Extract the actuale root
+            //Extract the actual root
             var nodeTemplate = talentNode.Instantiate();
             VisualElement visualNode = nodeTemplate[0];
             nodeTemplate.RemoveAt(0);
@@ -42,7 +41,16 @@ public class TalentTreeView
             var labelUnlocked = visualNode.Q<Label>("Label_Unlocked");
 
             LabelCost.text = node.cost.ToString();
-            labelUnlocked.text = node.unlocked;
+            labelUnlocked.text = node.purchased;
+
+            node.purchasedLabel = labelUnlocked;
+
+            //update the label
+            node.UpdatePurchasedText = (current, max) =>
+            {
+                if (node.purchasedLabel != null)
+                    node.purchasedLabel.text = $"{current}/{max}";
+            };
 
             UtilityLoadAdressable.LoadAdressableIcon(node.img, imgTalent);
 

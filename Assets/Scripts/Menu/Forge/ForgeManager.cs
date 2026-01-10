@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -74,34 +75,48 @@ public class ForgeManager : IUIScreenManager
 
     private TalentNodeDefinition BuildTalentNode(TalentDefinition talent)
     {
-        return new TalentNodeDefinition
+        var node = new TalentNodeDefinition(); // declare first
+
+        int purchased = SaveService.Instance.GetPurchases(talent.Id);
+        int max = talent.Purchase.MaxPurchases;
+        bool canPurchase = purchased < max;
+
+        node.img = talent.IconId;
+        node.heading = talent.Name;
+        node.description = talent.Description;
+        node.purchased = $"{purchased}/{max}";
+        node.tier = talent.Tier;
+        node.cost = talent.GetCurrentCost();
+
+        node.onClick = () =>
         {
-            img = talent.IconId,
-            heading = talent.Name,
-            description = talent.Description,
-            unlocked = $"{talent.Purchase.Purchased}/{talent.Purchase.MaxPurchases}",
-            tier = talent.Tier,
-            cost = talent.GetCurrentCost(),
+            int purchasedNow = SaveService.Instance.GetPurchases(talent.Id);
+            bool canPurchaseNow = purchasedNow < max;
 
-            onClick = () =>
+            var popupBtn = new PopupButtonDefinition
             {
-                Debug.Log(talent.IconId);
+                LabelText = $"{purchasedNow}/{max}",
+                BtnText = talent.GetCurrentCost().ToString(),
+                BtnIconPath = "UI/Images/Talents/cinder_icon",
 
-                var popupBtn = new PopupButtonDefinition
+                OnClick = () =>
                 {
-                    LabelText = $"{talent.Purchase.Purchased}/{talent.Purchase.MaxPurchases}",
-                    BtnText = talent.GetCurrentCost().ToString(),
-                    BtnIconPath = "UI/Images/Talents/cinder_icon",
+                    //TODO add the currency logic
+                    SaveService.Instance.AddToSave(talent.Id);
 
-                    OnClick = () =>
-                    {
-                        Debug.Log($"{talent.Id} cost {talent.GetCurrentCost()}");
-                        //TODO: add purchase func
-                    }
-                };
-                PopupManager.Instance.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);
-            }
+                    int updated = SaveService.Instance.GetPurchases(talent.Id);
+                    bool stillCanPurchase = updated < max;
+                    string purchasedTextNow = $"{updated}/{max}";
+
+                    PopupManager.Instance.UpdateButtonLabel(purchasedTextNow);
+                    PopupManager.Instance.ButtonIsActive(stillCanPurchase);
+
+                    node.UpdatePurchasedText?.Invoke(updated, max);
+                }
+            };
+            PopupManager.Instance.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);
+            PopupManager.Instance.ButtonIsActive(canPurchase);
         };
+        return node;
     }
-
 }
