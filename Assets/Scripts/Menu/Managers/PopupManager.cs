@@ -24,6 +24,8 @@ public class PopupManager : MonoBehaviour
 
     private Action confirmAction;
 
+    private EventCallback<ClickEvent> stopPropagationCallback;
+
     private const string BLOCKER_NAME = "PopupBlocker";
     private const string CONTAINER_NAME = "PopupContainer";
     private const string IMG_NAME = "Img";
@@ -47,6 +49,17 @@ public class PopupManager : MonoBehaviour
 
     public void Initialize(VisualElement popupRoot)
     {
+        // Unbind old callbacks if we are re-initializing
+        if (blocker != null)
+        {
+            blocker.UnregisterCallback<ClickEvent>(OnBackgroundClicked);
+        }
+
+        if (container != null && stopPropagationCallback != null)
+        {
+            container.UnregisterCallback(stopPropagationCallback);
+        }
+
         root = popupRoot;
 
         blocker = root.Q<VisualElement>(BLOCKER_NAME);
@@ -59,12 +72,21 @@ public class PopupManager : MonoBehaviour
         btnLabel = root.Q<Label>(BTNLABEL_NAME);
         btn = root.Q<Button>(CTA_NAME);
 
+        if (blocker == null || container == null)
+        {
+            Debug.LogError("PopupManager Initialize failed: required elements not found.");
+            return;
+        }
+
+        // Register callbacks
         blocker.RegisterCallback<ClickEvent>(OnBackgroundClicked);
-        // Stop clicks from bubbling up from the popup container
-        container.RegisterCallback<ClickEvent>(evt => evt.StopPropagation());
+
+        stopPropagationCallback ??= evt => evt.StopPropagation();
+        container.RegisterCallback(stopPropagationCallback);
 
         blocker.style.display = DisplayStyle.None;
     }
+
 
     private void OnBackgroundClicked(ClickEvent evt)
     {

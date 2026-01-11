@@ -112,6 +112,7 @@ public class ForgeManager : IUIScreenManager
                     PopupManager.Instance.ButtonIsActive(stillCanPurchase);
 
                     node.UpdatePurchasedText?.Invoke(updated, max);
+                    SaveService.Instance.Save();
                 }
             };
             PopupManager.Instance.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);

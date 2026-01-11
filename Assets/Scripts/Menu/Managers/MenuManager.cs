@@ -59,21 +59,7 @@ public class MenuManager : MonoBehaviour
         RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
         RegisterScreen<ForgeView, ForgeEvents, ForgeManager>("Forge", forgeVTA);
 
-        //Setup for popup, delaing with the template container
-        popupBlockerContainer = root.Q<VisualElement>(POPUP_BLOCKER_CONTAINER);
-
-        var popupVE = popupVTA.CloneTree();
-        popupBlockerContainer.Add(popupVE);
-
-        popupVE.style.position = Position.Absolute;
-        popupVE.style.top = 0;
-        popupVE.style.left = 0;
-        popupVE.style.right = 0;
-        popupVE.style.bottom = 0;
-        popupVE.pickingMode = PickingMode.Ignore;
-
-        popupBlockerContainer.Add(popupVE);
-        PopupManager.Instance.Initialize(popupVE);
+        SetupPopup(root);
     }
 
     public void RegisterScreen<TView, TEvents>(string name, VisualTreeAsset vta)
@@ -182,7 +168,31 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
+        SetupPopup(root);
         // Load main menu by default
         LoadScreen("MainMenu");
+    }
+
+    //Setup for popup, delaing with the template container
+    private void SetupPopup(VisualElement root)
+    {
+        popupBlockerContainer = root.Q<VisualElement>(POPUP_BLOCKER_CONTAINER);
+        if (popupBlockerContainer == null)
+        {
+            Debug.LogError("Popup blocker container not found");
+            return;
+        }
+
+        var popupVE = popupVTA.CloneTree();
+
+        popupVE.style.position = Position.Absolute;
+        popupVE.style.top = 0;
+        popupVE.style.left = 0;
+        popupVE.style.right = 0;
+        popupVE.style.bottom = 0;
+        popupVE.pickingMode = PickingMode.Ignore;
+
+        popupBlockerContainer.Add(popupVE);
+        PopupManager.Instance.Initialize(popupVE);
     }
 }
