@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 
 public class TalentTree
 {
-    // Dictionary maps class name to list of talents
     [JsonProperty("talents")]
     public Dictionary<string, List<TalentDefinition>> TalentsByClass { get; set; }
 
@@ -74,10 +73,19 @@ public enum EffectTarget
     CritChance,
     CritDamage,
     SplashRadius,
+    Range,
     Income,
-    ShieldSlam,       
+    //Ability
+    ShieldSlam,
+    Multishot,
+    LanceStrike,
+    //Units
     Berserker,
-    Guardian
+    Guardian,
+    Sniper,
+    Trapper,
+    Templar,
+    Dragoon,
 }
 
 public enum EffectOperation

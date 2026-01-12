@@ -49,15 +49,16 @@ public class ForgeEvents : IUIScreenEvents
     private void Btn_Upg_RangerClicked()
     {
         Debug.Log("Clicked " + nameof(Btn_Upg_RangerClicked));
+        _manager.OpenTalentTree("ranger");
     }
 
     private void Btn_Upg_CavalierClicked()
     {
         Debug.Log("Clicked " + nameof(Btn_Upg_CavalierClicked));
+        _manager.OpenTalentTree("cavalier");
     }
     private void Btn_Upg_IncomeClicked()
     {
-        _manager.OpenPopup();
         Debug.Log("Clicked " + nameof(Btn_Upg_IncomeClicked));
     }
 }
