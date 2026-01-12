@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
-    public static MenuManager main { get; private set; }
+    public static MenuManager Instance { get; private set; }
 
     [Header("UI Document")]
     [SerializeField] private UIDocument uiDocument;
@@ -13,25 +13,31 @@ public class MenuManager : MonoBehaviour
     [Header("Content Screens")]
     [SerializeField] private VisualTreeAsset mainMenuVTA;
     [SerializeField] private VisualTreeAsset leaderboardVTA;
+    [SerializeField] private VisualTreeAsset forgeVTA;
+    [SerializeField] private VisualTreeAsset popupVTA;
 
+    private VisualElement popupBlockerContainer;
     private VisualElement contentContainer;
     private VisualElement currentScreen;
-    private IUIScreen currentView;
+    private IUIScreenView currentView;
     private IUIScreenEvents currentEvents;
+    private IUIScreenManager currentManager;
     private bool hasInitialized = false;
 
     private Dictionary<string, ScreenDefinition> screens =
         new Dictionary<string, ScreenDefinition>();
 
+    private const string POPUP_BLOCKER_CONTAINER = "safe-area-content-container";
+
     private void Awake()
     {
-        if (main != null && main != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        main = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
 
         // Listen for any scene load
@@ -51,16 +57,35 @@ public class MenuManager : MonoBehaviour
 
         RegisterScreen<MainMenuView, MainMenuEvents>("MainMenu", mainMenuVTA);
         RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
+        RegisterScreen<ForgeView, ForgeEvents, ForgeManager>("Forge", forgeVTA);
+
+        SetupPopup(root);
     }
 
     public void RegisterScreen<TView, TEvents>(string name, VisualTreeAsset vta)
-        where TView : IUIScreen, new()
+        where TView : IUIScreenView, new()
         where TEvents : IUIScreenEvents, new()
     {
         screens[name] = new ScreenDefinition(
             vta,
             () => new TView(),
-            () => new TEvents()
+            () => new TEvents(),
+            null //no manager
+        );
+    }
+
+    public void RegisterScreen<TView, TEvents, TManager>(
+        string name,
+        VisualTreeAsset vta)
+        where TView : IUIScreenView, new()
+        where TEvents : IUIScreenEvents, new()
+        where TManager : IUIScreenManager, new()
+    {
+        screens[name] = new ScreenDefinition(
+            vta,
+            () => new TView(),
+            () => new TEvents(),
+            () => new TManager()
         );
     }
 
@@ -83,6 +108,10 @@ public class MenuManager : MonoBehaviour
         // Clean up old events
         currentEvents?.Cleanup();
 
+        // If the previous manager is screen-scoped, clean it up
+        currentManager?.Cleanup();
+        currentManager = null;
+
         // Clone the template container
         currentScreen = def.vta.CloneTree();
         currentScreen.style.flexGrow = 1;
@@ -95,11 +124,15 @@ public class MenuManager : MonoBehaviour
         currentView = def.createView();
         currentEvents = def.createEvents();
 
+        //Create manager if its there
+        currentManager = def.createManager?.Invoke();
+
         // Bind events
         currentView.Initialize(screenRoot);
-        currentEvents.BindEvents(screenRoot);
+        currentEvents.BindEvents(screenRoot, currentManager, currentView);
     }
-    //Checks if its UI_Root that getting loaded, then reassigns references and loads mainmenu
+
+    //Checks if its UI_Root that gets loaded, then reassigns references and loads mainmenu
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
     {
         if(scene.name != "UI_Root")
@@ -135,7 +168,31 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
+        SetupPopup(root);
         // Load main menu by default
         LoadScreen("MainMenu");
+    }
+
+    //Setup for popup, delaing with the template container
+    private void SetupPopup(VisualElement root)
+    {
+        popupBlockerContainer = root.Q<VisualElement>(POPUP_BLOCKER_CONTAINER);
+        if (popupBlockerContainer == null)
+        {
+            Debug.LogError("Popup blocker container not found");
+            return;
+        }
+
+        var popupVE = popupVTA.CloneTree();
+
+        popupVE.style.position = Position.Absolute;
+        popupVE.style.top = 0;
+        popupVE.style.left = 0;
+        popupVE.style.right = 0;
+        popupVE.style.bottom = 0;
+        popupVE.pickingMode = PickingMode.Ignore;
+
+        popupBlockerContainer.Add(popupVE);
+        PopupManager.Instance.Initialize(popupVE);
     }
 }

@@ -1,0 +1,1855 @@
+{
+  "schemaVersion": 1,
+  "definitionsVersion": "1.0",
+  "gameVersion": "0.2.0",
+  "talents": {
+    "fighter": [
+      {
+        "Id": "fighter_statmodifier_damage_1",
+        "IconId": "melee_damage_1",
+        "Name": "Strike Training",
+        "Description": "Increases fighter's attack damage by 1% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 1,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.01
+          }
+        ],
+        "Cost": {
+          "BaseCost": 25,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": []
+      },
+      {
+        "Id": "fighter_statmodifier_health_1",
+        "IconId": "global_health_1",
+        "Name": "Basic Conditioning",
+        "Description": "Increases fighter's health by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 2,
+        "Effects": [
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 40,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 1,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_attackspeed_1",
+        "IconId": "melee_attackspeed_1",
+        "Name": "Weapon Handling",
+        "Description": "Increases fighters attack speed by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 2,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 40,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 1,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_health_2",
+        "IconId": "global_health_2",
+        "Name": "Tough Skin",
+        "Description": "Increases fighters health by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 3,
+        "Effects": [
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 2,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_damage_2",
+        "IconId": "melee_damage_2",
+        "Name": "Sharp Blows",
+        "Description": "Increases fighter's damage by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 3,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 2,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_critchance_1",
+        "IconId": "melee_critchance_1",
+        "Name": "Battle Maneuver",
+        "Description": "Increases fighters crit chance by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 3,
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 2,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_armor_1",
+        "IconId": "global_armor_1",
+        "Name": "Footwork",
+        "Description": "Increases fighter's armor by 2 per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 4,
+        "Effects": [
+          {
+            "Target": "Armor",
+            "Operation": "Add",
+            "Value": 2
+          }
+        ],
+        "Cost": {
+          "BaseCost": 90,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 3,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_critdamage_1",
+        "IconId": "melee_critdamage_1",
+        "Name": "Momentum",
+        "Description": "Increases fighter's crit damage by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 4,
+        "Effects": [
+          {
+            "Target": "CritDamage",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 90,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 3,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_attackspeed_2",
+        "IconId": "melee_attackspeed_2",
+        "Name": "Efficient Strikes",
+        "Description": "Increases fighter's attack speed by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 4,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 90,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 3,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_critchance_2",
+        "IconId": "melee_critchance_2",
+        "Name": "Combat Instinct",
+        "Description": "Increases fighter's crit chance by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 5,
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 130,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 4,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_health_3",
+        "IconId": "global_health_3",
+        "Name": "Reinforced Muscles",
+        "Description": "Increases fighter's health by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 5,
+        "Effects": [
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 130,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 4,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_damage_3",
+        "IconId": "melee_damage_3",
+        "Name": "Weapon Mastery",
+        "Description": "Increases fighter's damage by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 5,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 130,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 4,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_critdamage_2",
+        "IconId": "melee_critdamage_2",
+        "Name": "Executioner",
+        "Description": "Increases fighter's crit damage by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 6,
+        "Effects": [
+          {
+            "Target": "CritDamage",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 190,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 5,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_health_4",
+        "IconId": "global_health_4",
+        "Name": "Advanced Conditioning",
+        "Description": "Increases fighter's health by 5% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 6,
+        "Effects": [
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.05
+          }
+        ],
+        "Cost": {
+          "BaseCost": 190,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 5,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_critchance_3",
+        "IconId": "melee_critchance_3",
+        "Name": "Executioner's Blow",
+        "Description": "Increases fighter's crit chance by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 7,
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 270,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 6,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_damage_4",
+        "IconId": "melee_damage_4",
+        "Name": "Battle Clarity",
+        "Description": "Increases fighter's damage by 5% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 7,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.05
+          }
+        ],
+        "Cost": {
+          "BaseCost": 270,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 6,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_abilityunlock_stun_1",
+        "IconId": "abilityunlock_stun_1",
+        "Name": "Shield Slam",
+        "Description": "Unlocks Stun ability: stun current target for 0.5 seconds with a 10 second cooldown",
+        "Category": "Unit",
+        "Type": "AbilityUnlock",
+        "Tier": 8,
+        "Effects": [
+          {
+            "Target": "ShieldSlam",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Cost": {
+          "BaseCost": 380,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 7,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_attackspeed_3",
+        "IconId": "melee_attackspeed_3",
+        "Name": "Advanced Weapon Handling",
+        "Description": "Increases fighter's attack speed by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 8,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 380,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 7,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "fighter_statmodifier_allstats_1",
+        "IconId": "global_allstats_1",
+        "Name": "Master Combatant",
+        "Description": "Increases fighter's attack speed, damage and health by 5%",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 9,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.05
+          },
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.05
+          },
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.05
+          }
+        ],
+        "Cost": {
+          "BaseCost": 550,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 8,
+            "RequiredPointsInTier": 6
+          }
+        ]
+      },
+      {
+        "Id": "fighter_unitunlock_berserker_1",
+        "IconId": "unitunlock_berserker_1",
+        "Name": "Berserker",
+        "Description": "Unlocks subclass Berserker",
+        "Category": "Unit",
+        "Type": "UnitUnlock",
+        "Tier": 10,
+        "Effects": [
+          {
+            "Target": "Berserker",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Cost": {
+          "BaseCost": 800,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 9,
+            "RequiredPointsInTier": 1
+          }
+        ]
+      },
+      {
+        "Id": "fighter_unitunlock_guardian_1",
+        "IconId": "unitunlock_guardian_1",
+        "Name": "Guardian",
+        "Description": "Unlocks subclass Guardian",
+        "Category": "Unit",
+        "Type": "UnitUnlock",
+        "Tier": 10,
+        "Effects": [
+          {
+            "Target": "Guardian",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Cost": {
+          "BaseCost": 800,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 9,
+            "RequiredPointsInTier": 1
+          }
+        ]
+      }
+    ],
+    "ranger": [
+      {
+        "Id": "ranger_statmodifier_damage_1",
+        "IconId": "ranged_damage_1",
+        "Name": "Bow Handling",
+        "Description": "Increases ranger's attack damage by 1% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 1,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.01
+          }
+        ],
+        "Cost": {
+          "BaseCost": 25,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": []
+      },
+      {
+        "Id": "ranger_statmodifier_range_1",
+        "IconId": "ranged_range_1",
+        "Name": "Long Sight",
+        "Description": "Increases ranger's attack range by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 2,
+        "Effects": [
+          {
+            "Target": "Range",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 40,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 1,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_attackspeed_1",
+        "IconId": "ranged_attackspeed_1",
+        "Name": "Quick Draw",
+        "Description": "Increases ranger's attack speed by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 2,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 40,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 1,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_damage_2",
+        "IconId": "ranged_damage_2",
+        "Name": "Sharpened Arrows",
+        "Description": "Increases ranger's damage by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 3,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 2,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_critchance_1",
+        "IconId": "ranged_critchance_1",
+        "Name": "Precise Aim",
+        "Description": "Increases ranger's crit chance by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 3,
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 2,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_range_2",
+        "IconId": "ranged_range_2",
+        "Name": "Eagle Focus",
+        "Description": "Increases ranger's attack range by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 3,
+        "Effects": [
+          {
+            "Target": "Range",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 2,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_critchance_2",
+        "IconId": "ranged_critchance_2",
+        "Name": "Weak Point Targeting",
+        "Description": "Increases ranger's crit chance by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 4,
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 90,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 3,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_attackspeed_2",
+        "IconId": "ranged_attackspeed_2",
+        "Name": "Rapid Fire",
+        "Description": "Increases ranger's attack speed by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 4,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 90,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 3,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_critdamage_1",
+        "IconId": "ranged_critdamage_1",
+        "Name": "Piercing Shots",
+        "Description": "Increases ranger's crit damage by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 4,
+        "Effects": [
+          {
+            "Target": "CritDamage",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 90,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 3,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_range_3",
+        "IconId": "ranged_range_3",
+        "Name": "Farshot",
+        "Description": "Increases ranger's attack range by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 5,
+        "Effects": [
+          {
+            "Target": "Range",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 130,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 4,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_damage_3",
+        "IconId": "ranged_damage_3",
+        "Name": "Lethal Arrowheads",
+        "Description": "Increases ranger's damage by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 5,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 130,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 4,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_critchance_3",
+        "IconId": "ranged_critchance_3",
+        "Name": "Unerring Focus",
+        "Description": "Increases ranger's crit chance by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 5,
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 130,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 4,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_critdamage_2",
+        "IconId": "ranged_critdamage_2",
+        "Name": "Vital Strike",
+        "Description": "Increases ranger's crit damage by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 6,
+        "Effects": [
+          {
+            "Target": "CritDamage",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 190,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 5,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_attackspeed_3",
+        "IconId": "ranged_attackspeed_3",
+        "Name": "Velocity",
+        "Description": "Increases ranger's attack speed by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 6,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 190,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 5,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_range_4",
+        "IconId": "ranged_range_4",
+        "Name": "Perfect Trajectory",
+        "Description": "Increases ranger's range by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 7,
+        "Effects": [
+          {
+            "Target": "Range",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 270,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 6,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_damage_4",
+        "IconId": "ranged_damage_4",
+        "Name": "Hunter's Precision",
+        "Description": "Increases ranger's damage by 5% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 7,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.05
+          }
+        ],
+        "Cost": {
+          "BaseCost": 270,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 6,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_abilityunlock_multishot_1",
+        "IconId": "abilityunlock_multishot_1",
+        "Name": "Multishot",
+        "Description": "Unlocks a Multishot ability: fires an additional arrow every 10 seconds",
+        "Category": "Unit",
+        "Type": "AbilityUnlock",
+        "Tier": 8,
+        "Effects": [
+          {
+            "Target": "Multishot",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Cost": {
+          "BaseCost": 380,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 7,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_critdamage_3",
+        "IconId": "ranged_critdamage_3",
+        "Name": "Destructive Shot",
+        "Description": "Increases ranger's crit damage by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 8,
+        "Effects": [
+          {
+            "Target": "CritDamage",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 380,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 7,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "ranger_statmodifier_allstats_1",
+        "IconId": "global_allstats_1",
+        "Name": "Master Marksman",
+        "Description": "Increases ranger's attack speed, damage and range by 5%",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 9,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.05
+          },
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.05
+          },
+          {
+            "Target": "Range",
+            "Operation": "Multiply",
+            "Value": 1.05
+          }
+        ],
+        "Cost": {
+          "BaseCost": 550,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 8,
+            "RequiredPointsInTier": 6
+          }
+        ]
+      },
+      {
+        "Id": "ranger_unitunlock_sniper_1",
+        "IconId": "unitunlock_sniper_1",
+        "Name": "Sniper",
+        "Description": "Unlocks subclass Sniper",
+        "Category": "Unit",
+        "Type": "UnitUnlock",
+        "Tier": 10,
+        "Effects": [
+          {
+            "Target": "Sniper",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Cost": {
+          "BaseCost": 800,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 9,
+            "RequiredPointsInTier": 1
+          }
+        ]
+      },
+      {
+        "Id": "ranger_unitunlock_trapper_1",
+        "IconId": "unitunlock_trapper_1",
+        "Name": "Trapper",
+        "Description": "Unlocks subclass Trapper",
+        "Category": "Unit",
+        "Type": "UnitUnlock",
+        "Tier": 10,
+        "Effects": [
+          {
+            "Target": "Trapper",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Cost": {
+          "BaseCost": 800,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 9,
+            "RequiredPointsInTier": 1
+          }
+        ]
+      }
+    ],
+    "cavalier": [
+      {
+        "Id": "cavalier_statmodifier_damage_1",
+        "IconId": "melee_damage_1",
+        "Name": "Lance Drills",
+        "Description": "Increases cavalier's attack damage by 1% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 1,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.01
+          }
+        ],
+        "Cost": {
+          "BaseCost": 25,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": []
+      },
+      {
+        "Id": "cavalier_statmodifier_health_1",
+        "IconId": "global_health_1",
+        "Name": "Rider Conditioning",
+        "Description": "Increases cavalier's health by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 2,
+        "Effects": [
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 40,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 1,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_attackspeed_1",
+        "IconId": "melee_attackspeed_1",
+        "Name": "Rein Repositioning",
+        "Description": "Increases cavalier's attack speed by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 2,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 40,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 1,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_health_2",
+        "IconId": "global_health_2",
+        "Name": "Mounted Endurance",
+        "Description": "Increases cavalier's health by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 3,
+        "Effects": [
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 2,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_damage_2",
+        "IconId": "melee_damage_2",
+        "Name": "Heavy Thrust",
+        "Description": "Increases cavalier's damage by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 3,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 2,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_critchance_1",
+        "IconId": "melee_critchance_1",
+        "Name": "Flanking Technique",
+        "Description": "Increases cavalier's crit chance by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 3,
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 2,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_armor_1",
+        "IconId": "global_armor_1",
+        "Name": "Plate Bardings",
+        "Description": "Increases cavalier's armor by 2 per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 4,
+        "Effects": [
+          {
+            "Target": "Armor",
+            "Operation": "Add",
+            "Value": 2
+          }
+        ],
+        "Cost": {
+          "BaseCost": 90,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 3,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_critdamage_1",
+        "IconId": "melee_critdamage_1",
+        "Name": "Lancing Momentum",
+        "Description": "Increases cavalier's crit damage by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 4,
+        "Effects": [
+          {
+            "Target": "CritDamage",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 90,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 3,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_attackspeed_2",
+        "IconId": "melee_attackspeed_2",
+        "Name": "Swift Charge",
+        "Description": "Increases cavalier's attack speed by 3% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 4,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.03
+          }
+        ],
+        "Cost": {
+          "BaseCost": 90,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 3,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_critchance_2",
+        "IconId": "melee_critchance_2",
+        "Name": "Mounted Precision",
+        "Description": "Increases cavalier's crit chance by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 5,
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 130,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 4,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_health_3",
+        "IconId": "global_health_3",
+        "Name": "Armored Resolve",
+        "Description": "Increases cavalier's health by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 5,
+        "Effects": [
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 130,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 4,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_damage_3",
+        "IconId": "melee_damage_3",
+        "Name": "Cavalier’s Edge",
+        "Description": "Increases cavalier's damage by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 5,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 130,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 4,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_critdamage_2",
+        "IconId": "melee_critdamage_2",
+        "Name": "Piercing Charge",
+        "Description": "Increases cavalier's crit damage by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 6,
+        "Effects": [
+          {
+            "Target": "CritDamage",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 190,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 5,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_health_4",
+        "IconId": "global_health_4",
+        "Name": "Steel Will",
+        "Description": "Increases cavalier's health by 5% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 6,
+        "Effects": [
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.05
+          }
+        ],
+        "Cost": {
+          "BaseCost": 190,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 5,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_critchance_3",
+        "IconId": "melee_critchance_3",
+        "Name": "Jousting Instinct",
+        "Description": "Increases cavalier's crit chance by 2% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 7,
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Cost": {
+          "BaseCost": 270,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 6,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_damage_4",
+        "IconId": "melee_damage_4",
+        "Name": "Battle Synchrony",
+        "Description": "Increases cavalier's damage by 5% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 7,
+        "Effects": [
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.05
+          }
+        ],
+        "Cost": {
+          "BaseCost": 270,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 6,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_abilityunlock_pushback_1",
+        "IconId": "abilityunlock_pushback_1",
+        "Name": "Lance Strike",
+        "Description": "Unlocks Pushback ability: pushback 2 closest enemies every 10 seconds",
+        "Category": "Unit",
+        "Type": "AbilityUnlock",
+        "Tier": 8,
+        "Effects": [
+          {
+            "Target": "LanceStrike",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Cost": {
+          "BaseCost": 380,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 7,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_attackspeed_3",
+        "IconId": "melee_attackspeed_3",
+        "Name": "Mounted Agility",
+        "Description": "Increases cavalier's attack speed by 4% per purchase",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 8,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.04
+          }
+        ],
+        "Cost": {
+          "BaseCost": 380,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 5
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 7,
+            "RequiredPointsInTier": 5
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_statmodifier_allstats_1",
+        "IconId": "global_allstats_1",
+        "Name": "Knight’s Prowess",
+        "Description": "Increases cavalier's attack speed, damage and health by 5%",
+        "Category": "Unit",
+        "Type": "StatModifier",
+        "Tier": 9,
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.05
+          },
+          {
+            "Target": "Damage",
+            "Operation": "Multiply",
+            "Value": 1.05
+          },
+          {
+            "Target": "Health",
+            "Operation": "Multiply",
+            "Value": 1.05
+          }
+        ],
+        "Cost": {
+          "BaseCost": 550,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 8,
+            "RequiredPointsInTier": 6
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_unitunlock_templar_1",
+        "IconId": "unitunlock_templar_1",
+        "Name": "Templar",
+        "Description": "Unlocks subclass Templar",
+        "Category": "Unit",
+        "Type": "UnitUnlock",
+        "Tier": 10,
+        "Effects": [
+          {
+            "Target": "Templar",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Cost": {
+          "BaseCost": 800,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 9,
+            "RequiredPointsInTier": 1
+          }
+        ]
+      },
+      {
+        "Id": "cavalier_unitunlock_dragoon_1",
+        "IconId": "unitunlock_dragoon_1",
+        "Name": "Dragoon",
+        "Description": "Unlocks subclass Dragoon",
+        "Category": "Unit",
+        "Type": "UnitUnlock",
+        "Tier": 10,
+        "Effects": [
+          {
+            "Target": "Dragoon",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Cost": {
+          "BaseCost": 800,
+          "CostMultiplier": 1.35
+        },
+        "Purchase": {
+          "MaxPurchases": 1
+        },
+        "Prerequisites": [
+          {
+            "RequiredTier": 9,
+            "RequiredPointsInTier": 1
+          }
+        ]
+      }
+    ]
+  }
+}

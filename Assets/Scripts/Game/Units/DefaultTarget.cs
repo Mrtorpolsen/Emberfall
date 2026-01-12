@@ -3,7 +3,7 @@ using UnityEngine;
 public class DefaultTarget : MonoBehaviour, ITargetable
 {
     [Header("Reference")]
-    [SerializeField] public GameObject target;
+    [SerializeField] public GameObject unit;
 
     [Header("Attributes")]
     [SerializeField] public int maxHealth = 1;
@@ -12,10 +12,14 @@ public class DefaultTarget : MonoBehaviour, ITargetable
 
 
     public Team Team { get; set; }
-    public GameObject GetGameObject() => target;
-    public Team GetTeam() => Team;
-    public bool GetIsAlive() => currentHealth > 0;
-    public float GetHitRadius() => hitRadius;
+
+    public GameObject GameObject => unit;
+
+    public Transform Transform => (this != null) ? gameObject.transform : null;
+
+    public float HitRadius => hitRadius;
+
+    public bool IsAlive => currentHealth > 0;
 
     private void Awake()
     {

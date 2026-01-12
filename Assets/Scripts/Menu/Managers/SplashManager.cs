@@ -37,24 +37,41 @@ public class SplashManager : MonoBehaviour
         splashPanel.style.right = 0;
         splashPanel.style.bottom = 0;
 
-        // Load all needed data in parallel
+        if (SaveService.Instance == null || IdentityService.Instance == null)
+        {
+            Debug.LogError("SaveService or IdentityService missing");
+            return;
+        }
+
+        if (IdentityService.Instance.Current == null)
+        {
+            Debug.LogError("Identity not authenticated before Splash");
+            return;
+        }
+
+        SaveService.Instance.InitializeForPlayer(IdentityService.Instance.Current.GetPlayerId());
+        await SaveService.Instance.Load();
+
+        // Load all needed data
         var loadTasks = new List<Task>
         {
-            LeaderboardManager.main.GetUserScore(),
-            LeaderboardManager.main.GetScores(),
+            UserProfile.Instance.GetUserScore(),
+            LeaderboardManager.Instance.GetScores(),
+            TalentManager.Instance.LoadPlayerTalentsAsync(),
+            UtilityLoadAdressable.PreloadPlaceholder(),
         };
 
         await Task.WhenAll(loadTasks);
 
         //Remove when done testing
         //await Task.Delay(3000);
-
+        
         splashContainer.Remove(splashPanel);
 
         splashPanel.style.display = DisplayStyle.None;
         splashContainer.style.display = DisplayStyle.None;
 
-        MenuManager.main.LoadScreen("MainMenu");
+        MenuManager.Instance.LoadScreen("MainMenu");
 
     }
 }

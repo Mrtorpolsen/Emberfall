@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class Combat : MonoBehaviour
+public class CombatManager : MonoBehaviour
 {
     //[Header("debug")]
     //[SerializeField] private GameObject debugTarget = null;
 
     [Header("References")]
-    [SerializeField] private FindTarget findTarget;
+    [SerializeField] private TargetManager findTarget;
 
     private IUnit unit;
     private ITargetable target;
@@ -16,7 +16,7 @@ public class Combat : MonoBehaviour
     private void Awake()
     {
         unit = GetComponent<IUnit>();
-        findTarget = GetComponent<FindTarget>();
+        findTarget = GetComponent<TargetManager>();
         movement = GetComponent<MovementManager>();
     }
     //look into only looking for targets in the player zone
@@ -30,23 +30,23 @@ public class Combat : MonoBehaviour
         if (findTarget != null)
         {
             var currentTarget = findTarget.GetCurrentTarget();
-            if (currentTarget != target || target == null || !target.GetIsAlive())
+            if (currentTarget != target || target == null || !target.IsAlive)
             {
                 target = currentTarget;
             }
         }
 
-        if (target != null && target.GetIsAlive())
+        if (target != null && target.IsAlive)
         {
-            Transform t = target.GetTransform();
+            Transform t = target.Transform;
             if (t != null)
             {
-                float dist = Vector2.Distance(transform.position, target.GetTransform().position);
-                float effectiveRange = unit.GetAttackRange() + target.GetHitRadius();
+                float dist = Vector2.Distance(transform.position, target.Transform.position);
+                float effectiveRange = unit.AttackRange + target.HitRadius;
 
                 if (dist <= effectiveRange && attackCooldown <= 0)
                 {
-                    attackCooldown = 1f / unit.GetAttackSpeed();
+                    attackCooldown = 1f / unit.AttackSpeed;
 
                     if(unit is RangerStats)
                     {
@@ -58,20 +58,20 @@ public class Combat : MonoBehaviour
                     }
                     else
                     {
-                        target.TakeDamage(unit.GetAttackDamage());
+                        target.TakeDamage(unit.AttackDamage);
                     }
                 }
                 if (movement != null)
                 {
-                    movement.canMove = dist > unit.GetAttackRange();
+                    movement.canMove = dist > unit.AttackRange;
                 }
             }
         }
-
     }
+
     public void ApplyProjectileDamage(ITargetable target, int damage)
     {
-        if (target != null && target.GetIsAlive())
+        if (target != null && target.IsAlive)
         {
             target.TakeDamage(damage);
         }

@@ -7,48 +7,41 @@ using UnityEngine.UIElements;
 public class NavBarEvents : MonoBehaviour
 {
     [Header("References")]
-    public UIDocument uiDocument;
+    public UIDocument uIDocument;
 
     private VisualElement root;
-    private List<Button> navButtons = new List<Button>();
+
+    private readonly Dictionary<string, string> bindings = new()
+    {
+        { "Btn_Main", nameof(Btn_Main) },
+        { "Btn_Leaderboard", nameof(Btn_Leaderboard) },
+        { "Btn_Forge", nameof(Btn_Forge) },
+    };
 
     void Awake()
     {
-        SetupNavBar();
-    }
+        root = uIDocument.rootVisualElement.Q<VisualElement>("NavMenuContainer");
 
-    void SetupNavBar()
-    {
-        root = uiDocument.rootVisualElement;
-
-        navButtons.Clear();
-        navButtons.AddRange(root.Query<Button>().ToList());
-
-        foreach (var btn in navButtons)
-        {
-            btn.clicked += () => OnButtonClicked(btn);
-        }
-    }
-
-    private void OnButtonClicked(Button btn)
-    {
-        switch (btn.name)
-        {
-            case "Btn_Main":
-                MenuManager.main.LoadScreen("MainMenu");
-                break;
-            case "Btn_Leaderboard":
-                MenuManager.main.LoadScreen("Leaderboard");
-                break;
-        }
+        UtilityUIBinding.BindEvents(root, this, bindings);
     }
 
     void OnDestroy()
     {
-        foreach (var btn in navButtons)
-        {
-            btn.clicked -= () => OnButtonClicked(btn);
-        }
+        UtilityUIBinding.Cleanup(this);
+    }
+
+    private void Btn_Main()
+    {
+        MenuManager.Instance.LoadScreen("MainMenu");
+    }
+    private void Btn_Leaderboard()
+    {
+        MenuManager.Instance.LoadScreen("Leaderboard");
+    }
+    private void Btn_Forge()
+    {
+        MenuManager.Instance.LoadScreen("Forge");
     }
 }
+
 

@@ -11,12 +11,13 @@ public class BuildingPlot : MonoBehaviour
 
     private void Update()
     {
-        sr.color = (GameManager.main.currency[Team.South] >= tower.Cost) ? canBuild : cantBuild;
+        sr.color = (GameManager.Instance.currency[Team.South] >= tower.Cost) ? canBuild : cantBuild;
     }
 
     public void OnPlotClicked()
     {
-        if (GameManager.main.currency[Team.South] >= tower.Cost)
+        Debug.Log("Plot clicked!!!");
+        if (GameManager.Instance.currency[Team.South] >= tower.Cost)
         {
             BuildTower();
             gameObject.SetActive(false);
@@ -31,6 +32,6 @@ public class BuildingPlot : MonoBehaviour
     {
         if (tower == null) return;
 
-        UnitManager.main.SpawnSouthTower(this.transform);
+        SpawnManager.Instance.SpawnSouthTower(this.transform);
     }
 }

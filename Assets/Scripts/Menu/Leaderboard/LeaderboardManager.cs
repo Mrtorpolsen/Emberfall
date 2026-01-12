@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
@@ -6,20 +5,20 @@ using Unity.Services.Leaderboards;
 using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 
+//Needs to be initialized earlier and a singleton since its used in game scene.
 public class LeaderboardManager : MonoBehaviour
 {
-    public static LeaderboardManager main;
+    public static LeaderboardManager Instance;
 
     private string leaderboardId = "High_Scores";
-    public float UserHighScore { get; private set; } = 0;
     public List<LeaderboardEntry> userScores;
 
     public bool IsLoggedIn() => AuthenticationService.Instance.IsSignedIn;
 
     private void Awake()
     {
-        if (main != null) { Destroy(gameObject); return; }
-        main = this;
+        if (Instance != null) { Destroy(gameObject); return; }
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -35,6 +34,12 @@ public class LeaderboardManager : MonoBehaviour
 
         int score = Mathf.FloorToInt(timeSurvived);
 
+        if (UserProfile.Instance.UserHighScore > score)
+        {
+            Debug.Log("Score too low to record");
+            return;
+        }
+
         try
         {
             //takes int
@@ -42,42 +47,13 @@ public class LeaderboardManager : MonoBehaviour
                 .AddPlayerScoreAsync(leaderboardId, score);
 
             //Look into only calling this if higher than previous highscore
-            await GetUserScore();
+
+            await UserProfile.Instance.GetUserScore();
 
         }
         catch (System.Exception e)
         {
             Debug.LogError("Failed to submit score: " + e.Message);
-        }
-    }
-
-    public async Task<double> GetUserScore()
-    {
-        if (!IsLoggedIn())
-        {
-            Debug.LogError("Not logged in");
-            return 0;
-        }
-
-        try
-        {
-            var scoreResponse = await LeaderboardsService.Instance
-                .GetPlayerScoreAsync(leaderboardId);
-
-            if (scoreResponse != null)
-            {
-                UserHighScore = (float)scoreResponse.Score;
-            }
-            else
-            {
-                UserHighScore = 0;
-            }
-            return UserHighScore;
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log("Failed to get score: " + e.Message);
-            return UserHighScore;
         }
     }
 

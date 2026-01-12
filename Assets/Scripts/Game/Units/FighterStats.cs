@@ -19,20 +19,21 @@ public class FighterStats : UnitStats, IUnit, ITargetable
 
     public override Team Team { get; set; }
     public override float Cost => cost;
-    public GameObject GetGameObject() => gameObject;
-    public Team GetTeam() => Team;
-    public float GetAttackRange() => attackRange;
-    public int GetAttackDamage() => attackDamage;
-    public float GetAttackSpeed() => attackSpeed;
-    public bool GetIsAlive() => currentHealth > 0;
-    public float GetHitRadius() => hitRadius;
-    public float GetMovementSpeed() => movementSpeed;
+    public float AttackRange => attackRange;
 
+    public int AttackDamage => attackDamage;
 
-    public Transform GetTransform()
-    {
-        return (this != null) ? transform : null;
-    }
+    public float AttackSpeed => attackSpeed;
+
+    public float MovementSpeed => movementSpeed;
+
+    public GameObject GameObject => gameObject;
+
+    public Transform Transform => (this != null) ? transform : null;
+
+    public float HitRadius => hitRadius;
+
+    public bool IsAlive => currentHealth > 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

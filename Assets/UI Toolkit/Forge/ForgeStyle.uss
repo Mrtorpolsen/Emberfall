@@ -1,0 +1,56 @@
+:root {
+}
+
+.unitsContainer {
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 0;
+    flex-wrap: wrap;
+    max-height: 100%;
+    height: auto;
+}
+
+.unitContainer {
+    margin-bottom: 25px;
+    width: 30%;
+}
+
+.imgContainer {
+    height: 320px;
+    min-height: auto;
+    max-height: 320px;
+    background-color: rgba(0, 0, 0, 0);
+    max-width: 320px;
+}
+
+.imgUnit {
+    flex-grow: 1;
+}
+
+.btnUpg {
+    max-height: 160px;
+    max-width: none;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-text-align: middle-center;
+    font-size: 50px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    width: 100%;
+    height: 100%;
+}
+
+.talentTreeRow {
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 25px;
+    flex-grow: 0;
+    align-items: flex-start;
+    width: 100%;
+    min-height: auto;
+}

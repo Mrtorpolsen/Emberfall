@@ -28,7 +28,66 @@
     padding-left: 80px;
 }
 
-.label {
-    font-size: 50px;
-    color: rgb(255, 255, 255);
+.labelHeading {
+    font-size: 85px;
+    color: rgb(255, 235, 225);
+    align-self: center;
+}
+
+.btnBackground1x1 {
+    background-image: url("project://database/Assets/Art/UI/Backgrounds/btn_background.png?fileID=4483057878667240538&guid=e46f4d1555b939a4fb2be68a1c04b813&type=3#New Button_0");
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
+
+.btnPadding1x1 {
+    padding-top: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+}
+
+.btnBackground2x1 {
+    background-image: url("project://database/Assets/Art/UI/Backgrounds/btn_upgrade_320x160.png?fileID=-9202653285723244096&guid=90fd8b4001665a842b0cb5918224325d&type=3#btn_upgrade_320x160_0");
+}
+
+.scrollViewVertical {
+    flex-grow: 1;
+    max-height: 100%;
+}
+
+.scrollViewContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-height: 100%;
+}
+
+.returnContainer {
+    flex-direction: row;
+    margin-bottom: 50px;
+}
+
+.btnReturn > .unity-button__image {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+}
+
+.btnReturn {
+    font-size: 40px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }

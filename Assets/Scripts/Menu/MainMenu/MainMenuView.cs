@@ -1,17 +1,15 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MainMenuView : IUIScreen
+public class MainMenuView : IUIScreenView
 {
-    private VisualElement root;
     private Label label_highscore;
 
     public void Initialize(VisualElement root)
     {
-        this.root = root;
 
         label_highscore = root.Q<Label>("Label_HighScore");
 
-        label_highscore.text = Utility.FormatTime(LeaderboardManager.main.UserHighScore);
+        label_highscore.text = Utility.FormatTime(UserProfile.Instance.UserHighScore);
     }
 }

@@ -13,26 +13,21 @@ public class TowerStats : UnitStats, IUnit
     [SerializeField] private int attackDamage = 30;
     [SerializeField] private float attackSpeed = 1.5f;
     [SerializeField] private float attackRange = 3.5f;
+    [SerializeField] private float movementSpeed = 0f;
 
 
-    private Combat combat;
+    private CombatManager combat;
 
     public override Team Team { get; set; }
     public override float Cost => cost;
-    public GameObject GetGameObject() => gameObject;
-    public Team GetTeam() => Team;
-    public float GetAttackRange() => attackRange;
-    public int GetAttackDamage() => attackDamage;
-    public float GetAttackSpeed() => attackSpeed;
-    public bool GetIsAlive() => currentHealth > 0;
-    public float GetHitRadius() => 0f;
-    public float GetMovementSpeed() => 0f;
 
+    public float AttackRange => attackRange;
 
-    public Transform GetTransform()
-    {
-        return (this != null) ? transform : null;
-    }
+    public int AttackDamage => attackDamage;
+
+    public float AttackSpeed => attackSpeed;
+
+    public float MovementSpeed => movementSpeed;
 
     void Start()
     {
@@ -41,7 +36,7 @@ public class TowerStats : UnitStats, IUnit
     void Awake()
     {
         currentHealth = maxHealth;
-        combat = GetComponent<Combat>();
+        combat = GetComponent<CombatManager>();
     }
 
     public void TakeDamage(int amount)
@@ -68,7 +63,7 @@ public class TowerStats : UnitStats, IUnit
     {
         GameObject towerProjectileObj = Instantiate(towerProjectilePrefab, unit.transform.position, Quaternion.identity);
         TowerProjectile towerProjectileScript = towerProjectileObj.GetComponent<TowerProjectile>();
-        towerProjectileObj.layer = target.GetTeam() == Team.North ? LayerMask.NameToLayer("SouthTeamProjectile") : LayerMask.NameToLayer("NorthTeamProjectile");
+        towerProjectileObj.layer = target.Team == Team.North ? LayerMask.NameToLayer("SouthTeamProjectile") : LayerMask.NameToLayer("NorthTeamProjectile");
         towerProjectileScript.SetTarget(target);
         towerProjectileScript.Init(this, attackDamage);
         towerProjectileScript.OnHit += HandleArrowHit;

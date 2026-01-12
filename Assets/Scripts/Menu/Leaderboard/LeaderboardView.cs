@@ -3,7 +3,7 @@ using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LeaderboardView : IUIScreen
+public class LeaderboardView : IUIScreenView
 {
     public VisualTreeAsset rowTemplate;
 
@@ -12,14 +12,14 @@ public class LeaderboardView : IUIScreen
 
     private void LoadLeaderboard()
     {
-        var scores = LeaderboardManager.main.userScores;
+        var scores = LeaderboardManager.Instance.userScores;
 
         foreach (LeaderboardEntry entry in scores)
         {
-            AddRow(entry);
+            GenerateRow(entry);
         }
     }
-    private void AddRow(LeaderboardEntry entry)
+    private void GenerateRow(LeaderboardEntry entry)
     {
         var row = rowTemplate.Instantiate();
 
@@ -47,7 +47,7 @@ public class LeaderboardView : IUIScreen
     public void Initialize(VisualElement root)
     {
         this.root = root;
-        rowTemplate = Resources.Load<VisualTreeAsset>("UI/LeaderboardRow");
+        rowTemplate = Resources.Load<VisualTreeAsset>("UI/Leaderboard/LeaderboardRow");
 
         listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
         listContainer.Clear();

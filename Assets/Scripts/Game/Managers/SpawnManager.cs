@@ -1,9 +1,9 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class UnitManager : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
-    public static UnitManager main;
+    public static SpawnManager Instance;
 
     [Header("North Reference")]
     [SerializeField] private Transform northSpawn;
@@ -28,9 +28,9 @@ public class UnitManager : MonoBehaviour
 
     private void Awake()
     {
-        if(main ==  null)
+        if(Instance ==  null)
         {
-            main = this;
+            Instance = this;
         }
         else
         {
@@ -40,12 +40,12 @@ public class UnitManager : MonoBehaviour
 
     public void UpgradeIncome()
     {
-        if (GameManager.main.currency[Team.South] >= GameManager.main.incomeUpgradeCost)
+        if (GameManager.Instance.currency[Team.South] >= GameManager.Instance.incomeUpgradeCost)
         {
-            GameManager.main.UpgradeIncomeModifier();
-            GameManager.main.SubtractCurrency(Team.South, GameManager.main.incomeUpgradeCost);
-            GameManager.main.incomeUpgradeCost += 50;
-            UIManager.main.UpdateIncomeCostText();
+            GameManager.Instance.UpgradeIncomeModifier();
+            GameManager.Instance.SubtractCurrency(Team.South, GameManager.Instance.incomeUpgradeCost);
+            GameManager.Instance.incomeUpgradeCost += 50;
+            UIManager.Instance.UpdateIncomeCostText();
         }
         else
         {
@@ -63,7 +63,7 @@ public class UnitManager : MonoBehaviour
             return false;
         }
 
-        if (GameManager.main.currency[team] >= stats.Cost || team == Team.North)
+        if (GameManager.Instance.currency[team] >= stats.Cost || team == Team.North)
         {
             GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
             SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
@@ -84,7 +84,7 @@ public class UnitManager : MonoBehaviour
 
             if(team == Team.South)
             {
-                GameManager.main.SubtractCurrency(team, stats.Cost);
+                GameManager.Instance.SubtractCurrency(team, stats.Cost);
             }
 
             return true;

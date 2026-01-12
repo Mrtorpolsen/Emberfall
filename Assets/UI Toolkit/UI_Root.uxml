@@ -1,14 +1,14 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/UIRootStyle.uss?fileID=7433441132597879392&amp;guid=c45facdadf66fae4f8f372e8085096fa&amp;type=3#UIRootStyle" />
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
-    <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/background.png?fileID=-7443756053782179069&amp;guid=d06bc6ebb2ce77c45a96dde194896a09&amp;type=3#background_0&quot;);">
+    <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/background.png?fileID=-7443756053782179069&amp;guid=d06bc6ebb2ce77c45a96dde194896a09&amp;type=3#background_0&quot;); height: 100%;">
         <Bitbebop.SafeArea>
             <ui:VisualElement name="MainContainer" class="mainContainer" style="flex-grow: 1;">
                 <ui:VisualElement name="TopBarContainer" class="topBarContainer">
                     <ui:Label text="User  Name" name="Label_UserName" class="topBarLabel gradient-text text" style="justify-content: flex-start; font-size: 30px;" />
                     <ui:Label text="User Currency" name="Label_UserCurrency" class="topBarLabel text" />
                 </ui:VisualElement>
-                <ui:VisualElement name="ContentContainer" style="flex-grow: 1; display: flex; flex-direction: column;" />
+                <ui:VisualElement name="ContentContainer" style="flex-grow: 1; display: flex; flex-direction: column; max-height: 100%; height: auto; overflow: hidden;" />
             </ui:VisualElement>
             <ui:VisualElement name="NavMenuContainer" class="navMenu navMenuContainer" style="flex-grow: 0; width: auto;">
                 <ui:Button name="Btn_Shop" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_shop.png?fileID=5226362532507826810&amp;guid=9e6989c2933d4454d8c45d9d44269783&amp;type=3#btn_shop_0&quot;); background-color: rgba(188, 188, 188, 0);" />

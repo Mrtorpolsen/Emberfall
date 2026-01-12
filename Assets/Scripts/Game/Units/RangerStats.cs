@@ -18,24 +18,26 @@ public class RangerStats : UnitStats, IUnit, ITargetable
     [SerializeField] private float movementSpeed = 1.75f;
 
 
-    private Combat combat;
+    private CombatManager combat;
 
     public override Team Team { get; set; }
     public override float Cost => cost;
-    public GameObject GetGameObject() => gameObject;
-    public Team GetTeam() => Team;
-    public float GetAttackRange() => attackRange;
-    public int GetAttackDamage() => attackDamage;
-    public float GetAttackSpeed() => attackSpeed;
-    public bool GetIsAlive() => currentHealth > 0;
-    public float GetHitRadius() => hitRadius;
-    public float GetMovementSpeed() => movementSpeed;
 
+    public float AttackRange => attackRange;
 
-    public Transform GetTransform()
-    {
-        return (this != null) ? transform : null;
-    }
+    public int AttackDamage => attackDamage;
+
+    public float AttackSpeed => attackSpeed;
+
+    public float MovementSpeed => movementSpeed;
+
+    public GameObject GameObject => gameObject;
+
+    public Transform Transform => (this != null) ? transform : null;
+
+    public float HitRadius => hitRadius;
+
+    public bool IsAlive => currentHealth > 0;
 
     void Start()
     {
@@ -46,7 +48,7 @@ public class RangerStats : UnitStats, IUnit, ITargetable
     {
         currentHealth = maxHealth;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
-        combat = GetComponent<Combat>();
+        combat = GetComponent<CombatManager>();
     }
     public void TakeDamage(int amount)
     {
@@ -73,7 +75,7 @@ public class RangerStats : UnitStats, IUnit, ITargetable
     {
         GameObject arrowObj = Instantiate(arrowPrefab, unit.transform.position, Quaternion.identity);
         Arrow arrowScript = arrowObj.GetComponent<Arrow>();
-        arrowObj.layer = target.GetTeam() == Team.North ? LayerMask.NameToLayer("SouthTeamProjectile") : LayerMask.NameToLayer("NorthTeamProjectile");
+        arrowObj.layer = target.Team == Team.North ? LayerMask.NameToLayer("SouthTeamProjectile") : LayerMask.NameToLayer("NorthTeamProjectile");
         arrowScript.SetTarget(target);
 
         arrowScript.Init(this, attackDamage);

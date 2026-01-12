@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
+    <Style src="project://database/Assets/UI%20Toolkit/PopupStyle.uss?fileID=7433441132597879392&amp;guid=3ae99aed850e6f04f9c4440bc89a8ae3&amp;type=3#PopupStyle" />
+    <ui:VisualElement name="PopupBlocker" style="flex-grow: 0; justify-content: center; align-self: auto; display: flex; position: absolute; width: 100%; height: 100%;">
+        <ui:VisualElement name="PopupContainer" class="popupContainer" style="height: auto; max-height: none; background-image: resource(&apos;UI/Images/popup_box_opacity_95&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);">
+            <ui:VisualElement name="Img" class="imgTalent" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/place_holder_icon.png?fileID=21300000&amp;guid=4c55f00872ecbe148863e8ade2e0550a&amp;type=3#place_holder_icon&quot;); max-height: 450px; max-width: 450px; display: flex;" />
+            <ui:Label text="Strike Training" name="Label_Heading" class="text" style="font-size: 50px; margin-top: 10px; margin-bottom: 0;" />
+            <ui:Label text="Increases fighter&apos;s attack damage by 1% per purchaseIncreases fighter&apos;s attack damage by 1% per purchase" name="Label_Description" class="text" style="font-size: 35px; white-space: normal; -unity-text-align: upper-center; flex-grow: 0; flex-shrink: 0; width: 100%; margin-top: 50px; margin-bottom: 50px;" />
+            <ui:VisualElement name="BtnContainer" style="flex-grow: 1; width: 100%; height: auto; align-items: auto; align-content: auto; justify-content: flex-end; max-height: none; max-width: 500px; display: flex; flex-shrink: 0; margin-top: 50px;">
+                <ui:Label text="0/5" name="Label_Btn" class="text" style="font-size: 40px; align-self: center; margin-top: 25px;" />
+                <ui:Button text="100" name="Btn_CTA" icon-image="project://database/Assets/Art/UI/Icons/cinder_icon.png?fileID=2800000&amp;guid=001a100086c2f304f8db9d853eff26d8&amp;type=3#cinder_icon" class="btnBackground2x1 text" style="background-color: rgba(188, 188, 188, 0); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; height: 100%; align-self: center; max-width: 500px; max-height: 150px; align-items: center; width: 100%; align-content: flex-end; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; font-size: 50px; flex-direction: row-reverse;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
