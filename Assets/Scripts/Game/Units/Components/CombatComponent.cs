@@ -1,23 +1,23 @@
 using UnityEngine;
 
-public class CombatManager : MonoBehaviour
+public class CombatComponent : MonoBehaviour
 {
     //[Header("debug")]
     //[SerializeField] private GameObject debugTarget = null;
 
     [Header("References")]
-    [SerializeField] private TargetManager findTarget;
+    [SerializeField] private TargetComponent findTarget;
 
     private IUnit unit;
     private ITargetable target;
-    private MovementManager movement;
+    private MovementComponent movement;
     private float attackCooldown;
 
     private void Awake()
     {
         unit = GetComponent<IUnit>();
-        findTarget = GetComponent<TargetManager>();
-        movement = GetComponent<MovementManager>();
+        findTarget = GetComponent<TargetComponent>();
+        movement = GetComponent<MovementComponent>();
     }
     //look into only looking for targets in the player zone
     private void Update()

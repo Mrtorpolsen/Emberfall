@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ClickManager : MonoBehaviour
+public class ClickTracker : MonoBehaviour
 {
     private void Update()
     {

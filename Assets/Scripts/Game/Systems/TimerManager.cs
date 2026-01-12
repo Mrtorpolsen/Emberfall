@@ -13,7 +13,7 @@ public class TimerManager : MonoBehaviour
 
 
     public float GetElapsedTime() => (Time.time - startTime) * 1000f;
-    public string GetFormattedTime() => Utility.FormatTime(GetElapsedTime());
+    public string GetFormattedTime() => TimeFormatter.FormatTime(GetElapsedTime());
 
     private void Awake()
     {
