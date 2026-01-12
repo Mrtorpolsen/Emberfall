@@ -110,9 +110,9 @@ public class GameManager : MonoBehaviour
         Instance.isGameRunning = true;
         TimerManager.Instance.StartTimer();
 
-        StartCoroutine(Utility.DoAfterDelay(3f, () =>
+        StartCoroutine(CoroutineHelpers.DoAfterDelay(3f, () =>
         {
-            WaveManager.Instance.StartWaves();
+            WaveController.Instance.StartWaves();
         }));
     }
 }

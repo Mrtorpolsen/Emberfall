@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class TargetManager : MonoBehaviour
+public class TargetComponent : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField] private float detectionRange = 100f;

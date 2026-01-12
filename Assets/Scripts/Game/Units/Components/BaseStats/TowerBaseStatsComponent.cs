@@ -16,7 +16,7 @@ public class TowerStats : UnitStats, IUnit
     [SerializeField] private float movementSpeed = 0f;
 
 
-    private CombatManager combat;
+    private CombatComponent combat;
 
     public override Team Team { get; set; }
     public override float Cost => cost;
@@ -36,7 +36,7 @@ public class TowerStats : UnitStats, IUnit
     void Awake()
     {
         currentHealth = maxHealth;
-        combat = GetComponent<CombatManager>();
+        combat = GetComponent<CombatComponent>();
     }
 
     public void TakeDamage(int amount)

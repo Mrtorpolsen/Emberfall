@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaveManager : MonoBehaviour
+public class WaveController : MonoBehaviour
 {
-    public static WaveManager Instance;
+    public static WaveController Instance;
 
     [Header("Settings")]
     [SerializeField] private Transform northSpawn;

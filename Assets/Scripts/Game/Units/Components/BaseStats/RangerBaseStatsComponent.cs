@@ -18,7 +18,7 @@ public class RangerStats : UnitStats, IUnit, ITargetable
     [SerializeField] private float movementSpeed = 1.75f;
 
 
-    private CombatManager combat;
+    private CombatComponent combat;
 
     public override Team Team { get; set; }
     public override float Cost => cost;
@@ -48,7 +48,7 @@ public class RangerStats : UnitStats, IUnit, ITargetable
     {
         currentHealth = maxHealth;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
-        combat = GetComponent<CombatManager>();
+        combat = GetComponent<CombatComponent>();
     }
     public void TakeDamage(int amount)
     {

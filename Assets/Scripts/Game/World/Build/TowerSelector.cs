@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class BuildManager : MonoBehaviour
+public class TowerSelector : MonoBehaviour
 {
-    public static BuildManager main;
+    public static TowerSelector Instance;
 
     [Header("References")]
     [SerializeField] private UnitStats[] towerPrefabs;
@@ -11,9 +11,9 @@ public class BuildManager : MonoBehaviour
 
     private void Awake()
     {
-        if (main == null)
+        if (Instance == null)
         {
-            main = this;
+            Instance = this;
         }
         else
         {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MovementManager : MonoBehaviour
+public class MovementComponent : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
@@ -8,11 +8,11 @@ public class MovementManager : MonoBehaviour
     [Header("Attributes")]
     [SerializeField] public bool canMove;
 
-    private TargetManager findTarget;
+    private TargetComponent findTarget;
     
     void Awake()
     {
-        findTarget = GetComponent<TargetManager>();
+        findTarget = GetComponent<TargetComponent>();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
     

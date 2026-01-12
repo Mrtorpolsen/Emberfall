@@ -1,13 +1,7 @@
-using System.Collections;
 using UnityEngine;
 
-public static class Utility
+public static class TimeFormatter
 {
-    public static IEnumerator DoAfterDelay(float delay, System.Action action)
-    {
-        yield return new WaitForSeconds(delay);
-        action?.Invoke();
-    }
     public static string FormatTime(float timeInMilliseconds)
     {
         int totalSeconds = Mathf.FloorToInt(timeInMilliseconds / 1000f);
