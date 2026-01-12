@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour
+public class Arrow : MonoBehaviour, IProjectile
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] public IUnit ranger;
+    [SerializeField] public IUnit shooter;
 
 
     [Header("Attributes")]
@@ -18,7 +18,7 @@ public class Arrow : MonoBehaviour
 
     public void Init(IUnit owner, int _damage)
     {
-        ranger = owner;
+        shooter = owner;
         damage = _damage;
     }
 

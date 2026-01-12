@@ -305,15 +305,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 3501163535796704365}
   healthBar: {fileID: 176145735700888466}
-  arrowPrefab: {fileID: 9402218379871732, guid: e8cb38ba7f8b72446a55f05ce5c10eae, type: 3}
   cost: 75
   maxHealth: 100
-  attackDamage: 15
   currentHealth: 0
-  attackRange: 1.5
+  attackDamage: 15
   attackSpeed: 0.5
+  attackRange: 1.5
   hitRadius: 0.135
   movementSpeed: 1.75
+  projectilePrefab: {fileID: 9402218379871732, guid: e8cb38ba7f8b72446a55f05ce5c10eae, type: 3}
 --- !u!114 &4235267402526415989
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 
-public class TowerProjectile : MonoBehaviour
+public class TowerProjectile : MonoBehaviour, IProjectile
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] public IUnit tower;
+    [SerializeField] public IUnit shooter;
 
 
     [Header("Attributes")]
@@ -18,7 +18,7 @@ public class TowerProjectile : MonoBehaviour
 
     public void Init(IUnit owner, int _damage)
     {
-        tower = owner;
+        shooter = owner;
         damage = _damage;
     }
 
