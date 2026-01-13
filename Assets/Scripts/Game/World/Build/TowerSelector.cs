@@ -5,7 +5,7 @@ public class TowerSelector : MonoBehaviour
     public static TowerSelector Instance;
 
     [Header("References")]
-    [SerializeField] private UnitStats[] towerPrefabs;
+    [SerializeField] private UnitMetadata[] towerPrefabs;
 
     private int selectedTower = 0;
 
@@ -21,7 +21,7 @@ public class TowerSelector : MonoBehaviour
         }
     }
     
-    public UnitStats GetSelectedTower()
+    public UnitMetadata GetSelectedTower()
     {
         return towerPrefabs[selectedTower];
     }

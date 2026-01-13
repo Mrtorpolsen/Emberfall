@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class BaseUnitStats : UnitStats, IUnit, ITargetable
+public abstract class BaseUnitStats : UnitMetadata, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] protected GameObject unit;

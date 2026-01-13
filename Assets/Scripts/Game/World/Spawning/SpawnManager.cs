@@ -55,7 +55,7 @@ public class SpawnManager : MonoBehaviour
 
     public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team)
     {
-        UnitStats stats = prefab.GetComponent<UnitStats>();
+        UnitMetadata stats = prefab.GetComponent<UnitMetadata>();
 
         if (stats == null)
         {
@@ -73,9 +73,9 @@ public class SpawnManager : MonoBehaviour
                 AssignColor(sr, team);
             }
             
-            UnitStats unitStats = unit.GetComponent<UnitStats>();
+            UnitMetadata unitStats = unit.GetComponent<UnitMetadata>();
 
-            unitStats.GetComponent<UnitStats>().Team = team;
+            unitStats.GetComponent<UnitMetadata>().Team = team;
 
             if(prefab != gatePrefab)
             {
