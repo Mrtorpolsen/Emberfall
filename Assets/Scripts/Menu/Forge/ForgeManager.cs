@@ -65,7 +65,7 @@ public class ForgeManager : IUIScreenManager
     {
         List<TalentNodeDefinition> talentNodes = new List<TalentNodeDefinition>();
 
-        foreach (var talent in TalentManager.Instance.playerTalentTree.GetTalents(treeToGenerate))
+        foreach (var talent in TalentManager.Instance.playerTalentTree.GetTalentsByClass(treeToGenerate))
         {
             talentNodes.Add(BuildTalentNode(talent));
         }

@@ -27660,6 +27660,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978201588}
+  - component: {fileID: 978201589}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -27686,6 +27687,25 @@ Transform:
   - {fileID: 1263956707}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &978201589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978201587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52437886dcfe96b459b35dc714135434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStatsManager
+  unitPrefabs:
+  - unitName: 
+    prefab: {fileID: 6717628542700303866, guid: 54468932150093641ae59057b7e9886d, type: 3}
+  - unitName: 
+    prefab: {fileID: 3501163535796704365, guid: 46ad8408be13107488ddf6a6340e5227, type: 3}
+  - unitName: 
+    prefab: {fileID: 8916063152254937078, guid: b162035f5f53c22428a2ddeb61f1c82f, type: 3}
 --- !u!1 &983460988
 GameObject:
   m_ObjectHideFlags: 0

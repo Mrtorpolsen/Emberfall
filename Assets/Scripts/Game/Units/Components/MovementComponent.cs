@@ -41,7 +41,7 @@ public class MovementComponent : MonoBehaviour
             }
 
             //Sets Y barrier
-            if (rb.GetComponent<UnitStats>().Team == Team.South)
+            if (rb.GetComponent<UnitMetadata>().Team == Team.South)
             {
                 Vector2 pos = rb.position;
                 pos.y = Mathf.Min(pos.y, GameManager.Instance.playerUnitBoundary.transform.position.y);
@@ -64,7 +64,7 @@ public class MovementComponent : MonoBehaviour
         {
             if(unit == gameObject) continue;
 
-            if(unit.TryGetComponent<UnitStats>(out var otherUnit) && otherUnit.Team == rb.GetComponent<UnitStats>().Team)
+            if(unit.TryGetComponent<UnitMetadata>(out var otherUnit) && otherUnit.Team == rb.GetComponent<UnitMetadata>().Team)
             {
                 Vector2 away = (Vector2)(transform.position - unit.transform.position);
 

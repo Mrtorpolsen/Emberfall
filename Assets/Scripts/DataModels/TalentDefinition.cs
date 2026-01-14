@@ -6,10 +6,16 @@ public class TalentTree
     [JsonProperty("talents")]
     public Dictionary<string, List<TalentDefinition>> TalentsByClass { get; set; }
 
-    public List<TalentDefinition> GetTalents(string className)
+    public List<TalentDefinition> GetTalentsByClass(string className)
     {
         TalentsByClass.TryGetValue(className.ToLower(), out var talents);
         return talents;
+    }
+    public TalentDefinition GetTalentById(string id)
+    {
+        string className = id.Split("_")[0];
+
+        return GetTalentsByClass(className).Find(unit => unit.Id == id);
     }
 }
 
@@ -68,12 +74,12 @@ public enum EffectTarget
 {
     Health,
     Damage,
-    Armor,
     AttackSpeed,
+    Range,
+    Armor,
     CritChance,
     CritDamage,
     SplashRadius,
-    Range,
     Income,
     //Ability
     ShieldSlam,

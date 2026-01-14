@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class BaseUnitStats : UnitStats, IUnit, ITargetable
+public abstract class BaseUnitStats : UnitMetadata, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
@@ -15,7 +15,10 @@ public abstract class BaseUnitStats : UnitStats, IUnit, ITargetable
     [SerializeField] protected float attackRange;
     [SerializeField] protected float hitRadius;
     [SerializeField] protected float movementSpeed;
+    [SerializeField] protected int armor;
 
+
+    // UnitMetadata
     public override Team Team { get; set; }
     public override float Cost => cost;
 
@@ -24,6 +27,8 @@ public abstract class BaseUnitStats : UnitStats, IUnit, ITargetable
     public int AttackDamage => attackDamage;
     public float AttackSpeed => attackSpeed;
     public float MovementSpeed => movementSpeed;
+    public int MaxHealth => maxHealth;
+    public int Armor => armor;
 
     // ITargetable
     public GameObject GameObject => gameObject;
@@ -44,7 +49,7 @@ public abstract class BaseUnitStats : UnitStats, IUnit, ITargetable
 
     public virtual void TakeDamage(int amount)
     {
-        currentHealth -= amount;
+        currentHealth -= ApplyArmorReduction(amount);
         healthBar?.UpdateHealthBar(currentHealth, maxHealth);
         if (currentHealth <= 0)
         {
@@ -52,10 +57,32 @@ public abstract class BaseUnitStats : UnitStats, IUnit, ITargetable
         }
     }
 
+    private int ApplyArmorReduction(int dmg)
+    {
+        return (dmg - armor);
+    }
+
     public virtual void Die()
     {
         Destroy(unit != null ? unit : gameObject);
     }
+
+    public virtual void ApplyFinalStats(FinalStats stats)
+    {
+        maxHealth = stats.health;
+        currentHealth = stats.health;
+
+        attackDamage = stats.attackDamage;
+        attackSpeed = stats.attackSpeed;
+        attackRange = stats.attackRange;
+        movementSpeed = stats.movementSpeed;
+        hitRadius = stats.hitRadius;
+        cost = stats.cost;
+        armor = stats.armor;
+
+        healthBar?.UpdateHealthBar(currentHealth, maxHealth);
+    }
+
 
     protected virtual void OnDrawGizmosSelected()
     {

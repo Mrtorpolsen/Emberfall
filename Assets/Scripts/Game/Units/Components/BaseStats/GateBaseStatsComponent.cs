@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GateStats : UnitStats, IUnit, ITargetable
+public class GateStats : UnitMetadata, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] public GameObject gate;
@@ -16,6 +16,7 @@ public class GateStats : UnitStats, IUnit, ITargetable
     [SerializeField] public float attackRange = 0f;
     [SerializeField] public float hitRadius = 0.26f;
     [SerializeField] public float movementSpeed = 0f;
+    [SerializeField] public int armor = 0;
 
     public override Team Team { get; set; }
     public override float Cost => cost;
@@ -26,6 +27,7 @@ public class GateStats : UnitStats, IUnit, ITargetable
     public float AttackSpeed => attackSpeed;
 
     public float MovementSpeed => movementSpeed;
+    public int Armor => armor;
 
     public GameObject GameObject => gameObject;
 
@@ -34,6 +36,8 @@ public class GateStats : UnitStats, IUnit, ITargetable
     public float HitRadius => hitRadius;
 
     public bool IsAlive => currentHealth > 0;
+
+    public int MaxHealth => maxHealth;
 
     void Start()
     {
