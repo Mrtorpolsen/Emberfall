@@ -74,12 +74,12 @@ public enum EffectTarget
 {
     Health,
     Damage,
-    Armor,
     AttackSpeed,
+    Range,
+    Armor,
     CritChance,
     CritDamage,
     SplashRadius,
-    Range,
     Income,
     //Ability
     ShieldSlam,

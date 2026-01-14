@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -66,6 +67,20 @@ public class SpawnManager : MonoBehaviour
         if (GameManager.Instance.currency[team] >= stats.Cost || team == Team.North)
         {
             GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+
+            BaseUnitStats baseUnitStats = unit.GetComponent<BaseUnitStats>();
+
+            if (baseUnitStats != null && team == Team.South)
+            {
+                string unitKey = prefab.name.ToLowerInvariant();
+                FinalStats finalStats = UnitStatsManager.Instance.GetStats(unitKey);
+
+                if (finalStats != null)
+                {
+                    baseUnitStats.ApplyFinalStats(finalStats);
+                }
+            }
+
             SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
 
             if (sr != null) 

@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StatsBootstrapper
 {
     private Dictionary<string, List<TalentsToApply>> talentsByUnit;
+
+    public IReadOnlyDictionary<string, List<TalentsToApply>> TalentsByUnit => talentsByUnit;
 
     public class TalentsToApply
     {
@@ -20,10 +23,12 @@ public class StatsBootstrapper
 
         foreach (var kvp in SaveService.Instance.Current.Talents.Purchases)
         {
-            string unit = kvp.Key.Split("_")[0];
+            string unit = kvp.Key.Split("_")[0].ToLowerInvariant();
 
             var talentDef = TalentManager.Instance
                 .playerTalentTree.GetTalentById(kvp.Key);
+
+            if (talentDef.Type != TalentType.StatModifier) continue;
 
             TalentsToApply talent = new TalentsToApply
             {
@@ -68,13 +73,12 @@ public class StatsBootstrapper
 
             foreach (var talent in kvp.Value)
             {
-                Debug.Log($"  Purchased: {talent.purcashed}");
-
                 foreach (var effect in talent.effects)
                 {
                     Debug.Log(
                         $"    Effect → Target: {effect.Target}, " +
-                        $"Operation: {effect.Operation}, Value: {effect.Value}");
+                        $"Operation: {effect.Operation}, Value: {effect.Value}" +
+                        $"  Purchased: {talent.purcashed}");
                 }
             }
         }

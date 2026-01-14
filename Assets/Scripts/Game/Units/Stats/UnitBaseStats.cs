@@ -12,5 +12,5 @@ public class UnitBaseStats
 public class Unit : MonoBehaviour
 {
     public UnitBaseStats baseStats;
-    public RuntimeStats finalStats;
+    public FinalStats finalStats;
 }
