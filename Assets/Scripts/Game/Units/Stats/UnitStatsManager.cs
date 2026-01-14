@@ -20,10 +20,8 @@ public class UnitStatsManager : MonoBehaviour
     {
         Instance = this;
 
-        Debug.Log("calling frrom unitstatsmanangerr");
         statsBootstrapper = new StatsBootstrapper();
         statsBootstrapper.LoadAndBuildTalents();
-        statsBootstrapper.LogTalentsToApply();
         CalculateAllFinalStats();
     }
 
@@ -35,11 +33,6 @@ public class UnitStatsManager : MonoBehaviour
 
             BaseUnitStats baseStats = unitEntry.prefab.GetComponent<BaseUnitStats>();
             if (baseStats == null) continue;
-
-            if (statsBootstrapper.TalentsByUnit.ContainsKey(unitKey))
-            {
-                LogStats(unitKey, baseStats);
-            }
 
             FinalStats finalStats = new FinalStats
             {
@@ -55,11 +48,6 @@ public class UnitStatsManager : MonoBehaviour
             ApplyTalents(unitKey, ref finalStats);
 
             finalStatsByUnit[unitKey] = finalStats;
-
-            if (statsBootstrapper.TalentsByUnit.ContainsKey(unitKey))
-            {
-                LogStats(unitKey, finalStats);
-            }
         }
     }
 
