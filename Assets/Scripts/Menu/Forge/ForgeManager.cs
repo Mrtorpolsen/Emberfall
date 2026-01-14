@@ -117,6 +117,11 @@ public class ForgeManager : IUIScreenManager
             };
             PopupManager.Instance.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);
             PopupManager.Instance.ButtonIsActive(canPurchase);
+
+            if(talent.Type != TalentType.StatModifier)
+            {
+                PopupManager.Instance.ButtonIsActive(false);
+            }
         };
         return node;
     }
