@@ -15,6 +15,9 @@ public class ForgeManager : IUIScreenManager
         forgePanel = root.Q<VisualElement>("ForgePanel");
         talentTreePanel = root.Q<VisualElement>("TalentTreePanel");
 
+        //Get prerequisits from talents
+        TalentUnlockManager.Instance.InitializeFromForge();
+
         //Enforce correct state
         talentTreePanel.style.display = DisplayStyle.None;
         forgePanel.style.display = DisplayStyle.Flex;
@@ -75,11 +78,10 @@ public class ForgeManager : IUIScreenManager
 
     private TalentNodeDefinition BuildTalentNode(TalentDefinition talent)
     {
-        var node = new TalentNodeDefinition(); // declare first
+        var node = new TalentNodeDefinition();
 
         int purchased = SaveService.Instance.GetPurchases(talent.Id);
         int max = talent.Purchase.MaxPurchases;
-        bool canPurchase = purchased < max;
 
         node.img = talent.IconId;
         node.heading = talent.Name;
@@ -91,23 +93,32 @@ public class ForgeManager : IUIScreenManager
         node.onClick = () =>
         {
             int purchasedNow = SaveService.Instance.GetPurchases(talent.Id);
-            bool canPurchaseNow = purchasedNow < max;
+            bool canPurchase = purchased < max;
+
+            bool prerequisitsMet = TalentUnlockManager.Instance.ArePrerequisitesMet(talent.Id.Split("_")[0]
+                .ToLowerInvariant(), talent.Prerequisites);
 
             var popupBtn = new PopupButtonDefinition
             {
-                LabelText = $"{purchasedNow}/{max}",
+                //Todo need to reconstruct this to handle multiple prerequisites and different eg achievement
+                LabelText = prerequisitsMet ? $"{purchasedNow}/{max}" : $"Requires {talent.Prerequisites[0].RequiredPointsInTier} points in Tier {talent.Prerequisites[0].RequiredTier}",
                 BtnText = talent.GetCurrentCost().ToString(),
                 BtnIconPath = "UI/Images/Talents/cinder_icon",
 
                 OnClick = () =>
                 {
                     //TODO add the currency logic
+
+                    //Save an add points to talent req
                     SaveService.Instance.AddToSave(talent.Id);
+                    TalentUnlockManager.Instance
+                        .AddPoints(talent.Id.Split("_")[0].ToLowerInvariant(), talent.Tier, 1);
 
                     int updated = SaveService.Instance.GetPurchases(talent.Id);
                     bool stillCanPurchase = updated < max;
                     string purchasedTextNow = $"{updated}/{max}";
 
+                    //update label to match new purchase
                     PopupManager.Instance.UpdateButtonLabel(purchasedTextNow);
                     PopupManager.Instance.ButtonIsActive(stillCanPurchase);
 
@@ -116,7 +127,8 @@ public class ForgeManager : IUIScreenManager
                 }
             };
             PopupManager.Instance.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);
-            PopupManager.Instance.ButtonIsActive(canPurchase);
+
+            PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitsMet);
 
             if(talent.Type != TalentType.StatModifier)
             {

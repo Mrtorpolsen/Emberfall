@@ -30,12 +30,12 @@ public class TalentDefinition
     public TalentType Type;                 // StatModifier, AbilityUnlock, UnitUnlock, Income, etc.
     public int Tier;
 
-    public List<TalentEffect> Effects;      // one upgrade may have multiple effects
+    public TalentEffect[] Effects;      // one upgrade may have multiple effects
 
     public TalentCostModel Cost;            // dynamic cost scaling
     public TalentPurchaseModel Purchase;    // handles max, infinite, etc.
 
-    public List<TalentPrerequisite> Prerequisites;
+    public TalentPrerequisite[] Prerequisites;
 
     public float GetCurrentCost()
     {
