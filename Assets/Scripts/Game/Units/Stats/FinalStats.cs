@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using UnityEngine;
+
+[System.Serializable]
 public class FinalStats
 {
     public int health;
@@ -9,4 +11,6 @@ public class FinalStats
     public float attackRange;
     public float cost;
     public float hitRadius;
+    public float critChance;
+    public float critMultiplier;
 }

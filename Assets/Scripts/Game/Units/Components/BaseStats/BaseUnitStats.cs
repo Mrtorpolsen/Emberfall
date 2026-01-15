@@ -16,6 +16,8 @@ public abstract class BaseUnitStats : UnitMetadata, IUnit, ITargetable
     [SerializeField] protected float hitRadius;
     [SerializeField] protected float movementSpeed;
     [SerializeField] protected int armor;
+    [SerializeField] protected float critChance;
+    [SerializeField] protected float critMultiplier;
 
 
     // UnitMetadata
@@ -27,6 +29,8 @@ public abstract class BaseUnitStats : UnitMetadata, IUnit, ITargetable
     public int AttackDamage => attackDamage;
     public float AttackSpeed => attackSpeed;
     public float MovementSpeed => movementSpeed;
+    public float CritChance => critChance;
+    public float CritMultiplier => critMultiplier;
     public int MaxHealth => maxHealth;
     public int Armor => armor;
 
@@ -79,8 +83,34 @@ public abstract class BaseUnitStats : UnitMetadata, IUnit, ITargetable
         hitRadius = stats.hitRadius;
         cost = stats.cost;
         armor = stats.armor;
+        critChance = stats.critChance;
+        critMultiplier = stats.critMultiplier;
 
         healthBar?.UpdateHealthBar(currentHealth, maxHealth);
+    }
+
+    public int GetAttackDamage()
+    {
+        int dmg = attackDamage;
+
+        if (RollCrit())
+        {
+            dmg = Mathf.RoundToInt(dmg * critMultiplier);
+            ShowCritFeedback(dmg);
+        }
+
+        return dmg;
+    }
+
+    protected bool RollCrit()
+    {
+        return Random.value <= critChance;
+    }
+
+    protected virtual void ShowCritFeedback(int dmg)
+    {
+        // Incase i wanna add something to the UI later
+        Debug.Log($"{name} landed a CRIT for {dmg} damage!");
     }
 
 

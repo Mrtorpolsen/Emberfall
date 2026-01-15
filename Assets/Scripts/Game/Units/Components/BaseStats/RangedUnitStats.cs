@@ -25,7 +25,7 @@ public abstract class RangedUnitStats : BaseUnitStats
             : LayerMask.NameToLayer("NorthTeamProjectile");
 
         projScript.SetTarget(target);
-        projScript.Init(this, attackDamage);
+        projScript.Init(this, GetAttackDamage());
         projScript.OnHit += (t, dmg) => combat.ApplyProjectileDamage(t, dmg);
     }
 }

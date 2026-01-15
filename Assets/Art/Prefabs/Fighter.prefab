@@ -594,6 +594,9 @@ MonoBehaviour:
   attackRange: 0.25
   hitRadius: 0.135
   movementSpeed: 2
+  armor: 0
+  critChance: 0
+  critMultiplier: 1.5
 --- !u!114 &-6907675892120128662
 MonoBehaviour:
   m_ObjectHideFlags: 0

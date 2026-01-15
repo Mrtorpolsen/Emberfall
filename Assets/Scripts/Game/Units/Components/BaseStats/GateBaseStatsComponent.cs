@@ -17,6 +17,8 @@ public class GateStats : UnitMetadata, IUnit, ITargetable
     [SerializeField] public float hitRadius = 0.26f;
     [SerializeField] public float movementSpeed = 0f;
     [SerializeField] public int armor = 0;
+    [SerializeField] protected float critChance;
+    [SerializeField] protected float critMultiplier;
 
     public override Team Team { get; set; }
     public override float Cost => cost;
@@ -28,8 +30,11 @@ public class GateStats : UnitMetadata, IUnit, ITargetable
 
     public float MovementSpeed => movementSpeed;
     public int Armor => armor;
+    public float CritChance => critChance;
+    public float CritMultiplier => critMultiplier;
 
     public GameObject GameObject => gameObject;
+
 
     public Transform Transform => (this != null) ? transform : null;
 
