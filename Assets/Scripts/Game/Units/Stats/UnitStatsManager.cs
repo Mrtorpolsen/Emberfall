@@ -40,6 +40,8 @@ public class UnitStatsManager : MonoBehaviour
                 attackDamage = baseStats.AttackDamage,
                 attackSpeed = baseStats.AttackSpeed,
                 attackRange = baseStats.AttackRange,
+                critChance = baseStats.CritChance,
+                critMultiplier = baseStats.CritMultiplier,
                 movementSpeed = baseStats.MovementSpeed,
                 hitRadius = baseStats.HitRadius,
                 cost = baseStats.Cost
@@ -95,6 +97,14 @@ public class UnitStatsManager : MonoBehaviour
 
             case EffectTarget.Armor:
                 Apply(ref stats.armor, operation, value);
+                break;
+
+            case EffectTarget.CritChance:
+                Apply(ref stats.critChance, operation, value);
+                break;
+
+            case EffectTarget.CritDamage:
+                Apply(ref stats.critMultiplier, operation, value);
                 break;
         }
     }

@@ -155,8 +155,8 @@
         "Effects": [
           {
             "Target": "CritChance",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.02
           }
         ],
         "Cost": {
@@ -271,8 +271,8 @@
         "Effects": [
           {
             "Target": "CritChance",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.02
           }
         ],
         "Cost": {
@@ -416,8 +416,8 @@
         "Effects": [
           {
             "Target": "CritChance",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.02
           }
         ],
         "Cost": {
@@ -742,8 +742,8 @@
         "Effects": [
           {
             "Target": "CritChance",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.02
           }
         ],
         "Cost": {
@@ -800,8 +800,8 @@
         "Effects": [
           {
             "Target": "CritChance",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.02
           }
         ],
         "Cost": {
@@ -945,8 +945,8 @@
         "Effects": [
           {
             "Target": "CritChance",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.02
           }
         ],
         "Cost": {
@@ -1387,8 +1387,8 @@
         "Effects": [
           {
             "Target": "CritChance",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.02
           }
         ],
         "Cost": {
@@ -1503,8 +1503,8 @@
         "Effects": [
           {
             "Target": "CritChance",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.02
           }
         ],
         "Cost": {
@@ -1648,8 +1648,8 @@
         "Effects": [
           {
             "Target": "CritChance",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.02
           }
         ],
         "Cost": {

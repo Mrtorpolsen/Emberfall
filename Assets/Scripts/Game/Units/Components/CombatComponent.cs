@@ -8,14 +8,14 @@ public class CombatComponent : MonoBehaviour
     [Header("References")]
     [SerializeField] private TargetComponent findTarget;
 
-    private IUnit unit;
+    private BaseUnitStats unit;
     private ITargetable target;
     private MovementComponent movement;
     private float attackCooldown;
 
     private void Awake()
     {
-        unit = GetComponent<IUnit>();
+        unit = GetComponent<BaseUnitStats>();
         findTarget = GetComponent<TargetComponent>();
         movement = GetComponent<MovementComponent>();
     }
@@ -58,7 +58,7 @@ public class CombatComponent : MonoBehaviour
                     }
                     else
                     {
-                        target.TakeDamage(unit.AttackDamage);
+                        target.TakeDamage(unit.GetAttackDamage());
                     }
                 }
                 if (movement != null)

@@ -313,6 +313,9 @@ MonoBehaviour:
   attackRange: 1.5
   hitRadius: 0.135
   movementSpeed: 1.75
+  armor: 0
+  critChance: 0
+  critMultiplier: 1.5
   projectilePrefab: {fileID: 9402218379871732, guid: e8cb38ba7f8b72446a55f05ce5c10eae, type: 3}
 --- !u!114 &4235267402526415989
 MonoBehaviour:
