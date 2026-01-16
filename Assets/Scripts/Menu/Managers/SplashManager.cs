@@ -62,10 +62,10 @@ public class SplashManager : MonoBehaviour
         };
 
         await Task.WhenAll(loadTasks);
-
+        InitializeTopBar();
         //Remove when done testing
         //await Task.Delay(3000);
-        
+
         splashContainer.Remove(splashPanel);
 
         splashPanel.style.display = DisplayStyle.None;
@@ -73,5 +73,20 @@ public class SplashManager : MonoBehaviour
 
         MenuManager.Instance.LoadScreen("MainMenu");
 
+    }
+
+    private void InitializeTopBar()
+    {
+        var topBar = FindFirstObjectByType<TopBarView>();
+        if (topBar == null)
+        {
+            Debug.LogError("TopBarView not found");
+            return;
+        }
+
+        topBar.Initialize(
+            UserProfile.Instance.userName,
+            CurrencyManager.Instance.Get(CurrencyTypes.Cinders)
+        );
     }
 }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class SaveService : GameService<SaveService>
+public class SaveService : GlobalSystem<SaveService>
 {
     public SaveGame Current { get; private set; }
 

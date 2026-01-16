@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class GameService<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class GlobalSystem<T> : MonoBehaviour where T : MonoBehaviour
 {
     public static T Instance { get; private set; }
 
