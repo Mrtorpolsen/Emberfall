@@ -7,4 +7,6 @@ public class SaveGame
 
     public PlayerTalentState Talents = new();
     public CurrencyData Currency = new();
+
+    public bool HasReceivedLoginGift = false;
 }

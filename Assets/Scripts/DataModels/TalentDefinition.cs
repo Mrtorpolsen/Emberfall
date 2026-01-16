@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine;
 
 public class TalentTree
 {
@@ -37,13 +38,13 @@ public class TalentDefinition
 
     public TalentPrerequisite[] Prerequisites;
 
-    public float GetCurrentCost()
+    public int GetCurrentCost()
     {
         float baseCost = Cost.BaseCost;      // e.g. 100
         float multiplier = Cost.CostMultiplier; // e.g. 1.5
         int purchased = Purchase.Purchased;
-
-        return baseCost + (baseCost * multiplier * purchased);
+        
+        return Mathf.FloorToInt(baseCost + (baseCost * multiplier * purchased));
     }
 }
 

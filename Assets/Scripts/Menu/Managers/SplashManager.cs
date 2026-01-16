@@ -62,6 +62,15 @@ public class SplashManager : MonoBehaviour
         };
 
         await Task.WhenAll(loadTasks);
+
+        //move this to a reward manager or service later
+        if(!SaveService.Instance.Current.HasReceivedLoginGift)
+        {
+            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 10000);
+            SaveService.Instance.Current.HasReceivedLoginGift = true;
+            SaveService.Instance.Save();
+        }
+
         InitializeTopBar();
         //Remove when done testing
         //await Task.Delay(3000);

@@ -98,6 +98,8 @@ public class ForgeManager : IUIScreenManager
             bool prerequisitsMet = TalentUnlockManager.Instance.ArePrerequisitesMet(talent.Id.Split("_")[0]
                 .ToLowerInvariant(), talent.Prerequisites);
 
+            bool hasEnoughCurrency = talent.GetCurrentCost() < CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
+
             var popupBtn = new PopupButtonDefinition
             {
                 //Todo need to reconstruct this to handle multiple prerequisites and different eg achievement
@@ -108,6 +110,7 @@ public class ForgeManager : IUIScreenManager
                 OnClick = () =>
                 {
                     //TODO add the currency logic
+                    CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, talent.GetCurrentCost());
 
                     //Save an add points to talent req
                     SaveService.Instance.AddToSave(talent.Id);
@@ -115,7 +118,7 @@ public class ForgeManager : IUIScreenManager
                         .AddPoints(talent.Id.Split("_")[0].ToLowerInvariant(), talent.Tier, 1);
 
                     int updated = SaveService.Instance.GetPurchases(talent.Id);
-                    bool stillCanPurchase = updated < max;
+                    bool stillCanPurchase = updated < max && talent.GetCurrentCost() < CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
                     string purchasedTextNow = $"{updated}/{max}";
 
                     //update label to match new purchase
@@ -128,7 +131,7 @@ public class ForgeManager : IUIScreenManager
             };
             PopupManager.Instance.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);
 
-            PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitsMet);
+            PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitsMet && hasEnoughCurrency);
 
             if(talent.Type != TalentType.StatModifier)
             {
