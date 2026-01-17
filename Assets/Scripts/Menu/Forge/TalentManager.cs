@@ -36,4 +36,5 @@ public class TalentManager : MonoBehaviour
             Addressables.Release(handle);
         }
     }
+
 }

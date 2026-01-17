@@ -109,16 +109,32 @@ public class ForgeManager : IUIScreenManager
 
                 OnClick = () =>
                 {
+                    int talentCost = talent.GetCurrentCost();
                     //TODO add the currency logic
-                    CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, talent.GetCurrentCost());
+                    bool succes = CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, talentCost);
 
+                    if(!succes)
+                    {
+                        Debug.LogWarning("Failed to spend currency / buy talent");
+                        return;
+                    }
                     //Save an add points to talent req
                     SaveService.Instance.AddToSave(talent.Id);
-                    TalentUnlockManager.Instance
-                        .AddPoints(talent.Id.Split("_")[0].ToLowerInvariant(), talent.Tier, 1);
+
+                    if(!SaveService.Instance.Current.Talents.CurrencySpent.TryGetValue(CurrencyTypes.Cinders, out int spent)) 
+                    {
+                        SaveService.Instance.Current.Talents.CurrencySpent[CurrencyTypes.Cinders] = talentCost;
+                    }
+                    else
+                    {
+                        SaveService.Instance.Current.Talents.CurrencySpent[CurrencyTypes.Cinders] = spent + talentCost;
+                    }
+
+                        TalentUnlockManager.Instance
+                            .AddPoints(talent.Id.Split("_")[0].ToLowerInvariant(), talent.Tier, 1);
 
                     int updated = SaveService.Instance.GetPurchases(talent.Id);
-                    bool stillCanPurchase = updated < max && talent.GetCurrentCost() < CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
+                    bool stillCanPurchase = updated < max && talentCost < CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
                     string purchasedTextNow = $"{updated}/{max}";
 
                     //update label to match new purchase
@@ -126,6 +142,7 @@ public class ForgeManager : IUIScreenManager
                     PopupManager.Instance.ButtonIsActive(stillCanPurchase);
 
                     node.UpdatePurchasedText?.Invoke(updated, max);
+
                     SaveService.Instance.Save();
                 }
             };
@@ -139,5 +156,17 @@ public class ForgeManager : IUIScreenManager
             }
         };
         return node;
+    }
+
+    public void RefundTalents()
+    {
+        foreach(var currency in SaveService.Instance.Current.Talents.CurrencySpent)
+        {
+            CurrencyManager.Instance.Add(currency.Key, currency.Value);
+        }
+        SaveService.Instance.Current.Talents.Purchases.Clear();
+        SaveService.Instance.Current.Talents.CurrencySpent.Clear();
+        TalentUnlockManager.Instance.ResetAll();
+        SaveService.Instance.Save();
     }
 }

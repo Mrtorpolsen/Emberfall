@@ -5,4 +5,5 @@ using System.Collections.Generic;
 public class PlayerTalentState
 {
     public Dictionary<string, int> Purchases = new();
+    public Dictionary<CurrencyTypes, int> CurrencySpent = new();
 }

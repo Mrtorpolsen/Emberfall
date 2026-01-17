@@ -15,6 +15,7 @@ public class ForgeEvents : IUIScreenEvents
         { "Btn_Upg_Ranger", nameof(Btn_Upg_RangerClicked) },
         { "Btn_Upg_Cavalier", nameof(Btn_Upg_CavalierClicked) },
         { "Btn_Upg_Income", nameof(Btn_Upg_IncomeClicked) },
+        { "Btn_Refund_Talents", nameof(Btn_Refund_Talents) },
     };
 
     public void BindEvents(VisualElement root, IUIScreenManager manager = null, IUIScreenView view = null)
@@ -56,5 +57,10 @@ public class ForgeEvents : IUIScreenEvents
     private void Btn_Upg_IncomeClicked()
     {
         Debug.Log("Clicked " + nameof(Btn_Upg_IncomeClicked));
+    }
+
+    private void Btn_Refund_Talents()
+    {
+        _manager.RefundTalents();
     }
 }

@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
     <Style src="project://database/Assets/UI%20Toolkit/Forge/ForgeStyle.uss?fileID=7433441132597879392&amp;guid=36f230e4e29f01a4292ae3ab9db4d03c&amp;type=3#ForgeStyle" />
     <ui:VisualElement name="ForgeContainer" style="flex-grow: 1;">
-        <ui:VisualElement name="ForgePanel" style="flex-grow: 1; display: none;">
+        <ui:VisualElement name="ForgePanel" style="flex-grow: 1; display: flex;">
             <ui:Label text="The Eternal Forge" name="Label_Heading" class="labelHeading" style="margin-bottom: 75px;" />
             <ui:ScrollView mode="Vertical" name="ScrollView" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" focusable="false" class="scrollViewVertical" style="flex-grow: 1; height: auto; max-height: 100%;">
                 <ui:VisualElement name="UnitsContainer" class="unitsContainer scrollViewContainer">
@@ -24,7 +24,7 @@
                         </ui:VisualElement>
                         <ui:Button text="Upgrade" name="Btn_Upg_Cavalier" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%;">
+                    <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%; display: none;">
                         <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
                             <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/income_icon.png?fileID=421023817933042906&amp;guid=f2069244b447a8046871762baada4679&amp;type=3#income_icon_0&quot;);" />
                         </ui:VisualElement>
@@ -32,8 +32,9 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:ScrollView>
+            <ui:Button text="Refund Talents" name="Btn_Refund_Talents" class="btnBackground2x1 text btnUpg" style="width: 50%; align-items: stretch; align-self: center;" />
         </ui:VisualElement>
-        <ui:VisualElement name="TalentTreePanel" style="flex-grow: 1; display: flex;">
+        <ui:VisualElement name="TalentTreePanel" style="flex-grow: 1; display: none;">
             <ui:VisualElement name="TalentContainer" style="flex-grow: 1; display: flex;">
                 <ui:Label text="Upgrade Menu" name="Label_Heading" class="labelHeading" style="margin-bottom: 0;" />
                 <ui:VisualElement name="ReturnContainer" class="returnContainer" style="flex-grow: 0; max-width: none; max-height: none;">
