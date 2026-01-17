@@ -126,6 +126,11 @@ public class TalentUnlockManager : MonoBehaviour
         return points;
     }
 
+    public void ResetAll()
+    {
+        pointsPerTierPerUnit.Clear();
+    }
+
     public void DebugPrintPoints()
     {
         if (pointsPerTierPerUnit.Count == 0)

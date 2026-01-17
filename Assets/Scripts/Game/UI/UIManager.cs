@@ -71,6 +71,7 @@ public class UIManager : MonoBehaviour
 
     public void GoToMainMenu()
     {
+        GameManager.Instance.EndOfGame();
         //Use scenemanager to get root
         SceneManager.LoadScene("UI_Root");
     }

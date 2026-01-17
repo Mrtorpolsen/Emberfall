@@ -93,10 +93,13 @@ public abstract class BaseUnitStats : UnitMetadata, IUnit, ITargetable
     {
         int dmg = attackDamage;
 
-        if (RollCrit())
+        if(critChance > 0)
         {
-            dmg = Mathf.RoundToInt(dmg * critMultiplier);
-            ShowCritFeedback(dmg);
+            if(RollCrit())
+            {
+                dmg = Mathf.RoundToInt(dmg * critMultiplier);
+                ShowCritFeedback(dmg);
+            }
         }
 
         return dmg;

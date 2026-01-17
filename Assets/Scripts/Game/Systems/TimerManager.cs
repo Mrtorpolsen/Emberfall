@@ -13,6 +13,7 @@ public class TimerManager : MonoBehaviour
 
 
     public float GetElapsedTime() => (Time.time - startTime) * 1000f;
+    public int GetElapsedTimeInMinutes() => Mathf.FloorToInt((Time.time - startTime) / 60f);
     public string GetFormattedTime() => TimeFormatter.FormatTime(GetElapsedTime());
 
     private void Awake()
@@ -25,6 +26,7 @@ public class TimerManager : MonoBehaviour
 
         Instance = this;
     }
+
     private void Update()
     {
         if (!timerRunning || timerText == null) return;

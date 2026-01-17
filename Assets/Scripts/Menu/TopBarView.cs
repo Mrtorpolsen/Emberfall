@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,17 +12,39 @@ public class TopBarView : MonoBehaviour
 
     private void Awake()
     {
-        label_username = uiDocument.rootVisualElement.Q<Label>("Label_UserName");
-        label_currency = uiDocument.rootVisualElement.Q<Label>("Label_UserCurrency");
+        var root = uiDocument.rootVisualElement;
+        label_username = root.Q<Label>("Label_UserName");
+        label_currency = root.Q<Label>("Label_UserCurrency");
+    }
 
-        if (!string.IsNullOrEmpty(UserProfile.Instance?.userName))
-        {
-            label_username.text = UserProfile.Instance.userName;
-        }
-        else
-        {
-            label_username.text = "Failed to fetch username";
-        }
+    private void OnEnable()
+    {
+        CurrencyManager.Instance.OnCindersChanged += SetCurrency;
+    }
 
+    private void OnDisable()
+    {
+        if (CurrencyManager.Instance != null)
+        {
+            CurrencyManager.Instance.OnCindersChanged -= SetCurrency;
+        }
+    }
+
+    public void Initialize(string userName, int startingCinders)
+    {
+        SetUserName(userName);
+        SetCurrency(startingCinders);
+    }
+
+    private void SetUserName(string userName)
+    {
+        label_username.text = string.IsNullOrEmpty(userName)
+            ? "Unknown User"
+            : userName;
+    }
+
+    private void SetCurrency(int cinders)
+    {
+        label_currency.text = cinders.ToString();
     }
 }

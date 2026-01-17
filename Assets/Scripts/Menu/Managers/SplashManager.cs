@@ -63,9 +63,18 @@ public class SplashManager : MonoBehaviour
 
         await Task.WhenAll(loadTasks);
 
+        //move this to a reward manager or service later
+        if(!SaveService.Instance.Current.HasReceivedLoginGift)
+        {
+            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 10000);
+            SaveService.Instance.Current.HasReceivedLoginGift = true;
+            SaveService.Instance.Save();
+        }
+
+        InitializeTopBar();
         //Remove when done testing
         //await Task.Delay(3000);
-        
+
         splashContainer.Remove(splashPanel);
 
         splashPanel.style.display = DisplayStyle.None;
@@ -73,5 +82,20 @@ public class SplashManager : MonoBehaviour
 
         MenuManager.Instance.LoadScreen("MainMenu");
 
+    }
+
+    private void InitializeTopBar()
+    {
+        var topBar = FindFirstObjectByType<TopBarView>();
+        if (topBar == null)
+        {
+            Debug.LogError("TopBarView not found");
+            return;
+        }
+
+        topBar.Initialize(
+            UserProfile.Instance.userName,
+            CurrencyManager.Instance.Get(CurrencyTypes.Cinders)
+        );
     }
 }

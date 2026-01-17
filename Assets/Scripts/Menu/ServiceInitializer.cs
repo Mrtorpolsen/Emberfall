@@ -18,6 +18,7 @@ public class ServiceInitializer : MonoBehaviour
     {
         IdentityService.Create();
         SaveService.Create();
+        CurrencyManager.Create();
 
         Debug.Log("All services initialized");
     }

@@ -6,5 +6,7 @@ public class SaveGame
     public int Version = 1;
 
     public PlayerTalentState Talents = new();
-    public int Currency;
+    public CurrencyData Currency = new();
+
+    public bool HasReceivedLoginGift = false;
 }
