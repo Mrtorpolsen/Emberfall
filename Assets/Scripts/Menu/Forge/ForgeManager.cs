@@ -93,22 +93,28 @@ public class ForgeManager : IUIScreenManager
         node.onClick = () =>
         {
             int purchasedNow = SaveService.Instance.GetPurchases(talent.Id);
-            bool canPurchase = purchased < max;
+            bool canPurchase = purchasedNow < max;
 
             bool prerequisitsMet = TalentUnlockManager.Instance.ArePrerequisitesMet(talent.Id.Split("_")[0]
                 .ToLowerInvariant(), talent.Prerequisites);
 
-            bool hasEnoughCurrency = talent.GetCurrentCost() < CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
+            int currentCost = talent.GetCurrentCost();
+            bool hasEnoughCurrency = currentCost < CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
 
             var popupBtn = new PopupButtonDefinition
             {
                 //Todo need to reconstruct this to handle multiple prerequisites and different eg achievement
                 LabelText = prerequisitsMet ? $"{purchasedNow}/{max}" : $"Requires {talent.Prerequisites[0].RequiredPointsInTier} points in Tier {talent.Prerequisites[0].RequiredTier}",
-                BtnText = talent.GetCurrentCost().ToString(),
+                BtnText = currentCost.ToString(),
                 BtnIconPath = "UI/Images/Talents/cinder_icon",
 
                 OnClick = () =>
                 {
+                    //Repull live state
+                    int purchasedAfter = SaveService.Instance.GetPurchases(talent.Id);
+                    if (purchasedAfter >= max)
+                        return;
+
                     int talentCost = talent.GetCurrentCost();
                     //TODO add the currency logic
                     bool succes = CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, talentCost);
@@ -121,20 +127,23 @@ public class ForgeManager : IUIScreenManager
                     //Save an add points to talent req
                     SaveService.Instance.AddToSave(talent.Id);
 
-                    if(!SaveService.Instance.Current.Talents.CurrencySpent.TryGetValue(CurrencyTypes.Cinders, out int spent)) 
+                    var talentState = SaveService.Instance.Current.Talents;
+
+                    if (!talentState.CurrencySpent.TryGetValue(CurrencyTypes.Cinders, out int spent)) 
                     {
-                        SaveService.Instance.Current.Talents.CurrencySpent[CurrencyTypes.Cinders] = talentCost;
+                        talentState.CurrencySpent[CurrencyTypes.Cinders] = talentCost;
                     }
                     else
                     {
-                        SaveService.Instance.Current.Talents.CurrencySpent[CurrencyTypes.Cinders] = spent + talentCost;
+                        talentState.CurrencySpent[CurrencyTypes.Cinders] = spent + talentCost;
                     }
 
-                        TalentUnlockManager.Instance
-                            .AddPoints(talent.Id.Split("_")[0].ToLowerInvariant(), talent.Tier, 1);
+                    TalentUnlockManager.Instance
+                        .AddPoints(talent.Id.Split("_")[0].ToLowerInvariant(), talent.Tier, 1);
 
                     int updated = SaveService.Instance.GetPurchases(talent.Id);
-                    bool stillCanPurchase = updated < max && talentCost < CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
+
+                    bool stillCanPurchase = updated < max && talentCost <= CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
                     string purchasedTextNow = $"{updated}/{max}";
 
                     //update label to match new purchase
@@ -147,7 +156,6 @@ public class ForgeManager : IUIScreenManager
                 }
             };
             PopupManager.Instance.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);
-
             PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitsMet && hasEnoughCurrency);
 
             if(talent.Type != TalentType.StatModifier)
