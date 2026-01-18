@@ -12,10 +12,12 @@ public class GameManager : MonoBehaviour
     public TMP_Text southCurrencyText;
     public TMP_Text southIncomeModifierText;
 
-    public Transform north;
     public Transform south;
 
-    public GameObject playerUnitBoundary;
+    private int nextRangedSpawn = 0;
+    public Transform[] playerRangedRallies;
+
+    public Transform playerUnitBoundary;
 
     public Dictionary<Team, float> currency;
 
@@ -46,7 +48,6 @@ public class GameManager : MonoBehaviour
         PauseManager.SetPaused(false);
 
         UpdateCurrencyText();
-        playerUnitBoundary = GameObject.FindGameObjectWithTag("PlayerUnitBarrier");
     }
 
     public void Start()
@@ -123,5 +124,12 @@ public class GameManager : MonoBehaviour
         //add cinders
         CurrencyManager.Instance.Add(CurrencyTypes.Cinders,
             CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes()));
+    }
+
+    public Transform GetNextRangedRally()
+    {
+        Transform selected = playerRangedRallies[nextRangedSpawn];
+        nextRangedSpawn = (nextRangedSpawn + 1) % playerRangedRallies.Length;
+        return selected;
     }
 }

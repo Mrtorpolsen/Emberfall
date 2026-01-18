@@ -4,27 +4,23 @@ using UnityEngine;
 public class TargetComponent : MonoBehaviour
 {
     [Header("Reference")]
-    [SerializeField] private float detectionRange = 100f;
+    [SerializeField] private float detectionRange = 4f;
     [SerializeField] private ITargetable currentTarget;
 
     [Header("Debug")]
-    [SerializeField] private GameObject debugTarget;
+    [SerializeField] private Transform debugTarget;
 
     private IUnit selfUnit;
 
     private void Awake()
     {
         selfUnit = GetComponent<IUnit>();
-
-        currentTarget = GetDefaultTarget(selfUnit.Team);
     }
 
     void Update()
     {
-
         FindClosestTarget();
-        debugTarget = currentTarget?.Transform?.gameObject;
-
+        debugTarget = currentTarget?.Transform;
     }
 
     private void FindClosestTarget()
@@ -56,13 +52,5 @@ public class TargetComponent : MonoBehaviour
         currentTarget = nearestEnemy;
     }
 
-    private ITargetable GetDefaultTarget(Team selfTeam)
-    {
-        if (selfUnit == null) return GameManager.Instance.north.GetComponent<ITargetable>();
-
-        return currentTarget = (selfUnit.Team == Team.North)
-           ? GameManager.Instance.south.GetComponent<ITargetable>()
-           : GameManager.Instance.north.GetComponent<ITargetable>();
-    }
     public ITargetable GetCurrentTarget() => currentTarget;
 }

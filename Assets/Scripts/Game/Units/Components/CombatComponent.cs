@@ -6,7 +6,7 @@ public class CombatComponent : MonoBehaviour
     //[SerializeField] private GameObject debugTarget = null;
 
     [Header("References")]
-    [SerializeField] private TargetComponent findTarget;
+    [SerializeField] private TargetComponent targetComponent;
 
     private BaseUnitStats unit;
     private ITargetable target;
@@ -16,10 +16,10 @@ public class CombatComponent : MonoBehaviour
     private void Awake()
     {
         unit = GetComponent<BaseUnitStats>();
-        findTarget = GetComponent<TargetComponent>();
+        targetComponent = GetComponent<TargetComponent>();
         movement = GetComponent<MovementComponent>();
     }
-    //look into only looking for targets in the player zone
+
     private void Update()
     {
         if (attackCooldown > 0) 
@@ -27,9 +27,10 @@ public class CombatComponent : MonoBehaviour
             attackCooldown -= Time.deltaTime;
         }
 
-        if (findTarget != null)
+        if (targetComponent != null)
         {
-            var currentTarget = findTarget.GetCurrentTarget();
+            var currentTarget = targetComponent.GetCurrentTarget();
+
             if (currentTarget != target || target == null || !target.IsAlive)
             {
                 target = currentTarget;
@@ -38,34 +39,45 @@ public class CombatComponent : MonoBehaviour
 
         if (target != null && target.IsAlive)
         {
-            Transform t = target.Transform;
-            if (t != null)
+            HandleCombat();
+        }
+        else
+        {
+            if (movement != null)
             {
-                float dist = Vector2.Distance(transform.position, target.Transform.position);
-                float effectiveRange = unit.AttackRange + target.HitRadius;
-
-                if (dist <= effectiveRange && attackCooldown <= 0)
-                {
-                    attackCooldown = 1f / unit.AttackSpeed;
-
-                    if(unit is RangerStats)
-                    {
-                        (unit as RangerStats).Shoot(target);
-                    }
-                    else if(unit is TowerStats)
-                    {
-                        (unit as TowerStats).Shoot(target);
-                    }
-                    else
-                    {
-                        target.TakeDamage(unit.GetAttackDamage());
-                    }
-                }
-                if (movement != null)
-                {
-                    movement.canMove = dist > unit.AttackRange;
-                }
+                movement.canMove = true;
             }
+        }
+    }
+
+    private void HandleCombat()
+    {
+        Transform t = target.Transform;
+        if (t == null) return;
+
+        float dist = Vector2.Distance(transform.position, target.Transform.position);
+        float effectiveRange = unit.AttackRange + target.HitRadius;
+
+        if (dist <= effectiveRange && attackCooldown <= 0)
+        {
+            attackCooldown = 1f / unit.AttackSpeed;
+
+            if (unit is RangerStats)
+            {
+                (unit as RangerStats).Shoot(target);
+            }
+            else if (unit is TowerStats)
+            {
+                (unit as TowerStats).Shoot(target);
+            }
+            else
+            {
+                target.TakeDamage(unit.GetAttackDamage());
+            }
+        }
+        if (movement != null)
+        {
+            movement.canMove = dist > unit.AttackRange;
         }
     }
 

@@ -22,9 +22,11 @@ public class WaveController : MonoBehaviour
     [SerializeField] private GameObject giantPrefab;
     [SerializeField] private GameObject gatePrefab;
 
+    [Header("Test")]
+    [SerializeField] private Boolean isTest;
+
     private int currentWaveIndex = 0;
     private bool isSpawning = false;
-    private bool isTest = false;
 
     private void Awake()
     {
