@@ -8,51 +8,145 @@ public class MovementComponent : MonoBehaviour
     [Header("Attributes")]
     [SerializeField] public bool canMove;
 
-    private TargetComponent findTarget;
+    [Header("Ranged Settings")]
+    [SerializeField] private float rangedZoneRadius = 0.1f; // how far they can move from rally
+
+    private Transform south;
+    private TargetComponent targetComponent;
+    private IUnit unit;
+    private UnitMetadata unitMetadata;
+    private RangedUnitStats rangedStats;
+    private Transform rangedRally;
     
     void Awake()
     {
-        findTarget = GetComponent<TargetComponent>();
+        targetComponent = GetComponent<TargetComponent>();
+        unit = GetComponent<IUnit>();
+        unitMetadata = GetComponent<UnitMetadata>();
+        rangedStats = GetComponent<RangedUnitStats>();
+        south = GameManager.Instance.south;
+        rangedRally = GameManager.Instance.GetNextRangedRally();
+
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
-    
+
     private void FixedUpdate()
     {
-        if (!canMove)
+        Vector2? destination = ResolveDestination();
+
+        if (destination.HasValue && canMove)
         {
-            rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-        } else
+            Vector2 direction = (destination.Value - rb.position).normalized;
+            rb.linearVelocity = direction * unit.MovementSpeed;
+        }
+        else
         {
-            rb.constraints = RigidbodyConstraints2D.None;
+            rb.linearVelocity = Vector2.zero;
         }
 
-        if (findTarget == null) return;
-
-        ITargetable target = findTarget.GetCurrentTarget();
-
-        if (target != null)
-        {
-            Transform t = target.Transform;
-
-            if (t != null)
-            {
-                Vector2 direction = (target.Transform.position - transform.position).normalized;
-                rb.linearVelocity = direction * rb.GetComponent<IUnit>().MovementSpeed;
-            }
-
-            //Sets Y barrier
-            if (rb.GetComponent<UnitMetadata>().Team == Team.South)
-            {
-                Vector2 pos = rb.position;
-                pos.y = Mathf.Min(pos.y, GameManager.Instance.playerUnitBoundary.transform.position.y);
-                rb.position = pos;
-            }
-        }
-
-        SeperationForce();
+        ApplyTeamBoundary();
+        SeparationForce();
+        ApplyRangedZoneBoundary();
     }
-    
-    private void SeperationForce()
+
+    public Vector2? ResolveDestination()
+    {
+        ITargetable target = targetComponent?.GetCurrentTarget();
+        Vector2 currentPos = rb.position;
+
+        bool isRanged = rangedStats != null;
+
+        if (isRanged)
+        {
+            Vector2 zoneCenter = rangedRally.position;
+
+            if (target != null && target.IsAlive)
+            {
+                // Stay inside the zone, move only slightly to avoid clustering
+                float distanceToZone = Vector2.Distance(currentPos, zoneCenter);
+                if (distanceToZone > rangedZoneRadius)
+                {
+                    // Pull back toward zone if outside
+                    return zoneCenter;
+                }
+                else
+                {
+                    // Stay in place and attack
+                    return currentPos;
+                }
+            }
+
+            // No target move toward rally if not already inside
+            if (Vector2.Distance(currentPos, zoneCenter) > 0.1f)
+            {
+                return zoneCenter;
+            }
+
+            return null;
+        }
+
+        // Melee units: move toward target or fallback
+        if (target != null && target.IsAlive)
+        {
+            return target.Transform.position;
+        }
+
+        Transform fallback = GetFallbackPoint();
+
+        return fallback?.position;
+    }
+
+
+    private Transform GetFallbackPoint()
+    {
+        bool isRanged = rangedStats != null;
+
+        if (unitMetadata.Team == Team.North)
+        {
+            //North team move to south castle
+            return south;
+        }
+        else
+        {
+            if (isRanged)
+            {
+                return rangedRally;
+            }
+
+            return GameManager.Instance.playerUnitBoundary;
+        }
+    }
+
+
+    private void ApplyTeamBoundary()
+    {
+        if (unitMetadata.Team != Team.South)
+            return;
+
+        Vector2 pos = rb.position;
+        pos.y = Mathf.Min(
+            pos.y,
+            GameManager.Instance.playerUnitBoundary.transform.position.y
+        );
+        rb.position = pos;
+    }
+
+    private void ApplyRangedZoneBoundary()
+    {
+        if (rangedStats == null || rangedRally == null) return;
+
+        Vector2 pos = rb.position;
+        float distanceToRally = Vector2.Distance(pos, rangedRally.position);
+
+        if (distanceToRally > rangedZoneRadius)
+        {
+            Vector2 direction = (rangedRally.position - (Vector3)pos).normalized;
+            pos += direction * Mathf.Min(unit.MovementSpeed * Time.fixedDeltaTime, distanceToRally);
+            rb.position = pos;
+        }
+    }
+
+    private void SeparationForce()
     {
         float separationRadius = 0.1f;
         float pushStrength = 0.4f;
