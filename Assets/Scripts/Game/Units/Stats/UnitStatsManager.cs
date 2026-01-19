@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
@@ -12,9 +13,12 @@ public class UnitStatsManager : MonoBehaviour
         public GameObject prefab;
     }
 
+    [Header("References")]
     public List<UnitEntry> unitPrefabs;
 
     private Dictionary<string, FinalStats> finalStatsByUnit = new();
+    private Dictionary<string, GameObject> prefabByUnitKey = new();
+
 
     private void Awake()
     {
@@ -22,30 +26,24 @@ public class UnitStatsManager : MonoBehaviour
 
         statsBootstrapper = new StatsBootstrapper();
         statsBootstrapper.LoadAndBuildTalents();
+
+        BuildPrefabLookup();
         CalculateAllFinalStats();
     }
 
     private void CalculateAllFinalStats()
     {
-        foreach (UnitEntry unitEntry in unitPrefabs)
+        foreach (UnitEntry unitPrefab in unitPrefabs)
         {
-            string unitKey = unitEntry.prefab.name.ToLowerInvariant();
+            string unitKey = unitPrefab.prefab.name.ToLowerInvariant();
 
-            BaseUnitStats baseStats = unitEntry.prefab.GetComponent<BaseUnitStats>();
-            if (baseStats == null) continue;
+            FinalStats finalStats = BuildStatsFromBase(unitPrefab.prefab);
 
-            FinalStats finalStats = new FinalStats
+            if (finalStats == null)
             {
-                health = baseStats.MaxHealth,
-                attackDamage = baseStats.AttackDamage,
-                attackSpeed = baseStats.AttackSpeed,
-                attackRange = baseStats.AttackRange,
-                critChance = baseStats.CritChance,
-                critMultiplier = baseStats.CritMultiplier,
-                movementSpeed = baseStats.MovementSpeed,
-                hitRadius = baseStats.HitRadius,
-                cost = baseStats.Cost
-            };
+                Debug.LogError("Failed to get finalstats");
+                continue;
+            }
 
             ApplyTalents(unitKey, ref finalStats);
 
@@ -151,6 +149,89 @@ public class UnitStatsManager : MonoBehaviour
     {
         return finalStatsByUnit.TryGetValue(unitName, out var stats) ? stats : null;
     }
+
+    public FinalStats GetEnemyStats(string unitName, WaveController.EnemyScalingContext scaling)
+    {
+        if (!prefabByUnitKey.TryGetValue(unitName, out var prefab))
+        {
+            Debug.LogError($"No prefab found for unitKey: {unitName}");
+            return null;
+        }
+
+        FinalStats finalStats = BuildStatsFromBase(prefab);
+
+        if (finalStats == null)
+        {
+            Debug.LogError("Failed to get finalstats");
+            return null;
+        }
+
+        //scaling multipliers
+        float wave = scaling.waveIndex + 1;
+        int hpPercent = Mathf.RoundToInt(2f * Mathf.Pow(wave, 0.85f));
+        int dmgPercent = Mathf.RoundToInt(2f * Mathf.Pow(wave, 0.75f));
+
+        float hpMultiplier = 1f + (hpPercent * 0.01f);
+        float dmgMultiplier = 1f + (dmgPercent * 0.01f);
+
+        ApplyEffect(EffectTarget.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
+        ApplyEffect(EffectTarget.Damage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
+
+        LogStats(unitName, finalStats);
+
+        return finalStats;
+    }
+
+
+    private FinalStats BuildStatsFromBase(GameObject unitPrefab)
+    {
+        BaseUnitStats baseStats = unitPrefab.GetComponent<BaseUnitStats>();
+
+        if (baseStats == null)
+        {
+            Debug.LogError("Failed to get basestats in SetFinalStats");
+            return null;
+        }
+
+        LogStats(unitPrefab.name, baseStats);
+
+        FinalStats finalStats = new FinalStats
+        {
+            health = baseStats.MaxHealth,
+            attackDamage = baseStats.AttackDamage,
+            attackSpeed = baseStats.AttackSpeed,
+            attackRange = baseStats.AttackRange,
+            critChance = baseStats.CritChance,
+            critMultiplier = baseStats.CritMultiplier,
+            movementSpeed = baseStats.MovementSpeed,
+            hitRadius = baseStats.HitRadius,
+            cost = baseStats.Cost
+        };
+
+        return finalStats;
+    }
+
+    private void BuildPrefabLookup()
+    {
+        prefabByUnitKey.Clear();
+
+        foreach (UnitEntry entry in unitPrefabs)
+        {
+            if (entry.prefab == null)
+                continue;
+
+            string unitKey = entry.prefab.name.ToLowerInvariant();
+
+            if (prefabByUnitKey.ContainsKey(unitKey))
+            {
+                Debug.LogError($"Duplicate unitKey detected: {unitKey}");
+                continue;
+            }
+
+            prefabByUnitKey[unitKey] = entry.prefab;
+        }
+    }
+
 
     private void LogStats(string unitName, FinalStats stats)
     {

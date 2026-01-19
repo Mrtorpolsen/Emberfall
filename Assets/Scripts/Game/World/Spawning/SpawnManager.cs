@@ -54,7 +54,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team)
+    public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team, FinalStats finalStats = null)
     {
         UnitMetadata stats = prefab.GetComponent<UnitMetadata>();
 
@@ -64,55 +64,43 @@ public class SpawnManager : MonoBehaviour
             return false;
         }
 
-        if (GameManager.Instance.currency[team] >= stats.Cost || team == Team.North)
+        if (team == Team.South && GameManager.Instance.currency[Team.South] < stats.Cost)
         {
-            GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
-
-            BaseUnitStats baseUnitStats = unit.GetComponent<BaseUnitStats>();
-
-            if (baseUnitStats != null && team == Team.South)
-            {
-                string unitKey = prefab.name.ToLowerInvariant();
-                FinalStats finalStats = UnitStatsManager.Instance.GetStats(unitKey);
-
-                if (finalStats != null)
-                {
-                    baseUnitStats.ApplyFinalStats(finalStats);
-                }
-            }
-
-            SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
-
-            if (sr != null) 
-            {
-                AssignColor(sr, team);
-            }
-            
-            UnitMetadata unitStats = unit.GetComponent<UnitMetadata>();
-
-            unitStats.GetComponent<UnitMetadata>().Team = team;
-
-            if(prefab != gatePrefab)
-            {
-                unit.layer = LayerMask.NameToLayer(team.ToString() + "Team");
-            }
-
-            if(team == Team.South)
-            {
-                GameManager.Instance.SubtractCurrency(team, stats.Cost);
-            }
-
-            return true;
-        }
-        else
-        {
-            if(team == Team.South)
-            {
-                Debug.Log($"{team} - Insufficient currency");
-            }
-
+            Debug.LogWarning("Not enough currency");
             return false;
         }
+
+        GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+
+        BaseUnitStats baseUnitStats = unit.GetComponent<BaseUnitStats>();
+
+        if (baseUnitStats != null && finalStats != null)
+        {
+            baseUnitStats.ApplyFinalStats(finalStats);
+        }
+
+        SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
+
+        if (sr != null) 
+        {
+            AssignColor(sr, team);
+        }
+            
+        UnitMetadata unitStats = unit.GetComponent<UnitMetadata>();
+
+        unitStats.GetComponent<UnitMetadata>().Team = team;
+
+        if(prefab != gatePrefab)
+        {
+            unit.layer = LayerMask.NameToLayer(team.ToString() + "Team");
+        }
+
+        if(team == Team.South)
+        {
+            GameManager.Instance.SubtractCurrency(team, stats.Cost);
+        }
+
+        return true;
     }
 
     public void AssignColor(SpriteRenderer sr, Team team)
@@ -126,6 +114,24 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    public bool SpawnSouthFighter()
+    {
+        FinalStats finalStats = UnitStatsManager.Instance.GetStats("fighter");
+
+        return SpawnUnit(fighterPrefab, southSpawn, Team.South, finalStats);
+    }
+    public bool SpawnSouthRanger()
+    {
+        FinalStats finalStats = UnitStatsManager.Instance.GetStats("ranger");
+
+        return SpawnUnit(rangerPrefab, southSpawn, Team.South, finalStats);
+    }
+    public bool SpawnSouthCavalier()
+    {
+        FinalStats finalStats = UnitStatsManager.Instance.GetStats("cavalier");
+
+        return SpawnUnit(cavalierPrefab, southSpawn, Team.South, finalStats);
+    }
     public void SpawnSouthTower(Transform platform)
     {
         SpawnUnit(towerPrefab, platform, Team.South);
@@ -166,18 +172,6 @@ public class SpawnManager : MonoBehaviour
     public void SpawnSouthGateFarUI()
     {
         SpawnSouthGateFar();
-    }
-    public bool SpawnSouthFighter()
-    {
-        return SpawnUnit(fighterPrefab, southSpawn, Team.South);
-    }
-    public bool SpawnSouthRanger()
-    {
-        return SpawnUnit(rangerPrefab, southSpawn, Team.South);
-    }
-    public bool SpawnSouthCavalier()
-    {
-        return SpawnUnit(cavalierPrefab, southSpawn, Team.South);
     }
     public bool SpawnSouthGateClose()
     {
