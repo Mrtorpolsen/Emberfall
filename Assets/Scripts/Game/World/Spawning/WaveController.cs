@@ -5,6 +5,16 @@ using UnityEngine;
 
 public class WaveController : MonoBehaviour
 {
+    public struct EnemyScalingContext
+    {
+        public int waveIndex;
+        // For later, incase we want some soft enrage,
+        // or maybe use this to track how many spawns we've made,
+        // compared to how many kills and figure out increase in
+        // dmg to units if too many units alive.
+        public int spawnIndex; 
+    }
+
     public static WaveController Instance;
 
     [Header("Settings")]
@@ -61,13 +71,25 @@ public class WaveController : MonoBehaviour
     private IEnumerator SpawnWave(WaveDefinition wave)
     {
         isSpawning = true;
+
+        int spawnIndex = 0;
         Debug.Log($"Spawning Wave {currentWaveIndex + 1}: {wave.enemiesToSpawn.Count} groups");
 
         foreach(var group in wave.enemiesToSpawn)
         {
             for(int i = 0; i < group.count; i++)
             {
-                SpawnManager.Instance.SpawnUnit(group.prefab, northSpawn, Team.North);
+                var scaling = new EnemyScalingContext
+                {
+                    waveIndex = currentWaveIndex,
+                    spawnIndex = spawnIndex++
+                };
+
+                string unitName = group.prefab.name.ToLowerInvariant();
+
+                FinalStats stats = UnitStatsManager.Instance.GetEnemyStats(unitName, scaling);
+
+                SpawnManager.Instance.SpawnUnit(group.prefab, northSpawn, Team.North, stats);
                 yield return new WaitForSeconds(0);
             }
         }
@@ -89,7 +111,7 @@ public class WaveController : MonoBehaviour
         else if (waveNumber <= 40) unitComposition = (0.6f, 0.3f);
         else if (waveNumber <= 60) unitComposition = (0.5f, 0.4f);
 
-        //scaling   
+        //scaling
         int unitCount;
 
         unitCount = Mathf.RoundToInt(baseCount * Mathf.Pow(waveGrowthRate, waveNumber - 1));
@@ -111,6 +133,7 @@ public class WaveController : MonoBehaviour
             wave.enemiesToSpawn.Add(new EnemyGroup(giantPrefab, bossCount, spawnDelay));
             bossCount++;
         }
+
         Debug.Log($"Wave: {waveNumber} spawned at: {TimerManager.Instance.GetElapsedTime()}");
         return wave;
     }
