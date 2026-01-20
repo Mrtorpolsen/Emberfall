@@ -91,7 +91,6 @@ public class WaveController : MonoBehaviour
 
     private WaveDefinition GenerateWave(int waveNumber)
     {
-
         var wave = new WaveDefinition
         {
             enemiesToSpawn = new List<EnemyGroup>(),
@@ -122,6 +121,12 @@ public class WaveController : MonoBehaviour
         }
         else
         {
+            if(waveNumber <= 1)
+            {
+                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
+                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
+                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.assasinPrefab, 1, spawnDelay));
+            }
             if(waveNumber > 5 && UnityEngine.Random.value < 0.2f)
             {
                 wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));

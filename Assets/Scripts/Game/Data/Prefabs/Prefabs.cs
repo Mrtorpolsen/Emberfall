@@ -70,6 +70,14 @@ public static class Prefabs
             return database.eliteFighterPrefab;
         }
     }
+    public static GameObject eliteCavalierPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.eliteCavalierPrefab;
+        }
+    }
 
     public static GameObject assasinPrefab
     {

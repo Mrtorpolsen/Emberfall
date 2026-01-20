@@ -37,8 +37,14 @@ public class UnitStatsManager : MonoBehaviour
         AddPrefab(Prefabs.fighterPrefab);
         AddPrefab(Prefabs.rangerPrefab);
         AddPrefab(Prefabs.cavalierPrefab);
+        AddPrefab(Prefabs.assasinPrefab);
+
+        //Boss
         AddPrefab(Prefabs.giantPrefab);
+
+        //Elites
         AddPrefab(Prefabs.eliteFighterPrefab);
+        AddPrefab(Prefabs.eliteCavalierPrefab);
     }
 
     private void AddPrefab(GameObject prefab)
