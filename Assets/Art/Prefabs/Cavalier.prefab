@@ -409,6 +409,7 @@ GameObject:
   - component: {fileID: 2149911043602300216}
   - component: {fileID: 5850499188553408139}
   - component: {fileID: 7579999174343758453}
+  - component: {fileID: 7348346340122654073}
   m_Layer: 0
   m_Name: Cavalier
   m_TagString: Untagged
@@ -586,6 +587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 8933264750351331795}
   canMove: 0
+  rangedZoneRadius: 0.1
 --- !u!114 &2149911043602300216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23102186c92563e4a9eb4ce8705edad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  findTarget: {fileID: 0}
+  targetComponent: {fileID: 0}
 --- !u!114 &7579999174343758453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -638,3 +640,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectionRange: 100
   debugTarget: {fileID: 0}
+--- !u!114 &7348346340122654073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8916063152254937078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cfcdbe919b2784aba7498e0b240dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitMetadata
+  team: 0
+  isElite: 0

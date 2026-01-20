@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
@@ -7,52 +6,66 @@ public class UnitStatsManager : MonoBehaviour
     public static UnitStatsManager Instance { get; private set; }
     StatsBootstrapper statsBootstrapper;
 
-    [System.Serializable]
-    public struct UnitEntry
-    {
-        public GameObject prefab;
-    }
-
-    [Header("References")]
-    public List<UnitEntry> unitPrefabs;
-
     private Dictionary<string, FinalStats> finalStatsByUnit = new();
     private Dictionary<string, GameObject> prefabByUnitKey = new();
-
 
     private void Awake()
     {
         Instance = this;
 
-        statsBootstrapper = new StatsBootstrapper();
-        statsBootstrapper.LoadAndBuildTalents();
+        //For testing
+        try
+        {
+            statsBootstrapper = new StatsBootstrapper();
+            statsBootstrapper.LoadAndBuildTalents();
+        }
+        catch
+        {
+            Debug.LogWarning("StatsBootstrapper not initialized. Skipping talent application.");
+            statsBootstrapper = null;
+        }
 
         BuildPrefabLookup();
         CalculateAllFinalStats();
     }
 
+    private void BuildPrefabLookup()
+    {
+        prefabByUnitKey.Clear();
+
+        //Add the prefabs that needs more stats
+        AddPrefab(Prefabs.fighterPrefab);
+        AddPrefab(Prefabs.rangerPrefab);
+        AddPrefab(Prefabs.cavalierPrefab);
+        AddPrefab(Prefabs.giantPrefab);
+        AddPrefab(Prefabs.eliteFighterPrefab);
+    }
+
+    private void AddPrefab(GameObject prefab)
+    {
+        if (prefab == null) return;
+        string unitKey = prefab.name.ToLowerInvariant();
+        prefabByUnitKey[unitKey] = prefab;
+    }
+
     private void CalculateAllFinalStats()
     {
-        foreach (UnitEntry unitPrefab in unitPrefabs)
+        foreach (var kvp in prefabByUnitKey)
         {
-            string unitKey = unitPrefab.prefab.name.ToLowerInvariant();
+            string unitKey = kvp.Key;
+            GameObject prefab = kvp.Value;
 
-            FinalStats finalStats = BuildStatsFromBase(unitPrefab.prefab);
-
-            if (finalStats == null)
-            {
-                Debug.LogError("Failed to get finalstats");
-                continue;
-            }
-
+            FinalStats finalStats = BuildStatsFromBase(prefab);
             ApplyTalents(unitKey, ref finalStats);
-
             finalStatsByUnit[unitKey] = finalStats;
         }
     }
 
     private void ApplyTalents(string unitName, ref FinalStats stats)
     {
+        //for testing
+        if (statsBootstrapper == null) return;
+
         if (!statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
             return;
 
@@ -177,11 +190,8 @@ public class UnitStatsManager : MonoBehaviour
         ApplyEffect(EffectTarget.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
         ApplyEffect(EffectTarget.Damage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
 
-        LogStats(unitName, finalStats);
-
         return finalStats;
     }
-
 
     private FinalStats BuildStatsFromBase(GameObject unitPrefab)
     {
@@ -189,11 +199,9 @@ public class UnitStatsManager : MonoBehaviour
 
         if (baseStats == null)
         {
-            Debug.LogError("Failed to get basestats in SetFinalStats");
+            Debug.LogError("Failed to get basestats in BuildStatsFromBase");
             return null;
         }
-
-        LogStats(unitPrefab.name, baseStats);
 
         FinalStats finalStats = new FinalStats
         {
@@ -211,28 +219,6 @@ public class UnitStatsManager : MonoBehaviour
         return finalStats;
     }
 
-    private void BuildPrefabLookup()
-    {
-        prefabByUnitKey.Clear();
-
-        foreach (UnitEntry entry in unitPrefabs)
-        {
-            if (entry.prefab == null)
-                continue;
-
-            string unitKey = entry.prefab.name.ToLowerInvariant();
-
-            if (prefabByUnitKey.ContainsKey(unitKey))
-            {
-                Debug.LogError($"Duplicate unitKey detected: {unitKey}");
-                continue;
-            }
-
-            prefabByUnitKey[unitKey] = entry.prefab;
-        }
-    }
-
-
     private void LogStats(string unitName, FinalStats stats)
     {
         Debug.Log(
@@ -243,10 +229,11 @@ public class UnitStatsManager : MonoBehaviour
             $"  Range: {stats.attackRange:F2}\n" +
             $"  Move Speed: {stats.movementSpeed:F2}\n" +
             $"  Hit Radius: {stats.hitRadius:F2}\n" +
-            $"  Cost: {stats.cost:F1}" +
+            $"  Cost: {stats.cost:F1}\n" +
             $"  Armor: {stats.armor:F1}"
         );
     }
+
     private void LogStats(string unitName, BaseUnitStats stats)
     {
         Debug.Log(
@@ -257,7 +244,7 @@ public class UnitStatsManager : MonoBehaviour
             $"  Range: {stats.AttackRange:F2}\n" +
             $"  Move Speed: {stats.MovementSpeed:F2}\n" +
             $"  Hit Radius: {stats.HitRadius:F2}\n" +
-            $"  Cost: {stats.Cost:F1}" +
+            $"  Cost: {stats.Cost:F1}\n" +
             $"  Armor: {stats.Armor:F1}"
         );
     }

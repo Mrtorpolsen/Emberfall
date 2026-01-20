@@ -1,20 +1,17 @@
 using UnityEngine;
 
-public class CastleStats : BaseUnitStats
+public class CastleStatsBaseStatsComponent : BaseUnitStats
 {
     [Header("Reference")]
     [SerializeField] public GameObject castle;
 
     [Header("Team")]
-    [SerializeField] private Team team;
-    public override Team Team
-    {
-        get => team;
-        set => team = value;
-    }
+    [SerializeField] public Team team => metadata.Team;
+
 
     protected override void Awake()
     {
+        metadata = GetComponent<UnitMetadata>();
         currentHealth = maxHealth;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GiantStats : BaseUnitStats
+public class GiantStatsBaseStatsComponent : BaseUnitStats
 {
   
 }

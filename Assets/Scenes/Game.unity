@@ -3136,6 +3136,10 @@ PrefabInstance:
       propertyPath: m_NotificationBehavior
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6213029470794223104, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
+      propertyPath: tower
+      value: 
+      objectReference: {fileID: 3296017814138875246, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
     - target: {fileID: 7559699886320178881, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
       propertyPath: m_Name
       value: East Building Platform
@@ -3202,7 +3206,7 @@ GameObject:
   - component: {fileID: 650984040}
   - component: {fileID: 650984042}
   m_Layer: 0
-  m_Name: UnitManager
+  m_Name: Spawn Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3227,11 +3231,6 @@ MonoBehaviour:
   southGateFar: {fileID: 531392285}
   southEastTower: {fileID: 624098710}
   southWestTower: {fileID: 1201073178}
-  fighterPrefab: {fileID: 6717628542700303866, guid: 54468932150093641ae59057b7e9886d, type: 3}
-  rangerPrefab: {fileID: 3501163535796704365, guid: 46ad8408be13107488ddf6a6340e5227, type: 3}
-  cavalierPrefab: {fileID: 8916063152254937078, guid: b162035f5f53c22428a2ddeb61f1c82f, type: 3}
-  gatePrefab: {fileID: 1104963505874597374, guid: 456c11855a34b3c49babfe689df747d3, type: 3}
-  towerPrefab: {fileID: 87936472045436742, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
 --- !u!4 &650984041
 Transform:
   m_ObjectHideFlags: 0
@@ -3260,7 +3259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildManager
   towerPrefabs:
-  - {fileID: 3296017814138875246, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
+  - {fileID: 0}
 --- !u!1 &681166218
 GameObject:
   m_ObjectHideFlags: 0
@@ -27660,7 +27659,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978201588}
-  - component: {fileID: 978201589}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -27685,24 +27683,9 @@ Transform:
   - {fileID: 650984041}
   - {fileID: 1733177083}
   - {fileID: 1263956707}
+  - {fileID: 1761989243}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &978201589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978201587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52437886dcfe96b459b35dc714135434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnitStatsManager
-  unitPrefabs:
-  - prefab: {fileID: 6717628542700303866, guid: 54468932150093641ae59057b7e9886d, type: 3}
-  - prefab: {fileID: 3501163535796704365, guid: 46ad8408be13107488ddf6a6340e5227, type: 3}
-  - prefab: {fileID: 8916063152254937078, guid: b162035f5f53c22428a2ddeb61f1c82f, type: 3}
 --- !u!1 &983460988
 GameObject:
   m_ObjectHideFlags: 0
@@ -28820,6 +28803,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6213029470794223104, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
+      propertyPath: tower
+      value: 
+      objectReference: {fileID: 3296017814138875246, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
     - target: {fileID: 7559699886320178881, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
       propertyPath: m_Name
       value: West Building Platform
@@ -29106,7 +29093,7 @@ GameObject:
   - component: {fileID: 1263956707}
   - component: {fileID: 1263956706}
   m_Layer: 0
-  m_Name: WaveController
+  m_Name: Wave Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29135,6 +29122,7 @@ MonoBehaviour:
   cavalierPrefab: {fileID: 8916063152254937078, guid: b162035f5f53c22428a2ddeb61f1c82f, type: 3}
   giantPrefab: {fileID: 6717628542700303866, guid: f2fe719a871f149459004dfd737cc548, type: 3}
   gatePrefab: {fileID: 1104963505874597374, guid: 456c11855a34b3c49babfe689df747d3, type: 3}
+  eliteFighterPrefab: {fileID: 6717628542700303866, guid: 5d2664f44da324848827e56f5f1ab402, type: 3}
   isTest: 0
 --- !u!4 &1263956707
 Transform:
@@ -31665,7 +31653,7 @@ GameObject:
   - component: {fileID: 1733177083}
   - component: {fileID: 1733177082}
   m_Layer: 5
-  m_Name: UIManager
+  m_Name: UI Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31710,6 +31698,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 978201588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1761989242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1761989243}
+  - component: {fileID: 1761989244}
+  m_Layer: 0
+  m_Name: Unit Stats Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1761989243
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761989242}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 978201588}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1761989244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761989242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52437886dcfe96b459b35dc714135434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStatsManager
+  unitPrefabs:
+  - prefab: {fileID: 6717628542700303866, guid: 54468932150093641ae59057b7e9886d, type: 3}
+  - prefab: {fileID: 3501163535796704365, guid: 46ad8408be13107488ddf6a6340e5227, type: 3}
+  - prefab: {fileID: 8916063152254937078, guid: b162035f5f53c22428a2ddeb61f1c82f, type: 3}
+  - prefab: {fileID: 6717628542700303866, guid: 5d2664f44da324848827e56f5f1ab402, type: 3}
 --- !u!1 &1797643839
 GameObject:
   m_ObjectHideFlags: 0
@@ -34031,6 +34068,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7200452518730832409, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533758761137757830, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
       propertyPath: team
       value: 1
       objectReference: {fileID: 0}

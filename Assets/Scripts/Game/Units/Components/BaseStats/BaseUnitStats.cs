@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public abstract class BaseUnitStats : UnitMetadata, IUnit, ITargetable
+[RequireComponent(typeof(UnitMetadata))]
+public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
@@ -19,11 +20,6 @@ public abstract class BaseUnitStats : UnitMetadata, IUnit, ITargetable
     [SerializeField] protected float critChance;
     [SerializeField] protected float critMultiplier;
 
-
-    // UnitMetadata
-    public override Team Team { get; set; }
-    public override float Cost => cost;
-
     // IUnit
     public float AttackRange => attackRange;
     public int AttackDamage => attackDamage;
@@ -40,8 +36,14 @@ public abstract class BaseUnitStats : UnitMetadata, IUnit, ITargetable
     public float HitRadius => hitRadius;
     public bool IsAlive => currentHealth > 0;
 
+    // UnitMetadata
+    public Team Team => metadata.Team;
+    public float Cost => cost;
+    protected UnitMetadata metadata;
+
     protected virtual void Awake()
     {
+        metadata = GetComponent<UnitMetadata>();
         currentHealth = maxHealth;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
     }

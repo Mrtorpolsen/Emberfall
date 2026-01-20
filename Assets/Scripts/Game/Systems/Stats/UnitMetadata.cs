@@ -1,7 +1,16 @@
 using UnityEngine;
 
-public abstract class UnitMetadata : MonoBehaviour
+public class UnitMetadata : MonoBehaviour
 {
-    public abstract Team Team { get; set; }
-    public abstract float Cost { get; }
+    [SerializeField] private Team team;
+    [SerializeField] private bool isElite;
+
+    public Team Team => team;
+    public bool IsElite => isElite;
+    public void SetTeam(Team newTeam)
+    {
+        //Consider just setter
+        team = newTeam;
+    }
+
 }

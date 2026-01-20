@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 1915946360153976347}
   - component: {fileID: 5784983972493727905}
   - component: {fileID: 6519426945922858906}
+  - component: {fileID: 7200452518730832409}
   m_Layer: 0
   m_Name: Castle
   m_TagString: Untagged
@@ -374,6 +375,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -395,6 +398,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -501,7 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab81c8819370f0a429de08ef5cb798f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castle: {fileID: 4467444779989242713}
+  unit: {fileID: 0}
   healthBar: {fileID: 2147739126218534196}
   cost: 0
   maxHealth: 500
@@ -511,7 +515,24 @@ MonoBehaviour:
   attackRange: 0
   hitRadius: 0.26
   movementSpeed: 0
+  armor: 0
+  critChance: 0
+  critMultiplier: 0
+  castle: {fileID: 4467444779989242713}
+--- !u!114 &7200452518730832409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4467444779989242713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cfcdbe919b2784aba7498e0b240dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitMetadata
   team: 0
+  isElite: 0
 --- !u!1 &6241843977469962857
 GameObject:
   m_ObjectHideFlags: 0

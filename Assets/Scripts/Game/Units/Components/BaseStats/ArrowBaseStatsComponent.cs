@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour, IProjectile
+public class ArrowBaseStatsComponent : MonoBehaviour, IProjectile
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;

@@ -3,7 +3,7 @@ using UnityEngine;
 public class BuildingPlot : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer sr;
-    [SerializeField] private UnitMetadata tower;
+    [SerializeField] private BaseUnitStats tower;
 
 
     private Color canBuild = new Color(0.298f, 0.686f, 0.314f, 1f); // green

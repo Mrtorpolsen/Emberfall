@@ -25,13 +25,6 @@ public class WaveController : MonoBehaviour
     [SerializeField] private int baseCount = 4;
     [SerializeField] private int bossCount = 1;
 
-    [Header("Prefabs")]
-    [SerializeField] private GameObject fighterPrefab;
-    [SerializeField] private GameObject rangerPrefab;
-    [SerializeField] private GameObject cavalierPrefab;
-    [SerializeField] private GameObject giantPrefab;
-    [SerializeField] private GameObject gatePrefab;
-
     [Header("Test")]
     [SerializeField] private Boolean isTest;
 
@@ -122,16 +115,20 @@ public class WaveController : MonoBehaviour
         float spawnDelay = 0.5f;
 
         //customise for special waves
-        if (!((waveNumber + 1) % 10 == 0))
+        if (((waveNumber + 1) % 10 == 0))
         {
-            //build waves here
-            wave.enemiesToSpawn.Add(new EnemyGroup(fighterPrefab, fighterCount, spawnDelay));
-            wave.enemiesToSpawn.Add(new EnemyGroup(cavalierPrefab, cavalierCount, spawnDelay));
+            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.giantPrefab, bossCount, spawnDelay));
+            bossCount++;
         }
         else
         {
-            wave.enemiesToSpawn.Add(new EnemyGroup(giantPrefab, bossCount, spawnDelay));
-            bossCount++;
+            if(waveNumber > 5 && UnityEngine.Random.value < 0.2f)
+            {
+                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
+            }   
+            //build waves here
+            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, fighterCount, spawnDelay));
+            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, cavalierCount, spawnDelay));
         }
 
         Debug.Log($"Wave: {waveNumber} spawned at: {TimerManager.Instance.GetElapsedTime()}");

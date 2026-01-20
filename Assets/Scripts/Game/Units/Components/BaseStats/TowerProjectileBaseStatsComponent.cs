@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class TowerProjectile : MonoBehaviour, IProjectile
+public class BaseStatsComponent : MonoBehaviour, IProjectile
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;

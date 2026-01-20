@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3296017814138875246}
   - component: {fileID: 1852405760658369969}
   - component: {fileID: -3845601776482795994}
+  - component: {fileID: 4053207128255451394}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -185,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23102186c92563e4a9eb4ce8705edad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Combat
-  findTarget: {fileID: 0}
+  targetComponent: {fileID: 0}
 --- !u!114 &-3845601776482795994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,3 +201,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FindTarget
   detectionRange: 100
   debugTarget: {fileID: 0}
+--- !u!114 &4053207128255451394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87936472045436742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cfcdbe919b2784aba7498e0b240dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitMetadata
+  team: 0
+  isElite: 0

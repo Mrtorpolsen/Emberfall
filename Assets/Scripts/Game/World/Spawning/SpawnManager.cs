@@ -17,13 +17,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform southEastTower;
     [SerializeField] private Transform southWestTower;
 
-    [Header("Prefabs")]
-    [SerializeField] private GameObject fighterPrefab;
-    [SerializeField] private GameObject rangerPrefab;
-    [SerializeField] private GameObject cavalierPrefab;
-    [SerializeField] private GameObject gatePrefab;
-    [SerializeField] private GameObject towerPrefab;
-
     private string playerColor = "#2E3A5E";
     private string enemyColor = "#A0170A";
 
@@ -56,7 +49,7 @@ public class SpawnManager : MonoBehaviour
 
     public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team, FinalStats finalStats = null)
     {
-        UnitMetadata stats = prefab.GetComponent<UnitMetadata>();
+        BaseUnitStats stats = prefab.GetComponent<BaseUnitStats>();
 
         if (stats == null)
         {
@@ -71,12 +64,11 @@ public class SpawnManager : MonoBehaviour
         }
 
         GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+        stats = unit.GetComponent<BaseUnitStats>();
 
-        BaseUnitStats baseUnitStats = unit.GetComponent<BaseUnitStats>();
-
-        if (baseUnitStats != null && finalStats != null)
+        if (stats != null && finalStats != null)
         {
-            baseUnitStats.ApplyFinalStats(finalStats);
+            stats.ApplyFinalStats(finalStats);
         }
 
         SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
@@ -88,9 +80,9 @@ public class SpawnManager : MonoBehaviour
             
         UnitMetadata unitStats = unit.GetComponent<UnitMetadata>();
 
-        unitStats.GetComponent<UnitMetadata>().Team = team;
+        unitStats.GetComponent<UnitMetadata>().SetTeam(team);
 
-        if(prefab != gatePrefab)
+        if(prefab != Prefabs.gatePrefab)
         {
             unit.layer = LayerMask.NameToLayer(team.ToString() + "Team");
         }
@@ -118,36 +110,36 @@ public class SpawnManager : MonoBehaviour
     {
         FinalStats finalStats = UnitStatsManager.Instance.GetStats("fighter");
 
-        return SpawnUnit(fighterPrefab, southSpawn, Team.South, finalStats);
+        return SpawnUnit(Prefabs.fighterPrefab, southSpawn, Team.South, finalStats);
     }
     public bool SpawnSouthRanger()
     {
         FinalStats finalStats = UnitStatsManager.Instance.GetStats("ranger");
 
-        return SpawnUnit(rangerPrefab, southSpawn, Team.South, finalStats);
+        return SpawnUnit(Prefabs.rangerPrefab, southSpawn, Team.South, finalStats);
     }
     public bool SpawnSouthCavalier()
     {
         FinalStats finalStats = UnitStatsManager.Instance.GetStats("cavalier");
 
-        return SpawnUnit(cavalierPrefab, southSpawn, Team.South, finalStats);
+        return SpawnUnit(Prefabs.cavalierPrefab, southSpawn, Team.South, finalStats);
     }
     public void SpawnSouthTower(Transform platform)
     {
-        SpawnUnit(towerPrefab, platform, Team.South);
+        SpawnUnit(Prefabs.towerPrefab, platform, Team.South);
     }
 
     public bool SpawnNorthFighter()
     {
-        return SpawnUnit(fighterPrefab, northSpawn, Team.North);
+        return SpawnUnit(Prefabs.fighterPrefab, northSpawn, Team.North);
     }
     public bool SpawnNorthRanger()
     {
-        return SpawnUnit(rangerPrefab, northSpawn, Team.North);
+        return SpawnUnit(Prefabs.rangerPrefab, northSpawn, Team.North);
     }
     public bool SpawnNorthCavalier()
     {
-        return SpawnUnit(cavalierPrefab, northSpawn, Team.North);
+        return SpawnUnit(Prefabs.cavalierPrefab, northSpawn, Team.North);
     }
     public void SpawnSouthFigterUI()
     {
@@ -175,15 +167,15 @@ public class SpawnManager : MonoBehaviour
     }
     public bool SpawnSouthGateClose()
     {
-        return SpawnUnit(gatePrefab, southGateClose, Team.South);
+        return SpawnUnit(Prefabs.gatePrefab, southGateClose, Team.South);
     }
     public bool SpawnSouthGateIntermediate()
     {
-        return SpawnUnit(gatePrefab, southGateIntermediate, Team.South);
+        return SpawnUnit(Prefabs.gatePrefab, southGateIntermediate, Team.South);
     }
     public bool SpawnSouthGateFar()
     {
-        return SpawnUnit(gatePrefab, southGateFar, Team.South);
+        return SpawnUnit(Prefabs.gatePrefab, southGateFar, Team.South);
     }
 }   
 
