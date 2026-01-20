@@ -19,3 +19,4 @@ MonoBehaviour:
   towerPrefab: {fileID: 87936472045436742, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
   giantPrefab: {fileID: 6717628542700303866, guid: f2fe719a871f149459004dfd737cc548, type: 3}
   eliteFighterPrefab: {fileID: 6717628542700303866, guid: 5d2664f44da324848827e56f5f1ab402, type: 3}
+  assasinPrefab: {fileID: 6717628542700303866, guid: d9d7fb1ea3c00da439656c73e0522fae, type: 3}

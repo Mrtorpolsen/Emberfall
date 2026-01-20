@@ -71,6 +71,15 @@ public static class Prefabs
         }
     }
 
+    public static GameObject assasinPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.assasinPrefab;
+        }
+    }
+
     public static GameObject gatePrefab
     {
         get
@@ -79,6 +88,4 @@ public static class Prefabs
             return database.gatePrefab;
         }
     }
-
-    // Add more prefabs as needed
 }
