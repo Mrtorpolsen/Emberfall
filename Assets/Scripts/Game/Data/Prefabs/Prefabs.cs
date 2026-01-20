@@ -75,7 +75,7 @@ public static class Prefabs
         get
         {
             EnsureDatabaseLoaded();
-            return database.eliteCavalierPrefab;
+            return database.eliteFighterPrefab;
         }
     }
 
@@ -85,6 +85,15 @@ public static class Prefabs
         {
             EnsureDatabaseLoaded();
             return database.assasinPrefab;
+        }
+    }
+
+    public static GameObject sapperPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.sapperPrefab;
         }
     }
 

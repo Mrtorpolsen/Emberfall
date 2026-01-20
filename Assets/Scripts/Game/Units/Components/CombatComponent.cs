@@ -70,6 +70,10 @@ public class CombatComponent : MonoBehaviour
             {
                 (unit as TowerStatsBaseStatsComponent).Shoot(target);
             }
+            else if (unit is SapperBaseStatsComponent)
+            {
+                (unit as SapperBaseStatsComponent).Explode();
+            }
             else
             {
                 target.TakeDamage(unit.GetAttackDamage());

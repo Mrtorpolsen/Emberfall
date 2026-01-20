@@ -123,9 +123,11 @@ public class WaveController : MonoBehaviour
         {
             if(waveNumber <= 1)
             {
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.assasinPrefab, 1, spawnDelay));
+                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, 100, spawnDelay));
+                //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
+                //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
+                //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.assasinPrefab, 1, spawnDelay));
+                //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.sapperPrefab, 1, spawnDelay));
             }
             if(waveNumber > 5 && UnityEngine.Random.value < 0.2f)
             {

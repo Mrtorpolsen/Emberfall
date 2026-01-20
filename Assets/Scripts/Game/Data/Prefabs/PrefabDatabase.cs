@@ -12,4 +12,5 @@ public class PrefabDatabase : ScriptableObject
     public GameObject eliteFighterPrefab;
     public GameObject eliteCavalierPrefab;
     public GameObject assasinPrefab;
+    public GameObject sapperPrefab;
 }

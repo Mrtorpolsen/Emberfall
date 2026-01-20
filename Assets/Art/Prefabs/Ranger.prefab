@@ -344,7 +344,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0241124282e26440a05ce6be21dc0fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 100
+  retargetInterval: 0.25
+  northTeamLayer:
+    serializedVersion: 2
+    m_Bits: 4160
+  southTeamLayer:
+    serializedVersion: 2
+    m_Bits: 128
   debugTarget: {fileID: 0}
 --- !u!114 &8574512756279685170
 MonoBehaviour:

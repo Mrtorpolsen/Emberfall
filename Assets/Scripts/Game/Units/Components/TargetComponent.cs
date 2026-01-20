@@ -4,53 +4,72 @@ using UnityEngine;
 public class TargetComponent : MonoBehaviour
 {
     [Header("Reference")]
-    [SerializeField] private float detectionRange = 4f;
-    [SerializeField] private ITargetable currentTarget;
+    private ITargetable currentTarget;
 
-    [Header("Debug")]
+    [SerializeField] private float retargetInterval = 0.25f;
+    private float retargetTimer;
+
+    [SerializeField] private LayerMask northTeamLayer;
+    [SerializeField] private LayerMask southTeamLayer;
+
+#if UNITY_EDITOR
     [SerializeField] private Transform debugTarget;
+#endif
 
+    private float detectionRange = 4f;
     private IUnit selfUnit;
 
     private void Awake()
     {
         selfUnit = GetComponent<IUnit>();
+        Debug.Assert(selfUnit != null, "TargetComponent requires an IUnit.");
     }
 
     void Update()
     {
-        FindClosestTarget();
+        retargetTimer -= Time.deltaTime;
+        if (retargetTimer <= 0f)
+        {
+            retargetTimer = retargetInterval;
+            FindClosestTarget();
+        }
+
         debugTarget = currentTarget?.Transform;
     }
 
     private void FindClosestTarget()
     {
-        var allTargets = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ITargetable>();
+        LayerMask enemyLayer = selfUnit.Team == Team.South ? northTeamLayer : southTeamLayer;
 
-        float closestDistance = Mathf.Infinity;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position,
+            detectionRange,
+            enemyLayer
+        );
+
+        float closestSqrDistance = float.PositiveInfinity;
         ITargetable nearestEnemy = null;
+        Vector2 selfPos = transform.position;
 
-        foreach (var target in allTargets)
+        foreach (var hit in hits)
         {
-            if (target.Team == selfUnit.Team)
-            {
+            if (!hit.TryGetComponent<ITargetable>(out var target))
                 continue;
-            }
 
-            Transform t = target.Transform;
-            if (t != null)
+            if (target.Team == selfUnit.Team)
+                continue;
+
+            float sqrDist = (selfPos - (Vector2)hit.transform.position).sqrMagnitude;
+            if (sqrDist < closestSqrDistance)
             {
-
-                float dist = Vector2.Distance(transform.position, target.Transform.position);
-                if (dist < closestDistance && dist <= detectionRange)
-                {
-                    closestDistance = dist;
-                    nearestEnemy = target;
-                }
+                closestSqrDistance = sqrDist;
+                nearestEnemy = target;
             }
         }
+
         currentTarget = nearestEnemy;
     }
+
 
     public ITargetable GetCurrentTarget() => currentTarget;
 }
