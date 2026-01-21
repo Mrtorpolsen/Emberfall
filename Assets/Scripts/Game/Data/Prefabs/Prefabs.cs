@@ -75,7 +75,7 @@ public static class Prefabs
         get
         {
             EnsureDatabaseLoaded();
-            return database.eliteFighterPrefab;
+            return database.eliteCavalierPrefab;
         }
     }
 
