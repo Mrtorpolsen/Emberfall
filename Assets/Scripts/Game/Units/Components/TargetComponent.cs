@@ -56,6 +56,9 @@ public class TargetComponent : MonoBehaviour
             if (!hit.TryGetComponent<ITargetable>(out var target))
                 continue;
 
+            if (hit.GetComponent<TowerStatsBaseStatsComponent>() != null)
+                continue;
+
             if (target.Team == selfUnit.Team)
                 continue;
 

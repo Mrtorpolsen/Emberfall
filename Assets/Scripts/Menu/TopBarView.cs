@@ -8,13 +8,13 @@ public class TopBarView : MonoBehaviour
     [SerializeField] UIDocument uiDocument;
 
     private Label label_username;
-    private Label label_currency;
+    private Label label_cinders;
 
     private void Awake()
     {
         var root = uiDocument.rootVisualElement;
         label_username = root.Q<Label>("Label_UserName");
-        label_currency = root.Q<Label>("Label_UserCurrency");
+        label_cinders = root.Q<Label>("Label_UserCinders");
     }
 
     private void OnEnable()
@@ -45,6 +45,6 @@ public class TopBarView : MonoBehaviour
 
     private void SetCurrency(int cinders)
     {
-        label_currency.text = cinders.ToString();
+        label_cinders.text = cinders.ToString();
     }
 }

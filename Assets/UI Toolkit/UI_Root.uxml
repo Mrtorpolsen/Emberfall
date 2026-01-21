@@ -6,7 +6,11 @@
             <ui:VisualElement name="MainContainer" class="mainContainer" style="flex-grow: 1;">
                 <ui:VisualElement name="TopBarContainer" class="topBarContainer">
                     <ui:Label text="User  Name" name="Label_UserName" class="topBarLabel gradient-text text" style="justify-content: flex-start; font-size: 30px;" />
-                    <ui:Label text="User Currency" name="Label_UserCurrency" class="topBarLabel text" />
+                    <ui:VisualElement style="flex-grow: 0;" />
+                    <ui:VisualElement name="CinderContainer" style="align-self: center; flex-direction: row; flex-grow: 0; align-items: stretch; justify-content: flex-end; width: auto;">
+                        <ui:Label text="Cinders" name="Label_UserCinders" class="topBarLabel text" />
+                        <ui:VisualElement name="Img_Cinder" style="background-image: resource(&apos;UI/cinder_icon&apos;); height: 100%; flex-shrink: 0; width: auto; -unity-background-scale-mode: scale-to-fit; min-width: 40px;" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="ContentContainer" style="flex-grow: 1; display: flex; flex-direction: column; max-height: 100%; height: auto; overflow: hidden;" />
             </ui:VisualElement>

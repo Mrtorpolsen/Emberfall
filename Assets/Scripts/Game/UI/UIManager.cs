@@ -61,12 +61,21 @@ public class UIManager : MonoBehaviour
     public void Initialize()
     {
         gameUI.gameObject.SetActive(true);
-        SetSurvivalMessage();
+        SetGameOverMessage();
     }
 
-    public void SetSurvivalMessage()
+    public void SetGameOverMessage()
     {
-        survivalText.SetText($"Congratulations! You survived for {TimerManager.Instance.GetFormattedTime()}");
+        int cinders = CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes());
+        cinders = 20;
+        if (cinders > 0)
+        {
+            survivalText.SetText($"Survival: {TimerManager.Instance.GetFormattedTime()} and earned {cinders} cinders <voffset=0.35em><sprite=0></voffset>");
+        }
+        else
+        {
+            survivalText.SetText($"You didnt survive for long...");
+        }
     }
 
     public void GoToMainMenu()
