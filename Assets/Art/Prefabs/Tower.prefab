@@ -167,7 +167,7 @@ MonoBehaviour:
   currentHealth: 0
   attackDamage: 30
   attackSpeed: 1.5
-  attackRange: 3.5
+  attackRange: 5
   hitRadius: 0
   movementSpeed: 0
   armor: 0
