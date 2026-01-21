@@ -67,7 +67,6 @@ public class UIManager : MonoBehaviour
     public void SetGameOverMessage()
     {
         int cinders = CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes());
-        cinders = 20;
         if (cinders > 0)
         {
             survivalText.SetText($"Survival: {TimerManager.Instance.GetFormattedTime()} and earned {cinders} cinders <voffset=0.35em><sprite=0></voffset>");
