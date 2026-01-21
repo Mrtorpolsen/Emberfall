@@ -25,6 +25,7 @@ public class WaveController : MonoBehaviour
     [SerializeField] private int baseCount = 4;
     [SerializeField] private int bossCount = 1;
     [SerializeField] private int sapperCount = 1;
+    [SerializeField] private int assasinCount = 25;
 
     [Header("Test")]
     [SerializeField] private Boolean isTest;
@@ -116,16 +117,17 @@ public class WaveController : MonoBehaviour
 
         float spawnDelay = 0.5f;
 
+        //build waves here
         //customise for special waves
         if (IsMilestone(waveNumber, 10, 0, 10))
         {
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.giantPrefab, bossCount, spawnDelay));
             bossCount++;
         }
-        else if (IsMilestone(waveNumber, 10, 1, 10))
+        else if (IsMilestone(waveNumber, 7, 0, 20))
         {
-            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.sapperPrefab, sapperCount, spawnDelay));
-            sapperCount++;
+            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.assasinPrefab, assasinCount, spawnDelay));
+            assasinCount += 7;
         }
         else
         {
@@ -139,7 +141,10 @@ public class WaveController : MonoBehaviour
                 wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
                 cavalierCount--;
             }   
-            //build waves here
+            if(waveNumberDisplay > 10 && UnityEngine.Random.value < 0.2f)
+            {
+                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.sapperPrefab, sapperCount, spawnDelay));
+            }
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, fighterCount, spawnDelay));
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, cavalierCount, spawnDelay));
         }
