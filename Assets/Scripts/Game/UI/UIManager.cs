@@ -102,7 +102,7 @@ public class UIManager : MonoBehaviour
 
         SetButtonInteractable(fighterBtnBottom, playerCurrency, 50);
         SetButtonInteractable(rangerBtnBottom, playerCurrency, 75);
-        SetButtonInteractable(cavalierBtnBottom, playerCurrency, 100);
+        SetButtonInteractable(cavalierBtnBottom, playerCurrency, 150);
         SetButtonInteractable(incomeBtnBottom, playerCurrency, GameManager.Instance.incomeUpgradeCost);
 
     }
