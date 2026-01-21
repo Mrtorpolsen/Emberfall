@@ -24,6 +24,7 @@ public class WaveController : MonoBehaviour
     [SerializeField] private float waveGrowthRate = 1.05f;
     [SerializeField] private int baseCount = 4;
     [SerializeField] private int bossCount = 1;
+    [SerializeField] private int sapperCount = 1;
 
     [Header("Test")]
     [SerializeField] private Boolean isTest;
@@ -91,6 +92,8 @@ public class WaveController : MonoBehaviour
 
     private WaveDefinition GenerateWave(int waveNumber)
     {
+        int waveNumberDisplay = waveNumber + 1;
+
         var wave = new WaveDefinition
         {
             enemiesToSpawn = new List<EnemyGroup>(),
@@ -98,10 +101,10 @@ public class WaveController : MonoBehaviour
 
         (float fighter, float cavalier) unitComposition = (0f, 0f);
 
-        if (waveNumber <= 10) unitComposition = (1f, 0f);
-        else if (waveNumber <= 20) unitComposition = (0.7f, 0.2f);
-        else if (waveNumber <= 40) unitComposition = (0.6f, 0.3f);
-        else if (waveNumber <= 60) unitComposition = (0.5f, 0.4f);
+        if (waveNumberDisplay <= 10) unitComposition = (1f, 0f);
+        else if (waveNumberDisplay <= 20) unitComposition = (0.7f, 0.2f);
+        else if (waveNumberDisplay <= 40) unitComposition = (0.6f, 0.3f);
+        else if (waveNumberDisplay <= 60) unitComposition = (0.5f, 0.4f);
 
         //scaling
         int unitCount;
@@ -114,32 +117,49 @@ public class WaveController : MonoBehaviour
         float spawnDelay = 0.5f;
 
         //customise for special waves
-        if (((waveNumber + 1) % 10 == 0))
+        if (IsMilestone(waveNumber, 10, 0, 10))
         {
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.giantPrefab, bossCount, spawnDelay));
             bossCount++;
         }
+        else if (IsMilestone(waveNumber, 10, 1, 10))
+        {
+            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.sapperPrefab, sapperCount, spawnDelay));
+            sapperCount++;
+        }
         else
         {
-            if(waveNumber <= 1)
-            {
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, 100, spawnDelay));
-                //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
-                //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
-                //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.assasinPrefab, 1, spawnDelay));
-                //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.sapperPrefab, 1, spawnDelay));
-            }
-            if(waveNumber > 5 && UnityEngine.Random.value < 0.2f)
+            if(waveNumberDisplay >= 5 && UnityEngine.Random.value < 0.2f)
             {
                 wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
+                fighterCount--;
+            }   
+            if(waveNumberDisplay >= 20 && UnityEngine.Random.value < 0.2f)
+            {
+                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
+                cavalierCount--;
             }   
             //build waves here
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, fighterCount, spawnDelay));
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, cavalierCount, spawnDelay));
         }
 
-        Debug.Log($"Wave: {waveNumber} spawned at: {TimerManager.Instance.GetElapsedTime()}");
+        Debug.Log($"Wave: {waveNumberDisplay} spawned at: {TimerManager.Instance.GetElapsedTime()}");
         return wave;
+    }
+
+    public static bool IsMilestone(
+        int waveNumber,
+        int interval,
+        int offset,
+        int minDisplayWave)
+    {
+        int displayWave = waveNumber + 1;
+
+        if (displayWave < minDisplayWave)
+            return false;
+
+        return displayWave % interval == offset;
     }
 
     public bool IsWaveActive() => isSpawning;

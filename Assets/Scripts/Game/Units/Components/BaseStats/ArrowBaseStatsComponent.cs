@@ -12,9 +12,33 @@ public class ArrowBaseStatsComponent : MonoBehaviour, IProjectile
     [SerializeField] private float speed = 5f;
     [SerializeField] private int damage;
 
-
     private Transform target;
     public event Action<ITargetable, int> OnHit;
+
+    private float timeAlive;
+
+    private void Update()
+    {
+        timeAlive += Time.deltaTime;
+        if(timeAlive >= 5f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!target) return;
+
+        Vector2 direction = (target.position - transform.position).normalized;
+
+        rb.linearVelocity = direction * speed;
+    }
+
+    private void OnEnable()
+    {
+        timeAlive = 0f;
+    }
 
     public void Init(IUnit owner, int _damage)
     {
@@ -25,15 +49,6 @@ public class ArrowBaseStatsComponent : MonoBehaviour, IProjectile
     public void SetTarget(ITargetable _target)
     {
         target = _target.Transform;
-    }
-
-    private void FixedUpdate()
-    {
-        if (!target) return;
-
-        Vector2 direction = (target.position - transform.position).normalized;
-
-        rb.linearVelocity = direction * speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
