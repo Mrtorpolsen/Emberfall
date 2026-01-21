@@ -106,6 +106,7 @@ public class UIManager : MonoBehaviour
         SetButtonInteractable(incomeBtnBottom, playerCurrency, GameManager.Instance.incomeUpgradeCost);
 
     }
+
     private void SetButtonInteractable(Button btn, float playerCurrency, float cost)
     {
         btn.interactable = (!PauseManager.IsPaused && (playerCurrency >= cost));

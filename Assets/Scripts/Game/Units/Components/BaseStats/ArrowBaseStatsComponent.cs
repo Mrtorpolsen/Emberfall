@@ -51,9 +51,9 @@ public class ArrowBaseStatsComponent : MonoBehaviour, IProjectile
         target = _target.Transform;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        var targetable = collision.gameObject.GetComponent<ITargetable>();
+        var targetable = other.gameObject.GetComponent<ITargetable>();
 
         if (targetable != null && targetable.IsAlive)
         {

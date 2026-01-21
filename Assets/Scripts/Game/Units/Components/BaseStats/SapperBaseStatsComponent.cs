@@ -27,6 +27,7 @@ public class SapperBaseStatsComponent : BaseUnitStats
                 target.TakeDamage(attackDamage);
             }
         }
+        Debug.Log("Explosion boom");
         Destroy(gameObject);
     }
     protected override void OnDrawGizmosSelected()
