@@ -27,7 +27,11 @@ public class SapperBaseStatsComponent : BaseUnitStats
                 target.TakeDamage(attackDamage);
             }
         }
+        //set death to trigger target switch
+        currentHealth = 0;
+
         Debug.Log("Explosion boom");
+
         Destroy(gameObject);
     }
     protected override void OnDrawGizmosSelected()

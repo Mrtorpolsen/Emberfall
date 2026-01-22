@@ -21,4 +21,4 @@ MonoBehaviour:
   eliteFighterPrefab: {fileID: 6717628542700303866, guid: 5d2664f44da324848827e56f5f1ab402, type: 3}
   eliteCavalierPrefab: {fileID: 8916063152254937078, guid: 6b3eab09fc8104a4ca35f6c11d02b1e8, type: 3}
   assasinPrefab: {fileID: 6717628542700303866, guid: d9d7fb1ea3c00da439656c73e0522fae, type: 3}
-  sapperPrefab: {fileID: 6717628542700303866, guid: 8d0f42d9faa66e643833d6563df38d26, type: 3}
+  sapperPrefab: {fileID: 6717628542700303866, guid: 205569ef057d3e245a6bf6d578fb495a, type: 3}
