@@ -3144,6 +3144,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: East Building Platform
       objectReference: {fileID: 0}
+    - target: {fileID: 7559699886320178881, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8348669319192374279, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3184,7 +3188,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5500046107770759006, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -28960,6 +28965,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: West Building Platform
       objectReference: {fileID: 0}
+    - target: {fileID: 7559699886320178881, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8348669319192374279, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2
@@ -29000,7 +29009,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5500046107770759006, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -30571,6 +30581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3613a75ccff54c647a40165dbd14d3fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClickManager
+  clickableLayers:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!114 &1439708021
 MonoBehaviour:
   m_ObjectHideFlags: 0

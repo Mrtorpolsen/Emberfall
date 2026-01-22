@@ -68,7 +68,7 @@ public class WaveController : MonoBehaviour
         isSpawning = true;
 
         int spawnIndex = 0;
-        Debug.Log($"Spawning Wave {currentWaveIndex + 1}: {wave.enemiesToSpawn.Count} groups");
+        //Debug.Log($"Spawning Wave {currentWaveIndex + 1}: {wave.enemiesToSpawn.Count} groups");
 
         foreach(var group in wave.enemiesToSpawn)
         {
@@ -149,7 +149,7 @@ public class WaveController : MonoBehaviour
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, cavalierCount, spawnDelay));
         }
 
-        Debug.Log($"Wave: {waveNumberDisplay} spawned at: {TimerManager.Instance.GetElapsedTime()}");
+        //Debug.Log($"Wave: {waveNumberDisplay} spawned at: {TimerManager.Instance.GetElapsedTime()}");
         return wave;
     }
 
