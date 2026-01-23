@@ -1,27 +1,36 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class ClickTracker : MonoBehaviour
 {
+    [SerializeField] private LayerMask clickableLayers;
+
+    private Camera cam;
+
+    private void Awake()
+    {
+        cam = Camera.main;
+    }
+
     private void Update()
     {
-        if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
+        if (Pointer.current == null) return;
+        if (!Pointer.current.press.wasPressedThisFrame) return;
+
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        Vector2 screenPos = Pointer.current.position.ReadValue();
+        Vector2 worldPos = cam.ScreenToWorldPoint(screenPos);
+
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, Mathf.Infinity, clickableLayers);
+
+        if (!hit.collider) return;
+
+        if (hit.collider.TryGetComponent(out BuildingPlot plot))
         {
-            Vector2 screenPos = Pointer.current.position.ReadValue();
-            Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-
-            // Raycast to see what was clicked
-            RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-
-            if (hit.collider != null)
-            {
-                // Check if the hit object has a BuildingPlot component
-                BuildingPlot plot = hit.collider.GetComponent<BuildingPlot>();
-                if (plot != null)
-                {
-                    plot.OnPlotClicked();
-                }
-            }
+            plot.OnPlotClicked();
         }
     }
 }

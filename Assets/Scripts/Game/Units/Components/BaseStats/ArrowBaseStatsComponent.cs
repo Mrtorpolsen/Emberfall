@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour, IProjectile
+public class ArrowBaseStatsComponent : MonoBehaviour, IProjectile
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
@@ -12,9 +12,33 @@ public class Arrow : MonoBehaviour, IProjectile
     [SerializeField] private float speed = 5f;
     [SerializeField] private int damage;
 
-
     private Transform target;
     public event Action<ITargetable, int> OnHit;
+
+    private float timeAlive;
+
+    private void Update()
+    {
+        timeAlive += Time.deltaTime;
+        if(timeAlive >= 5f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!target) return;
+
+        Vector2 direction = (target.position - transform.position).normalized;
+
+        rb.linearVelocity = direction * speed;
+    }
+
+    private void OnEnable()
+    {
+        timeAlive = 0f;
+    }
 
     public void Init(IUnit owner, int _damage)
     {
@@ -27,18 +51,9 @@ public class Arrow : MonoBehaviour, IProjectile
         target = _target.Transform;
     }
 
-    private void FixedUpdate()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (!target) return;
-
-        Vector2 direction = (target.position - transform.position).normalized;
-
-        rb.linearVelocity = direction * speed;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        var targetable = collision.gameObject.GetComponent<ITargetable>();
+        var targetable = other.gameObject.GetComponent<ITargetable>();
 
         if (targetable != null && targetable.IsAlive)
         {

@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 4235267402526415989}
   - component: {fileID: 6109290109553419057}
   - component: {fileID: 8574512756279685170}
+  - component: {fileID: 4135203860140167097}
   m_Layer: 0
   m_Name: Ranger
   m_TagString: Untagged
@@ -291,6 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 4453514862014735567}
   canMove: 0
+  rangedZoneRadius: 0.1
 --- !u!114 &7478925129009968955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,7 +312,7 @@ MonoBehaviour:
   currentHealth: 0
   attackDamage: 15
   attackSpeed: 0.5
-  attackRange: 1.5
+  attackRange: 2.5
   hitRadius: 0.135
   movementSpeed: 1.75
   armor: 0
@@ -329,7 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23102186c92563e4a9eb4ce8705edad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  findTarget: {fileID: 0}
+  targetComponent: {fileID: 0}
 --- !u!114 &6109290109553419057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +344,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0241124282e26440a05ce6be21dc0fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 100
+  retargetInterval: 0.25
+  northTeamLayer:
+    serializedVersion: 2
+    m_Bits: 4160
+  southTeamLayer:
+    serializedVersion: 2
+    m_Bits: 128
   debugTarget: {fileID: 0}
 --- !u!114 &8574512756279685170
 MonoBehaviour:
@@ -357,6 +365,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentVelocity: {x: 0, y: 0}
+--- !u!114 &4135203860140167097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3501163535796704365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cfcdbe919b2784aba7498e0b240dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitMetadata
+  team: 0
+  isElite: 0
 --- !u!1 &4277308923440016089
 GameObject:
   m_ObjectHideFlags: 0

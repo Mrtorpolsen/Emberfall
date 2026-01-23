@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CavalierStats : BaseUnitStats
+public class CavalierStatsBaseStatsComponent : BaseUnitStats
 {
     
 }

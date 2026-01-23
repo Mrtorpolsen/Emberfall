@@ -66,7 +66,7 @@ public class SplashManager : MonoBehaviour
         //move this to a reward manager or service later
         if(!SaveService.Instance.Current.HasReceivedLoginGift)
         {
-            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 10000);
+            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
             SaveService.Instance.Current.HasReceivedLoginGift = true;
             SaveService.Instance.Save();
         }

@@ -106,7 +106,7 @@ public class ForgeManager : IUIScreenManager
                 //Todo need to reconstruct this to handle multiple prerequisites and different eg achievement
                 LabelText = prerequisitsMet ? $"{purchasedNow}/{max}" : $"Requires {talent.Prerequisites[0].RequiredPointsInTier} points in Tier {talent.Prerequisites[0].RequiredTier}",
                 BtnText = currentCost.ToString(),
-                BtnIconPath = "UI/Images/Talents/cinder_icon",
+                BtnIconPath = "UI/cinder_icon",
 
                 OnClick = () =>
                 {

@@ -61,12 +61,20 @@ public class UIManager : MonoBehaviour
     public void Initialize()
     {
         gameUI.gameObject.SetActive(true);
-        SetSurvivalMessage();
+        SetGameOverMessage();
     }
 
-    public void SetSurvivalMessage()
+    public void SetGameOverMessage()
     {
-        survivalText.SetText($"Congratulations! You survived for {TimerManager.Instance.GetFormattedTime()}");
+        int cinders = CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes());
+        if (cinders > 0)
+        {
+            survivalText.SetText($"Survival: {TimerManager.Instance.GetFormattedTime()} and earned {cinders} cinders <voffset=0.35em><sprite=0></voffset>");
+        }
+        else
+        {
+            survivalText.SetText($"You didnt survive for long...");
+        }
     }
 
     public void GoToMainMenu()
@@ -93,10 +101,11 @@ public class UIManager : MonoBehaviour
 
         SetButtonInteractable(fighterBtnBottom, playerCurrency, 50);
         SetButtonInteractable(rangerBtnBottom, playerCurrency, 75);
-        SetButtonInteractable(cavalierBtnBottom, playerCurrency, 100);
+        SetButtonInteractable(cavalierBtnBottom, playerCurrency, 150);
         SetButtonInteractable(incomeBtnBottom, playerCurrency, GameManager.Instance.incomeUpgradeCost);
 
     }
+
     private void SetButtonInteractable(Button btn, float playerCurrency, float cost)
     {
         btn.interactable = (!PauseManager.IsPaused && (playerCurrency >= cost));

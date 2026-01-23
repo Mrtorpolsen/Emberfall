@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GateStats : UnitMetadata, IUnit, ITargetable
+public class GateStatsBaseStatsComponent : UnitMetadata, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] public GameObject gate;
@@ -20,8 +20,8 @@ public class GateStats : UnitMetadata, IUnit, ITargetable
     [SerializeField] protected float critChance;
     [SerializeField] protected float critMultiplier;
 
-    public override Team Team { get; set; }
-    public override float Cost => cost;
+    public new Team Team { get; set; }
+    public float Cost => cost;
     public float AttackRange => attackRange;
 
     public int AttackDamage => attackDamage;

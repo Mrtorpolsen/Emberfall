@@ -1,5 +1,5 @@
 using UnityEngine;
-public class FighterStats : BaseUnitStats
+public class FighterStatsBaseStatsComponent : BaseUnitStats
 {
 
 }

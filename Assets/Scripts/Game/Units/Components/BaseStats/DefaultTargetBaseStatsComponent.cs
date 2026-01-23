@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DefaultTarget : MonoBehaviour, ITargetable
+public class DefaultTargetBaseStatsComponent : MonoBehaviour, ITargetable
 {
     [Header("Reference")]
     [SerializeField] public GameObject unit;

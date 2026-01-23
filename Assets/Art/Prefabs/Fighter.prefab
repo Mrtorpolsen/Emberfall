@@ -410,6 +410,7 @@ GameObject:
   - component: {fileID: -6907675892120128662}
   - component: {fileID: 5124825557718836729}
   - component: {fileID: 1084606098695626972}
+  - component: {fileID: 2555917545127622199}
   m_Layer: 0
   m_Name: Fighter
   m_TagString: Untagged
@@ -572,6 +573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5314775306289127517}
   canMove: 0
+  rangedZoneRadius: 0.1
 --- !u!114 &1503434668978237590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,7 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23102186c92563e4a9eb4ce8705edad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  findTarget: {fileID: 0}
+  targetComponent: {fileID: 0}
 --- !u!114 &5124825557718836729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,7 +624,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0241124282e26440a05ce6be21dc0fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRange: 100
+  retargetInterval: 0.25
+  northTeamLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  southTeamLayer:
+    serializedVersion: 2
+    m_Bits: 128
   debugTarget: {fileID: 0}
 --- !u!114 &1084606098695626972
 MonoBehaviour:
@@ -637,3 +645,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentVelocity: {x: 0, y: 0}
+--- !u!114 &2555917545127622199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6717628542700303866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cfcdbe919b2784aba7498e0b240dae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitMetadata
+  team: 0
+  isElite: 0
