@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
 {
     public static UnitStatsManager Instance { get; private set; }
     StatsBootstrapper statsBootstrapper;
+    UnitStatsCalculator unitStatsCalculator;
 
     private Dictionary<string, FinalStats> finalStatsByUnit = new();
     private Dictionary<string, GameObject> prefabByUnitKey = new();
@@ -13,6 +15,7 @@ public class UnitStatsManager : MonoBehaviour
     {
         Instance = this;
 
+        unitStatsCalculator = new UnitStatsCalculator();
         //For testing
         try
         {
@@ -59,111 +62,31 @@ public class UnitStatsManager : MonoBehaviour
 
     private void CalculateAllFinalStats()
     {
-        foreach (var kvp in prefabByUnitKey)
-        {
-            string unitKey = kvp.Key;
-            GameObject prefab = kvp.Value;
-
-            FinalStats finalStats = BuildStatsFromBase(prefab);
-            ApplyTalents(unitKey, ref finalStats);
-            finalStatsByUnit[unitKey] = finalStats;
-        }
-    }
-
-    private void ApplyTalents(string unitName, ref FinalStats stats)
-    {
-        //for testing
         if (statsBootstrapper == null) return;
 
-        if (!statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
-            return;
 
-        foreach (var talent in unitTalents)
+        foreach (var kvp in prefabByUnitKey)
         {
-            foreach (var effect in talent.effects)
+            string unitName = kvp.Key;
+            GameObject prefab = kvp.Value;
+
+            if (!statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
+                continue;
+
+            var appliedTalents = new List<AppliedTalent>();
+
+            foreach (var talent in unitTalents)
             {
-                float magnitude = effect.Operation switch
+                appliedTalents.Add(new AppliedTalent
                 {
-                    EffectOperation.Add => effect.Value * talent.purcashed,
-                    EffectOperation.Multiply => Mathf.Pow(effect.Value, talent.purcashed),
-                    EffectOperation.Set => effect.Value,
-                    _ => effect.Value
-                };
-                ApplyEffect(effect.Target, effect.Operation, magnitude, ref stats);
+                    Effects = talent.effects,
+                    Purchased = talent.purcashed
+                });
             }
-        }
-    }
 
-    private void ApplyEffect(EffectTarget target, EffectOperation operation,
-        float value, ref FinalStats stats)
-    {
-        switch (target)
-        {
-            case EffectTarget.Health:
-                Apply(ref stats.health, operation, value);
-                break;
-
-            case EffectTarget.Damage:
-                Apply(ref stats.attackDamage, operation, value);
-                break;
-
-            case EffectTarget.AttackSpeed:
-                Apply(ref stats.attackSpeed, operation, value);
-                break;
-
-            case EffectTarget.Range:
-                Apply(ref stats.attackRange, operation, value);
-                break;
-
-            case EffectTarget.Armor:
-                Apply(ref stats.armor, operation, value);
-                break;
-
-            case EffectTarget.CritChance:
-                Apply(ref stats.critChance, operation, value);
-                break;
-
-            case EffectTarget.CritDamage:
-                Apply(ref stats.critMultiplier, operation, value);
-                break;
-        }
-    }
-
-    private void Apply(ref int stat, EffectOperation operation, float value)
-    {
-        int intValue = Mathf.RoundToInt(value);
-
-        switch (operation)
-        {
-            case EffectOperation.Add:
-                stat += intValue;
-                break;
-
-            case EffectOperation.Multiply:
-                stat = Mathf.RoundToInt(stat * value);
-                break;
-
-            case EffectOperation.Set:
-                stat = intValue;
-                break;
-        }
-    }
-
-    private void Apply(ref float stat, EffectOperation operation, float value)
-    {
-        switch (operation)
-        {
-            case EffectOperation.Add:
-                stat += value;
-                break;
-
-            case EffectOperation.Multiply:
-                stat *= value;
-                break;
-
-            case EffectOperation.Set:
-                stat = value;
-                break;
+            FinalStats finalStats = BuildStatsFromBase(prefab);
+            unitStatsCalculator.ApplyTalents(ref finalStats, appliedTalents);
+            finalStatsByUnit[unitName] = finalStats;
         }
     }
 
@@ -188,18 +111,7 @@ public class UnitStatsManager : MonoBehaviour
             return null;
         }
 
-        //scaling multipliers
-        float wave = scaling.waveIndex + 1;
-        int hpPercent = Mathf.RoundToInt(2f * Mathf.Pow(wave, 0.85f));
-        int dmgPercent = Mathf.RoundToInt(2f * Mathf.Pow(wave, 0.75f));
-
-        float hpMultiplier = 1f + (hpPercent * 0.01f);
-        float dmgMultiplier = 1f + (dmgPercent * 0.01f);
-
-        ApplyEffect(EffectTarget.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
-        ApplyEffect(EffectTarget.Damage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
-
-        return finalStats;
+        return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex, finalStats);
     }
 
     private FinalStats BuildStatsFromBase(GameObject unitPrefab)

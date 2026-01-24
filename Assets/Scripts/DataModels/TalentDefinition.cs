@@ -74,9 +74,9 @@ public class TalentEffect
 public enum EffectTarget
 {
     Health,
-    Damage,
+    AttackDamage,
     AttackSpeed,
-    Range,
+    AttackRange,
     Armor,
     CritChance,
     CritDamage,
