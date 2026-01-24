@@ -31,7 +31,7 @@ public class UnitStatsCalculator
         float dmgMultiplier = 1f + (dmgPercent * 0.01f);
 
         ApplyEffect(EffectTarget.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
-        ApplyEffect(EffectTarget.Damage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
+        ApplyEffect(EffectTarget.AttackDamage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
 
         return finalStats;
     }
@@ -45,7 +45,7 @@ public class UnitStatsCalculator
                 Apply(ref stats.health, operation, value);
                 break;
 
-            case EffectTarget.Damage:
+            case EffectTarget.AttackDamage:
                 Apply(ref stats.attackDamage, operation, value);
                 break;
 
@@ -53,7 +53,7 @@ public class UnitStatsCalculator
                 Apply(ref stats.attackSpeed, operation, value);
                 break;
 
-            case EffectTarget.Range:
+            case EffectTarget.AttackRange:
                 Apply(ref stats.attackRange, operation, value);
                 break;
 
