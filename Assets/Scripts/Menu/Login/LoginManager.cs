@@ -32,7 +32,7 @@ public class LoginManager : MonoBehaviour
         await UnityServices.InitializeAsync();
 
         //Clears saved token FOR TESTING
-        AuthenticationService.Instance.ClearSessionToken();
+        //AuthenticationService.Instance.ClearSessionToken();
 
         if (!AuthenticationService.Instance.IsSignedIn)
         {
