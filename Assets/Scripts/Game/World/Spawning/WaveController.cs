@@ -17,15 +17,13 @@ public class WaveController : MonoBehaviour
 
     public static WaveController Instance;
 
+    public static WaveGenerator waveGenerator;
+
     [Header("Settings")]
     [SerializeField] private Transform northSpawn;
     [SerializeField] private int totalWaves = 100;
     [SerializeField] private float timeBetweenWaves = 10f;
-    [SerializeField] private float waveGrowthRate = 1.05f;
-    [SerializeField] private int baseCount = 4;
-    [SerializeField] private int bossCount = 1;
-    [SerializeField] private int sapperCount = 1;
-    [SerializeField] private int assasinCount = 25;
+
 
     [Header("Test")]
     [SerializeField] private Boolean isTest;
@@ -41,6 +39,7 @@ public class WaveController : MonoBehaviour
             return;
         }
         Instance = this;
+        waveGenerator = new WaveGenerator();
     }
 
     public void StartWaves()
@@ -54,7 +53,7 @@ public class WaveController : MonoBehaviour
     {
         while (currentWaveIndex < totalWaves && !GameManager.Instance.isGameOver)
         {
-            var wave = GenerateWave(currentWaveIndex);
+            var wave = waveGenerator.GenerateWave(currentWaveIndex);
             yield return StartCoroutine(SpawnWave(wave));
             currentWaveIndex++;
 
@@ -91,81 +90,7 @@ public class WaveController : MonoBehaviour
         isSpawning = false;
     }
 
-    private WaveDefinition GenerateWave(int waveNumber)
-    {
-        int waveNumberDisplay = waveNumber + 1;
 
-        var wave = new WaveDefinition
-        {
-            enemiesToSpawn = new List<EnemyGroup>(),
-        };
-
-        (float fighter, float cavalier) unitComposition = (0f, 0f);
-
-        if (waveNumberDisplay <= 10) unitComposition = (1f, 0f);
-        else if (waveNumberDisplay <= 20) unitComposition = (0.7f, 0.2f);
-        else if (waveNumberDisplay <= 40) unitComposition = (0.6f, 0.3f);
-        else if (waveNumberDisplay <= 60) unitComposition = (0.5f, 0.4f);
-
-        //scaling
-        int unitCount;
-
-        unitCount = Mathf.RoundToInt(baseCount * Mathf.Pow(waveGrowthRate, waveNumber - 1));
-        
-        int fighterCount = Mathf.RoundToInt(unitCount * unitComposition.fighter);
-        int cavalierCount = unitCount - fighterCount;
-
-        float spawnDelay = 0.5f;
-
-        //build waves here
-        //customise for special waves
-        if (IsMilestone(waveNumber, 10, 0, 10))
-        {
-            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.giantPrefab, bossCount, spawnDelay));
-            bossCount++;
-        }
-        else if (IsMilestone(waveNumber, 7, 0, 20))
-        {
-            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.assasinPrefab, assasinCount, spawnDelay));
-            assasinCount += 7;
-        }
-        else
-        {
-            if(waveNumberDisplay >= 5 && UnityEngine.Random.value < 0.2f)
-            {
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
-                fighterCount--;
-            }   
-            if(waveNumberDisplay >= 20 && UnityEngine.Random.value < 0.2f)
-            {
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
-                cavalierCount--;
-            }   
-            if(waveNumberDisplay > 10 && UnityEngine.Random.value < 0.2f)
-            {
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.sapperPrefab, sapperCount, spawnDelay));
-            }
-            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, fighterCount, spawnDelay));
-            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, cavalierCount, spawnDelay));
-        }
-
-        //Debug.Log($"Wave: {waveNumberDisplay} spawned at: {TimerManager.Instance.GetElapsedTime()}");
-        return wave;
-    }
-
-    public static bool IsMilestone(
-        int waveNumber,
-        int interval,
-        int offset,
-        int minDisplayWave)
-    {
-        int displayWave = waveNumber + 1;
-
-        if (displayWave < minDisplayWave)
-            return false;
-
-        return displayWave % interval == offset;
-    }
 
     public bool IsWaveActive() => isSpawning;
     public int GetCurrentWaveNumber() => currentWaveIndex + 1;

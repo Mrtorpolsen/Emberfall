@@ -14,7 +14,7 @@
         "Tier": 1,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.01
           }
@@ -125,7 +125,7 @@
         "Tier": 3,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.03
           }
@@ -328,7 +328,7 @@
         "Tier": 5,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.04
           }
@@ -444,7 +444,7 @@
         "Tier": 7,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.05
           }
@@ -536,7 +536,7 @@
             "Value": 1.05
           },
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.05
           },
@@ -630,7 +630,7 @@
         "Tier": 1,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.01
           }
@@ -654,7 +654,7 @@
         "Tier": 2,
         "Effects": [
           {
-            "Target": "Range",
+            "Target": "AttackRange",
             "Operation": "Multiply",
             "Value": 1.02
           }
@@ -712,7 +712,7 @@
         "Tier": 3,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.03
           }
@@ -770,7 +770,7 @@
         "Tier": 3,
         "Effects": [
           {
-            "Target": "Range",
+            "Target": "AttackRange",
             "Operation": "Multiply",
             "Value": 1.03
           }
@@ -886,7 +886,7 @@
         "Tier": 5,
         "Effects": [
           {
-            "Target": "Range",
+            "Target": "AttackRange",
             "Operation": "Multiply",
             "Value": 1.04
           }
@@ -915,7 +915,7 @@
         "Tier": 5,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.04
           }
@@ -1031,7 +1031,7 @@
         "Tier": 7,
         "Effects": [
           {
-            "Target": "Range",
+            "Target": "AttackRange",
             "Operation": "Multiply",
             "Value": 1.02
           }
@@ -1060,7 +1060,7 @@
         "Tier": 7,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.05
           }
@@ -1152,12 +1152,12 @@
             "Value": 1.05
           },
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.05
           },
           {
-            "Target": "Range",
+            "Target": "AttackRange",
             "Operation": "Multiply",
             "Value": 1.05
           }
@@ -1246,7 +1246,7 @@
         "Tier": 1,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.01
           }
@@ -1357,7 +1357,7 @@
         "Tier": 3,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.03
           }
@@ -1560,7 +1560,7 @@
         "Tier": 5,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.04
           }
@@ -1676,7 +1676,7 @@
         "Tier": 7,
         "Effects": [
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.05
           }
@@ -1768,7 +1768,7 @@
             "Value": 1.05
           },
           {
-            "Target": "Damage",
+            "Target": "AttackDamage",
             "Operation": "Multiply",
             "Value": 1.05
           },

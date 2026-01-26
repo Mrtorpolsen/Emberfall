@@ -10,10 +10,11 @@ public class TimerManager : MonoBehaviour
     private float startTime;
     private bool timerRunning = false;
     private float updateTimer = 0f;
+    private float elapsedTime = 0f;
 
 
-    public float GetElapsedTime() => (Time.time - startTime) * 1000f;
-    public int GetElapsedTimeInMinutes() => Mathf.FloorToInt((Time.time - startTime) / 60f);
+    public float GetElapsedTime() => elapsedTime * 1000f;
+    public int GetElapsedTimeInMinutes() => Mathf.FloorToInt(elapsedTime / 60f);
     public string GetFormattedTime() => TimeFormatter.FormatTime(GetElapsedTime());
 
     private void Awake()
@@ -31,6 +32,7 @@ public class TimerManager : MonoBehaviour
     {
         if (!timerRunning || timerText == null) return;
 
+        elapsedTime += Time.deltaTime; // respects pause if Time.timeScale = 0
         updateTimer += Time.deltaTime;
 
         if (updateTimer >= 1f)
