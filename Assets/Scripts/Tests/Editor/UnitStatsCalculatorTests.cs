@@ -262,4 +262,27 @@ public class UnitStatsCalculatorTests
         Assert.AreEqual(Mathf.RoundToInt(100 * Mathf.Pow(1.07f, 3)), stats.health);
     }
 
+    [Test]
+    public void ApplyTalents_NoTalents_PlayerStatsRemainUnchanged()
+    {
+        var calculator = new UnitStatsCalculator();
+
+        var stats = new FinalStats
+        {
+            health = 100,
+            attackDamage = 20,
+            critChance = 0.05f,
+            attackSpeed = 1f
+        };
+
+        // Simulate empty save: no purchased talents
+        var playerTalents = new List<AppliedTalent>();
+
+        calculator.ApplyTalents(ref stats, playerTalents);
+
+        Assert.AreEqual(100, stats.health);
+        Assert.AreEqual(20, stats.attackDamage);
+        Assert.AreEqual(0.05f, stats.critChance, 0.0001f);
+        Assert.AreEqual(1f, stats.attackSpeed);
+    }
 }
