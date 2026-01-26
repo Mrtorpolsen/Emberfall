@@ -33,8 +33,9 @@ public class TargetComponent : MonoBehaviour
             retargetTimer = retargetInterval;
             FindClosestTarget();
         }
-
+#if UNITY_EDITOR
         debugTarget = currentTarget?.Transform;
+#endif
     }
 
     private void FindClosestTarget()
