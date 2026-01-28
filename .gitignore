@@ -68,6 +68,11 @@ crashlytics-build.properties
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
+# Addressables generated files
+Assets/AddressableAssetsData/link.xml
+Assets/AddressableAssetsData/**/*.bin
+Assets/AddressableAssetsData/**/*.json
+
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
@@ -97,5 +102,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+
 
 /Assets/Resources/PerformanceTestRunInfo.json
