@@ -124,9 +124,9 @@ public class SpawnManager : MonoBehaviour
 
         return SpawnUnit(Prefabs.cavalierPrefab, southSpawn, Team.South, finalStats);
     }
-    public void SpawnSouthTower(Transform platform)
+    public void SpawnSouthTower(Transform platform, GameObject towerPrefab)
     {
-        SpawnUnit(Prefabs.towerPrefab, platform, Team.South);
+        SpawnUnit(towerPrefab, platform, Team.South);
     }
 
     public bool SpawnNorthFighter()

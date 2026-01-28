@@ -60,6 +60,9 @@ public class TargetComponent : MonoBehaviour
             if (hit.GetComponent<TowerStatsBaseStatsComponent>() != null)
                 continue;
 
+            if (hit.GetComponent<BalistaTowerStatsBaseStatsComponent>() != null)
+                continue;
+
             if (target.Team == selfUnit.Team)
                 continue;
 

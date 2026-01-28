@@ -44,14 +44,6 @@ public static class Prefabs
             return database.cavalierPrefab;
         }
     }
-    public static GameObject towerPrefab
-    {
-        get
-        {
-            EnsureDatabaseLoaded();
-            return database.towerPrefab;
-        }
-    }
 
     public static GameObject giantPrefab
     {
@@ -94,6 +86,24 @@ public static class Prefabs
         {
             EnsureDatabaseLoaded();
             return database.sapperPrefab;
+        }
+    }
+
+    public static GameObject towerPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.towerPrefab;
+        }
+    }
+
+    public static GameObject balistaTowerPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.balistaTowerPrefab;
         }
     }
 

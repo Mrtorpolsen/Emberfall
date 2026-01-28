@@ -3139,7 +3139,7 @@ PrefabInstance:
     - target: {fileID: 6213029470794223104, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
       propertyPath: tower
       value: 
-      objectReference: {fileID: 3296017814138875246, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
+      objectReference: {fileID: 9058276337862287081, guid: 1de2bf2dac3f9ad4e90de19ac7c3612b, type: 3}
     - target: {fileID: 7559699886320178881, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
       propertyPath: m_Name
       value: East Building Platform
@@ -28960,7 +28960,7 @@ PrefabInstance:
     - target: {fileID: 6213029470794223104, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
       propertyPath: tower
       value: 
-      objectReference: {fileID: 3296017814138875246, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
+      objectReference: {fileID: 9058276337862287081, guid: 1de2bf2dac3f9ad4e90de19ac7c3612b, type: 3}
     - target: {fileID: 7559699886320178881, guid: c5a91085a4ab26f4c805f712de14ed1b, type: 3}
       propertyPath: m_Name
       value: West Building Platform
@@ -29273,11 +29273,6 @@ MonoBehaviour:
   northSpawn: {fileID: 2061042645}
   totalWaves: 100
   timeBetweenWaves: 10
-  waveGrowthRate: 1.05
-  baseCount: 4
-  bossCount: 1
-  sapperCount: 1
-  assasinCount: 25
   isTest: 0
 --- !u!4 &1263956707
 Transform:
