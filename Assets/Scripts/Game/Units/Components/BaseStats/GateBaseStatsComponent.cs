@@ -44,6 +44,8 @@ public class GateStatsBaseStatsComponent : UnitMetadata, IUnit, ITargetable
 
     public int MaxHealth => maxHealth;
 
+    public ThreatLevel UnitPrio => throw new System.NotImplementedException();
+
     void Start()
     {
         healthBar.UpdateHealthBar(currentHealth, maxHealth);

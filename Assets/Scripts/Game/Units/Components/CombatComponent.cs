@@ -62,13 +62,9 @@ public class CombatComponent : MonoBehaviour
         {
             attackCooldown = 1f / unit.AttackSpeed;
 
-            if (unit is RangerStatsBaseStatsComponent)
+            if (unit is RangedUnitStats)
             {
-                (unit as RangerStatsBaseStatsComponent).Shoot(target);
-            }
-            else if (unit is TowerStatsBaseStatsComponent)
-            {
-                (unit as TowerStatsBaseStatsComponent).Shoot(target);
+                (unit as RangedUnitStats).Shoot(target);
             }
             else if (unit is SapperBaseStatsComponent)
             {

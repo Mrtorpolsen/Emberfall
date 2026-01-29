@@ -5,6 +5,7 @@ public class SapperBaseStatsComponent : BaseUnitStats
 {
     [SerializeField] private float explosionRadius = 1.5f;
 
+    public override ThreatLevel UnitPrio => ThreatLevel.Immidate;
 
     public void Explode()
     {

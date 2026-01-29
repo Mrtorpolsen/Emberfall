@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitMetadata))]
@@ -19,6 +20,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] protected int armor;
     [SerializeField] protected float critChance;
     [SerializeField] protected float critMultiplier;
+    [SerializeField] protected ThreatLevel unitPrio;
 
     // IUnit
     public float AttackRange => attackRange;
@@ -35,10 +37,13 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public Transform Transform => (this != null) ? transform : null;
     public float HitRadius => hitRadius;
     public bool IsAlive => currentHealth > 0;
+    public virtual ThreatLevel UnitPrio => unitPrio;
 
     // UnitMetadata
     public Team Team => metadata.Team;
     public float Cost => cost;
+
+
     protected UnitMetadata metadata;
 
     protected virtual void Awake()

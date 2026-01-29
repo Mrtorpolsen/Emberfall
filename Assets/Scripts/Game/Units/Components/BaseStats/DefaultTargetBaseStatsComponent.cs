@@ -21,6 +21,8 @@ public class DefaultTargetBaseStatsComponent : MonoBehaviour, ITargetable
 
     public bool IsAlive => currentHealth > 0;
 
+    public ThreatLevel UnitPrio => throw new System.NotImplementedException();
+
     private void Awake()
     {
         currentHealth = maxHealth;
