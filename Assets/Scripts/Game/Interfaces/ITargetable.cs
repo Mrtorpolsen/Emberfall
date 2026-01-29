@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface ITargetable : IHasTeam
@@ -9,4 +11,5 @@ public interface ITargetable : IHasTeam
 
     void TakeDamage(int amount);
     void Die();
+    ThreatLevel UnitPrio { get; }
 }

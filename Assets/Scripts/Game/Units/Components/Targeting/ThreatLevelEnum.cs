@@ -1,0 +1,1 @@
+﻿public enum ThreatLevel { Boss, Immidate, Elite, Special, High, Normal};

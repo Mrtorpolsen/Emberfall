@@ -1,4 +1,4 @@
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TargetComponent : MonoBehaviour
@@ -16,13 +16,21 @@ public class TargetComponent : MonoBehaviour
     [SerializeField] private Transform debugTarget;
 #endif
 
-    private float detectionRange = 4f;
+    private TargetSelector targetSelector;
+    private float detectionRange = 2f;
     private IUnit selfUnit;
 
     private void Awake()
     {
         selfUnit = GetComponent<IUnit>();
         Debug.Assert(selfUnit != null, "TargetComponent requires an IUnit.");
+
+        if(selfUnit.AttackRange > detectionRange)
+        {
+            detectionRange = selfUnit.AttackRange;
+        }
+
+        targetSelector = new TargetSelector();
     }
 
     void Update()
@@ -48,10 +56,10 @@ public class TargetComponent : MonoBehaviour
             enemyLayer
         );
 
-        float closestSqrDistance = float.PositiveInfinity;
-        ITargetable nearestEnemy = null;
         Vector2 selfPos = transform.position;
 
+        List<ITargetable> possibleTargets = new List<ITargetable>();
+        
         foreach (var hit in hits)
         {
             if (!hit.TryGetComponent<ITargetable>(out var target))
@@ -66,15 +74,17 @@ public class TargetComponent : MonoBehaviour
             if (target.Team == selfUnit.Team)
                 continue;
 
-            float sqrDist = (selfPos - (Vector2)hit.transform.position).sqrMagnitude;
-            if (sqrDist < closestSqrDistance)
-            {
-                closestSqrDistance = sqrDist;
-                nearestEnemy = target;
-            }
+            possibleTargets.Add(target);
         }
 
-        currentTarget = nearestEnemy;
+        IReadOnlyList<ThreatLevel> priorities = null;
+
+        if (gameObject.TryGetComponent<ITargetingAgent>(out var agent))
+        {
+            priorities = agent.PreferredPriorities;
+        }
+
+        currentTarget = targetSelector.SelectTarget(possibleTargets, selfPos, priorities);
     }
 
 
