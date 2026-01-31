@@ -29271,6 +29271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   northSpawn: {fileID: 2061042645}
+  southSpawn: {fileID: 605416890}
   totalWaves: 100
   timeBetweenWaves: 10
   isTest: 0

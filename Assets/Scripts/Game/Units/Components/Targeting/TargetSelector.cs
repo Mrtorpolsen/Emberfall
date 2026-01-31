@@ -17,7 +17,7 @@ public class TargetSelector
             return GetClosest(possibleTargets, selfPos);
         }
 
-        //starts a prio 0 and works up, returns when closest target in prio has been found.
+        //starts at 0 and works up, returns when closest target in prio has been found.
         //If no target, move to next prio.
         foreach(var prio in prioList)
         {

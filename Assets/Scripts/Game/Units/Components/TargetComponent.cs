@@ -20,6 +20,10 @@ public class TargetComponent : MonoBehaviour
     private float detectionRange = 2f;
     private IUnit selfUnit;
 
+    private ITargetingAgent targetingAgent;
+    private IReadOnlyList<ThreatLevel> priorities;
+
+
     private void Awake()
     {
         selfUnit = GetComponent<IUnit>();
@@ -31,16 +35,26 @@ public class TargetComponent : MonoBehaviour
         }
 
         targetSelector = new TargetSelector();
+
+        targetingAgent = GetComponent<ITargetingAgent>();
+        priorities = targetingAgent?.PreferredPriorities;
     }
 
     void Update()
     {
-        retargetTimer -= Time.deltaTime;
-        if (retargetTimer <= 0f)
+        //retargetTimer -= Time.deltaTime;
+        //if (retargetTimer <= 0f)
+        //{
+        //    retargetTimer = retargetInterval;
+        //    FindClosestTarget();
+        //}
+
+        if (!IsTargetStillValid())
         {
-            retargetTimer = retargetInterval;
             FindClosestTarget();
+            return;
         }
+
 #if UNITY_EDITOR
         debugTarget = currentTarget?.Transform;
 #endif
@@ -77,16 +91,18 @@ public class TargetComponent : MonoBehaviour
             possibleTargets.Add(target);
         }
 
-        IReadOnlyList<ThreatLevel> priorities = null;
-
-        if (gameObject.TryGetComponent<ITargetingAgent>(out var agent))
-        {
-            priorities = agent.PreferredPriorities;
-        }
-
         currentTarget = targetSelector.SelectTarget(possibleTargets, selfPos, priorities);
     }
 
+    private bool IsTargetStillValid()
+    {
+        if (currentTarget == null) return false;
+        if (!currentTarget.IsAlive) return false;
+
+        float sqrDist = (currentTarget.Transform.position - transform.position).sqrMagnitude;
+
+        return sqrDist <= detectionRange * detectionRange;
+    }
 
     public ITargetable GetCurrentTarget() => currentTarget;
 }
