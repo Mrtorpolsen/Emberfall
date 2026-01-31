@@ -42,8 +42,8 @@ public class WaveGenerator
 
         //build waves here
         //customise for special waves
-        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
-        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
+        //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
+        //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
 
         if (IsMilestone(waveNumber, 10, 0, 10)) //start wave 10, and runs every 10 level
         {

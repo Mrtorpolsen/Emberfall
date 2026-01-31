@@ -8,7 +8,7 @@ public interface ITargetable : IHasTeam
     Transform Transform { get; }
     float HitRadius { get; }
     bool IsAlive { get; }
-
+    bool IsTargetable { get; }
     void TakeDamage(int amount);
     void Die();
     ThreatLevel UnitPrio { get; }

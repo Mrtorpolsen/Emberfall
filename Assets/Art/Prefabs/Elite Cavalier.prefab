@@ -780,6 +780,8 @@ MonoBehaviour:
   armor: 0
   critChance: 0.1
   critMultiplier: 1.5
+  unitPrio: 0
+  isTargetable: 1
 --- !u!114 &5850499188553408139
 MonoBehaviour:
   m_ObjectHideFlags: 0
