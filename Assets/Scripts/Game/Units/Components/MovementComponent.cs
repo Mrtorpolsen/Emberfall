@@ -11,13 +11,19 @@ public class MovementComponent : MonoBehaviour
     [Header("Ranged Settings")]
     [SerializeField] private float rangedZoneRadius = 0.1f; // how far they can move from rally
 
+    [SerializeField] private float separationInterval = 0.1f;
+    private float separationTimer;
+
     private Transform south;
     private TargetComponent targetComponent;
     private IUnit unit;
     private UnitMetadata unitMetadata;
     private RangedUnitStats rangedStats;
     private Transform rangedRally;
-    
+
+    private Collider2D[] hitBuffer = new Collider2D[8];
+    private ContactFilter2D separationFilter;
+
     void Awake()
     {
         targetComponent = GetComponent<TargetComponent>();
@@ -28,6 +34,12 @@ public class MovementComponent : MonoBehaviour
         rangedRally = GameManager.Instance.GetNextRangedRally();
 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        separationFilter = new ContactFilter2D
+        {
+            useLayerMask = false,
+            useTriggers = true
+        };
     }
 
     private void FixedUpdate()
@@ -45,7 +57,14 @@ public class MovementComponent : MonoBehaviour
         }
 
         ApplyTeamBoundary();
-        SeparationForce();
+
+        separationTimer += Time.fixedDeltaTime;
+        if (separationTimer >= separationInterval)
+        {
+            SeparationForce();
+            separationTimer = 0f;
+        }
+
         ApplyRangedZoneBoundary();
     }
 
@@ -63,8 +82,10 @@ public class MovementComponent : MonoBehaviour
             if (target != null && target.IsAlive)
             {
                 // Stay inside the zone, move only slightly to avoid clustering
-                float distanceToZone = Vector2.Distance(currentPos, zoneCenter);
-                if (distanceToZone > rangedZoneRadius)
+                float distanceSqr = (currentPos - zoneCenter).sqrMagnitude;
+                float radiusSqr = rangedZoneRadius * rangedZoneRadius;
+
+                if (distanceSqr > radiusSqr)
                 {
                     // Pull back toward zone if outside
                     return zoneCenter;
@@ -136,12 +157,17 @@ public class MovementComponent : MonoBehaviour
         if (rangedStats == null || rangedRally == null) return;
 
         Vector2 pos = rb.position;
-        float distanceToRally = Vector2.Distance(pos, rangedRally.position);
 
-        if (distanceToRally > rangedZoneRadius)
+        Vector2 toRally = (Vector2)rangedRally.position - pos;
+
+        float distanceSqr = toRally.sqrMagnitude;
+        float radiusSqr = rangedZoneRadius * rangedZoneRadius;
+
+        if (distanceSqr > radiusSqr)
         {
-            Vector2 direction = (rangedRally.position - (Vector3)pos).normalized;
-            pos += direction * Mathf.Min(unit.MovementSpeed * Time.fixedDeltaTime, distanceToRally);
+            float distance = Mathf.Sqrt(distanceSqr);
+            Vector2 direction = toRally / distance;
+            pos += direction * Mathf.Min(unit.MovementSpeed * Time.fixedDeltaTime, distance);
             rb.position = pos;
         }
     }
@@ -150,21 +176,24 @@ public class MovementComponent : MonoBehaviour
     {
         float separationRadius = 0.1f;
         float pushStrength = 0.4f;
+        int unitCount = Physics2D.OverlapCircle(transform.position, separationRadius, separationFilter, hitBuffer);
 
-        Collider2D[] nearbyUnits = Physics2D.OverlapCircleAll(transform.position, separationRadius);
         Vector2 push = Vector2.zero;
 
-        foreach (var unit in nearbyUnits)
+        for (int i = 0; i < unitCount; i++)
         {
-            if(unit == gameObject) continue;
+            Collider2D unit = hitBuffer[i];
+
+            if (unit == gameObject) continue;
 
             if(unit.TryGetComponent<UnitMetadata>(out var otherUnit) && otherUnit.Team == rb.GetComponent<UnitMetadata>().Team)
             {
                 Vector2 away = (Vector2)(transform.position - unit.transform.position);
+                float sqrMag = away.sqrMagnitude;
 
-                if(away.magnitude > 0)
+                if (sqrMag > 0)
                 {
-                    push += away.normalized / away.magnitude;
+                    push += away / sqrMag; // away.normalized / away.magnitude = away / (magnitude^2)
                 }
             }
         }

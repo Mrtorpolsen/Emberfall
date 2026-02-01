@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using Unity.Profiling;
+#endif
+
 public class TargetComponent : MonoBehaviour
 {
     [Header("Reference")]
@@ -33,10 +37,20 @@ public class TargetComponent : MonoBehaviour
     private Collider2D[] hitBuffer;
     private ContactFilter2D contactFilter;
 
+#if UNITY_EDITOR
+    static readonly ProfilerMarker UpdateMarker =
+        new ProfilerMarker("TargetComponent.Update");
+
+    static readonly ProfilerMarker FindTargetMarker =
+        new ProfilerMarker("TargetComponent.FindTarget");
+
+    static readonly ProfilerMarker OverlapMarker =
+        new ProfilerMarker("TargetComponent.OverlapCircle");
+#endif
+
     private void Awake()
     {
         selfUnit = GetComponent<IUnit>();
-        Debug.Assert(selfUnit != null, "TargetComponent requires an IUnit.");
 
         if(selfUnit.AttackRange > detectionRange)
         {
@@ -52,8 +66,11 @@ public class TargetComponent : MonoBehaviour
         {
             SetPriorities(priorities);
         }
+    }
 
-        enemyLayer = selfUnit.Team == Team.South ? northTeamLayer : southTeamLayer;
+    private void Start()
+    {
+        enemyLayer = GetEnemyLayer(selfUnit.Team);
 
         int bufferSize;
 
@@ -70,21 +87,32 @@ public class TargetComponent : MonoBehaviour
         {
             useLayerMask = true,
             layerMask = enemyLayer,
-            useTriggers = true 
+            useTriggers = true
         };
     }
-
+    
     void Update()
     {
-        if (!IsTargetStillValid())
+#if  UNITY_EDITOR
+        using (UpdateMarker.Auto())
+#endif
         {
-            FindClosestTarget();
-            return;
-        }
+            retargetTimer -= Time.deltaTime;
+            if (retargetTimer > 0f)
+                return;
 
-        if (priorities != null)
-        {
-            TryPriorityOverride();
+            retargetTimer = retargetInterval;
+
+            if (!IsTargetStillValid())
+            {
+                FindClosestTarget();
+                return;
+            }
+
+            if (priorities != null)
+            {
+                TryPriorityOverride();
+            }
         }
 
 #if UNITY_EDITOR
@@ -94,34 +122,42 @@ public class TargetComponent : MonoBehaviour
 
     private void FindClosestTarget()
     {
-        possibleTargets.Clear();
-
-        int hitCount = Physics2D.OverlapCircle(
-            transform.position,
-            detectionRange,
-            contactFilter,
-            hitBuffer
-        );
-
-        for (int i = 0; i < hitCount; i++)
+#if UNITY_EDITOR
+        using (FindTargetMarker.Auto())
+#endif
         {
-            Collider2D hit = hitBuffer[i];
+            possibleTargets.Clear();
+            int hitCount;
+#if UNITY_EDITOR
+            using (OverlapMarker.Auto())
+#endif
+            {
+                hitCount = Physics2D.OverlapCircle(
+                    transform.position,
+                    detectionRange,
+                    contactFilter,
+                    hitBuffer
+                );
+            }
+                for (int i = 0; i < hitCount; i++)
+                {
+                    Collider2D hit = hitBuffer[i];
 
-            if (!hit.TryGetComponent<ITargetable>(out var target))
-                continue;
+                    if (!hit.TryGetComponent<ITargetable>(out var target))
+                        continue;
 
-            if (!target.IsTargetable)
-                continue;
+                    if (!target.IsTargetable)
+                        continue;
 
-            if (target.Team == selfUnit.Team)
-                continue;
+                    if (target.Team == selfUnit.Team)
+                        continue;
 
-            possibleTargets.Add(target);
+                    possibleTargets.Add(target);
+                }
+                Vector2 selfPos = transform.position;
+
+                currentTarget = targetSelector.SelectTarget(possibleTargets, selfPos, priorities);
         }
-
-        Vector2 selfPos = transform.position;
-
-        currentTarget = targetSelector.SelectTarget(possibleTargets, selfPos, priorities);
     }
 
     private void TryPriorityOverride()
@@ -161,10 +197,14 @@ public class TargetComponent : MonoBehaviour
     private bool IsHigherPriority(ThreatLevel targetPrio, ThreatLevel currentPrio)
     {
         if (!priorityIndex.TryGetValue(targetPrio, out int targetIndex))
+        {
             return false;
+        }
 
         if (!priorityIndex.TryGetValue(currentPrio, out int currentIndex))
+        {
             return true;
+        }
 
         return targetIndex < currentIndex;
     }
@@ -186,6 +226,14 @@ public class TargetComponent : MonoBehaviour
         {
             priorityIndex[priorities[i]] = i;
         }
+    }
+
+    private LayerMask GetEnemyLayer(Team myTeam)
+    {
+        if (myTeam == Team.North)
+            return LayerMask.GetMask("SouthTeam");
+        else
+            return LayerMask.GetMask("NorthTeam");
     }
 
     public ITargetable GetCurrentTarget() => currentTarget;
