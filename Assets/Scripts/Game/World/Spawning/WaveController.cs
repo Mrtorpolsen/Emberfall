@@ -101,19 +101,7 @@ public class WaveController : MonoBehaviour
 #if UNITY_EDITOR
     private void Benchmark(int spawnOfEach)
     {
-        GameManager.Instance.AddCurrency(Team.South, 100000000);
-        for (int i = 0; i < spawnOfEach; i++)
-        {
-            SpawnManager.Instance.SpawnUnit(Prefabs.fighterPrefab, northSpawn, Team.North);
-        }
-        for (int i = 0; i < spawnOfEach; i++)
-        {
-            SpawnManager.Instance.SpawnUnit(Prefabs.rangerPrefab, northSpawn, Team.North);
-        }
-        for (int i = 0; i < spawnOfEach; i++)
-        {
-            SpawnManager.Instance.SpawnUnit(Prefabs.cavalierPrefab, northSpawn, Team.North);
-        }
+        GameManager.Instance.AddCurrency(Team.South, 1000000);
         for (int i = 0; i < spawnOfEach; i++)
         {
             SpawnManager.Instance.SpawnUnit(Prefabs.fighterPrefab, southSpawn, Team.South);
@@ -126,6 +114,22 @@ public class WaveController : MonoBehaviour
         {
             SpawnManager.Instance.SpawnUnit(Prefabs.cavalierPrefab, southSpawn, Team.South);
         }
+
+        CoroutineHelpers.DoAfterDelay(5, () =>
+        {
+        });
+
+        var wave = new WaveDefinition
+        {
+            enemiesToSpawn = new List<EnemyGroup>(),
+        };
+        
+        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, spawnOfEach, 0.5f));
+        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, spawnOfEach, 0.5f));
+        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.rangerPrefab, spawnOfEach, 0.5f));
+
+        StartCoroutine(SpawnWave(wave));
+
     }
 #endif
     public bool IsWaveActive() => isSpawning;
