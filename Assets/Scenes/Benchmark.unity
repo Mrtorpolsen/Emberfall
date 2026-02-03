@@ -29275,7 +29275,7 @@ MonoBehaviour:
   totalWaves: 100
   timeBetweenWaves: 10
   isTest: 1
-  spawnOfEach: 100
+  spawnOfEach: 150
 --- !u!4 &1263956707
 Transform:
   m_ObjectHideFlags: 0

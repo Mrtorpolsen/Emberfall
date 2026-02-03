@@ -9,6 +9,7 @@ public class WaveGenerator
 
     private readonly System.Func<float> randomFunc;
 
+    // For testing to gaurentee spawn
     public WaveGenerator(System.Func<float> randomFunc = null)
     {
         this.randomFunc = randomFunc ?? (() => UnityEngine.Random.value);
@@ -41,10 +42,6 @@ public class WaveGenerator
         float spawnDelay = 0.5f;
 
         //build waves here
-        //customise for special waves
-        //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
-        //wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
-
         if (IsMilestone(waveNumber, 10, 0, 10)) //start wave 10, and runs every 10 level
         {
             int bossCountForWave = (waveNumberDisplay / 10);
@@ -79,7 +76,6 @@ public class WaveGenerator
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, cavalierCount, spawnDelay));
         }
 
-        //Debug.Log($"Wave: {waveNumberDisplay} spawned at: {TimerManager.Instance.GetElapsedTime()}");
         return wave;
     }
 

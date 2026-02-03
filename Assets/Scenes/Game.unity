@@ -29274,7 +29274,7 @@ MonoBehaviour:
   southSpawn: {fileID: 605416890}
   totalWaves: 100
   timeBetweenWaves: 10
-  isTest: 1
+  isTest: 0
   spawnOfEach: 100
 --- !u!4 &1263956707
 Transform:
@@ -34371,6 +34371,10 @@ PrefabInstance:
     - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
       propertyPath: team
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
+      propertyPath: maxHealth
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7200452518730832409, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
       propertyPath: team

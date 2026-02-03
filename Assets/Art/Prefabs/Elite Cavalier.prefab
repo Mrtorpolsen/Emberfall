@@ -626,7 +626,7 @@ GameObject:
   - component: {fileID: 2717753760806604978}
   - component: {fileID: 8933264750351331795}
   - component: {fileID: 7283463398225056007}
-  - component: {fileID: 2149911043602300216}
+  - component: {fileID: -2785441664650225115}
   - component: {fileID: 5850499188553408139}
   - component: {fileID: 7579999174343758453}
   - component: {fileID: 7348346340122654073}
@@ -755,7 +755,8 @@ MonoBehaviour:
   rb: {fileID: 8933264750351331795}
   canMove: 0
   rangedZoneRadius: 0.1
---- !u!114 &2149911043602300216
+  separationInterval: 0.1
+--- !u!114 &-2785441664650225115
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -764,9 +765,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8916063152254937078}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb6d8d6c30d76474183938e5b3dd4936, type: 3}
+  m_Script: {fileID: 11500000, guid: 697f660da1d1d7b419e940574706a3b8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::EliteCavalierBaseStatsComponent
   unit: {fileID: 8916063152254937078}
   healthBar: {fileID: 8662707484753543824}
   cost: 0
@@ -780,7 +781,7 @@ MonoBehaviour:
   armor: 0
   critChance: 0.1
   critMultiplier: 1.5
-  unitPrio: 0
+  unitPrio: 2
   isTargetable: 1
 --- !u!114 &5850499188553408139
 MonoBehaviour:

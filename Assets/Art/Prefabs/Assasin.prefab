@@ -728,6 +728,7 @@ MonoBehaviour:
   rb: {fileID: 5314775306289127517}
   canMove: 0
   rangedZoneRadius: 0.1
+  separationInterval: 0.1
 --- !u!114 &2532687961183592548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -753,7 +754,7 @@ MonoBehaviour:
   armor: 0
   critChance: 0
   critMultiplier: 0
-  unitPrio: 0
+  unitPrio: 3
   isTargetable: 1
 --- !u!114 &-6907675892120128662
 MonoBehaviour:
