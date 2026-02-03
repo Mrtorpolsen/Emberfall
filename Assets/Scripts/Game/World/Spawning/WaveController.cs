@@ -21,12 +21,15 @@ public class WaveController : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private Transform northSpawn;
+    [SerializeField] private Transform southSpawn;
     [SerializeField] private int totalWaves = 100;
     [SerializeField] private float timeBetweenWaves = 10f;
 
-
+#if UNITY_EDITOR
     [Header("Test")]
     [SerializeField] private Boolean isTest;
+    [SerializeField] private int spawnOfEach;
+#endif
 
     private int currentWaveIndex = 0;
     private bool isSpawning = false;
@@ -44,7 +47,13 @@ public class WaveController : MonoBehaviour
 
     public void StartWaves()
     {
-        if (isTest) return;
+#if UNITY_EDITOR
+        if (isTest)
+        {
+            Benchmark(spawnOfEach);
+            return;
+        }
+#endif
 
         StartCoroutine(RunWaves());
     }
@@ -89,9 +98,40 @@ public class WaveController : MonoBehaviour
         }
         isSpawning = false;
     }
+#if UNITY_EDITOR
+    private void Benchmark(int spawnOfEach)
+    {
+        GameManager.Instance.AddCurrency(Team.South, 1000000);
+        for (int i = 0; i < spawnOfEach; i++)
+        {
+            SpawnManager.Instance.SpawnUnit(Prefabs.fighterPrefab, southSpawn, Team.South);
+        }
+        for (int i = 0; i < spawnOfEach; i++)
+        {
+            SpawnManager.Instance.SpawnUnit(Prefabs.rangerPrefab, southSpawn, Team.South);
+        }
+        for (int i = 0; i < spawnOfEach; i++)
+        {
+            SpawnManager.Instance.SpawnUnit(Prefabs.cavalierPrefab, southSpawn, Team.South);
+        }
 
+        CoroutineHelpers.DoAfterDelay(5, () =>
+        {
+        });
 
+        var wave = new WaveDefinition
+        {
+            enemiesToSpawn = new List<EnemyGroup>(),
+        };
+        
+        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, spawnOfEach, 0.5f));
+        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, spawnOfEach, 0.5f));
+        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.rangerPrefab, spawnOfEach, 0.5f));
 
+        StartCoroutine(SpawnWave(wave));
+
+    }
+#endif
     public bool IsWaveActive() => isSpawning;
     public int GetCurrentWaveNumber() => currentWaveIndex + 1;
 }

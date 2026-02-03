@@ -293,6 +293,7 @@ MonoBehaviour:
   rb: {fileID: 4453514862014735567}
   canMove: 0
   rangedZoneRadius: 0.1
+  separationInterval: 0.1
 --- !u!114 &7478925129009968955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +319,8 @@ MonoBehaviour:
   armor: 0
   critChance: 0
   critMultiplier: 1.5
+  unitPrio: 5
+  isTargetable: 1
   projectilePrefab: {fileID: 9402218379871732, guid: e8cb38ba7f8b72446a55f05ce5c10eae, type: 3}
 --- !u!114 &4235267402526415989
 MonoBehaviour:

@@ -7,7 +7,8 @@ public class BalistaTowerStatsBaseStatsComponent : RangedUnitStats, ITargetingAg
     {
         ThreatLevel.Boss,
         ThreatLevel.Immidate,
-        ThreatLevel.Elite
+        ThreatLevel.Elite,
+        ThreatLevel.High
     };
 
     public IReadOnlyList<ThreatLevel> PreferredPriorities => preferredPriorities;

@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class CombatComponent : MonoBehaviour
 {
-    //[Header("debug")]
-    //[SerializeField] private GameObject debugTarget = null;
-
     [Header("References")]
     [SerializeField] private TargetComponent targetComponent;
 

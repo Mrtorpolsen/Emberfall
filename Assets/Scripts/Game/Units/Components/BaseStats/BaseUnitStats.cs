@@ -21,6 +21,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] protected float critChance;
     [SerializeField] protected float critMultiplier;
     [SerializeField] protected ThreatLevel unitPrio;
+    [SerializeField] protected bool isTargetable;
 
     // IUnit
     public float AttackRange => attackRange;
@@ -38,6 +39,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public float HitRadius => hitRadius;
     public bool IsAlive => currentHealth > 0;
     public virtual ThreatLevel UnitPrio => unitPrio;
+    public bool IsTargetable => isTargetable;
 
     // UnitMetadata
     public Team Team => metadata.Team;

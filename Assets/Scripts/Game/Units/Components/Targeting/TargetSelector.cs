@@ -4,7 +4,7 @@ using UnityEngine;
 public class TargetSelector
 {
     public ITargetable SelectTarget(List<ITargetable> possibleTargets, Vector2 selfPos,
-        IReadOnlyList<ThreatLevel> prioList = null)
+        IReadOnlyList<ThreatLevel> priorities = null)
     {
         if (possibleTargets == null || possibleTargets.Count == 0)
         {
@@ -12,14 +12,14 @@ public class TargetSelector
         }
 
         //no prio list retrun
-        if(prioList == null || prioList.Count == 0)
+        if(priorities == null || priorities.Count == 0)
         {
             return GetClosest(possibleTargets, selfPos);
         }
 
-        //starts a prio 0 and works up, returns when closest target in prio has been found.
+        //starts at 0 and works up, returns when closest target in prio has been found.
         //If no target, move to next prio.
-        foreach(var prio in prioList)
+        foreach(var prio in priorities)
         {
             ITargetable best = null;
             float bestSqrDistance = float.PositiveInfinity;

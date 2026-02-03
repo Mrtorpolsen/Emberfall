@@ -518,6 +518,8 @@ MonoBehaviour:
   armor: 0
   critChance: 0
   critMultiplier: 0
+  unitPrio: 0
+  isTargetable: 1
   castle: {fileID: 4467444779989242713}
 --- !u!114 &7200452518730832409
 MonoBehaviour:
