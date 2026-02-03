@@ -14,4 +14,5 @@ public class PrefabDatabase : ScriptableObject
     public GameObject sapperPrefab;
     public GameObject towerPrefab;
     public GameObject balistaTowerPrefab;
+    public GameObject bombTowerPrefab;
 }

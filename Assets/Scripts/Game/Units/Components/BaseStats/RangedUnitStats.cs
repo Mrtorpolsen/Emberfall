@@ -26,6 +26,6 @@ public abstract class RangedUnitStats : BaseUnitStats
 
         projScript.SetTarget(target);
         projScript.Init(this, GetAttackDamage());
-        projScript.OnHit += (t, dmg) => combat.ApplyProjectileDamage(t, dmg);
+        projScript.OnHit += (t, dmg) => combat.ApplyProjectileDamage(t, dmg, projObj);
     }
 }
