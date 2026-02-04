@@ -23,3 +23,4 @@ MonoBehaviour:
   sapperPrefab: {fileID: 6717628542700303866, guid: 205569ef057d3e245a6bf6d578fb495a, type: 3}
   towerPrefab: {fileID: 87936472045436742, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
   balistaTowerPrefab: {fileID: 87936472045436742, guid: 1de2bf2dac3f9ad4e90de19ac7c3612b, type: 3}
+  bombTowerPrefab: {fileID: 87936472045436742, guid: 31e7dd5cc41cdd542bb990ff116af200, type: 3}

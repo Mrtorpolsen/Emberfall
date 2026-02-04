@@ -78,11 +78,18 @@ public class CombatComponent : MonoBehaviour
         }
     }
 
-    public void ApplyProjectileDamage(ITargetable target, int damage)
+    public void ApplyProjectileDamage(ITargetable target, int damage, GameObject projObj)
     {
         if (target != null && target.IsAlive)
         {
-            target.TakeDamage(damage);
+            if (unit is BombTowerStatsBaseStatsComponent)
+            {
+                (unit as BombTowerStatsBaseStatsComponent).Explode(projObj);
+            } 
+            else
+            {
+                target.TakeDamage(damage);
+            }
         }
     }
 }

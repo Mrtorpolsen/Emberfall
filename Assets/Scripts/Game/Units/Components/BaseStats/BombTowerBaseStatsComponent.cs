@@ -1,11 +1,8 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SapperBaseStatsComponent : BaseUnitStats
+public class BombTowerStatsBaseStatsComponent : RangedUnitStats
 {
-    [SerializeField] private float explosionRadius = 1.5f;
-
-    public override ThreatLevel UnitPrio => ThreatLevel.Immidate;
+    [SerializeField] private float explosionRadius = 0.4f;
 
     private Collider2D[] hitBuffer;
     private ContactFilter2D contactFilter;
@@ -14,8 +11,8 @@ public class SapperBaseStatsComponent : BaseUnitStats
     protected override void Awake()
     {
         base.Awake();
-        hitBuffer = new Collider2D[32];
-        enemyLayer = LayerMask.GetMask("SouthTeam");
+        hitBuffer = new Collider2D[16];
+        enemyLayer = LayerMask.GetMask("NorthTeam");
 
         contactFilter = new ContactFilter2D
         {
@@ -25,13 +22,12 @@ public class SapperBaseStatsComponent : BaseUnitStats
         };
     }
 
-    public void Explode()
+    public void Explode(GameObject projObj)
     {
         float radiusSquare = explosionRadius * explosionRadius;
-        Debug.Log("yoooooo sapper!!!");
 
         int hitCount = Physics2D.OverlapCircle(
-            transform.position,
+            projObj.transform.position,
             explosionRadius,
             contactFilter,
             hitBuffer
@@ -39,7 +35,7 @@ public class SapperBaseStatsComponent : BaseUnitStats
 
         if (hitCount == hitBuffer.Length)
         {
-            Debug.LogWarning("Overflow detected in sapper!!!");
+            Debug.LogWarning("Overflow detected in bombtower!!!");
         }
 
         for (int i = 0; i < hitCount; i++)
@@ -57,14 +53,5 @@ public class SapperBaseStatsComponent : BaseUnitStats
 
             target.TakeDamage(attackDamage);
         }
-        //set death to trigger target switch
-        currentHealth = 0;
-
-        Destroy(gameObject);
-    }
-    protected override void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }
