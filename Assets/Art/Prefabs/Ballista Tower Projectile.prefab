@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6591101023804061662}
   - component: {fileID: 106451985815354453}
   m_Layer: 0
-  m_Name: Balista Tower Projectile
+  m_Name: Ballista Tower Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

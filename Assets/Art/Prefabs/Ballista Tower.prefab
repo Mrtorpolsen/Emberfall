@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -3845601776482795994}
   - component: {fileID: 4053207128255451394}
   m_Layer: 0
-  m_Name: Balista Tower
+  m_Name: Ballista Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

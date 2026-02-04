@@ -18,6 +18,7 @@ public static class Prefabs
         }
     }
 
+    // Units
     public static GameObject fighterPrefab
     {
         get
@@ -89,6 +90,7 @@ public static class Prefabs
         }
     }
 
+    //Towers
     public static GameObject towerPrefab
     {
         get
@@ -98,12 +100,12 @@ public static class Prefabs
         }
     }
 
-    public static GameObject balistaTowerPrefab
+    public static GameObject ballistaTowerPrefab
     {
         get
         {
             EnsureDatabaseLoaded();
-            return database.balistaTowerPrefab;
+            return database.ballistaTowerPrefab;
         }
     }
 

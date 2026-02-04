@@ -82,9 +82,9 @@ public class CombatComponent : MonoBehaviour
     {
         if (target != null && target.IsAlive)
         {
-            if (unit is BombTowerStatsBaseStatsComponent)
+            if (unit is BombTowerBaseStatsComponent)
             {
-                (unit as BombTowerStatsBaseStatsComponent).Explode(projObj);
+                (unit as BombTowerBaseStatsComponent).Explode(projObj);
             } 
             else
             {

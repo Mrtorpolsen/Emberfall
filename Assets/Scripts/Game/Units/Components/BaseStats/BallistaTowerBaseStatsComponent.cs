@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class BalistaTowerStatsBaseStatsComponent : RangedUnitStats, ITargetingAgent
+public class BallistaTowerStatsBaseStatsComponent : RangedUnitStats, ITargetingAgent
 {
     protected IReadOnlyList<ThreatLevel> preferredPriorities = new List<ThreatLevel>
     {

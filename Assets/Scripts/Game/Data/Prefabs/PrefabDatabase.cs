@@ -13,6 +13,6 @@ public class PrefabDatabase : ScriptableObject
     public GameObject assasinPrefab;
     public GameObject sapperPrefab;
     public GameObject towerPrefab;
-    public GameObject balistaTowerPrefab;
+    public GameObject ballistaTowerPrefab;
     public GameObject bombTowerPrefab;
 }
