@@ -1,4 +1,5 @@
-using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,19 +14,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text incomeCostText;
     [SerializeField] public Canvas gameUI;
     [SerializeField] public Canvas pauseMenu;
+    [SerializeField] private SpawnDefinition[] loadOutUnits;
+    [SerializeField] private SpawnDefinition[] loadOutTowers;
 
-    [Header("References Spawn Buttons Mid")]
+    [Header("References Spawn Buttons")]
+    [SerializeField] private List<SpawnButton> spawnUnitButtons;
+    [SerializeField] private List<SpawnButton> spawnTowersEastButtons;
+    [SerializeField] private List<SpawnButton> spawnTowersWestButtons;
     [SerializeField] public Button incomeBtn;
-    [SerializeField] public Button cavalierBtn;
-    [SerializeField] public Button rangerBtn;
-    [SerializeField] public Button fighterBtn;
 
-    [Header("References Spawn Buttons Bottom")]
-    [SerializeField] public Button fighterBtnBottom;
-    [SerializeField] public Button rangerBtnBottom;
-    [SerializeField] public Button cavalierBtnBottom;
-    [SerializeField] public Button incomeBtnBottom;
-
+    private BuildingPlot activePlot;
 
     private void Awake()
     {
@@ -37,6 +35,9 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        SetupUnitButtons(loadOutUnits);
+        SetupTowerButtons(loadOutTowers);
 
         ToggleSpawnButtonsActive(GameManager.Instance.currency[Team.South]);
     }
@@ -89,30 +90,95 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void ToggleSpawnButtonsActive(float playerCurrency)
+    public void SetupUnitButtons(SpawnDefinition[] loadout)
     {
-        //Figure out how to add dynamic values
-        //Check if its top or bottom buttons that are active
-
-        //SetButtonInteractable(fighterBtn, playerCurrency, 50);
-        //SetButtonInteractable(rangerBtn, playerCurrency, 75);
-        //SetButtonInteractable(cavalierBtn, playerCurrency, 100);
-        //SetButtonInteractable(incomeBtn, playerCurrency, GameManager.Instance.incomeUpgradeCost);
-
-        SetButtonInteractable(fighterBtnBottom, playerCurrency, 50);
-        SetButtonInteractable(rangerBtnBottom, playerCurrency, 75);
-        SetButtonInteractable(cavalierBtnBottom, playerCurrency, 150);
-        SetButtonInteractable(incomeBtnBottom, playerCurrency, GameManager.Instance.incomeUpgradeCost);
-
+        for (int i = 0; i < spawnUnitButtons.Count; i++)
+        {
+            if (i < loadout.Length)
+            {
+                spawnUnitButtons[i].Setup(loadout[i]);
+            }
+            else
+            {
+                spawnUnitButtons[i].gameObject.SetActive(false);
+            }
+        }
     }
 
-    private void SetButtonInteractable(Button btn, float playerCurrency, float cost)
+    public void SetupTowerButtons(SpawnDefinition[] loadout)
     {
-        btn.interactable = (!PauseManager.IsPaused && (playerCurrency >= cost));
+        for (int i = 0; i < spawnTowersEastButtons.Count; i++)
+        {
+            if (i < loadout.Length)
+            {
+                spawnTowersEastButtons[i].Setup(loadout[i]);
+            }
+            else
+            {
+                spawnTowersEastButtons[i].gameObject.SetActive(false);
+            }
+        }
+        for (int i = 0; i < spawnTowersWestButtons.Count; i++)
+        {
+            if (i < loadout.Length)
+            {
+                spawnTowersWestButtons[i].Setup(loadout[i]);
+            }
+            else
+            {
+                spawnTowersWestButtons[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void ToggleSpawnButtonsActive(float playerCurrency)
+    {
+        foreach (var btn in spawnUnitButtons)
+        {
+            btn.SetInteractable(playerCurrency, PauseManager.IsPaused);
+        }
+        foreach (var btn in spawnTowersEastButtons)
+        {
+            btn.SetInteractable(playerCurrency, PauseManager.IsPaused);
+        }
+        foreach (var btn in spawnTowersWestButtons)
+        {
+            btn.SetInteractable(playerCurrency, PauseManager.IsPaused);
+        }
+
+        incomeBtn.interactable = (!PauseManager.IsPaused && playerCurrency >= GameManager.Instance.incomeUpgradeCost);
     }
 
     public void UpdateIncomeCostText()
     {
         incomeCostText.text = GameManager.Instance.incomeUpgradeCost.ToString();
+    }
+
+    public void ToggleSpawnMenu(BuildingPlot plot)
+    {
+        if (activePlot == plot)
+        {
+            plot.HideMenu();
+            activePlot = null;
+            return;
+        }
+
+        if (activePlot != null)
+        {
+            activePlot.HideMenu();
+        }
+
+        activePlot = plot;
+        plot.ShowMenu();
+    }
+
+    public void ClearActivePlot()
+    {
+        activePlot = null;
+    }
+
+    public BuildingPlot GetActivePlot()
+    {
+        return activePlot;
     }
 }

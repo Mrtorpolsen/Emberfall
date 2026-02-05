@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1852405760658369969}
   - component: {fileID: -3845601776482795994}
   - component: {fileID: 4053207128255451394}
+  - component: {fileID: 8783807517905378648}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -173,6 +174,8 @@ MonoBehaviour:
   armor: 0
   critChance: 0
   critMultiplier: 1.5
+  unitPrio: 0
+  isTargetable: 0
   projectilePrefab: {fileID: 9402218379871732, guid: ec5ca335582451b4c8cf482c9b7d48ce, type: 3}
 --- !u!114 &1852405760658369969
 MonoBehaviour:
@@ -221,3 +224,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitMetadata
   team: 0
   isElite: 0
+--- !u!114 &8783807517905378648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87936472045436742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 055f742e8e23cba47948eab6fd696d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerTag

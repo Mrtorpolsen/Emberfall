@@ -11,11 +11,8 @@ public class SpawnManager : MonoBehaviour
 
     [Header("South Reference")]
     [SerializeField] private Transform southSpawn;
-    [SerializeField] private Transform southGateClose;
-    [SerializeField] private Transform southGateIntermediate;
-    [SerializeField] private Transform southGateFar;
-    [SerializeField] private Transform southEastTower;
     [SerializeField] private Transform southWestTower;
+    [SerializeField] private Transform southEastTower;
 
     private string playerColor = "#2E3A5E";
     private string enemyColor = "#A0170A";
@@ -44,6 +41,27 @@ public class SpawnManager : MonoBehaviour
         else
         {
             Debug.Log($"{Team.South} - Insufficient currency");
+        }
+    }
+
+    public bool SpawnSouthUnit(GameObject prefab, string unitName, SpawnType spawnType, SpawnSide spawnSide)
+    {
+        if (spawnType == SpawnType.Tower)
+        {
+            if (spawnSide == SpawnSide.West)
+            {
+                return SpawnUnit(prefab, southWestTower, Team.South);
+            }
+            else
+            {
+                return SpawnUnit(prefab, southEastTower, Team.South);
+            }
+        } 
+        else
+        {
+            FinalStats finalStats = UnitStatsManager.Instance.GetStats(unitName);
+
+            return SpawnUnit(prefab, southSpawn, Team.South, finalStats);
         }
     }
 
@@ -104,78 +122,6 @@ public class SpawnManager : MonoBehaviour
         {
             sr.color = teamColor;
         }
-    }
-
-    public bool SpawnSouthFighter()
-    {
-        FinalStats finalStats = UnitStatsManager.Instance.GetStats("fighter");
-
-        return SpawnUnit(Prefabs.fighterPrefab, southSpawn, Team.South, finalStats);
-    }
-    public bool SpawnSouthRanger()
-    {
-        FinalStats finalStats = UnitStatsManager.Instance.GetStats("ranger");
-
-        return SpawnUnit(Prefabs.rangerPrefab, southSpawn, Team.South, finalStats);
-    }
-    public bool SpawnSouthCavalier()
-    {
-        FinalStats finalStats = UnitStatsManager.Instance.GetStats("cavalier");
-
-        return SpawnUnit(Prefabs.cavalierPrefab, southSpawn, Team.South, finalStats);
-    }
-    public void SpawnSouthTower(Transform platform, GameObject towerPrefab)
-    {
-        SpawnUnit(towerPrefab, platform, Team.South);
-    }
-
-    public bool SpawnNorthFighter()
-    {
-        return SpawnUnit(Prefabs.fighterPrefab, northSpawn, Team.North);
-    }
-    public bool SpawnNorthRanger()
-    {
-        return SpawnUnit(Prefabs.rangerPrefab, northSpawn, Team.North);
-    }
-    public bool SpawnNorthCavalier()
-    {
-        return SpawnUnit(Prefabs.cavalierPrefab, northSpawn, Team.North);
-    }
-    public void SpawnSouthFigterUI()
-    {
-        SpawnSouthFighter();
-    }
-    public void SpawnSouthRangerUI()
-    {
-        SpawnSouthRanger();
-    }
-    public void SpawnSouthCavalierUI()
-    {
-        SpawnSouthCavalier();
-    }
-    public void SpawnSouthGateCloseUI()
-    {
-        SpawnSouthGateClose();
-    }
-    public void SpawnSouthGateIntermediateUI()
-    {
-        SpawnSouthGateIntermediate();
-    }
-    public void SpawnSouthGateFarUI()
-    {
-        SpawnSouthGateFar();
-    }
-    public bool SpawnSouthGateClose()
-    {
-        return SpawnUnit(Prefabs.gatePrefab, southGateClose, Team.South);
-    }
-    public bool SpawnSouthGateIntermediate()
-    {
-        return SpawnUnit(Prefabs.gatePrefab, southGateIntermediate, Team.South);
-    }
-    public bool SpawnSouthGateFar()
-    {
-        return SpawnUnit(Prefabs.gatePrefab, southGateFar, Team.South);
     }
 }   
 
