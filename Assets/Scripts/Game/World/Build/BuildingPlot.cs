@@ -1,35 +1,64 @@
 using UnityEngine;
 
+public enum PlotState
+{
+    Empty,
+    Occupied
+}
+
 public class BuildingPlot : MonoBehaviour
 {
+    [SerializeField] private GameObject buildMenu;
+    [SerializeField] private GameObject towerMenu;
     [SerializeField] private SpriteRenderer sr;
-    [SerializeField] private GameObject spawnMenu;
-    private bool isOccupied;
 
-    public bool IsOccupied => isOccupied;
+
+
+    private PlotState state = PlotState.Empty;
+    private GameObject currentTower;
+
+    public bool HasTower => state == PlotState.Occupied;
 
     public void OnPlotClicked()
     {
-        UIManager.Instance.ToggleSpawnMenu(this);
+        if (state == PlotState.Empty)
+        {
+            UIManager.Instance.ToggleBuildMenu(this);
+        }
+        else
+        {
+            UIManager.Instance.ToggleTowerMenu(this);
+        }
     }
 
-    public void ShowMenu()
+    public void AssignTower(GameObject tower)
     {
-        spawnMenu.transform.localScale = Vector3.one;
-    }
-
-    public void HideMenu()
-    {
-        spawnMenu.transform.localScale = Vector3.zero;
-    }
-
-    public void MarkOccupied()
-    {
-        isOccupied = true;
-
-        GetComponent<BoxCollider2D>().enabled = false;
+        currentTower = tower;
+        state = PlotState.Occupied;
         sr.enabled = false;
-        HideMenu();
+        UIManager.Instance.CloseAllMenus();
     }
 
+    public GameObject GetTower()
+    {
+        return currentTower;
+    }
+
+    public void ShowBuildMenu()
+    {
+        buildMenu.transform.localScale = Vector3.one;
+        towerMenu.transform.localScale = Vector3.zero;
+    }
+
+    public void ShowTowerMenu()
+    {
+        buildMenu.transform.localScale = Vector3.zero;
+        towerMenu.transform.localScale = Vector3.one;
+    }
+
+    public void HideMenus()
+    {
+        buildMenu.transform.localScale = Vector3.zero;
+        towerMenu.transform.localScale = Vector3.zero;
+    }
 }

@@ -44,25 +44,23 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public bool SpawnSouthUnit(GameObject prefab, string unitName, SpawnType spawnType, SpawnSide spawnSide)
+    public bool SpawnSouthUnit(GameObject prefab, string unitName, SpawnType spawnType, SpawnSide spawnSide, out GameObject spawnedTower)
     {
+        spawnedTower = null;
+
         if (spawnType == SpawnType.Tower)
         {
-            if (spawnSide == SpawnSide.West)
+
+            if (spawnType == SpawnType.Tower)
             {
-                return SpawnUnit(prefab, southWestTower, Team.South);
-            }
-            else
-            {
-                return SpawnUnit(prefab, southEastTower, Team.South);
+                Transform towerPoint = spawnSide == SpawnSide.West ? southWestTower : southEastTower;
+
+                return SpawnUnit(prefab, towerPoint, Team.South, out spawnedTower);
             }
         } 
-        else
-        {
-            FinalStats finalStats = UnitStatsManager.Instance.GetStats(unitName);
+        FinalStats finalStats = UnitStatsManager.Instance.GetStats(unitName);
 
-            return SpawnUnit(prefab, southSpawn, Team.South, finalStats);
-        }
+        return SpawnUnit(prefab, southSpawn, Team.South, finalStats);
     }
 
     public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team, FinalStats finalStats = null)
@@ -98,7 +96,7 @@ public class SpawnManager : MonoBehaviour
             
         UnitMetadata unitStats = unit.GetComponent<UnitMetadata>();
 
-        unitStats.GetComponent<UnitMetadata>().SetTeam(team);
+        unitStats.SetTeam(team);
 
         if(prefab != Prefabs.gatePrefab)
         {
@@ -112,6 +110,62 @@ public class SpawnManager : MonoBehaviour
 
         return true;
     }
+
+    public bool SpawnUnit(
+            GameObject prefab,
+            Transform spawnPoint,
+            Team team,
+            out GameObject spawnedUnit,
+            FinalStats finalStats = null
+    )
+    {
+        spawnedUnit = null;
+
+        BaseUnitStats stats = prefab.GetComponent<BaseUnitStats>();
+        if (stats == null)
+        {
+            Debug.LogError("Prefab has no UnitStats component!");
+            return false;
+        }
+
+        if (team == Team.South && GameManager.Instance.currency[Team.South] < stats.Cost)
+        {
+            Debug.LogWarning("Not enough currency");
+            return false;
+        }
+
+        GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+        spawnedUnit = unit;
+
+        stats = unit.GetComponent<BaseUnitStats>();
+        if (stats != null && finalStats != null)
+        {
+            stats.ApplyFinalStats(finalStats);
+        }
+
+        SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            AssignColor(sr, team);
+        }
+
+        UnitMetadata metadata = unit.GetComponent<UnitMetadata>();
+        metadata.SetTeam(team);
+
+        if (prefab != Prefabs.gatePrefab)
+        {
+            unit.layer = LayerMask.NameToLayer(team + "Team");
+        }
+
+        if (team == Team.South)
+        {
+            GameManager.Instance.SubtractCurrency(team, stats.Cost);
+        }
+
+        return true;
+    }
+
+
 
     public void AssignColor(SpriteRenderer sr, Team team)
     {

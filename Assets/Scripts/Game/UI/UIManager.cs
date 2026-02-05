@@ -154,27 +154,43 @@ public class UIManager : MonoBehaviour
         incomeCostText.text = GameManager.Instance.incomeUpgradeCost.ToString();
     }
 
-    public void ToggleSpawnMenu(BuildingPlot plot)
+    public void ToggleBuildMenu(BuildingPlot plot)
     {
         if (activePlot == plot)
         {
-            plot.HideMenu();
+            plot.HideMenus();
             activePlot = null;
             return;
         }
 
-        if (activePlot != null)
-        {
-            activePlot.HideMenu();
-        }
+        CloseAllMenus();
 
         activePlot = plot;
-        plot.ShowMenu();
+        plot.ShowBuildMenu();
     }
 
-    public void ClearActivePlot()
+    public void ToggleTowerMenu(BuildingPlot plot)
     {
-        activePlot = null;
+        if (activePlot == plot)
+        {
+            plot.HideMenus();
+            activePlot = null;
+            return;
+        }
+
+        CloseAllMenus();
+
+        activePlot = plot;
+        plot.ShowTowerMenu();
+    }
+
+    public void CloseAllMenus()
+    {
+        if (activePlot != null)
+        {
+            activePlot.HideMenus();
+            activePlot = null;
+        }
     }
 
     public BuildingPlot GetActivePlot()

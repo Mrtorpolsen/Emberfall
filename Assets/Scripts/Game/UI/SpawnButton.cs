@@ -71,30 +71,23 @@ public class SpawnButton : MonoBehaviour
 
     public void OnClick()
     {
-        if (spawnType == SpawnType.Tower)
+        BuildingPlot plot = UIManager.Instance.GetActivePlot();
+
+        bool success = SpawnManager.Instance.SpawnSouthUnit(
+            unitPrefab,
+            unitPrefab.name.ToLowerInvariant(),
+            spawnType,
+            spawnSide,
+            out GameObject spawned
+        );
+
+        if (!success)
+            return;
+
+        if (spawnType == SpawnType.Tower && plot != null && spawned != null)
         {
-            BuildingPlot plot = UIManager.Instance.GetActivePlot();
-
-            if (plot == null || plot.IsOccupied)
-            {
-                return;
-            }
-
-            bool success = SpawnManager.Instance.SpawnSouthUnit(
-                unitPrefab,
-                unitPrefab.name.ToLowerInvariant(), 
-                spawnType, 
-                spawnSide
-            );
-
-            if (success)
-            {
-                plot.MarkOccupied();
-            }
-        }
-        else
-        {
-            SpawnManager.Instance.SpawnSouthUnit(unitPrefab, unitPrefab.name.ToLowerInvariant(), spawnType, spawnSide);
+            plot.AssignTower(spawned);
+            UIManager.Instance.CloseAllMenus();
         }
     }
 
