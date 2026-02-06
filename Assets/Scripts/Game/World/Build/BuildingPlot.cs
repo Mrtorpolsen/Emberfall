@@ -1,36 +1,62 @@
 using UnityEngine;
 
+public enum PlotState
+{
+    Empty,
+    Occupied
+}
+
 public class BuildingPlot : MonoBehaviour
 {
+    [SerializeField] private GameObject buildMenu;
+    [SerializeField] private GameObject towerMenu;
     [SerializeField] private SpriteRenderer sr;
-    [SerializeField] private BaseUnitStats tower;
 
-    private Color canBuild = new Color(0.298f, 0.686f, 0.314f, 1f); // green
-    private Color cantBuild = new Color(0.957f, 0.263f, 0.212f, 1f); // red
+    private PlotState state = PlotState.Empty;
+    private GameObject currentTower;
 
-    private void Update()
-    {
-        sr.color = (GameManager.Instance.currency[Team.South] >= tower.Cost) ? canBuild : cantBuild;
-    }
+    public bool HasTower => state == PlotState.Occupied;
 
     public void OnPlotClicked()
     {
-        Debug.Log("Plot clicked!!!");
-        if (GameManager.Instance.currency[Team.South] >= tower.Cost)
+        if (state == PlotState.Empty)
         {
-            BuildTower();
-            gameObject.SetActive(false);
+            UIManager.Instance.ToggleBuildMenu(this);
         }
         else
         {
-            Debug.Log("Not enough currency to build!");
+            UIManager.Instance.ToggleTowerMenu(this);
         }
     }
 
-    private void BuildTower()
+    public void AssignTower(GameObject tower)
     {
-        if (tower == null) return;
+        currentTower = tower;
+        state = PlotState.Occupied;
+        sr.enabled = false;
+        UIManager.Instance.CloseAllMenus();
+    }
 
-        SpawnManager.Instance.SpawnSouthTower(this.transform, tower.GameObject);
+    public GameObject GetTower()
+    {
+        return currentTower;
+    }
+
+    public void ShowBuildMenu()
+    {
+        buildMenu.transform.localScale = Vector3.one;
+        towerMenu.transform.localScale = Vector3.zero;
+    }
+
+    public void ShowTowerMenu()
+    {
+        buildMenu.transform.localScale = Vector3.zero;
+        towerMenu.transform.localScale = Vector3.one;
+    }
+
+    public void HideMenus()
+    {
+        buildMenu.transform.localScale = Vector3.zero;
+        towerMenu.transform.localScale = Vector3.zero;
     }
 }
