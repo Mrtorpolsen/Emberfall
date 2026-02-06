@@ -12,8 +12,6 @@ public class BuildingPlot : MonoBehaviour
     [SerializeField] private GameObject towerMenu;
     [SerializeField] private SpriteRenderer sr;
 
-
-
     private PlotState state = PlotState.Empty;
     private GameObject currentTower;
 

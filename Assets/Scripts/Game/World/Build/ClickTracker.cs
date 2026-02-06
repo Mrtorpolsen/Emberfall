@@ -18,9 +18,6 @@ public class ClickTracker : MonoBehaviour
         if (Pointer.current == null) return;
         if (!Pointer.current.press.wasPressedThisFrame) return;
 
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
-
         Vector2 screenPos = Pointer.current.position.ReadValue();
         Vector2 worldPos = cam.ScreenToWorldPoint(screenPos);
 
