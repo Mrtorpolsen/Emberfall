@@ -44,14 +44,23 @@ public class LeaderboardView : IUIScreenView
         listContainer.Add(row);
     }
 
-    public void Initialize(VisualElement root)
+    public async void Initialize(VisualElement root)
     {
-        this.root = root;
-        rowTemplate = Resources.Load<VisualTreeAsset>("UI/Leaderboard/LeaderboardRow");
+        LoadingSpinner.Instance.ShowSpinner();
+        try
+        {
+            this.root = root;
+            rowTemplate = Resources.Load<VisualTreeAsset>("UI/Leaderboard/LeaderboardRow");
 
-        listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
-        listContainer.Clear();
+            listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
+            listContainer.Clear();
 
-        LoadLeaderboard();
+            await LeaderboardManager.Instance.GetScores();
+            LoadLeaderboard();
+        }
+        finally
+        {
+            LoadingSpinner.Instance.HideSpinner();
+        }
     }
 }

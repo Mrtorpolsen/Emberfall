@@ -95,16 +95,37 @@ public class GameManager : MonoBehaviour
         incomePerTick = baseIncomePerTick * incomeModifier;
         southIncomeModifierText.text = "x" + incomeModifier.ToString("F1");
     }
-    public void SetGameOver(bool gameOver, Team team)
+    private void UpdateGameState(bool gameOver, Team losingTeam)
+    {
+        isGameOver = gameOver;
+        winningTeam = GetWinningTeam(losingTeam);
+    }
+
+    private Team GetWinningTeam(Team losingTeam)
+    {
+        return losingTeam == Team.North ? Team.South : Team.North;
+    }
+
+    private void HandleUITransition()
+    {
+        gameUICanvas.SetActive(false);
+        UIManager.Instance.Initialize();
+    }
+
+    private void StopGameplaySystems()
     {
         TimerManager.Instance.StopTimer();
-        isGameOver = gameOver;
-        winningTeam = team == Team.North ? Team.South : Team.North;
-        UIManager.Instance.Initialize();
         isGameRunning = false;
-        gameUICanvas.SetActive(false);
+    }
+
+    public void SetGameOver(bool gameOver, Team losingTeam)
+    {
+        StopGameplaySystems();
+        UpdateGameState(gameOver, losingTeam);
+        HandleUITransition();
         EndOfGame();
     }
+
 
     public void StartGame()
     {
