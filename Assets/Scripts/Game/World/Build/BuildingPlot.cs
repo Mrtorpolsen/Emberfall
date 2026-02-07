@@ -42,6 +42,29 @@ public class BuildingPlot : MonoBehaviour
         return currentTower;
     }
 
+    public void SellTower()
+    {
+        if (state != PlotState.Occupied || currentTower == null)
+            return;
+
+        if (!currentTower.TryGetComponent<BaseUnitStats>(out var towerStats))
+        {
+            Debug.LogError("Attempted to sell tower without BaseUnitStats.");
+            return;
+        }
+
+        GameManager.Instance.AddCurrency(Team.South, (towerStats.Cost / 2));
+        Destroy(currentTower);
+
+        currentTower = null;
+        state = PlotState.Empty;
+    }
+
+    public void UpgradeTower()
+    {
+        Debug.Log("Wuhu im upgrading yaaaaa");
+    }
+
     public void ShowBuildMenu()
     {
         buildMenu.transform.localScale = Vector3.one;

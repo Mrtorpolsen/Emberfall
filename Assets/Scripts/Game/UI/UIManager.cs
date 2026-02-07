@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using TMPro;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,8 +20,10 @@ public class UIManager : MonoBehaviour
 
     [Header("References Spawn Buttons")]
     [SerializeField] private List<SpawnButton> spawnUnitButtons;
-    [SerializeField] private List<SpawnButton> spawnTowersEastButtons;
-    [SerializeField] private List<SpawnButton> spawnTowersWestButtons;
+    [SerializeField] private List<SpawnButton> towerBuildMenuWestButtons;
+    [SerializeField] private List<SpawnButton> towerMenuWestButtons;
+    [SerializeField] private List<SpawnButton> towerBuildMenuEastButtons;
+    [SerializeField] private List<SpawnButton> towerMenuEastButtons;
     [SerializeField] public Button incomeBtn;
 
     private BuildingPlot activePlot;
@@ -37,7 +40,7 @@ public class UIManager : MonoBehaviour
         }
 
         SetupUnitButtons(loadOutUnits);
-        SetupTowerButtons(loadOutTowers);
+        SetupTowerBuildMenuButtons(loadOutTowers);
 
         ToggleSpawnButtonsActive(GameManager.Instance.currency[Team.South]);
     }
@@ -94,40 +97,79 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < spawnUnitButtons.Count; i++)
         {
-            if (i < loadout.Length)
-            {
-                spawnUnitButtons[i].Setup(loadout[i]);
-            }
-            else
+            if (i >= loadout.Length)
             {
                 spawnUnitButtons[i].gameObject.SetActive(false);
+                    continue;
             }
+
+            var def = loadout[i];
+
+            spawnUnitButtons[i].Setup(def);
+            spawnUnitButtons[i].SetClickAction(() =>
+            {
+                SpawnManager.Instance.SpawnSouthUnit(
+                    def.UnitPrefab,
+                    def.UnitPrefab.name.ToLowerInvariant()
+                );
+            });
         }
     }
 
-    public void SetupTowerButtons(SpawnDefinition[] loadout)
+    public void SetupTowerBuildMenuButtons(SpawnDefinition[] loadout)
     {
-        for (int i = 0; i < spawnTowersEastButtons.Count; i++)
+        for (int i = 0; i < towerBuildMenuWestButtons.Count; i++)
         {
-            if (i < loadout.Length)
+            if (i >= loadout.Length)
             {
-                spawnTowersEastButtons[i].Setup(loadout[i]);
+                towerBuildMenuWestButtons[i].gameObject.SetActive(false);
+                    continue;
             }
-            else
+
+            var def = loadout[i];
+
+            towerBuildMenuWestButtons[i].Setup(def);
+            towerBuildMenuWestButtons[i].SetClickAction(() =>
             {
-                spawnTowersEastButtons[i].gameObject.SetActive(false);
-            }
+                SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.West);
+            });
         }
-        for (int i = 0; i < spawnTowersWestButtons.Count; i++)
+
+        for (int i = 0; i < towerBuildMenuEastButtons.Count; i++)
         {
-            if (i < loadout.Length)
+            if (i >= loadout.Length)
             {
-                spawnTowersWestButtons[i].Setup(loadout[i]);
+                towerBuildMenuEastButtons[i].gameObject.SetActive(false);
+                    continue;
             }
-            else
+
+            var def = loadout[i];
+
+            towerBuildMenuEastButtons[i].Setup(def);
+            towerBuildMenuEastButtons[i].SetClickAction(() =>
             {
-                spawnTowersWestButtons[i].gameObject.SetActive(false);
-            }
+                SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.East);
+            });
+        }
+    }
+
+    public void SpawnSouthTowerClickAction(GameObject prefab, SpawnSide spawnSide)
+    {
+        BuildingPlot plot = UIManager.Instance.GetActivePlot();
+
+        bool success = SpawnManager.Instance.SpawnSouthTower(
+            prefab,
+            spawnSide,
+            out GameObject spawned
+        );
+
+        if (!success)
+            return;
+
+        if (plot != null && spawned != null)
+        {
+            plot.AssignTower(spawned);
+            UIManager.Instance.CloseAllMenus();
         }
     }
 
@@ -137,11 +179,11 @@ public class UIManager : MonoBehaviour
         {
             btn.SetInteractable(playerCurrency, PauseManager.IsPaused);
         }
-        foreach (var btn in spawnTowersEastButtons)
+        foreach (var btn in towerBuildMenuEastButtons)
         {
             btn.SetInteractable(playerCurrency, PauseManager.IsPaused);
         }
-        foreach (var btn in spawnTowersWestButtons)
+        foreach (var btn in towerBuildMenuWestButtons)
         {
             btn.SetInteractable(playerCurrency, PauseManager.IsPaused);
         }

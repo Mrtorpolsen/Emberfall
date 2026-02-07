@@ -16,10 +16,9 @@ public class SpawnButton : MonoBehaviour
 
     private AsyncOperationHandle<Sprite>? iconHandle;
 
-    private GameObject unitPrefab;
+    private System.Action clickAction;
 
     private float cost;
-    private SpawnType spawnType;
 
     public SpawnSide SpawnSide => spawnSide;
 
@@ -29,11 +28,13 @@ public class SpawnButton : MonoBehaviour
         costText.text = def.Cost.ToString();
 
         cost = def.Cost;
-        spawnType = def.Type;
-
-        unitPrefab = def.UnitPrefab;
 
         LoadIcon(def.Icon);
+    }
+
+    public void SetClickAction(System.Action action)
+    {
+        clickAction = action;
     }
 
     private void LoadIcon(AssetReference iconReference)
@@ -71,24 +72,7 @@ public class SpawnButton : MonoBehaviour
 
     public void OnClick()
     {
-        BuildingPlot plot = UIManager.Instance.GetActivePlot();
-
-        bool success = SpawnManager.Instance.SpawnSouthUnit(
-            unitPrefab,
-            unitPrefab.name.ToLowerInvariant(),
-            spawnType,
-            spawnSide,
-            out GameObject spawned
-        );
-
-        if (!success)
-            return;
-
-        if (spawnType == SpawnType.Tower && plot != null && spawned != null)
-        {
-            plot.AssignTower(spawned);
-            UIManager.Instance.CloseAllMenus();
-        }
+        clickAction?.Invoke();
     }
 
     public void SetInteractable(float playerCurrency,  bool isPaused)
