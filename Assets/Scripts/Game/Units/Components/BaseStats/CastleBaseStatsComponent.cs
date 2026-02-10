@@ -12,7 +12,7 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     protected override void Awake()
     {
         metadata = GetComponent<UnitMetadata>();
-        currentHealth = maxHealth;
+        currentHealth = MaxHealth;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
     }
 
@@ -25,6 +25,6 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     protected override void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, hitRadius);
+        Gizmos.DrawWireSphere(transform.position, HitRadius);
     }
 }

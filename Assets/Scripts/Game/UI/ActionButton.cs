@@ -5,31 +5,31 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using TMPro;
 
 [RequireComponent(typeof(Button))]
-public class SpawnButton : MonoBehaviour
+public class ActionButton : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private Button button;
     [SerializeField] private TMP_Text costText;
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text unitText; 
-    [SerializeField] private SpawnSide spawnSide;
 
     private AsyncOperationHandle<Sprite>? iconHandle;
 
     private System.Action clickAction;
+    private System.Func<bool> canInteract;
 
-    private float cost;
-
-    public SpawnSide SpawnSide => spawnSide;
-
-    public void Setup(SpawnDefinition def)
+    public void Setup(string title, float cost, AssetReference icon, System.Func<bool> canInteractFunc)
     {
-        unitText.text = def.DisplayName;
-        costText.text = def.Cost.ToString();
+        unitText.text = title;
+        costText.text = cost.ToString();
+        canInteract = canInteractFunc;
 
-        cost = def.Cost;
+        LoadIcon(icon);
+    }
 
-        LoadIcon(def.Icon);
+    public void OnClick()
+    {
+        clickAction?.Invoke();
     }
 
     public void SetClickAction(System.Action action)
@@ -57,8 +57,15 @@ public class SpawnButton : MonoBehaviour
                 return;
 
             if (op.Status == AsyncOperationStatus.Succeeded)
+            {
                 iconImage.sprite = op.Result;
+            }
         };
+    }
+
+    public void Refresh()
+    {
+        button.interactable = canInteract == null || canInteract();
     }
 
     private void ReleaseIcon()
@@ -68,16 +75,6 @@ public class SpawnButton : MonoBehaviour
             Addressables.Release(iconHandle.Value);
             iconHandle = null;
         }
-    }
-
-    public void OnClick()
-    {
-        clickAction?.Invoke();
-    }
-
-    public void SetInteractable(float playerCurrency,  bool isPaused)
-    {
-        button.interactable = (!isPaused && playerCurrency >= cost);
     }
 
     private void OnDestroy()

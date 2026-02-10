@@ -55,7 +55,7 @@ public class SapperBaseStatsComponent : BaseUnitStats
 
             if (t == null) continue;
 
-            target.TakeDamage(attackDamage);
+            target.TakeDamage(AttackDamage);
         }
         //set death to trigger target switch
         currentHealth = 0;

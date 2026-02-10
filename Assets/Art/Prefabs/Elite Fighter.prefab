@@ -778,19 +778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EliteFighterBaseStatsComponent
   unit: {fileID: 6717628542700303866}
   healthBar: {fileID: 1298340878862551963}
-  cost: 0
-  maxHealth: 300
-  currentHealth: 0
-  attackDamage: 30
-  attackSpeed: 1
-  attackRange: 0.22
-  hitRadius: 0.18
-  movementSpeed: 2
-  armor: 5
-  critChance: 0.1
-  critMultiplier: 1.5
-  unitPrio: 2
-  isTargetable: 1
+  stats: {fileID: 11400000, guid: a2668b22ea2857445b3557b070e32e97, type: 2}
 --- !u!114 &-6907675892120128662
 MonoBehaviour:
   m_ObjectHideFlags: 0

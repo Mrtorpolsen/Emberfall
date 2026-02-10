@@ -15,6 +15,7 @@ public class BuildingPlot : MonoBehaviour
     private PlotState state = PlotState.Empty;
     private GameObject currentTower;
 
+    public float sellValue = 0;
     public bool HasTower => state == PlotState.Occupied;
 
     public void OnPlotClicked()
@@ -35,6 +36,12 @@ public class BuildingPlot : MonoBehaviour
         state = PlotState.Occupied;
         sr.enabled = false;
         UIManager.Instance.CloseAllMenus();
+        if (!currentTower.TryGetComponent<BaseUnitStats>(out var towerStats))
+        {
+            Debug.LogError("Can't get tower BaseUnitStats.");
+            return;
+        }
+        sellValue = towerStats.Cost / 2;
     }
 
     public GameObject GetTower()
@@ -47,17 +54,19 @@ public class BuildingPlot : MonoBehaviour
         if (state != PlotState.Occupied || currentTower == null)
             return;
 
-        if (!currentTower.TryGetComponent<BaseUnitStats>(out var towerStats))
+        if (sellValue <= 0)
         {
-            Debug.LogError("Attempted to sell tower without BaseUnitStats.");
+            Debug.LogError("Cant sell tower, value is 0 or less");
             return;
         }
 
-        GameManager.Instance.AddCurrency(Team.South, (towerStats.Cost / 2));
+        GameManager.Instance.AddCurrency(Team.South, sellValue);
         Destroy(currentTower);
 
         currentTower = null;
+        sr.enabled = true;
         state = PlotState.Empty;
+        UIManager.Instance.CloseAllMenus();
     }
 
     public void UpgradeTower()

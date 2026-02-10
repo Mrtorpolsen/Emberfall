@@ -744,19 +744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SapperBaseStatsComponent
   unit: {fileID: 6717628542700303866}
   healthBar: {fileID: 1298340878862551963}
-  cost: 0
-  maxHealth: 400
-  currentHealth: 0
-  attackDamage: 300
-  attackSpeed: 1
-  attackRange: 0.13
-  hitRadius: 0.13
-  movementSpeed: 0.5
-  armor: 0
-  critChance: 0
-  critMultiplier: 0
-  unitPrio: 3
-  isTargetable: 1
+  stats: {fileID: 11400000, guid: 8d42d355c2c80f9479fe8f75a9660968, type: 2}
   explosionRadius: 0.7
 --- !u!114 &-6907675892120128662
 MonoBehaviour:

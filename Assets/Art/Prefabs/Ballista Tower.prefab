@@ -163,19 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BalistaTowerStatsBaseStatsComponent
   unit: {fileID: 87936472045436742}
   healthBar: {fileID: 0}
-  cost: 300
-  maxHealth: 100
-  currentHealth: 0
-  attackDamage: 60
-  attackSpeed: 0.45
-  attackRange: 5
-  hitRadius: 0
-  movementSpeed: 0
-  armor: 0
-  critChance: 0
-  critMultiplier: 1.5
-  unitPrio: 0
-  isTargetable: 0
+  stats: {fileID: 11400000, guid: 9ed98afc7f903a14d9575483c3c1943d, type: 2}
   projectilePrefab: {fileID: 9402218379871732, guid: 71e36fa4f0156294db8201d8e5b7568e, type: 3}
 --- !u!114 &1852405760658369969
 MonoBehaviour:

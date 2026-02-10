@@ -51,7 +51,7 @@ public class BombTowerBaseStatsComponent : RangedUnitStats
 
             if (t == null) continue;
 
-            target.TakeDamage(attackDamage);
+            target.TakeDamage(AttackDamage);
         }
     }
 }

@@ -770,19 +770,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EliteCavalierBaseStatsComponent
   unit: {fileID: 8916063152254937078}
   healthBar: {fileID: 8662707484753543824}
-  cost: 0
-  maxHealth: 600
-  currentHealth: 0
-  attackDamage: 45
-  attackSpeed: 0.75
-  attackRange: 0.25
-  hitRadius: 0.135
-  movementSpeed: 4
-  armor: 0
-  critChance: 0.1
-  critMultiplier: 1.5
-  unitPrio: 2
-  isTargetable: 1
+  stats: {fileID: 11400000, guid: 649e75f0602485142a45fea833aea99d, type: 2}
 --- !u!114 &5850499188553408139
 MonoBehaviour:
   m_ObjectHideFlags: 0
