@@ -337,7 +337,6 @@ MonoBehaviour:
   costText: {fileID: 1301741800}
   iconImage: {fileID: 1955021813}
   unitText: {fileID: 90459036}
-  spawnSide: 1
 --- !u!222 &48922696
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -541,7 +540,6 @@ MonoBehaviour:
   costText: {fileID: 1576992562}
   iconImage: {fileID: 369739108}
   unitText: {fileID: 574045729}
-  spawnSide: 2
 --- !u!1001 &60159208
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1470,7 +1468,6 @@ MonoBehaviour:
   costText: {fileID: 353384287}
   iconImage: {fileID: 1257504098}
   unitText: {fileID: 1190686899}
-  spawnSide: 1
 --- !u!1 &320070284
 GameObject:
   m_ObjectHideFlags: 0
@@ -1974,7 +1971,6 @@ MonoBehaviour:
   costText: {fileID: 1606426526}
   iconImage: {fileID: 320070286}
   unitText: {fileID: 1171453269}
-  spawnSide: 1
 --- !u!1 &353384285
 GameObject:
   m_ObjectHideFlags: 0
@@ -2803,7 +2799,6 @@ MonoBehaviour:
   costText: {fileID: 292421309}
   iconImage: {fileID: 474594930}
   unitText: {fileID: 888059607}
-  spawnSide: 2
 --- !u!222 &424892273
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3082,7 +3077,6 @@ MonoBehaviour:
   costText: {fileID: 1590293500}
   iconImage: {fileID: 428318759}
   unitText: {fileID: 1353964485}
-  spawnSide: 0
 --- !u!1001 &446582597
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5058,7 +5052,6 @@ MonoBehaviour:
   costText: {fileID: 1450609943}
   iconImage: {fileID: 1120461008}
   unitText: {fileID: 386205621}
-  spawnSide: 1
 --- !u!1 &723177192
 GameObject:
   m_ObjectHideFlags: 0
@@ -5545,7 +5538,6 @@ MonoBehaviour:
   costText: {fileID: 1246653667}
   iconImage: {fileID: 1921016417}
   unitText: {fileID: 569555362}
-  spawnSide: 1
 --- !u!222 &829410229
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -30592,7 +30584,6 @@ MonoBehaviour:
   costText: {fileID: 1786680485}
   iconImage: {fileID: 1087628536}
   unitText: {fileID: 413732950}
-  spawnSide: 2
 --- !u!1 &1104419344
 GameObject:
   m_ObjectHideFlags: 0
@@ -31782,7 +31773,6 @@ MonoBehaviour:
   costText: {fileID: 1637930174}
   iconImage: {fileID: 1894236027}
   unitText: {fileID: 1422244686}
-  spawnSide: 0
 --- !u!1001 &1299195998
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34861,6 +34851,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52437886dcfe96b459b35dc714135434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitStatsManager
+  unitStatsDefinition:
+  - {fileID: 11400000, guid: f26e67d815635184b8a481c0859587a6, type: 2}
+  - {fileID: 11400000, guid: f5d336250c7dbf644b2de1d239ceb949, type: 2}
+  - {fileID: 11400000, guid: 649e75f0602485142a45fea833aea99d, type: 2}
+  - {fileID: 11400000, guid: a2668b22ea2857445b3557b070e32e97, type: 2}
+  - {fileID: 11400000, guid: ed032cf3991e7234ebc9efaccd5b514c, type: 2}
+  - {fileID: 11400000, guid: 5e5df7e5fc317d040abc8e98991ce499, type: 2}
+  - {fileID: 11400000, guid: 24081ef77828bea43bb39961d9bb1829, type: 2}
+  - {fileID: 11400000, guid: 8d42d355c2c80f9479fe8f75a9660968, type: 2}
 --- !u!1 &1786680483
 GameObject:
   m_ObjectHideFlags: 0
@@ -35035,7 +35034,6 @@ MonoBehaviour:
   costText: {fileID: 1354368434}
   iconImage: {fileID: 1316965202}
   unitText: {fileID: 1616367709}
-  spawnSide: 2
 --- !u!224 &1786751734
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36252,7 +36250,6 @@ MonoBehaviour:
   costText: {fileID: 2001154679}
   iconImage: {fileID: 153198030}
   unitText: {fileID: 1481249421}
-  spawnSide: 2
 --- !u!222 &1949094903
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36531,7 +36528,6 @@ MonoBehaviour:
   costText: {fileID: 1077999912}
   iconImage: {fileID: 983460990}
   unitText: {fileID: 999544943}
-  spawnSide: 0
 --- !u!1 &1981221700
 GameObject:
   m_ObjectHideFlags: 0
@@ -37511,6 +37507,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
+      propertyPath: unit
+      value: 
+      objectReference: {fileID: 4522361806599014269}
+    - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
+      propertyPath: baseStats
+      value: 
+      objectReference: {fileID: 11400000, guid: ef6482486627e6a45a46b06b2982bce5, type: 2}
+    - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
       propertyPath: maxHealth
       value: 500
       objectReference: {fileID: 0}
@@ -37527,6 +37531,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
+--- !u!1 &4522361806599014269 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4467444779989242713, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
+  m_PrefabInstance: {fileID: 4522361806599014268}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

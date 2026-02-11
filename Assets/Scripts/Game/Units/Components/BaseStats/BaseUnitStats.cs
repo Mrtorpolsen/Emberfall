@@ -7,32 +7,33 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
     [SerializeField] protected FloatingHealthBar healthBar;
-    [SerializeField] private UnitStatsDefinition stats;
+    [SerializeField] private UnitStatsDefinition baseStats;
 
     protected int currentHealth;
     protected UnitMetadata metadata;
+    private RuntimeStats runtimeStats;
 
     // IUnit
-    public float AttackRange => stats.attackRange;
-    public int AttackDamage => stats.attackDamage;
-    public float AttackSpeed => stats.attackSpeed;
-    public float MovementSpeed => stats.movementSpeed;
-    public float CritChance => stats.critChance;
-    public float CritMultiplier => stats.critMultiplier;
-    public int MaxHealth => stats.maxHealth;
-    public int Armor => stats.armor;
+    public float AttackRange => runtimeStats.attackRange;
+    public int AttackDamage => runtimeStats.attackDamage;
+    public float AttackSpeed => runtimeStats.attackSpeed;
+    public float MovementSpeed => runtimeStats.movementSpeed;
+    public float CritChance => runtimeStats.critChance;
+    public float CritMultiplier => runtimeStats.critMultiplier;
+    public int MaxHealth => runtimeStats.maxHealth;
+    public int Armor => runtimeStats.armor;
 
     // ITargetable
     public GameObject GameObject => gameObject;
     public Transform Transform => (this != null) ? transform : null;
-    public float HitRadius => stats.hitRadius;
+    public float HitRadius => runtimeStats.hitRadius;
     public bool IsAlive => currentHealth > 0;
-    public virtual ThreatLevel UnitPrio => stats.unitPrio;
-    public bool IsTargetable => stats.isTargetable;
+    public virtual ThreatLevel UnitPrio => runtimeStats.unitPrio;
+    public bool IsTargetable => runtimeStats.isTargetable;
 
     // UnitMetadata
     public Team Team => metadata.Team;
-    public float Cost => stats.cost;
+    public float Cost => baseStats.cost;
 
     //Debug
 #if UNITY_EDITOR
@@ -59,13 +60,29 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     protected virtual void Awake()
     {
+        runtimeStats = new RuntimeStats
+        {
+            maxHealth = baseStats.maxHealth,
+            attackDamage = baseStats.attackDamage,
+            armor = baseStats.armor,
+            attackSpeed = baseStats.attackSpeed,
+            movementSpeed = baseStats.movementSpeed,
+            attackRange = baseStats.attackRange,
+            cost = baseStats.cost,
+            hitRadius = baseStats.hitRadius,
+            critChance = baseStats.critChance,
+            critMultiplier = baseStats.critMultiplier,
+            unitPrio = baseStats.unitPrio,
+            isTargetable = baseStats.isTargetable
+        };
+
         metadata = GetComponent<UnitMetadata>();
-        currentHealth = stats.maxHealth;
+        currentHealth = runtimeStats.maxHealth;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
 
-        if (stats == null)
+        if (runtimeStats == null)
         {
-            Debug.LogError($"{name} has no UnitStatsDefinition assigned.", this);
+            Debug.LogError($"{name} has no runtimeStats assigned.", this);
         }
 #if UNITY_EDITOR
         SyncDebugStats();
@@ -74,7 +91,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     protected virtual void Start()
     {
-        healthBar?.UpdateHealthBar(currentHealth, stats.maxHealth);
+        healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
     }
 
     public virtual void TakeDamage(int amount)
@@ -85,7 +102,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         SyncDebugStats();
 #endif
 
-        healthBar?.UpdateHealthBar(currentHealth, stats.maxHealth);
+        healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
         if (currentHealth <= 0)
         {
             Die();
@@ -94,7 +111,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     private int ApplyArmorReduction(int dmg)
     {
-        return (dmg - stats.armor);
+        return (dmg - runtimeStats.armor);
     }
 
     public virtual void Die()
@@ -104,31 +121,35 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public virtual void ApplyFinalStats(FinalStats finalStats)
     {
-        stats.maxHealth = finalStats.health;
-        currentHealth = finalStats.health;
+        runtimeStats.maxHealth = finalStats.maxHealth;
+        currentHealth = finalStats.maxHealth;
 
-        stats.attackDamage = finalStats.attackDamage;
-        stats.attackSpeed = finalStats.attackSpeed;
-        stats.attackRange = finalStats.attackRange;
-        stats.movementSpeed = finalStats.movementSpeed;
-        stats.hitRadius = finalStats.hitRadius;
-        stats.cost = finalStats.cost;
-        stats.armor = finalStats.armor;
-        stats.critChance = finalStats.critChance;
-        stats.critMultiplier = finalStats.critMultiplier;
+        runtimeStats.attackDamage = finalStats.attackDamage;
+        runtimeStats.attackSpeed = finalStats.attackSpeed;
+        runtimeStats.attackRange = finalStats.attackRange;
+        runtimeStats.movementSpeed = finalStats.movementSpeed;
+        runtimeStats.hitRadius = finalStats.hitRadius;
+        runtimeStats.cost = finalStats.cost;
+        runtimeStats.armor = finalStats.armor;
+        runtimeStats.critChance = finalStats.critChance;
+        runtimeStats.critMultiplier = finalStats.critMultiplier;
 
-        healthBar?.UpdateHealthBar(currentHealth, stats.maxHealth);
+        healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
+
+#if UNITY_EDITOR
+        SyncDebugStats();
+#endif
     }
 
     public int GetAttackDamage()
     {
-        int dmg = stats.attackDamage;
+        int dmg = runtimeStats.attackDamage;
 
-        if(stats.critChance > 0)
+        if(runtimeStats.critChance > 0)
         {
             if(RollCrit())
             {
-                dmg = Mathf.RoundToInt(dmg * stats.critMultiplier);
+                dmg = Mathf.RoundToInt(dmg * runtimeStats.critMultiplier);
                 ShowCritFeedback(dmg);
             }
         }
@@ -138,7 +159,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     protected bool RollCrit()
     {
-        return Random.value <= stats.critChance;
+        return Random.value <= runtimeStats.critChance;
     }
 
     protected virtual void ShowCritFeedback(int dmg)
@@ -151,31 +172,31 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, stats.attackRange);
+        Gizmos.DrawWireSphere(transform.position, runtimeStats.attackRange);
     }
 #if UNITY_EDITOR
     private void SyncDebugStats()
     {
-        if (stats == null) return;
+        if (runtimeStats == null) return;
 
-        debugCost = stats.cost;
+        debugCost = runtimeStats.cost;
 
-        debugMaxHealth = stats.maxHealth;
+        debugMaxHealth = runtimeStats.maxHealth;
         debugCurrentHealth = currentHealth;
-        debugArmor = stats.armor;
+        debugArmor = runtimeStats.armor;
 
-        debugAttackDamage = stats.attackDamage;
-        debugAttackSpeed = stats.attackSpeed;
-        debugAttackRange = stats.attackRange;
-        debugHitRadius = stats.hitRadius;
+        debugAttackDamage = runtimeStats.attackDamage;
+        debugAttackSpeed = runtimeStats.attackSpeed;
+        debugAttackRange = runtimeStats.attackRange;
+        debugHitRadius = runtimeStats.hitRadius;
 
-        debugMovementSpeed = stats.movementSpeed;
+        debugMovementSpeed = runtimeStats.movementSpeed;
 
-        debugCritChance = stats.critChance;
-        debugCritMultiplier = stats.critMultiplier;
+        debugCritChance = runtimeStats.critChance;
+        debugCritMultiplier = runtimeStats.critMultiplier;
 
-        debugUnitPrio = stats.unitPrio;
-        debugIsTargetable = stats.isTargetable;
+        debugUnitPrio = runtimeStats.unitPrio;
+        debugIsTargetable = runtimeStats.isTargetable;
     }
 #endif
 }

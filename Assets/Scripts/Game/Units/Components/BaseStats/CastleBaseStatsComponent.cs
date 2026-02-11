@@ -9,12 +9,12 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     [SerializeField] public Team team => metadata.Team;
 
 
-    protected override void Awake()
-    {
-        metadata = GetComponent<UnitMetadata>();
-        currentHealth = MaxHealth;
-        healthBar = GetComponentInChildren<FloatingHealthBar>();
-    }
+    //protected override void Awake() 
+    //{
+    //    metadata = GetComponent<UnitMetadata>();
+    //    currentHealth = MaxHealth;
+    //    healthBar = GetComponentInChildren<FloatingHealthBar>();
+    //}
 
     public override void Die()
     {

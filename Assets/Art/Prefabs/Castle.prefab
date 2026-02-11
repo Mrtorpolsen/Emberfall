@@ -507,7 +507,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 0}
   healthBar: {fileID: 2147739126218534196}
-  stats: {fileID: 11400000, guid: ef6482486627e6a45a46b06b2982bce5, type: 2}
+  baseStats: {fileID: 11400000, guid: ef6482486627e6a45a46b06b2982bce5, type: 2}
+  debugCost: 0
+  debugMaxHealth: 0
+  debugCurrentHealth: 0
+  debugArmor: 0
+  debugAttackDamage: 0
+  debugAttackSpeed: 0
+  debugAttackRange: 0
+  debugHitRadius: 0
+  debugMovementSpeed: 0
+  debugCritChance: 0
+  debugCritMultiplier: 0
+  debugUnitPrio: 0
+  debugIsTargetable: 0
   castle: {fileID: 4467444779989242713}
 --- !u!114 &7200452518730832409
 MonoBehaviour:

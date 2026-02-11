@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
 {
+    [Header("Enemy Unit Stats Definitions")]
+    [SerializeField] private List<UnitStatsDefinition> unitStatsDefinition;
+
     public static UnitStatsManager Instance { get; private set; }
     StatsBootstrapper statsBootstrapper;
     UnitStatsCalculator unitStatsCalculator;
 
     private Dictionary<string, FinalStats> finalStatsByUnit = new();
-    private Dictionary<string, GameObject> prefabByUnitKey = new();
+    private Dictionary<string, UnitStatsDefinition> unitStatsByUnitKey = new();
 
     private void Awake()
     {
@@ -28,47 +31,33 @@ public class UnitStatsManager : MonoBehaviour
             statsBootstrapper = null;
         }
 
-        BuildPrefabLookup();
+        BuildStatsLookup();
         CalculateAllFinalStats();
     }
 
-    private void BuildPrefabLookup()
+    private void BuildStatsLookup()
     {
-        prefabByUnitKey.Clear();
-
-        //Add the prefabs that needs more stats
-        AddPrefab(Prefabs.fighterPrefab);
-        AddPrefab(Prefabs.rangerPrefab);
-        AddPrefab(Prefabs.cavalierPrefab);
-
-        //Special
-        AddPrefab(Prefabs.assasinPrefab);
-        AddPrefab(Prefabs.sapperPrefab);
-
-        //Boss
-        AddPrefab(Prefabs.giantPrefab);
-
-        //Elites
-        AddPrefab(Prefabs.eliteFighterPrefab);
-        AddPrefab(Prefabs.eliteCavalierPrefab);
+        foreach (var unitStats in unitStatsDefinition)
+        {
+            AddUnitStats(unitStats);
+        }
     }
 
-    private void AddPrefab(GameObject prefab)
+    private void AddUnitStats(UnitStatsDefinition unitStats)
     {
-        if (prefab == null) return;
-        string unitKey = prefab.name.ToLowerInvariant();
-        prefabByUnitKey[unitKey] = prefab;
+        if (unitStats == null) return;
+        string unitKey = unitStats.name.ToLowerInvariant();
+        unitStatsByUnitKey[unitKey] = unitStats;
     }
 
     private void CalculateAllFinalStats()
     {
         if (statsBootstrapper == null) return;
 
-
-        foreach (var kvp in prefabByUnitKey)
+        foreach (var kvp in unitStatsByUnitKey)
         {
             string unitName = kvp.Key;
-            GameObject prefab = kvp.Value;
+            UnitStatsDefinition prefab = kvp.Value;
 
             if (!statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
                 continue;
@@ -97,7 +86,7 @@ public class UnitStatsManager : MonoBehaviour
 
     public FinalStats GetEnemyStats(string unitName, WaveController.EnemyScalingContext scaling)
     {
-        if (!prefabByUnitKey.TryGetValue(unitName, out var prefab))
+        if (!unitStatsByUnitKey.TryGetValue(unitName, out var prefab))
         {
             Debug.LogError($"No prefab found for unitKey: {unitName}");
             return null;
@@ -114,27 +103,25 @@ public class UnitStatsManager : MonoBehaviour
         return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex, finalStats);
     }
 
-    private FinalStats BuildStatsFromBase(GameObject unitPrefab)
+    private FinalStats BuildStatsFromBase(UnitStatsDefinition unitBaseStats)
     {
-        BaseUnitStats baseStats = unitPrefab.GetComponent<BaseUnitStats>();
-
-        if (baseStats == null)
+        if (unitBaseStats == null)
         {
-            Debug.LogError("Failed to get basestats in BuildStatsFromBase");
+            Debug.LogError("Failed to get unitBaseStats in BuildStatsFromBase");
             return null;
         }
 
         FinalStats finalStats = new FinalStats
         {
-            health = baseStats.MaxHealth,
-            attackDamage = baseStats.AttackDamage,
-            attackSpeed = baseStats.AttackSpeed,
-            attackRange = baseStats.AttackRange,
-            critChance = baseStats.CritChance,
-            critMultiplier = baseStats.CritMultiplier,
-            movementSpeed = baseStats.MovementSpeed,
-            hitRadius = baseStats.HitRadius,
-            cost = baseStats.Cost
+            maxHealth = unitBaseStats.maxHealth,
+            attackDamage = unitBaseStats.attackDamage,
+            attackSpeed = unitBaseStats.attackSpeed,
+            attackRange = unitBaseStats.attackRange,
+            critChance = unitBaseStats.critChance,
+            critMultiplier = unitBaseStats.critMultiplier,
+            movementSpeed = unitBaseStats.movementSpeed,
+            hitRadius = unitBaseStats.hitRadius,
+            cost = unitBaseStats.cost
         };
 
         return finalStats;
@@ -144,7 +131,7 @@ public class UnitStatsManager : MonoBehaviour
     {
         Debug.Log(
             $"[FinalStats] {unitName}\n" +
-            $"  Health: {stats.health}\n" +
+            $"  Health: {stats.maxHealth}\n" +
             $"  Damage: {stats.attackDamage}\n" +
             $"  Attack Speed: {stats.attackSpeed:F3}\n" +
             $"  Range: {stats.attackRange:F2}\n" +

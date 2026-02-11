@@ -22,5 +22,5 @@ MonoBehaviour:
   movementSpeed: 0
   critChance: 0
   critMultiplier: 0
-  unitPrio: 0
+  unitPrio: 5
   isTargetable: 1

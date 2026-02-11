@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class FinalStats
+public class RuntimeStats
 {
     public int maxHealth;
     public int attackDamage;
@@ -11,4 +11,6 @@ public class FinalStats
     public float hitRadius;
     public float critChance;
     public float critMultiplier;
+    public ThreatLevel unitPrio;
+    public bool isTargetable;
 }

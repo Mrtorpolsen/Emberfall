@@ -163,7 +163,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BombTowerStatsBaseStatsComponent
   unit: {fileID: 87936472045436742}
   healthBar: {fileID: 0}
-  stats: {fileID: 11400000, guid: 5464acf54033ee841aa224b626747a0f, type: 2}
+  baseStats: {fileID: 11400000, guid: 5464acf54033ee841aa224b626747a0f, type: 2}
+  debugCost: 0
+  debugMaxHealth: 0
+  debugCurrentHealth: 0
+  debugArmor: 0
+  debugAttackDamage: 0
+  debugAttackSpeed: 0
+  debugAttackRange: 0
+  debugHitRadius: 0
+  debugMovementSpeed: 0
+  debugCritChance: 0
+  debugCritMultiplier: 0
+  debugUnitPrio: 0
+  debugIsTargetable: 0
   projectilePrefab: {fileID: 9402218379871732, guid: a56fe2e86212b0e4cb2e69b43b18ede3, type: 3}
   explosionRadius: 0.4
 --- !u!114 &1852405760658369969
