@@ -12,11 +12,12 @@ GameObject:
   - component: {fileID: 5882254072125626388}
   - component: {fileID: 1766041048929409130}
   - component: {fileID: 9058276337862287081}
+  - component: {fileID: 71567452555509299}
   - component: {fileID: 1852405760658369969}
   - component: {fileID: -3845601776482795994}
   - component: {fileID: 4053207128255451394}
   m_Layer: 0
-  m_Name: Ballista Tower
+  m_Name: BallistaTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,6 +178,22 @@ MonoBehaviour:
   debugCritMultiplier: 0
   debugUnitPrio: 0
   debugIsTargetable: 0
+  tierPrefabs:
+  - {fileID: 87936472045436742}
+  maxTier: 5
+  currentTier: 1
+--- !u!114 &71567452555509299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87936472045436742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e3ff682da58c644b513d018878cf81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangedShooter
   projectilePrefab: {fileID: 9402218379871732, guid: 71e36fa4f0156294db8201d8e5b7568e, type: 3}
 --- !u!114 &1852405760658369969
 MonoBehaviour:

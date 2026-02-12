@@ -51,13 +51,13 @@ public class SpawnManager : MonoBehaviour
         return SpawnUnit(prefab, southSpawn, Team.South, finalStats);
     }
 
-    public bool SpawnSouthTower(GameObject prefab, SpawnSide spawnSide, out GameObject spawnedTower)
+    public bool SpawnSouthTower(GameObject prefab, SpawnSide spawnSide, out GameObject spawnedTower, FinalStats finalStats = null)
     {
         spawnedTower = null;
 
         Transform towerPoint = spawnSide == SpawnSide.West ? southWestTower : southEastTower;
 
-        return SpawnUnit(prefab, towerPoint, Team.South, out spawnedTower);
+        return SpawnUnit(prefab, towerPoint, Team.South, out spawnedTower, finalStats);
     }
 
     public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team, FinalStats finalStats = null)

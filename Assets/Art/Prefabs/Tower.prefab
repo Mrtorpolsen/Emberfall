@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5882254072125626388}
   - component: {fileID: 1766041048929409130}
   - component: {fileID: 3296017814138875246}
+  - component: {fileID: 793290292969641887}
   - component: {fileID: 1852405760658369969}
   - component: {fileID: -3845601776482795994}
   - component: {fileID: 4053207128255451394}
@@ -176,6 +177,22 @@ MonoBehaviour:
   debugCritMultiplier: 0
   debugUnitPrio: 0
   debugIsTargetable: 0
+  tierPrefabs:
+  - {fileID: 87936472045436742}
+  maxTier: 5
+  currentTier: 1
+--- !u!114 &793290292969641887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87936472045436742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e3ff682da58c644b513d018878cf81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangedShooter
   projectilePrefab: {fileID: 9402218379871732, guid: ec5ca335582451b4c8cf482c9b7d48ce, type: 3}
 --- !u!114 &1852405760658369969
 MonoBehaviour:

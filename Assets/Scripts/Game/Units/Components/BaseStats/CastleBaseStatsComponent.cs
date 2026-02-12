@@ -2,11 +2,17 @@ using UnityEngine;
 
 public class CastleStatsBaseStatsComponent : BaseUnitStats
 {
+#if UNITY_EDITOR
+    [Header("Testing")]
+    [SerializeField] public bool isTest;
+#endif
+
     [Header("Reference")]
     [SerializeField] public GameObject castle;
 
     [Header("Team")]
     [SerializeField] public Team team => metadata.Team;
+
 
 
     //protected override void Awake() 
@@ -15,6 +21,15 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     //    currentHealth = MaxHealth;
     //    healthBar = GetComponentInChildren<FloatingHealthBar>();
     //}
+#if UNITY_EDITOR
+    private void Start()
+    {
+        if (isTest)
+        {
+            currentHealth = 100000000;
+        }
+    }
+#endif
 
     public override void Die()
     {

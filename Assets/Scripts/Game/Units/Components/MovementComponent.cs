@@ -18,7 +18,7 @@ public class MovementComponent : MonoBehaviour
     private TargetComponent targetComponent;
     private IUnit unit;
     private UnitMetadata unitMetadata;
-    private RangedUnitStats rangedStats;
+    private RangedShooter rangedStats;
     private Transform rangedRally;
 
     private Collider2D[] hitBuffer = new Collider2D[8];
@@ -29,7 +29,7 @@ public class MovementComponent : MonoBehaviour
         targetComponent = GetComponent<TargetComponent>();
         unit = GetComponent<IUnit>();
         unitMetadata = GetComponent<UnitMetadata>();
-        rangedStats = GetComponent<RangedUnitStats>();
+        rangedStats = GetComponent<RangedShooter>();
         south = GameManager.Instance.south;
         rangedRally = GameManager.Instance.GetNextRangedRally();
 

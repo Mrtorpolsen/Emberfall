@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TowerStatsBaseStatsComponent : RangedUnitStats
+public class TowerStatsBaseStatsComponent : TowerUnitStats
 {
 
 }

@@ -1,23 +1,46 @@
 ﻿using UnityEngine;
 
-public class TowerUnitStats : MonoBehaviour
+public class TowerUnitStats : BaseUnitStats
 {
     [Header("Tower Tier Prefabs")]
     [SerializeField] private GameObject[] tierPrefabs;
 
     [Header("Tower Tier Settings")]
-    [SerializeField] private int maxTier = 3;
+    [SerializeField] private int maxTier = 5;
     [SerializeField] private int currentTier = 1;
 
-    private float baseCost;
-    private float baseDamage;
-    private float baseAttackSpeed;
-    private float baseRange;
+    //private float baseCost;
+    //private float baseDamage;
+    //private float baseAttackSpeed;
+    //private float baseRange;
+    public bool CanUpgrade() => currentTier < maxTier;
 
+    private const float TierMultiplier = 1.1f;
     public int CurrentTier => currentTier;
     public int MaxTier => maxTier;
 
-    public float GetCost() => baseCost * Mathf.Pow(1.1f, currentTier - 1);
+
+    public float GetUpgradeCost()
+    {
+        return Mathf.RoundToInt(Cost * Mathf.Pow(TierMultiplier, currentTier));
+    }
+
+    public float GetSellValue()
+    {
+        return Mathf.RoundToInt(GetTotalInvested() * 0.5f);
+    }
+
+    public float GetTotalInvested()
+    {
+        float total = 0f;
+
+        for (int i = 0; i < currentTier; i++)
+        {
+            total += Cost * Mathf.Pow(TierMultiplier, i);
+        }
+
+        return total;
+    }
 
     public FinalStats GetTierStats()
     {
@@ -25,14 +48,12 @@ public class TowerUnitStats : MonoBehaviour
 
         return new FinalStats
         {
-            attackDamage = Mathf.RoundToInt(baseDamage * multiplier),
-            attackSpeed = baseAttackSpeed * multiplier,
-            attackRange = baseRange * multiplier,
-            cost = GetCost()
+            attackDamage = Mathf.RoundToInt(AttackDamage * multiplier),
+            attackSpeed = AttackSpeed * multiplier,
+            attackRange = AttackRange * multiplier,
+            cost = GetUpgradeCost()
         };
     }
-
-    public bool CanUpgrade() => currentTier < maxTier;
 
     public void UpgradeTier()
     {
@@ -42,9 +63,18 @@ public class TowerUnitStats : MonoBehaviour
 
     public GameObject GetPrefabForTier()
     {
-        if (tierPrefabs != null && tierPrefabs.Length >= currentTier && tierPrefabs[currentTier - 1] != null)
+        if (tierPrefabs != null && currentTier > 0 && currentTier <= tierPrefabs.Length && tierPrefabs[currentTier - 1] != null)
+        {
             return tierPrefabs[currentTier - 1];
+        }
 
-        return gameObject;
+        if (tierPrefabs != null && tierPrefabs.Length > 0 && tierPrefabs[0] != null)
+        {
+            Debug.LogWarning($"Tower {name} tier {currentTier} has no prefab assigned! Using tier 1 as fallback.");
+            return tierPrefabs[0];
+        }
+
+        Debug.LogError($"Tower {name} has no prefabs assigned at all!");
+        return null;
     }
 }

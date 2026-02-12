@@ -15,7 +15,9 @@ public class BuildingPlot : MonoBehaviour
     private PlotState state = PlotState.Empty;
     private GameObject currentTower;
 
-    public float sellValue = 0;
+    public float upgradeCost;
+    public float sellValue;
+    public bool canUpgrade;
     public bool HasTower => state == PlotState.Occupied;
 
     public void OnPlotClicked()
@@ -36,17 +38,14 @@ public class BuildingPlot : MonoBehaviour
         state = PlotState.Occupied;
         sr.enabled = false;
         UIManager.Instance.CloseAllMenus();
-        if (!currentTower.TryGetComponent<BaseUnitStats>(out var towerStats))
+        if (!currentTower.TryGetComponent<TowerUnitStats>(out var towerStats))
         {
             Debug.LogError("Can't get tower BaseUnitStats.");
             return;
         }
-        sellValue = towerStats.Cost / 2;
-    }
-
-    public GameObject GetTower()
-    {
-        return currentTower;
+        sellValue = towerStats.GetSellValue();
+        upgradeCost = towerStats.GetUpgradeCost();
+        canUpgrade = towerStats.CanUpgrade();
     }
 
     public void SellTower()
@@ -69,9 +68,44 @@ public class BuildingPlot : MonoBehaviour
         UIManager.Instance.CloseAllMenus();
     }
 
-    public void UpgradeTower()
+    public void UpgradeTower(SpawnSide spawnSide)
     {
-        Debug.Log("Wuhu im upgrading yaaaaa");
+        if (state != PlotState.Occupied || currentTower == null || GameManager.Instance.currency[Team.South] < upgradeCost)
+            return;
+
+        if (!currentTower.TryGetComponent<TowerUnitStats>(out var towerStats))
+        {
+            Debug.LogError("Tower missing TowerUnitStats.");
+            return;
+        }
+
+        if (!towerStats.CanUpgrade())
+            return;
+
+        towerStats.UpgradeTier();
+
+        GameObject upgradePrefab = towerStats.GetPrefabForTier();
+        if (upgradePrefab == null)
+        {
+            Debug.LogError("Cannot upgrade tower: prefab missing!");
+            return;
+        }
+
+        var newStats = towerStats.GetTierStats();
+
+
+        GameObject newTower;
+
+        SpawnManager.Instance.SpawnSouthTower(upgradePrefab, spawnSide, out newTower, newStats);
+
+        Destroy(currentTower);
+
+        AssignTower(newTower);
+    }
+
+    public GameObject GetTower()
+    {
+        return currentTower;
     }
 
     public void ShowBuildMenu()

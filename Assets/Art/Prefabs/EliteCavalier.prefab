@@ -632,7 +632,7 @@ GameObject:
   - component: {fileID: 7348346340122654073}
   - component: {fileID: 6708282096294794791}
   m_Layer: 0
-  m_Name: Elite Cavalier
+  m_Name: EliteCavalier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

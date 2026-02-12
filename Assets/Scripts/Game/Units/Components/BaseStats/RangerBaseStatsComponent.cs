@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RangerStatsBaseStatsComponent : RangedUnitStats
+public class RangerStatsBaseStatsComponent : BaseUnitStats
 {
 
 }

@@ -162,90 +162,47 @@ public class UIManager : MonoBehaviour
 
     public void SetupTowerMenuButtons(BuildingPlot plot, SpawnSide spawnSide)
     {
-        if (spawnSide == SpawnSide.West)
+        var buttonsToSetup = spawnSide == SpawnSide.West ? towerMenuWestButtons : towerMenuEastButtons;
+
+        var sellButton = buttonsToSetup[0];
+        var upgradeButton = buttonsToSetup[1];
+
+        sellButton.Setup("Sell", plot.sellValue, null,
+            () => !PauseManager.IsPaused
+        );
+
+        sellButton.SetClickAction(() =>
         {
-            for (int i = 0; i < towerMenuWestButtons.Count; i++)
-            {
-                if (i == 0)
-                {
-                    towerMenuWestButtons[i].Setup("Sell", plot.sellValue, null, 
-                        () => !PauseManager.IsPaused
-                    );
-                    towerMenuWestButtons[i].SetClickAction(() =>
-                    {
-                        plot.SellTower();
-                        boundButtons.Remove(towerMenuWestButtons[1]);
-                    });
-                }
-                if (i == 1)
-                {
-                    towerMenuWestButtons[i].Setup("Upgrade", plot.sellValue, null,
-                        () => !PauseManager.IsPaused
-                    );
-                    towerMenuWestButtons[i].SetClickAction(() =>
-                    {
-                        plot.UpgradeTower();
-                    });
+            plot.SellTower();
+            boundButtons.Remove(upgradeButton);
+        });
 
-                    boundButtons.Add(towerMenuWestButtons[i]);
-                }
-            }
-        }
+        upgradeButton.Setup("Upgrade", plot.upgradeCost, null,
+            () => !PauseManager.IsPaused
+                && GameManager.Instance.currency[Team.South] >= plot.upgradeCost
+                && plot.canUpgrade
+        );
 
-        if (spawnSide == SpawnSide.East)
+        upgradeButton.SetClickAction(() =>
         {
-            for (int i = 0; i < towerMenuEastButtons.Count; i++)
-            {
-                if (i == 0)
-                {
-                    towerMenuEastButtons[i].Setup("Sell", plot.sellValue, null,
-                        () => !PauseManager.IsPaused
-                    );
-                    towerMenuEastButtons[i].SetClickAction(() =>
-                    {
-                        plot.SellTower();
-                        boundButtons.Remove(towerMenuEastButtons[1]);
-                    });
-                }
-                if (i == 1)
-                {
-                    towerMenuEastButtons[i].Setup("Upgrade", plot.sellValue, null,
-                        () => !PauseManager.IsPaused
-                    );
-                    towerMenuEastButtons[i].SetClickAction(() =>
-                    {
-                        plot.UpgradeTower();
-                    });
+            plot.UpgradeTower(spawnSide);
+            RefreshTowerMenu(sellButton, upgradeButton, plot);
+        });
 
-                    boundButtons.Add(towerMenuEastButtons[i]);
-                }
-            }
+        if (!boundButtons.Contains(upgradeButton))
+        {
+            boundButtons.Add(upgradeButton);
         }
+    }
 
+    public void RefreshTowerMenu(ActionButton sellButton, ActionButton upgradeButton, BuildingPlot plot)
+    {
+        sellButton.UpdateText("Sell", plot.sellValue);
+        upgradeButton.UpdateText("Upgrade", plot.upgradeCost);
     }
 
     public void RefreshAllButtons()
     {
-        //foreach (var button in spawnUnitButtons)
-        //{
-        //    button.Refresh();
-        //}
-        //foreach (var button in towerBuildMenuWestButtons)
-        //{
-        //    button.Refresh();
-        //}
-        //foreach (var button in towerMenuWestButtons)
-        //{
-        //    button.Refresh();
-        //}
-        //foreach (var button in towerBuildMenuEastButtons)
-        //{
-        //    button.Refresh();
-        //}
-        //foreach (var button in towerMenuEastButtons)
-        //{
-        //    button.Refresh();
-        //}
         foreach (var button in boundButtons)
         {
             button.Refresh();

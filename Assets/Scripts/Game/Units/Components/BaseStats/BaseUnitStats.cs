@@ -174,6 +174,15 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, runtimeStats.attackRange);
     }
+
+#if !UNITY_EDITOR
+    //TODO create world bounds instead.
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
+#endif
+
 #if UNITY_EDITOR
     private void SyncDebugStats()
     {

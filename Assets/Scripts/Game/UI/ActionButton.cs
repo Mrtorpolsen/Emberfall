@@ -27,6 +27,12 @@ public class ActionButton : MonoBehaviour
         LoadIcon(icon);
     }
 
+    public void UpdateText(string title, float cost)
+    {
+        unitText.text = title;
+        costText.text = cost.ToString();
+    }
+
     public void OnClick()
     {
         clickAction?.Invoke();

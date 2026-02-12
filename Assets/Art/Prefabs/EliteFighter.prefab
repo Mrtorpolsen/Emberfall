@@ -600,7 +600,7 @@ GameObject:
   - component: {fileID: 1084606098695626972}
   - component: {fileID: 8026621461746506466}
   m_Layer: 0
-  m_Name: Elite Fighter
+  m_Name: EliteFighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
