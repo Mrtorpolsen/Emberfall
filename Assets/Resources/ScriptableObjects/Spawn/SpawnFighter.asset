@@ -20,4 +20,5 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 54468932150093641ae59057b7e9886d, type: 3}
-  cost: 50
+  stats: {fileID: 11400000, guid: ed032cf3991e7234ebc9efaccd5b514c, type: 2}
+  Type: 0

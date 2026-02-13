@@ -5,35 +5,47 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using TMPro;
 
 [RequireComponent(typeof(Button))]
-public class SpawnButton : MonoBehaviour
+public class ActionButton : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private Button button;
     [SerializeField] private TMP_Text costText;
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text unitText; 
-    [SerializeField] private SpawnSide spawnSide;
 
     private AsyncOperationHandle<Sprite>? iconHandle;
 
-    private GameObject unitPrefab;
+    private System.Action clickAction;
+    private System.Func<bool> canInteract;
 
-    private float cost;
-    private SpawnType spawnType;
-
-    public SpawnSide SpawnSide => spawnSide;
-
-    public void Setup(SpawnDefinition def)
+    public void Setup(string title, float cost, AssetReference icon, System.Func<bool> canInteractFunc)
     {
-        unitText.text = def.DisplayName;
-        costText.text = def.Cost.ToString();
+        unitText.text = title;
+        costText.text = cost.ToString();
+        canInteract = canInteractFunc;
 
-        cost = def.Cost;
-        spawnType = def.Type;
+        LoadIcon(icon);
+    }
 
-        unitPrefab = def.UnitPrefab;
+    public void UpdateText(string title, float cost)
+    {
+        unitText.text = title;
+        costText.text = cost.ToString();
+    }
+    public void UpdateText(string title, string cost)
+    {
+        unitText.text = title;
+        costText.text = cost.ToString();
+    }
 
-        LoadIcon(def.Icon);
+    public void OnClick()
+    {
+        clickAction?.Invoke();
+    }
+
+    public void SetClickAction(System.Action action)
+    {
+        clickAction = action;
     }
 
     private void LoadIcon(AssetReference iconReference)
@@ -56,8 +68,15 @@ public class SpawnButton : MonoBehaviour
                 return;
 
             if (op.Status == AsyncOperationStatus.Succeeded)
+            {
                 iconImage.sprite = op.Result;
+            }
         };
+    }
+
+    public void Refresh()
+    {
+        button.interactable = canInteract == null || canInteract();
     }
 
     private void ReleaseIcon()
@@ -67,33 +86,6 @@ public class SpawnButton : MonoBehaviour
             Addressables.Release(iconHandle.Value);
             iconHandle = null;
         }
-    }
-
-    public void OnClick()
-    {
-        BuildingPlot plot = UIManager.Instance.GetActivePlot();
-
-        bool success = SpawnManager.Instance.SpawnSouthUnit(
-            unitPrefab,
-            unitPrefab.name.ToLowerInvariant(),
-            spawnType,
-            spawnSide,
-            out GameObject spawned
-        );
-
-        if (!success)
-            return;
-
-        if (spawnType == SpawnType.Tower && plot != null && spawned != null)
-        {
-            plot.AssignTower(spawned);
-            UIManager.Instance.CloseAllMenus();
-        }
-    }
-
-    public void SetInteractable(float playerCurrency,  bool isPaused)
-    {
-        button.interactable = (!isPaused && playerCurrency >= cost);
     }
 
     private void OnDestroy()

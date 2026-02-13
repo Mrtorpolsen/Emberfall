@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BombTowerBaseStatsComponent : RangedUnitStats
+public class BombTowerBaseStatsComponent : TowerUnitStats
 {
     [SerializeField] private float explosionRadius = 0.4f;
 
@@ -51,7 +51,7 @@ public class BombTowerBaseStatsComponent : RangedUnitStats
 
             if (t == null) continue;
 
-            target.TakeDamage(attackDamage);
+            target.TakeDamage(AttackDamage);
         }
     }
 }

@@ -1,0 +1,99 @@
+﻿using UnityEngine;
+
+public class TowerUnitStats : BaseUnitStats
+{
+    [Header("Tower Tier Settings")]
+    [SerializeField] private int maxTier = 5;
+    [SerializeField] private int currentTier = 1;
+
+    [Header("Tower Tier Stars")]
+    [SerializeField] private GameObject[] tierStars1;
+    [SerializeField] private GameObject[] tierStars2;
+    [SerializeField] private GameObject[] tierStars3;
+    [SerializeField] private GameObject[] tierStars4;
+    [SerializeField] private GameObject[] tierStars5;
+
+    public bool CanUpgrade() => currentTier < maxTier;
+
+    private const float TierMultiplier = 1.1f;
+    public int CurrentTier => currentTier;
+    public int MaxTier => maxTier;
+
+
+    public float GetUpgradeCost()
+    {
+        return Mathf.RoundToInt(Cost * Mathf.Pow(TierMultiplier, currentTier));
+    }
+
+    public float GetSellValue()
+    {
+        return Mathf.RoundToInt(GetTotalInvested() * 0.5f);
+    }
+
+    public float GetTotalInvested()
+    {
+        float total = 0f;
+        
+        for (int i = 0; i < currentTier; i++)
+        {
+            total += Cost * Mathf.Pow(TierMultiplier, i);
+        }
+
+        return total;
+    }
+
+    public FinalStats GetTierStats()
+    {
+        float multiplier = Mathf.Pow(TierMultiplier, currentTier - 1);
+
+        return new FinalStats
+        {
+            attackDamage = Mathf.RoundToInt(BaseStats.attackDamage * multiplier),
+            attackSpeed = BaseStats.attackSpeed * multiplier,
+            attackRange = BaseStats.attackRange * multiplier,
+        };
+    }
+
+    public void UpgradeTier()
+    {
+        if (!CanUpgrade()) return;
+
+        currentTier++;
+
+        FinalStats newStats = GetTierStats();
+        ApplyFinalStats(newStats);
+
+        ShowTierStars();
+    }
+
+    public void ShowTierStars()
+    {
+        switch (currentTier)
+        {
+            case 2:
+                SetActiveStars(tierStars2, tierStars1);
+                break;
+            case 3:
+                SetActiveStars(tierStars3, tierStars2);
+                break;
+            case 4:
+                SetActiveStars(tierStars4, tierStars3);
+                break;
+            case 5:
+                SetActiveStars(tierStars5, tierStars4);
+                break;
+        }
+    }
+
+    private void SetActiveStars(GameObject[] activeStars, GameObject[] inActive = null)
+    {
+        foreach (var star in inActive)
+        {
+            star?.SetActive(false);
+        }
+        foreach (var star in activeStars)
+        {
+            star.SetActive(true);
+        }
+    }
+}

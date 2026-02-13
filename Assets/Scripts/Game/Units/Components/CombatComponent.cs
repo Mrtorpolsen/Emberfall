@@ -59,9 +59,9 @@ public class CombatComponent : MonoBehaviour
         {
             attackCooldown = 1f / unit.AttackSpeed;
 
-            if (unit is RangedUnitStats)
+            if (unit.TryGetComponent<RangedShooter>(out var shooter))
             {
-                (unit as RangedUnitStats).Shoot(target);
+                shooter.Shoot(target);
             }
             else if (unit is SapperBaseStatsComponent)
             {

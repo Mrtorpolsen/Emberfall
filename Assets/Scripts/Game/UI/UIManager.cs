@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,10 +17,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private SpawnDefinition[] loadOutTowers;
 
     [Header("References Spawn Buttons")]
-    [SerializeField] private List<SpawnButton> spawnUnitButtons;
-    [SerializeField] private List<SpawnButton> spawnTowersEastButtons;
-    [SerializeField] private List<SpawnButton> spawnTowersWestButtons;
+    [SerializeField] private List<ActionButton> spawnUnitButtons;
+    [SerializeField] private List<ActionButton> towerBuildMenuWestButtons;
+    [SerializeField] private List<ActionButton> towerMenuWestButtons;
+    [SerializeField] private List<ActionButton> towerBuildMenuEastButtons;
+    [SerializeField] private List<ActionButton> towerMenuEastButtons;
     [SerializeField] public Button incomeBtn;
+
+    private List<ActionButton> boundButtons;
 
     private BuildingPlot activePlot;
 
@@ -36,11 +39,12 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
 
-        SetupUnitButtons(loadOutUnits);
-        SetupTowerButtons(loadOutTowers);
+        boundButtons = new List<ActionButton>();
 
-        ToggleSpawnButtonsActive(GameManager.Instance.currency[Team.South]);
+        SetupUnitButtons(loadOutUnits);
+        SetupTowerBuildMenuButtons(loadOutTowers);
     }
+
     private void OnEnable()
     {
         PauseManager.OnPauseChanged += TogglePauseMenu;
@@ -56,7 +60,7 @@ public class UIManager : MonoBehaviour
     private void TogglePauseMenu(bool paused)
     {
         pauseMenu.gameObject.SetActive(paused);
-        ToggleSpawnButtonsActive(GameManager.Instance.currency[Team.South]);
+        RefreshAllButtons();
     }
 
     public void Initialize()
@@ -94,59 +98,144 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < spawnUnitButtons.Count; i++)
         {
-            if (i < loadout.Length)
-            {
-                spawnUnitButtons[i].Setup(loadout[i]);
-            }
-            else
+            if (i >= loadout.Length)
             {
                 spawnUnitButtons[i].gameObject.SetActive(false);
+                    continue;
             }
+
+            var def = loadout[i];
+
+            spawnUnitButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            spawnUnitButtons[i].SetClickAction(() =>
+            {
+                SpawnManager.Instance.SpawnSouthUnit(
+                    def.UnitPrefab,
+                    def.UnitPrefab.name.ToLowerInvariant()
+                );
+            });
+
+            boundButtons.Add(spawnUnitButtons[i]);
         }
     }
 
-    public void SetupTowerButtons(SpawnDefinition[] loadout)
+    public void SetupTowerBuildMenuButtons(SpawnDefinition[] loadout)
     {
-        for (int i = 0; i < spawnTowersEastButtons.Count; i++)
+        for (int i = 0; i < towerBuildMenuWestButtons.Count; i++)
         {
-            if (i < loadout.Length)
+            if (i >= loadout.Length)
             {
-                spawnTowersEastButtons[i].Setup(loadout[i]);
+                towerBuildMenuWestButtons[i].gameObject.SetActive(false);
+                    continue;
             }
-            else
+
+            var def = loadout[i];
+
+            towerBuildMenuWestButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            towerBuildMenuWestButtons[i].SetClickAction(() =>
             {
-                spawnTowersEastButtons[i].gameObject.SetActive(false);
-            }
+                SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.West);
+            });
+
+            boundButtons.Add(towerBuildMenuWestButtons[i]);
         }
-        for (int i = 0; i < spawnTowersWestButtons.Count; i++)
+
+        for (int i = 0; i < towerBuildMenuEastButtons.Count; i++)
         {
-            if (i < loadout.Length)
+            if (i >= loadout.Length)
             {
-                spawnTowersWestButtons[i].Setup(loadout[i]);
+                towerBuildMenuEastButtons[i].gameObject.SetActive(false);
+                    continue;
             }
-            else
+
+            var def = loadout[i];
+
+            towerBuildMenuEastButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            towerBuildMenuEastButtons[i].SetClickAction(() =>
             {
-                spawnTowersWestButtons[i].gameObject.SetActive(false);
-            }
+                SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.East);
+            });
+
+            boundButtons.Add(towerBuildMenuEastButtons[i]);
         }
     }
 
-    public void ToggleSpawnButtonsActive(float playerCurrency)
+    public void SetupTowerMenuButtons(BuildingPlot plot, SpawnSide spawnSide)
     {
-        foreach (var btn in spawnUnitButtons)
+        var buttonsToSetup = spawnSide == SpawnSide.West ? towerMenuWestButtons : towerMenuEastButtons;
+
+        var sellButton = buttonsToSetup[0];
+        var upgradeButton = buttonsToSetup[1];
+
+        sellButton.Setup("Sell", plot.sellValue, null,
+            () => !PauseManager.IsPaused
+        );
+
+        sellButton.SetClickAction(() =>
         {
-            btn.SetInteractable(playerCurrency, PauseManager.IsPaused);
+            plot.SellTower();
+            boundButtons.Remove(upgradeButton);
+        });
+
+        upgradeButton.Setup("Upgrade", plot.upgradeCost, null,
+            () => !PauseManager.IsPaused
+                && GameManager.Instance.currency[Team.South] >= plot.upgradeCost
+                && plot.canUpgrade
+        );
+
+        upgradeButton.SetClickAction(() =>
+        {
+            plot.UpgradeTower(spawnSide);
+            RefreshTowerMenu(sellButton, upgradeButton, plot);
+        });
+
+        if (!boundButtons.Contains(upgradeButton))
+        {
+            boundButtons.Add(upgradeButton);
         }
-        foreach (var btn in spawnTowersEastButtons)
+    }
+
+    public void RefreshTowerMenu(ActionButton sellButton, ActionButton upgradeButton, BuildingPlot plot)
+    {
+        sellButton.UpdateText("Sell", plot.sellValue);
+
+        if (!plot.canUpgrade)
         {
-            btn.SetInteractable(playerCurrency, PauseManager.IsPaused);
-        }
-        foreach (var btn in spawnTowersWestButtons)
-        {
-            btn.SetInteractable(playerCurrency, PauseManager.IsPaused);
+            upgradeButton.UpdateText("Upgrade", "Max");
+            return;
         }
 
-        incomeBtn.interactable = (!PauseManager.IsPaused && playerCurrency >= GameManager.Instance.incomeUpgradeCost);
+        upgradeButton.UpdateText("Upgrade", plot.upgradeCost);
+    }
+
+    public void RefreshAllButtons()
+    {
+        foreach (var button in boundButtons)
+        {
+            button.Refresh();
+        }
+        incomeBtn.interactable = (!PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= GameManager.Instance.incomeUpgradeCost);
+    }
+
+    public void SpawnSouthTowerClickAction(GameObject prefab, SpawnSide spawnSide)
+    {
+        BuildingPlot plot = UIManager.Instance.GetActivePlot();
+
+        bool success = SpawnManager.Instance.SpawnSouthTower(
+            prefab,
+            spawnSide,
+            out GameObject spawned
+        );
+
+        if (!success)
+            return;
+
+        if (plot != null && spawned != null)
+        {
+            plot.AssignTower(spawned);
+            UIManager.Instance.CloseAllMenus();
+            SetupTowerMenuButtons(plot, spawnSide);
+        }
     }
 
     public void UpdateIncomeCostText()

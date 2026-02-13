@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-
-[System.Serializable]
+﻿[System.Serializable]
 public class FinalStats
 {
-    public int health;
+    public int maxHealth;
     public int attackDamage;
     public int armor;
     public float attackSpeed;

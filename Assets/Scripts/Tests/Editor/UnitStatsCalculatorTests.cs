@@ -43,7 +43,7 @@ public class UnitStatsCalculatorTests
 
         FinalStats stats = new FinalStats
         {
-            health = 200
+            maxHealth = 200
         };
 
         var talents = new List<AppliedTalent>
@@ -82,7 +82,7 @@ public class UnitStatsCalculatorTests
         // 200 * (1.02^5) * (1.03^3)
         Assert.AreEqual(
             Mathf.RoundToInt(200 * Mathf.Pow(1.02f, 5) * Mathf.Pow(1.03f, 3)),
-            stats.health
+            stats.maxHealth
         );
     }
 
@@ -132,7 +132,7 @@ public class UnitStatsCalculatorTests
 
         var baseStats = new FinalStats
         {
-            health = 100,
+            maxHealth = 100,
             attackDamage = 10,
             attackSpeed = 1f,  // should remain unchanged
             critChance = 0.05f // should remain unchanged
@@ -146,7 +146,7 @@ public class UnitStatsCalculatorTests
         float expectedHpMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.85f)) * 0.01f;
         float expectedDmgMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.75f)) * 0.01f;
 
-        Assert.AreEqual(Mathf.RoundToInt(100 * expectedHpMultiplier), result.health);
+        Assert.AreEqual(Mathf.RoundToInt(100 * expectedHpMultiplier), result.maxHealth);
         Assert.AreEqual(Mathf.RoundToInt(10 * expectedDmgMultiplier), result.attackDamage);
     }
 
@@ -160,7 +160,7 @@ public class UnitStatsCalculatorTests
 
         var baseStats = new FinalStats
         {
-            health = 500,
+            maxHealth = 500,
             attackDamage = 50,
         };
 
@@ -171,7 +171,7 @@ public class UnitStatsCalculatorTests
         float expectedHpMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.85f)) * 0.01f;
         float expectedDmgMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.75f)) * 0.01f;
 
-        Assert.AreEqual(Mathf.RoundToInt(500 * expectedHpMultiplier), result.health);
+        Assert.AreEqual(Mathf.RoundToInt(500 * expectedHpMultiplier), result.maxHealth);
         Assert.AreEqual(Mathf.RoundToInt(50 * expectedDmgMultiplier), result.attackDamage);
     }
 
@@ -236,7 +236,7 @@ public class UnitStatsCalculatorTests
 
         FinalStats stats = new FinalStats
         {
-            health = 100
+            maxHealth = 100
         };
 
         var talents = new List<AppliedTalent>
@@ -259,7 +259,7 @@ public class UnitStatsCalculatorTests
         calculator.ApplyTalents(ref stats, talents);
 
         // 100 * (1.07^3) = 122.5043 rounded to 123
-        Assert.AreEqual(Mathf.RoundToInt(100 * Mathf.Pow(1.07f, 3)), stats.health);
+        Assert.AreEqual(Mathf.RoundToInt(100 * Mathf.Pow(1.07f, 3)), stats.maxHealth);
     }
 
     [Test]
@@ -269,7 +269,7 @@ public class UnitStatsCalculatorTests
 
         var stats = new FinalStats
         {
-            health = 100,
+            maxHealth = 100,
             attackDamage = 20,
             critChance = 0.05f,
             attackSpeed = 1f
@@ -280,7 +280,7 @@ public class UnitStatsCalculatorTests
 
         calculator.ApplyTalents(ref stats, playerTalents);
 
-        Assert.AreEqual(100, stats.health);
+        Assert.AreEqual(100, stats.maxHealth);
         Assert.AreEqual(20, stats.attackDamage);
         Assert.AreEqual(0.05f, stats.critChance, 0.0001f);
         Assert.AreEqual(1f, stats.attackSpeed);

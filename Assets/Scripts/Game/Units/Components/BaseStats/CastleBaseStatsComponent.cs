@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class CastleStatsBaseStatsComponent : BaseUnitStats
 {
+#if UNITY_EDITOR
+    [Header("Testing")]
+    [SerializeField] public bool isTest;
+#endif
+
     [Header("Reference")]
     [SerializeField] public GameObject castle;
 
@@ -9,12 +14,22 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     [SerializeField] public Team team => metadata.Team;
 
 
-    protected override void Awake()
+
+    //protected override void Awake() 
+    //{
+    //    metadata = GetComponent<UnitMetadata>();
+    //    currentHealth = MaxHealth;
+    //    healthBar = GetComponentInChildren<FloatingHealthBar>();
+    //}
+#if UNITY_EDITOR
+    private void Start()
     {
-        metadata = GetComponent<UnitMetadata>();
-        currentHealth = maxHealth;
-        healthBar = GetComponentInChildren<FloatingHealthBar>();
+        if (isTest)
+        {
+            currentHealth = 100000000;
+        }
     }
+#endif
 
     public override void Die()
     {
@@ -25,6 +40,6 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     protected override void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, hitRadius);
+        Gizmos.DrawWireSphere(transform.position, HitRadius);
     }
 }

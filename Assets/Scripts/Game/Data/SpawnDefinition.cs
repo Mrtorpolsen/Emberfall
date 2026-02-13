@@ -11,10 +11,10 @@ public class SpawnDefinition : ScriptableObject
 
     [Header("Gameplay")]
     [SerializeField] private GameObject unitPrefab;
-    [SerializeField] private float cost;
+    [SerializeField] private UnitStatsDefinition stats;
 
     public string DisplayName => displayName;
-    public float Cost => cost;
+    public float Cost => stats.cost;
     public AssetReference Icon => icon;
     public GameObject UnitPrefab => unitPrefab;
     public SpawnType Type;

@@ -743,19 +743,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AssasinBaseStatsComponent
   unit: {fileID: 6717628542700303866}
   healthBar: {fileID: 1298340878862551963}
-  cost: 0
-  maxHealth: 30
-  currentHealth: 0
-  attackDamage: 100
-  attackSpeed: 1.5
-  attackRange: 0.2
-  hitRadius: 0.18
-  movementSpeed: 3
-  armor: 0
-  critChance: 0
-  critMultiplier: 0
-  unitPrio: 3
-  isTargetable: 1
+  baseStats: {fileID: 11400000, guid: f26e67d815635184b8a481c0859587a6, type: 2}
+  debugCost: 0
+  debugMaxHealth: 0
+  debugCurrentHealth: 0
+  debugArmor: 0
+  debugAttackDamage: 0
+  debugAttackSpeed: 0
+  debugAttackRange: 0
+  debugHitRadius: 0
+  debugMovementSpeed: 0
+  debugCritChance: 0
+  debugCritMultiplier: 0
+  debugUnitPrio: 0
+  debugIsTargetable: 0
 --- !u!114 &-6907675892120128662
 MonoBehaviour:
   m_ObjectHideFlags: 0

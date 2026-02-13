@@ -74,14 +74,14 @@ public class GameManager : MonoBehaviour
     {
         currency[team] += amount;
         UpdateCurrencyText();
-        UIManager.Instance.ToggleSpawnButtonsActive(currency[team]);
+        UIManager.Instance.RefreshAllButtons();
     }
 
     public void SubtractCurrency(Team team, float amount)
     {
         currency[team] -= amount;
         UpdateCurrencyText();
-        UIManager.Instance.ToggleSpawnButtonsActive(currency[team]);
+        UIManager.Instance.RefreshAllButtons();
     }
 
     private void UpdateCurrencyText()

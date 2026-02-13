@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1992227949715497650}
   - component: {fileID: 3734581999820772725}
   m_Layer: 0
-  m_Name: North Portal
+  m_Name: NorthPortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

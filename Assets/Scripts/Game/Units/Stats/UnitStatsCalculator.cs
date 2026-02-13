@@ -42,7 +42,7 @@ public class UnitStatsCalculator
         switch (target)
         {
             case EffectTarget.Health:
-                Apply(ref stats.health, operation, value);
+                Apply(ref stats.maxHealth, operation, value);
                 break;
 
             case EffectTarget.AttackDamage:

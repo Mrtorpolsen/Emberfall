@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5191205813313725666}
   - component: {fileID: 6474872827431704882}
   m_Layer: 0
-  m_Name: Bomb Tower Projectile
+  m_Name: BombTowerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
