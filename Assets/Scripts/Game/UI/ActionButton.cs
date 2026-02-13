@@ -32,6 +32,11 @@ public class ActionButton : MonoBehaviour
         unitText.text = title;
         costText.text = cost.ToString();
     }
+    public void UpdateText(string title, string cost)
+    {
+        unitText.text = title;
+        costText.text = cost.ToString();
+    }
 
     public void OnClick()
     {

@@ -9,6 +9,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] protected FloatingHealthBar healthBar;
     [SerializeField] private UnitStatsDefinition baseStats;
 
+    protected UnitStatsDefinition BaseStats => baseStats;
+
     protected int currentHealth;
     protected UnitMetadata metadata;
     private RuntimeStats runtimeStats;
@@ -111,7 +113,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     private int ApplyArmorReduction(int dmg)
     {
-        return (dmg - runtimeStats.armor);
+        return Mathf.Max(1, dmg - runtimeStats.armor);
     }
 
     public virtual void Die()

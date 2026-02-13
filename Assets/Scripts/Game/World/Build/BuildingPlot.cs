@@ -82,25 +82,13 @@ public class BuildingPlot : MonoBehaviour
         if (!towerStats.CanUpgrade())
             return;
 
+        GameManager.Instance.SubtractCurrency(Team.South, upgradeCost);
+
         towerStats.UpgradeTier();
 
-        GameObject upgradePrefab = towerStats.GetPrefabForTier();
-        if (upgradePrefab == null)
-        {
-            Debug.LogError("Cannot upgrade tower: prefab missing!");
-            return;
-        }
-
-        var newStats = towerStats.GetTierStats();
-
-
-        GameObject newTower;
-
-        SpawnManager.Instance.SpawnSouthTower(upgradePrefab, spawnSide, out newTower, newStats);
-
-        Destroy(currentTower);
-
-        AssignTower(newTower);
+        sellValue = towerStats.GetSellValue();
+        upgradeCost = towerStats.GetUpgradeCost();
+        canUpgrade = towerStats.CanUpgrade();
     }
 
     public GameObject GetTower()

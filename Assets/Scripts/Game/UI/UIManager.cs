@@ -198,6 +198,13 @@ public class UIManager : MonoBehaviour
     public void RefreshTowerMenu(ActionButton sellButton, ActionButton upgradeButton, BuildingPlot plot)
     {
         sellButton.UpdateText("Sell", plot.sellValue);
+
+        if (!plot.canUpgrade)
+        {
+            upgradeButton.UpdateText("Upgrade", "Max");
+            return;
+        }
+
         upgradeButton.UpdateText("Upgrade", plot.upgradeCost);
     }
 

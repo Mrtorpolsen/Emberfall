@@ -2192,7 +2192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 383675725}
   - component: {fileID: 383675726}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3812,7 +3812,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &556354271
 RectTransform:
@@ -37512,7 +37512,7 @@ PrefabInstance:
       objectReference: {fileID: 4522361806599014269}
     - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
       propertyPath: isTest
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6519426945922858906, guid: 598c21d3998b1d04395f8809d7688c0a, type: 3}
       propertyPath: baseStats

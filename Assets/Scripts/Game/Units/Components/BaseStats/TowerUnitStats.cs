@@ -2,17 +2,17 @@
 
 public class TowerUnitStats : BaseUnitStats
 {
-    [Header("Tower Tier Prefabs")]
-    [SerializeField] private GameObject[] tierPrefabs;
-
     [Header("Tower Tier Settings")]
     [SerializeField] private int maxTier = 5;
     [SerializeField] private int currentTier = 1;
 
-    //private float baseCost;
-    //private float baseDamage;
-    //private float baseAttackSpeed;
-    //private float baseRange;
+    [Header("Tower Tier Stars")]
+    [SerializeField] private GameObject[] tierStars1;
+    [SerializeField] private GameObject[] tierStars2;
+    [SerializeField] private GameObject[] tierStars3;
+    [SerializeField] private GameObject[] tierStars4;
+    [SerializeField] private GameObject[] tierStars5;
+
     public bool CanUpgrade() => currentTier < maxTier;
 
     private const float TierMultiplier = 1.1f;
@@ -33,7 +33,7 @@ public class TowerUnitStats : BaseUnitStats
     public float GetTotalInvested()
     {
         float total = 0f;
-
+        
         for (int i = 0; i < currentTier; i++)
         {
             total += Cost * Mathf.Pow(TierMultiplier, i);
@@ -44,37 +44,56 @@ public class TowerUnitStats : BaseUnitStats
 
     public FinalStats GetTierStats()
     {
-        float multiplier = Mathf.Pow(1.1f, currentTier - 1);
+        float multiplier = Mathf.Pow(TierMultiplier, currentTier - 1);
 
         return new FinalStats
         {
-            attackDamage = Mathf.RoundToInt(AttackDamage * multiplier),
-            attackSpeed = AttackSpeed * multiplier,
-            attackRange = AttackRange * multiplier,
-            cost = GetUpgradeCost()
+            attackDamage = Mathf.RoundToInt(BaseStats.attackDamage * multiplier),
+            attackSpeed = BaseStats.attackSpeed * multiplier,
+            attackRange = BaseStats.attackRange * multiplier,
         };
     }
 
     public void UpgradeTier()
     {
         if (!CanUpgrade()) return;
+
         currentTier++;
+
+        FinalStats newStats = GetTierStats();
+        ApplyFinalStats(newStats);
+
+        ShowTierStars();
     }
 
-    public GameObject GetPrefabForTier()
+    public void ShowTierStars()
     {
-        if (tierPrefabs != null && currentTier > 0 && currentTier <= tierPrefabs.Length && tierPrefabs[currentTier - 1] != null)
+        switch (currentTier)
         {
-            return tierPrefabs[currentTier - 1];
+            case 2:
+                SetActiveStars(tierStars2, tierStars1);
+                break;
+            case 3:
+                SetActiveStars(tierStars3, tierStars2);
+                break;
+            case 4:
+                SetActiveStars(tierStars4, tierStars3);
+                break;
+            case 5:
+                SetActiveStars(tierStars5, tierStars4);
+                break;
         }
+    }
 
-        if (tierPrefabs != null && tierPrefabs.Length > 0 && tierPrefabs[0] != null)
+    private void SetActiveStars(GameObject[] activeStars, GameObject[] inActive = null)
+    {
+        foreach (var star in inActive)
         {
-            Debug.LogWarning($"Tower {name} tier {currentTier} has no prefab assigned! Using tier 1 as fallback.");
-            return tierPrefabs[0];
+            star?.SetActive(false);
         }
-
-        Debug.LogError($"Tower {name} has no prefabs assigned at all!");
-        return null;
+        foreach (var star in activeStars)
+        {
+            star.SetActive(true);
+        }
     }
 }
