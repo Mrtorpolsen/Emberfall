@@ -150,6 +150,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c775a99e82a7454e82a7e51ccfc5b94
+    m_Address: Assets/Art/UnitGameIcons/ranger_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4716ac2f5d356f46b963a665762bc98
+    m_Address: Assets/Art/UnitGameIcons/fighter_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ae0b63d910f07ce4baa2e6d2f1a47fb1
     m_Address: ranged_critdamage_1
     m_ReadOnly: 0
@@ -175,6 +185,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb236c754e2a691499d642c38cf62ed2
+    m_Address: Assets/Art/UnitGameIcons/tower_sell.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bda09128773d40e42b67937457033d33
     m_Address: ranged_critchance_1
     m_ReadOnly: 0
@@ -182,6 +197,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c1196f9ec5b55ad4d8a6f3c1cf8794b8
     m_Address: melee_damage_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c25549a652609b147aa07e6cc13325d6
+    m_Address: Assets/Art/UnitGameIcons/cavalier_icon_512x512.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -197,6 +217,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c67f09e4a67cdf949a8ac4dc9b2c0865
     m_Address: melee_damage_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca7c14b38be6a4949b4942f95ed59218
+    m_Address: Assets/Art/UnitGameIcons/tower_upgrade.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

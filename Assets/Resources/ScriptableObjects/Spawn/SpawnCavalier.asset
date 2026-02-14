@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
   displayName: Cavalier
   icon:
-    m_AssetGUID: 
+    m_AssetGUID: c25549a652609b147aa07e6cc13325d6
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

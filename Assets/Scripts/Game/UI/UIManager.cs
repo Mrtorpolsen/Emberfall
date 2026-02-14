@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -24,11 +25,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<ActionButton> towerMenuEastButtons;
     [SerializeField] public Button incomeBtn;
 
+    [Header("References Spawn Buttons")]
+    [SerializeField] private AssetReference sellTowerIcon;
+    [SerializeField] private AssetReference upgradeTowerIcon;
+   
+    private Sprite sellSprite;
+    private Sprite upgradeSprite;
+
     private List<ActionButton> boundButtons;
 
     private BuildingPlot activePlot;
 
-    private void Awake()
+    private async void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -38,6 +46,9 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        sellSprite = await sellTowerIcon.LoadAssetAsync<Sprite>().Task;
+        upgradeSprite = await upgradeTowerIcon.LoadAssetAsync<Sprite>().Task;
 
         boundButtons = new List<ActionButton>();
 
@@ -126,7 +137,7 @@ public class UIManager : MonoBehaviour
             if (i >= loadout.Length)
             {
                 towerBuildMenuWestButtons[i].gameObject.SetActive(false);
-                    continue;
+                continue;
             }
 
             var def = loadout[i];
@@ -145,7 +156,7 @@ public class UIManager : MonoBehaviour
             if (i >= loadout.Length)
             {
                 towerBuildMenuEastButtons[i].gameObject.SetActive(false);
-                    continue;
+                continue;
             }
 
             var def = loadout[i];
@@ -167,7 +178,7 @@ public class UIManager : MonoBehaviour
         var sellButton = buttonsToSetup[0];
         var upgradeButton = buttonsToSetup[1];
 
-        sellButton.Setup("Sell", plot.sellValue, null,
+        sellButton.Setup("Sell", plot.sellValue, sellSprite,
             () => !PauseManager.IsPaused
         );
 
@@ -177,7 +188,7 @@ public class UIManager : MonoBehaviour
             boundButtons.Remove(upgradeButton);
         });
 
-        upgradeButton.Setup("Upgrade", plot.upgradeCost, null,
+        upgradeButton.Setup("Upgrade", plot.upgradeCost, upgradeSprite,
             () => !PauseManager.IsPaused
                 && GameManager.Instance.currency[Team.South] >= plot.upgradeCost
                 && plot.canUpgrade

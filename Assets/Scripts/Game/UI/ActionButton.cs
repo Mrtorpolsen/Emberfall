@@ -26,6 +26,13 @@ public class ActionButton : MonoBehaviour
 
         LoadIcon(icon);
     }
+    public void Setup(string title, float cost, Sprite icon, System.Func<bool> canInteractFunc)
+    {
+        unitText.text = title;
+        costText.text = cost.ToString();
+        canInteract = canInteractFunc;
+        iconImage.sprite = icon;
+    }
 
     public void UpdateText(string title, float cost)
     {
