@@ -178,34 +178,14 @@ MonoBehaviour:
   debugCritMultiplier: 0
   debugUnitPrio: 0
   debugIsTargetable: 0
-  tierPrefabs:
-  - {fileID: 87936472045436742}
-  - {fileID: 87936472045436742, guid: 00a024fe778271947a423544b3b998de, type: 3}
-  - {fileID: 87936472045436742, guid: 5adc1d0cd6ceda847bba0a821c6bc725, type: 3}
-  - {fileID: 87936472045436742, guid: 28271853823fe9d429b627d90f2c70b5, type: 3}
-  - {fileID: 87936472045436742, guid: 22fb88a7efd3a2046b115b7c022c0743, type: 3}
   maxTier: 5
   currentTier: 1
-  tierStars1:
+  tierStars:
   - {fileID: 3294033752725522950}
-  tierStars2:
-  - {fileID: 5252420831810723038}
   - {fileID: 4743797284431620661}
-  tierStars3:
-  - {fileID: 3294033752725522950}
-  - {fileID: 5252420831810723038}
-  - {fileID: 4743797284431620661}
-  tierStars4:
-  - {fileID: 7233394160106631643}
   - {fileID: 1682963696876617095}
-  - {fileID: 5252420831810723038}
-  - {fileID: 4743797284431620661}
-  tierStars5:
-  - {fileID: 3294033752725522950}
   - {fileID: 7233394160106631643}
-  - {fileID: 1682963696876617095}
   - {fileID: 5252420831810723038}
-  - {fileID: 4743797284431620661}
 --- !u!114 &793290292969641887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,7 +706,7 @@ GameObject:
   m_Component:
   - component: {fileID: 627929632659095981}
   m_Layer: 0
-  m_Name: Star Marking (4)
+  m_Name: Star Marking (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -763,7 +743,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3600029400990199988}
   m_Layer: 0
-  m_Name: Star Marking (3)
+  m_Name: Star Marking (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -988,7 +968,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7765885852200715067}
   m_Layer: 0
-  m_Name: Star Marking (1)
+  m_Name: Star Marking (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1421,9 +1401,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7433388597344490576}
-  - {fileID: 7765885852200715067}
-  - {fileID: 3685125080121117025}
-  - {fileID: 3600029400990199988}
   - {fileID: 627929632659095981}
+  - {fileID: 3685125080121117025}
+  - {fileID: 7765885852200715067}
+  - {fileID: 3600029400990199988}
   m_Father: {fileID: 2598702503584723755}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

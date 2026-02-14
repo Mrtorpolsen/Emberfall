@@ -179,31 +179,14 @@ MonoBehaviour:
   debugCritMultiplier: 0
   debugUnitPrio: 0
   debugIsTargetable: 0
-  tierPrefabs:
-  - {fileID: 87936472045436742}
-  - {fileID: 87936472045436742, guid: 457427db00805c845a42815f8dd03cc3, type: 3}
   maxTier: 5
   currentTier: 1
-  tierStars1:
+  tierStars:
   - {fileID: 2403404366308781841}
-  tierStars2:
-  - {fileID: 6809259818445197775}
   - {fileID: 680687646081478817}
-  tierStars3:
-  - {fileID: 2403404366308781841}
-  - {fileID: 6809259818445197775}
-  - {fileID: 680687646081478817}
-  tierStars4:
-  - {fileID: 4536222855226209976}
   - {fileID: 8024217874309417220}
-  - {fileID: 6809259818445197775}
-  - {fileID: 680687646081478817}
-  tierStars5:
-  - {fileID: 2403404366308781841}
   - {fileID: 4536222855226209976}
-  - {fileID: 8024217874309417220}
   - {fileID: 6809259818445197775}
-  - {fileID: 680687646081478817}
 --- !u!114 &71567452555509299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 461834194588859598}
   m_Layer: 0
-  m_Name: Star Marking (4)
+  m_Name: Star Marking (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -834,10 +817,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5844684456848556811}
-  - {fileID: 1724556854671179985}
-  - {fileID: 7883858098381190729}
-  - {fileID: 8264836953434532831}
   - {fileID: 461834194588859598}
+  - {fileID: 7883858098381190729}
+  - {fileID: 1724556854671179985}
+  - {fileID: 8264836953434532831}
   m_Father: {fileID: 2598702503584723755}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4536222855226209976
@@ -850,7 +833,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1724556854671179985}
   m_Layer: 0
-  m_Name: Star Marking (1)
+  m_Name: Star Marking (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1169,7 +1152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8264836953434532831}
   m_Layer: 0
-  m_Name: Star Marking (3)
+  m_Name: Star Marking (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

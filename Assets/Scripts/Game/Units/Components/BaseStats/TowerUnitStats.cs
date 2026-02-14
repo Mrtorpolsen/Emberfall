@@ -7,11 +7,7 @@ public class TowerUnitStats : BaseUnitStats
     [SerializeField] private int currentTier = 1;
 
     [Header("Tower Tier Stars")]
-    [SerializeField] private GameObject[] tierStars1;
-    [SerializeField] private GameObject[] tierStars2;
-    [SerializeField] private GameObject[] tierStars3;
-    [SerializeField] private GameObject[] tierStars4;
-    [SerializeField] private GameObject[] tierStars5;
+    [SerializeField] private GameObject[] tierStars;
 
     public bool CanUpgrade() => currentTier < maxTier;
 
@@ -68,32 +64,9 @@ public class TowerUnitStats : BaseUnitStats
 
     public void ShowTierStars()
     {
-        switch (currentTier)
+        for (int i = 0; i < currentTier; i++)
         {
-            case 2:
-                SetActiveStars(tierStars2, tierStars1);
-                break;
-            case 3:
-                SetActiveStars(tierStars3, tierStars2);
-                break;
-            case 4:
-                SetActiveStars(tierStars4, tierStars3);
-                break;
-            case 5:
-                SetActiveStars(tierStars5, tierStars4);
-                break;
-        }
-    }
-
-    private void SetActiveStars(GameObject[] activeStars, GameObject[] inActive = null)
-    {
-        foreach (var star in inActive)
-        {
-            star?.SetActive(false);
-        }
-        foreach (var star in activeStars)
-        {
-            star.SetActive(true);
+            tierStars[i].SetActive(true);
         }
     }
 }
