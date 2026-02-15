@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c435560e2d9b346b97cd3c972f3276, type: 3}
   m_Name: BallistaTower
   m_EditorClassIdentifier: Assembly-CSharp::UnitStatsDefinition
-  cost: 450
+  cost: 400
   maxHealth: 100
   armor: 0
   attackDamage: 180

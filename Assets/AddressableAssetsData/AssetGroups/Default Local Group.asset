@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 01414d5650a57324395eb0819fddbdfc
+    m_Address: Assets/Art/UnitGameIcons/ranger_tower_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0b93a132750b30546ba471545f8aab26
     m_Address: global_health_3
     m_ReadOnly: 0
@@ -155,6 +160,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a303c33b6e46dbe48a36dfda36f7d95b
+    m_Address: Assets/Art/UnitGameIcons/ballista_tower_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a4716ac2f5d356f46b963a665762bc98
     m_Address: Assets/Art/UnitGameIcons/fighter_icon_512x512.png
     m_ReadOnly: 0
@@ -235,6 +245,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3f6f7318dc377744b9edda3efa05db3
+    m_Address: Assets/Art/UnitGameIcons/economy_icon_512x512 2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d48762b879f63a948a4e6315abb898ef
     m_Address: ranged_critdamage_3
     m_ReadOnly: 0
@@ -267,6 +282,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f3a5a0a1dde9e484485cfc45326bfae0
     m_Address: melee_damage_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fa363b1dd9b580644bf9ee9f8df2209a
+    m_Address: Assets/Art/UnitGameIcons/bomb_tower_icon_512x512.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

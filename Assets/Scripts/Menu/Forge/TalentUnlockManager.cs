@@ -152,9 +152,10 @@ public class TalentUnlockManager : MonoBehaviour
 
             // Remove trailing comma and space
             if (tiersInfo.Length > 2)
+            {
                 tiersInfo = tiersInfo.Substring(0, tiersInfo.Length - 2);
+            }
 
-            Debug.Log($"Unit: {unitName} -> {tiersInfo}");
         }
     }
 

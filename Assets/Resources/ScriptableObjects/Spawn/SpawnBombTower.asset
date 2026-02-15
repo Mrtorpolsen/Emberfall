@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
   displayName: Bomb
   icon:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_AssetGUID: fa363b1dd9b580644bf9ee9f8df2209a
+    m_SubObjectName: bomb_tower_icon_512x512
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   unitPrefab: {fileID: 87936472045436742, guid: 31e7dd5cc41cdd542bb990ff116af200, type: 3}
   stats: {fileID: 11400000, guid: 5464acf54033ee841aa224b626747a0f, type: 2}
   Type: 1

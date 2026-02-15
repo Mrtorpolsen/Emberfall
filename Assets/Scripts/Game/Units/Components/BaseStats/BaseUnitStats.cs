@@ -174,7 +174,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, runtimeStats.attackRange);
+        Gizmos.DrawWireSphere(transform.position, baseStats.attackRange);
     }
 
 #if !UNITY_EDITOR

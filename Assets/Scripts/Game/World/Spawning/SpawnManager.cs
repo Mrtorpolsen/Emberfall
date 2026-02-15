@@ -162,8 +162,6 @@ public class SpawnManager : MonoBehaviour
         return true;
     }
 
-
-
     public void AssignColor(SpriteRenderer sr, Team team)
     {
         string teamColorCode = team == Team.North ? enemyColor : playerColor;

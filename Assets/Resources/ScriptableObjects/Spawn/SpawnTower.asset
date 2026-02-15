@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
   displayName: Tower
   icon:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_AssetGUID: 01414d5650a57324395eb0819fddbdfc
+    m_SubObjectName: tower_icon_512x512
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   unitPrefab: {fileID: 87936472045436742, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
   stats: {fileID: 11400000, guid: 002d4c92b41d2be44a087178c1d69a66, type: 2}
   Type: 1

@@ -28,7 +28,6 @@ public class SapperBaseStatsComponent : BaseUnitStats
     public void Explode()
     {
         float radiusSquare = explosionRadius * explosionRadius;
-        Debug.Log("yoooooo sapper!!!");
 
         int hitCount = Physics2D.OverlapCircle(
             transform.position,
@@ -39,7 +38,7 @@ public class SapperBaseStatsComponent : BaseUnitStats
 
         if (hitCount == hitBuffer.Length)
         {
-            Debug.LogWarning("Overflow detected in sapper!!!");
+            Debug.LogWarning("Overflow detected in sapper");
         }
 
         for (int i = 0; i < hitCount; i++)

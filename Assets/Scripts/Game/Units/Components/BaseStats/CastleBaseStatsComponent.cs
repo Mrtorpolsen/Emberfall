@@ -13,20 +13,14 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     [Header("Team")]
     [SerializeField] public Team team => metadata.Team;
 
-
-
-    //protected override void Awake() 
-    //{
-    //    metadata = GetComponent<UnitMetadata>();
-    //    currentHealth = MaxHealth;
-    //    healthBar = GetComponentInChildren<FloatingHealthBar>();
-    //}
 #if UNITY_EDITOR
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         if (isTest)
         {
             currentHealth = 100000000;
+            GameManager.Instance.AddCurrency(Team.South, 100000);
         }
     }
 #endif

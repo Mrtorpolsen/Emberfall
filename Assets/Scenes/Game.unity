@@ -1758,7 +1758,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 421023817933042906, guid: f2069244b447a8046871762baada4679, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d3f6f7318dc377744b9edda3efa05db3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -34802,6 +34802,27 @@ MonoBehaviour:
   upgradeTowerIcon:
     m_AssetGUID: ca7c14b38be6a4949b4942f95ed59218
     m_SubObjectName: tower_upgrade
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 1
+  towerIcon:
+    m_AssetGUID: 01414d5650a57324395eb0819fddbdfc
+    m_SubObjectName: tower_icon_512x512
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 1
+  bombTowerIcon:
+    m_AssetGUID: fa363b1dd9b580644bf9ee9f8df2209a
+    m_SubObjectName: bomb_tower_icon_512x512
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 1
+  ballistaTowerIcon:
+    m_AssetGUID: a303c33b6e46dbe48a36dfda36f7d95b
+    m_SubObjectName: ballista_tower_icon_512x512
     m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 

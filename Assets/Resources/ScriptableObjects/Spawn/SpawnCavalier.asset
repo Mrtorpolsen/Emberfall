@@ -15,10 +15,11 @@ MonoBehaviour:
   displayName: Cavalier
   icon:
     m_AssetGUID: c25549a652609b147aa07e6cc13325d6
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: cavalier_icon_512x512
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
+    m_EditorAssetChanged: 1
   unitPrefab: {fileID: 8916063152254937078, guid: b162035f5f53c22428a2ddeb61f1c82f, type: 3}
   stats: {fileID: 11400000, guid: f5d336250c7dbf644b2de1d239ceb949, type: 2}
   Type: 0

@@ -25,10 +25,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<ActionButton> towerMenuEastButtons;
     [SerializeField] public Button incomeBtn;
 
-    [Header("References Spawn Buttons")]
+    [Header("Tower Assets")]
     [SerializeField] private AssetReference sellTowerIcon;
     [SerializeField] private AssetReference upgradeTowerIcon;
-   
+    [SerializeField] private AssetReference towerIcon;
+    [SerializeField] private AssetReference bombTowerIcon;
+    [SerializeField] private AssetReference ballistaTowerIcon;
+
+    private Sprite towerSprite;
+    private Sprite bombSprite;
+    private Sprite ballistaSprite;
     private Sprite sellSprite;
     private Sprite upgradeSprite;
 
@@ -49,6 +55,9 @@ public class UIManager : MonoBehaviour
 
         sellSprite = await sellTowerIcon.LoadAssetAsync<Sprite>().Task;
         upgradeSprite = await upgradeTowerIcon.LoadAssetAsync<Sprite>().Task;
+        towerSprite = await towerIcon.LoadAssetAsync<Sprite>().Task;
+        bombSprite = await bombTowerIcon.LoadAssetAsync<Sprite>().Task;
+        ballistaSprite = await ballistaTowerIcon.LoadAssetAsync<Sprite>().Task;
 
         boundButtons = new List<ActionButton>();
 
@@ -142,7 +151,7 @@ public class UIManager : MonoBehaviour
 
             var def = loadout[i];
 
-            towerBuildMenuWestButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            towerBuildMenuWestButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
             towerBuildMenuWestButtons[i].SetClickAction(() =>
             {
                 SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.West);
@@ -161,7 +170,7 @@ public class UIManager : MonoBehaviour
 
             var def = loadout[i];
 
-            towerBuildMenuEastButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            towerBuildMenuEastButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
             towerBuildMenuEastButtons[i].SetClickAction(() =>
             {
                 SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.East);
@@ -296,5 +305,23 @@ public class UIManager : MonoBehaviour
     public BuildingPlot GetActivePlot()
     {
         return activePlot;
+    }
+
+    private Sprite GetTowerSprite(string tower)
+    {
+        switch (tower)
+        {
+            case "ballistatower":
+                return ballistaSprite;
+
+            case "bombtower":
+                return bombSprite;
+
+            case "tower":
+                return towerSprite;
+
+            default:
+                return towerSprite;
+        }
     }
 }
