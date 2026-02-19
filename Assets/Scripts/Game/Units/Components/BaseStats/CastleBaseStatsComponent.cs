@@ -11,7 +11,7 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     [SerializeField] public GameObject castle;
 
     [Header("Team")]
-    [SerializeField] public Team team => metadata.Team;
+    public Team team => metadata.Team;
 
 #if UNITY_EDITOR
     protected override void Start()

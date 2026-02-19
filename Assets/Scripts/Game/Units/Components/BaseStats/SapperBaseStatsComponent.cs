@@ -27,8 +27,6 @@ public class SapperBaseStatsComponent : BaseUnitStats
 
     public void Explode()
     {
-        float radiusSquare = explosionRadius * explosionRadius;
-
         int hitCount = Physics2D.OverlapCircle(
             transform.position,
             explosionRadius,
