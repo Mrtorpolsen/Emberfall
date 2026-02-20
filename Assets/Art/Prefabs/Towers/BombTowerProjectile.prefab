@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8660942174855373599}
   - component: {fileID: 8547793256502389638}
   - component: {fileID: 4642072713320824074}
-  - component: {fileID: 5191205813313725666}
   - component: {fileID: 6474872827431704882}
+  - component: {fileID: 5191205813313725666}
   m_Layer: 0
   m_Name: BombTowerProjectile
   m_TagString: Untagged
@@ -40,6 +40,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8547793256502389638
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -85,6 +86,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 0.990566, g: 0.126157, b: 0.126157, a: 1}
   m_FlipX: 0
@@ -94,7 +96,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &4642072713320824074
 Rigidbody2D:
@@ -104,9 +105,9 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9402218379871732}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -121,23 +122,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &5191205813313725666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9402218379871732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7467d1ae4ec9f8d428fc8a5aef134540, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TowerProjectileBaseStatsComponent
-  rb: {fileID: 4642072713320824074}
-  speed: 7.5
-  damage: 0
 --- !u!58 &6474872827431704882
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -174,6 +160,21 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.76
+--- !u!114 &5191205813313725666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9402218379871732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7467d1ae4ec9f8d428fc8a5aef134540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerProjectileBaseStatsComponent
+  rb: {fileID: 4642072713320824074}
+  speed: 7.5
+  damage: 0
 --- !u!1 &2150221901743460660
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +213,7 @@ RectTransform:
   m_Pivot: {x: 0.5, y: 0.8354492}
 --- !u!212 &4296196793246460110
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -257,6 +259,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 0.627451, g: 0.09019608, b: 0.039215688, a: 1}
   m_FlipX: 0
@@ -266,7 +269,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6584486940402037120
 GameObject:
@@ -307,6 +309,7 @@ RectTransform:
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1971053207 &5648560265636106079
 SpriteShapeRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -353,8 +356,8 @@ SpriteShapeRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Color: {r: 0.01886791, g: 0.01886791, b: 0.01886791, a: 1}
   m_MaskInteraction: 0
+  m_Color: {r: 0.01886791, g: 0.01886791, b: 0.01886791, a: 1}
   m_ShapeTexture: {fileID: 2800000, guid: b281b91a70a624a0da1c43adc1c30c7b, type: 3}
   m_Sprites:
   - {fileID: 21300000, guid: 0ae2b74b1edd14bb18dd7b65ae916a54, type: 3}
@@ -470,6 +473,7 @@ RectTransform:
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &2314573157169236081
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -515,6 +519,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.627451, g: 0.09019608, b: 0.039215688, a: 1}
   m_FlipX: 0
@@ -524,5 +529,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
