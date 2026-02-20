@@ -1,30 +1,30 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/UI%20Toolkit/UIRootStyle.uss?fileID=7433441132597879392&amp;guid=c45facdadf66fae4f8f372e8085096fa&amp;type=3#UIRootStyle" />
-    <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle" />
+    <Style src="project://database/Assets/UI%20Toolkit/UIRootStyle.uss?fileID=7433441132597879392&amp;guid=c45facdadf66fae4f8f372e8085096fa&amp;type=3#UIRootStyle"/>
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle"/>
     <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/background.png?fileID=-7443756053782179069&amp;guid=d06bc6ebb2ce77c45a96dde194896a09&amp;type=3#background_0&quot;); height: 100%;">
         <Bitbebop.SafeArea>
             <ui:VisualElement name="MainContainer" class="mainContainer" style="flex-grow: 1;">
                 <ui:VisualElement name="TopBarContainer" class="topBarContainer">
-                    <ui:Label text="User  Name" name="Label_UserName" class="topBarLabel gradient-text text" style="justify-content: flex-start; font-size: 30px;" />
-                    <ui:VisualElement style="flex-grow: 0;" />
+                    <ui:Label text="User  Name" name="Label_UserName" class="topBarLabel gradient-text text" style="justify-content: flex-start; font-size: 30px;"/>
+                    <ui:VisualElement style="flex-grow: 0;"/>
                     <ui:VisualElement name="CinderContainer" style="align-self: center; flex-direction: row; flex-grow: 0; align-items: stretch; justify-content: flex-end; width: auto;">
-                        <ui:Label text="Cinders" name="Label_UserCinders" class="topBarLabel text" />
-                        <ui:VisualElement name="Img_Cinder" style="background-image: resource(&apos;UI/cinder_icon&apos;); height: 100%; flex-shrink: 0; width: auto; -unity-background-scale-mode: scale-to-fit; min-width: 40px;" />
+                        <ui:Label text="Cinders" name="Label_UserCinders" class="topBarLabel text"/>
+                        <ui:VisualElement name="Img_Cinder" style="background-image: resource(&quot;UI/cinder_icon&quot;); height: 100%; flex-shrink: 0; width: auto; -unity-background-scale-mode: scale-to-fit; min-width: 40px;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="ContentContainer" style="flex-grow: 1; display: flex; flex-direction: column; max-height: 100%; height: auto; overflow: hidden;" />
+                <ui:VisualElement name="ContentContainer" style="flex-grow: 1; display: flex; flex-direction: column; max-height: 100%; height: auto; overflow: hidden;"/>
             </ui:VisualElement>
             <ui:VisualElement name="NavMenuContainer" class="navMenu navMenuContainer" style="flex-grow: 0; width: auto;">
-                <ui:Button name="Btn_Shop" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_shop.png?fileID=5226362532507826810&amp;guid=9e6989c2933d4454d8c45d9d44269783&amp;type=3#btn_shop_0&quot;); background-color: rgba(188, 188, 188, 0);" />
-                <ui:Button name="Btn_Forge" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_forge.png?fileID=-93563521336227806&amp;guid=ba485c457d77a354486e896ed1333d8e&amp;type=3#btn_forge_0&quot;); background-color: rgba(188, 188, 188, 0);" />
-                <ui:Button name="Btn_Main" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_main.png?fileID=1601869661957183468&amp;guid=6cf6f0190d950de44a23dfc1cf558861&amp;type=3#btn_main_0&quot;); background-color: rgba(188, 188, 188, 0);" />
-                <ui:Button name="Btn_Research" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_research.png?fileID=7572292371700862392&amp;guid=23e80b9c277711048b47ed93c18caaa8&amp;type=3#btn_research_0&quot;); background-color: rgba(188, 188, 188, 0);" />
-                <ui:Button name="Btn_Leaderboard" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_leaderboard.png?fileID=8631740531644945409&amp;guid=798bbc96e67942741b27d42d5824d79e&amp;type=3#btn_leaderboard_0&quot;); background-color: rgba(188, 188, 188, 0);" />
+                <ui:Button name="Btn_Shop" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_shop.png?fileID=5226362532507826810&amp;guid=9e6989c2933d4454d8c45d9d44269783&amp;type=3#btn_shop_0&quot;); background-color: rgba(188, 188, 188, 0);"/>
+                <ui:Button name="Btn_Forge" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_forge.png?fileID=-93563521336227806&amp;guid=ba485c457d77a354486e896ed1333d8e&amp;type=3#btn_forge_0&quot;); background-color: rgba(188, 188, 188, 0);"/>
+                <ui:Button name="Btn_Main" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_main.png?fileID=1601869661957183468&amp;guid=6cf6f0190d950de44a23dfc1cf558861&amp;type=3#btn_main_0&quot;); background-color: rgba(188, 188, 188, 0);"/>
+                <ui:Button name="Btn_Research" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_research.png?fileID=7572292371700862392&amp;guid=23e80b9c277711048b47ed93c18caaa8&amp;type=3#btn_research_0&quot;); background-color: rgba(188, 188, 188, 0);"/>
+                <ui:Button name="Btn_Leaderboard" class="btnNav" style="background-image: url(&quot;project://database/Assets/Art/UI/Buttons/Take4/btn_leaderboard.png?fileID=8631740531644945409&amp;guid=798bbc96e67942741b27d42d5824d79e&amp;type=3#btn_leaderboard_0&quot;); background-color: rgba(188, 188, 188, 0);"/>
             </ui:VisualElement>
             <ui:VisualElement name="LoadingOverlay" class="loadingOverlay" style="flex-grow: 1; display: none; justify-content: center;">
-                <ui:VisualElement name="LoadingSpinner" style="flex-grow: 0; width: 64px; height: 64px; align-self: center; background-image: url(&quot;project://database/Assets/Art/TalentIcons/Ranged/ranged_range_1_512x512.png?fileID=21300000&amp;guid=96c8230462697e84c9fdaa34b4ec9ae7&amp;type=3#ranged_range_1_512x512&quot;);" />
+                <ui:VisualElement name="LoadingSpinner" style="flex-grow: 0; width: 64px; height: 64px; align-self: center; background-image: url(&quot;project://database/Assets/Art/App/spinner_arc_256x256_1.png?fileID=2800000&amp;guid=3e163eb2f83845d46a60ac60064f4b1b&amp;type=3#spinner_arc_256x256_1&quot;);"/>
             </ui:VisualElement>
-            <ui:VisualElement name="SplashContainer" style="flex-grow: 0;" />
+            <ui:VisualElement name="SplashContainer" style="flex-grow: 0;"/>
         </Bitbebop.SafeArea>
     </ui:VisualElement>
 </ui:UXML>
