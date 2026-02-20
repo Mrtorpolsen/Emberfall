@@ -41,7 +41,6 @@ public class WaveGenerator
 
         float spawnDelay = 0.5f;
 
-        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.sapperPrefab, 1, spawnDelay));
         //build waves here
         if (IsMilestone(waveNumber, 10, 0, 10)) //start wave 10, and runs every 10 level
         {

@@ -50,19 +50,6 @@ public class ForgeManager : IUIScreenManager
     {
     }
 
-    public void OpenPopup()
-    {
-        PopupButtonDefinition buttonBaby = new PopupButtonDefinition
-        {
-            BtnText = "100",
-            LabelText = "0/5",
-            BtnIconPath = "UI/Images/Talents/cinder_icon",
-            OnClick = () => Debug.Log("Button clicked!")
-        };
-        PopupManager.Instance.OpenPopup("place_holder_icon", "Strike Training", "Increases fighter's attack damage by 1% per purchase", buttonBaby);
-        //Todo if needed
-    }
-
     public List<TalentNodeDefinition> GenerateTalentNodes(string treeToGenerate)
     {
         List<TalentNodeDefinition> talentNodes = new List<TalentNodeDefinition>();
