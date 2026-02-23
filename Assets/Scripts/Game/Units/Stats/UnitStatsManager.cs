@@ -62,19 +62,19 @@ public class UnitStatsManager : MonoBehaviour
             if (!statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
                 continue;
 
-            var appliedTalents = new List<AppliedTalent>();
+            var appliedTalents = new List<AppliedStatModifier>();
 
             foreach (var talent in unitTalents)
             {
-                appliedTalents.Add(new AppliedTalent
+                appliedTalents.Add(new AppliedStatModifier
                 {
                     Effects = talent.effects,
-                    Purchased = talent.purcashed
+                    Stacks = talent.purcashed
                 });
             }
 
             FinalStats finalStats = BuildStatsFromBase(prefab);
-            unitStatsCalculator.ApplyTalents(ref finalStats, appliedTalents);
+            unitStatsCalculator.ApplyModifiers(ref finalStats, appliedTalents);
             finalStatsByUnit[unitName] = finalStats;
         }
     }

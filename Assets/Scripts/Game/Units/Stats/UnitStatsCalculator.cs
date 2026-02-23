@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class UnitStatsCalculator
 {
-    public void ApplyTalents(ref FinalStats stats, IEnumerable<AppliedTalent> talents)
+    public void ApplyModifiers(ref FinalStats stats, IEnumerable<AppliedStatModifier> modifiers)
     {
-        foreach (var talent in talents)
+        foreach (var modifier in modifiers)
         {
-            foreach (var effect in talent.Effects)
+            foreach (var effect in modifier.Effects)
             {
                 float magnitude = effect.Operation switch
                 {
-                    EffectOperation.Add => effect.Value * talent.Purchased,
-                    EffectOperation.Multiply => Mathf.Pow(effect.Value, talent.Purchased),
+                    EffectOperation.Add => effect.Value * modifier.Stacks,
+                    EffectOperation.Multiply => Mathf.Pow(effect.Value, modifier.Stacks),
                     EffectOperation.Set => effect.Value,
                     _ => effect.Value
                 };

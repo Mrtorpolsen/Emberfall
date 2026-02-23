@@ -12,7 +12,7 @@ public class StatsBootstrapper
     {
         public string unit;
         public int purcashed;
-        public List<TalentEffect> effects = new List<TalentEffect>();
+        public List<AppliedEffect> effects = new List<AppliedEffect>();
     }
 
     private List<TalentsToApply> talentsToApply;
@@ -34,7 +34,7 @@ public class StatsBootstrapper
             {
                 unit = unit,
                 purcashed = kvp.Value,
-                effects = new List<TalentEffect>(talentDef.Effects)
+                effects = new List<AppliedEffect>(talentDef.Effects)
             };
 
             talentsToApply.Add(talent);
