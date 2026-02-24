@@ -13,5 +13,5 @@ public class ActiveResearch
 {
     public string ResearchId;
     public int TargetLevel;        // the level being researched
-    public long StartTime; // unix timestamp
+    public long StartTime;         // unix timestamp
 }

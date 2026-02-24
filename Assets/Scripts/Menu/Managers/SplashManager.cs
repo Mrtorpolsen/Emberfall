@@ -56,7 +56,6 @@ public class SplashManager : MonoBehaviour
         var loadTasks = new List<Task>
         {
             UserProfile.Instance.GetUserScore(),
-            TalentManager.Instance.LoadPlayerTalentsAsync(),
             UtilityLoadAdressable.PreloadPlaceholder(),
         };
 

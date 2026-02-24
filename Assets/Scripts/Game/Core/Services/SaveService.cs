@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ public class SaveService : GlobalSystem<SaveService>
     public SaveGame Current { get; private set; }
 
     private string savePath;
+
+    public event Func<Task> OnSaveLoaded;
 
     protected override void Awake()
     {
@@ -46,6 +49,19 @@ public class SaveService : GlobalSystem<SaveService>
         Current = JsonConvert.DeserializeObject<SaveGame>(json);
 
         ValidateSave();
+
+        if (OnSaveLoaded != null)
+        {
+            var handlers = OnSaveLoaded.GetInvocationList();
+            var tasks = new List<Task>();
+
+            foreach (Func<Task> handler in handlers)
+            {
+                tasks.Add(handler());
+            }
+
+            await Task.WhenAll(tasks);
+        }
     }
 
     public void Save()

@@ -21,6 +21,23 @@ public class TalentManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        if (SaveService.Instance != null)
+            SaveService.Instance.OnSaveLoaded += HandleSaveLoadedAsync;
+    }
+
+    private void OnDisable()
+    {
+        if (SaveService.Instance != null)
+            SaveService.Instance.OnSaveLoaded -= HandleSaveLoadedAsync;
+    }
+
+    private Task HandleSaveLoadedAsync()
+    {
+        return LoadPlayerTalentsAsync();
+    }
+
     public async Task LoadPlayerTalentsAsync()
     {
         var handle = Addressables.LoadAssetAsync<TextAsset>(TALENTS_ADDRESSABLE);
