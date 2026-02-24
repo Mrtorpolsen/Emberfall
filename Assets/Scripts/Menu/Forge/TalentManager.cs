@@ -24,13 +24,17 @@ public class TalentManager : MonoBehaviour
     private void OnEnable()
     {
         if (SaveService.Instance != null)
+        {
             SaveService.Instance.OnSaveLoaded += HandleSaveLoadedAsync;
+        }
     }
 
     private void OnDisable()
     {
         if (SaveService.Instance != null)
+        {
             SaveService.Instance.OnSaveLoaded -= HandleSaveLoadedAsync;
+        }
     }
 
     private Task HandleSaveLoadedAsync()

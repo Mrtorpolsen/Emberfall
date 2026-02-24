@@ -402,6 +402,7 @@ GameObject:
   - component: {fileID: 1468156539}
   - component: {fileID: 1468156537}
   - component: {fileID: 1468156536}
+  - component: {fileID: 1468156540}
   m_Layer: 0
   m_Name: Initializations
   m_TagString: Untagged
@@ -461,6 +462,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnityAuthManager
   uiDocument: {fileID: 728406444}
+--- !u!114 &1468156540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468156535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3ccde5a2cc3034e8cf5099228a5c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResearchManager
 --- !u!1 &1509298418
 GameObject:
   m_ObjectHideFlags: 0

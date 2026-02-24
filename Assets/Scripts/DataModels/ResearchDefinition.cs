@@ -1,13 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+
+public class ResearchTree
+{
+    [JsonProperty("research")]
+    public Dictionary<string, List<ResearchDefinition>> ResearchByCategory { get; set; }
+
+    public List<ResearchDefinition> GetResearchByClass(string category)
+    {
+        ResearchByCategory.TryGetValue(category.ToLower(), out var research);
+        return research;
+    }
+    public ResearchDefinition GetResearchById(string id)
+    {
+        string category = id.Split("_")[0];
+        return GetResearchByClass(category).Find(research => research.Id == id);
+    }
+}
 
 public class ResearchDefinition
 {
     public string Id;
     public string Name;
     public string Description;
-    public int MaxLevel;
-
     public ResearchCategory Category;   // Unit, Tower, Castle, Economy, GlobalAbility
+    public int MaxLevel;
 
     public ResearchScaling CostScaling;
     public ResearchScaling TimeScaling;
