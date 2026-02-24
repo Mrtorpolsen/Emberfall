@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "definitionsVersion": "1.0",
+  "gameVersion": "0.3.1",
+  "units": [
+    {
+      "Id": "unit_statsmodifier_health",
+      "Name": "Harden Body",
+      "Description": "Increase units HP by 2% per level.",
+      "Category": "Unit",
+      "MaxLevel": 100,
+      "CostScaling": {
+        "BaseValue": 100,
+        "MultiplierPerLevel": 1.2
+      },
+      "TimeScaling": {
+        "BaseValue": 60,
+        "MultiplierPerLevel": 1.25
+      },
+      "Effects": [
+        {
+          "Target": "Health",
+          "Operation": "Multiply",
+          "Value": 1.02
+        }
+      ],
+      "Prerequisites": []
+    },
+    {
+      "Id": "unit_statsmodifier_attackdamage",
+      "Name": "Sharpen Resolve",
+      "Description": "Increase units attack damage by 2% per level.",
+      "Category": "Unit",
+      "MaxLevel": 100,
+      "CostScaling": {
+        "BaseValue": 100,
+        "MultiplierPerLevel": 1.2
+      },
+      "TimeScaling": {
+        "BaseValue": 60,
+        "MultiplierPerLevel": 1.25
+      },
+      "Effects": [
+        {
+          "Target": "AttackDamage",
+          "Operation": "Multiply",
+          "Value": 1.02
+        }
+      ],
+      "Prerequisites": []
+    },
+    {
+      "Id": "unit_statsmodifier_attackdamage",
+      "Name": "Power Pommel",
+      "Description": "Increase units crit damage by 2% per level.",
+      "Category": "Unit",
+      "MaxLevel": 100,
+      "CostScaling": {
+        "BaseValue": 100,
+        "MultiplierPerLevel": 1.2
+      },
+      "TimeScaling": {
+        "BaseValue": 60,
+        "MultiplierPerLevel": 1.25
+      },
+      "Effects": [
+        {
+          "Target": "CritDamage",
+          "Operation": "Multiply",
+          "Value": 1.02
+        }
+      ],
+      "Prerequisites": []
+    }
+  ]
+}

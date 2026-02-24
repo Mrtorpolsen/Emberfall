@@ -57,7 +57,7 @@ public class SaveService : GlobalSystem<SaveService>
         File.WriteAllText(savePath, json);
     }
 
-    public void AddToSave(string id)
+    public void SaveTalent(string id)
     {
         if (Current.Talents.Purchases.TryGetValue(id, out int purchased))
         {
@@ -69,7 +69,7 @@ public class SaveService : GlobalSystem<SaveService>
         }
     }
 
-    public int GetPurchases(string id)
+    public int GetPurchasedTalent(string id)
     {
         return Current.Talents.Purchases.TryGetValue(id, out int count) ? count : 0;
     }

@@ -66,7 +66,7 @@ public class ForgeManager : IUIScreenManager
     {
         var node = new TalentNodeDefinition();
 
-        int purchased = SaveService.Instance.GetPurchases(talent.Id);
+        int purchased = SaveService.Instance.GetPurchasedTalent(talent.Id);
         int max = talent.Purchase.MaxPurchases;
 
         node.img = talent.IconId;
@@ -78,7 +78,7 @@ public class ForgeManager : IUIScreenManager
 
         node.onClick = () =>
         {
-            int purchasedNow = SaveService.Instance.GetPurchases(talent.Id);
+            int purchasedNow = SaveService.Instance.GetPurchasedTalent(talent.Id);
             bool canPurchase = purchasedNow < max;
 
             bool prerequisitsMet = TalentUnlockManager.Instance.ArePrerequisitesMet(talent.Id.Split("_")[0]
@@ -97,7 +97,7 @@ public class ForgeManager : IUIScreenManager
                 OnClick = () =>
                 {
                     //Repull live state
-                    int purchasedAfter = SaveService.Instance.GetPurchases(talent.Id);
+                    int purchasedAfter = SaveService.Instance.GetPurchasedTalent(talent.Id);
                     if (purchasedAfter >= max)
                         return;
 
@@ -111,7 +111,7 @@ public class ForgeManager : IUIScreenManager
                         return;
                     }
                     //Save an add points to talent req
-                    SaveService.Instance.AddToSave(talent.Id);
+                    SaveService.Instance.SaveTalent(talent.Id);
 
                     var talentState = SaveService.Instance.Current.Talents;
 
@@ -127,7 +127,7 @@ public class ForgeManager : IUIScreenManager
                     TalentUnlockManager.Instance
                         .AddPoints(talent.Id.Split("_")[0].ToLowerInvariant(), talent.Tier, 1);
 
-                    int updated = SaveService.Instance.GetPurchases(talent.Id);
+                    int updated = SaveService.Instance.GetPurchasedTalent(talent.Id);
 
                     bool stillCanPurchase = updated < max && talentCost <= CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
                     string purchasedTextNow = $"{updated}/{max}";
