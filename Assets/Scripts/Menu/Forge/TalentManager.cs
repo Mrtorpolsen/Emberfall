@@ -37,4 +37,20 @@ public class TalentManager : MonoBehaviour
         }
     }
 
+    public void SaveTalent(string id)
+    {
+        if (SaveService.Instance.Current.Talents.Purchases.TryGetValue(id, out int purchased))
+        {
+            SaveService.Instance.Current.Talents.Purchases[id] = purchased + 1;
+        }
+        else
+        {
+            SaveService.Instance.Current.Talents.Purchases.Add(id, 1);
+        }
+    }
+
+    public int GetPurchasedTalent(string id)
+    {
+        return SaveService.Instance.Current.Talents.Purchases.TryGetValue(id, out int count) ? count : 0;
+    }
 }

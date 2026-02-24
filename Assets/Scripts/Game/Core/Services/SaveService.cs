@@ -57,23 +57,6 @@ public class SaveService : GlobalSystem<SaveService>
         File.WriteAllText(savePath, json);
     }
 
-    public void SaveTalent(string id)
-    {
-        if (Current.Talents.Purchases.TryGetValue(id, out int purchased))
-        {
-            Current.Talents.Purchases[id] = purchased + 1;
-        }
-        else
-        {
-            Current.Talents.Purchases.Add(id, 1);
-        }
-    }
-
-    public int GetPurchasedTalent(string id)
-    {
-        return Current.Talents.Purchases.TryGetValue(id, out int count) ? count : 0;
-    }
-
     private bool ValidateSavePath()
     {
         if (string.IsNullOrEmpty(savePath))

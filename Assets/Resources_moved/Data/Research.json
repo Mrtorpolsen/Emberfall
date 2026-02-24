@@ -50,7 +50,7 @@
       "Prerequisites": []
     },
     {
-      "Id": "unit_statsmodifier_attackdamage",
+      "Id": "unit_statsmodifier_critdamage",
       "Name": "Power Pommel",
       "Description": "Increase units crit damage by 2% per level.",
       "Category": "Unit",

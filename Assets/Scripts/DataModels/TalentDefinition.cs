@@ -15,7 +15,6 @@ public class TalentTree
     public TalentDefinition GetTalentById(string id)
     {
         string className = id.Split("_")[0];
-
         return GetTalentsByClass(className).Find(unit => unit.Id == id);
     }
 }
