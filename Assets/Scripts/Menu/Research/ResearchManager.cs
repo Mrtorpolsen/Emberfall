@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -56,5 +58,44 @@ public class ResearchManager : MonoBehaviour
         {
             Addressables.Release(handle);
         }
+    }
+
+    public void StartResearch(string id)
+    {
+        //Checks if category already being researched
+        ResearchDefinition researchDef = playerResearchTree.GetResearchById(id);
+
+        if (SaveService.Instance.Current.Research.ActiveResearches
+            .Find(research => research.ResearchCategory == researchDef.Category) != null)
+        {
+            Debug.LogWarning("Category already being researched");
+            return;
+        }
+
+        int currentStacks = 0;
+
+        if (SaveService.Instance.Current.Research.CompletedResearch.TryGetValue(id, out var stacks))
+        {
+            currentStacks = stacks;
+        }
+
+        ActiveResearch researchToStart = new ActiveResearch(researchDef.Category, researchDef.Id, (currentStacks + 1), GetUnixTimestamp());
+
+        SaveService.Instance.Current.Research.ActiveResearches.Add(researchToStart);
+    }
+
+    public void SaveResearch()
+    {
+
+    }
+
+    public void ResearchComplete()
+    {
+
+    }
+
+    private long GetUnixTimestamp()
+    {
+        return DateTimeOffset.UtcNow.ToUnixTimeSeconds();
     }
 }

@@ -6,7 +6,7 @@ public class ResearchTree
     [JsonProperty("research")]
     public Dictionary<string, List<ResearchDefinition>> ResearchByCategory { get; set; }
 
-    public List<ResearchDefinition> GetResearchByClass(string category)
+    public List<ResearchDefinition> GetResearchByCategory(string category)
     {
         ResearchByCategory.TryGetValue(category.ToLower(), out var research);
         return research;
@@ -14,7 +14,12 @@ public class ResearchTree
     public ResearchDefinition GetResearchById(string id)
     {
         string category = id.Split("_")[0];
-        return GetResearchByClass(category).Find(research => research.Id == id);
+        return GetResearchByCategory(category).Find(research => research.Id == id);
+    }
+    public ResearchCategory GetResearchCategoryById(string id)
+    {
+        ResearchCategory category = GetResearchById(id).Category;
+        return category;
     }
 }
 
