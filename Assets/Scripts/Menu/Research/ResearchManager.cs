@@ -78,7 +78,7 @@ public class ResearchManager : MonoBehaviour
             currentStacks = stacks;
         }
 
-        ActiveResearch researchToStart = new ActiveResearch(researchDef.Category, researchDef.Id, (currentStacks + 1), GetUnixTimestamp());
+        ActiveResearch researchToStart = new ActiveResearch(researchDef.Category, researchDef.Id, (currentStacks + 1));
 
         SaveService.Instance.Current.Research.ActiveResearches.Add(researchToStart);
 
@@ -93,10 +93,5 @@ public class ResearchManager : MonoBehaviour
     public void ResearchComplete()
     {
 
-    }
-
-    private long GetUnixTimestamp()
-    {
-        return DateTimeOffset.UtcNow.ToUnixTimeSeconds();
     }
 }

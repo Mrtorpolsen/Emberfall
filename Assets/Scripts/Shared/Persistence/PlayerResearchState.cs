@@ -19,12 +19,11 @@ public class ActiveResearch
     public ActiveResearch(
         ResearchCategory category,
         string researchId,
-        int targetLevel,
-        long startTime)
+        int targetLevel)
     {
         ResearchCategory = category;
         ResearchId = researchId;
         TargetLevel = targetLevel;
-        StartTime = startTime;
+        StartTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
     }
 }
