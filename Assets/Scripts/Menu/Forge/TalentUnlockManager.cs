@@ -47,7 +47,6 @@ public class TalentUnlockManager : MonoBehaviour
 
             pointsPerTierPerUnit[unit][talentDef.Tier] += kvp.Value;
         }
-        DebugPrintPoints();
     }
 
     public void AddPoints(string unit, int tier, int amount)
@@ -63,7 +62,6 @@ public class TalentUnlockManager : MonoBehaviour
         }
 
         pointsPerTierPerUnit[unit][tier] += amount;
-        DebugPrintPoints();
     }
 
     public bool ArePrerequisitesMet(string unit, TalentPrerequisite prerequisite)
