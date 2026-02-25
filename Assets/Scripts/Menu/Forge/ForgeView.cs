@@ -1,4 +1,5 @@
-﻿using UnityEngine.UIElements;
+﻿using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ForgeView : IUIScreenView
 {
@@ -11,6 +12,17 @@ public class ForgeView : IUIScreenView
     {
         forgePanel = root.Q<VisualElement>("ForgePanel");
         talentTreePanel = root.Q<VisualElement>("TalentTreePanel");
+
+        if (forgePanel == null)
+        {
+            Debug.LogWarning("ForgePanel no found");
+            return;
+        }
+        if (talentTreePanel == null)
+        {
+            Debug.LogWarning("TalentTreePanel no found");
+            return;
+        }
 
         talentTreeView = new TalentTreeView();
         talentTreeView.Initialize(talentTreePanel);
