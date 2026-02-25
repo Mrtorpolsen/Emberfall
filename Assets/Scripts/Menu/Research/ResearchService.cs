@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class ResearchManager : MonoBehaviour
+public class ResearchService : MonoBehaviour
 {
-    public static ResearchManager Instance;
+    public static ResearchService Instance;
     public ResearchTree playerResearchTree;
 
     private const string RESEARCH_ADDRESSABLE = "Research";

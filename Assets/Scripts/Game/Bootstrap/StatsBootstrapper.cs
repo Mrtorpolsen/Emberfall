@@ -25,7 +25,7 @@ public class StatsBootstrapper
         {
             string unit = kvp.Key.Split("_")[0].ToLowerInvariant();
 
-            var talentDef = TalentManager.Instance
+            var talentDef = TalentService.Instance
                 .playerTalentTree.GetTalentById(kvp.Key);
 
             if (talentDef.Type != TalentType.StatModifier) continue;

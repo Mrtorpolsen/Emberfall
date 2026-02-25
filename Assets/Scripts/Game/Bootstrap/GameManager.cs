@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
     public void EndOfGame()
     {
         //save score, throws error if not logged in
-        LeaderboardManager.Instance.AddScore(TimerManager.Instance.GetElapsedTime());
+        LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTime());
         //add cinders
         CurrencyManager.Instance.Add(CurrencyTypes.Cinders,
             CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes()));

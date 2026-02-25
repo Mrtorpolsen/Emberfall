@@ -6,13 +6,13 @@ public struct ScreenDefinition
     public VisualTreeAsset vta;
     public Func<IUIScreenView> createView;
     public Func<IUIScreenEvents> createEvents;
-    public Func<IUIScreenManager> createManager; //optional
+    public Func<IUIScreenController> createManager; //optional
 
     public ScreenDefinition(
         VisualTreeAsset vta,
         Func<IUIScreenView> createView,
         Func<IUIScreenEvents> createEvents,
-        Func<IUIScreenManager> createManager = null)
+        Func<IUIScreenController> createManager = null)
     {
         this.vta = vta;
         this.createView = createView;

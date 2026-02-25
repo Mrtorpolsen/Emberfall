@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class ForgeEvents : IUIScreenEvents
 {
-    private ForgeManager _manager;
+    private ForgeUIController _manager;
     private ForgeView _view;
 
     private readonly Dictionary<string, string> bindings = new()
@@ -18,9 +18,9 @@ public class ForgeEvents : IUIScreenEvents
         { "Btn_Refund_Talents", nameof(Btn_Refund_Talents) },
     };
 
-    public void BindEvents(VisualElement root, IUIScreenManager manager = null, IUIScreenView view = null)
+    public void BindEvents(VisualElement root, IUIScreenController manager = null, IUIScreenView view = null)
     {
-        _manager = manager as ForgeManager;
+        _manager = manager as ForgeUIController;
 
         _view = view as ForgeView;
 

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class TalentManager : MonoBehaviour
+public class TalentService : MonoBehaviour
 {
-    public static TalentManager Instance;
+    public static TalentService Instance;
     public TalentTree playerTalentTree;
 
     private const string TALENTS_ADDRESSABLE = "Talents";

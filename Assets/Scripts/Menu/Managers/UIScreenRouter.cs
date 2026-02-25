@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MenuManager : MonoBehaviour
+public class UIScreenRouter : MonoBehaviour
 {
-    public static MenuManager Instance { get; private set; }
+    public static UIScreenRouter Instance { get; private set; }
 
     [Header("UI Document")]
     [SerializeField] private UIDocument uiDocument;
@@ -21,7 +21,7 @@ public class MenuManager : MonoBehaviour
     private VisualElement currentScreen;
     private IUIScreenView currentView;
     private IUIScreenEvents currentEvents;
-    private IUIScreenManager currentManager;
+    private IUIScreenController currentManager;
     private bool hasInitialized = false;
 
     private Dictionary<string, ScreenDefinition> screens =
@@ -57,7 +57,7 @@ public class MenuManager : MonoBehaviour
 
         RegisterScreen<MainMenuView, MainMenuEvents>("MainMenu", mainMenuVTA);
         RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
-        RegisterScreen<ForgeView, ForgeEvents, ForgeManager>("Forge", forgeVTA);
+        RegisterScreen<ForgeView, ForgeEvents, ForgeUIController>("Forge", forgeVTA);
 
         SetupPopup(root);
     }
@@ -79,7 +79,7 @@ public class MenuManager : MonoBehaviour
         VisualTreeAsset vta)
         where TView : IUIScreenView, new()
         where TEvents : IUIScreenEvents, new()
-        where TManager : IUIScreenManager, new()
+        where TManager : IUIScreenController, new()
     {
         screens[name] = new ScreenDefinition(
             vta,

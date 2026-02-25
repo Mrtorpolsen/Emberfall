@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ForgeManager : IUIScreenManager
+public class ForgeUIController : IUIScreenController
 {
     private VisualElement forgePanel;
     private VisualElement talentTreePanel;
@@ -54,7 +54,7 @@ public class ForgeManager : IUIScreenManager
     {
         List<TalentNodeDefinition> talentNodes = new List<TalentNodeDefinition>();
 
-        foreach (var talent in TalentManager.Instance.playerTalentTree.GetTalentsByClass(treeToGenerate))
+        foreach (var talent in TalentService.Instance.playerTalentTree.GetTalentsByClass(treeToGenerate))
         {
             talentNodes.Add(BuildTalentNode(talent));
         }
@@ -66,7 +66,7 @@ public class ForgeManager : IUIScreenManager
     {
         var node = new TalentNodeDefinition();
 
-        int purchased = TalentManager.Instance.GetPurchasedTalent(talent.Id);
+        int purchased = TalentService.Instance.GetPurchasedTalent(talent.Id);
         int max = talent.Purchase.MaxPurchases;
 
         node.img = talent.IconId;
@@ -78,7 +78,7 @@ public class ForgeManager : IUIScreenManager
 
         node.onClick = () =>
         {
-            int purchasedNow = TalentManager.Instance.GetPurchasedTalent(talent.Id);
+            int purchasedNow = TalentService.Instance.GetPurchasedTalent(talent.Id);
             bool canPurchase = purchasedNow < max;
 
             bool prerequisitsMet = TalentUnlockManager.Instance.ArePrerequisitesMet(talent.Id.Split("_")[0]
@@ -97,7 +97,7 @@ public class ForgeManager : IUIScreenManager
                 OnClick = () =>
                 {
                     //Repull live state
-                    int purchasedAfter = TalentManager.Instance.GetPurchasedTalent(talent.Id);
+                    int purchasedAfter = TalentService.Instance.GetPurchasedTalent(talent.Id);
                     if (purchasedAfter >= max)
                         return;
 
@@ -111,7 +111,7 @@ public class ForgeManager : IUIScreenManager
                         return;
                     }
                     //Save an add points to talent req
-                    TalentManager.Instance.SaveTalent(talent.Id);
+                    TalentService.Instance.SaveTalent(talent.Id);
 
                     var talentState = SaveService.Instance.Current.Talents;
 
@@ -127,7 +127,7 @@ public class ForgeManager : IUIScreenManager
                     TalentUnlockManager.Instance
                         .AddPoints(talent.Id.Split("_")[0].ToLowerInvariant(), talent.Tier, 1);
 
-                    int updated = TalentManager.Instance.GetPurchasedTalent(talent.Id);
+                    int updated = TalentService.Instance.GetPurchasedTalent(talent.Id);
 
                     bool stillCanPurchase = updated < max && talentCost <= CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
                     string purchasedTextNow = $"{updated}/{max}";

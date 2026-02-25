@@ -12,7 +12,7 @@ public class LeaderboardView : IUIScreenView
 
     private void LoadLeaderboard()
     {
-        var scores = LeaderboardManager.Instance.userScores;
+        var scores = LeaderboardService.Instance.userScores;
 
         foreach (LeaderboardEntry entry in scores)
         {
@@ -55,7 +55,7 @@ public class LeaderboardView : IUIScreenView
             listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
             listContainer.Clear();
 
-            await LeaderboardManager.Instance.GetScores();
+            await LeaderboardService.Instance.GetScores();
             LoadLeaderboard();
         }
         finally

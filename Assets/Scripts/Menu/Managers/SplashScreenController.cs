@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SplashManager : MonoBehaviour
+public class SplashScreenController : MonoBehaviour
 {
     [SerializeField] private VisualTreeAsset splashVTA;
     [SerializeField] private UIDocument uIDocument;
@@ -78,7 +78,7 @@ public class SplashManager : MonoBehaviour
         splashPanel.style.display = DisplayStyle.None;
         splashContainer.style.display = DisplayStyle.None;
 
-        MenuManager.Instance.LoadScreen("MainMenu");
+        UIScreenRouter.Instance.LoadScreen("MainMenu");
 
     }
 

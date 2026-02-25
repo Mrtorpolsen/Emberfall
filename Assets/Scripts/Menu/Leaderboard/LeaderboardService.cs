@@ -6,9 +6,9 @@ using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 
 //Needs to be initialized earlier and a singleton since its used in game scene.
-public class LeaderboardManager : MonoBehaviour
+public class LeaderboardService : MonoBehaviour
 {
-    public static LeaderboardManager Instance;
+    public static LeaderboardService Instance;
 
     private string leaderboardId = "High_Scores";
     public List<LeaderboardEntry> userScores;

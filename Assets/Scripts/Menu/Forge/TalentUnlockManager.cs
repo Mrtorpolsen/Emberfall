@@ -33,7 +33,7 @@ public class TalentUnlockManager : MonoBehaviour
         foreach (var kvp in purchases)
         {
             string unit = kvp.Key.Split("_")[0].ToLowerInvariant();
-            var talentDef = TalentManager.Instance.playerTalentTree.GetTalentById(kvp.Key);
+            var talentDef = TalentService.Instance.playerTalentTree.GetTalentById(kvp.Key);
 
             if (!pointsPerTierPerUnit.ContainsKey(unit))
             {
