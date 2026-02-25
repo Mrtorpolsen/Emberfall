@@ -22,7 +22,7 @@ public class UIScreenRouter : MonoBehaviour
     private VisualElement currentScreen;
     private IUIScreenView currentView;
     private IUIScreenEvents currentEvents;
-    private IUIScreenController currentManager;
+    private IUIScreenController currentController;
     private bool hasInitialized = false;
 
     private Dictionary<string, ScreenDefinition> screens =
@@ -111,8 +111,8 @@ public class UIScreenRouter : MonoBehaviour
         currentEvents?.Cleanup();
 
         // If the previous manager is screen-scoped, clean it up
-        currentManager?.Cleanup();
-        currentManager = null;
+        currentController?.Cleanup();
+        currentController = null;
 
         // Clone the template container
         currentScreen = def.vta.CloneTree();
@@ -127,11 +127,11 @@ public class UIScreenRouter : MonoBehaviour
         currentEvents = def.createEvents();
 
         //Create manager if its there
-        currentManager = def.createManager?.Invoke();
+        currentController = def.createController?.Invoke();
 
         // Bind events
         currentView.Initialize(screenRoot);
-        currentEvents.BindEvents(screenRoot, currentManager, currentView);
+        currentEvents.BindEvents(screenRoot, currentController, currentView);
     }
 
     //Checks if its UI_Root that gets loaded, then reassigns references and loads mainmenu
