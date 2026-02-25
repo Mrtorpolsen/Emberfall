@@ -3,35 +3,10 @@
     <Style src="project://database/Assets/UI%20Toolkit/Research/ResearchStyle.uss?fileID=7433441132597879392&amp;guid=b91a44e1bfc26c84ca62a04d053bdce3&amp;type=3#ResearchStyle"/>
     <ui:VisualElement name="ResearchContainer" style="flex-grow: 1;">
         <ui:VisualElement name="ResearchPanel" style="flex-grow: 1; display: none;"/>
-        <ui:VisualElement name="ResearchListPanel" style="flex-grow: 1;">
+        <ui:VisualElement name="ResearchListPanel" style="flex-grow: 1; display: flex;">
             <ui:Label text="Research" name="Label_Heading" class="text labelHeading" style="margin-bottom: 75px;"/>
             <ui:ScrollView class="scrollViewVertical scrollViewContainer">
-                <ui:VisualElement name="ResearchCategoryContainer" style="flex-grow: 1; align-self: auto; align-items: center;"/>
-                <ui:VisualElement name="CategoryContainer" class="marginElement categoryContainer" style="flex-grow: 1;">
-                    <ui:Button text="Button" name="Button_CategoryContainer" class="btnBackground2x1 categoryButton">
-                        <ui:Label text="Exampel Category" name="Label_CategoryName" class="categoryName categoryLabel text"/>
-                    </ui:Button>
-                </ui:VisualElement>
-                <ui:VisualElement name="CategoryContainer" class="marginElement categoryContainer" style="flex-grow: 1;">
-                    <ui:Button text="Button" name="Button_CategoryContainer" class="btnBackground2x1 categoryButton">
-                        <ui:Label text="Exampel Category" name="Label_CategoryName" class="categoryName categoryLabel text"/>
-                    </ui:Button>
-                </ui:VisualElement>
-                <ui:VisualElement name="CategoryContainer" class="marginElement categoryContainer" style="flex-grow: 1;">
-                    <ui:Button text="Button" name="Button_CategoryContainer" class="btnBackground2x1 categoryButton">
-                        <ui:Label text="Exampel Category" name="Label_CategoryName" class="categoryName categoryLabel text"/>
-                    </ui:Button>
-                </ui:VisualElement>
-                <ui:VisualElement name="CategoryContainer" class="marginElement categoryContainer" style="flex-grow: 1;">
-                    <ui:Button text="Button" name="Button_CategoryContainer" class="btnBackground2x1 categoryButton">
-                        <ui:Label text="Exampel Category" name="Label_CategoryName" class="categoryName categoryLabel text"/>
-                    </ui:Button>
-                </ui:VisualElement>
-                <ui:VisualElement name="CategoryContainer" class="marginElement categoryContainer" style="flex-grow: 1;">
-                    <ui:Button text="Button" name="Button_CategoryContainer" class="btnBackground2x1 categoryButton">
-                        <ui:Label text="Exampel Category" name="Label_CategoryName" class="categoryName categoryLabel text"/>
-                    </ui:Button>
-                </ui:VisualElement>
+                <ui:VisualElement name="ResearchListContainer" style="flex-grow: 1;"/>
             </ui:ScrollView>
         </ui:VisualElement>
     </ui:VisualElement>
