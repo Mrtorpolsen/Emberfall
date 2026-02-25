@@ -3,7 +3,7 @@
   "definitionsVersion": "1.0",
   "gameVersion": "0.3.1",
   "research": {
-    "units": [
+    "unit": [
       {
         "Id": "unit_statsmodifier_health",
         "Name": "Harden Body",

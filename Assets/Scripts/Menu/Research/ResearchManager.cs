@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -82,6 +81,8 @@ public class ResearchManager : MonoBehaviour
         ActiveResearch researchToStart = new ActiveResearch(researchDef.Category, researchDef.Id, (currentStacks + 1), GetUnixTimestamp());
 
         SaveService.Instance.Current.Research.ActiveResearches.Add(researchToStart);
+
+        //todo add the tracking of time
     }
 
     public void SaveResearch()
