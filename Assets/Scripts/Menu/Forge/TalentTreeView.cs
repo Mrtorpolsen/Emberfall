@@ -9,17 +9,15 @@ public class TalentTreeView
 {
     public VisualTreeAsset talentNode;
 
-    private VisualElement _root;
     private VisualElement talentNodeContainer;
 
-    private Dictionary<string, AsyncOperationHandle<Sprite>> iconHandles = new();
-
     private const string TALENT_NODE_CONTAINER = "TalentNodesContainer";
+    private const string FORGE_TALENTNODE_ADDRESSABLE = "UI/TalentNode";
+
 
     public async void Initialize(VisualElement root)
     {
-        _root = root;
-        talentNode = await Addressables.LoadAssetAsync<VisualTreeAsset>("UI/TalentNode").Task;
+        talentNode = await Addressables.LoadAssetAsync<VisualTreeAsset>(FORGE_TALENTNODE_ADDRESSABLE).Task;
 
         if (talentNode == null)
         {
@@ -27,7 +25,7 @@ public class TalentTreeView
             return;
         }
 
-        talentNodeContainer = _root.Q<VisualElement>(TALENT_NODE_CONTAINER);
+        talentNodeContainer = root.Q<VisualElement>(TALENT_NODE_CONTAINER);
         ClearTalentRows();
     }
 
@@ -42,11 +40,11 @@ public class TalentTreeView
             VisualElement visualNode = nodeTemplate[0];
             nodeTemplate.RemoveAt(0);
 
-            var LabelCost = visualNode.Q<Label>("Label_Cost");
+            var labelCost = visualNode.Q<Label>("Label_Cost");
             var imgTalent = visualNode.Q<VisualElement>("Img_Talent");
             var labelUnlocked = visualNode.Q<Label>("Label_Unlocked");
 
-            LabelCost.text = node.cost.ToString();
+            labelCost.text = node.cost.ToString();
             labelUnlocked.text = node.purchased;
 
             node.purchasedLabel = labelUnlocked;
