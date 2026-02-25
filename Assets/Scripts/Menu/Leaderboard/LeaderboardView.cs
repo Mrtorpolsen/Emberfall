@@ -11,6 +11,8 @@ public class LeaderboardView : IUIScreenView
     private VisualElement root;
     private ScrollView listContainer;
 
+    private const string LEADERBOARD_LEADERBOARDROW_ADDRESSABLE = "UI/LeaderboardRow";
+
     private void LoadLeaderboard()
     {
         var scores = LeaderboardService.Instance.userScores;
@@ -51,7 +53,7 @@ public class LeaderboardView : IUIScreenView
         try
         {
             this.root = root;
-            rowTemplate = await Addressables.LoadAssetAsync<VisualTreeAsset>("UI/LeaderboardRow").Task;
+            rowTemplate = await Addressables.LoadAssetAsync<VisualTreeAsset>(LEADERBOARD_LEADERBOARDROW_ADDRESSABLE).Task;
 
             if (rowTemplate == null)
             {
