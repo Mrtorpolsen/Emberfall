@@ -1,6 +1,7 @@
 using System;
 using Unity.Services.Leaderboards.Models;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
 public class LeaderboardView : IUIScreenView
@@ -50,7 +51,13 @@ public class LeaderboardView : IUIScreenView
         try
         {
             this.root = root;
-            rowTemplate = Resources.Load<VisualTreeAsset>("UI/Leaderboard/LeaderboardRow");
+            rowTemplate = await Addressables.LoadAssetAsync<VisualTreeAsset>("UI/LeaderboardRow").Task;
+
+            if (rowTemplate == null)
+            {
+                Debug.LogError("Leaderboard row template not loaded!");
+                return;
+            }
 
             listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
             listContainer.Clear();

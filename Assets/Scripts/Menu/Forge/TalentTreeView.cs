@@ -16,10 +16,16 @@ public class TalentTreeView
 
     private const string TALENT_NODE_CONTAINER = "TalentNodesContainer";
 
-    public void Initialize(VisualElement root)
+    public async void Initialize(VisualElement root)
     {
         _root = root;
-        talentNode = Resources.Load<VisualTreeAsset>("UI/Forge/TalentNode");
+        talentNode = await Addressables.LoadAssetAsync<VisualTreeAsset>("UI/TalentNode").Task;
+
+        if (talentNode == null)
+        {
+            Debug.LogError("Talent node template not loaded!");
+            return;
+        }
 
         talentNodeContainer = _root.Q<VisualElement>(TALENT_NODE_CONTAINER);
         ClearTalentRows();

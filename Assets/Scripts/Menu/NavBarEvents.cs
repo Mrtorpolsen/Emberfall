@@ -16,6 +16,7 @@ public class NavBarEvents : MonoBehaviour
         { "Btn_Main", nameof(Btn_Main) },
         { "Btn_Leaderboard", nameof(Btn_Leaderboard) },
         { "Btn_Forge", nameof(Btn_Forge) },
+        { "Btn_Research", nameof(Btn_Research) },
     };
 
     void Awake()
@@ -41,6 +42,10 @@ public class NavBarEvents : MonoBehaviour
     private void Btn_Forge()
     {
         UIScreenRouter.Instance.LoadScreen("Forge");
+    }
+    private void Btn_Research()
+    {
+        UIScreenRouter.Instance.LoadScreen("Research");
     }
 }
 

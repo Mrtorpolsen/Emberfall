@@ -419,7 +419,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1468156535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 315c00b4342bcd340ba8e6aea84e6c0d, type: 3}
+  m_Script: {fileID: 11500000, guid: 42b06a5950f1418408e29ddeda1e37bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TalentManager
 --- !u!114 &1468156537
@@ -431,7 +431,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1468156535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f70e1dcd665034048896773c05485919, type: 3}
+  m_Script: {fileID: 11500000, guid: a6614ddb7873c97438c6e22c2e5ff468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeaderboardManager
 --- !u!4 &1468156538

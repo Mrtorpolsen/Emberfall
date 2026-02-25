@@ -14,6 +14,7 @@ public class UIScreenRouter : MonoBehaviour
     [SerializeField] private VisualTreeAsset mainMenuVTA;
     [SerializeField] private VisualTreeAsset leaderboardVTA;
     [SerializeField] private VisualTreeAsset forgeVTA;
+    [SerializeField] private VisualTreeAsset researchVTA;
     [SerializeField] private VisualTreeAsset popupVTA;
 
     private VisualElement popupBlockerContainer;
@@ -58,6 +59,7 @@ public class UIScreenRouter : MonoBehaviour
         RegisterScreen<MainMenuView, MainMenuEvents>("MainMenu", mainMenuVTA);
         RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
         RegisterScreen<ForgeView, ForgeEvents, ForgeUIController>("Forge", forgeVTA);
+        RegisterScreen<ResearchView, ResearchEvents, ResearchUIController>("Research", researchVTA);
 
         SetupPopup(root);
     }
@@ -70,7 +72,7 @@ public class UIScreenRouter : MonoBehaviour
             vta,
             () => new TView(),
             () => new TEvents(),
-            null //no manager
+            null //no controller
         );
     }
 
