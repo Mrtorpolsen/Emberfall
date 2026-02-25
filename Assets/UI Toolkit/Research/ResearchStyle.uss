@@ -1,0 +1,38 @@
+:root {
+}
+
+.categoryName {
+    align-self: center;
+}
+
+.categoryButton {
+    width: 70%;
+    height: auto;
+    aspect-ratio: 3;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.categoryLabel {
+}
+
+.categoryContainer {
+    align-items: center;
+    align-content: center;
+    margin-bottom: 40px;
+}
