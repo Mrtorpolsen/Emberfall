@@ -75,6 +75,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5075c62d977df794ebfeb08337168471
+    m_Address: UI/CategoryNode
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 53ba011f56d2ff748bfc6c85ac3da3f6
     m_Address: abilityunlock_stun_1
     m_ReadOnly: 0
