@@ -1,0 +1,16 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle"/>
+    <Style src="project://database/Assets/UI%20Toolkit/Research/ResearchStyle.uss?fileID=7433441132597879392&amp;guid=b91a44e1bfc26c84ca62a04d053bdce3&amp;type=3#ResearchStyle"/>
+    <ui:VisualElement name="CategoryContainer" class="marginElement categoryContainer">
+        <ui:Button text="Button" name="Button_CategoryContainer" class="btnBackground2x1 categoryButton">
+            <ui:VisualElement name="InactiveContainer" style="flex-grow: 0; display: flex;">
+                <ui:Label text="Exampel Category" name="Label_CategoryName" class="categoryName categoryLabel text"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="ActiveContainer" style="flex-grow: 0; display: none;">
+                <ui:Label text="Research Name" name="Label_ResearchName" class="text categoryLabel"/>
+                <ui:Label text="Research Rank" name="Label_ResearchRank" class="text categoryLabel"/>
+                <ui:Label text="Research Time Left" name="Label_ResearchTimeLeft" class="text categoryLabel"/>
+            </ui:VisualElement>
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>
