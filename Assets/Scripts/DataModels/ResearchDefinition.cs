@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ResearchTree
 {
@@ -20,6 +21,11 @@ public class ResearchTree
     {
         ResearchCategory category = GetResearchById(id).Category;
         return category;
+    }
+    public IEnumerable<string> GetCategories(bool sorted = true)
+    {
+        var categories = ResearchByCategory.Keys;
+        return sorted ? categories.OrderBy(c => c) : categories;
     }
 }
 
