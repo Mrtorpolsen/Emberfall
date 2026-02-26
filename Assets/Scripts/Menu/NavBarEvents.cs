@@ -31,21 +31,21 @@ public class NavBarEvents : MonoBehaviour
         UtilityUIBinding.Cleanup(this);
     }
 
-    private void Btn_Main()
+    private async void Btn_Main()
     {
-        UIScreenRouter.Instance.LoadScreen("MainMenu");
+        await UIScreenRouter.Instance.LoadScreen("MainMenu");
     }
-    private void Btn_Leaderboard()
+    private async void Btn_Leaderboard()
     {
-        UIScreenRouter.Instance.LoadScreen("Leaderboard");
+        await UIScreenRouter.Instance.LoadScreen("Leaderboard");
     }
-    private void Btn_Forge()
+    private async void Btn_Forge()
     {
-        UIScreenRouter.Instance.LoadScreen("Forge");
+        await UIScreenRouter.Instance.LoadScreen("Forge");
     }
-    private void Btn_Research()
+    private async void Btn_Research()
     {
-        UIScreenRouter.Instance.LoadScreen("Research");
+        await UIScreenRouter.Instance.LoadScreen("Research");
     }
 }
 

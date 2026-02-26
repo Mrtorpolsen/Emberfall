@@ -7,12 +7,21 @@ public class ForgeUIController : IUIScreenController
     private VisualElement forgePanel;
     private VisualElement talentTreePanel;
 
+    private ForgeView view;
     private TalentTreeView talentTreeView;
 
-    public void Initialize(VisualElement root)
+    public void Initialize(IUIScreenView screenView)
     {
-        forgePanel = root.Q<VisualElement>("ForgePanel");
-        talentTreePanel = root.Q<VisualElement>("TalentTreePanel");
+        if (screenView is not ForgeView forgeView)
+        {
+            Debug.LogError("ForgeUIController received wrong view type.");
+            return;
+        }
+
+        view = forgeView;
+
+        forgePanel = forgeView.ForgePanel;
+        talentTreePanel = forgeView.TalentTreePanel;
 
         //Get prerequisits from talents
         TalentUnlockManager.Instance.InitializeFromForge();

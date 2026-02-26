@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -78,8 +79,14 @@ public class SplashScreenController : MonoBehaviour
         splashPanel.style.display = DisplayStyle.None;
         splashContainer.style.display = DisplayStyle.None;
 
-        UIScreenRouter.Instance.LoadScreen("MainMenu");
-
+        try
+        {
+            await UIScreenRouter.Instance.LoadScreen("MainMenu");
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 
     private void InitializeTopBar()

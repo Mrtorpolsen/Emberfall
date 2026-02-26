@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -12,6 +13,32 @@ public class LeaderboardView : IUIScreenView
     private ScrollView listContainer;
 
     private const string LEADERBOARD_LEADERBOARDROW_ADDRESSABLE = "UI/LeaderboardRow";
+
+    public async Task InitializeAsync(VisualElement root)
+    {
+        LoadingSpinner.Instance.ShowSpinner();
+        try
+        {
+            this.root = root;
+            rowTemplate = await Addressables.LoadAssetAsync<VisualTreeAsset>(LEADERBOARD_LEADERBOARDROW_ADDRESSABLE).Task;
+
+            if (rowTemplate == null)
+            {
+                Debug.LogError("Leaderboard row template not loaded!");
+                return;
+            }
+
+            listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
+            listContainer.Clear();
+
+            await LeaderboardService.Instance.GetScores();
+            LoadLeaderboard();
+        }
+        finally
+        {
+            LoadingSpinner.Instance.HideSpinner();
+        }
+    }
 
     private void LoadLeaderboard()
     {
@@ -45,31 +72,5 @@ public class LeaderboardView : IUIScreenView
         }
 
         listContainer.Add(row);
-    }
-
-    public async void Initialize(VisualElement root)
-    {
-        LoadingSpinner.Instance.ShowSpinner();
-        try
-        {
-            this.root = root;
-            rowTemplate = await Addressables.LoadAssetAsync<VisualTreeAsset>(LEADERBOARD_LEADERBOARDROW_ADDRESSABLE).Task;
-
-            if (rowTemplate == null)
-            {
-                Debug.LogError("Leaderboard row template not loaded!");
-                return;
-            }
-
-            listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
-            listContainer.Clear();
-
-            await LeaderboardService.Instance.GetScores();
-            LoadLeaderboard();
-        }
-        finally
-        {
-            LoadingSpinner.Instance.HideSpinner();
-        }
     }
 }

@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine.UIElements;
 
 public interface IUIScreenView
 {
-    void Initialize(VisualElement root);
+    Task InitializeAsync(VisualElement root);
 }
 
 public interface IUIScreenEvents
@@ -15,6 +14,6 @@ public interface IUIScreenEvents
 
 public interface IUIScreenController
 {
-    void Initialize(VisualElement root);
+    void Initialize(IUIScreenView view);
     void Cleanup();
 }

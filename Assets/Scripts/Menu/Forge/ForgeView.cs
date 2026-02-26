@@ -1,36 +1,40 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ForgeView : IUIScreenView
 {
-    private VisualElement forgePanel;
-    private VisualElement talentTreePanel;
+    public VisualElement ForgePanel { get; private set; }
+    public VisualElement TalentTreePanel { get; private set; }
 
     private TalentTreeView talentTreeView;
 
-    public void Initialize(VisualElement root)
+    public Task InitializeAsync(VisualElement root)
     {
-        forgePanel = root.Q<VisualElement>("ForgePanel");
-        talentTreePanel = root.Q<VisualElement>("TalentTreePanel");
+        ForgePanel = root.Q<VisualElement>("ForgePanel");
+        TalentTreePanel = root.Q<VisualElement>("TalentTreePanel");
 
-        if (forgePanel == null)
+        if (ForgePanel == null)
         {
             Debug.LogWarning("ForgePanel no found");
-            return;
+            return Task.CompletedTask;
         }
-        if (talentTreePanel == null)
+        if (TalentTreePanel == null)
         {
             Debug.LogWarning("TalentTreePanel no found");
-            return;
+            return Task.CompletedTask;
         }
 
         talentTreeView = new TalentTreeView();
-        talentTreeView.Initialize(talentTreePanel);
+        talentTreeView.Initialize(TalentTreePanel);
 
-        talentTreePanel.style.display = DisplayStyle.None;
-        forgePanel.style.display = DisplayStyle.Flex;
+        TalentTreePanel.style.display = DisplayStyle.None;
+        ForgePanel.style.display = DisplayStyle.Flex;
+
+        return Task.CompletedTask;
     }
+
     public TalentTreeView GetTalentTreeView() => talentTreeView;
-    public VisualElement GetForgePanel() => forgePanel;
-    public VisualElement GetTalentTreePanel() => talentTreePanel;
+    public VisualElement GetForgePanel() => ForgePanel;
+    public VisualElement GetTalentTreePanel() => TalentTreePanel;
 }

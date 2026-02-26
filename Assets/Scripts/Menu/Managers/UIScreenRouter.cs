@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -23,7 +25,9 @@ public class UIScreenRouter : MonoBehaviour
     private IUIScreenView currentView;
     private IUIScreenEvents currentEvents;
     private IUIScreenController currentController;
+
     private bool hasInitialized = false;
+    private bool isLoading;
 
     private Dictionary<string, ScreenDefinition> screens =
         new Dictionary<string, ScreenDefinition>();
@@ -91,18 +95,30 @@ public class UIScreenRouter : MonoBehaviour
         );
     }
 
-    public void LoadScreen(string screenName)
+    public async Task LoadScreen(string screenName)
     {
-        if (!screens.TryGetValue(screenName, out var def))
-        {
-            Debug.LogError($"No screen registered with name '{name}'");
+        if (isLoading)
             return;
-        }
+        
+        isLoading = true;
 
-        SwapContent(def);
+        try
+        {
+            if (!screens.TryGetValue(screenName, out var def))
+            {
+                Debug.LogError($"No screen registered with name '{name}'");
+                return;
+            }
+
+            await SwapContent(def);
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 
-    private void SwapContent(ScreenDefinition def)
+    private async Task SwapContent(ScreenDefinition def)
     {
         // Remove previous screen
         currentScreen?.RemoveFromHierarchy();
@@ -129,13 +145,16 @@ public class UIScreenRouter : MonoBehaviour
         //Create manager if its there
         currentController = def.createController?.Invoke();
 
-        // Bind events
-        currentView.Initialize(screenRoot);
+        // View first
+        await currentView.InitializeAsync(screenRoot);
+        // Controller second
+        currentController?.Initialize(currentView);
+        // Event third
         currentEvents.BindEvents(screenRoot, currentController, currentView);
     }
 
     //Checks if its UI_Root that gets loaded, then reassigns references and loads mainmenu
-    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    private async void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
     {
         if(scene.name != "UI_Root")
         {
@@ -172,7 +191,14 @@ public class UIScreenRouter : MonoBehaviour
 
         SetupPopup(root);
         // Load main menu by default
-        LoadScreen("MainMenu");
+        try
+        {
+            await LoadScreen("MainMenu");
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 
     //Setup for popup, delaing with the template container
