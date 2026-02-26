@@ -60,7 +60,7 @@ public class LeaderboardView : IUIScreenView
 
         rankLabel.text = (entry.Rank + 1).ToString();
         nameLabel.text = entry.PlayerName;
-        scoreLabel.text = TimeFormatter.FormatTime((float)entry.Score);
+        scoreLabel.text = TimeFormatter.FormatTimeMiliseconds((float)entry.Score);
 
         //add trophy
         switch(entry.Rank)

@@ -73,6 +73,54 @@
         ],
         "Prerequisites": []
       }
+    ],
+    "tower": [
+      {
+        "Id": "tower_statsmodifier_attackdamage",
+        "Name": "Projectile strengthening",
+        "Description": "Increase towers attack damage by 2% per level.",
+        "Category": "Tower",
+        "MaxLevel": 100,
+        "CostScaling": {
+          "BaseValue": 100,
+          "MultiplierPerLevel": 1.2
+        },
+        "TimeScaling": {
+          "BaseValue": 60,
+          "MultiplierPerLevel": 1.25
+        },
+        "Effects": [
+          {
+            "Target": "AttackDamage",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Prerequisites": []
+      },
+      {
+        "Id": "tower_statsmodifier_critdamage",
+        "Name": "Bigger Projectile",
+        "Description": "Increase towers crit damage by 2% per level.",
+        "Category": "Tower",
+        "MaxLevel": 100,
+        "CostScaling": {
+          "BaseValue": 100,
+          "MultiplierPerLevel": 1.2
+        },
+        "TimeScaling": {
+          "BaseValue": 60,
+          "MultiplierPerLevel": 1.25
+        },
+        "Effects": [
+          {
+            "Target": "CritDamage",
+            "Operation": "Multiply",
+            "Value": 1.02
+          }
+        ],
+        "Prerequisites": []
+      }
     ]
   }
 }

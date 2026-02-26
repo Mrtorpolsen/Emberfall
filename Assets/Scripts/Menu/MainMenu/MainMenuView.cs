@@ -10,7 +10,7 @@ public class MainMenuView : IUIScreenView
     {
         label_highscore = root.Q<Label>("Label_HighScore");
 
-        label_highscore.text = TimeFormatter.FormatTime(UserProfile.Instance.UserHighScore);
+        label_highscore.text = TimeFormatter.FormatTimeMiliseconds(UserProfile.Instance.UserHighScore);
 
         return Task.CompletedTask;
     }
