@@ -5,8 +5,8 @@ using UnityEngine.UIElements;
 
 public class ForgeEvents : IUIScreenEvents
 {
-    private ForgeUIController _manager;
-    private ForgeView _view;
+    private ForgeUIController controller;
+    private ForgeView view;
 
     private readonly Dictionary<string, string> bindings = new()
     {
@@ -18,15 +18,15 @@ public class ForgeEvents : IUIScreenEvents
         { "Btn_Refund_Talents", nameof(Btn_Refund_Talents) },
     };
 
-    public void BindEvents(VisualElement root, IUIScreenController manager = null, IUIScreenView view = null)
+    public void BindEvents(VisualElement root, IUIScreenController controller = null, IUIScreenView view = null)
     {
-        _manager = manager as ForgeUIController;
+        this.controller = controller as ForgeUIController;
 
-        _view = view as ForgeView;
+        this.view = view as ForgeView;
 
-        _manager.SetTalentTreeView(_view.GetTalentTreeView());
+        this.controller.SetTalentTreeView(this.view.GetTalentTreeView());
 
-        _manager.Initialize(root);
+        this.controller.Initialize(root);
 
         UtilityUIBinding.BindEvents(root, this, bindings);
     }
@@ -38,21 +38,21 @@ public class ForgeEvents : IUIScreenEvents
 
     private void Btn_ReturnCLicked()
     {
-        _manager.BackToForge();
+        controller.BackToForge();
     }
 
     private void Btn_Upg_FighterClicked()
     {
-        _manager.OpenTalentTree("fighter");
+        controller.OpenTalentTree("fighter");
     }
     private void Btn_Upg_RangerClicked()
     {
-        _manager.OpenTalentTree("ranger");
+        controller.OpenTalentTree("ranger");
     }
 
     private void Btn_Upg_CavalierClicked()
     {
-        _manager.OpenTalentTree("cavalier");
+        controller.OpenTalentTree("cavalier");
     }
     private void Btn_Upg_IncomeClicked()
     {
@@ -61,6 +61,6 @@ public class ForgeEvents : IUIScreenEvents
 
     private void Btn_Refund_Talents()
     {
-        _manager.RefundTalents();
+        controller.RefundTalents();
     }
 }
