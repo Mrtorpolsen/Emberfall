@@ -95,3 +95,8 @@
 
 .loadingOverlay {
 }
+
+.researchTextLabel {
+    font-size: 30px;
+    color: rgb(255, 235, 225);
+}

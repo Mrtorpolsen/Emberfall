@@ -14,14 +14,19 @@ public class ResearchView : IUIScreenView
     private VisualElement researchCategoryListContainer;
     private VisualElement researchListContainer;
 
+    public Label researchHeading;
+
     private VisualTreeAsset researchCategoryNode;
+    private VisualTreeAsset researchNode;
 
     private const string RESEARCH_CATEGORYNODE_ADDRESSABLE = "UI/CategoryNode";
+    private const string RESEARCH_RESEARCHNODE_ADDRESSABLE = "UI/ResearchNode";
 
     public async Task InitializeAsync(VisualElement root)
     {
         ResearchCategoryListPanel = root.Q<VisualElement>("ResearchCategoryListPanel");
         ResearchListPanel = root.Q<VisualElement>("ResearchListPanel");
+        researchHeading = root.Q<Label>("Label_ResearchHeading");
 
         if (ResearchCategoryListPanel == null)
         {
@@ -41,6 +46,7 @@ public class ResearchView : IUIScreenView
         researchListContainer = root.Q<VisualElement>("ResearchListContainer");
 
         researchCategoryNode = await Addressables.LoadAssetAsync<VisualTreeAsset>(RESEARCH_CATEGORYNODE_ADDRESSABLE).Task;
+        researchNode = await Addressables.LoadAssetAsync<VisualTreeAsset>(RESEARCH_RESEARCHNODE_ADDRESSABLE).Task;
 
         if (researchCategoryNode == null)
         {
@@ -91,25 +97,34 @@ public class ResearchView : IUIScreenView
 
         foreach (var node in researchNodes)
         {
-            var nodeTemplate = researchCategoryNode.Instantiate();
+            var nodeTemplate = researchNode.Instantiate();
             VisualElement visualNode = nodeTemplate[0];
             nodeTemplate.RemoveAt(0);
 
             var labelResearchName = visualNode.Q<Label>("Label_ResearchName");
-            var labelResearchLevel = visualNode.Q<Label>("Label_ResearchLevel");
+            var labelResearchLevelCurrent = visualNode.Q<Label>("Label_ResearchLevelCurrent");
+            var labelResearchLevelNext = visualNode.Q<Label>("Label_ResearchLevelNext");
             var labelResearchDescription = visualNode.Q<Label>("Label_ResearchDescription");
             var labelResearchTime = visualNode.Q<Label>("Label_ResearchTime");
-            var labelResearchCost = visualNode.Q<Label>("Label_ResearchCost");
 
             labelResearchName.text = node.name;
-            labelResearchLevel.text = node.researchLevel;
+            labelResearchLevelCurrent.text = node.researchLevelCurrent;
+            labelResearchLevelNext.text = node.researchLevelNext;
             labelResearchDescription.text = node.description;
             labelResearchTime.text = node.researchTime;
-            labelResearchCost.text = node.cost;
 
             var buttonPurchaseResearch = visualNode.Q<Button>("Button_PurchaseResearch");
             if (buttonPurchaseResearch != null)
             {
+                buttonPurchaseResearch.text = node.cost;
+
+                Sprite sprite = Resources.Load<Sprite>("UI/cinder_icon");
+
+                if (sprite != null)
+                {
+                    buttonPurchaseResearch.iconImage = sprite.texture;
+                }
+
                 buttonPurchaseResearch.clicked += node.onClick;
             }
             else

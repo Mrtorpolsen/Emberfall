@@ -2,8 +2,16 @@
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle"/>
     <Style src="project://database/Assets/UI%20Toolkit/Research/ResearchStyle.uss?fileID=7433441132597879392&amp;guid=b91a44e1bfc26c84ca62a04d053bdce3&amp;type=3#ResearchStyle"/>
     <ui:VisualElement name="ResearchContainer" style="flex-grow: 1;">
-        <ui:VisualElement name="ResearchListPanel" style="flex-grow: 1; display: none;"/>
-        <ui:VisualElement name="ResearchCategoryListPanel" style="flex-grow: 1; display: flex;">
+        <ui:VisualElement name="ResearchListPanel" style="flex-grow: 1; display: flex;">
+            <ui:Label text="Research" name="Label_ResearchHeading" class="text labelHeading" style="margin-bottom: 0;"/>
+            <ui:VisualElement name="ReturnContainer" class="returnContainer" style="flex-grow: 0; max-width: none; max-height: none;">
+                <ui:Button icon-image="project://database/Assets/Art/UI/Icons/return_arrow_icon.png?fileID=2800000&amp;guid=383f5cb4f5435b3458fe31195d6c11e2&amp;type=3#return_arrow_icon" text="Go Back" name="Btn_Return" class="text btnReturn"/>
+            </ui:VisualElement>
+            <ui:ScrollView class="scrollViewVertical scrollViewContainer">
+                <ui:VisualElement name="ResearchListContainer" style="flex-grow: 1;"/>
+            </ui:ScrollView>
+        </ui:VisualElement>
+        <ui:VisualElement name="ResearchCategoryListPanel" style="flex-grow: 1; display: none;">
             <ui:Label text="Research" name="Label_Heading" class="text labelHeading" style="margin-bottom: 75px;"/>
             <ui:ScrollView class="scrollViewVertical scrollViewContainer">
                 <ui:VisualElement name="ResearchCategoryListContainer" style="flex-grow: 1;"/>

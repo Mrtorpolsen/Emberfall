@@ -1,0 +1,30 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle"/>
+    <Style src="project://database/Assets/UI%20Toolkit/Research/ResearchStyle.uss?fileID=7433441132597879392&amp;guid=b91a44e1bfc26c84ca62a04d053bdce3&amp;type=3#ResearchStyle"/>
+    <ui:VisualElement name="ResearchNodeContainer" class="researchNodeContainer" style="flex-grow: 0;">
+        <ui:VisualElement name="ResearchContainer" class="btnBackground2x1 researchContainer">
+            <ui:VisualElement style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 80%; height: 80%; align-items: center; justify-content: center;">
+                <ui:Label text="Health Upgrade" name="Label_ResearchName" class="text" style="margin-bottom: 10px;"/>
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; align-items: center; width: 100%; justify-content: space-between;">
+                    <ui:VisualElement name="OverUnderContainer" class="overUnderContainer">
+                        <ui:Label text="Upgrade:" name="Label" class="researchTextLabel" style="font-size: 30px;"/>
+                        <ui:VisualElement name="" style="flex-grow: 0; flex-direction: row;">
+                            <ui:Label text="1" name="Label_ResearchLevelCurrent" class="researchText"/>
+                            <ui:Label text="" name="Label_ResearchLevelArrow" class="researchText" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/return_arrow_icon.png?fileID=2800000&amp;guid=383f5cb4f5435b3458fe31195d6c11e2&amp;type=3#return_arrow_icon&quot;); width: 25px; height: 25px; justify-content: flex-start; align-content: auto; rotate: 180deg; align-self: center; margin-right: 5px; margin-left: 5px;"/>
+                            <ui:Label text="2" name="Label_ResearchLevelNext" class="researchText"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="OverUnderContainer" class="overUnderContainer" style="flex-grow: 0; width: 33%; height: 100%;">
+                        <ui:Label text="Increase by:" name="Label" class="researchTextLabel"/>
+                        <ui:Label text="0.2%" name="Label_ResearchDescription" class="researchText"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="OverUnderContainer" class="overUnderContainer" style="flex-grow: 0; width: 33%; height: 100%;">
+                        <ui:Label text="Time:" name="Label" class="researchTextLabel" style="white-space: normal; -unity-text-align: upper-center; font-size: 30px;"/>
+                        <ui:Label text="05:00" name="Label_ResearchTime" class="researchText"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Button text="Button" name="Button_PurchaseResearch" icon-image="" class="researchPurchaseButton btnBackground1x1 text" style="flex-direction: row-reverse;"/>
+    </ui:VisualElement>
+</ui:UXML>

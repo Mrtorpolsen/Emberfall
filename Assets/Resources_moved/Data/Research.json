@@ -6,8 +6,8 @@
     "unit": [
       {
         "Id": "unit_statsmodifier_health",
-        "Name": "Harden Body",
-        "Description": "Increase units HP by 2% per level.",
+        "Name": "Health",
+        "Description": "2%",
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
@@ -29,8 +29,8 @@
       },
       {
         "Id": "unit_statsmodifier_attackdamage",
-        "Name": "Sharpen Resolve",
-        "Description": "Increase units attack damage by 2% per level.",
+        "Name": "Attack Damage",
+        "Description": "2%",
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
@@ -52,8 +52,8 @@
       },
       {
         "Id": "unit_statsmodifier_critdamage",
-        "Name": "Power Pommel",
-        "Description": "Increase units crit damage by 2% per level.",
+        "Name": "Crit Damage",
+        "Description": "2%",
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
@@ -77,8 +77,8 @@
     "tower": [
       {
         "Id": "tower_statsmodifier_attackdamage",
-        "Name": "Projectile strengthening",
-        "Description": "Increase towers attack damage by 2% per level.",
+        "Name": "Attack Damage",
+        "Description": "2%",
         "Category": "Tower",
         "MaxLevel": 100,
         "CostScaling": {
@@ -100,8 +100,8 @@
       },
       {
         "Id": "tower_statsmodifier_critdamage",
-        "Name": "Bigger Projectile",
-        "Description": "Increase towers crit damage by 2% per level.",
+        "Name": "Crit Damage",
+        "Description": "2%",
         "Category": "Tower",
         "MaxLevel": 100,
         "CostScaling": {

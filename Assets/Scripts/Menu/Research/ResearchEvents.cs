@@ -1,13 +1,33 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ResearchEvents : IUIScreenEvents
 {
-    public void BindEvents(VisualElement root, IUIScreenController manager = null, IUIScreenView view = null)
+    private ResearchUIController controller;
+    private ResearchView view;
+
+    private readonly Dictionary<string, string> bindings = new()
     {
+        { "Btn_Return", nameof(Btn_ReturnCLicked) },
+
+    };
+    public void BindEvents(VisualElement root, IUIScreenController controller = null, IUIScreenView view = null)
+    {
+        this.controller = controller as ResearchUIController;
+
+        this.view = view as ResearchView;
+
+        UtilityUIBinding.BindEvents(root, this, bindings);
     }
 
     public void Cleanup()
     {
+        UtilityUIBinding.Cleanup(this);
+    }
+
+    private void Btn_ReturnCLicked()
+    {
+        controller.ToCategories();
     }
 }

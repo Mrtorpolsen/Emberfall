@@ -3,7 +3,8 @@
 public class ResearchNodeDefinition
 {
     public string name;
-    public string researchLevel;
+    public string researchLevelCurrent;
+    public string researchLevelNext;
     public string description;
     public string researchTime;
     public string cost;

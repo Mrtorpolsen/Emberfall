@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,7 +18,12 @@ public class ResearchUIController : IUIScreenController
 
         view = researchView;
 
-        researchView.RenderResearchCategories(GenerateResearchCategories());
+        ToCategories();
+    }
+
+    public void ToCategories()
+    {
+        view.RenderResearchCategories(GenerateResearchCategories());
     }
 
     public List<ResearchCategoryNodeDefinition> GenerateResearchCategories()
@@ -40,6 +46,7 @@ public class ResearchUIController : IUIScreenController
         node.onClick = () =>
         {
             view.RenderResearchList(GenerateResearchNodes(categoryName));
+            view.researchHeading.text = $"{categoryName} Upgrades";
         };
 
         return node;
@@ -64,10 +71,11 @@ public class ResearchUIController : IUIScreenController
         int currentLevel = 0;
 
         node.name = research.Name;
-        node.researchLevel = $"{currentLevel} -> {currentLevel + 1}";
+        node.researchLevelCurrent = currentLevel.ToString();
+        node.researchLevelNext = (currentLevel + 1).ToString();
         node.description = research.Description;
-        node.researchTime = TimeFormatter.FormatTimeSeconds(GetValueAtLevel(research.TimeScaling, currentLevel));
-        node.cost = GetValueAtLevel(research.CostScaling, currentLevel).ToString();
+        node.researchTime = TimeFormatter.FormatTimeSeconds(GetCostForNextLevelLinear(research.TimeScaling, currentLevel));
+        node.cost = GetCostForNextLevelLinear(research.CostScaling, currentLevel).ToString();
 
         node.onClick = () =>
         {
@@ -77,15 +85,18 @@ public class ResearchUIController : IUIScreenController
 
         return node;
     }
+
     //expo
-    private float GetValueAtLevel(ResearchScaling scaling, int level)
+    private int GetCostForNextLevel(ResearchScaling scaling, int level)
     {
-        return scaling.BaseValue * Mathf.Pow(scaling.MultiplierPerLevel, level - 1);
+        float value = scaling.BaseValue * Mathf.Pow(scaling.MultiplierPerLevel, level);
+        return Mathf.RoundToInt(value);
     }
 
-    private float GetValueAtLevelLinear(ResearchScaling scaling, int level)
+    private int GetCostForNextLevelLinear(ResearchScaling scaling, int level)
     {
-        return scaling.BaseValue + scaling.MultiplierPerLevel * (level - 1);
+        float value = scaling.BaseValue + scaling.MultiplierPerLevel * (level);
+        return Mathf.RoundToInt(value);
     }
 
     public void Cleanup()
