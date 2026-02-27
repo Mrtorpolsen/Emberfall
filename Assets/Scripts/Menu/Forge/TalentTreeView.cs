@@ -14,6 +14,7 @@ public class TalentTreeView
     private const string TALENT_NODE_CONTAINER = "TalentNodesContainer";
     private const string FORGE_TALENTNODE_ADDRESSABLE = "UI/TalentNode";
 
+    private readonly List<(VisualElement element, EventCallback<ClickEvent> handler)> clickHandlers = new();
 
     public async void Initialize(VisualElement root)
     {
@@ -58,7 +59,7 @@ public class TalentTreeView
 
             UtilityLoadAdressable.LoadAdressableIcon(node.img, imgTalent);
 
-            visualNode.RegisterCallback<ClickEvent>(_ => node.onClick.Invoke());
+            BindClick(visualNode, node.onClick);
 
             talentNodeContainer
                 .Q<VisualElement>($"Row_T{node.tier}")
@@ -66,8 +67,25 @@ public class TalentTreeView
         }
     }
 
-    private void ClearTalentRows()
+    private void BindClick(VisualElement element, Action handler)
     {
+        EventCallback<ClickEvent> callback = _ => handler?.Invoke();
+        element.RegisterCallback(callback);
+        clickHandlers.Add((element, callback));
+    }
+
+    public void CleanupClicks()
+    {
+        foreach (var (element, handler) in clickHandlers)
+        {
+            element.UnregisterCallback(handler);
+        }
+        clickHandlers.Clear();
+    }
+
+    public void ClearTalentRows()
+    {
+        CleanupClicks();
         talentNodeContainer.Query<VisualElement>(className: "talentTreeRow")
             .ForEach(row => row.Clear());
     }

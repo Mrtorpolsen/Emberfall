@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
@@ -21,6 +20,8 @@ public class ResearchView : IUIScreenView
 
     private const string RESEARCH_CATEGORYNODE_ADDRESSABLE = "UI/CategoryNode";
     private const string RESEARCH_RESEARCHNODE_ADDRESSABLE = "UI/ResearchNode";
+
+    private readonly List<(Button button, Action handler)> boundButtons = new();
 
     public async Task InitializeAsync(VisualElement root)
     {
@@ -57,7 +58,7 @@ public class ResearchView : IUIScreenView
 
     public void RenderResearchCategories(List<ResearchCategoryNodeDefinition> categoryNodes)
     {
-        researchCategoryListContainer.Clear();
+        ClearPanel(researchCategoryListContainer);
 
         foreach (var node in categoryNodes)
         {
@@ -79,7 +80,7 @@ public class ResearchView : IUIScreenView
             var buttonNode = visualNode.Q<Button>("Button_CategoryContainer");
             if (buttonNode != null)
             {
-                buttonNode.clicked += node.onClick;
+                BindButton(buttonNode, node.onClick);
             }
             else
             {
@@ -93,7 +94,7 @@ public class ResearchView : IUIScreenView
 
     public void RenderResearchList(List<ResearchNodeDefinition> researchNodes)
     {
-        researchListContainer.Clear();
+        ClearPanel(researchListContainer);
 
         foreach (var node in researchNodes)
         {
@@ -125,7 +126,7 @@ public class ResearchView : IUIScreenView
                     buttonPurchaseResearch.iconImage = sprite.texture;
                 }
 
-                buttonPurchaseResearch.clicked += node.onClick;
+                BindButton(buttonPurchaseResearch, node.onClick);
             }
             else
             {
@@ -147,5 +148,31 @@ public class ResearchView : IUIScreenView
     {
         ResearchListPanel.style.display = DisplayStyle.Flex;
         ResearchCategoryListPanel.style.display = DisplayStyle.None;
+    }
+
+    private void BindButton(Button button, Action handler)
+    {
+        if (button == null || handler == null) return;
+
+        button.clicked += handler;
+        boundButtons.Add((button, handler));
+    }
+
+    public void CleanupButtons()
+    {
+        foreach (var (button, handler) in boundButtons)
+        {
+            if (button != null && handler != null)
+            {
+                button.clicked -= handler;
+            }
+        }
+        boundButtons.Clear();
+    }
+
+    private void ClearPanel(VisualElement panel)
+    {
+        CleanupButtons();
+        panel.Clear();
     }
 }

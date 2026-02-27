@@ -52,11 +52,12 @@ public class ForgeUIController : IUIScreenController
         forgePanel.style.display = DisplayStyle.Flex;
         talentTreePanel.style.display = DisplayStyle.None;
 
-        //Cleanup?
+        talentTreeView.ClearTalentRows();
     }
 
     public void Cleanup()
     {
+        view.Cleanup();
     }
 
     public List<TalentNodeDefinition> GenerateTalentNodes(string treeToGenerate)

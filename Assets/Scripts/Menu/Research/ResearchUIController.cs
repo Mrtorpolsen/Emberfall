@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ResearchUIController : IUIScreenController
 {
     private ResearchView view;
+
     public void Initialize(IUIScreenView screenView)
     {
         if (screenView is not ResearchView researchView)
@@ -48,7 +47,7 @@ public class ResearchUIController : IUIScreenController
             view.RenderResearchList(GenerateResearchNodes(categoryName));
             view.researchHeading.text = $"{categoryName} Upgrades";
         };
-
+        
         return node;
     }
 
@@ -101,5 +100,6 @@ public class ResearchUIController : IUIScreenController
 
     public void Cleanup()
     {
+        view.CleanupButtons();
     }
 }

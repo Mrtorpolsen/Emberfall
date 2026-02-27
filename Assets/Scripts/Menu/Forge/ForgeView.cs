@@ -34,6 +34,11 @@ public class ForgeView : IUIScreenView
         return Task.CompletedTask;
     }
 
+    public void Cleanup()
+    {
+        talentTreeView.CleanupClicks();
+    }
+
     public TalentTreeView GetTalentTreeView() => talentTreeView;
     public VisualElement GetForgePanel() => ForgePanel;
     public VisualElement GetTalentTreePanel() => TalentTreePanel;
