@@ -15,7 +15,7 @@
           "MultiplierPerLevel": 1.2
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 184530,
           "MultiplierPerLevel": 1.25
         },
         "Effects": [
@@ -38,7 +38,7 @@
           "MultiplierPerLevel": 1.2
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 18045,
           "MultiplierPerLevel": 1.25
         },
         "Effects": [
@@ -61,7 +61,7 @@
           "MultiplierPerLevel": 1.2
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 730,
           "MultiplierPerLevel": 1.25
         },
         "Effects": [
@@ -86,7 +86,7 @@
           "MultiplierPerLevel": 1.2
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 86400,
           "MultiplierPerLevel": 1.25
         },
         "Effects": [
@@ -109,7 +109,7 @@
           "MultiplierPerLevel": 1.2
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 50,
           "MultiplierPerLevel": 1.25
         },
         "Effects": [

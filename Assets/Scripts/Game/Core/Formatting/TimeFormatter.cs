@@ -15,4 +15,21 @@ public static class TimeFormatter
         int seconds = Mathf.FloorToInt(timeInseconds % 60f);
         return $"{minutes:00}:{seconds:00}";
     }
+
+    public static string FormatCondensedTime(float timeInSeconds)
+    {
+        int days = Mathf.FloorToInt(timeInSeconds / 86400f);
+        int hours = Mathf.FloorToInt((timeInSeconds % 86400f) / 3600f);
+        int minutes = Mathf.FloorToInt((timeInSeconds % 3600f) / 60f);
+        int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
+
+        if (days > 0)
+            return $"{days:00}d {hours:00}h";
+        if (hours > 0)
+            return $"{hours:00}h {minutes:00}m";
+        if (minutes > 0)
+            return $"{minutes:00}m {seconds:00}s";
+
+        return $"0m {seconds:00}s";
+    }
 }

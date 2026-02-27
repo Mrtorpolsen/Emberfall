@@ -73,7 +73,7 @@ public class ResearchUIController : IUIScreenController
         node.researchLevelCurrent = currentLevel.ToString();
         node.researchLevelNext = (currentLevel + 1).ToString();
         node.description = research.Description;
-        node.researchTime = TimeFormatter.FormatTimeSeconds(GetCostForNextLevelLinear(research.TimeScaling, currentLevel));
+        node.researchTime = TimeFormatter.FormatCondensedTime(GetCostForNextLevelLinear(research.TimeScaling, currentLevel));
         node.cost = GetCostForNextLevelLinear(research.CostScaling, currentLevel).ToString();
 
         node.onClick = () =>
