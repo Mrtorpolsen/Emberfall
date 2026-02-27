@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class ResearchUIController : IUIScreenController
 {
@@ -28,6 +27,12 @@ public class ResearchUIController : IUIScreenController
     public List<ResearchCategoryNodeDefinition> GenerateResearchCategories()
     {
         var categoryNodes = new List<ResearchCategoryNodeDefinition>();
+
+        if (ResearchService.Instance.playerResearchTree.GetCategories() == null)
+        {
+            Debug.LogWarning("Couldnt get categories");
+            return null;
+        }
 
         foreach (var category in ResearchService.Instance.playerResearchTree.GetCategories())
         {
@@ -79,7 +84,7 @@ public class ResearchUIController : IUIScreenController
         node.onClick = () =>
         {
             //TODO purchase logic
-            Debug.Log("Yaaay purchasing all over");
+            ResearchService.Instance.StartResearch(research.Id);
         };
 
         return node;

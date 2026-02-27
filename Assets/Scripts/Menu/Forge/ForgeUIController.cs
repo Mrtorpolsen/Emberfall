@@ -64,6 +64,12 @@ public class ForgeUIController : IUIScreenController
     {
         List<TalentNodeDefinition> talentNodes = new List<TalentNodeDefinition>();
 
+        if (TalentService.Instance.playerTalentTree.GetTalentsByClass(treeToGenerate) == null)
+        {
+            Debug.LogWarning("Couldnt get talent tree");
+            return null;
+        }
+
         foreach (var talent in TalentService.Instance.playerTalentTree.GetTalentsByClass(treeToGenerate))
         {
             talentNodes.Add(BuildTalentNode(talent));

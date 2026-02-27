@@ -59,7 +59,7 @@ public class ResearchService : MonoBehaviour
         }
     }
 
-    public void StartResearch(string id)
+    public async void StartResearch(string id)
     {
         //Checks if category already being researched
         ResearchDefinition researchDef = playerResearchTree.GetResearchById(id);
@@ -81,8 +81,7 @@ public class ResearchService : MonoBehaviour
         ActiveResearch researchToStart = new ActiveResearch(researchDef.Category, researchDef.Id, (currentStacks + 1));
 
         SaveService.Instance.Current.Research.ActiveResearches.Add(researchToStart);
-
-        //todo add the tracking of time
+        await SaveService.Instance.Save();
     }
 
     public void SaveResearch()

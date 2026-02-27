@@ -26,11 +26,12 @@ public class SaveService : GlobalSystem<SaveService>
         );
     }
 
-    public void CreateSave()
+    public async Task CreateSave()
     {
         Current = new SaveGame();
         ValidateSave();
-        Save();
+        await Save();
+        await InvokeOnSaveLoaded();
     }
 
     public async Task Load()
@@ -41,7 +42,7 @@ public class SaveService : GlobalSystem<SaveService>
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No save file found, creating new save file");
-            CreateSave();
+            await CreateSave();
             return;
         }
 
@@ -50,27 +51,16 @@ public class SaveService : GlobalSystem<SaveService>
 
         ValidateSave();
 
-        if (OnSaveLoaded != null)
-        {
-            var handlers = OnSaveLoaded.GetInvocationList();
-            var tasks = new List<Task>();
-
-            foreach (Func<Task> handler in handlers)
-            {
-                tasks.Add(handler());
-            }
-
-            await Task.WhenAll(tasks);
-        }
+        await InvokeOnSaveLoaded();
     }
 
-    public void Save()
+    public async Task Save()
     {
         if (!ValidateSavePath())
             return;
 
         string json = JsonConvert.SerializeObject(Current);
-        File.WriteAllText(savePath, json);
+        await Task.Run(() => File.WriteAllText(savePath, json));
     }
 
     private bool ValidateSavePath()
@@ -84,10 +74,38 @@ public class SaveService : GlobalSystem<SaveService>
         return true;
     }
 
+    private async Task InvokeOnSaveLoaded()
+    {
+        if (OnSaveLoaded == null)
+            return;
+
+        var handlers = OnSaveLoaded.GetInvocationList();
+        var tasks = new List<Task>();
+
+        foreach (Func<Task> handler in handlers)
+        {
+            tasks.Add((Task)handler());
+        }
+
+        await Task.WhenAll(tasks);
+    }
+
     private void ValidateSave()
     {
+        // Ensure the root save exists
         Current ??= new SaveGame();
+
+        // Talents
         Current.Talents ??= new PlayerTalentState();
         Current.Talents.Purchases ??= new Dictionary<string, int>();
+        Current.Talents.CurrencySpent ??= new Dictionary<CurrencyTypes, int>();
+
+        // Research
+        Current.Research ??= new PlayerResearchState();
+        Current.Research.CompletedResearch ??= new Dictionary<string, int>();
+        Current.Research.ActiveResearches ??= new List<ActiveResearch>();
+
+        // Currency
+        Current.Currency ??= new CurrencyData();
     }
 }
