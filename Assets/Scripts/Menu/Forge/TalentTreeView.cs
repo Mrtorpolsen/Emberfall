@@ -59,28 +59,12 @@ public class TalentTreeView
 
             UtilityLoadAdressable.LoadAdressableIcon(node.img, imgTalent);
 
-            BindClick(visualNode, node.onClick);
+            UtilityUIBinding.BindVEClick(visualNode, node.onClick, clickHandlers);
 
             talentNodeContainer
                 .Q<VisualElement>($"Row_T{node.tier}")
                 .Add(visualNode);
         }
-    }
-
-    private void BindClick(VisualElement element, Action handler)
-    {
-        EventCallback<ClickEvent> callback = _ => handler?.Invoke();
-        element.RegisterCallback(callback);
-        clickHandlers.Add((element, callback));
-    }
-
-    public void CleanupClicks()
-    {
-        foreach (var (element, handler) in clickHandlers)
-        {
-            element.UnregisterCallback(handler);
-        }
-        clickHandlers.Clear();
     }
 
     public void ClearTalentRows()
@@ -90,4 +74,8 @@ public class TalentTreeView
             .ForEach(row => row.Clear());
     }
 
+    public void CleanupClicks()
+    {
+        UtilityUIBinding.CleanupVEClicks(clickHandlers);
+    }
 }

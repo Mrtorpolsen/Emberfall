@@ -80,7 +80,7 @@ public class ResearchView : IUIScreenView
             var buttonNode = visualNode.Q<Button>("Button_CategoryContainer");
             if (buttonNode != null)
             {
-                BindButton(buttonNode, node.onClick);
+                UtilityUIBinding.BindButtonClick(buttonNode, node.onClick, boundButtons);
             }
             else
             {
@@ -126,7 +126,7 @@ public class ResearchView : IUIScreenView
                     buttonPurchaseResearch.iconImage = sprite.texture;
                 }
 
-                BindButton(buttonPurchaseResearch, node.onClick);
+                UtilityUIBinding.BindButtonClick(buttonPurchaseResearch, node.onClick, boundButtons);
             }
             else
             {
@@ -150,29 +150,14 @@ public class ResearchView : IUIScreenView
         ResearchCategoryListPanel.style.display = DisplayStyle.None;
     }
 
-    private void BindButton(Button button, Action handler)
-    {
-        if (button == null || handler == null) return;
-
-        button.clicked += handler;
-        boundButtons.Add((button, handler));
-    }
-
-    public void CleanupButtons()
-    {
-        foreach (var (button, handler) in boundButtons)
-        {
-            if (button != null && handler != null)
-            {
-                button.clicked -= handler;
-            }
-        }
-        boundButtons.Clear();
-    }
-
     private void ClearPanel(VisualElement panel)
     {
         CleanupButtons();
         panel.Clear();
+    }
+
+    public void CleanupButtons()
+    {
+        UtilityUIBinding.CleanupButtonClicks(boundButtons);
     }
 }

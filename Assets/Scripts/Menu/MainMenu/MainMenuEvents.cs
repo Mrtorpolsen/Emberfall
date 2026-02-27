@@ -21,7 +21,7 @@ public class MainMenuEvents : IUIScreenEvents
 
     public void Cleanup()
     {
-        UtilityUIBinding.Cleanup(this);
+        UtilityUIBinding.CleanupEvents(this);
     }
 
     //USE NAMING CONVENTION OF BTN --- Btn_xxx so it can add Clicked behind

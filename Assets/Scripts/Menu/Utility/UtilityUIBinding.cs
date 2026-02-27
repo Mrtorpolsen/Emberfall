@@ -11,6 +11,8 @@ public static class UtilityUIBinding
     private static readonly Dictionary<object, Dictionary<Button, Action>> instanceActions
         = new Dictionary<object, Dictionary<Button, Action>>();
 
+    private static readonly List<(VisualElement element, EventCallback<ClickEvent> handler)> clickHandlers = new();
+
     public static void BindEvents(VisualElement root, object target, Dictionary<string, string> bindings)
     {
         if (!instanceActions.ContainsKey(target))
@@ -52,7 +54,7 @@ public static class UtilityUIBinding
         }
     }
 
-    public static void Cleanup(object target)
+    public static void CleanupEvents(object target)
     {
         if (!instanceActions.TryGetValue(target, out var actions))
         {
@@ -69,5 +71,41 @@ public static class UtilityUIBinding
 
         actions.Clear();
         instanceActions.Remove(target);
+    }
+
+    public static void BindVEClick(VisualElement element, Action handler, List<(VisualElement element, EventCallback<ClickEvent> handler)> clickHandlers)
+    {
+        EventCallback<ClickEvent> callback = _ => handler?.Invoke();
+        element.RegisterCallback(callback);
+        clickHandlers.Add((element, callback));
+    }
+
+    public static void CleanupVEClicks(List<(VisualElement element, EventCallback<ClickEvent> handler)> clickHandlers)
+    {
+        foreach (var (element, handler) in clickHandlers)
+        {
+            element.UnregisterCallback(handler);
+        }
+        clickHandlers.Clear();
+    }
+
+    public static void BindButtonClick(Button button, Action handler, List<(Button button, Action handler)> boundButtons)
+    {
+        if (button == null || handler == null) return;
+
+        button.clicked += handler;
+        boundButtons.Add((button, handler));
+    }
+
+    public static void CleanupButtonClicks(List<(Button button, Action handler)> boundButtons)
+    {
+        foreach (var (button, handler) in boundButtons)
+        {
+            if (button != null && handler != null)
+            {
+                button.clicked -= handler;
+            }
+        }
+        boundButtons.Clear();
     }
 }

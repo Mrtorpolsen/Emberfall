@@ -28,7 +28,7 @@ public class NavBarEvents : MonoBehaviour
 
     void OnDestroy()
     {
-        UtilityUIBinding.Cleanup(this);
+        UtilityUIBinding.CleanupEvents(this);
     }
 
     private async void Btn_Main()

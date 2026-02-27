@@ -33,7 +33,7 @@ public class ForgeEvents : IUIScreenEvents
 
     public void Cleanup()
     {
-        UtilityUIBinding.Cleanup(this);
+        UtilityUIBinding.CleanupEvents(this);
     }
 
     private void Btn_ReturnCLicked()
