@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 
 [Serializable]
@@ -11,6 +13,7 @@ public class PlayerResearchState
 [Serializable]
 public class ActiveResearch
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public ResearchCategory ResearchCategory;
     public string ResearchId;
     public int TargetLevel; // the level being researched

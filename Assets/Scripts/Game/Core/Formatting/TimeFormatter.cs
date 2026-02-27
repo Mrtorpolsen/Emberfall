@@ -16,6 +16,20 @@ public static class TimeFormatter
         return $"{minutes:00}:{seconds:00}";
     }
 
+    public static string FormatDaysTime(float timeInSeconds)
+    {
+        int days = Mathf.FloorToInt(timeInSeconds / 86400f); // 24 * 60 * 60
+        int hours = Mathf.FloorToInt((timeInSeconds % 86400f) / 3600f);
+        int minutes = Mathf.FloorToInt((timeInSeconds % 3600f) / 60f);
+        int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
+
+        if (days > 0)
+            return $"{days}d {hours:00}h {minutes:00}m {seconds:00}s";
+        if (hours > 0)
+            return $"{hours:00}h {minutes:00}m {seconds:00}s";
+        return $"{minutes:00}m {seconds:00}s";
+    }
+
     public static string FormatCondensedTime(float timeInSeconds)
     {
         int days = Mathf.FloorToInt(timeInSeconds / 86400f);

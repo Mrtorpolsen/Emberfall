@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -92,5 +93,14 @@ public class ResearchService : MonoBehaviour
     public void ResearchComplete()
     {
 
+    }
+
+    public ActiveResearch IsActiveCategory(string categoryName)
+    {
+        if (Enum.TryParse<ResearchCategory>(categoryName, true, out ResearchCategory researchCategory))
+        {
+            return SaveService.Instance.Current?.Research.ActiveResearches.Find((research) => research.ResearchCategory == researchCategory);
+        }
+        return null;
     }
 }

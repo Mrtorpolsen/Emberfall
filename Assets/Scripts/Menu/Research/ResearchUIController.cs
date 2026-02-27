@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mono.Cecil.Cil;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -44,9 +45,26 @@ public class ResearchUIController : IUIScreenController
 
     private ResearchCategoryNodeDefinition BuildResearchCategory(string categoryName)
     {
-        var node = new ResearchCategoryNodeDefinition();
+        ResearchCategoryNodeDefinition node = new();
 
-        node.categoryName = categoryName.FirstCharacterToUpper();
+        var acitveResearch = ResearchService.Instance.IsActiveCategory(categoryName);
+        if (acitveResearch != null)
+        {
+            var researchToUpg = ResearchService.Instance.playerResearchTree.GetResearchById(acitveResearch.ResearchId);
+
+            var endTime = acitveResearch.StartTime + (GetCostForNextLevel(researchToUpg.TimeScaling, acitveResearch.TargetLevel));
+
+            node.researchName = researchToUpg.Name;
+            node.researchRank = acitveResearch.TargetLevel.ToString();
+            node.researchTimeLeft = TimeFormatter.FormatDaysTime((endTime - acitveResearch.StartTime));
+            node.isResearchActive = true;
+        } 
+        else
+        {
+            node.categoryName = categoryName.FirstCharacterToUpper();
+            node.isResearchActive = false;
+        }
+
         node.onClick = () =>
         {
             view.RenderResearchList(GenerateResearchNodes(categoryName));

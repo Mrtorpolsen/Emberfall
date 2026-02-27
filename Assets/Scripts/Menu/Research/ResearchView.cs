@@ -67,14 +67,73 @@ public class ResearchView : IUIScreenView
             VisualElement visualNode = nodeTemplate[0];
             nodeTemplate.RemoveAt(0);
 
-            var labelCategoryName = visualNode.Q<Label>("Label_CategoryName");
-            if (labelCategoryName != null)
+            var inactiveContainer = visualNode.Q<VisualElement>("InactiveContainer");
+            var activeContainer = visualNode.Q<VisualElement>("ActiveContainer");
+
+            if (inactiveContainer == null)
             {
-                labelCategoryName.text = node.categoryName;
+                Debug.LogWarning("No inactiveContainer found in category node template!");
+                return;
+            }
+            if (activeContainer == null)
+            {
+                Debug.LogWarning("No activeContainer found in category node template!");
+                return;
+            }
+
+            if (!node.isResearchActive)
+            {
+                inactiveContainer.style.display = DisplayStyle.Flex;
+                activeContainer.style.display = DisplayStyle.None;
+
+                var labelCategoryName = visualNode.Q<Label>("Label_CategoryName");
+                if (labelCategoryName != null)
+                {
+                    labelCategoryName.text = node.categoryName;
+                }
+                else
+                {
+                    Debug.LogWarning("No labelCategoryName found in category node template!");
+                }
             }
             else
             {
-                Debug.LogWarning("No labelCategoryName found in category node template!");
+                inactiveContainer.style.display = DisplayStyle.None;
+                activeContainer.style.display = DisplayStyle.Flex;
+
+                var labelResearchName = visualNode.Q<Label>("Label_ResearchName");
+                var labelResearchRank = visualNode.Q<Label>("Label_ResearchRank");
+                var labelResearchTimeLeft = visualNode.Q<Label>("Label_ResearchTimeLeft");
+
+                if (labelResearchName != null)
+
+                {
+                    labelResearchName.text = node.researchName;
+                }
+                else
+                {
+                    Debug.LogWarning("No labelResearchName found in category node template!");
+                }
+
+                if (labelResearchRank != null)
+
+                {
+                    labelResearchRank.text = node.researchRank;
+                }
+                else
+                {
+                    Debug.LogWarning("No labelResearchRank found in category node template!");
+                }
+
+                if (labelResearchTimeLeft != null)
+
+                {
+                    labelResearchTimeLeft.text = node.researchTimeLeft;
+                }
+                else
+                {
+                    Debug.LogWarning("No labelResearchTimeLeft found in category node template!");
+                }
             }
 
             var buttonNode = visualNode.Q<Button>("Button_CategoryContainer");
