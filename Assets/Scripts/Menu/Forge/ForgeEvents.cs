@@ -61,6 +61,6 @@ public class ForgeEvents : IUIScreenEvents
 
     private void Btn_Refund_Talents()
     {
-        controller.RefundTalents();
+        controller.RefundTalentsAsync();
     }
 }

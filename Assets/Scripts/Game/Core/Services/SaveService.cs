@@ -30,7 +30,7 @@ public class SaveService : GlobalSystem<SaveService>
     {
         Current = new SaveGame();
         ValidateSave();
-        await Save();
+        await SaveAsync();
         await InvokeOnSaveLoaded();
     }
 
@@ -54,13 +54,22 @@ public class SaveService : GlobalSystem<SaveService>
         await InvokeOnSaveLoaded();
     }
 
-    public async Task Save()
+    public async Task SaveAsync()
     {
         if (!ValidateSavePath())
             return;
 
         string json = JsonConvert.SerializeObject(Current);
         await Task.Run(() => File.WriteAllText(savePath, json));
+    }
+
+    public void Save()
+    {
+        _ = SaveAsync().ContinueWith(t =>
+        {
+            if (t.Exception != null)
+                Debug.LogError(t.Exception);
+        });
     }
 
     private bool ValidateSavePath()

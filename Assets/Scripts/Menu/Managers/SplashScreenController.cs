@@ -67,7 +67,7 @@ public class SplashScreenController : MonoBehaviour
         {
             CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
             SaveService.Instance.Current.HasReceivedLoginGift = true;
-            await SaveService.Instance.Save();
+            await SaveService.Instance.SaveAsync();
         }
 
         InitializeTopBar();

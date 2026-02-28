@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -110,7 +111,7 @@ public class ForgeUIController : IUIScreenController
                 BtnText = currentCost.ToString(),
                 BtnIconPath = "UI/cinder_icon",
 
-                OnClick = () =>
+                OnClick = async () =>
                 {
                     //Repull live state
                     int purchasedAfter = TalentService.Instance.GetPurchasedTalent(talent.Id);
@@ -154,7 +155,7 @@ public class ForgeUIController : IUIScreenController
 
                     node.UpdatePurchasedText?.Invoke(updated, max);
 
-                    SaveService.Instance.Save();
+                    await SaveService.Instance.SaveAsync();
                 }
             };
             PopupManager.Instance.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);
@@ -168,7 +169,7 @@ public class ForgeUIController : IUIScreenController
         return node;
     }
 
-    public void RefundTalents()
+    public async Task RefundTalentsAsync()
     {
         foreach(var currency in SaveService.Instance.Current.Talents.CurrencySpent)
         {
@@ -177,6 +178,6 @@ public class ForgeUIController : IUIScreenController
         SaveService.Instance.Current.Talents.Purchases.Clear();
         SaveService.Instance.Current.Talents.CurrencySpent.Clear();
         TalentUnlockManager.Instance.ResetAll();
-        SaveService.Instance.Save();
+        await SaveService.Instance.SaveAsync();
     }
 }

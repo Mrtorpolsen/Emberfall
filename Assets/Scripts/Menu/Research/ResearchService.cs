@@ -82,7 +82,7 @@ public class ResearchService : MonoBehaviour
         ActiveResearch researchToStart = new ActiveResearch(researchDef.Category, researchDef.Id, (currentStacks + 1));
 
         SaveService.Instance.Current.Research.ActiveResearches.Add(researchToStart);
-        await SaveService.Instance.Save();
+        await SaveService.Instance.SaveAsync();
     }
 
     public void SaveResearch()
