@@ -108,4 +108,24 @@ public static class UtilityUIBinding
         }
         boundButtons.Clear();
     }
+
+    public static T QRequired<T>(VisualElement root, string name)
+    where T : VisualElement
+    {
+        var element = root.Q<T>(name);
+        if (element == null)
+            throw new InvalidOperationException(
+                $"UI contract violation: '{name}' ({typeof(T).Name}) missing in '{root.name}'."
+            );
+
+        return element;
+    }
+
+    public static VisualElement InstantiateRoot(VisualTreeAsset asset)
+    {
+        var container = asset.Instantiate();
+        var root = container[0];
+        container.RemoveAt(0);
+        return root;
+    }
 }

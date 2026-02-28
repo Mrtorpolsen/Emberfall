@@ -25,34 +25,25 @@ public class ResearchView : IUIScreenView
 
     public async Task InitializeAsync(VisualElement root)
     {
-        ResearchCategoryListPanel = root.Q<VisualElement>("ResearchCategoryListPanel");
-        ResearchListPanel = root.Q<VisualElement>("ResearchListPanel");
-        researchHeading = root.Q<Label>("Label_ResearchHeading");
-
-        if (ResearchCategoryListPanel == null)
-        {
-            Debug.LogWarning("ResearchCategoryListPanel not found");
-            return;
-        }
-        if (ResearchListPanel == null)
-        {
-            Debug.LogWarning("ResearchListPanel not found");
-            return;
-        }
+        ResearchCategoryListPanel = UtilityUIBinding.QRequired<VisualElement>(root, "ResearchCategoryListPanel");
+        ResearchListPanel = UtilityUIBinding.QRequired<VisualElement>(root, "ResearchListPanel");
+        researchHeading = UtilityUIBinding.QRequired<Label>(root, "Label_ResearchHeading");
 
         ShowCategoryList();
 
-        researchCategoryListContainer = root.Q<VisualElement>("ResearchCategoryListContainer");
-        //HERE
-        researchListContainer = root.Q<VisualElement>("ResearchListContainer");
+        researchCategoryListContainer = UtilityUIBinding.QRequired<VisualElement>(root, "ResearchCategoryListContainer");
+        researchListContainer = UtilityUIBinding.QRequired<VisualElement>(root, "ResearchListContainer");
 
         researchCategoryNode = await Addressables.LoadAssetAsync<VisualTreeAsset>(RESEARCH_CATEGORYNODE_ADDRESSABLE).Task;
         researchNode = await Addressables.LoadAssetAsync<VisualTreeAsset>(RESEARCH_RESEARCHNODE_ADDRESSABLE).Task;
 
         if (researchCategoryNode == null)
         {
-            Debug.LogError("Research category node template not loaded!");
-            return;
+            throw new InvalidOperationException("Failed to load UI/CategoryNode.");
+        }
+        if (researchNode == null)
+        {
+            throw new InvalidOperationException("Failed to load UI/CategoryNode.");
         }
     }
 
@@ -63,23 +54,14 @@ public class ResearchView : IUIScreenView
         foreach (var node in categoryNodes)
         {
             //Extract the actual root
-            var nodeTemplate = researchCategoryNode.Instantiate();
-            VisualElement visualNode = nodeTemplate[0];
-            nodeTemplate.RemoveAt(0);
+            //var nodeTemplate = researchCategoryNode.Instantiate();
+            //VisualElement visualNode = nodeTemplate[0];
+            //nodeTemplate.RemoveAt(0);
 
-            var inactiveContainer = visualNode.Q<VisualElement>("InactiveContainer");
-            var activeContainer = visualNode.Q<VisualElement>("ActiveContainer");
+            VisualElement visualNode = UtilityUIBinding.InstantiateRoot(researchCategoryNode);
 
-            if (inactiveContainer == null)
-            {
-                Debug.LogWarning("No inactiveContainer found in category node template!");
-                return;
-            }
-            if (activeContainer == null)
-            {
-                Debug.LogWarning("No activeContainer found in category node template!");
-                return;
-            }
+            var inactiveContainer = UtilityUIBinding.QRequired<VisualElement>(visualNode, "InactiveContainer");
+            var activeContainer = UtilityUIBinding.QRequired<VisualElement>(visualNode, "ActiveContainer");
 
             if (!node.isResearchActive)
             {
@@ -101,50 +83,18 @@ public class ResearchView : IUIScreenView
                 inactiveContainer.style.display = DisplayStyle.None;
                 activeContainer.style.display = DisplayStyle.Flex;
 
-                var labelResearchName = visualNode.Q<Label>("Label_ResearchName");
-                var labelResearchRank = visualNode.Q<Label>("Label_ResearchRank");
-                var labelResearchTimeLeft = visualNode.Q<Label>("Label_ResearchTimeLeft");
+                var labelResearchName = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchName");
+                var labelResearchRank = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchRank");
+                var labelResearchTimeLeft = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchTimeLeft");
 
-                if (labelResearchName != null)
-
-                {
-                    labelResearchName.text = node.researchName;
-                }
-                else
-                {
-                    Debug.LogWarning("No labelResearchName found in category node template!");
-                }
-
-                if (labelResearchRank != null)
-
-                {
-                    labelResearchRank.text = node.researchRank;
-                }
-                else
-                {
-                    Debug.LogWarning("No labelResearchRank found in category node template!");
-                }
-
-                if (labelResearchTimeLeft != null)
-
-                {
-                    labelResearchTimeLeft.text = node.researchTimeLeft;
-                }
-                else
-                {
-                    Debug.LogWarning("No labelResearchTimeLeft found in category node template!");
-                }
+                labelResearchName.text = node.researchName;
+                labelResearchRank.text = node.researchRank;
+                labelResearchTimeLeft.text = node.researchTimeLeft;
             }
 
-            var buttonNode = visualNode.Q<Button>("Button_CategoryContainer");
-            if (buttonNode != null)
-            {
-                UtilityUIBinding.BindButtonClick(buttonNode, node.onClick, boundButtons);
-            }
-            else
-            {
-                Debug.LogWarning("No Button found in category node template!");
-            }
+            var buttonNode = UtilityUIBinding.QRequired<Button>(visualNode, "Button_CategoryContainer");
+
+            UtilityUIBinding.BindButtonClick(buttonNode, node.onClick, boundButtons);
 
             researchCategoryListContainer.Add(visualNode);
         }
@@ -161,11 +111,11 @@ public class ResearchView : IUIScreenView
             VisualElement visualNode = nodeTemplate[0];
             nodeTemplate.RemoveAt(0);
 
-            var labelResearchName = visualNode.Q<Label>("Label_ResearchName");
-            var labelResearchLevelCurrent = visualNode.Q<Label>("Label_ResearchLevelCurrent");
-            var labelResearchLevelNext = visualNode.Q<Label>("Label_ResearchLevelNext");
-            var labelResearchDescription = visualNode.Q<Label>("Label_ResearchDescription");
-            var labelResearchTime = visualNode.Q<Label>("Label_ResearchTime");
+            var labelResearchName = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchName");
+            var labelResearchLevelCurrent = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchLevelCurrent");
+            var labelResearchLevelNext = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchLevelNext");
+            var labelResearchDescription = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchDescription");
+            var labelResearchTime = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchTime");
 
             labelResearchName.text = node.name;
             labelResearchLevelCurrent.text = node.researchLevelCurrent;
@@ -173,24 +123,18 @@ public class ResearchView : IUIScreenView
             labelResearchDescription.text = node.description;
             labelResearchTime.text = node.researchTime;
 
-            var buttonPurchaseResearch = visualNode.Q<Button>("Button_PurchaseResearch");
-            if (buttonPurchaseResearch != null)
+            var buttonPurchaseResearch = UtilityUIBinding.QRequired<Button>(visualNode, "Button_PurchaseResearch");
+
+            buttonPurchaseResearch.text = node.cost;
+
+            Sprite sprite = Resources.Load<Sprite>("UI/cinder_icon");
+
+            if (sprite != null)
             {
-                buttonPurchaseResearch.text = node.cost;
-
-                Sprite sprite = Resources.Load<Sprite>("UI/cinder_icon");
-
-                if (sprite != null)
-                {
-                    buttonPurchaseResearch.iconImage = sprite.texture;
-                }
-
-                UtilityUIBinding.BindButtonClick(buttonPurchaseResearch, node.onClick, boundButtons);
+                buttonPurchaseResearch.iconImage = sprite.texture;
             }
-            else
-            {
-                Debug.LogWarning("No Button found in category node template!");
-            }
+
+            UtilityUIBinding.BindButtonClick(buttonPurchaseResearch, node.onClick, boundButtons);
 
             researchListContainer.Add(visualNode);
         }
