@@ -59,8 +59,15 @@ public class ForgeEvents : IUIScreenEvents
         Debug.Log("Clicked " + nameof(Btn_Upg_IncomeClicked));
     }
 
-    private void Btn_Refund_Talents()
+    private async void Btn_Refund_Talents()
     {
-        controller.RefundTalentsAsync();
+        try
+        {
+            await controller.RefundTalentsAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error refunding talents: {e}");
+        }
     }
 }
