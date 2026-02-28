@@ -27,8 +27,7 @@ public class LeaderboardView : IUIScreenView
                 Debug.LogError("Leaderboard row template not loaded!");
                 return;
             }
-
-            listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
+            listContainer = UtilityUIBinding.QRequired<ScrollView>(root, "ScrollView_Leaderboard");
             listContainer.Clear();
 
             await LeaderboardService.Instance.GetScores();
@@ -53,10 +52,10 @@ public class LeaderboardView : IUIScreenView
     {
         var row = rowTemplate.Instantiate();
 
-        var rankLabel = row.Q<Label>("Label_Rank");
-        var trophy = row.Q<VisualElement>("Icon_Trophy");
-        var nameLabel = row.Q<Label>("Label_Username");
-        var scoreLabel = row.Q<Label>("Label_Score");
+        var rankLabel = UtilityUIBinding.QRequired<Label>(row, "Label_Rank");
+        var trophy = UtilityUIBinding.QRequired<VisualElement>(row, "Icon_Trophy");
+        var nameLabel = UtilityUIBinding.QRequired<Label>(row, "Label_Username");
+        var scoreLabel = UtilityUIBinding.QRequired<Label>(row, "Label_Score");
 
         rankLabel.text = (entry.Rank + 1).ToString();
         nameLabel.text = entry.PlayerName;

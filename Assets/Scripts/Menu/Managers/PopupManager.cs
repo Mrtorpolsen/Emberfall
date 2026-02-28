@@ -62,21 +62,15 @@ public class PopupManager : MonoBehaviour
 
         root = popupRoot;
 
-        blocker = root.Q<VisualElement>(BLOCKER_NAME);
-        container = root.Q<VisualElement>(CONTAINER_NAME);
+        blocker = UtilityUIBinding.QRequired<VisualElement>(root, BLOCKER_NAME);
+        container = UtilityUIBinding.QRequired<VisualElement>(root, CONTAINER_NAME);
 
-        img = root.Q<VisualElement>(IMG_NAME);
-        heading = root.Q<Label>(HEADING_NAME);
-        description = root.Q<Label>(DESCRIPTION_NAME);
-        btnContainer = root.Q<VisualElement>(BTNCONTAINER_NAME);
-        btnLabel = root.Q<Label>(BTNLABEL_NAME);
-        btn = root.Q<Button>(CTA_NAME);
-
-        if (blocker == null || container == null)
-        {
-            Debug.LogError("PopupManager Initialize failed: required elements not found.");
-            return;
-        }
+        img = UtilityUIBinding.QRequired<VisualElement>(root, IMG_NAME);
+        heading = UtilityUIBinding.QRequired<Label>(root, HEADING_NAME);
+        description = UtilityUIBinding.QRequired<Label>(root, DESCRIPTION_NAME);
+        btnContainer = UtilityUIBinding.QRequired<VisualElement>(root, BTNCONTAINER_NAME);
+        btnLabel = UtilityUIBinding.QRequired<Label>(root, BTNLABEL_NAME);
+        btn = UtilityUIBinding.QRequired<Button>(root, CTA_NAME);
 
         // Register callbacks
         blocker.RegisterCallback<ClickEvent>(OnBackgroundClicked);

@@ -74,14 +74,8 @@ public class LoginManager : MonoBehaviour
             return;
         }
 
-        input_name = root.Q<TextField>("Input_Username");
-        btn_login = root.Q<Button>("Btn_Login");
-
-        if (input_name == null || btn_login == null)
-        {
-            Debug.LogError("UI Elements not found! Check names in UXML.");
-            return;
-        }
+        input_name = UtilityUIBinding.QRequired<TextField>(root, "Input_Username");
+        btn_login = UtilityUIBinding.QRequired<Button>(root, "Btn_Login");
 
         btn_login.clicked += OnLoginClicked;
     }

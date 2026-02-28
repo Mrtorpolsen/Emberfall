@@ -11,19 +11,8 @@ public class ForgeView : IUIScreenView
 
     public Task InitializeAsync(VisualElement root)
     {
-        ForgePanel = root.Q<VisualElement>("ForgePanel");
-        TalentTreePanel = root.Q<VisualElement>("TalentTreePanel");
-
-        if (ForgePanel == null)
-        {
-            Debug.LogWarning("ForgePanel no found");
-            return Task.CompletedTask;
-        }
-        if (TalentTreePanel == null)
-        {
-            Debug.LogWarning("TalentTreePanel no found");
-            return Task.CompletedTask;
-        }
+        ForgePanel = UtilityUIBinding.QRequired<VisualElement>(root, "ForgePanel");
+        TalentTreePanel = UtilityUIBinding.QRequired<VisualElement>(root, "TalentTreePanel");
 
         talentTreeView = new TalentTreeView();
         talentTreeView.Initialize(TalentTreePanel);

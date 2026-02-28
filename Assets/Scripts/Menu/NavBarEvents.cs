@@ -21,7 +21,7 @@ public class NavBarEvents : MonoBehaviour
 
     void Awake()
     {
-        root = uIDocument.rootVisualElement.Q<VisualElement>("NavMenuContainer");
+        root = UtilityUIBinding.QRequired<VisualElement>(uIDocument.rootVisualElement, "NavMenuContainer");
 
         UtilityUIBinding.BindEvents(root, this, bindings);
     }

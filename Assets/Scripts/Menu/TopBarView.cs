@@ -13,8 +13,9 @@ public class TopBarView : MonoBehaviour
     private void Awake()
     {
         var root = uiDocument.rootVisualElement;
-        label_username = root.Q<Label>("Label_UserName");
-        label_cinders = root.Q<Label>("Label_UserCinders");
+
+        label_username = UtilityUIBinding.QRequired<Label>(root, "Label_UserName");
+        label_cinders = UtilityUIBinding.QRequired<Label>(root, "Label_UserCinders");
     }
 
     private void OnEnable()

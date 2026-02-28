@@ -8,7 +8,7 @@ public class MainMenuView : IUIScreenView
 
     public Task InitializeAsync(VisualElement root)
     {
-        label_highscore = root.Q<Label>("Label_HighScore");
+        label_highscore = UtilityUIBinding.QRequired<Label>(root, "Label_HighScore");
 
         label_highscore.text = TimeFormatter.FormatTimeMiliseconds(UserProfile.Instance.UserHighScore);
 
