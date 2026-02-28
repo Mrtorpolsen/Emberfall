@@ -1,4 +1,5 @@
 ﻿using Mono.Cecil.Cil;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -31,8 +32,7 @@ public class ResearchUIController : IUIScreenController
 
         if (ResearchService.Instance.playerResearchTree.GetCategories() == null)
         {
-            Debug.LogWarning("Couldnt get categories");
-            return null;
+            throw new InvalidOperationException("Couldnt get categories");
         }
 
         foreach (var category in ResearchService.Instance.playerResearchTree.GetCategories())
@@ -52,7 +52,7 @@ public class ResearchUIController : IUIScreenController
         {
             var researchToUpg = ResearchService.Instance.playerResearchTree.GetResearchById(acitveResearch.ResearchId);
 
-            var endTime = acitveResearch.StartTime + (GetCostForNextLevel(researchToUpg.TimeScaling, acitveResearch.TargetLevel));
+            var endTime = acitveResearch.StartTime + (GetCostForNextLevelLinear(researchToUpg.TimeScaling, acitveResearch.TargetLevel));
 
             node.researchName = researchToUpg.Name;
             node.researchRank = acitveResearch.TargetLevel.ToString();

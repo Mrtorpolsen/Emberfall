@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -67,8 +68,7 @@ public class ForgeUIController : IUIScreenController
 
         if (TalentService.Instance.playerTalentTree.GetTalentsByClass(treeToGenerate) == null)
         {
-            Debug.LogWarning("Couldnt get talent tree");
-            return null;
+            throw new InvalidOperationException("Couldnt get talent tree");
         }
 
         foreach (var talent in TalentService.Instance.playerTalentTree.GetTalentsByClass(treeToGenerate))

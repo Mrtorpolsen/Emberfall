@@ -83,7 +83,7 @@ public class ResearchView : IUIScreenView
                 var labelResearchTimeLeft = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchTimeLeft");
 
                 labelResearchName.text = node.researchName;
-                labelResearchRank.text = node.researchRank;
+                labelResearchRank.text = $"Researching rank: {node.researchRank}";
                 labelResearchTimeLeft.text = node.researchTimeLeft;
             }
 
