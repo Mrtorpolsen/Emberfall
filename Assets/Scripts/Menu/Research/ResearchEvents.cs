@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ResearchEvents : IUIScreenEvents
@@ -12,6 +11,7 @@ public class ResearchEvents : IUIScreenEvents
         { "Btn_Return", nameof(Btn_ReturnCLicked) },
 
     };
+
     public void BindEvents(VisualElement root, IUIScreenController controller = null, IUIScreenView view = null)
     {
         this.controller = controller as ResearchUIController;

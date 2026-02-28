@@ -53,11 +53,6 @@ public class ResearchView : IUIScreenView
 
         foreach (var node in categoryNodes)
         {
-            //Extract the actual root
-            //var nodeTemplate = researchCategoryNode.Instantiate();
-            //VisualElement visualNode = nodeTemplate[0];
-            //nodeTemplate.RemoveAt(0);
-
             VisualElement visualNode = UtilityUIBinding.InstantiateRoot(researchCategoryNode);
 
             var inactiveContainer = UtilityUIBinding.QRequired<VisualElement>(visualNode, "InactiveContainer");
