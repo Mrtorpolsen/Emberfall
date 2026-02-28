@@ -11,8 +11,6 @@ public static class UtilityUIBinding
     private static readonly Dictionary<object, Dictionary<Button, Action>> instanceActions
         = new Dictionary<object, Dictionary<Button, Action>>();
 
-    private static readonly List<(VisualElement element, EventCallback<ClickEvent> handler)> clickHandlers = new();
-
     public static void BindEvents(VisualElement root, object target, Dictionary<string, string> bindings)
     {
         if (!instanceActions.ContainsKey(target))
