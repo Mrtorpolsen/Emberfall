@@ -107,9 +107,7 @@ public class ResearchView : IUIScreenView
 
         foreach (var node in researchNodes)
         {
-            var nodeTemplate = researchNode.Instantiate();
-            VisualElement visualNode = nodeTemplate[0];
-            nodeTemplate.RemoveAt(0);
+            VisualElement visualNode = UtilityUIBinding.InstantiateRoot(researchNode);
 
             var labelResearchName = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchName");
             var labelResearchLevelCurrent = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchLevelCurrent");

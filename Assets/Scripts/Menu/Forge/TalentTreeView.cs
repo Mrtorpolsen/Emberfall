@@ -36,10 +36,7 @@ public class TalentTreeView
 
         foreach (var node in talentNodes)
         {
-            //Extract the actual root
-            var nodeTemplate = talentNode.Instantiate();
-            VisualElement visualNode = nodeTemplate[0];
-            nodeTemplate.RemoveAt(0);
+            VisualElement visualNode = UtilityUIBinding.InstantiateRoot(talentNode);
             
             var labelCost = UtilityUIBinding.QRequired<Label>(visualNode, "Label_Cost");
             var imgTalent = UtilityUIBinding.QRequired<VisualElement>(visualNode, "Img_Talent");
