@@ -1,31 +1,56 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class ResearchTree
 {
     [JsonProperty("research")]
     public Dictionary<string, List<ResearchDefinition>> ResearchByCategory { get; set; }
+    public Dictionary<ResearchCategory, List<ResearchDefinition>> ResearchByCategoryEnum { get; private set; }
 
-    public List<ResearchDefinition> GetResearchByCategory(string category)
+    public List<ResearchDefinition> GetResearchByCategory(ResearchCategory category)
     {
-        ResearchByCategory.TryGetValue(category.ToLower(), out var research);
+        ResearchByCategoryEnum.TryGetValue(category, out var research);
         return research;
     }
+
     public ResearchDefinition GetResearchById(string id)
     {
-        string category = id.Split("_")[0];
-        return GetResearchByCategory(category).Find(research => research.Id == id);
+        // extract category from id or from definition
+        var research = ResearchByCategoryEnum.Values.SelectMany(list => list)
+            .FirstOrDefault(r => r.Id == id);
+        return research;
     }
+
     public ResearchCategory GetResearchCategoryById(string id)
     {
         ResearchCategory category = GetResearchById(id).Category;
         return category;
     }
-    public IEnumerable<string> GetCategories(bool sorted = true)
+
+    public IEnumerable<ResearchCategory> GetCategories(bool sorted = true)
     {
-        var categories = ResearchByCategory.Keys;
+        var categories = ResearchByCategoryEnum.Keys;
         return sorted ? categories.OrderBy(c => c) : categories;
+    }
+
+    public void NormalizeCategoryKeys()
+    {
+        ResearchByCategoryEnum = new Dictionary<ResearchCategory, List<ResearchDefinition>>();
+
+        foreach (var kvp in ResearchByCategory)
+        {
+            if (Enum.TryParse<ResearchCategory>(kvp.Key, true, out var category))
+            {
+                ResearchByCategoryEnum[category] = kvp.Value;
+            }
+            else
+            {
+                Debug.LogWarning($"Unknown category key in JSON: {kvp.Key}");
+            }
+        }
     }
 }
 

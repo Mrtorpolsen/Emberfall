@@ -43,11 +43,11 @@ public class ResearchUIController : IUIScreenController
         return categoryNodes;
     }
 
-    private ResearchCategoryNodeDefinition BuildResearchCategory(string categoryName)
+    private ResearchCategoryNodeDefinition BuildResearchCategory(ResearchCategory category)
     {
         ResearchCategoryNodeDefinition node = new();
 
-        var acitveResearch = ResearchService.Instance.IsActiveCategory(categoryName);
+        var acitveResearch = ResearchService.Instance.IsActiveCategory(category);
         if (acitveResearch != null)
         {
             var researchToUpg = ResearchService.Instance.playerResearchTree.GetResearchById(acitveResearch.ResearchId);
@@ -61,24 +61,24 @@ public class ResearchUIController : IUIScreenController
         } 
         else
         {
-            node.categoryName = categoryName.FirstCharacterToUpper();
+            node.categoryName = category.ToString();
             node.isResearchActive = false;
         }
 
         node.onClick = () =>
         {
-            view.RenderResearchList(GenerateResearchNodes(categoryName));
-            view.researchHeading.text = $"{categoryName} Upgrades";
+            view.RenderResearchList(GenerateResearchNodes(category));
+            view.researchHeading.text = $"{category} Upgrades";
         };
         
         return node;
     }
 
-    public List<ResearchNodeDefinition> GenerateResearchNodes(string categoryName)
+    public List<ResearchNodeDefinition> GenerateResearchNodes(ResearchCategory category)
     {
         var researchNodes = new List<ResearchNodeDefinition>();
 
-        foreach (var research in ResearchService.Instance.playerResearchTree.GetResearchByCategory(categoryName))
+        foreach (var research in ResearchService.Instance.playerResearchTree.GetResearchByCategory(category))
         {
             researchNodes.Add(BuildResearchNode(research));
         }

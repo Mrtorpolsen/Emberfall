@@ -52,6 +52,7 @@ public class ResearchService : MonoBehaviour
         try
         {
             var tree = JsonConvert.DeserializeObject<ResearchTree>(jsonAsset.text);
+            tree.NormalizeCategoryKeys();
             playerResearchTree = tree;
         }
         finally
@@ -95,12 +96,9 @@ public class ResearchService : MonoBehaviour
 
     }
 
-    public ActiveResearch IsActiveCategory(string categoryName)
+    public ActiveResearch IsActiveCategory(ResearchCategory category)
     {
-        if (Enum.TryParse<ResearchCategory>(categoryName, true, out ResearchCategory researchCategory))
-        {
-            return SaveService.Instance.Current?.Research.ActiveResearches.Find((research) => research.ResearchCategory == researchCategory);
-        }
-        return null;
+        return SaveService.Instance.Current?.Research.ActiveResearches
+            .Find(r => r.ResearchCategory == category);
     }
 }
