@@ -1,4 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -7,6 +11,8 @@ public class ResearchService : MonoBehaviour
 {
     public static ResearchService Instance;
     public ResearchTree playerResearchTree;
+
+    public event Action<ResearchCategory> OnResearchCompleted;
 
     private const string RESEARCH_ADDRESSABLE = "Research";
 
@@ -52,6 +58,11 @@ public class ResearchService : MonoBehaviour
             var tree = JsonConvert.DeserializeObject<ResearchTree>(jsonAsset.text);
             tree.NormalizeCategoryKeys();
             playerResearchTree = tree;
+
+            if (SaveService.Instance.Current.Research.ActiveResearches.Count > 0)
+            {
+                RestartActiveResearchTimers();
+            }
         }
         finally
         {
@@ -59,13 +70,13 @@ public class ResearchService : MonoBehaviour
         }
     }
 
-    public async void StartResearch(string id)
+    public async Task StartResearch(string id)
     {
         //Checks if category already being researched
-        ResearchDefinition researchDef = playerResearchTree.GetResearchById(id);
+        ResearchDefinition research = playerResearchTree.GetResearchById(id);
 
         if (SaveService.Instance.Current.Research.ActiveResearches
-            .Find(research => research.ResearchCategory == researchDef.Category) != null)
+            .Find(activeResearch => activeResearch.ResearchCategory == research.Category) != null)
         {
             Debug.LogWarning("Category already being researched");
             return;
@@ -78,20 +89,79 @@ public class ResearchService : MonoBehaviour
             currentStacks = stacks;
         }
 
-        ActiveResearch researchToStart = new ActiveResearch(researchDef.Category, researchDef.Id, (currentStacks + 1));
+        ActiveResearch researchToStart = new ActiveResearch(research.Category, research.Id, (currentStacks + 1));
 
         SaveService.Instance.Current.Research.ActiveResearches.Add(researchToStart);
+
+        StartCoroutine(ResearchTimerRoutine(researchToStart, research));
+
         await SaveService.Instance.SaveAsync();
     }
 
-    public void SaveResearch()
+    private void CompleteResearch(ActiveResearch active)
     {
+        SaveService.Instance.Current.Research.ActiveResearches.Remove(active);
+        SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
+        SaveService.Instance.Save();
 
+        OnResearchCompleted?.Invoke(active.ResearchCategory);
     }
 
-    public void ResearchComplete()
+    private void CompleteResearchInternal(ActiveResearch active)
     {
+        SaveService.Instance.Current.Research.ActiveResearches.Remove(active);
+        SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
 
+        OnResearchCompleted?.Invoke(active.ResearchCategory);
+    }
+
+    private IEnumerator ResearchTimerRoutine(ActiveResearch active, ResearchDefinition research)
+    {
+        int duration = research.TimeScaling.GetAmountForNextLevelLinear(active.TargetLevel);
+        long endTime = active.StartTime + duration;
+
+        while (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < endTime)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+
+        CompleteResearchInternal(active);
+        SaveService.Instance.Save();
+    }
+
+    private async void RestartActiveResearchTimers()
+    {
+        //To batch expired while offline, and save at once
+        var expired = new List<ActiveResearch>();
+
+        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        foreach (var active in SaveService.Instance.Current.Research.ActiveResearches.ToList())
+        {
+            ResearchDefinition def = playerResearchTree.GetResearchById(active.ResearchId);
+
+            int duration = def.TimeScaling.GetAmountForNextLevelLinear(active.TargetLevel);
+            long endTime = active.StartTime + duration;
+
+            if (now >= endTime)
+            {
+                expired.Add(active);
+            }
+            else
+            {
+                StartCoroutine(ResearchTimerRoutine(active, def));
+            }
+        }
+
+        if (expired.Count > 0)
+        {
+            foreach (var active in expired)
+            {
+                CompleteResearchInternal(active);
+            }
+
+            await SaveService.Instance.SaveAsync();
+        }
     }
 
     public ActiveResearch IsActiveCategory(ResearchCategory category)

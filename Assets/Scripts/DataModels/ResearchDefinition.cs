@@ -83,6 +83,17 @@ public class ResearchScaling
 {
     public float BaseValue;
     public float MultiplierPerLevel;
+
+    public int GetAmountForNextLevelLinear(int level)
+    {
+        float value = BaseValue + MultiplierPerLevel * level;
+        return Mathf.RoundToInt(value);
+    }
+    private int GetAmountForNextLevelExpo(int level)
+    {
+        float value = BaseValue * Mathf.Pow(MultiplierPerLevel, level);
+        return Mathf.RoundToInt(value);
+    }
 }
 
 public class ResearchPrerequisite

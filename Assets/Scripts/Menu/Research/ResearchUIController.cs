@@ -52,11 +52,9 @@ public class ResearchUIController : IUIScreenController
         {
             var researchToUpg = ResearchService.Instance.playerResearchTree.GetResearchById(acitveResearch.ResearchId);
 
-            var endTime = acitveResearch.StartTime + (GetCostForNextLevelLinear(researchToUpg.TimeScaling, acitveResearch.TargetLevel));
-
             node.researchName = researchToUpg.Name;
             node.researchRank = acitveResearch.TargetLevel.ToString();
-            node.researchTimeLeft = TimeFormatter.FormatDaysTime((endTime - acitveResearch.StartTime));
+            node.researchTimeLeft = TimeFormatter.FormatDaysTime((acitveResearch.StartTime));
             node.isResearchActive = true;
         } 
         else
@@ -96,29 +94,16 @@ public class ResearchUIController : IUIScreenController
         node.researchLevelCurrent = currentLevel.ToString();
         node.researchLevelNext = (currentLevel + 1).ToString();
         node.description = research.Description;
-        node.researchTime = TimeFormatter.FormatCondensedTime(GetCostForNextLevelLinear(research.TimeScaling, currentLevel));
-        node.cost = GetCostForNextLevelLinear(research.CostScaling, currentLevel).ToString();
+        node.researchTime = TimeFormatter.FormatCondensedTime(research.TimeScaling.GetAmountForNextLevelLinear(currentLevel));
+        node.cost = research.CostScaling.GetAmountForNextLevelLinear(currentLevel).ToString();
 
-        node.onClick = () =>
+        node.onClick = async () =>
         {
             //TODO purchase logic
-            ResearchService.Instance.StartResearch(research.Id);
+            await ResearchService.Instance.StartResearch(research.Id);
         };
 
         return node;
-    }
-
-    //expo
-    private int GetCostForNextLevel(ResearchScaling scaling, int level)
-    {
-        float value = scaling.BaseValue * Mathf.Pow(scaling.MultiplierPerLevel, level);
-        return Mathf.RoundToInt(value);
-    }
-
-    private int GetCostForNextLevelLinear(ResearchScaling scaling, int level)
-    {
-        float value = scaling.BaseValue + scaling.MultiplierPerLevel * (level);
-        return Mathf.RoundToInt(value);
     }
 
     public void Cleanup()
