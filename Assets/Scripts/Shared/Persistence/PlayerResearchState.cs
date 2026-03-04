@@ -18,15 +18,18 @@ public class ActiveResearch
     public string ResearchId;
     public int TargetLevel; // the level being researched
     public long StartTime;  // unix timestamp
+    public string ResearchName;
 
     public ActiveResearch(
         ResearchCategory category,
         string researchId,
-        int targetLevel)
+        int targetLevel,
+        string researchName)
     {
         ResearchCategory = category;
         ResearchId = researchId;
         TargetLevel = targetLevel;
         StartTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        ResearchName = researchName;
     }
 }

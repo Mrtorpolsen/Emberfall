@@ -5,7 +5,7 @@ public class ResearchCategoryNodeDefinition
     public bool isResearchActive;
 
     //Inactive research
-    public string categoryName;
+    public ResearchCategory category;
     public Action onClick;
 
     //Active research

@@ -1,7 +1,4 @@
-﻿using Mono.Cecil.Cil;
-using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ResearchUIController : IUIScreenController
@@ -17,59 +14,14 @@ public class ResearchUIController : IUIScreenController
         }
 
         view = researchView;
+        view.OnCategorySelected += HandleCategorySelected;
 
         ToCategories();
     }
 
     public void ToCategories()
     {
-        view.RenderResearchCategories(GenerateResearchCategories());
-    }
-
-    public List<ResearchCategoryNodeDefinition> GenerateResearchCategories()
-    {
-        var categoryNodes = new List<ResearchCategoryNodeDefinition>();
-
-        if (ResearchService.Instance.playerResearchTree.GetCategories() == null)
-        {
-            throw new InvalidOperationException("Couldnt get categories");
-        }
-
-        foreach (var category in ResearchService.Instance.playerResearchTree.GetCategories())
-        {
-            categoryNodes.Add(BuildResearchCategory(category));
-        }
-
-        return categoryNodes;
-    }
-
-    private ResearchCategoryNodeDefinition BuildResearchCategory(ResearchCategory category)
-    {
-        ResearchCategoryNodeDefinition node = new();
-
-        var acitveResearch = ResearchService.Instance.IsActiveCategory(category);
-        if (acitveResearch != null)
-        {
-            var researchToUpg = ResearchService.Instance.playerResearchTree.GetResearchById(acitveResearch.ResearchId);
-
-            node.researchName = researchToUpg.Name;
-            node.researchRank = acitveResearch.TargetLevel.ToString();
-            node.researchTimeLeft = TimeFormatter.FormatDaysTime((acitveResearch.StartTime));
-            node.isResearchActive = true;
-        } 
-        else
-        {
-            node.categoryName = category.ToString();
-            node.isResearchActive = false;
-        }
-
-        node.onClick = () =>
-        {
-            view.RenderResearchList(GenerateResearchNodes(category));
-            view.researchHeading.text = $"{category} Upgrades";
-        };
-        
-        return node;
+        view.RenderResearchCategories();
     }
 
     public List<ResearchNodeDefinition> GenerateResearchNodes(ResearchCategory category)
@@ -88,13 +40,14 @@ public class ResearchUIController : IUIScreenController
     {
         var node = new ResearchNodeDefinition();
 
-        int currentLevel = 0;
+        int currentLevel = ResearchService.Instance.GetCurrentResearchLevel(research.Id);
 
         node.name = research.Name;
         node.researchLevelCurrent = currentLevel.ToString();
         node.researchLevelNext = (currentLevel + 1).ToString();
         node.description = research.Description;
         node.researchTime = TimeFormatter.FormatCondensedTime(research.TimeScaling.GetAmountForNextLevelLinear(currentLevel));
+        node.category = research.Category;
         node.cost = research.CostScaling.GetAmountForNextLevelLinear(currentLevel).ToString();
 
         node.onClick = async () =>
@@ -106,8 +59,14 @@ public class ResearchUIController : IUIScreenController
         return node;
     }
 
+    private void HandleCategorySelected(ResearchCategory category)
+    {
+        view.RenderResearchList(GenerateResearchNodes(category));
+        view.researchHeading.text = $"{category} Upgrades";
+    }
+
     public void Cleanup()
     {
-        view.CleanupButtons();
+        view.Cleanup();
     }
 }

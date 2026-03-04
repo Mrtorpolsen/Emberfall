@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -12,7 +13,9 @@ public class ResearchService : MonoBehaviour
     public static ResearchService Instance;
     public ResearchTree playerResearchTree;
 
+    public event Action<ResearchCategory> OnResearchStarted;
     public event Action<ResearchCategory> OnResearchCompleted;
+    public event Action<ResearchCategory, long> OnResearchTimeUpdated;
 
     private const string RESEARCH_ADDRESSABLE = "Research";
 
@@ -82,6 +85,8 @@ public class ResearchService : MonoBehaviour
             return;
         }
 
+        OnResearchStarted?.Invoke(research.Category);
+
         int currentStacks = 0;
 
         if (SaveService.Instance.Current.Research.CompletedResearch.TryGetValue(id, out var stacks))
@@ -89,7 +94,7 @@ public class ResearchService : MonoBehaviour
             currentStacks = stacks;
         }
 
-        ActiveResearch researchToStart = new ActiveResearch(research.Category, research.Id, (currentStacks + 1));
+        ActiveResearch researchToStart = new ActiveResearch(research.Category, research.Id, (currentStacks + 1), research.Name);
 
         SaveService.Instance.Current.Research.ActiveResearches.Add(researchToStart);
 
@@ -122,11 +127,17 @@ public class ResearchService : MonoBehaviour
 
         while (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < endTime)
         {
+            long remaining = endTime - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+            OnResearchTimeUpdated?.Invoke(active.ResearchCategory, remaining);
+
             yield return new WaitForSeconds(1f);
         }
 
-        CompleteResearchInternal(active);
-        SaveService.Instance.Save();
+        // Final update to 0
+        OnResearchTimeUpdated?.Invoke(active.ResearchCategory, 0);
+
+        CompleteResearch(active);
     }
 
     private async void RestartActiveResearchTimers()
@@ -164,9 +175,42 @@ public class ResearchService : MonoBehaviour
         }
     }
 
+    public long GetRemainingSeconds(ActiveResearch active)
+    {
+        ResearchDefinition def = playerResearchTree.GetResearchById(active.ResearchId);
+        int duration = def.TimeScaling.GetAmountForNextLevelLinear(active.TargetLevel);
+
+        long endTime = active.StartTime + duration;
+        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+        return Math.Max(0, endTime - now);
+    }
+
+    public float GetProgress(ActiveResearch active)
+    {
+        var def = playerResearchTree.GetResearchById(active.ResearchId);
+        int duration = def.TimeScaling.GetAmountForNextLevelLinear(active.TargetLevel);
+
+        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        float elapsed = now - active.StartTime;
+
+        return Mathf.Clamp01(elapsed / duration);
+    }
+
     public ActiveResearch IsActiveCategory(ResearchCategory category)
     {
         return SaveService.Instance.Current?.Research.ActiveResearches
             .Find(r => r.ResearchCategory == category);
+    }
+
+    public int GetCurrentResearchLevel(string researchId)
+    {
+        if (SaveService.Instance.Current.Research.CompletedResearch
+            .TryGetValue(researchId, out int level))
+        {
+            return level;
+        }
+
+        return 0;
     }
 }

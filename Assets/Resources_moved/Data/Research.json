@@ -15,7 +15,7 @@
           "MultiplierPerLevel": 1.2
         },
         "TimeScaling": {
-          "BaseValue": 184530,
+          "BaseValue": 30,
           "MultiplierPerLevel": 1.25
         },
         "Effects": [
@@ -86,7 +86,7 @@
           "MultiplierPerLevel": 1.2
         },
         "TimeScaling": {
-          "BaseValue": 86400,
+          "BaseValue": 60,
           "MultiplierPerLevel": 1.25
         },
         "Effects": [

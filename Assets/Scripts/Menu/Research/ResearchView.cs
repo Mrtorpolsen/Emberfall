@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
@@ -21,7 +21,9 @@ public class ResearchView : IUIScreenView
     private const string RESEARCH_CATEGORYNODE_ADDRESSABLE = "UI/CategoryNode";
     private const string RESEARCH_RESEARCHNODE_ADDRESSABLE = "UI/ResearchNode";
 
-    private readonly List<(Button button, Action handler)> boundButtons = new();
+    private IEnumerable<ResearchCategory> categories;
+
+    public event Action<ResearchCategory> OnCategorySelected;
 
     public async Task InitializeAsync(VisualElement root)
     {
@@ -29,6 +31,11 @@ public class ResearchView : IUIScreenView
         ResearchListPanel = UtilityUIBinding.QRequired<VisualElement>(root, "ResearchListPanel");
         researchHeading = UtilityUIBinding.QRequired<Label>(root, "Label_ResearchHeading");
 
+        categories = ResearchService.Instance.playerResearchTree.GetCategories();
+        if (categories == null)
+        {
+            throw new InvalidOperationException("Failed to load categories.");
+        }
         ShowCategoryList();
 
         researchCategoryListContainer = UtilityUIBinding.QRequired<VisualElement>(root, "ResearchCategoryListContainer");
@@ -47,49 +54,19 @@ public class ResearchView : IUIScreenView
         }
     }
 
-    public void RenderResearchCategories(List<ResearchCategoryNodeDefinition> categoryNodes)
+    public void RenderResearchCategories()
     {
         ClearPanel(researchCategoryListContainer);
 
-        foreach (var node in categoryNodes)
+        foreach (ResearchCategory category in categories)
         {
-            VisualElement visualNode = UtilityUIBinding.InstantiateRoot(researchCategoryNode);
+            var visualNode = new ResearchCategoryNodeElement(researchCategoryNode);
+            visualNode.Bind(category);
 
-            var inactiveContainer = UtilityUIBinding.QRequired<VisualElement>(visualNode, "InactiveContainer");
-            var activeContainer = UtilityUIBinding.QRequired<VisualElement>(visualNode, "ActiveContainer");
-
-            if (!node.isResearchActive)
+            visualNode.OnClick += category =>
             {
-                inactiveContainer.style.display = DisplayStyle.Flex;
-                activeContainer.style.display = DisplayStyle.None;
-
-                var labelCategoryName = visualNode.Q<Label>("Label_CategoryName");
-                if (labelCategoryName != null)
-                {
-                    labelCategoryName.text = node.categoryName;
-                }
-                else
-                {
-                    Debug.LogWarning("No labelCategoryName found in category node template!");
-                }
-            }
-            else
-            {
-                inactiveContainer.style.display = DisplayStyle.None;
-                activeContainer.style.display = DisplayStyle.Flex;
-
-                var labelResearchName = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchName");
-                var labelResearchRank = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchRank");
-                var labelResearchTimeLeft = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchTimeLeft");
-
-                labelResearchName.text = node.researchName;
-                labelResearchRank.text = $"Researching rank: {node.researchRank}";
-                labelResearchTimeLeft.text = node.researchTimeLeft;
-            }
-
-            var buttonNode = UtilityUIBinding.QRequired<Button>(visualNode, "Button_CategoryContainer");
-
-            UtilityUIBinding.BindButtonClick(buttonNode, node.onClick, boundButtons);
+                OnCategorySelected?.Invoke(category);
+            };
 
             researchCategoryListContainer.Add(visualNode);
         }
@@ -102,32 +79,8 @@ public class ResearchView : IUIScreenView
 
         foreach (var node in researchNodes)
         {
-            VisualElement visualNode = UtilityUIBinding.InstantiateRoot(researchNode);
-
-            var labelResearchName = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchName");
-            var labelResearchLevelCurrent = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchLevelCurrent");
-            var labelResearchLevelNext = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchLevelNext");
-            var labelResearchDescription = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchDescription");
-            var labelResearchTime = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchTime");
-
-            labelResearchName.text = node.name;
-            labelResearchLevelCurrent.text = node.researchLevelCurrent;
-            labelResearchLevelNext.text = node.researchLevelNext;
-            labelResearchDescription.text = node.description;
-            labelResearchTime.text = node.researchTime;
-
-            var buttonPurchaseResearch = UtilityUIBinding.QRequired<Button>(visualNode, "Button_PurchaseResearch");
-
-            buttonPurchaseResearch.text = node.cost;
-
-            Sprite sprite = Resources.Load<Sprite>("UI/cinder_icon");
-
-            if (sprite != null)
-            {
-                buttonPurchaseResearch.iconImage = sprite.texture;
-            }
-
-            UtilityUIBinding.BindButtonClick(buttonPurchaseResearch, node.onClick, boundButtons);
+            var visualNode = new ResearchNodeElement(researchNode);
+            visualNode.Bind(node);
 
             researchListContainer.Add(visualNode);
         }
@@ -148,12 +101,21 @@ public class ResearchView : IUIScreenView
 
     private void ClearPanel(VisualElement panel)
     {
-        CleanupButtons();
+        Cleanup();
         panel.Clear();
     }
 
-    public void CleanupButtons()
+    public void Cleanup()
     {
-        UtilityUIBinding.CleanupButtonClicks(boundButtons);
+        CleanupUnbindables(researchCategoryListContainer);
+        CleanupUnbindables(researchListContainer);
+    }
+
+    private void CleanupUnbindables(VisualElement container)
+    {
+        foreach (var element in container.Children().OfType<IUnbindable>())
+        {
+            element.Unbind();
+        }
     }
 }

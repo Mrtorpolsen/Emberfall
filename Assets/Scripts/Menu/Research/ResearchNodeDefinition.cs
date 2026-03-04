@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 public class ResearchNodeDefinition
 {
@@ -8,5 +9,6 @@ public class ResearchNodeDefinition
     public string description;
     public string researchTime;
     public string cost;
-    public Action onClick;
+    public ResearchCategory category;
+    public Func<Task> onClick;
 }
