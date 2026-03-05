@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
 {
-    [Header("Enemy Unit Stats Definitions")]
+    [Header("Unit Stats Definitions")]
     [SerializeField] private List<UnitStatsDefinition> unitStatsDefinition;
 
     public static UnitStatsManager Instance { get; private set; }
@@ -24,6 +24,7 @@ public class UnitStatsManager : MonoBehaviour
         {
             statsBootstrapper = new StatsBootstrapper();
             statsBootstrapper.LoadAndBuildTalents();
+            statsBootstrapper.LoadAndBuildResearch();
         }
         catch
         {

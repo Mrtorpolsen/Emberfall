@@ -5,8 +5,10 @@ using UnityEngine;
 public class StatsBootstrapper
 {
     private Dictionary<string, List<TalentsToApply>> talentsByUnit;
+    private Dictionary<ResearchCategory, List<ResearchToApply>> researchByCategory;
 
     public IReadOnlyDictionary<string, List<TalentsToApply>> TalentsByUnit => talentsByUnit;
+    public IReadOnlyDictionary<ResearchCategory, List<ResearchToApply>> ResearchByCategory => researchByCategory;
 
     public class TalentsToApply
     {
@@ -15,7 +17,15 @@ public class StatsBootstrapper
         public List<AppliedEffect> effects = new List<AppliedEffect>();
     }
 
+    public class ResearchToApply
+    {
+        public ResearchCategory category;
+        public int purchased;
+        public List<AppliedEffect> effects = new();
+    }
+
     private List<TalentsToApply> talentsToApply;
+    private List<ResearchToApply> researchToApply;
 
     public void LoadInPlayerTalents()
     {
@@ -25,7 +35,7 @@ public class StatsBootstrapper
         {
             string unit = kvp.Key.Split("_")[0].ToLowerInvariant();
 
-            var talentDef = TalentService.Instance
+            TalentDefinition talentDef = TalentService.Instance
                 .playerTalentTree.GetTalentById(kvp.Key);
 
             if (talentDef.Type != TalentType.StatModifier) continue;
@@ -41,11 +51,32 @@ public class StatsBootstrapper
         }
     }
 
+    public void LoadInPlayerResearch()
+    {
+        researchToApply = new List<ResearchToApply>();
+
+        foreach (var kvp in SaveService.Instance.Current.Research.CompletedResearch)
+        {
+            ResearchDefinition researchDef = ResearchService.Instance.playerResearchTree.GetResearchById(kvp.Key);
+
+            //If add category type, skip non stats
+
+            ResearchToApply research = new ResearchToApply
+            {
+                category = researchDef.Category,
+                purchased = kvp.Value,
+                effects = new List<AppliedEffect>(researchDef.Effects)
+            };
+
+            researchToApply.Add(research);
+        }
+    }
+
     public void BuildTalentsByUnit()
     {
         talentsByUnit = new Dictionary<string, List<TalentsToApply>>();
 
-        foreach (var talent in talentsToApply)
+        foreach (TalentsToApply talent in talentsToApply)
         {
             if (!talentsByUnit.TryGetValue(talent.unit, out var list))
             {
@@ -57,10 +88,31 @@ public class StatsBootstrapper
         }
     }
 
+    public void BuildResearchByCategory()
+    {
+        researchByCategory = new Dictionary<ResearchCategory, List<ResearchToApply>>();
+
+        foreach (ResearchToApply research in researchToApply)
+        {
+            if (!researchByCategory.TryGetValue(research.category, out var list))
+            {
+                list = new List<ResearchToApply>();
+                researchByCategory[research.category] = list;
+            }
+
+            list.Add(research);
+        }
+    }
+
     public void LoadAndBuildTalents()
     {
         LoadInPlayerTalents();
         BuildTalentsByUnit();
+    }
+    public void LoadAndBuildResearch()
+    {
+        LoadInPlayerResearch();
+        BuildResearchByCategory();
     }
 
     public void LogTalentsToApply()
