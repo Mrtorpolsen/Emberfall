@@ -45,7 +45,9 @@ public class ResearchNodeElement : VisualElement, IUnbindable
         clickHandler = async () =>
         {
             if (node.onClick != null)
-                await node.onClick.Invoke();  // <-- Node defines what happens on click
+            {
+                await node.onClick.Invoke();
+            }
         };
 
         buttonPurchaseResearch.clicked += clickHandler;
@@ -59,15 +61,6 @@ public class ResearchNodeElement : VisualElement, IUnbindable
             buttonPurchaseResearch.iconImage = sprite.texture;
         }
 
-        if (ResearchService.Instance.IsActiveCategory(category) != null)
-        {
-            LockResearchPurchase(category);
-        }
-        else
-        {
-            UnlockResearchPurchase(category);
-        }
-
         if (ResearchService.Instance != null)
         {
             ResearchService.Instance.OnResearchStarted -= LockResearchPurchase;
@@ -75,6 +68,15 @@ public class ResearchNodeElement : VisualElement, IUnbindable
 
             ResearchService.Instance.OnResearchCompleted -= UnlockResearchPurchase;
             ResearchService.Instance.OnResearchCompleted += UnlockResearchPurchase;
+        }
+
+        if (ResearchService.Instance.IsActiveCategory(category) != null)
+        {
+            LockResearchPurchase(category);
+        }
+        else
+        {
+            UnlockResearchPurchase(category);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ResearchCategoryNodeElement : VisualElement, IUnbindable
@@ -15,8 +16,15 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
 
     private Button button;
 
+    private VisualElement progressOverlay;
+    private VisualElement progressFill;
+
+    private IVisualElementScheduledItem progressTask;
+
     public event Action<ResearchCategory> OnClick;
     private Action clickHandler;
+
+    private ActiveResearch activeResearch;
 
     public ResearchCategoryNodeElement(VisualTreeAsset researchCategoryNode)
     {
@@ -32,6 +40,9 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
         labelResearchTimeLeft = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchTimeLeft");
 
         button = UtilityUIBinding.QRequired<Button>(visualNode, "Button_CategoryContainer");
+
+        progressOverlay = UtilityUIBinding.QRequired<VisualElement>(visualNode, "ProgressOverlay");
+        progressFill = UtilityUIBinding.QRequired<VisualElement>(visualNode, "ProgressFill");
     }
 
     public void Bind(ResearchCategory category)
@@ -40,11 +51,11 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
 
         this.category = category;
 
-        ActiveResearch activeResearch = ResearchService.Instance.IsActiveCategory(category);
+        ActiveResearch active = ResearchService.Instance.IsActiveCategory(category);
 
-        if (activeResearch != null)
+        if (active != null)
         {
-            SetActiveState(activeResearch);
+            SetActiveState(active);
         }
         else
         {
@@ -69,6 +80,7 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
     private void HandleCompleted(ResearchCategory cat)
     {
         if (cat != category) return;
+        StopProgressAnimation();
         SetInactiveState();
     }
 
@@ -80,17 +92,57 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
 
     private void SetActiveState(ActiveResearch activeResearch)
     {
+        StopProgressAnimation();
+
+        this.activeResearch = activeResearch;
+
         inactiveContainer.style.display = DisplayStyle.None;
         activeContainer.style.display = DisplayStyle.Flex;
+        progressOverlay.style.display = DisplayStyle.Flex;
+
+        long remaining = ResearchService.Instance.GetRemainingSeconds(activeResearch);
 
         labelResearchName.text = activeResearch.ResearchName;
         labelResearchRank.text = $"Level {activeResearch.TargetLevel.ToString()}";
+        labelResearchTimeLeft.text = TimeFormatter.FormatDaysTime(remaining);
+
+        float progress = ResearchService.Instance.GetProgress(activeResearch);
+        progressFill.style.width = Length.Percent(progress * 100f);
+
+        progressTask = schedule.Execute(UpdateProgress).Every(32);
     }
 
     private void SetInactiveState()
     {
         inactiveContainer.style.display = DisplayStyle.Flex;
         activeContainer.style.display = DisplayStyle.None;
+
+        progressOverlay.style.display = DisplayStyle.None;
+        progressFill.style.width = Length.Percent(0);
+    }
+
+    private void UpdateProgress()
+    {
+        if (activeResearch == null)
+        {
+            Debug.LogWarning($"Active is null");
+            StopProgressAnimation();
+            return;
+        }
+
+        float progress = ResearchService.Instance.GetProgress(activeResearch);
+
+        progressFill.style.width = Length.Percent(progress * 100f);
+    }
+
+    private void StopProgressAnimation()
+    {
+        progressTask?.Pause();
+        progressTask = null;
+
+        activeResearch = null;
+
+        progressFill.style.width = Length.Percent(0);
     }
 
     public void Unbind()
@@ -99,6 +151,8 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
             button.clicked -= clickHandler;
 
         OnClick = null;
+
+        StopProgressAnimation();
 
         ResearchService.Instance.OnResearchCompleted -= HandleCompleted;
         ResearchService.Instance.OnResearchTimeUpdated -= HandleTimeUpdated;

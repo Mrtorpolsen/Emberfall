@@ -80,3 +80,38 @@
     font-size: 35px;
     color: rgb(255, 235, 225);
 }
+
+.progressOverlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    transform-origin: center;
+    translate: 0 0;
+    scale: 1 1;
+    padding-right: 0;
+    flex-grow: 1;
+    margin-right: 33px;
+    margin-left: 33px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-top-left-radius: 47px;
+    border-top-right-radius: 47px;
+    border-bottom-right-radius: 47px;
+    border-bottom-left-radius: 47px;
+}
+
+.progressFill {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 0%;
+    background-color: rgba(46, 46, 46, 0.3);
+    transition-property: width;
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
+}
