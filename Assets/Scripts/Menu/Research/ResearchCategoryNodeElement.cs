@@ -154,7 +154,10 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
 
         StopProgressAnimation();
 
-        ResearchService.Instance.OnResearchCompleted -= HandleCompleted;
-        ResearchService.Instance.OnResearchTimeUpdated -= HandleTimeUpdated;
+        if (ResearchService.Instance != null)
+        {
+            ResearchService.Instance.OnResearchCompleted -= HandleCompleted;
+            ResearchService.Instance.OnResearchTimeUpdated -= HandleTimeUpdated;
+        }
     }
 }

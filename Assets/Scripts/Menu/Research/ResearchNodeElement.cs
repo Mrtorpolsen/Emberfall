@@ -16,6 +16,10 @@ public class ResearchNodeElement : VisualElement, IUnbindable
 
     private Action clickHandler;
 
+    private int cost;
+    private int maxLevel;
+    private int currentLevel;
+
     public ResearchNodeElement(VisualTreeAsset researchNode)
     {
         var visualNode = researchNode.CloneTree();
@@ -37,10 +41,14 @@ public class ResearchNodeElement : VisualElement, IUnbindable
         category = node.category;
 
         labelResearchName.text = node.name;
-        labelResearchLevelCurrent.text = node.researchLevelCurrent;
-        labelResearchLevelNext.text = node.researchLevelNext;
+        labelResearchLevelCurrent.text = node.researchLevelCurrent.ToString();
+        labelResearchLevelNext.text = node.researchLevelNext.ToString();
         labelResearchDescription.text = node.description;
         labelResearchTime.text = node.researchTime;
+
+        cost = node.cost;
+        maxLevel = node.maxLevel;
+        currentLevel = node.researchLevelCurrent;
 
         clickHandler = async () =>
         {
@@ -52,14 +60,22 @@ public class ResearchNodeElement : VisualElement, IUnbindable
 
         buttonPurchaseResearch.clicked += clickHandler;
 
-        buttonPurchaseResearch.text = node.cost;
-
-        Sprite sprite = Resources.Load<Sprite>("UI/cinder_icon");
-
-        if (sprite != null)
+        buttonPurchaseResearch.text = node.cost.ToString();
+        if (maxLevel == currentLevel)
         {
-            buttonPurchaseResearch.iconImage = sprite.texture;
+            buttonPurchaseResearch.text = "Maxed";
         }
+        else
+        {
+            Sprite sprite = Resources.Load<Sprite>("UI/cinder_icon");
+
+            if (sprite != null)
+            {
+                buttonPurchaseResearch.iconImage = sprite.texture;
+            }
+        }
+
+        buttonPurchaseResearch.SetEnabled(IsButtonEnabled());
 
         if (ResearchService.Instance != null)
         {
@@ -68,6 +84,11 @@ public class ResearchNodeElement : VisualElement, IUnbindable
 
             ResearchService.Instance.OnResearchCompleted -= UnlockResearchPurchase;
             ResearchService.Instance.OnResearchCompleted += UnlockResearchPurchase;
+        }
+
+        if (CurrencyManager.Instance != null)
+        {
+            CurrencyManager.Instance.OnPlayerCurrencyChanged += RefreshButtonState;
         }
 
         if (ResearchService.Instance.IsActiveCategory(category) != null)
@@ -80,6 +101,16 @@ public class ResearchNodeElement : VisualElement, IUnbindable
         }
     }
 
+    private bool IsButtonEnabled()
+    {
+        if (currentLevel == maxLevel || CurrencyManager.Instance.Get(CurrencyTypes.Cinders) <  cost)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     private void LockResearchPurchase(ResearchCategory cat)
     {
         if (cat != category) return;
@@ -89,7 +120,18 @@ public class ResearchNodeElement : VisualElement, IUnbindable
     private void UnlockResearchPurchase(ResearchCategory cat)
     {
         if (cat != category) return;
-        buttonPurchaseResearch.SetEnabled(true);
+        buttonPurchaseResearch.SetEnabled(IsButtonEnabled());
+    }
+
+    private void RefreshButtonState(CurrencyTypes type)
+    {
+        if (type != CurrencyTypes.Cinders)
+            return;
+
+        if (ResearchService.Instance.IsActiveCategory(category) != null)
+            return;
+
+        buttonPurchaseResearch.SetEnabled(IsButtonEnabled());
     }
 
     public void Unbind()
@@ -97,7 +139,14 @@ public class ResearchNodeElement : VisualElement, IUnbindable
         if (clickHandler != null)
             buttonPurchaseResearch.clicked -= clickHandler;
 
-        ResearchService.Instance.OnResearchStarted -= LockResearchPurchase;
-        ResearchService.Instance.OnResearchCompleted -= UnlockResearchPurchase;
+        if (ResearchService.Instance != null)
+        {
+            ResearchService.Instance.OnResearchStarted -= LockResearchPurchase;
+            ResearchService.Instance.OnResearchCompleted -= UnlockResearchPurchase;
+        }
+        if (CurrencyManager.Instance != null)
+        {
+            CurrencyManager.Instance.OnPlayerCurrencyChanged -= RefreshButtonState;
+        }
     }
 }

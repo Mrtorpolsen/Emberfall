@@ -43,12 +43,13 @@ public class ResearchUIController : IUIScreenController
         int currentLevel = ResearchService.Instance.GetCurrentResearchLevel(research.Id);
 
         node.name = research.Name;
-        node.researchLevelCurrent = currentLevel.ToString();
-        node.researchLevelNext = (currentLevel + 1).ToString();
+        node.researchLevelCurrent = currentLevel;
+        node.researchLevelNext = (currentLevel + 1);
+        node.maxLevel = research.MaxLevel;
         node.description = research.Description;
         node.researchTime = TimeFormatter.FormatCondensedTime(research.TimeScaling.GetAmountForNextLevelLinear(currentLevel));
         node.category = research.Category;
-        node.cost = research.CostScaling.GetAmountForNextLevelLinear(currentLevel).ToString();
+        node.cost = research.CostScaling.GetAmountForNextLevelLinear(currentLevel);
 
         node.onClick = async () =>
         {
