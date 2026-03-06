@@ -26,4 +26,7 @@ public class UnitStatsDefinition : ScriptableObject
     [Header("Targeting")]
     public ThreatLevel unitPrio;
     public bool isTargetable;
+
+    [Header("Category")]
+    public ResearchCategory category;
 }

@@ -121,6 +121,54 @@
         ],
         "Prerequisites": []
       }
+    ],
+    "globalability": [
+      {
+        "Id": "global_abilityunlock_massheal",
+        "Name": "Mass Heal",
+        "Description": "50%",
+        "Category": "GlobalAbility",
+        "MaxLevel": 1,
+        "CostScaling": {
+          "BaseValue": 5000,
+          "MultiplierPerLevel": 1
+        },
+        "TimeScaling": {
+          "BaseValue": 6000000,
+          "MultiplierPerLevel": 1
+        },
+        "Effects": [
+          {
+            "Target": "MassHeal",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Prerequisites": []
+      },
+      {
+        "Id": "global_abilityunlock_massarmor",
+        "Name": "Mass Armor",
+        "Description": "10",
+        "Category": "GlobalAbility",
+        "MaxLevel": 1,
+        "CostScaling": {
+          "BaseValue": 5000,
+          "MultiplierPerLevel": 1
+        },
+        "TimeScaling": {
+          "BaseValue": 30,
+          "MultiplierPerLevel": 1
+        },
+        "Effects": [
+          {
+            "Target": "MassArmor",
+            "Operation": "Set",
+            "Value": 1
+          }
+        ],
+        "Prerequisites": []
+      }
     ]
   }
 }

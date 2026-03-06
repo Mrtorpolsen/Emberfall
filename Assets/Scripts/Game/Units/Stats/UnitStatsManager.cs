@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
@@ -55,29 +54,61 @@ public class UnitStatsManager : MonoBehaviour
     {
         if (statsBootstrapper == null) return;
 
+        Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = GetResearchStatModifiers();
+
         foreach (var kvp in unitStatsByUnitKey)
         {
             string unitName = kvp.Key;
             UnitStatsDefinition prefab = kvp.Value;
+            ResearchCategory category = prefab.category;
 
-            if (!statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
-                continue;
+            FinalStats finalStats = BuildStatsFromBase(prefab);
 
-            var appliedTalents = new List<AppliedStatModifier>();
-
-            foreach (var talent in unitTalents)
+            if (categoryModifiers.TryGetValue(category, out var categoryMods))
             {
-                appliedTalents.Add(new AppliedStatModifier
+                unitStatsCalculator.ApplyModifiers(ref finalStats, categoryMods);
+            }
+
+            if (statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
+            {
+                List<AppliedStatModifier> talentModifiers = new();
+
+                foreach (var talent in unitTalents)
                 {
-                    Effects = talent.effects,
-                    Stacks = talent.purcashed
+                    talentModifiers.Add(new AppliedStatModifier
+                    {
+                        Effects = talent.effects,
+                        Stacks = talent.purchased
+                    });
+                }
+
+                unitStatsCalculator.ApplyModifiers(ref finalStats, talentModifiers);
+            }
+
+            finalStatsByUnit[unitName] = finalStats;
+        }
+    }
+
+    public Dictionary<ResearchCategory, List<AppliedStatModifier>> GetResearchStatModifiers()
+    {
+        Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = new();
+
+        foreach (var kvp in statsBootstrapper.ResearchByCategory)
+        {
+            var modifiers = new List<AppliedStatModifier>();
+
+            foreach (var research in kvp.Value)
+            {
+                modifiers.Add(new AppliedStatModifier
+                {
+                    Effects = research.effects,
+                    Stacks = research.purchased
                 });
             }
 
-            FinalStats finalStats = BuildStatsFromBase(prefab);
-            unitStatsCalculator.ApplyModifiers(ref finalStats, appliedTalents);
-            finalStatsByUnit[unitName] = finalStats;
+            categoryModifiers[kvp.Key] = modifiers;
         }
+        return categoryModifiers;
     }
 
     public FinalStats GetStats(string unitName)

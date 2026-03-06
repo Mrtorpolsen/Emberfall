@@ -59,7 +59,8 @@ public class ResearchDefinition
     public string Id;
     public string Name;
     public string Description;
-    public ResearchCategory Category;   // Unit, Tower, Castle, Economy, GlobalAbility
+    public ResearchCategory Category;   // Unit, Tower, Castle, Economy, Global
+
     public int MaxLevel;
 
     public ResearchScaling CostScaling;

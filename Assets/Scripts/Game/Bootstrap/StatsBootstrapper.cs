@@ -13,7 +13,7 @@ public class StatsBootstrapper
     public class TalentsToApply
     {
         public string unit;
-        public int purcashed;
+        public int purchased;
         public List<AppliedEffect> effects = new List<AppliedEffect>();
     }
 
@@ -43,7 +43,7 @@ public class StatsBootstrapper
             TalentsToApply talent = new TalentsToApply
             {
                 unit = unit,
-                purcashed = kvp.Value,
+                purchased = kvp.Value,
                 effects = new List<AppliedEffect>(talentDef.Effects)
             };
 
@@ -59,7 +59,11 @@ public class StatsBootstrapper
         {
             ResearchDefinition researchDef = ResearchService.Instance.playerResearchTree.GetResearchById(kvp.Key);
 
-            //If add category type, skip non stats
+            //If add category type, skip non stats.
+            // TODO get only stat related research, need to move it to its own and only expose stat related here.
+
+            if (researchDef.Category == ResearchCategory.GlobalAbility || researchDef.Category == ResearchCategory.Economy)
+                continue;
 
             ResearchToApply research = new ResearchToApply
             {
@@ -130,7 +134,7 @@ public class StatsBootstrapper
                     Debug.Log(
                         $"    Effect → Target: {effect.Target}, " +
                         $"Operation: {effect.Operation}, Value: {effect.Value}" +
-                        $"  Purchased: {talent.purcashed}");
+                        $"  Purchased: {talent.purchased}");
                 }
             }
         }

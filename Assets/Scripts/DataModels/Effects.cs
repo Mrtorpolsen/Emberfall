@@ -27,6 +27,9 @@ public enum EffectTarget
     Trapper,
     Templar,
     Dragoon,
+    //Global
+    MassHeal,
+    MassArmor
 }
 
 public enum EffectOperation

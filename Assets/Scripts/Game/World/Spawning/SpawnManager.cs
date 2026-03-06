@@ -46,7 +46,7 @@ public class SpawnManager : MonoBehaviour
 
     public bool SpawnSouthUnit(GameObject prefab, string unitName)
     {
-        FinalStats finalStats = UnitStatsManager.Instance.GetStats(unitName);
+        FinalStats finalStats = UnitStatsManager.Instance.GetStats(unitName.ToLowerInvariant());
 
         return SpawnUnit(prefab, southSpawn, Team.South, finalStats);
     }
@@ -56,6 +56,8 @@ public class SpawnManager : MonoBehaviour
         spawnedTower = null;
 
         Transform towerPoint = spawnSide == SpawnSide.West ? southWestTower : southEastTower;
+
+        finalStats = UnitStatsManager.Instance.GetStats(prefab.name.ToLowerInvariant());
 
         return SpawnUnit(prefab, towerPoint, Team.South, out spawnedTower, finalStats);
     }
@@ -108,13 +110,8 @@ public class SpawnManager : MonoBehaviour
         return true;
     }
 
-    public bool SpawnUnit(
-            GameObject prefab,
-            Transform spawnPoint,
-            Team team,
-            out GameObject spawnedUnit,
-            FinalStats finalStats = null
-    )
+    public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team,
+        out GameObject spawnedUnit, FinalStats finalStats = null)
     {
         spawnedUnit = null;
 
