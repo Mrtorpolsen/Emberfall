@@ -134,7 +134,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         runtimeStats.cost = finalStats.cost;
         runtimeStats.armor = finalStats.armor;
         runtimeStats.critChance = finalStats.critChance;
-        runtimeStats.critMultiplier = finalStats.critMultiplier;
+        runtimeStats.critMultiplier = finalStats.critDamage;
 
         healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
 

@@ -59,14 +59,14 @@ public class UnitStatsManager : MonoBehaviour
         foreach (var kvp in unitStatsByUnitKey)
         {
             string unitName = kvp.Key;
-            UnitStatsDefinition prefab = kvp.Value;
-            ResearchCategory category = prefab.category;
+            UnitStatsDefinition baseStats = kvp.Value;
+            ResearchCategory category = baseStats.category;
 
-            FinalStats finalStats = BuildStatsFromBase(prefab);
+            FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
 
             if (categoryModifiers.TryGetValue(category, out var categoryMods))
             {
-                unitStatsCalculator.ApplyModifiers(ref finalStats, categoryMods);
+                unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, categoryMods);
             }
 
             if (statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
@@ -82,7 +82,7 @@ public class UnitStatsManager : MonoBehaviour
                     });
                 }
 
-                unitStatsCalculator.ApplyModifiers(ref finalStats, talentModifiers);
+                unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, talentModifiers);
             }
 
             finalStatsByUnit[unitName] = finalStats;
@@ -118,13 +118,13 @@ public class UnitStatsManager : MonoBehaviour
 
     public FinalStats GetEnemyStats(string unitName, WaveController.EnemyScalingContext scaling)
     {
-        if (!unitStatsByUnitKey.TryGetValue(unitName, out var prefab))
+        if (!unitStatsByUnitKey.TryGetValue(unitName, out var baseStats))
         {
             Debug.LogError($"No prefab found for unitKey: {unitName}");
             return null;
         }
 
-        FinalStats finalStats = BuildStatsFromBase(prefab);
+        FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
 
         if (finalStats == null)
         {
@@ -135,7 +135,7 @@ public class UnitStatsManager : MonoBehaviour
         return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex, finalStats);
     }
 
-    private FinalStats BuildStatsFromBase(UnitStatsDefinition unitBaseStats)
+    private FinalStats BuildFinalStatsFromBase(UnitStatsDefinition unitBaseStats)
     {
         if (unitBaseStats == null)
         {
@@ -150,7 +150,7 @@ public class UnitStatsManager : MonoBehaviour
             attackSpeed = unitBaseStats.attackSpeed,
             attackRange = unitBaseStats.attackRange,
             critChance = unitBaseStats.critChance,
-            critMultiplier = unitBaseStats.critMultiplier,
+            critDamage = unitBaseStats.critMultiplier,
             movementSpeed = unitBaseStats.movementSpeed,
             hitRadius = unitBaseStats.hitRadius,
             cost = unitBaseStats.cost

@@ -3,22 +3,93 @@ using UnityEngine;
 
 public class UnitStatsCalculator
 {
-    public void ApplyModifiers(ref FinalStats stats, IEnumerable<AppliedStatModifier> modifiers)
+    public void ApplyModifiers(ref FinalStats stats, UnitStatsDefinition baseStats, IEnumerable<AppliedStatModifier> modifiers)
     {
-        foreach (var modifier in modifiers)
+        foreach (AppliedStatModifier modifier in modifiers)
         {
-            foreach (var effect in modifier.Effects)
+            foreach (AppliedEffect effect in modifier.Effects)
             {
                 float magnitude = effect.Operation switch
                 {
                     EffectOperation.Add => effect.Value * modifier.Stacks,
-                    EffectOperation.Multiply => Mathf.Pow(effect.Value, modifier.Stacks),
+                    EffectOperation.Multiply => 1 + (effect.Value - 1) * modifier.Stacks,
                     EffectOperation.Set => effect.Value,
                     _ => effect.Value
                 };
-                ApplyEffect(effect.Target, effect.Operation, magnitude, ref stats);
+
+                ApplyEffect(effect.Target, effect.Operation, magnitude, stats, baseStats);
             }
         }
+    }
+
+    private void ApplyEffect(EffectTarget target, EffectOperation operation,
+        float value, FinalStats stats, UnitStatsDefinition baseStats)
+    {
+        switch (target)
+        {
+            case EffectTarget.Health:
+                stats.maxHealth += CalcEffectValue(baseStats.maxHealth, operation, value);
+                break;
+
+            case EffectTarget.AttackDamage:
+                stats.attackDamage += CalcEffectValue(baseStats.attackDamage, operation, value);
+                break;
+
+            case EffectTarget.AttackSpeed:
+                stats.attackSpeed += CalcEffectValue(baseStats.attackSpeed, operation, value);
+                break;
+
+            case EffectTarget.AttackRange:
+                stats.attackRange += CalcEffectValue(baseStats.attackRange, operation, value);
+                break;
+
+            case EffectTarget.Armor:
+                stats.armor += CalcEffectValue(baseStats.armor, operation, value);
+                break;
+
+            case EffectTarget.CritChance:
+                stats.critChance += CalcEffectValue(baseStats.critChance, operation, value);
+                break;
+
+            case EffectTarget.CritDamage:
+                stats.critDamage += CalcEffectValue(baseStats.critMultiplier, operation, value);
+                break;
+        }
+    }
+
+    private int CalcEffectValue(int stat, EffectOperation operation, float value)
+    {
+        int intValue = Mathf.RoundToInt(value);
+
+        switch (operation)
+        {
+            case EffectOperation.Add:
+                return intValue;
+
+            case EffectOperation.Multiply:
+                return Mathf.RoundToInt((stat * value) - stat);
+
+            case EffectOperation.Set:
+                return intValue - stat;
+        }
+        return 0;
+    }
+
+    private float CalcEffectValue(float stat, EffectOperation operation, float value)
+    {
+        switch (operation)
+        {
+            case EffectOperation.Add:
+                return value;
+
+            case EffectOperation.Multiply:
+                return (value * stat) - stat;
+
+            case EffectOperation.Set:
+                return value - stat;
+        }
+
+        return 0;
     }
 
     public FinalStats CalculateEnemyStats(float waveIndex, FinalStats finalStats)
@@ -30,48 +101,48 @@ public class UnitStatsCalculator
         float hpMultiplier = 1f + (hpPercent * 0.01f);
         float dmgMultiplier = 1f + (dmgPercent * 0.01f);
 
-        ApplyEffect(EffectTarget.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
-        ApplyEffect(EffectTarget.AttackDamage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
+        ApplyEnemyEffect(EffectTarget.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
+        ApplyEnemyEffect(EffectTarget.AttackDamage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
 
         return finalStats;
     }
 
-    private void ApplyEffect(EffectTarget target, EffectOperation operation,
+    private void ApplyEnemyEffect(EffectTarget target, EffectOperation operation,
         float value, ref FinalStats stats)
     {
         switch (target)
         {
             case EffectTarget.Health:
-                Apply(ref stats.maxHealth, operation, value);
+                ApplyEmemy(ref stats.maxHealth, operation, value);
                 break;
 
             case EffectTarget.AttackDamage:
-                Apply(ref stats.attackDamage, operation, value);
+                ApplyEmemy(ref stats.attackDamage, operation, value);
                 break;
 
             case EffectTarget.AttackSpeed:
-                Apply(ref stats.attackSpeed, operation, value);
+                ApplyEmemy(ref stats.attackSpeed, operation, value);
                 break;
 
             case EffectTarget.AttackRange:
-                Apply(ref stats.attackRange, operation, value);
+                ApplyEmemy(ref stats.attackRange, operation, value);
                 break;
 
             case EffectTarget.Armor:
-                Apply(ref stats.armor, operation, value);
+                ApplyEmemy(ref stats.armor, operation, value);
                 break;
 
             case EffectTarget.CritChance:
-                Apply(ref stats.critChance, operation, value);
+                ApplyEmemy(ref stats.critChance, operation, value);
                 break;
 
             case EffectTarget.CritDamage:
-                Apply(ref stats.critMultiplier, operation, value);
+                ApplyEmemy(ref stats.critDamage, operation, value);
                 break;
         }
     }
 
-    private void Apply(ref int stat, EffectOperation operation, float value)
+    private void ApplyEmemy(ref int stat, EffectOperation operation, float value)
     {
         int intValue = Mathf.RoundToInt(value);
 
@@ -91,7 +162,7 @@ public class UnitStatsCalculator
         }
     }
 
-    private void Apply(ref float stat, EffectOperation operation, float value)
+    private void ApplyEmemy(ref float stat, EffectOperation operation, float value)
     {
         switch (operation)
         {

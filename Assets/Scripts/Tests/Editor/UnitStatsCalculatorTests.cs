@@ -123,80 +123,6 @@ public class UnitStatsCalculatorTests
     }
 
     [Test]
-    public void CalculateEnemyStats_Wave0_AppliesCorrectScaling()
-    {
-        //zero based
-        int waveIndex = 0;
-
-        var calculator = new UnitStatsCalculator();
-
-        var baseStats = new FinalStats
-        {
-            maxHealth = 100,
-            attackDamage = 10,
-            attackSpeed = 1f,  // should remain unchanged
-            critChance = 0.05f // should remain unchanged
-        };
-
-        var result = calculator.CalculateEnemyStats(waveIndex, baseStats);
-
-        float actualWave = waveIndex + 1;
-
-        // Expected HP multiplier
-        float expectedHpMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.85f)) * 0.01f;
-        float expectedDmgMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.75f)) * 0.01f;
-
-        Assert.AreEqual(Mathf.RoundToInt(100 * expectedHpMultiplier), result.maxHealth);
-        Assert.AreEqual(Mathf.RoundToInt(10 * expectedDmgMultiplier), result.attackDamage);
-    }
-
-    [Test]
-    public void CalculateEnemyStats_Wave20_AppliesCorrectScaling()
-    {
-        //zero based
-        int waveIndex = 19;
-
-        var calculator = new UnitStatsCalculator();
-
-        var baseStats = new FinalStats
-        {
-            maxHealth = 500,
-            attackDamage = 50,
-        };
-
-        var result = calculator.CalculateEnemyStats(waveIndex, baseStats);
-
-        float actualWave = waveIndex + 1;
-
-        float expectedHpMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.85f)) * 0.01f;
-        float expectedDmgMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.75f)) * 0.01f;
-
-        Assert.AreEqual(Mathf.RoundToInt(500 * expectedHpMultiplier), result.maxHealth);
-        Assert.AreEqual(Mathf.RoundToInt(50 * expectedDmgMultiplier), result.attackDamage);
-    }
-
-    [Test]
-    public void CalculateEnemyStats_DoesNotAffectOtherStats()
-    {
-        var calculator = new UnitStatsCalculator();
-
-        var baseStats = new FinalStats
-        {
-            attackSpeed = 0.7f,
-            critChance = 0.05f,
-            attackRange = 2f,
-            armor = 5
-        };
-
-        var result = calculator.CalculateEnemyStats(10, baseStats);
-
-        Assert.AreEqual(0.7f, result.attackSpeed);
-        Assert.AreEqual(0.05f, result.critChance, 0.0001f);
-        Assert.AreEqual(2f, result.attackRange);
-        Assert.AreEqual(5, result.armor);
-    }
-
-    [Test]
     public void ApplyTalents_FloatAttackRange_IsNotRounded()
     {
         var calculator = new UnitStatsCalculator();
@@ -284,5 +210,81 @@ public class UnitStatsCalculatorTests
         Assert.AreEqual(20, stats.attackDamage);
         Assert.AreEqual(0.05f, stats.critChance, 0.0001f);
         Assert.AreEqual(1f, stats.attackSpeed);
+    }
+
+
+
+    [Test]
+    public void CalculateEnemyStats_Wave0_AppliesCorrectScaling()
+    {
+        //zero based
+        int waveIndex = 0;
+
+        var calculator = new UnitStatsCalculator();
+
+        var baseStats = new FinalStats
+        {
+            maxHealth = 100,
+            attackDamage = 10,
+            attackSpeed = 1f,  // should remain unchanged
+            critChance = 0.05f // should remain unchanged
+        };
+
+        var result = calculator.CalculateEnemyStats(waveIndex, baseStats);
+
+        float actualWave = waveIndex + 1;
+
+        // Expected HP multiplier
+        float expectedHpMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.85f)) * 0.01f;
+        float expectedDmgMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.75f)) * 0.01f;
+
+        Assert.AreEqual(Mathf.RoundToInt(100 * expectedHpMultiplier), result.maxHealth);
+        Assert.AreEqual(Mathf.RoundToInt(10 * expectedDmgMultiplier), result.attackDamage);
+    }
+
+    [Test]
+    public void CalculateEnemyStats_Wave20_AppliesCorrectScaling()
+    {
+        //zero based
+        int waveIndex = 19;
+
+        var calculator = new UnitStatsCalculator();
+
+        var baseStats = new FinalStats
+        {
+            maxHealth = 500,
+            attackDamage = 50,
+        };
+
+        var result = calculator.CalculateEnemyStats(waveIndex, baseStats);
+
+        float actualWave = waveIndex + 1;
+
+        float expectedHpMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.85f)) * 0.01f;
+        float expectedDmgMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.75f)) * 0.01f;
+
+        Assert.AreEqual(Mathf.RoundToInt(500 * expectedHpMultiplier), result.maxHealth);
+        Assert.AreEqual(Mathf.RoundToInt(50 * expectedDmgMultiplier), result.attackDamage);
+    }
+
+    [Test]
+    public void CalculateEnemyStats_DoesNotAffectOtherStats()
+    {
+        var calculator = new UnitStatsCalculator();
+
+        var baseStats = new FinalStats
+        {
+            attackSpeed = 0.7f,
+            critChance = 0.05f,
+            attackRange = 2f,
+            armor = 5
+        };
+
+        var result = calculator.CalculateEnemyStats(10, baseStats);
+
+        Assert.AreEqual(0.7f, result.attackSpeed);
+        Assert.AreEqual(0.05f, result.critChance, 0.0001f);
+        Assert.AreEqual(2f, result.attackRange);
+        Assert.AreEqual(5, result.armor);
     }
 }
