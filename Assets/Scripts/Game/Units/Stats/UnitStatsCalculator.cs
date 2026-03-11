@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitStatsCalculator
@@ -17,79 +18,117 @@ public class UnitStatsCalculator
                     _ => effect.Value
                 };
 
-                ApplyEffect(effect.Target, effect.Operation, magnitude, stats, baseStats);
+                ApplyEffect(effect, magnitude, ref stats, baseStats);
             }
         }
     }
 
-    private void ApplyEffect(EffectTarget target, EffectOperation operation,
-        float value, FinalStats stats, UnitStatsDefinition baseStats)
+    private void ApplyEffect(AppliedEffect effect, float magnitude, ref FinalStats stats, UnitStatsDefinition baseStats)
+    {
+        float baseValue = GetBaseStat(effect.Target, baseStats);
+
+        if (effect.Operation == EffectOperation.Set)
+        {
+            SetStat(effect.Target, magnitude, ref stats);
+            return;
+        }
+
+        float delta = CalculateDelta(baseValue, effect.Operation, magnitude);
+
+        AddToStat(effect.Target, delta, ref stats);
+    }
+
+    private void AddToStat(EffectTarget target, float delta, ref FinalStats stats)
     {
         switch (target)
         {
             case EffectTarget.Health:
-                stats.maxHealth += CalcEffectValue(baseStats.maxHealth, operation, value);
+                stats.maxHealth += Mathf.RoundToInt(delta);
                 break;
 
             case EffectTarget.AttackDamage:
-                stats.attackDamage += CalcEffectValue(baseStats.attackDamage, operation, value);
+                stats.attackDamage += Mathf.RoundToInt(delta);
                 break;
 
             case EffectTarget.AttackSpeed:
-                stats.attackSpeed += CalcEffectValue(baseStats.attackSpeed, operation, value);
+                stats.attackSpeed += delta;
                 break;
 
             case EffectTarget.AttackRange:
-                stats.attackRange += CalcEffectValue(baseStats.attackRange, operation, value);
+                stats.attackRange += delta;
                 break;
 
             case EffectTarget.Armor:
-                stats.armor += CalcEffectValue(baseStats.armor, operation, value);
+                stats.armor += Mathf.RoundToInt(delta);
                 break;
 
             case EffectTarget.CritChance:
-                stats.critChance += CalcEffectValue(baseStats.critChance, operation, value);
+                stats.critChance += delta;
                 break;
 
             case EffectTarget.CritDamage:
-                stats.critDamage += CalcEffectValue(baseStats.critMultiplier, operation, value);
+                stats.critDamage += delta;
                 break;
         }
     }
 
-    private int CalcEffectValue(int stat, EffectOperation operation, float value)
+    private void SetStat(EffectTarget target, float value, ref FinalStats stats)
     {
-        int intValue = Mathf.RoundToInt(value);
-
-        switch (operation)
+        switch (target)
         {
-            case EffectOperation.Add:
-                return intValue;
+            case EffectTarget.Health:
+                stats.maxHealth = Mathf.RoundToInt(value);
+                break;
 
-            case EffectOperation.Multiply:
-                return Mathf.RoundToInt((stat * value) - stat);
+            case EffectTarget.AttackDamage:
+                stats.attackDamage = Mathf.RoundToInt(value);
+                break;
 
-            case EffectOperation.Set:
-                return intValue - stat;
+            case EffectTarget.AttackSpeed:
+                stats.attackSpeed = value;
+                break;
+
+            case EffectTarget.AttackRange:
+                stats.attackRange = value;
+                break;
+
+            case EffectTarget.Armor:
+                stats.armor = Mathf.RoundToInt(value);
+                break;
+
+            case EffectTarget.CritChance:
+                stats.critChance = value;
+                break;
+
+            case EffectTarget.CritDamage:
+                stats.critDamage = value;
+                break;
         }
-        return 0;
     }
 
-    private float CalcEffectValue(float stat, EffectOperation operation, float value)
+    private float CalculateDelta(float baseValue, EffectOperation operation, float magnitude)
     {
-        switch (operation)
+        return operation switch
         {
-            case EffectOperation.Add:
-                return value;
+            EffectOperation.Add => magnitude,
+            EffectOperation.Multiply => (baseValue * magnitude) - baseValue,
+            _ => throw new ArgumentOutOfRangeException("No operation found in CalculateDelta")
+        };
+    }
 
-            case EffectOperation.Multiply:
-                return (value * stat) - stat;
-
-            case EffectOperation.Set:
-                return value - stat;
-        }
-
-        return 0;
+    private float GetBaseStat(EffectTarget target, UnitStatsDefinition baseStats)
+    {
+        return target switch
+        {
+            EffectTarget.Health => baseStats.maxHealth,
+            EffectTarget.AttackDamage => baseStats.attackDamage,
+            EffectTarget.AttackSpeed => baseStats.attackSpeed,
+            EffectTarget.AttackRange => baseStats.attackRange,
+            EffectTarget.Armor => baseStats.armor,
+            EffectTarget.CritChance => baseStats.critChance,
+            EffectTarget.CritDamage => baseStats.critMultiplier,
+            _ => throw new ArgumentOutOfRangeException("No EffectTarget found in GetBaseStat")
+        };
     }
 
     public FinalStats CalculateEnemyStats(float waveIndex, FinalStats finalStats)
