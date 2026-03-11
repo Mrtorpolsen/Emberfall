@@ -119,6 +119,11 @@ public class StatsBootstrapper
         BuildResearchByCategory();
     }
 
+    public void ClearTalents()
+    {
+        talentsByUnit?.Clear();
+    }
+
     public void LogTalentsToApply()
     {
         Debug.Log("=== Talents To Apply ===");

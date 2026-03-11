@@ -7,11 +7,34 @@ public class UnitStatsManager : MonoBehaviour
     [SerializeField] private List<UnitStatsDefinition> unitStatsDefinition;
 
     public static UnitStatsManager Instance { get; private set; }
-    StatsBootstrapper statsBootstrapper;
-    UnitStatsCalculator unitStatsCalculator;
+
+    private StatsBootstrapper statsBootstrapper;
+    public StatsBootstrapper StatsBootstrapper
+    {
+        get => statsBootstrapper;
+        set => statsBootstrapper = value;
+    }
+
+    private UnitStatsCalculator unitStatsCalculator;
+    public UnitStatsCalculator UnitStatsCalculator
+    {
+        get => unitStatsCalculator;
+        set => unitStatsCalculator = value;
+    }
 
     private Dictionary<string, FinalStats> finalStatsByUnit = new();
+    public Dictionary<string, FinalStats> FinalStatsByUnit
+    {
+        get => finalStatsByUnit;
+        set => finalStatsByUnit = value;
+    }
+
     private Dictionary<string, UnitStatsDefinition> unitStatsByUnitKey = new();
+    public Dictionary<string, UnitStatsDefinition> UnitStatsByUnitKey
+    {
+        get => unitStatsByUnitKey;
+        set => unitStatsByUnitKey = value;
+    }
 
     private void Awake()
     {
@@ -50,7 +73,8 @@ public class UnitStatsManager : MonoBehaviour
         unitStatsByUnitKey[unitKey] = unitStats;
     }
 
-    private void CalculateAllFinalStats()
+    //public for testing, look into moving it to its own service
+    public void CalculateAllFinalStats()
     {
         if (statsBootstrapper == null) return;
 
