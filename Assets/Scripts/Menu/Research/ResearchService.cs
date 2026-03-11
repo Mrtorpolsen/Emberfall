@@ -85,16 +85,21 @@ public class ResearchService : MonoBehaviour
             return;
         }
 
-        OnResearchStarted?.Invoke(research.Category);
+        int currentLevel = 0;
 
-        int currentStacks = 0;
-
-        if (SaveService.Instance.Current.Research.CompletedResearch.TryGetValue(id, out var stacks))
+        if (SaveService.Instance.Current.Research.CompletedResearch.TryGetValue(id, out var level))
         {
-            currentStacks = stacks;
+            currentLevel = level;
         }
 
-        ActiveResearch researchToStart = new ActiveResearch(research.Category, research.Id, (currentStacks + 1), research.Name);
+        if (currentLevel == research.MaxLevel)
+        {
+            throw new InvalidOperationException("Current research maxed");
+        }
+
+        OnResearchStarted?.Invoke(research.Category);
+
+        ActiveResearch researchToStart = new ActiveResearch(research.Category, research.Id, (currentLevel + 1), research.Name);
 
         SaveService.Instance.Current.Research.ActiveResearches.Add(researchToStart);
 
