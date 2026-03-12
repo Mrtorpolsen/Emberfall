@@ -1,18 +1,45 @@
 using System;
+using System.Threading.Tasks;
 using Unity.Services.Leaderboards.Models;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
 public class LeaderboardView : IUIScreenView
 {
     public VisualTreeAsset rowTemplate;
 
-    private VisualElement root;
     private ScrollView listContainer;
+
+    private const string LEADERBOARD_LEADERBOARDROW_ADDRESSABLE = "UI/LeaderboardRow";
+
+    public async Task InitializeAsync(VisualElement root)
+    {
+        LoadingSpinner.Instance.ShowSpinner();
+        try
+        {
+            rowTemplate = await Addressables.LoadAssetAsync<VisualTreeAsset>(LEADERBOARD_LEADERBOARDROW_ADDRESSABLE).Task;
+
+            if (rowTemplate == null)
+            {
+                Debug.LogError("Leaderboard row template not loaded!");
+                return;
+            }
+            listContainer = UtilityUIBinding.QRequired<ScrollView>(root, "ScrollView_Leaderboard");
+            listContainer.Clear();
+
+            await LeaderboardService.Instance.GetScores();
+            LoadLeaderboard();
+        }
+        finally
+        {
+            LoadingSpinner.Instance.HideSpinner();
+        }
+    }
 
     private void LoadLeaderboard()
     {
-        var scores = LeaderboardManager.Instance.userScores;
+        var scores = LeaderboardService.Instance.userScores;
 
         foreach (LeaderboardEntry entry in scores)
         {
@@ -23,14 +50,14 @@ public class LeaderboardView : IUIScreenView
     {
         var row = rowTemplate.Instantiate();
 
-        var rankLabel = row.Q<Label>("Label_Rank");
-        var trophy = row.Q<VisualElement>("Icon_Trophy");
-        var nameLabel = row.Q<Label>("Label_Username");
-        var scoreLabel = row.Q<Label>("Label_Score");
+        var rankLabel = UtilityUIBinding.QRequired<Label>(row, "Label_Rank");
+        var trophy = UtilityUIBinding.QRequired<VisualElement>(row, "Icon_Trophy");
+        var nameLabel = UtilityUIBinding.QRequired<Label>(row, "Label_Username");
+        var scoreLabel = UtilityUIBinding.QRequired<Label>(row, "Label_Score");
 
         rankLabel.text = (entry.Rank + 1).ToString();
         nameLabel.text = entry.PlayerName;
-        scoreLabel.text = TimeFormatter.FormatTime((float)entry.Score);
+        scoreLabel.text = TimeFormatter.FormatTimeMiliseconds((float)entry.Score);
 
         //add trophy
         switch(entry.Rank)
@@ -42,25 +69,5 @@ public class LeaderboardView : IUIScreenView
         }
 
         listContainer.Add(row);
-    }
-
-    public async void Initialize(VisualElement root)
-    {
-        LoadingSpinner.Instance.ShowSpinner();
-        try
-        {
-            this.root = root;
-            rowTemplate = Resources.Load<VisualTreeAsset>("UI/Leaderboard/LeaderboardRow");
-
-            listContainer = root.Q<ScrollView>("ScrollView_Leaderboard");
-            listContainer.Clear();
-
-            await LeaderboardManager.Instance.GetScores();
-            LoadLeaderboard();
-        }
-        finally
-        {
-            LoadingSpinner.Instance.HideSpinner();
-        }
     }
 }

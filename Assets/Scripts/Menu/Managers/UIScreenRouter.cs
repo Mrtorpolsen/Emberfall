@@ -1,0 +1,226 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+public class UIScreenRouter : MonoBehaviour
+{
+    public static UIScreenRouter Instance { get; private set; }
+
+    [Header("UI Document")]
+    [SerializeField] private UIDocument uiDocument;
+
+    [Header("Content Screens")]
+    [SerializeField] private VisualTreeAsset mainMenuVTA;
+    [SerializeField] private VisualTreeAsset leaderboardVTA;
+    [SerializeField] private VisualTreeAsset forgeVTA;
+    [SerializeField] private VisualTreeAsset researchVTA;
+    [SerializeField] private VisualTreeAsset popupVTA;
+
+    private VisualElement popupBlockerContainer;
+    private VisualElement contentContainer;
+    private VisualElement currentScreen;
+    private IUIScreenView currentView;
+    private IUIScreenEvents currentEvents;
+    private IUIScreenController currentController;
+
+    private bool hasInitialized = false;
+    private bool isLoading;
+
+    private Dictionary<string, ScreenDefinition> screens =
+        new Dictionary<string, ScreenDefinition>();
+
+    private const string POPUP_BLOCKER_CONTAINER = "safe-area-content-container";
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Listen for any scene load
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void Start()
+    {
+        var root = uiDocument.rootVisualElement;
+        contentContainer = root.Q<VisualElement>("ContentContainer");
+
+        if (contentContainer == null)
+        {
+            Debug.LogError("ContentContainer not found! Check UI_Root.uxml");
+            return;
+        }
+
+        RegisterScreen<MainMenuView, MainMenuEvents>("MainMenu", mainMenuVTA);
+        RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
+        RegisterScreen<ForgeView, ForgeEvents, ForgeUIController>("Forge", forgeVTA);
+        RegisterScreen<ResearchView, ResearchEvents, ResearchUIController>("Research", researchVTA);
+
+        SetupPopup(root);
+    }
+
+    public void RegisterScreen<TView, TEvents>(string name, VisualTreeAsset vta)
+        where TView : IUIScreenView, new()
+        where TEvents : IUIScreenEvents, new()
+    {
+        screens[name] = new ScreenDefinition(
+            vta,
+            () => new TView(),
+            () => new TEvents(),
+            null //no controller
+        );
+    }
+
+    public void RegisterScreen<TView, TEvents, TManager>(
+        string name,
+        VisualTreeAsset vta)
+        where TView : IUIScreenView, new()
+        where TEvents : IUIScreenEvents, new()
+        where TManager : IUIScreenController, new()
+    {
+        screens[name] = new ScreenDefinition(
+            vta,
+            () => new TView(),
+            () => new TEvents(),
+            () => new TManager()
+        );
+    }
+
+    public async Task LoadScreen(string screenName)
+    {
+        if (isLoading)
+            return;
+        
+        isLoading = true;
+
+        try
+        {
+            if (!screens.TryGetValue(screenName, out var def))
+            {
+                Debug.LogError($"No screen registered with name '{name}'");
+                return;
+            }
+
+            await SwapContent(def);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task SwapContent(ScreenDefinition def)
+    {
+        // Remove previous screen
+        currentScreen?.RemoveFromHierarchy();
+
+        // Clean up old events
+        currentEvents?.Cleanup();
+
+        // If the previous manager is screen-scoped, clean it up
+        currentController?.Cleanup();
+        currentController = null;
+
+        // Clone the template container
+        currentScreen = def.vta.CloneTree();
+        currentScreen.style.flexGrow = 1;
+        contentContainer.Add(currentScreen);
+
+        // IMPORTANT: get the first child — the real screen root
+        VisualElement screenRoot = currentScreen[0];
+
+        // Initialize view
+        currentView = def.createView();
+        currentEvents = def.createEvents();
+
+        //Create manager if its there
+        currentController = def.createController?.Invoke();
+
+        // View first
+        await currentView.InitializeAsync(screenRoot);
+        // Controller second
+        currentController?.Initialize(currentView);
+        // Event third
+        currentEvents.BindEvents(screenRoot, currentController, currentView);
+    }
+
+    //Checks if its UI_Root that gets loaded, then reassigns references and loads mainmenu
+    private async void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        if(scene.name != "UI_Root")
+        {
+            return;
+        }
+        if(!hasInitialized)
+        {
+            hasInitialized = true;
+            return;
+        }
+
+        Debug.Log("UI_Root loaded, reinitializing MenuManager UI references");
+
+        UIDocument newUIDocument = FindFirstObjectByType<UIDocument>();
+
+        if (newUIDocument == null)
+        {
+            Debug.LogError("newUIDocument not found in UI_Root");
+        }
+
+        if (uiDocument == null)
+        {
+            uiDocument = newUIDocument;
+        }
+        // Re-query root and content container
+        var root = uiDocument.rootVisualElement;
+        contentContainer = root.Q<VisualElement>("ContentContainer");
+
+        if(contentContainer == null)
+        {
+            Debug.LogError("ContentContainer not found in UI_Root!");
+            return;
+        }
+
+        SetupPopup(root);
+        // Load main menu by default
+        try
+        {
+            await LoadScreen("MainMenu");
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+    }
+
+    //Setup for popup, delaing with the template container
+    private void SetupPopup(VisualElement root)
+    {
+        popupBlockerContainer = root.Q<VisualElement>(POPUP_BLOCKER_CONTAINER);
+        if (popupBlockerContainer == null)
+        {
+            Debug.LogError("Popup blocker container not found");
+            return;
+        }
+
+        var popupVE = popupVTA.CloneTree();
+
+        popupVE.style.position = Position.Absolute;
+        popupVE.style.top = 0;
+        popupVE.style.left = 0;
+        popupVE.style.right = 0;
+        popupVE.style.bottom = 0;
+        popupVE.pickingMode = PickingMode.Ignore;
+
+        popupBlockerContainer.Add(popupVE);
+        PopupManager.Instance.Initialize(popupVE);
+    }
+}

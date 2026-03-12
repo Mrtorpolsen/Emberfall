@@ -1,24 +1,134 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitStatsCalculator
 {
-    public void ApplyTalents(ref FinalStats stats, IEnumerable<AppliedTalent> talents)
+    public void ApplyModifiers(ref FinalStats stats, UnitStatsDefinition baseStats, IEnumerable<AppliedStatModifier> modifiers)
     {
-        foreach (var talent in talents)
+        foreach (AppliedStatModifier modifier in modifiers)
         {
-            foreach (var effect in talent.Effects)
+            foreach (AppliedEffect effect in modifier.Effects)
             {
                 float magnitude = effect.Operation switch
                 {
-                    EffectOperation.Add => effect.Value * talent.Purchased,
-                    EffectOperation.Multiply => Mathf.Pow(effect.Value, talent.Purchased),
+                    EffectOperation.Add => effect.Value * modifier.Stacks,
+                    EffectOperation.Multiply => 1 + (effect.Value - 1) * modifier.Stacks,
                     EffectOperation.Set => effect.Value,
                     _ => effect.Value
                 };
-                ApplyEffect(effect.Target, effect.Operation, magnitude, ref stats);
+
+                ApplyEffect(effect, magnitude, ref stats, baseStats);
             }
         }
+    }
+
+    private void ApplyEffect(AppliedEffect effect, float magnitude, ref FinalStats stats, UnitStatsDefinition baseStats)
+    {
+        float baseValue = GetBaseStat(effect.Target, baseStats);
+
+        if (effect.Operation == EffectOperation.Set)
+        {
+            SetStat(effect.Target, magnitude, ref stats);
+            return;
+        }
+
+        float delta = CalculateDelta(baseValue, effect.Operation, magnitude);
+
+        AddToStat(effect.Target, delta, ref stats);
+    }
+
+    private void AddToStat(EffectTarget target, float delta, ref FinalStats stats)
+    {
+        switch (target)
+        {
+            case EffectTarget.Health:
+                stats.maxHealth += Mathf.RoundToInt(delta);
+                break;
+
+            case EffectTarget.AttackDamage:
+                stats.attackDamage += Mathf.RoundToInt(delta);
+                break;
+
+            case EffectTarget.AttackSpeed:
+                stats.attackSpeed += delta;
+                break;
+
+            case EffectTarget.AttackRange:
+                stats.attackRange += delta;
+                break;
+
+            case EffectTarget.Armor:
+                stats.armor += Mathf.RoundToInt(delta);
+                break;
+
+            case EffectTarget.CritChance:
+                stats.critChance += delta;
+                break;
+
+            case EffectTarget.CritDamage:
+                stats.critDamage += delta;
+                break;
+        }
+    }
+
+    private void SetStat(EffectTarget target, float value, ref FinalStats stats)
+    {
+        switch (target)
+        {
+            case EffectTarget.Health:
+                stats.maxHealth = Mathf.RoundToInt(value);
+                break;
+
+            case EffectTarget.AttackDamage:
+                stats.attackDamage = Mathf.RoundToInt(value);
+                break;
+
+            case EffectTarget.AttackSpeed:
+                stats.attackSpeed = value;
+                break;
+
+            case EffectTarget.AttackRange:
+                stats.attackRange = value;
+                break;
+
+            case EffectTarget.Armor:
+                stats.armor = Mathf.RoundToInt(value);
+                break;
+
+            case EffectTarget.CritChance:
+                stats.critChance = value;
+                break;
+
+            case EffectTarget.CritDamage:
+                stats.critDamage = value;
+                break;
+        }
+    }
+
+    private float CalculateDelta(float baseValue, EffectOperation operation, float magnitude)
+    {
+        return operation switch
+        {
+            EffectOperation.Add => magnitude,
+            EffectOperation.Multiply => (baseValue * magnitude) - baseValue,
+            _ => throw new ArgumentOutOfRangeException("No operation found in CalculateDelta")
+        };
+    }
+
+    private float GetBaseStat(EffectTarget target, UnitStatsDefinition baseStats)
+    {
+        return target switch
+        {
+            EffectTarget.Health => baseStats.maxHealth,
+            EffectTarget.AttackDamage => baseStats.attackDamage,
+            EffectTarget.AttackSpeed => baseStats.attackSpeed,
+            EffectTarget.AttackRange => baseStats.attackRange,
+            EffectTarget.Armor => baseStats.armor,
+            EffectTarget.CritChance => baseStats.critChance,
+            EffectTarget.CritDamage => baseStats.critMultiplier,
+            _ => throw new ArgumentOutOfRangeException("No EffectTarget found in GetBaseStat")
+        };
     }
 
     public FinalStats CalculateEnemyStats(float waveIndex, FinalStats finalStats)
@@ -30,48 +140,48 @@ public class UnitStatsCalculator
         float hpMultiplier = 1f + (hpPercent * 0.01f);
         float dmgMultiplier = 1f + (dmgPercent * 0.01f);
 
-        ApplyEffect(EffectTarget.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
-        ApplyEffect(EffectTarget.AttackDamage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
+        ApplyEnemyEffect(EffectTarget.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
+        ApplyEnemyEffect(EffectTarget.AttackDamage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
 
         return finalStats;
     }
 
-    private void ApplyEffect(EffectTarget target, EffectOperation operation,
+    private void ApplyEnemyEffect(EffectTarget target, EffectOperation operation,
         float value, ref FinalStats stats)
     {
         switch (target)
         {
             case EffectTarget.Health:
-                Apply(ref stats.maxHealth, operation, value);
+                ApplyEmemy(ref stats.maxHealth, operation, value);
                 break;
 
             case EffectTarget.AttackDamage:
-                Apply(ref stats.attackDamage, operation, value);
+                ApplyEmemy(ref stats.attackDamage, operation, value);
                 break;
 
             case EffectTarget.AttackSpeed:
-                Apply(ref stats.attackSpeed, operation, value);
+                ApplyEmemy(ref stats.attackSpeed, operation, value);
                 break;
 
             case EffectTarget.AttackRange:
-                Apply(ref stats.attackRange, operation, value);
+                ApplyEmemy(ref stats.attackRange, operation, value);
                 break;
 
             case EffectTarget.Armor:
-                Apply(ref stats.armor, operation, value);
+                ApplyEmemy(ref stats.armor, operation, value);
                 break;
 
             case EffectTarget.CritChance:
-                Apply(ref stats.critChance, operation, value);
+                ApplyEmemy(ref stats.critChance, operation, value);
                 break;
 
             case EffectTarget.CritDamage:
-                Apply(ref stats.critMultiplier, operation, value);
+                ApplyEmemy(ref stats.critDamage, operation, value);
                 break;
         }
     }
 
-    private void Apply(ref int stat, EffectOperation operation, float value)
+    private void ApplyEmemy(ref int stat, EffectOperation operation, float value)
     {
         int intValue = Mathf.RoundToInt(value);
 
@@ -91,7 +201,7 @@ public class UnitStatsCalculator
         }
     }
 
-    private void Apply(ref float stat, EffectOperation operation, float value)
+    private void ApplyEmemy(ref float stat, EffectOperation operation, float value)
     {
         switch (operation)
         {

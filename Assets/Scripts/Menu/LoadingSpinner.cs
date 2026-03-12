@@ -22,8 +22,9 @@ public class LoadingSpinner : MonoBehaviour
         Instance = this;
 
         var root = uiDocument.rootVisualElement;
-        overlay = root.Q<VisualElement>("LoadingOverlay");
-        spinner = root.Q<VisualElement>("LoadingSpinner");
+
+        overlay = UtilityUIBinding.QRequired<VisualElement>(root, "LoadingOverlay");
+        spinner = UtilityUIBinding.QRequired<VisualElement>(root, "LoadingSpinner");
     }
 
     public void ShowSpinner()

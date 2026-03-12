@@ -3,6 +3,7 @@ using System;
 public class CurrencyManager : GlobalSystem<CurrencyManager>
 {
     public event Action<int> OnCindersChanged;
+    public event Action<CurrencyTypes> OnPlayerCurrencyChanged;
 
     protected override void Awake()
     {
@@ -20,6 +21,7 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
         EnsureCurrencyAvailable();
         SaveService.Instance.Current.Currency.Add(type, amount);
         SaveService.Instance.Save();
+        OnPlayerCurrencyChanged?.Invoke(type);
         RaiseIfCinders(type);
     }
 
@@ -32,8 +34,8 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
         {
             SaveService.Instance.Save();
             RaiseIfCinders(type);
+            OnPlayerCurrencyChanged?.Invoke(type);
         }
-
         return success;
     }
 

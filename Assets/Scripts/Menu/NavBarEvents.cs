@@ -16,31 +16,36 @@ public class NavBarEvents : MonoBehaviour
         { "Btn_Main", nameof(Btn_Main) },
         { "Btn_Leaderboard", nameof(Btn_Leaderboard) },
         { "Btn_Forge", nameof(Btn_Forge) },
+        { "Btn_Research", nameof(Btn_Research) },
     };
 
     void Awake()
     {
-        root = uIDocument.rootVisualElement.Q<VisualElement>("NavMenuContainer");
+        root = UtilityUIBinding.QRequired<VisualElement>(uIDocument.rootVisualElement, "NavMenuContainer");
 
         UtilityUIBinding.BindEvents(root, this, bindings);
     }
 
     void OnDestroy()
     {
-        UtilityUIBinding.Cleanup(this);
+        UtilityUIBinding.CleanupEvents(this);
     }
 
-    private void Btn_Main()
+    private async void Btn_Main()
     {
-        MenuManager.Instance.LoadScreen("MainMenu");
+        await UIScreenRouter.Instance.LoadScreen("MainMenu");
     }
-    private void Btn_Leaderboard()
+    private async void Btn_Leaderboard()
     {
-        MenuManager.Instance.LoadScreen("Leaderboard");
+        await UIScreenRouter.Instance.LoadScreen("Leaderboard");
     }
-    private void Btn_Forge()
+    private async void Btn_Forge()
     {
-        MenuManager.Instance.LoadScreen("Forge");
+        await UIScreenRouter.Instance.LoadScreen("Forge");
+    }
+    private async void Btn_Research()
+    {
+        await UIScreenRouter.Instance.LoadScreen("Research");
     }
 }
 

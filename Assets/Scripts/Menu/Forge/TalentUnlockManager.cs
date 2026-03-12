@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TalentUnlockManager : MonoBehaviour
@@ -33,7 +31,7 @@ public class TalentUnlockManager : MonoBehaviour
         foreach (var kvp in purchases)
         {
             string unit = kvp.Key.Split("_")[0].ToLowerInvariant();
-            var talentDef = TalentManager.Instance.playerTalentTree.GetTalentById(kvp.Key);
+            var talentDef = TalentService.Instance.playerTalentTree.GetTalentById(kvp.Key);
 
             if (!pointsPerTierPerUnit.ContainsKey(unit))
             {
@@ -47,7 +45,6 @@ public class TalentUnlockManager : MonoBehaviour
 
             pointsPerTierPerUnit[unit][talentDef.Tier] += kvp.Value;
         }
-        DebugPrintPoints();
     }
 
     public void AddPoints(string unit, int tier, int amount)
@@ -63,7 +60,6 @@ public class TalentUnlockManager : MonoBehaviour
         }
 
         pointsPerTierPerUnit[unit][tier] += amount;
-        DebugPrintPoints();
     }
 
     public bool ArePrerequisitesMet(string unit, TalentPrerequisite prerequisite)

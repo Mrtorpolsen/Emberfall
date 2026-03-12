@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 782218188}
   - component: {fileID: 782218187}
   m_Layer: 0
-  m_Name: MenuManager
+  m_Name: UIScreenRouter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,13 +326,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 782218186}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70af3baf4e9ebec4099649025a1f4502, type: 3}
+  m_Script: {fileID: 11500000, guid: 96a14ae171547e6488b66ef0198ac9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuManager
   uiDocument: {fileID: 1570200870}
   mainMenuVTA: {fileID: 9197481963319205126, guid: 72f3bce826269a544a61c836cb8bdde9, type: 3}
   leaderboardVTA: {fileID: 9197481963319205126, guid: 04f2a23f590d9884ebf7efd6c599f9fc, type: 3}
   forgeVTA: {fileID: 9197481963319205126, guid: 57e629cdf0c43f242b561ea9e36e9be0, type: 3}
+  researchVTA: {fileID: 9197481963319205126, guid: f2be3809aaded80448be9491ad24e111, type: 3}
   popupVTA: {fileID: 9197481963319205126, guid: 4007ec9b27626f7478b70b5df30e46dc, type: 3}
 --- !u!4 &782218188
 Transform:

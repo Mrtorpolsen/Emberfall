@@ -50,6 +50,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23b2734a562e37d46a52b34d3217e4f5
+    m_Address: Research
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3456b2bf60b73a943b98fe9661850bba
     m_Address: ranged_damage_4
     m_ReadOnly: 0
@@ -67,6 +72,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4f0c2f4b7966883499edc7b9fa4a0bd5
     m_Address: ranged_damage_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5075c62d977df794ebfeb08337168471
+    m_Address: UI/CategoryNode
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -112,6 +122,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 707e49dd06307a44cb4a36fbd128241b
     m_Address: ranged_attackspeed_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 710f52c4772958e4a9d92f1d52f746ce
+    m_Address: UI/LeaderboardRow
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -240,6 +255,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd0c34ef5e03ad642ae9266ff428a87f
+    m_Address: UI/ResearchNode
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d1261b146eeaa2f4e9c8093bbf697ecc
     m_Address: ranged_critdamage_2
     m_ReadOnly: 0
@@ -267,6 +287,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7fb9ea996a38754fac62cad90946721
     m_Address: ranged_critchance_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef23d92676d6f76418e38b14d00013b1
+    m_Address: UI/TalentNode
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

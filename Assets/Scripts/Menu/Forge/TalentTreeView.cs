@@ -1,27 +1,30 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UIElements;
 
 public class TalentTreeView
 {
     public VisualTreeAsset talentNode;
 
-    private VisualElement _root;
     private VisualElement talentNodeContainer;
 
-    private Dictionary<string, AsyncOperationHandle<Sprite>> iconHandles = new();
-
     private const string TALENT_NODE_CONTAINER = "TalentNodesContainer";
+    private const string FORGE_TALENTNODE_ADDRESSABLE = "UI/TalentNode";
 
-    public void Initialize(VisualElement root)
+    private readonly List<(VisualElement element, EventCallback<ClickEvent> handler)> clickHandlers = new();
+
+    public async void Initialize(VisualElement root)
     {
-        _root = root;
-        talentNode = Resources.Load<VisualTreeAsset>("UI/Forge/TalentNode");
+        talentNode = await Addressables.LoadAssetAsync<VisualTreeAsset>(FORGE_TALENTNODE_ADDRESSABLE).Task;
 
-        talentNodeContainer = _root.Q<VisualElement>(TALENT_NODE_CONTAINER);
+        if (talentNode == null)
+        {
+            Debug.LogError("Talent node template not loaded!");
+            return;
+        }
+        
+        talentNodeContainer = UtilityUIBinding.QRequired<VisualElement>(root, TALENT_NODE_CONTAINER);
         ClearTalentRows();
     }
 
@@ -31,16 +34,13 @@ public class TalentTreeView
 
         foreach (var node in talentNodes)
         {
-            //Extract the actual root
-            var nodeTemplate = talentNode.Instantiate();
-            VisualElement visualNode = nodeTemplate[0];
-            nodeTemplate.RemoveAt(0);
+            VisualElement visualNode = UtilityUIBinding.InstantiateRoot(talentNode);
+            
+            var labelCost = UtilityUIBinding.QRequired<Label>(visualNode, "Label_Cost");
+            var imgTalent = UtilityUIBinding.QRequired<VisualElement>(visualNode, "Img_Talent");
+            var labelUnlocked = UtilityUIBinding.QRequired<Label>(visualNode, "Label_Unlocked");
 
-            var LabelCost = visualNode.Q<Label>("Label_Cost");
-            var imgTalent = visualNode.Q<VisualElement>("Img_Talent");
-            var labelUnlocked = visualNode.Q<Label>("Label_Unlocked");
-
-            LabelCost.text = node.cost.ToString();
+            labelCost.text = node.cost.ToString();
             labelUnlocked.text = node.purchased;
 
             node.purchasedLabel = labelUnlocked;
@@ -54,7 +54,7 @@ public class TalentTreeView
 
             UtilityLoadAdressable.LoadAdressableIcon(node.img, imgTalent);
 
-            visualNode.RegisterCallback<ClickEvent>(_ => node.onClick.Invoke());
+            UtilityUIBinding.BindVEClick(visualNode, node.onClick, clickHandlers);
 
             talentNodeContainer
                 .Q<VisualElement>($"Row_T{node.tier}")
@@ -62,10 +62,15 @@ public class TalentTreeView
         }
     }
 
-    private void ClearTalentRows()
+    public void ClearTalentRows()
     {
+        CleanupClicks();
         talentNodeContainer.Query<VisualElement>(className: "talentTreeRow")
             .ForEach(row => row.Clear());
     }
 
+    public void CleanupClicks()
+    {
+        UtilityUIBinding.CleanupVEClicks(clickHandlers);
+    }
 }

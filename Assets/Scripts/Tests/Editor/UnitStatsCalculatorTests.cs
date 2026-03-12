@@ -5,7 +5,7 @@ using UnityEngine;
 public class UnitStatsCalculatorTests
 {
     [Test]
-    public void ApplyTalents_AdditiveCritTalent_StacksCorrectly()
+    public void ApplyModifier_AdditiveCritTalent_StacksCorrectly()
     {
         var calculator = new UnitStatsCalculator();
 
@@ -14,14 +14,17 @@ public class UnitStatsCalculatorTests
             critChance = 0f
         };
 
-        var talents = new List<AppliedTalent>
+        UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
+        baseStats.critChance = 0f;
+
+        var talents = new List<AppliedStatModifier>
         {
-            new AppliedTalent
+            new AppliedStatModifier
             {
-                Purchased = 3,
-                Effects = new List<TalentEffect>
+                Stacks = 3,
+                Effects = new List<AppliedEffect>
                 {
-                    new TalentEffect
+                    new AppliedEffect
                     {
                         Target = EffectTarget.CritChance,
                         Operation = EffectOperation.Add,
@@ -31,13 +34,13 @@ public class UnitStatsCalculatorTests
             }
         };
 
-        calculator.ApplyTalents(ref stats, talents);
+        calculator.ApplyModifiers(ref stats, baseStats, talents);
         // 0 + 0.1 + 0.1 + 0.1
         Assert.AreEqual(0.3f, stats.critChance);
     }
 
     [Test]
-    public void ApplyTalents_MultiplicativeHealthTalent_StacksCorrectly()
+    public void ApplyModifier_AdditiveHealthTalent_StacksCorrectly()
     {
         var calculator = new UnitStatsCalculator();
 
@@ -46,14 +49,17 @@ public class UnitStatsCalculatorTests
             maxHealth = 200
         };
 
-        var talents = new List<AppliedTalent>
+        UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
+        baseStats.maxHealth = 200;
+
+        var talents = new List<AppliedStatModifier>
         {
-            new AppliedTalent
+            new AppliedStatModifier
             {
-                Purchased = 5,
-                Effects = new List<TalentEffect>
+                Stacks = 5,
+                Effects = new List<AppliedEffect>
                 {
-                    new TalentEffect
+                    new AppliedEffect
                     {
                         Target = EffectTarget.Health,
                         Operation = EffectOperation.Multiply,
@@ -62,12 +68,12 @@ public class UnitStatsCalculatorTests
                 }
             },
 
-            new AppliedTalent
+            new AppliedStatModifier
             {
-                Purchased = 3,
-                Effects = new List<TalentEffect>
+                Stacks = 3,
+                Effects = new List<AppliedEffect>
                 {
-                    new TalentEffect
+                    new AppliedEffect
                     {
                         Target = EffectTarget.Health,
                         Operation = EffectOperation.Multiply,
@@ -77,17 +83,27 @@ public class UnitStatsCalculatorTests
             }
         };
 
-        calculator.ApplyTalents(ref stats, talents);
+        calculator.ApplyModifiers(ref stats, baseStats, talents);
 
-        // 200 * (1.02^5) * (1.03^3)
+        // delta 1 = 1 + (1.02 - 1) * 5 = 1.10
+        // 200 * 1.1 - 200 = 20
+
+        // delta 2 = 1 + (1.03 - 1) * 3 = 1.09
+        // 200 * 1.09 - 200 = 18
+
+        // 200 + 18 + 20 = 238
         Assert.AreEqual(
-            Mathf.RoundToInt(200 * Mathf.Pow(1.02f, 5) * Mathf.Pow(1.03f, 3)),
+            Mathf.RoundToInt(
+                200 +
+                (200 * (1 + (1.02f - 1) * 5) - 200) +   // first delta
+                (200 * (1 + (1.03f - 1) * 3) - 200)     // second delta
+            ),
             stats.maxHealth
         );
     }
 
     [Test]
-    public void ApplyTalents_MultiplyAttackDamageTalent_StacksCorrectly()
+    public void ApplyModifier_MultiplyAttackDamageTalent_StacksCorrectly()
     {
         var calculator = new UnitStatsCalculator();
 
@@ -96,14 +112,17 @@ public class UnitStatsCalculatorTests
             attackDamage = 20
         };
 
-        var talents = new List<AppliedTalent>
+        UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
+        baseStats.attackDamage = 20;
+
+        var talents = new List<AppliedStatModifier>
         {
-            new AppliedTalent
+            new AppliedStatModifier
             {
-                Purchased = 5,
-                Effects = new List<TalentEffect>
+                Stacks = 5,
+                Effects = new List<AppliedEffect>
                 {
-                    new TalentEffect
+                    new AppliedEffect
                     {
                         Target = EffectTarget.AttackDamage,
                         Operation = EffectOperation.Multiply,
@@ -113,14 +132,120 @@ public class UnitStatsCalculatorTests
             }
         };
 
-        calculator.ApplyTalents(ref stats, talents);
+        calculator.ApplyModifiers(ref stats, baseStats, talents);
 
-        // 20 * (1,05^5)
+        // magnitude = 1 + (1.05 - 1) * 5 = 1.25
+        // 20 * 1.25 = 25
         Assert.AreEqual(
-            Mathf.RoundToInt(20 * Mathf.Pow(1.05f, 5)),
+            Mathf.RoundToInt(20 * (1 + (1.05f - 1) * 5)),
             stats.attackDamage
         );
     }
+
+    [Test]
+    public void ApplyModifier_FloatAttackRange_IsNotRounded()
+    {
+        var calculator = new UnitStatsCalculator();
+
+        FinalStats stats = new FinalStats
+        {
+            attackRange = 0.2f
+        };
+
+        UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
+        baseStats.attackRange = 0.2f;
+
+        var talents = new List<AppliedStatModifier>
+    {
+        new AppliedStatModifier
+        {
+            Stacks = 5,
+            Effects = new List<AppliedEffect>
+            {
+                new AppliedEffect
+                {
+                    Target = EffectTarget.AttackRange,
+                    Operation = EffectOperation.Add,
+                    Value = 0.15f
+                }
+            }
+        }
+    };
+
+        calculator.ApplyModifiers(ref stats, baseStats, talents);
+
+        // 0.2 + (0.15 * 5) = 0.95f
+        Assert.AreEqual(0.95f, stats.attackRange, 0.0001f);
+    }
+
+    [Test]
+    public void ApplyModifier_Health_IsRounded()
+    {
+        var calculator = new UnitStatsCalculator();
+
+        FinalStats stats = new FinalStats
+        {
+            maxHealth = 100
+        };
+
+        UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
+        baseStats.maxHealth = 100;
+
+        var talents = new List<AppliedStatModifier>
+    {
+        new AppliedStatModifier
+        {
+            Stacks = 3,
+            Effects = new List<AppliedEffect>
+            {
+                new AppliedEffect
+                {
+                    Target = EffectTarget.Health,
+                    Operation = EffectOperation.Multiply,
+                    Value = 1.075f
+                }
+            }
+        }
+    };
+
+        calculator.ApplyModifiers(ref stats, baseStats, talents);
+
+        // magnitude = 1 + (1.075 - 1) * 3 = 1.225
+        // 100 * 1.225 = 122.5 rounded to 123
+        Assert.AreEqual(Mathf.RoundToInt(100 * (1 + (1.075f - 1) * 3)), stats.maxHealth);
+    }
+
+    [Test]
+    public void ApplyModifier_Modifiers_PlayerStatsRemainUnchanged()
+    {
+        var calculator = new UnitStatsCalculator();
+
+        var stats = new FinalStats
+        {
+            maxHealth = 100,
+            attackDamage = 20,
+            critChance = 0.05f,
+            attackSpeed = 1f
+        };
+
+        UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
+        baseStats.maxHealth = 100;
+        baseStats.attackDamage = 20;
+        baseStats.critChance = 0.05f;
+        baseStats.attackSpeed = 1f;
+
+        // Simulate empty save: no purchased talents
+        var playerTalents = new List<AppliedStatModifier>();
+
+        calculator.ApplyModifiers(ref stats, baseStats, playerTalents);
+
+        Assert.AreEqual(100, stats.maxHealth);
+        Assert.AreEqual(20, stats.attackDamage);
+        Assert.AreEqual(0.05f, stats.critChance, 0.0001f);
+        Assert.AreEqual(1f, stats.attackSpeed);
+    }
+
+
 
     [Test]
     public void CalculateEnemyStats_Wave0_AppliesCorrectScaling()
@@ -194,95 +319,5 @@ public class UnitStatsCalculatorTests
         Assert.AreEqual(0.05f, result.critChance, 0.0001f);
         Assert.AreEqual(2f, result.attackRange);
         Assert.AreEqual(5, result.armor);
-    }
-
-    [Test]
-    public void ApplyTalents_FloatAttackRange_IsNotRounded()
-    {
-        var calculator = new UnitStatsCalculator();
-
-        FinalStats stats = new FinalStats
-        {
-            attackRange = 0.2f
-        };
-
-        var talents = new List<AppliedTalent>
-    {
-        new AppliedTalent
-        {
-            Purchased = 5,
-            Effects = new List<TalentEffect>
-            {
-                new TalentEffect
-                {
-                    Target = EffectTarget.AttackRange,
-                    Operation = EffectOperation.Add,
-                    Value = 0.15f
-                }
-            }
-        }
-    };
-
-        calculator.ApplyTalents(ref stats, talents);
-
-        // 0.2 + (0.15 * 5) = 0.95f
-        Assert.AreEqual(0.95f, stats.attackRange, 0.0001f);
-    }
-
-    [Test]
-    public void ApplyTalents_Health_IsRounded()
-    {
-        var calculator = new UnitStatsCalculator();
-
-        FinalStats stats = new FinalStats
-        {
-            maxHealth = 100
-        };
-
-        var talents = new List<AppliedTalent>
-    {
-        new AppliedTalent
-        {
-            Purchased = 3,
-            Effects = new List<TalentEffect>
-            {
-                new TalentEffect
-                {
-                    Target = EffectTarget.Health,
-                    Operation = EffectOperation.Multiply,
-                    Value = 1.07f
-                }
-            }
-        }
-    };
-
-        calculator.ApplyTalents(ref stats, talents);
-
-        // 100 * (1.07^3) = 122.5043 rounded to 123
-        Assert.AreEqual(Mathf.RoundToInt(100 * Mathf.Pow(1.07f, 3)), stats.maxHealth);
-    }
-
-    [Test]
-    public void ApplyTalents_NoTalents_PlayerStatsRemainUnchanged()
-    {
-        var calculator = new UnitStatsCalculator();
-
-        var stats = new FinalStats
-        {
-            maxHealth = 100,
-            attackDamage = 20,
-            critChance = 0.05f,
-            attackSpeed = 1f
-        };
-
-        // Simulate empty save: no purchased talents
-        var playerTalents = new List<AppliedTalent>();
-
-        calculator.ApplyTalents(ref stats, playerTalents);
-
-        Assert.AreEqual(100, stats.maxHealth);
-        Assert.AreEqual(20, stats.attackDamage);
-        Assert.AreEqual(0.05f, stats.critChance, 0.0001f);
-        Assert.AreEqual(1f, stats.attackSpeed);
     }
 }

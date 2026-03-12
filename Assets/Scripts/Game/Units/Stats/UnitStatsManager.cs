@@ -1,18 +1,40 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
 {
-    [Header("Enemy Unit Stats Definitions")]
+    [Header("Unit Stats Definitions")]
     [SerializeField] private List<UnitStatsDefinition> unitStatsDefinition;
 
     public static UnitStatsManager Instance { get; private set; }
-    StatsBootstrapper statsBootstrapper;
-    UnitStatsCalculator unitStatsCalculator;
+
+    private StatsBootstrapper statsBootstrapper;
+    public StatsBootstrapper StatsBootstrapper
+    {
+        get => statsBootstrapper;
+        set => statsBootstrapper = value;
+    }
+
+    private UnitStatsCalculator unitStatsCalculator;
+    public UnitStatsCalculator UnitStatsCalculator
+    {
+        get => unitStatsCalculator;
+        set => unitStatsCalculator = value;
+    }
 
     private Dictionary<string, FinalStats> finalStatsByUnit = new();
+    public Dictionary<string, FinalStats> FinalStatsByUnit
+    {
+        get => finalStatsByUnit;
+        set => finalStatsByUnit = value;
+    }
+
     private Dictionary<string, UnitStatsDefinition> unitStatsByUnitKey = new();
+    public Dictionary<string, UnitStatsDefinition> UnitStatsByUnitKey
+    {
+        get => unitStatsByUnitKey;
+        set => unitStatsByUnitKey = value;
+    }
 
     private void Awake()
     {
@@ -24,6 +46,7 @@ public class UnitStatsManager : MonoBehaviour
         {
             statsBootstrapper = new StatsBootstrapper();
             statsBootstrapper.LoadAndBuildTalents();
+            statsBootstrapper.LoadAndBuildResearch();
         }
         catch
         {
@@ -50,33 +73,66 @@ public class UnitStatsManager : MonoBehaviour
         unitStatsByUnitKey[unitKey] = unitStats;
     }
 
-    private void CalculateAllFinalStats()
+    //public for testing, look into moving it to its own service
+    public void CalculateAllFinalStats()
     {
         if (statsBootstrapper == null) return;
+
+        Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = GetResearchStatModifiers();
 
         foreach (var kvp in unitStatsByUnitKey)
         {
             string unitName = kvp.Key;
-            UnitStatsDefinition prefab = kvp.Value;
+            UnitStatsDefinition baseStats = kvp.Value;
+            ResearchCategory category = baseStats.category;
 
-            if (!statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
-                continue;
+            FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
 
-            var appliedTalents = new List<AppliedTalent>();
-
-            foreach (var talent in unitTalents)
+            if (categoryModifiers.TryGetValue(category, out var categoryMods))
             {
-                appliedTalents.Add(new AppliedTalent
+                unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, categoryMods);
+            }
+
+            if (statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
+            {
+                List<AppliedStatModifier> talentModifiers = new();
+
+                foreach (var talent in unitTalents)
                 {
-                    Effects = talent.effects,
-                    Purchased = talent.purcashed
+                    talentModifiers.Add(new AppliedStatModifier
+                    {
+                        Effects = talent.effects,
+                        Stacks = talent.purchased
+                    });
+                }
+
+                unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, talentModifiers);
+            }
+
+            finalStatsByUnit[unitName] = finalStats;
+        }
+    }
+
+    public Dictionary<ResearchCategory, List<AppliedStatModifier>> GetResearchStatModifiers()
+    {
+        Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = new();
+
+        foreach (var kvp in statsBootstrapper.ResearchByCategory)
+        {
+            var modifiers = new List<AppliedStatModifier>();
+
+            foreach (var research in kvp.Value)
+            {
+                modifiers.Add(new AppliedStatModifier
+                {
+                    Effects = research.effects,
+                    Stacks = research.purchased
                 });
             }
 
-            FinalStats finalStats = BuildStatsFromBase(prefab);
-            unitStatsCalculator.ApplyTalents(ref finalStats, appliedTalents);
-            finalStatsByUnit[unitName] = finalStats;
+            categoryModifiers[kvp.Key] = modifiers;
         }
+        return categoryModifiers;
     }
 
     public FinalStats GetStats(string unitName)
@@ -86,13 +142,13 @@ public class UnitStatsManager : MonoBehaviour
 
     public FinalStats GetEnemyStats(string unitName, WaveController.EnemyScalingContext scaling)
     {
-        if (!unitStatsByUnitKey.TryGetValue(unitName, out var prefab))
+        if (!unitStatsByUnitKey.TryGetValue(unitName, out var baseStats))
         {
             Debug.LogError($"No prefab found for unitKey: {unitName}");
             return null;
         }
 
-        FinalStats finalStats = BuildStatsFromBase(prefab);
+        FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
 
         if (finalStats == null)
         {
@@ -103,7 +159,7 @@ public class UnitStatsManager : MonoBehaviour
         return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex, finalStats);
     }
 
-    private FinalStats BuildStatsFromBase(UnitStatsDefinition unitBaseStats)
+    private FinalStats BuildFinalStatsFromBase(UnitStatsDefinition unitBaseStats)
     {
         if (unitBaseStats == null)
         {
@@ -118,7 +174,7 @@ public class UnitStatsManager : MonoBehaviour
             attackSpeed = unitBaseStats.attackSpeed,
             attackRange = unitBaseStats.attackRange,
             critChance = unitBaseStats.critChance,
-            critMultiplier = unitBaseStats.critMultiplier,
+            critDamage = unitBaseStats.critMultiplier,
             movementSpeed = unitBaseStats.movementSpeed,
             hitRadius = unitBaseStats.hitRadius,
             cost = unitBaseStats.cost

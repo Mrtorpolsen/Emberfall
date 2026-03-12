@@ -52,7 +52,7 @@ public static class UtilityUIBinding
         }
     }
 
-    public static void Cleanup(object target)
+    public static void CleanupEvents(object target)
     {
         if (!instanceActions.TryGetValue(target, out var actions))
         {
@@ -69,5 +69,61 @@ public static class UtilityUIBinding
 
         actions.Clear();
         instanceActions.Remove(target);
+    }
+
+    public static void BindVEClick(VisualElement element, Action handler, List<(VisualElement element, EventCallback<ClickEvent> handler)> clickHandlers)
+    {
+        EventCallback<ClickEvent> callback = _ => handler?.Invoke();
+        element.RegisterCallback(callback);
+        clickHandlers.Add((element, callback));
+    }
+
+    public static void CleanupVEClicks(List<(VisualElement element, EventCallback<ClickEvent> handler)> clickHandlers)
+    {
+        foreach (var (element, handler) in clickHandlers)
+        {
+            element.UnregisterCallback(handler);
+        }
+        clickHandlers.Clear();
+    }
+
+    public static void BindButtonClick(Button button, Action handler, List<(Button button, Action handler)> boundButtons)
+    {
+        if (button == null || handler == null) return;
+
+        button.clicked += handler;
+        boundButtons.Add((button, handler));
+    }
+
+    public static void CleanupButtonClicks(List<(Button button, Action handler)> boundButtons)
+    {
+        foreach (var (button, handler) in boundButtons)
+        {
+            if (button != null && handler != null)
+            {
+                button.clicked -= handler;
+            }
+        }
+        boundButtons.Clear();
+    }
+
+    public static T QRequired<T>(VisualElement root, string name)
+    where T : VisualElement
+    {
+        var element = root.Q<T>(name);
+        if (element == null)
+            throw new InvalidOperationException(
+                $"UI contract violation: '{name}' ({typeof(T).Name}) missing in '{root.name}'."
+            );
+
+        return element;
+    }
+
+    public static VisualElement InstantiateRoot(VisualTreeAsset asset)
+    {
+        var container = asset.Instantiate();
+        var root = container[0];
+        container.RemoveAt(0);
+        return root;
     }
 }

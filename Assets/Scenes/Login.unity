@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 728406445}
   - component: {fileID: 728406444}
   m_Layer: 5
-  m_Name: Login
+  m_Name: LoginDocument
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,6 +402,7 @@ GameObject:
   - component: {fileID: 1468156539}
   - component: {fileID: 1468156537}
   - component: {fileID: 1468156536}
+  - component: {fileID: 1468156540}
   m_Layer: 0
   m_Name: Initializations
   m_TagString: Untagged
@@ -418,7 +419,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1468156535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 315c00b4342bcd340ba8e6aea84e6c0d, type: 3}
+  m_Script: {fileID: 11500000, guid: 42b06a5950f1418408e29ddeda1e37bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TalentManager
 --- !u!114 &1468156537
@@ -430,7 +431,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1468156535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f70e1dcd665034048896773c05485919, type: 3}
+  m_Script: {fileID: 11500000, guid: a6614ddb7873c97438c6e22c2e5ff468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeaderboardManager
 --- !u!4 &1468156538
@@ -461,6 +462,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnityAuthManager
   uiDocument: {fileID: 728406444}
+--- !u!114 &1468156540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468156535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3ccde5a2cc3034e8cf5099228a5c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResearchManager
 --- !u!1 &1509298418
 GameObject:
   m_ObjectHideFlags: 0

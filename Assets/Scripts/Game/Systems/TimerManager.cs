@@ -15,7 +15,7 @@ public class TimerManager : MonoBehaviour
 
     public float GetElapsedTime() => elapsedTime * 1000f;
     public int GetElapsedTimeInMinutes() => Mathf.FloorToInt(elapsedTime / 60f);
-    public string GetFormattedTime() => TimeFormatter.FormatTime(GetElapsedTime());
+    public string GetFormattedTime() => TimeFormatter.FormatTimeMiliseconds(GetElapsedTime());
 
     private void Awake()
     {

@@ -24,3 +24,4 @@ MonoBehaviour:
   critMultiplier: 1.5
   unitPrio: 5
   isTargetable: 0
+  category: 1
