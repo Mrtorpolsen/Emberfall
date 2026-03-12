@@ -7,22 +7,22 @@
       {
         "Id": "unit_statsmodifier_health",
         "Name": "Health",
-        "Description": "2%",
+        "Description": "1.5%",
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
           "BaseValue": 100,
-          "MultiplierPerLevel": 1.2
+          "MultiplierPerLevel": 1.09
         },
         "TimeScaling": {
-          "BaseValue": 30,
-          "MultiplierPerLevel": 1.25
+          "BaseValue": 60,
+          "MultiplierPerLevel": 1.1
         },
         "Effects": [
           {
             "Target": "Health",
             "Operation": "Multiply",
-            "Value": 1.02
+            "Value": 1.015
           }
         ],
         "Prerequisites": []
@@ -30,16 +30,16 @@
       {
         "Id": "unit_statsmodifier_attackdamage",
         "Name": "Attack Damage",
-        "Description": "2%",
+        "Description": "2%", 
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 100,
-          "MultiplierPerLevel": 1.2
+          "BaseValue": 150,
+          "MultiplierPerLevel": 1.09
         },
         "TimeScaling": {
-          "BaseValue": 18045,
-          "MultiplierPerLevel": 1.25
+          "BaseValue":600,
+          "MultiplierPerLevel": 1.1
         },
         "Effects": [
           {
@@ -53,22 +53,68 @@
       {
         "Id": "unit_statsmodifier_critdamage",
         "Name": "Crit Damage",
-        "Description": "2%",
+        "Description": "0.2",
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 100,
-          "MultiplierPerLevel": 1.2
+          "BaseValue": 250,
+          "MultiplierPerLevel": 1.09
         },
         "TimeScaling": {
-          "BaseValue": 730,
-          "MultiplierPerLevel": 1.25
+          "BaseValue": 550,
+          "MultiplierPerLevel": 1.1
         },
         "Effects": [
           {
             "Target": "CritDamage",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Operation": "Add",
+            "Value": 0.2
+          }
+        ],
+        "Prerequisites": []
+      },
+      {
+        "Id": "unit_statsmodifier_critchance",
+        "Name": "Crit Chance",
+        "Description": "0.2",
+        "Category": "Unit",
+        "MaxLevel": 100,
+        "CostScaling": {
+          "BaseValue": 250,
+          "MultiplierPerLevel": 1.09
+        },
+        "TimeScaling": {
+          "BaseValue": 550,
+          "MultiplierPerLevel": 1.1
+        },
+        "Effects": [
+          {
+            "Target": "CritChance",
+            "Operation": "Add",
+            "Value": 0.2
+          }
+        ],
+        "Prerequisites": []
+      },
+      {
+        "Id": "unit_statsmodifier_attackspeed",
+        "Name": "Attack Speed",
+        "Description": "0.1",
+        "Category": "Unit",
+        "MaxLevel": 100,
+        "CostScaling": {
+          "BaseValue": 175,
+          "MultiplierPerLevel": 1.09
+        },
+        "TimeScaling": {
+          "BaseValue": 400,
+          "MultiplierPerLevel": 1.1
+        },
+        "Effects": [
+          {
+            "Target": "AttackSpeed",
+            "Operation": "Add",
+            "Value": 0.1
           }
         ],
         "Prerequisites": []
@@ -82,12 +128,12 @@
         "Category": "Tower",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 100,
-          "MultiplierPerLevel": 1.2
+          "BaseValue": 300,
+          "MultiplierPerLevel": 1.09
         },
         "TimeScaling": {
-          "BaseValue": 60,
-          "MultiplierPerLevel": 1.25
+          "BaseValue": 180,
+          "MultiplierPerLevel": 1.1
         },
         "Effects": [
           {
@@ -99,34 +145,34 @@
         "Prerequisites": []
       },
       {
-        "Id": "tower_statsmodifier_critdamage",
-        "Name": "Crit Damage",
-        "Description": "2%",
+        "Id": "tower_statsmodifier_attackspeed",
+        "Name": "Attack Speed",
+        "Description": "0.1",
         "Category": "Tower",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 100,
-          "MultiplierPerLevel": 1.2
+          "BaseValue": 300,
+          "MultiplierPerLevel": 1.09
         },
         "TimeScaling": {
-          "BaseValue": 50,
-          "MultiplierPerLevel": 1.25
+          "BaseValue": 180,
+          "MultiplierPerLevel": 1.1
         },
         "Effects": [
           {
-            "Target": "CritDamage",
-            "Operation": "Multiply",
-            "Value": 1.02
+            "Target": "AttackSpeed",
+            "Operation": "Add",
+            "Value": 0.1
           }
         ],
         "Prerequisites": []
-      }
-    ],
-    "globalability": [
+     
+      }],
+      "globalability": [
       {
         "Id": "global_abilityunlock_massheal",
         "Name": "Mass Heal",
-        "Description": "50%",
+        "Description": "Instantly heal all troops by 50%",
         "Category": "GlobalAbility",
         "MaxLevel": 1,
         "CostScaling": {
@@ -134,7 +180,7 @@
           "MultiplierPerLevel": 1
         },
         "TimeScaling": {
-          "BaseValue": 6000000,
+          "BaseValue": 6000,
           "MultiplierPerLevel": 1
         },
         "Effects": [
@@ -149,7 +195,7 @@
       {
         "Id": "global_abilityunlock_massarmor",
         "Name": "Mass Armor",
-        "Description": "10",
+        "Description": "Increase units armor by 10 for 20s",
         "Category": "GlobalAbility",
         "MaxLevel": 1,
         "CostScaling": {
@@ -157,7 +203,7 @@
           "MultiplierPerLevel": 1
         },
         "TimeScaling": {
-          "BaseValue": 30,
+          "BaseValue": 6000,
           "MultiplierPerLevel": 1
         },
         "Effects": [
@@ -167,7 +213,7 @@
             "Value": 1
           }
         ],
-        "Prerequisites": []
+        "Prerequisites": [] 
       }
     ]
   }

@@ -16,6 +16,9 @@ public class ResearchNodeElement : VisualElement, IUnbindable
 
     private Action clickHandler;
 
+    private VisualElement levelContainer;
+    private Label labelIncrease;
+
     private int cost;
     private int maxLevel;
     private int currentLevel;
@@ -32,6 +35,9 @@ public class ResearchNodeElement : VisualElement, IUnbindable
         labelResearchTime = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchTime");
 
         buttonPurchaseResearch = UtilityUIBinding.QRequired<Button>(visualNode, "Button_PurchaseResearch");
+
+        levelContainer = UtilityUIBinding.QRequired<VisualElement>(visualNode, "OverUnderContainer_Level");
+        labelIncrease = UtilityUIBinding.QRequired<Label>(visualNode, "Label_Increase");
     }
 
     public void Bind(ResearchNodeDefinition node)
@@ -45,6 +51,12 @@ public class ResearchNodeElement : VisualElement, IUnbindable
         labelResearchLevelNext.text = node.researchLevelNext.ToString();
         labelResearchDescription.text = node.description;
         labelResearchTime.text = node.researchTime;
+        
+        if (category == ResearchCategory.GlobalAbility)
+        {
+            levelContainer.style.display = DisplayStyle.None;
+            labelIncrease.style.display = DisplayStyle.None;
+        }
 
         cost = node.cost;
         maxLevel = node.maxLevel;
