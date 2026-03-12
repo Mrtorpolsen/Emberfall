@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -63,6 +64,11 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
         }
 
         labelCategoryName.text = category.ToString();
+
+        if (category == ResearchCategory.GlobalAbility)
+        {
+            labelCategoryName.text = "Global Ability";
+        }
 
         clickHandler = () => OnClick?.Invoke(category);
         button.clicked += clickHandler;
