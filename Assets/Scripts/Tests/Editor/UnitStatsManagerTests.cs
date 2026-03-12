@@ -110,6 +110,59 @@ public class UnitStatsManagerTests
         );
     }
 
+    [Test]
+    public void CalculateAllFinalStats_ApplyResearchAndTalents_StacksCorrectly()
+    {
+        var go = new GameObject("UnitStatsManager");
+        var manager = go.AddComponent<UnitStatsManager>();
+
+        manager.StatsBootstrapper = new StatsBootstrapperMock();
+        manager.UnitStatsCalculator = new UnitStatsCalculator();
+
+        var fighter = ScriptableObject.CreateInstance<UnitStatsDefinition>();
+        fighter.name = "fighter";
+        fighter.maxHealth = 200;
+        fighter.attackDamage = 20;
+        fighter.category = ResearchCategory.Unit;
+
+        manager.UnitStatsByUnitKey["fighter"] = fighter;
+
+        manager.CalculateAllFinalStats();
+
+        var fighterStats = manager.FinalStatsByUnit["fighter"];
+
+        // magnitude formula = 1 + ((effect value) - 1) * (stacks)
+        // research magnitude = 1 + (0.02 * 95) = 2.9
+        // talent magnitude   = 1 + (0.05 * 2) = 1.1
+        //
+        // research delta = (20 * 2.9) - 20 = 38
+        // talent delta   = (20 * 1.1) - 20 = 2
+        //
+        // base + research delta + talent delta
+        // 20 + 38 + 2 = 60
+        Assert.AreEqual(
+            Mathf.RoundToInt(
+            20
+            + (20 * ((1 + (1.02f - 1) * 95) - 1))
+            + (20 * ((1 + (1.05f - 1) * 2) - 1))),
+            fighterStats.attackDamage
+        );
+
+        // talent magnitude = 1 + (0.05 * 3) = 1.15
+        // base stat value * magnitude
+        // 200 * 1.15 = 230
+        //
+        // research additive = stacks * value
+        // 10 * 5 = 50
+        //
+        // 230 + 50 = 280
+        Assert.AreEqual(
+            Mathf.RoundToInt(
+            200 * (1 + (1.05f - 1) * 3)
+            + (10 * 5)),
+            fighterStats.maxHealth);
+    }
+
     private class StatsBootstrapperMock : StatsBootstrapper
     {
         public StatsBootstrapperMock()
