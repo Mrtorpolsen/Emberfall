@@ -230,6 +230,9 @@ public class UIManager : MonoBehaviour
 
     public void RefreshAllButtons()
     {
+        if(boundButtons == null)
+            return;
+
         foreach (var button in boundButtons)
         {
             button.Refresh();
