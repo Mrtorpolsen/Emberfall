@@ -10,12 +10,18 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [Header("References")]
-    [SerializeField] private TMP_Text survivalText;
-    [SerializeField] private TMP_Text incomeCostText;
     [SerializeField] public Canvas gameUI;
     [SerializeField] public Canvas pauseMenu;
     [SerializeField] private SpawnDefinition[] loadOutUnits;
     [SerializeField] private SpawnDefinition[] loadOutTowers;
+    [SerializeField] private AbilityDefinition[] loadOutAbilities;
+
+    [Header("References Game Info")]
+    [SerializeField] public TMP_Text currencyText;
+    [SerializeField] public TMP_Text incomeMultiplierText;
+    [SerializeField] private TMP_Text survivalText;
+    [SerializeField] private TMP_Text incomeCostText;
+    [SerializeField] private TMP_Text waveCountText;
 
     [Header("References Spawn Buttons")]
     [SerializeField] private List<ActionButton> spawnUnitButtons;
@@ -63,6 +69,16 @@ public class UIManager : MonoBehaviour
 
         SetupUnitButtons(loadOutUnits);
         SetupTowerBuildMenuButtons(loadOutTowers);
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnCurrencyChanged += UpdateCurrencyText;
+            GameManager.Instance.OnIncomeMultiplierChanged += UpdateIncomeMultiplierText;
+        }
+        if(WaveController.waveGenerator != null)
+        {
+            WaveController.waveGenerator.OnWaveNumberChanged += UpdateWaveCountText;
+        }
     }
 
     private void OnEnable()
@@ -264,6 +280,20 @@ public class UIManager : MonoBehaviour
     public void UpdateIncomeCostText()
     {
         incomeCostText.text = GameManager.Instance.incomeUpgradeCost.ToString();
+    }
+
+    private void UpdateCurrencyText(int currency)
+    {
+        currencyText.text = currency.ToString();
+    }
+    private void UpdateIncomeMultiplierText(float multiplier)
+    {
+        incomeMultiplierText.text = "x" + multiplier.ToString("F1");
+    }
+
+    private void UpdateWaveCountText(int waveNumber)
+    {
+        waveCountText.text = waveNumber.ToString();
     }
 
     public void ToggleBuildMenu(BuildingPlot plot)

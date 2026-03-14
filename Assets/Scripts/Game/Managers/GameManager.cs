@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,9 +10,6 @@ public class GameManager : MonoBehaviour
     //Consider seperating this into smaller bits, and have this one start/stop them all
     public static GameManager Instance;
 
-    public TMP_Text southCurrencyText;
-    public TMP_Text southIncomeModifierText;
-
     public Transform south;
 
     private int nextRangedSpawn = 0;
@@ -21,6 +19,9 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<Team, float> currency;
 
+    public event Action<int> OnCurrencyChanged;
+    public event Action<float> OnIncomeMultiplierChanged;
+
     [Header("References")]
     [SerializeField] GameObject gameUICanvas;
 
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float currencyInterval = 1f;
     [SerializeField] float incomePerTick = 20;
     [SerializeField] float baseIncomePerTick = 20;
-    [SerializeField] float incomeModifier = 1;
+    [SerializeField] float incomeMultiplier = 1;
     [SerializeField] public float incomeUpgradeCost = 200;
     [SerializeField] public bool isGameOver = false;
     [SerializeField] public bool isGameRunning = false;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
 
         PauseManager.SetPaused(false);
 
-        UpdateCurrencyText();
+        OnCurrencyChanged?.Invoke((int)currency[Team.South]);
     }
 
     public void Start()
@@ -73,28 +74,24 @@ public class GameManager : MonoBehaviour
     public void AddCurrency(Team team, float amount)
     {
         currency[team] += amount;
-        UpdateCurrencyText();
+        OnCurrencyChanged?.Invoke((int)currency[team]);
         UIManager.Instance.RefreshAllButtons();
     }
 
     public void SubtractCurrency(Team team, float amount)
     {
         currency[team] -= amount;
-        UpdateCurrencyText();
+        OnCurrencyChanged?.Invoke((int)currency[team]);
         UIManager.Instance.RefreshAllButtons();
     }
 
-    private void UpdateCurrencyText()
-    {
-        //northCurrencyText.text = currency[Team.North].ToString();
-        southCurrencyText.text = ((int)currency[Team.South]).ToString();
-    }
     public void UpgradeIncomeModifier()
     {
-        incomeModifier = (float)(incomeModifier + 0.2);
-        incomePerTick = baseIncomePerTick * incomeModifier;
-        southIncomeModifierText.text = "x" + incomeModifier.ToString("F1");
+        incomeMultiplier += (float)0.2;
+        incomePerTick = baseIncomePerTick * incomeMultiplier;
+        OnIncomeMultiplierChanged?.Invoke(incomeMultiplier);
     }
+
     private void UpdateGameState(bool gameOver, Team losingTeam)
     {
         isGameOver = gameOver;

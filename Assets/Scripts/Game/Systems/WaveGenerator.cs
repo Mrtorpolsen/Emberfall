@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class WaveGenerator
@@ -7,10 +8,12 @@ public class WaveGenerator
     [SerializeField] private int baseCount = 4;
     [SerializeField] private int sapperCount = 1;
 
-    private readonly System.Func<float> randomFunc;
+    private readonly Func<float> randomFunc;
+
+    public event Action<int> OnWaveNumberChanged;
 
     // For testing to gaurentee spawn
-    public WaveGenerator(System.Func<float> randomFunc = null)
+    public WaveGenerator(Func<float> randomFunc = null)
     {
         this.randomFunc = randomFunc ?? (() => UnityEngine.Random.value);
     }
@@ -18,6 +21,8 @@ public class WaveGenerator
     public WaveDefinition GenerateWave(int waveNumber)
     {
         int waveNumberDisplay = waveNumber + 1;
+
+        OnWaveNumberChanged?.Invoke(waveNumberDisplay);
 
         var wave = new WaveDefinition
         {

@@ -1,7 +1,8 @@
-﻿public class AppliedEffect
+﻿[System.Serializable]
+public class AppliedEffect
 {
     public EffectTarget Target;      // Health, Damage, AttackSpeed, AbilityName, Income, etc.
-    public EffectOperation Operation; // Add, Multiply, Set
+    public EffectOperation Operation; // Add, Subtract, Multiply, Set
     public float Value;               // 1.05 or +5 etc.
 }
 
@@ -35,6 +36,7 @@ public enum EffectTarget
 public enum EffectOperation
 {
     Add,
+    Subtract,
     Multiply,
     Set
 }

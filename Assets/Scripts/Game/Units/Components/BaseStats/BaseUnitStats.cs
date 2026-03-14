@@ -118,6 +118,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public virtual void Die()
     {
+        UnitRegistry.Instance.UnregisterUnit(this);
         Destroy(unit != null ? unit : gameObject);
     }
 
@@ -181,7 +182,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     //TODO create world bounds instead.
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        Die();
     }
 #endif
 

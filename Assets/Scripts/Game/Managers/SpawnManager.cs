@@ -64,26 +64,26 @@ public class SpawnManager : MonoBehaviour
 
     public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team, FinalStats finalStats = null)
     {
-        BaseUnitStats stats = prefab.GetComponent<BaseUnitStats>();
+        BaseUnitStats unitBase = prefab.GetComponent<BaseUnitStats>();
 
-        if (stats == null)
+        if (unitBase == null)
         {
             Debug.LogError("Prefab has no UnitStats component!");
             return false;
         }
 
-        if (team == Team.South && GameManager.Instance.currency[Team.South] < stats.Cost)
+        if (team == Team.South && GameManager.Instance.currency[Team.South] < unitBase.Cost)
         {
             Debug.LogWarning("Not enough currency");
             return false;
         }
 
         GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
-        stats = unit.GetComponent<BaseUnitStats>();
+        unitBase = unit.GetComponent<BaseUnitStats>();
 
-        if (stats != null && finalStats != null)
+        if (unitBase != null && finalStats != null)
         {
-            stats.ApplyFinalStats(finalStats);
+            unitBase.ApplyFinalStats(finalStats);
         }
 
         SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
@@ -93,9 +93,9 @@ public class SpawnManager : MonoBehaviour
             AssignColor(sr, team);
         }
             
-        UnitMetadata unitStats = unit.GetComponent<UnitMetadata>();
+        UnitMetadata unitMetaData = unit.GetComponent<UnitMetadata>();
 
-        unitStats.SetTeam(team);
+        unitMetaData.SetTeam(team);
 
         if(prefab != Prefabs.gatePrefab)
         {
@@ -104,8 +104,10 @@ public class SpawnManager : MonoBehaviour
 
         if(team == Team.South)
         {
-            GameManager.Instance.SubtractCurrency(team, stats.Cost);
+            GameManager.Instance.SubtractCurrency(team, unitBase.Cost);
         }
+
+        UnitRegistry.Instance.RegisterUnit(unitBase);
 
         return true;
     }
@@ -115,14 +117,15 @@ public class SpawnManager : MonoBehaviour
     {
         spawnedUnit = null;
 
-        BaseUnitStats stats = prefab.GetComponent<BaseUnitStats>();
-        if (stats == null)
+        BaseUnitStats unitBase = prefab.GetComponent<BaseUnitStats>();
+
+        if (unitBase == null)
         {
             Debug.LogError("Prefab has no UnitStats component!");
             return false;
         }
 
-        if (team == Team.South && GameManager.Instance.currency[Team.South] < stats.Cost)
+        if (team == Team.South && GameManager.Instance.currency[Team.South] < unitBase.Cost)
         {
             Debug.LogWarning("Not enough currency");
             return false;
@@ -131,10 +134,11 @@ public class SpawnManager : MonoBehaviour
         GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
         spawnedUnit = unit;
 
-        stats = unit.GetComponent<BaseUnitStats>();
-        if (stats != null && finalStats != null)
+        unitBase = unit.GetComponent<BaseUnitStats>();
+
+        if (unitBase != null && finalStats != null)
         {
-            stats.ApplyFinalStats(finalStats);
+            unitBase.ApplyFinalStats(finalStats);
         }
 
         SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
@@ -153,8 +157,10 @@ public class SpawnManager : MonoBehaviour
 
         if (team == Team.South)
         {
-            GameManager.Instance.SubtractCurrency(team, stats.Cost);
+            GameManager.Instance.SubtractCurrency(team, unitBase.Cost);
         }
+
+        UnitRegistry.Instance.RegisterUnit(unitBase);
 
         return true;
     }

@@ -13,6 +13,7 @@ public class UnitStatsCalculator
                 float magnitude = effect.Operation switch
                 {
                     EffectOperation.Add => effect.Value * modifier.Stacks,
+                    EffectOperation.Subtract => -(effect.Value * modifier.Stacks),
                     EffectOperation.Multiply => 1 + (effect.Value - 1) * modifier.Stacks,
                     EffectOperation.Set => effect.Value,
                     _ => effect.Value
@@ -111,6 +112,7 @@ public class UnitStatsCalculator
         return operation switch
         {
             EffectOperation.Add => magnitude,
+            EffectOperation.Subtract => -magnitude,
             EffectOperation.Multiply => (baseValue * magnitude) - baseValue,
             _ => throw new ArgumentOutOfRangeException("No operation found in CalculateDelta")
         };
@@ -191,6 +193,10 @@ public class UnitStatsCalculator
                 stat += intValue;
                 break;
 
+            case EffectOperation.Subtract:
+                stat -= intValue;
+                break;
+
             case EffectOperation.Multiply:
                 stat = Mathf.RoundToInt(stat * value);
                 break;
@@ -207,6 +213,10 @@ public class UnitStatsCalculator
         {
             case EffectOperation.Add:
                 stat += value;
+                break;
+
+            case EffectOperation.Subtract:
+                stat -= value;
                 break;
 
             case EffectOperation.Multiply:
