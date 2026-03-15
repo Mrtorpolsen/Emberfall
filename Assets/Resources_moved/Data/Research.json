@@ -60,12 +60,38 @@
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 150,
-          "MultiplierPerLevel": 1.09
+          "BaseValue": 100,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "TimeScaling": {
-          "BaseValue":600,
-          "MultiplierPerLevel": 1.1
+          "BaseValue": 60,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "Effects": [
           {
@@ -83,12 +109,38 @@
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 250,
-          "MultiplierPerLevel": 1.09
+          "BaseValue": 100,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "TimeScaling": {
-          "BaseValue": 550,
-          "MultiplierPerLevel": 1.1
+          "BaseValue": 60,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "Effects": [
           {
@@ -106,12 +158,38 @@
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 250,
-          "MultiplierPerLevel": 1.09
+          "BaseValue": 100,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "TimeScaling": {
-          "BaseValue": 550,
-          "MultiplierPerLevel": 1.1
+          "BaseValue": 60,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "Effects": [
           {
@@ -129,12 +207,38 @@
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 175,
-          "MultiplierPerLevel": 1.09
+          "BaseValue": 100,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "TimeScaling": {
-          "BaseValue": 400,
-          "MultiplierPerLevel": 1.1
+          "BaseValue": 60,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "Effects": [
           {
@@ -154,12 +258,38 @@
         "Category": "Tower",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 300,
-          "MultiplierPerLevel": 1.09
+          "BaseValue": 100,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "TimeScaling": {
-          "BaseValue": 180,
-          "MultiplierPerLevel": 1.1
+          "BaseValue": 60,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "Effects": [
           {
