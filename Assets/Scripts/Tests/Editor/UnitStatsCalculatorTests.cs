@@ -22,11 +22,11 @@ public class UnitStatsCalculatorTests
             new AppliedStatModifier
             {
                 Stacks = 3,
-                Effects = new List<AppliedEffect>
+                Effects = new List<StatEffect>
                 {
-                    new AppliedEffect
+                    new StatEffect
                     {
-                        Target = EffectTarget.CritChance,
+                        Target = StatType.CritChance,
                         Operation = EffectOperation.Add,
                         Value = 0.1f
                     }
@@ -57,11 +57,11 @@ public class UnitStatsCalculatorTests
             new AppliedStatModifier
             {
                 Stacks = 5,
-                Effects = new List<AppliedEffect>
+                Effects = new List<StatEffect>
                 {
-                    new AppliedEffect
+                    new StatEffect
                     {
-                        Target = EffectTarget.Health,
+                        Target = StatType.Health,
                         Operation = EffectOperation.Multiply,
                         Value = 1.02f
                     }
@@ -71,11 +71,11 @@ public class UnitStatsCalculatorTests
             new AppliedStatModifier
             {
                 Stacks = 3,
-                Effects = new List<AppliedEffect>
+                Effects = new List<StatEffect>
                 {
-                    new AppliedEffect
+                    new StatEffect
                     {
-                        Target = EffectTarget.Health,
+                        Target = StatType.Health,
                         Operation = EffectOperation.Multiply,
                         Value = 1.03f
                     }
@@ -120,11 +120,11 @@ public class UnitStatsCalculatorTests
             new AppliedStatModifier
             {
                 Stacks = 5,
-                Effects = new List<AppliedEffect>
+                Effects = new List<StatEffect>
                 {
-                    new AppliedEffect
+                    new StatEffect
                     {
-                        Target = EffectTarget.AttackDamage,
+                        Target = StatType.AttackDamage,
                         Operation = EffectOperation.Multiply,
                         Value = 1.05f
                     }
@@ -160,11 +160,11 @@ public class UnitStatsCalculatorTests
         new AppliedStatModifier
         {
             Stacks = 5,
-            Effects = new List<AppliedEffect>
+            Effects = new List<StatEffect>
             {
-                new AppliedEffect
+                new StatEffect
                 {
-                    Target = EffectTarget.AttackRange,
+                    Target = StatType.AttackRange,
                     Operation = EffectOperation.Add,
                     Value = 0.15f
                 }
@@ -196,11 +196,11 @@ public class UnitStatsCalculatorTests
         new AppliedStatModifier
         {
             Stacks = 3,
-            Effects = new List<AppliedEffect>
+            Effects = new List<StatEffect>
             {
-                new AppliedEffect
+                new StatEffect
                 {
-                    Target = EffectTarget.Health,
+                    Target = StatType.Health,
                     Operation = EffectOperation.Multiply,
                     Value = 1.075f
                 }

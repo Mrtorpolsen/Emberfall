@@ -13,7 +13,7 @@ public class AbilityDefinition : ScriptableObject
     public float Cost => cost;
     public AssetReference Icon => icon;
 
-    public AppliedEffect[] effects;
+    public StatEffect[] effects;
     public int duration; // In seconds, 0 for instant effects
     public float cooldown; // In seconds, 0 for no cooldown
 }

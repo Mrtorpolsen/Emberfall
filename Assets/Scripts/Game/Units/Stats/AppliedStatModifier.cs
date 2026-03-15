@@ -2,6 +2,6 @@
 
 public class AppliedStatModifier
 {
-    public List<AppliedEffect> Effects;
+    public List<StatEffect> Effects;
     public int Stacks;
 }

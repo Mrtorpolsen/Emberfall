@@ -12,11 +12,37 @@
         "MaxLevel": 100,
         "CostScaling": {
           "BaseValue": 100,
-          "MultiplierPerLevel": 1.09
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "TimeScaling": {
           "BaseValue": 60,
-          "MultiplierPerLevel": 1.1
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1
+            }
+          ]
         },
         "Effects": [
           {
@@ -185,9 +211,7 @@
         },
         "Effects": [
           {
-            "Target": "Restoration",
-            "Operation": "Set",
-            "Value": 1
+            "UnlocksAbility": "Restoration"
           }
         ],
         "Prerequisites": []
@@ -208,9 +232,7 @@
         },
         "Effects": [
           {
-            "Target": "Fortify",
-            "Operation": "Set",
-            "Value": 1
+            "UnlocksAbility": "Fortify"
           }
         ],
         "Prerequisites": [] 

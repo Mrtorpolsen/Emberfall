@@ -113,7 +113,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     private int ApplyArmorReduction(int dmg)
     {
-        return Mathf.Max(1, dmg - runtimeStats.armor);
+        float reductionFactor = 100f / (runtimeStats.armor + 100f);
+        return Mathf.Max(1, Mathf.RoundToInt(dmg * reductionFactor));
     }
 
     public virtual void Die()

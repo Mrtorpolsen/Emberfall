@@ -1,12 +1,12 @@
 ﻿[System.Serializable]
-public class AppliedEffect
+public class StatEffect
 {
-    public EffectTarget Target;      // Health, Damage, AttackSpeed, AbilityName, Income, etc.
+    public StatType Target;      // Health, Damage, AttackSpeed, AbilityName, Income, etc.
     public EffectOperation Operation; // Add, Subtract, Multiply, Set
     public float Value;               // 1.05 or +5 etc.
 }
 
-public enum EffectTarget
+public enum StatType
 {
     Health,
     AttackDamage,
@@ -17,20 +17,6 @@ public enum EffectTarget
     CritDamage,
     SplashRadius,
     Income,
-    //Ability
-    ShieldSlam,
-    Multishot,
-    LanceStrike,
-    //Units
-    Berserker,
-    Guardian,
-    Sniper,
-    Trapper,
-    Templar,
-    Dragoon,
-    //Global
-    Restoration,
-    Fortify
 }
 
 public enum EffectOperation

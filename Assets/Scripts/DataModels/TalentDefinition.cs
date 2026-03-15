@@ -30,7 +30,8 @@ public class TalentDefinition
     public TalentType Type;                 // StatModifier, AbilityUnlock, UnitUnlock, Income, etc.
     public int Tier;
 
-    public AppliedEffect[] Effects;      // one upgrade may have multiple effects
+    public StatEffect[] Effects;      // one upgrade may have multiple effects
+    public Unlock[] Unlocks;          // Can be units, abilities or unit skills
 
     public TalentCostModel Cost;            // dynamic cost scaling
     public TalentPurchaseModel Purchase;    // handles max, infinite, etc.

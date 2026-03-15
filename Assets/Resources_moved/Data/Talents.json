@@ -471,11 +471,9 @@
         "Category": "Unit",
         "Type": "AbilityUnlock",
         "Tier": 8,
-        "Effects": [
+        "Unlocks": [
           {
-            "Target": "ShieldSlam",
-            "Operation": "Set",
-            "Value": 1
+            "Target": "ShieldSlam"
           }
         ],
         "Cost": {
@@ -568,11 +566,9 @@
         "Category": "Unit",
         "Type": "UnitUnlock",
         "Tier": 10,
-        "Effects": [
+        "Unlocks": [
           {
-            "Target": "Berserker",
-            "Operation": "Set",
-            "Value": 1
+            "Target": "Berserker"
           }
         ],
         "Cost": {
@@ -597,11 +593,9 @@
         "Category": "Unit",
         "Type": "UnitUnlock",
         "Tier": 10,
-        "Effects": [
+        "Unlocks": [
           {
-            "Target": "Guardian",
-            "Operation": "Set",
-            "Value": 1
+            "Target": "Guardian"
           }
         ],
         "Cost": {
@@ -1087,11 +1081,9 @@
         "Category": "Unit",
         "Type": "AbilityUnlock",
         "Tier": 8,
-        "Effects": [
+        "Unlocks": [
           {
-            "Target": "Multishot",
-            "Operation": "Set",
-            "Value": 1
+            "Target": "Multishot"
           }
         ],
         "Cost": {
@@ -1184,11 +1176,9 @@
         "Category": "Unit",
         "Type": "UnitUnlock",
         "Tier": 10,
-        "Effects": [
+        "Unlocks": [
           {
-            "Target": "Sniper",
-            "Operation": "Set",
-            "Value": 1
+            "Target": "Sniper"
           }
         ],
         "Cost": {
@@ -1213,11 +1203,9 @@
         "Category": "Unit",
         "Type": "UnitUnlock",
         "Tier": 10,
-        "Effects": [
+        "Unlocks": [
           {
-            "Target": "Trapper",
-            "Operation": "Set",
-            "Value": 1
+            "Target": "Trapper"
           }
         ],
         "Cost": {
@@ -1703,11 +1691,9 @@
         "Category": "Unit",
         "Type": "AbilityUnlock",
         "Tier": 8,
-        "Effects": [
+        "Unlocks": [
           {
-            "Target": "LanceStrike",
-            "Operation": "Set",
-            "Value": 1
+            "Target": "LanceStrike"
           }
         ],
         "Cost": {
@@ -1800,11 +1786,9 @@
         "Category": "Unit",
         "Type": "UnitUnlock",
         "Tier": 10,
-        "Effects": [
+        "Unlocks": [
           {
-            "Target": "Templar",
-            "Operation": "Set",
-            "Value": 1
+            "Target": "Templar"
           }
         ],
         "Cost": {
@@ -1829,11 +1813,9 @@
         "Category": "Unit",
         "Type": "UnitUnlock",
         "Tier": 10,
-        "Effects": [
+        "Unlocks": [
           {
-            "Target": "Dragoon",
-            "Operation": "Set",
-            "Value": 1
+            "Target": "Dragoon"
           }
         ],
         "Cost": {
