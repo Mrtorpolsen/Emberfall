@@ -11,6 +11,7 @@ public class AbilityDefinition : ScriptableObject
 
     public string DisplayName => displayName;
     public float Cost => cost;
+    public AssetReference Icon => icon;
 
     public AppliedEffect[] effects;
     public int duration; // In seconds, 0 for instant effects

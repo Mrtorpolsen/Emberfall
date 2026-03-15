@@ -170,8 +170,8 @@
       }],
       "globalability": [
       {
-        "Id": "global_abilityunlock_massheal",
-        "Name": "Mass Heal",
+        "Id": "global_abilityunlock_restoration",
+        "Name": "Restoration",
         "Description": "Instantly heal all troops by 50%",
         "Category": "GlobalAbility",
         "MaxLevel": 1,
@@ -185,7 +185,7 @@
         },
         "Effects": [
           {
-            "Target": "MassHeal",
+            "Target": "Restoration",
             "Operation": "Set",
             "Value": 1
           }
@@ -193,8 +193,8 @@
         "Prerequisites": []
       },
       {
-        "Id": "global_abilityunlock_massarmor",
-        "Name": "Mass Armor",
+        "Id": "global_abilityunlock_fortify",
+        "Name": "Fortify",
         "Description": "Increase units armor by 10 for 20s",
         "Category": "GlobalAbility",
         "MaxLevel": 1,
@@ -208,7 +208,7 @@
         },
         "Effects": [
           {
-            "Target": "MassArmor",
+            "Target": "Fortify",
             "Operation": "Set",
             "Value": 1
           }

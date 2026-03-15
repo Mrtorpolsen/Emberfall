@@ -29,8 +29,8 @@ public enum EffectTarget
     Templar,
     Dragoon,
     //Global
-    MassHeal,
-    MassArmor
+    Restoration,
+    Fortify
 }
 
 public enum EffectOperation
