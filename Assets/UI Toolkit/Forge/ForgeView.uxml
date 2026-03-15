@@ -26,7 +26,7 @@
                     </ui:VisualElement>
                     <ui:VisualElement name="UnitContainer" class="unitContainer" style="width: 30%; display: none;">
                         <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px;">
-                            <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UI/Icons/income_icon.png?fileID=421023817933042906&amp;guid=f2069244b447a8046871762baada4679&amp;type=3#income_icon_0&quot;);"/>
+                            <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Art/UnitGameIcons/economy_icon_512x512%202.png?fileID=2800000&amp;guid=d3f6f7318dc377744b9edda3efa05db3&amp;type=3#economy_icon_512x512 2&quot;);"/>
                         </ui:VisualElement>
                         <ui:Button text="Upgrade" name="Btn_Upg_Income" double-click-selects-word="true" class="btnUpg text btnBackground2x1" style="height: 160px;"/>
                     </ui:VisualElement>
