@@ -16,7 +16,7 @@ MonoBehaviour:
   maxHealth: 100
   armor: 0
   attackDamage: 15
-  attackSpeed: 0.2
+  attackSpeed: 0.33
   attackRange: 2.5
   hitRadius: 0.135
   movementSpeed: 1.75
@@ -24,3 +24,4 @@ MonoBehaviour:
   critMultiplier: 1.5
   unitPrio: 5
   isTargetable: 1
+  category: 0

@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Cavalier
   m_EditorClassIdentifier: Assembly-CSharp::UnitStatsDefinition
   cost: 150
-  maxHealth: 350
+  maxHealth: 400
   armor: 0
   attackDamage: 25
-  attackSpeed: 0.75
-  attackRange: 0.25
+  attackSpeed: 1
+  attackRange: 0.35
   hitRadius: 0.135
   movementSpeed: 4
   critChance: 0
   critMultiplier: 1.5
   unitPrio: 4
   isTargetable: 1
+  category: 0
