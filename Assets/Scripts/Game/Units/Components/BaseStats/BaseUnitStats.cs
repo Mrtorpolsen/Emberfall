@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(UnitMetadata))]
 public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
@@ -11,7 +12,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     protected UnitStatsDefinition BaseStats => baseStats;
 
-    protected int currentHealth;
+    public int currentHealth;
     protected UnitMetadata metadata;
     private RuntimeStats runtimeStats;
 
@@ -119,7 +120,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public virtual void Die()
     {
-        UnitRegistry.Instance.UnregisterUnit(this);
+        TargetRegistry.Instance.UnregisterUnit(this);
         Destroy(unit != null ? unit : gameObject);
     }
 
@@ -159,6 +160,12 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         }
 
         return dmg;
+    }
+
+    public void Heal(int amount)
+    {
+        if(!IsAlive) return;
+        currentHealth = Mathf.Min(MaxHealth, currentHealth + amount);
     }
 
     protected bool RollCrit()

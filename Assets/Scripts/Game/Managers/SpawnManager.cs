@@ -107,7 +107,7 @@ public class SpawnManager : MonoBehaviour
             GameManager.Instance.SubtractCurrency(team, unitBase.Cost);
         }
 
-        UnitRegistry.Instance.RegisterUnit(unitBase);
+        TargetRegistry.Instance.RegisterUnit(unitBase);
 
         return true;
     }
@@ -160,7 +160,7 @@ public class SpawnManager : MonoBehaviour
             GameManager.Instance.SubtractCurrency(team, unitBase.Cost);
         }
 
-        UnitRegistry.Instance.RegisterUnit(unitBase);
+        TargetRegistry.Instance.RegisterUnit(unitBase);
 
         return true;
     }

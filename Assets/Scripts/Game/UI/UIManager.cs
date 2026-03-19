@@ -192,12 +192,22 @@ public class UIManager : MonoBehaviour
                 continue;
             }
 
-            var def = loadout[i];
+            AbilityDefinition def = loadout[i];
 
-            abilityButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            abilityButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost && AbilityCooldownManager.Instance.CanUse(def)));
             abilityButtons[i].SetClickAction(() =>
             {
-                Debug.Log($"Ability {def.DisplayName} clicked! Implement ability logic here.");
+                if (GameManager.Instance.currency[Team.South] < def.Cost && AbilityCooldownManager.Instance.CanUse(def))
+                    return;
+
+                GameManager.Instance.SubtractCurrency(Team.South, def.Cost);
+
+                foreach (var action in def.actions)
+                {
+                    action.Execute(TargetRegistry.Instance);
+                }
+
+                AbilityCooldownManager.Instance.TriggerCooldown(def);
             });
 
             boundButtons.Add(abilityButtons[i]);
@@ -303,6 +313,7 @@ public class UIManager : MonoBehaviour
             button.Refresh();
         }
         incomeButton.interactable = (!PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= GameManager.Instance.incomeUpgradeCost);
+        Debug.Log($"cd left on {loadOutAbilities[0].name} is {AbilityCooldownManager.Instance.GetRemainingCooldown(loadOutAbilities[0])}");
     }
 
     public void SpawnSouthTowerClickAction(GameObject prefab, SpawnSide spawnSide)
