@@ -172,7 +172,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         Debug.Log($"{name} landed a CRIT for {dmg} damage!");
     }
 
-
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitStatsDefinition
   cost: 0
   maxHealth: 700
-  armor: 0
+  armor: 8
   attackDamage: 45
   attackSpeed: 1
   attackRange: 0.35

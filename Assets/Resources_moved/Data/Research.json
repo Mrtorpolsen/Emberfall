@@ -7,7 +7,7 @@
       {
         "Id": "unit_statsmodifier_health",
         "Name": "Health",
-        "Description": "1.5%",
+        "Description": "1%",
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
@@ -15,32 +15,32 @@
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.05
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.03
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.01
             }
           ]
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 30,
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.8
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.07
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.005
             }
           ]
         },
@@ -48,7 +48,7 @@
           {
             "Target": "Health",
             "Operation": "Multiply",
-            "Value": 1.015
+            "Value": 1.01
           }
         ],
         "Prerequisites": []
@@ -56,7 +56,7 @@
       {
         "Id": "unit_statsmodifier_attackdamage",
         "Name": "Attack Damage",
-        "Description": "2%", 
+        "Description": "1%", 
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
@@ -64,32 +64,32 @@
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.05
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.03
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.01
             }
           ]
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 30,
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.8
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.07
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.005
             }
           ]
         },
@@ -97,7 +97,7 @@
           {
             "Target": "AttackDamage",
             "Operation": "Multiply",
-            "Value": 1.02
+            "Value": 1.01
           }
         ],
         "Prerequisites": []
@@ -105,7 +105,7 @@
       {
         "Id": "unit_statsmodifier_critdamage",
         "Name": "Crit Damage",
-        "Description": "0.2",
+        "Description": "1%",
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
@@ -113,40 +113,40 @@
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.05
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.03
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.01
             }
           ]
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 30,
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.8
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.07
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.005
             }
           ]
         },
         "Effects": [
           {
             "Target": "CritDamage",
-            "Operation": "Add",
-            "Value": 0.2
+            "Operation": "Multiply",
+            "Value": 1.015
           }
         ],
         "Prerequisites": []
@@ -154,7 +154,7 @@
       {
         "Id": "unit_statsmodifier_critchance",
         "Name": "Crit Chance",
-        "Description": "0.2",
+        "Description": "0.5%",
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
@@ -162,32 +162,32 @@
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.05
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.03
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.01
             }
           ]
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 30,
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.8
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.07
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.005
             }
           ]
         },
@@ -195,7 +195,7 @@
           {
             "Target": "CritChance",
             "Operation": "Add",
-            "Value": 0.2
+            "Value": 0.005
           }
         ],
         "Prerequisites": []
@@ -203,7 +203,7 @@
       {
         "Id": "unit_statsmodifier_attackspeed",
         "Name": "Attack Speed",
-        "Description": "0.1",
+        "Description": "1%",
         "Category": "Unit",
         "MaxLevel": 100,
         "CostScaling": {
@@ -211,40 +211,89 @@
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.05
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.03
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.01
             }
           ]
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 30,
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.8
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.07
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.005
             }
           ]
         },
         "Effects": [
           {
             "Target": "AttackSpeed",
+            "Operation": "Multiply",
+            "Value": 1.01
+          }
+        ],
+        "Prerequisites": []
+      },
+      {
+        "Id": "unit_statsmodifier_armor",
+        "Name": "Armor",
+        "Description": "0.75",
+        "Category": "Unit",
+        "MaxLevel": 100,
+        "CostScaling": {
+          "BaseValue": 100,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.05
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.03
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.01
+            }
+          ]
+        },
+        "TimeScaling": {
+          "BaseValue": 30,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.8
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.07
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.005
+            }
+          ]
+        },
+        "Effects": [
+          {
+            "Target": "Armor",
             "Operation": "Add",
-            "Value": 0.1
+            "Value": 0.75
           }
         ],
         "Prerequisites": []
@@ -254,7 +303,7 @@
       {
         "Id": "tower_statsmodifier_attackdamage",
         "Name": "Attack Damage",
-        "Description": "2%",
+        "Description": "1%",
         "Category": "Tower",
         "MaxLevel": 100,
         "CostScaling": {
@@ -262,32 +311,32 @@
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.05
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.03
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.01
             }
           ]
         },
         "TimeScaling": {
-          "BaseValue": 60,
+          "BaseValue": 30,
           "ScalingMultipliers": [
             {
               "Stage": "1",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.8
             },
             {
               "Stage": "2",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.07
             },
             {
               "Stage": "3",
-              "MultiplierPerLevel": 1
+              "MultiplierPerLevel": 1.005
             }
           ]
         },
@@ -295,7 +344,7 @@
           {
             "Target": "AttackDamage",
             "Operation": "Multiply",
-            "Value": 1.02
+            "Value": 1.01
           }
         ],
         "Prerequisites": []
@@ -303,27 +352,102 @@
       {
         "Id": "tower_statsmodifier_attackspeed",
         "Name": "Attack Speed",
-        "Description": "0.1",
+        "Description": "1%",
         "Category": "Tower",
         "MaxLevel": 100,
         "CostScaling": {
-          "BaseValue": 300,
-          "MultiplierPerLevel": 1.09
+          "BaseValue": 100,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.05
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.03
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.01
+            }
+          ]
         },
         "TimeScaling": {
-          "BaseValue": 180,
-          "MultiplierPerLevel": 1.1
+          "BaseValue": 30,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.8
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.07
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.005
+            }
+          ]
         },
         "Effects": [
           {
             "Target": "AttackSpeed",
-            "Operation": "Add",
-            "Value": 0.1
+            "Operation": "Multiply",
+            "Value": 1.01
           }
         ],
         "Prerequisites": []
-     
-      }],
+      },
+      {
+        "Id": "tower_statsmodifier_attackrange",
+        "Name": "Attack Range",
+        "Description": "1%",
+        "Category": "Tower",
+        "MaxLevel": 100,
+        "CostScaling": {
+          "BaseValue": 100,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.05
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.03
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.01
+            }
+          ]
+        },
+        "TimeScaling": {
+          "BaseValue": 30,
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.8
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.07
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.005
+            }
+          ]
+        },
+        "Effects": [
+          {
+            "Target": "AttackRange",
+            "Operation": "Multiply",
+            "Value": 1.01
+          }
+        ],
+        "Prerequisites": []
+      }
+    ],
       "globalability": [
       {
         "Id": "global_abilityunlock_restoration",
@@ -333,11 +457,37 @@
         "MaxLevel": 1,
         "CostScaling": {
           "BaseValue": 5000,
-          "MultiplierPerLevel": 1
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.05
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.03
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.01
+            }
+          ]
         },
         "TimeScaling": {
           "BaseValue": 6000,
-          "MultiplierPerLevel": 1
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.8
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.07
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.005
+            }
+          ]
         },
         "Effects": [
           {
@@ -354,11 +504,37 @@
         "MaxLevel": 1,
         "CostScaling": {
           "BaseValue": 5000,
-          "MultiplierPerLevel": 1
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.05
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.03
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.01
+            }
+          ]
         },
         "TimeScaling": {
           "BaseValue": 6000,
-          "MultiplierPerLevel": 1
+          "ScalingMultipliers": [
+            {
+              "Stage": "1",
+              "MultiplierPerLevel": 1.8
+            },
+            {
+              "Stage": "2",
+              "MultiplierPerLevel": 1.07
+            },
+            {
+              "Stage": "3",
+              "MultiplierPerLevel": 1.005
+            }
+          ]
         },
         "Effects": [
           {

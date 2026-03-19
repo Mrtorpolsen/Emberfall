@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "definitionsVersion": "1.0",
+  "definitionsVersion": "2.0",
   "gameVersion": "0.3.1",
   "talents": {
     "fighter": [
@@ -1027,7 +1027,7 @@
           {
             "Target": "AttackRange",
             "Operation": "Multiply",
-            "Value": 1.02
+            "Value": 1.05
           }
         ],
         "Cost": {
