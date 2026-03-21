@@ -16,13 +16,18 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected UnitMetadata metadata;
     private RuntimeStats runtimeStats;
 
+    public List<ActiveEffect> ActiveEffects = new ();
+
+    private readonly Dictionary<StatType, List<StatModifier>> modifiersByStat = new();
+    private readonly HashSet<StatType> dirtyStats = new();
+
     // IUnit
     public float AttackRange => runtimeStats.attackRange;
     public int AttackDamage => runtimeStats.attackDamage;
     public float AttackSpeed => runtimeStats.attackSpeed;
     public float MovementSpeed => runtimeStats.movementSpeed;
     public float CritChance => runtimeStats.critChance;
-    public float CritMultiplier => runtimeStats.critMultiplier;
+    public float CritDamage => runtimeStats.critDamage;
     public int MaxHealth => runtimeStats.maxHealth;
     public int Armor => runtimeStats.armor;
 
@@ -55,7 +60,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] private float debugMovementSpeed;
 
     [SerializeField] private float debugCritChance;
-    [SerializeField] private float debugCritMultiplier;
+    [SerializeField] private float debugCritDamage;
 
     [SerializeField] private ThreatLevel debugUnitPrio;
     [SerializeField] private bool debugIsTargetable;
@@ -74,7 +79,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
             cost = baseStats.cost,
             hitRadius = baseStats.hitRadius,
             critChance = baseStats.critChance,
-            critMultiplier = baseStats.critMultiplier,
+            critDamage = baseStats.critDamage,
             unitPrio = baseStats.unitPrio,
             isTargetable = baseStats.isTargetable
         };
@@ -95,6 +100,25 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected virtual void Start()
     {
         healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
+    }
+
+    private void LateUpdate()
+    {
+        if (dirtyStats.Count == 0) return;
+
+        foreach (var stat in dirtyStats)
+        {
+            float baseValue = GetBaseStat(stat);
+            float finalValue = CalculateStat(stat, baseValue);
+
+            ApplyToRuntime(stat, finalValue);
+        }
+
+        dirtyStats.Clear();
+
+#if UNITY_EDITOR
+        SyncDebugStats();
+#endif
     }
 
     public virtual void TakeDamage(int amount)
@@ -137,13 +161,28 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         runtimeStats.cost = finalStats.cost;
         runtimeStats.armor = finalStats.armor;
         runtimeStats.critChance = finalStats.critChance;
-        runtimeStats.critMultiplier = finalStats.critDamage;
+        runtimeStats.critDamage = finalStats.critDamage;
 
         healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
 
 #if UNITY_EDITOR
         SyncDebugStats();
 #endif
+    }
+
+    private float GetBaseStat(StatType stat)
+    {
+        return stat switch
+        {
+            StatType.Health => baseStats.maxHealth,
+            StatType.AttackDamage => baseStats.attackDamage,
+            StatType.Armor => baseStats.armor,
+            StatType.AttackSpeed => baseStats.attackSpeed,
+            StatType.AttackRange => baseStats.attackRange,
+            StatType.CritChance => baseStats.critChance,
+            StatType.CritDamage => baseStats.critDamage,
+            _ => 0f
+        };
     }
 
     public int GetAttackDamage()
@@ -154,7 +193,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         {
             if(RollCrit())
             {
-                dmg = Mathf.RoundToInt(dmg * runtimeStats.critMultiplier);
+                dmg = Mathf.RoundToInt(dmg * runtimeStats.critDamage);
                 ShowCritFeedback(dmg);
             }
         }
@@ -162,10 +201,102 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         return dmg;
     }
 
+    public void AddModifier(StatModifier modifier)
+    {
+        if (!modifiersByStat.TryGetValue(modifier.Stat, out var list))
+        {
+            list = new List<StatModifier>();
+            modifiersByStat[modifier.Stat] = list;
+        }
+
+        list.Add(modifier);
+        dirtyStats.Add(modifier.Stat);
+    }
+
+    public void RemoveModifier(StatModifier modifier)
+    {
+        if (modifiersByStat.TryGetValue(modifier.Stat, out var list))
+        {
+            list.Remove(modifier);
+
+            if (list.Count == 0)
+            {
+                modifiersByStat.Remove(modifier.Stat);
+            }
+
+            dirtyStats.Add(modifier.Stat);
+        }
+    }
+
     public void Heal(int amount)
     {
         if(!IsAlive) return;
+        // set health to no more than max health
         currentHealth = Mathf.Min(MaxHealth, currentHealth + amount);
+    }
+
+    private float CalculateStat(StatType stat, float baseValue)
+    {
+        if (!modifiersByStat.TryGetValue(stat, out var list))
+            return baseValue;
+
+        float value = baseValue;
+
+        foreach (var mod in list)
+        {
+            if (mod.Type == ModifierType.Flat)
+            {
+                value += mod.Value;
+            }
+            else if (mod.Type == ModifierType.Percent)
+            {
+                value *= (1f + mod.Value); // multiplicative stacking
+            }
+        }
+
+        return value;
+    }
+
+    private void ApplyToRuntime(StatType stat, float value)
+    {
+        switch (stat)
+        {
+            case StatType.Health:
+                {
+                    float percent = (float)currentHealth / runtimeStats.maxHealth;
+
+                    runtimeStats.maxHealth = Mathf.RoundToInt(value);
+                    currentHealth = Mathf.RoundToInt(runtimeStats.maxHealth * percent);
+
+                    healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
+                    break;
+                }
+
+            case StatType.AttackDamage:
+                runtimeStats.attackDamage = Mathf.RoundToInt(value);
+                break;
+
+            case StatType.Armor:
+                runtimeStats.armor = Mathf.RoundToInt(value);
+                break;
+
+            case StatType.AttackSpeed:
+                runtimeStats.attackSpeed = value;
+                break;
+
+
+            case StatType.AttackRange:
+                runtimeStats.attackRange = value;
+                break;
+
+            case StatType.CritChance:
+                runtimeStats.critChance = value;
+                break;
+
+            case StatType.CritDamage:
+                runtimeStats.critDamage = value;
+                break;
+        }
     }
 
     protected bool RollCrit()
@@ -183,6 +314,14 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, baseStats.attackRange);
+    }
+
+    private void OnDestroy()
+    {
+        if (EffectSystem.Instance != null)
+        {
+            EffectSystem.Instance.RemoveAllEffects(this);
+        }
     }
 
 #if !UNITY_EDITOR
@@ -212,7 +351,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         debugMovementSpeed = runtimeStats.movementSpeed;
 
         debugCritChance = runtimeStats.critChance;
-        debugCritMultiplier = runtimeStats.critMultiplier;
+        debugCritDamage = runtimeStats.critDamage;
 
         debugUnitPrio = runtimeStats.unitPrio;
         debugIsTargetable = runtimeStats.isTargetable;

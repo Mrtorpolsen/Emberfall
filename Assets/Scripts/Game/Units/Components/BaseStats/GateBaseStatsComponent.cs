@@ -31,7 +31,7 @@ public class GateStatsBaseStatsComponent : UnitMetadata, IUnit, ITargetable
     public float MovementSpeed => movementSpeed;
     public int Armor => armor;
     public float CritChance => critChance;
-    public float CritMultiplier => critMultiplier;
+    public float CritDamage => critMultiplier;
 
     public GameObject GameObject => gameObject;
 

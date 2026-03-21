@@ -128,7 +128,7 @@ public class UnitStatsCalculator
             StatType.AttackRange => baseStats.attackRange,
             StatType.Armor => baseStats.armor,
             StatType.CritChance => baseStats.critChance,
-            StatType.CritDamage => baseStats.critMultiplier,
+            StatType.CritDamage => baseStats.critDamage,
             _ => throw new ArgumentOutOfRangeException("No EffectTarget found in GetBaseStat")
         };
     }
