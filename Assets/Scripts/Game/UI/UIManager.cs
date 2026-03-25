@@ -313,7 +313,6 @@ public class UIManager : MonoBehaviour
             button.Refresh();
         }
         incomeButton.interactable = (!PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= GameManager.Instance.incomeUpgradeCost);
-        Debug.Log($"cd left on {loadOutAbilities[1].name} is {AbilityCooldownManager.Instance.GetRemainingCooldown(loadOutAbilities[1])}");
     }
 
     public void SpawnSouthTowerClickAction(GameObject prefab, SpawnSide spawnSide)
