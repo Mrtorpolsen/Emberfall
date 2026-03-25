@@ -25,19 +25,19 @@ public class UnitStatsManagerTests
         // Check individual research
         var unitResearch1 = result[ResearchCategory.Unit][0];
         Assert.AreEqual(95, unitResearch1.Stacks);
-        Assert.AreEqual(EffectTarget.AttackDamage, unitResearch1.Effects[0].Target);
+        Assert.AreEqual(StatType.AttackDamage, unitResearch1.Effects[0].Target);
         Assert.AreEqual(EffectOperation.Multiply, unitResearch1.Effects[0].Operation);
         Assert.AreEqual(1.02f, unitResearch1.Effects[0].Value);
 
         var unitResearch2 = result[ResearchCategory.Unit][1];
         Assert.AreEqual(10, unitResearch2.Stacks);
-        Assert.AreEqual(EffectTarget.Health, unitResearch2.Effects[0].Target);
+        Assert.AreEqual(StatType.Health, unitResearch2.Effects[0].Target);
         Assert.AreEqual(EffectOperation.Add, unitResearch2.Effects[0].Operation);
         Assert.AreEqual(5, unitResearch2.Effects[0].Value);
 
         var towerResearch = result[ResearchCategory.Tower][0];
         Assert.AreEqual(35, towerResearch.Stacks);
-        Assert.AreEqual(EffectTarget.AttackDamage, towerResearch.Effects[0].Target);
+        Assert.AreEqual(StatType.AttackDamage, towerResearch.Effects[0].Target);
         Assert.AreEqual(EffectOperation.Multiply, towerResearch.Effects[0].Operation);
         Assert.AreEqual(1.02f, towerResearch.Effects[0].Value);
     }
@@ -176,11 +176,11 @@ public class UnitStatsManagerTests
                         new TalentsToApply
                         {
                             purchased = 3,
-                            effects = new List<AppliedEffect>
+                            effects = new List<StatEffect>
                             {
-                                new AppliedEffect
+                                new StatEffect
                                 {
-                                    Target = EffectTarget.Health,
+                                    Target = StatType.Health,
                                     Operation = EffectOperation.Multiply,
                                     Value = 1.05f
                                 }
@@ -189,11 +189,11 @@ public class UnitStatsManagerTests
                         new TalentsToApply
                         {
                             purchased = 2,
-                            effects = new List<AppliedEffect>
+                            effects = new List<StatEffect>
                             {
-                                new AppliedEffect
+                                new StatEffect
                                 {
-                                    Target = EffectTarget.AttackDamage,
+                                    Target = StatType.AttackDamage,
                                     Operation = EffectOperation.Multiply,
                                     Value = 1.05f
                                 }
@@ -207,11 +207,11 @@ public class UnitStatsManagerTests
                         new TalentsToApply
                         {
                             purchased = 2,
-                            effects = new List<AppliedEffect>
+                            effects = new List<StatEffect>
                             {
-                                new AppliedEffect
+                                new StatEffect
                                 {
-                                    Target = EffectTarget.AttackDamage,
+                                    Target = StatType.AttackDamage,
                                     Operation = EffectOperation.Multiply,
                                     Value = 1.05f
                                 }
@@ -229,11 +229,11 @@ public class UnitStatsManagerTests
                         new ResearchToApply
                         {
                             purchased = 95,
-                            effects = new List<AppliedEffect>
+                            effects = new List<StatEffect>
                             {
-                                new AppliedEffect
+                                new StatEffect
                                 {
-                                    Target = EffectTarget.AttackDamage,
+                                    Target = StatType.AttackDamage,
                                     Operation = EffectOperation.Multiply,
                                     Value = 1.02f
                                 }
@@ -242,11 +242,11 @@ public class UnitStatsManagerTests
                         new ResearchToApply
                         {
                             purchased = 10,
-                            effects = new List<AppliedEffect>
+                            effects = new List<StatEffect>
                             {
-                                new AppliedEffect
+                                new StatEffect
                                 {
-                                    Target = EffectTarget.Health,
+                                    Target = StatType.Health,
                                     Operation = EffectOperation.Add,
                                     Value = 5
                                 }
@@ -261,11 +261,11 @@ public class UnitStatsManagerTests
                         new ResearchToApply
                         {
                             purchased = 35,
-                            effects = new List<AppliedEffect>
+                            effects = new List<StatEffect>
                             {
-                                new AppliedEffect
+                                new StatEffect
                                 {
-                                    Target = EffectTarget.AttackDamage,
+                                    Target = StatType.AttackDamage,
                                     Operation = EffectOperation.Multiply,
                                     Value = 1.02f
                                 }

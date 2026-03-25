@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6683f2ee41e28a94bb676011d8ca0d48, type: 3}
+  m_Name: FortifyAction
+  m_EditorClassIdentifier: Assembly-CSharp::StatModificationAction
+  targeting: {fileID: 11400000, guid: 4c840cae9fe2cbb48916ea1e60ceb044, type: 2}
+  abilityDefinition: {fileID: 11400000, guid: 08053a4e88c407d41aefe84d7925fa62, type: 2}
+  statType: 4
+  modifierType: 0
+  value: 20
+  duration: 20

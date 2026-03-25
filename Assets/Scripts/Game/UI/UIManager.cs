@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
@@ -10,20 +11,33 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [Header("References")]
-    [SerializeField] private TMP_Text survivalText;
-    [SerializeField] private TMP_Text incomeCostText;
     [SerializeField] public Canvas gameUI;
     [SerializeField] public Canvas pauseMenu;
+
+    [Header("References Loadout")]
     [SerializeField] private SpawnDefinition[] loadOutUnits;
     [SerializeField] private SpawnDefinition[] loadOutTowers;
+    [SerializeField] private AbilityDefinition[] loadOutAbilities;
 
-    [Header("References Spawn Buttons")]
-    [SerializeField] private List<ActionButton> spawnUnitButtons;
+    [Header("References Game Info")]
+    [SerializeField] public TMP_Text currencyText;
+    [SerializeField] public TMP_Text incomeMultiplierText;
+    [SerializeField] private TMP_Text survivalText;
+    [SerializeField] private TMP_Text incomeCostText;
+    [SerializeField] private TMP_Text waveCountText;
+
+    [Header("References Buttons")]
+    [SerializeField] public Button incomeButton;
+    [SerializeField] private Button unitsButton;
+    [SerializeField] private Button abilitiesButton;
+    [SerializeField] private List<ActionButton> unitButtons;
+    [SerializeField] private List<ActionButton> abilityButtons;
+    [SerializeField] private GameObject unitButtonsPanel;
+    [SerializeField] private GameObject abiltiyButtonsPanel;
     [SerializeField] private List<ActionButton> towerBuildMenuWestButtons;
     [SerializeField] private List<ActionButton> towerMenuWestButtons;
     [SerializeField] private List<ActionButton> towerBuildMenuEastButtons;
     [SerializeField] private List<ActionButton> towerMenuEastButtons;
-    [SerializeField] public Button incomeBtn;
 
     [Header("Tower Assets")]
     [SerializeField] private AssetReference sellTowerIcon;
@@ -41,6 +55,7 @@ public class UIManager : MonoBehaviour
     private List<ActionButton> boundButtons;
 
     private BuildingPlot activePlot;
+    private GameObject activeMenuPanel;
 
     private async void Awake()
     {
@@ -61,18 +76,40 @@ public class UIManager : MonoBehaviour
 
         boundButtons = new List<ActionButton>();
 
+        SetupMenuButtons();
         SetupUnitButtons(loadOutUnits);
         SetupTowerBuildMenuButtons(loadOutTowers);
+        SetupAbilityButtons(loadOutAbilities);
     }
 
     private void OnEnable()
     {
         PauseManager.OnPauseChanged += TogglePauseMenu;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnCurrencyChanged += UpdateCurrencyText;
+            GameManager.Instance.OnIncomeMultiplierChanged += UpdateIncomeMultiplierText;
+        }
+        if (WaveController.waveGenerator != null)
+        {
+            WaveController.waveGenerator.OnWaveNumberChanged += UpdateWaveCountText;
+        }
     }
 
     private void OnDisable()
     {
         PauseManager.OnPauseChanged -= TogglePauseMenu;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnCurrencyChanged -= UpdateCurrencyText;
+            GameManager.Instance.OnIncomeMultiplierChanged -= UpdateIncomeMultiplierText;
+        }
+        if (WaveController.waveGenerator != null)
+        {
+            WaveController.waveGenerator.OnWaveNumberChanged -= UpdateWaveCountText;
+        }
     }
 
     public void OnPauseBtnClick() { PauseManager.TogglePause(); }
@@ -114,20 +151,26 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void SetupMenuButtons()
+    {
+        unitsButton.onClick.AddListener(() => ToggleButtonPanel(unitButtonsPanel));
+        abilitiesButton.onClick.AddListener(() => ToggleButtonPanel(abiltiyButtonsPanel));
+    }
+
     public void SetupUnitButtons(SpawnDefinition[] loadout)
     {
-        for (int i = 0; i < spawnUnitButtons.Count; i++)
+        for (int i = 0; i < unitButtons.Count; i++)
         {
             if (i >= loadout.Length)
             {
-                spawnUnitButtons[i].gameObject.SetActive(false);
+                unitButtons[i].gameObject.SetActive(false);
                     continue;
             }
 
             var def = loadout[i];
 
-            spawnUnitButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
-            spawnUnitButtons[i].SetClickAction(() =>
+            unitButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            unitButtons[i].SetClickAction(() =>
             {
                 SpawnManager.Instance.SpawnSouthUnit(
                     def.UnitPrefab,
@@ -135,7 +178,39 @@ public class UIManager : MonoBehaviour
                 );
             });
 
-            boundButtons.Add(spawnUnitButtons[i]);
+            boundButtons.Add(unitButtons[i]);
+        }
+    }
+
+    public void SetupAbilityButtons(AbilityDefinition[] loadout)
+    {
+        for (int i = 0; i < abilityButtons.Count; i++)
+        {
+            if (i >= loadout.Length)
+            {
+                abilityButtons[i].gameObject.SetActive(false);
+                continue;
+            }
+
+            AbilityDefinition def = loadout[i];
+
+            abilityButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost && AbilityCooldownManager.Instance.CanUse(def)));
+            abilityButtons[i].SetClickAction(() =>
+            {
+                if (GameManager.Instance.currency[Team.South] < def.Cost && AbilityCooldownManager.Instance.CanUse(def))
+                    return;
+
+                GameManager.Instance.SubtractCurrency(Team.South, def.Cost);
+
+                foreach (var action in def.actions)
+                {
+                    action.Execute(TargetRegistry.Instance);
+                }
+
+                AbilityCooldownManager.Instance.TriggerCooldown(def);
+            });
+
+            boundButtons.Add(abilityButtons[i]);
         }
     }
 
@@ -230,11 +305,14 @@ public class UIManager : MonoBehaviour
 
     public void RefreshAllButtons()
     {
+        if(boundButtons == null)
+            return;
+
         foreach (var button in boundButtons)
         {
             button.Refresh();
         }
-        incomeBtn.interactable = (!PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= GameManager.Instance.incomeUpgradeCost);
+        incomeButton.interactable = (!PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= GameManager.Instance.incomeUpgradeCost);
     }
 
     public void SpawnSouthTowerClickAction(GameObject prefab, SpawnSide spawnSide)
@@ -261,6 +339,20 @@ public class UIManager : MonoBehaviour
     public void UpdateIncomeCostText()
     {
         incomeCostText.text = GameManager.Instance.incomeUpgradeCost.ToString();
+    }
+
+    private void UpdateCurrencyText(int currency)
+    {
+        currencyText.text = currency.ToString();
+    }
+    private void UpdateIncomeMultiplierText(float multiplier)
+    {
+        incomeMultiplierText.text = "x" + multiplier.ToString("F1");
+    }
+
+    private void UpdateWaveCountText(int waveNumber)
+    {
+        waveCountText.text = waveNumber.ToString();
     }
 
     public void ToggleBuildMenu(BuildingPlot plot)
@@ -305,6 +397,27 @@ public class UIManager : MonoBehaviour
     public BuildingPlot GetActivePlot()
     {
         return activePlot;
+    }
+
+    public void ToggleButtonPanel(GameObject panel)
+    {
+        // Clicking the active panel closes everything
+        if (activeMenuPanel == panel)
+        {
+            panel.transform.localScale = Vector3.zero;
+            activeMenuPanel = null;
+            return;
+        }
+
+        // Hide current panel if one is open
+        if (activeMenuPanel != null)
+        {
+            activeMenuPanel.transform.localScale = Vector3.zero;
+        }
+
+        // Show the requested panel
+        panel.transform.localScale = Vector3.one;
+        activeMenuPanel = panel;
     }
 
     private Sprite GetTowerSprite(string tower)

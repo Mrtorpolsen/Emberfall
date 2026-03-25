@@ -10,7 +10,7 @@ public class RuntimeStats
     public float cost;
     public float hitRadius;
     public float critChance;
-    public float critMultiplier;
+    public float critDamage;
     public ThreatLevel unitPrio;
     public bool isTargetable;
 }

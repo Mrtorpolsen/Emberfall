@@ -14,14 +14,14 @@ public class StatsBootstrapper
     {
         public string unit;
         public int purchased;
-        public List<AppliedEffect> effects = new List<AppliedEffect>();
+        public List<StatEffect> effects = new List<StatEffect>();
     }
 
     public class ResearchToApply
     {
         public ResearchCategory category;
         public int purchased;
-        public List<AppliedEffect> effects = new();
+        public List<StatEffect> effects = new();
     }
 
     private List<TalentsToApply> talentsToApply;
@@ -44,7 +44,7 @@ public class StatsBootstrapper
             {
                 unit = unit,
                 purchased = kvp.Value,
-                effects = new List<AppliedEffect>(talentDef.Effects)
+                effects = new List<StatEffect>(talentDef.Effects)
             };
 
             talentsToApply.Add(talent);
@@ -69,7 +69,7 @@ public class StatsBootstrapper
             {
                 category = researchDef.Category,
                 purchased = kvp.Value,
-                effects = new List<AppliedEffect>(researchDef.Effects)
+                effects = new List<StatEffect>(researchDef.Effects)
             };
 
             researchToApply.Add(research);

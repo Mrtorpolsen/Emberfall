@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using TMPro;
+using System;
 
 [RequireComponent(typeof(Button))]
 public class ActionButton : MonoBehaviour
@@ -15,10 +16,10 @@ public class ActionButton : MonoBehaviour
 
     private AsyncOperationHandle<Sprite>? iconHandle;
 
-    private System.Action clickAction;
-    private System.Func<bool> canInteract;
+    private Action clickAction;
+    private Func<bool> canInteract;
 
-    public void Setup(string title, float cost, AssetReference icon, System.Func<bool> canInteractFunc)
+    public void Setup(string title, float cost, AssetReference icon, Func<bool> canInteractFunc)
     {
         unitText.text = title;
         costText.text = cost.ToString();
@@ -26,7 +27,7 @@ public class ActionButton : MonoBehaviour
 
         LoadIcon(icon);
     }
-    public void Setup(string title, float cost, Sprite icon, System.Func<bool> canInteractFunc)
+    public void Setup(string title, float cost, Sprite icon, Func<bool> canInteractFunc)
     {
         unitText.text = title;
         costText.text = cost.ToString();
@@ -50,7 +51,7 @@ public class ActionButton : MonoBehaviour
         clickAction?.Invoke();
     }
 
-    public void SetClickAction(System.Action action)
+    public void SetClickAction(Action action)
     {
         clickAction = action;
     }

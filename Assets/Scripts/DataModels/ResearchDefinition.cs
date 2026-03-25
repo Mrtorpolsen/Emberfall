@@ -66,7 +66,7 @@ public class ResearchDefinition
     public ResearchScaling CostScaling;
     public ResearchScaling TimeScaling;
 
-    public AppliedEffect[] Effects;     // Applied per level
+    public StatEffect[] Effects;     // Applied per level
 
     public ResearchPrerequisite[] Prerequisites;
 }

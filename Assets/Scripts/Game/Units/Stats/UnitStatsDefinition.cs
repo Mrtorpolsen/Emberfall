@@ -21,7 +21,7 @@ public class UnitStatsDefinition : ScriptableObject
 
     [Header("Crit")]
     [Range(0f, 1f)] public float critChance;
-    public float critMultiplier;
+    public float critDamage;
 
     [Header("Targeting")]
     public ThreatLevel unitPrio;
