@@ -29,4 +29,8 @@ public class UnitStatsDefinition : ScriptableObject
 
     [Header("Category")]
     public ResearchCategory category;
+
+    [Header("Healthbar")]
+    public Vector3 healthbarOffset;
+    public Vector3 scale;
 }

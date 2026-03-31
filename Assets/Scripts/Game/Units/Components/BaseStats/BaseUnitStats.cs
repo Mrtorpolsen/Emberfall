@@ -7,7 +7,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
-    [SerializeField] protected FloatingHealthBar healthBar;
     [SerializeField] private UnitStatsDefinition baseStats;
 
     protected UnitStatsDefinition BaseStats => baseStats;
@@ -16,10 +15,15 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected UnitMetadata metadata;
     private RuntimeStats runtimeStats;
 
+
     public List<ActiveEffect> ActiveEffects = new ();
 
     private readonly Dictionary<StatType, List<StatModifier>> modifiersByStat = new();
     private readonly HashSet<StatType> dirtyStats = new();
+
+    private Vector3 healthBarOffset;
+    private float healthBarScale;
+    private bool isHealthBarVisible;
 
     // IUnit
     public float AttackRange => runtimeStats.attackRange;
@@ -86,7 +90,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
         metadata = GetComponent<UnitMetadata>();
         currentHealth = runtimeStats.maxHealth;
-        healthBar = GetComponentInChildren<FloatingHealthBar>();
+
+        //set healthbar offset and scale based on base stats
 
         if (runtimeStats == null)
         {
@@ -99,7 +104,10 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     protected virtual void Start()
     {
-        healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
+        if (HealthbarManager.Instance != null)
+        {
+            HealthbarManager.Instance.RequestHealthBar(this, healthBarOffset);
+        }
     }
 
     private void LateUpdate()
@@ -129,7 +137,17 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         SyncDebugStats();
 #endif
 
-        healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
+        if (currentHealth < runtimeStats.maxHealth && HealthbarManager.Instance != null)
+        {
+            if (!isHealthBarVisible)
+            {
+                HealthbarManager.Instance.ShowHealthBar(this);
+                isHealthBarVisible = true;
+            }
+
+            HealthbarManager.Instance.UpdateHealthBar(this, currentHealth, runtimeStats.maxHealth);
+        }
+
         if (currentHealth <= 0)
         {
             Die();
@@ -144,6 +162,11 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public virtual void Die()
     {
+        if (HealthbarManager.Instance != null)
+        {
+            HealthbarManager.Instance.ReturnHealthBar(this);
+        }
+
         TargetRegistry.Instance.UnregisterUnit(this);
         Destroy(unit != null ? unit : gameObject);
     }
@@ -162,8 +185,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         runtimeStats.armor = finalStats.armor;
         runtimeStats.critChance = finalStats.critChance;
         runtimeStats.critDamage = finalStats.critDamage;
-
-        healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
 
 #if UNITY_EDITOR
         SyncDebugStats();
@@ -233,6 +254,17 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         if(!IsAlive) return;
         // set health to no more than max health
         currentHealth = Mathf.Min(MaxHealth, currentHealth + amount);
+
+        if (HealthbarManager.Instance != null)
+        {
+            HealthbarManager.Instance.UpdateHealthBar(this, currentHealth, runtimeStats.maxHealth);
+
+            if (currentHealth >= MaxHealth && isHealthBarVisible)  // Only call if currently visible
+            {
+                HealthbarManager.Instance.HideHealthBar(this);
+                isHealthBarVisible = false;
+            }
+        }
     }
 
     private float CalculateStat(StatType stat, float baseValue)
@@ -268,7 +300,11 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
                     runtimeStats.maxHealth = Mathf.RoundToInt(value);
                     currentHealth = Mathf.RoundToInt(runtimeStats.maxHealth * percent);
 
-                    healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
+                    if (HealthbarManager.Instance != null)
+                    {
+                        HealthbarManager.Instance.UpdateHealthBar(this, currentHealth, runtimeStats.maxHealth);
+                    }
+
                     break;
                 }
 
@@ -318,6 +354,11 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     private void OnDestroy()
     {
+        if (HealthbarManager.Instance != null)
+        {
+            HealthbarManager.Instance.ReturnHealthBar(this);
+        }
+
         if (EffectSystem.Instance != null)
         {
             EffectSystem.Instance.RemoveAllEffects(this);
