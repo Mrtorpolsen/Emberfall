@@ -54,6 +54,8 @@ public class FloatingHealthBar : MonoBehaviour
 
         while (t < fadeDuration)
         {
+            if (!isFading) yield break;
+
             t += Time.deltaTime;
             canvasGroup.alpha = Mathf.Lerp(1f, 0f, t / fadeDuration);
             yield return null;
@@ -77,9 +79,8 @@ public class FloatingHealthBar : MonoBehaviour
             fadeRoutine = null;
         }
 
-        fadeRoutine = null;
         isFading = false;
 
-        canvasGroup.alpha = 1f; // restore visibility
+        canvasGroup.alpha = 1f;
     }
 }
