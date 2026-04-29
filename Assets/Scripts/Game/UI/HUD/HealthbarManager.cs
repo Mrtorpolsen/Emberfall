@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,7 @@ public class HealthbarManager : MonoBehaviour
 
     private readonly Queue<FloatingHealthBar> pool = new();
     private readonly Dictionary<BaseUnitStats, FloatingHealthBar> active = new();
+    private readonly Dictionary<FloatingHealthBar, BaseUnitStats> reverse = new();
 
     private void Awake()
     {
@@ -40,7 +42,7 @@ public class HealthbarManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        foreach (var kvp in active)
+        foreach (var kvp in active.ToArray())
         {
             BaseUnitStats unit = kvp.Key;
             FloatingHealthBar healthBar = kvp.Value;
@@ -80,21 +82,50 @@ public class HealthbarManager : MonoBehaviour
         }
 
         active[unit] = healthBar;
+        reverse[healthBar] = unit;
 
         healthBar.gameObject.SetActive(true);
 
-        healthBar.Initialize(unit.healthBarOffset, unit.healthBarScale);
+        healthBar.Initialize(unit.healthBarScale);
+
+        Register(healthBar);
 
         return healthBar;
     }
+
 
     public void ReturnHealthBarToPool(BaseUnitStats unit)
     {
         if(active.TryGetValue(unit, out FloatingHealthBar healthBar))
         {
             healthBar.gameObject.SetActive(false);
+
             pool.Enqueue(healthBar);
+
             active.Remove(unit);
+            reverse.Remove(healthBar);
+
+            Unregister(healthBar);
+
+            unit.ClearHealthBarReference();
+        }
+    }
+
+    public void Register(FloatingHealthBar healthBar)
+    {
+        healthBar.OnFadeComplete += HandleFadeComplete;
+    }
+
+    public void Unregister(FloatingHealthBar healthBar)
+    {
+        healthBar.OnFadeComplete -= HandleFadeComplete;
+    }
+
+    private void HandleFadeComplete(FloatingHealthBar healthBar)
+    {
+        if (reverse.TryGetValue(healthBar, out var unit))
+        {
+            ReturnHealthBarToPool(unit);
         }
     }
 }

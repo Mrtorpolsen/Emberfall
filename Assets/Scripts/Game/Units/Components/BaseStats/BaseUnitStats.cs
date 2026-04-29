@@ -23,7 +23,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     private readonly HashSet<StatType> dirtyStats = new();
 
     private FloatingHealthBar healthBar;
-    public Vector3 healthBarOffset;
     public Vector3 healthBarScale;
 
     // IUnit
@@ -92,7 +91,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         metadata = GetComponent<UnitMetadata>();
         currentHealth = runtimeStats.maxHealth;
 
-        healthBarOffset = baseStats.healthbarOffset;
         healthBarScale = baseStats.healthbarScale;
 
         if (runtimeStats == null)
@@ -138,6 +136,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
                 healthBar = HealthbarManager.Instance.RequestHealthBar(this);
             }
 
+            healthBar.CancelFade();
+            
             healthBar.UpdateValue(currentHealth, MaxHealth);
         }
 
@@ -155,20 +155,23 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         SyncDebugStats();
 #endif
 
+        bool wasFull = currentHealth == MaxHealth;
+
         // set health to no more than max health
         currentHealth = Mathf.Min(MaxHealth, currentHealth + amount);
 
         if (HealthbarManager.Instance != null)
         {
-            if (healthBar != null)
+            if (!wasFull &&healthBar != null)
             {
                 healthBar.UpdateValue(currentHealth, MaxHealth);
+
+                if (currentHealth >= MaxHealth)
+                {
+                    healthBar.TryStartFade();
+                }
             }
 
-            if (currentHealth >= MaxHealth)
-            {
-                //HealthbarManager.Instance.RequestFade(this);
-            }
         }
     }
 
@@ -353,6 +356,11 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public Vector3 GetHeadPosition()
     {
         return collider.bounds.center + Vector3.up * collider.bounds.extents.y;
+    }
+
+    public void ClearHealthBarReference()
+    {
+        healthBar = null;
     }
 
     protected virtual void OnDrawGizmosSelected()

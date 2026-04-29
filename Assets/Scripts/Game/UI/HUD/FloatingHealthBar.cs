@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,19 +9,22 @@ public class FloatingHealthBar : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private float fadeDuration = 3f;
 
-    public Vector3 Offset { get; private set; }
+    public event Action<FloatingHealthBar> OnFadeComplete;
+    private bool isFading;
+    private Coroutine fadeRoutine;
 
     private Vector3 scale;
-    private Vector3 targetPosition;
 
-    public void Initialize(Vector3 offset, Vector3 scale)
+    public void Initialize(Vector3 scale)
     {
-        //Offset = offset;
         this.scale = scale;
 
         transform.localScale = scale;
 
+        isFading = false;
+        fadeRoutine = null;
         canvasGroup.alpha = 1f;
     }
 
@@ -34,4 +38,48 @@ public class FloatingHealthBar : MonoBehaviour
         slider.value = current / max;
     }
 
+    public void TryStartFade()
+    {
+        if (isFading) return;
+
+        isFading = true;
+        fadeRoutine = StartCoroutine(FadeOut());
+    }
+
+    private IEnumerator FadeOut()
+    {
+        float t = 0f;
+
+        canvasGroup.alpha = 1f;
+
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, t / fadeDuration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 0f;
+        isFading = false;
+        fadeRoutine = null;
+
+        OnFadeComplete?.Invoke(this);
+    }
+
+    public void CancelFade()
+    {
+        if (!isFading)
+            return;
+
+        if (fadeRoutine != null)
+        {
+            StopCoroutine(fadeRoutine);
+            fadeRoutine = null;
+        }
+
+        fadeRoutine = null;
+        isFading = false;
+
+        canvasGroup.alpha = 1f; // restore visibility
+    }
 }
