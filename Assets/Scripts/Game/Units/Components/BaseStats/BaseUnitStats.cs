@@ -8,6 +8,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
     [SerializeField] private UnitStatsDefinition baseStats;
+    [SerializeField] private Collider2D collider;
 
     protected UnitStatsDefinition BaseStats => baseStats;
 
@@ -21,9 +22,9 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     private readonly Dictionary<StatType, List<StatModifier>> modifiersByStat = new();
     private readonly HashSet<StatType> dirtyStats = new();
 
-    private Vector3 healthBarOffset;
-    private float healthBarScale;
-    private bool isHealthBarVisible;
+    private FloatingHealthBar healthBar;
+    public Vector3 healthBarOffset;
+    public Vector3 healthBarScale;
 
     // IUnit
     public float AttackRange => runtimeStats.attackRange;
@@ -91,7 +92,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         metadata = GetComponent<UnitMetadata>();
         currentHealth = runtimeStats.maxHealth;
 
-        //set healthbar offset and scale based on base stats
+        healthBarOffset = baseStats.healthbarOffset;
+        healthBarScale = baseStats.healthbarScale;
 
         if (runtimeStats == null)
         {
@@ -100,14 +102,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 #if UNITY_EDITOR
         SyncDebugStats();
 #endif
-    }
-
-    protected virtual void Start()
-    {
-        if (HealthbarManager.Instance != null)
-        {
-            HealthbarManager.Instance.RequestHealthBar(this, healthBarOffset);
-        }
     }
 
     private void LateUpdate()
@@ -137,20 +131,44 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         SyncDebugStats();
 #endif
 
-        if (currentHealth < runtimeStats.maxHealth && HealthbarManager.Instance != null)
+        if (HealthbarManager.Instance != null)
         {
-            if (!isHealthBarVisible)
+            if (healthBar == null)
             {
-                HealthbarManager.Instance.ShowHealthBar(this);
-                isHealthBarVisible = true;
+                healthBar = HealthbarManager.Instance.RequestHealthBar(this);
             }
 
-            HealthbarManager.Instance.UpdateHealthBar(this, currentHealth, runtimeStats.maxHealth);
+            healthBar.UpdateValue(currentHealth, MaxHealth);
         }
 
         if (currentHealth <= 0)
         {
             Die();
+        }
+    }
+
+    public void Heal(int amount)
+    {
+        if (!IsAlive) return;
+
+#if UNITY_EDITOR
+        SyncDebugStats();
+#endif
+
+        // set health to no more than max health
+        currentHealth = Mathf.Min(MaxHealth, currentHealth + amount);
+
+        if (HealthbarManager.Instance != null)
+        {
+            if (healthBar != null)
+            {
+                healthBar.UpdateValue(currentHealth, MaxHealth);
+            }
+
+            if (currentHealth >= MaxHealth)
+            {
+                //HealthbarManager.Instance.RequestFade(this);
+            }
         }
     }
 
@@ -162,12 +180,13 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public virtual void Die()
     {
-        if (HealthbarManager.Instance != null)
+        TargetRegistry.Instance.UnregisterUnit(this);
+
+        if (healthBar != null)
         {
-            HealthbarManager.Instance.ReturnHealthBar(this);
+            HealthbarManager.Instance.ReturnHealthBarToPool(this);
         }
 
-        TargetRegistry.Instance.UnregisterUnit(this);
         Destroy(unit != null ? unit : gameObject);
     }
 
@@ -249,24 +268,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         }
     }
 
-    public void Heal(int amount)
-    {
-        if(!IsAlive) return;
-        // set health to no more than max health
-        currentHealth = Mathf.Min(MaxHealth, currentHealth + amount);
-
-        if (HealthbarManager.Instance != null)
-        {
-            HealthbarManager.Instance.UpdateHealthBar(this, currentHealth, runtimeStats.maxHealth);
-
-            if (currentHealth >= MaxHealth && isHealthBarVisible)  // Only call if currently visible
-            {
-                HealthbarManager.Instance.HideHealthBar(this);
-                isHealthBarVisible = false;
-            }
-        }
-    }
-
     private float CalculateStat(StatType stat, float baseValue)
     {
         if (!modifiersByStat.TryGetValue(stat, out var list))
@@ -302,7 +303,10 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
                     if (HealthbarManager.Instance != null)
                     {
-                        HealthbarManager.Instance.UpdateHealthBar(this, currentHealth, runtimeStats.maxHealth);
+                        if (healthBar != null)
+                        {
+                            healthBar.UpdateValue(currentHealth, MaxHealth);
+                        }
                     }
 
                     break;
@@ -346,6 +350,11 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         Debug.Log($"{name} landed a CRIT for {dmg} damage!");
     }
 
+    public Vector3 GetHeadPosition()
+    {
+        return collider.bounds.center + Vector3.up * collider.bounds.extents.y;
+    }
+
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -356,7 +365,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         if (HealthbarManager.Instance != null)
         {
-            HealthbarManager.Instance.ReturnHealthBar(this);
+            HealthbarManager.Instance.ReturnHealthBarToPool(this);
         }
 
         if (EffectSystem.Instance != null)

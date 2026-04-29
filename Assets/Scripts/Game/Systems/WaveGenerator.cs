@@ -45,7 +45,8 @@ public class WaveGenerator
         int cavalierCount = unitCount - fighterCount;
 
         float spawnDelay = 0.5f;
-
+        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, 1, spawnDelay));
+        return wave;
         //build waves here
         if (IsMilestone(waveNumber, 10, 0, 10)) //start wave 10, and runs every 10 level
         {

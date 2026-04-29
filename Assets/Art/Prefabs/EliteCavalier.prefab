@@ -378,9 +378,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EliteCavalierBaseStatsComponent
   unit: {fileID: 8916063152254937078}
-  healthBar: {fileID: 0}
   baseStats: {fileID: 11400000, guid: 649e75f0602485142a45fea833aea99d, type: 2}
+  collider: {fileID: 6708282096294794791}
   currentHealth: 0
+  healthBarOffset: {x: 0, y: 0, z: 0}
+  healthBarScale: {x: 0, y: 0, z: 0}
   debugCost: 0
   debugMaxHealth: 0
   debugCurrentHealth: 0

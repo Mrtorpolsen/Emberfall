@@ -32,5 +32,5 @@ public class UnitStatsDefinition : ScriptableObject
 
     [Header("Healthbar")]
     public Vector3 healthbarOffset;
-    public Vector3 scale;
+    public Vector3 healthbarScale;
 }

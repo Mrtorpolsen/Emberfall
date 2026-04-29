@@ -7588,7 +7588,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 8
   m_TargetDisplay: 0
 --- !u!1 &706733144
 GameObject:
@@ -43216,9 +43216,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08d28fd2f8637441926c6d3f4fa493e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthbarManager
-  floatingHealthBarPrefab: {fileID: 7366651541523549629, guid: 25f41c53168688847972b3142b95c313, type: 3}
-  healthBarCanvas: {fileID: 678475984}
-  initialPoolSize: 100
+  prefab: {fileID: 7366651541523549629, guid: 25f41c53168688847972b3142b95c313, type: 3}
+  canvas: {fileID: 678475984}
+  cam: {fileID: 519420031}
+  poolSize: 100
 --- !u!1 &2043197084
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,96 +6,32 @@ public class FloatingHealthBar : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField] private Slider slider;
-    
-    [Header("Fade Settings")]
-    [SerializeField] private float fadeDelay = 2f;
-    [SerializeField] private float fadeDuration = 0.5f;
-    
-    private CanvasGroup canvasGroup;
-    private Vector3 offset;
-    private Transform targetTransform;
-    private bool isActive;
-    private float fadeTimer;
-    private bool isFading;
+    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private RectTransform rectTransform;
 
-    public bool IsActive => isActive;
+    public Vector3 Offset { get; private set; }
 
-    private void OnEnable()
+    private Vector3 scale;
+    private Vector3 targetPosition;
+
+    public void Initialize(Vector3 offset, Vector3 scale)
     {
-        if (canvasGroup == null)
-        {
-            canvasGroup = GetComponent<CanvasGroup>();
-        }
+        //Offset = offset;
+        this.scale = scale;
+
+        transform.localScale = scale;
+
+        canvasGroup.alpha = 1f;
     }
 
-    private void Update()
+    public void SetPosition(Vector2 localPos)
     {
-        if (isFading)
-        {
-            fadeTimer -= Time.deltaTime;
-            if (fadeTimer <= 0f)
-            {
-                canvasGroup.alpha = Mathf.Max(0f, canvasGroup.alpha - Time.deltaTime / fadeDuration);
-                if (canvasGroup.alpha <= 0f)
-                {
-                    isFading = false;
-                    SetActive(false);
-                }
-            }
-        }
+        rectTransform.localPosition = localPos;
     }
 
-    public void Initialize(Transform target, Vector3 positionOffset)
+    public void UpdateValue(float current, float max)
     {
-        this.targetTransform = target;
-        this.offset = positionOffset;
-        slider.value = 1f;
-        SetActive(false);
+        slider.value = current / max;
     }
 
-    public void UpdateHealthBar(float currentHealth, float maxHealth)
-    {
-        slider.value = currentHealth / maxHealth;
-        
-        // Check if healed to full health
-        if (Mathf.Approximately(currentHealth, maxHealth) && isActive)
-        {
-            StartFadeTimer();
-        }
-    }
-
-    private void StartFadeTimer()
-    {
-        isFading = true;
-        fadeTimer = fadeDelay;
-    }
-
-    public void UpdatePosition(Vector3 worldPosition)
-    {
-        transform.position = worldPosition + offset;
-        transform.rotation = Camera.main.transform.rotation;
-    }
-
-    public void SetActive(bool active)
-    {
-        isActive = active;
-        isFading = false;
-        fadeTimer = 0f;
-        
-        if (canvasGroup != null)
-        {
-            canvasGroup.alpha = active ? 1f : 0f;
-        }
-    }
-
-    public Transform GetTarget() => targetTransform;
-
-    public void Reset()
-    {
-        targetTransform = null;
-        slider.value = 1f;
-        isFading = false;
-        fadeTimer = 0f;
-        SetActive(false);
-    }
 }

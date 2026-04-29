@@ -206,9 +206,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3501163535796704365}
-  healthBar: {fileID: 0}
   baseStats: {fileID: 11400000, guid: 24081ef77828bea43bb39961d9bb1829, type: 2}
+  collider: {fileID: 5347367583870221624}
   currentHealth: 0
+  healthBarOffset: {x: 0, y: 0, z: 0}
+  healthBarScale: {x: 0, y: 0, z: 0}
   debugCost: 0
   debugMaxHealth: 0
   debugCurrentHealth: 0

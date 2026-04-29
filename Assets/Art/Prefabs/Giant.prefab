@@ -195,9 +195,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GiantStats
   unit: {fileID: 6717628542700303866}
-  healthBar: {fileID: 0}
   baseStats: {fileID: 11400000, guid: 5e5df7e5fc317d040abc8e98991ce499, type: 2}
+  collider: {fileID: 4764436896931820978}
   currentHealth: 0
+  healthBarOffset: {x: 0, y: 0, z: 0}
+  healthBarScale: {x: 0, y: 0, z: 0}
   debugCost: 0
   debugMaxHealth: 0
   debugCurrentHealth: 0

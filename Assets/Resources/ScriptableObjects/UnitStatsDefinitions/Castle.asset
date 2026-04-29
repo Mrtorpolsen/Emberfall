@@ -25,5 +25,5 @@ MonoBehaviour:
   unitPrio: 5
   isTargetable: 1
   category: 2
-  healthbarOffset: {x: 0, y: 0.28, z: 0}
-  scale: {x: 0.004, y: 0.005, z: 0.005}
+  healthbarOffset: {x: 0, y: 1, z: 0}
+  healthbarScale: {x: 0.75, y: 0.75, z: 0.01}

@@ -1,116 +1,100 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HealthbarManager : MonoBehaviour
 {
     public static HealthbarManager Instance { get; private set; }
 
-    [Header("References")]
-    [SerializeField] private FloatingHealthBar floatingHealthBarPrefab;
-    [SerializeField] private Canvas healthBarCanvas;
-    [SerializeField] private int initialPoolSize = 100;
+    [SerializeField] private FloatingHealthBar prefab;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private Camera cam;
+    [SerializeField] private int poolSize = 100;
 
-    private Queue<FloatingHealthBar> availableHealthBars = new();
-    private Dictionary<BaseUnitStats, FloatingHealthBar> activeHealthBars = new();
+    private readonly Queue<FloatingHealthBar> pool = new();
+    private readonly Dictionary<BaseUnitStats, FloatingHealthBar> active = new();
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
         {
             Destroy(gameObject);
-            return;
         }
-
-        Instance = this;
         InitializePool();
     }
 
     private void InitializePool()
     {
-        for (int i = 0; i < initialPoolSize; i++)
+        for (int i = 0; i < poolSize; i++)
         {
-            FloatingHealthBar healthBar = Instantiate(floatingHealthBarPrefab, healthBarCanvas.transform);
-            healthBar.Reset();
-            availableHealthBars.Enqueue(healthBar);
+            FloatingHealthBar healthBar = Instantiate(prefab, canvas.transform);
+            healthBar.gameObject.SetActive(false);
+            pool.Enqueue(healthBar);
         }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        foreach (var kvp in activeHealthBars)
+        foreach (var kvp in active)
         {
             BaseUnitStats unit = kvp.Key;
             FloatingHealthBar healthBar = kvp.Value;
 
-            if (unit == null || !unit.IsAlive)
-            {
-                ReturnHealthBar(unit);
-            }
-            else if (healthBar.IsActive)
-            {
-                healthBar.UpdatePosition(unit.Transform.position);
-            }
+            Vector3 worldPos = unit.GetHeadPosition();
+
+            Vector3 screenPos = cam.WorldToScreenPoint(worldPos);
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.transform as RectTransform,
+                screenPos,
+                canvas.worldCamera,
+                out Vector2 localPos
+            );
+
+            healthBar.SetPosition(localPos);
         }
     }
 
-    public FloatingHealthBar RequestHealthBar(BaseUnitStats unit, Vector3 offset)
+    public FloatingHealthBar RequestHealthBar(BaseUnitStats unit)
     {
-        // Check if unit already has an active healthbar
-        if (activeHealthBars.TryGetValue(unit, out FloatingHealthBar existingBar))
-        {
-            existingBar.SetActive(true);
-            return existingBar;
-        }
-
         FloatingHealthBar healthBar;
-        if (availableHealthBars.Count > 0)
+
+        if (pool.Count > 0)
         {
-            healthBar = availableHealthBars.Dequeue();
-        }
+            healthBar = pool.Dequeue();
+        } 
         else
         {
-            healthBar = Instantiate(floatingHealthBarPrefab, healthBarCanvas.transform);
+            for(int i = 0; i < 10; i++) // Expand pool if empty
+            {
+                FloatingHealthBar newBar = Instantiate(prefab, canvas.transform);
+                newBar.gameObject.SetActive(false);
+                pool.Enqueue(newBar);
+            }
+            healthBar = pool.Dequeue();
         }
 
-        healthBar.Initialize(unit.Transform, offset);
-        healthBar.UpdateHealthBar(unit.currentHealth, unit.MaxHealth);
-        healthBar.SetActive(true);
-        activeHealthBars[unit] = healthBar;
+        active[unit] = healthBar;
+
+        healthBar.gameObject.SetActive(true);
+
+        healthBar.Initialize(unit.healthBarOffset, unit.healthBarScale);
 
         return healthBar;
     }
 
-    public void UpdateHealthBar(BaseUnitStats unit, float currentHealth, float maxHealth)
+    public void ReturnHealthBarToPool(BaseUnitStats unit)
     {
-        if (activeHealthBars.TryGetValue(unit, out FloatingHealthBar healthBar))
+        if(active.TryGetValue(unit, out FloatingHealthBar healthBar))
         {
-            healthBar.UpdateHealthBar(currentHealth, maxHealth);
-        }
-    }
-
-    public void ReturnHealthBar(BaseUnitStats unit)
-    {
-        if (activeHealthBars.TryGetValue(unit, out FloatingHealthBar healthBar))
-        {
-            healthBar.SetActive(false);
-            availableHealthBars.Enqueue(healthBar);
-            activeHealthBars.Remove(unit);
-        }
-    }
-
-    public void ShowHealthBar(BaseUnitStats unit)
-    {
-        if (activeHealthBars.TryGetValue(unit, out FloatingHealthBar healthBar))
-        {
-            healthBar.SetActive(true);
-        }
-    }
-
-    public void HideHealthBar(BaseUnitStats unit)
-    {
-        if (activeHealthBars.TryGetValue(unit, out FloatingHealthBar healthBar))
-        {
-            healthBar.SetActive(false);
+            healthBar.gameObject.SetActive(false);
+            pool.Enqueue(healthBar);
+            active.Remove(unit);
         }
     }
 }

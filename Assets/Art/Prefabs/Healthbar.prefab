@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 6823467428656754183}
   - component: {fileID: 8329347859837041270}
   - component: {fileID: 7366651541523549629}
+  - component: {fileID: 2135461714875572627}
   m_Layer: 5
   m_Name: Healthbar
   m_TagString: Untagged
@@ -213,7 +214,7 @@ RectTransform:
   m_GameObject: {fileID: 6453203589814022781}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.008, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1965778369216506698}
@@ -289,5 +290,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 8329347859837041270}
-  target: {fileID: 0}
-  offset: {x: 0, y: 0.15, z: 0}
+  canvasGroup: {fileID: 2135461714875572627}
+  rectTransform: {fileID: 6823467428656754183}
+--- !u!225 &2135461714875572627
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6453203589814022781}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
