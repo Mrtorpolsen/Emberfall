@@ -14,9 +14,8 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     public Team team => metadata.Team;
 
 #if UNITY_EDITOR
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         if (isTest)
         {
             currentHealth = 100000000;
@@ -31,9 +30,9 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
         GameManager.Instance.SetGameOver(true, Team);
     }
 
-    protected override void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, HitRadius);
-    }
+    //protected override void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(transform.position, HitRadius);
+    //}
 }

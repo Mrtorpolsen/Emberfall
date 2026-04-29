@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,18 +7,79 @@ public class FloatingHealthBar : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField] private Slider slider;
-    [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset;
+    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] private float fadeDuration = 3f;
 
-    public void UpdateHealthBar(float currentHealth, float maxHealth)
+    public event Action<FloatingHealthBar> OnFadeComplete;
+    private bool isFading;
+    private Coroutine fadeRoutine;
+
+    private Vector3 scale;
+
+    public void Initialize(Vector3 scale)
     {
-        slider.value = currentHealth / maxHealth;
+        this.scale = scale;
+
+        transform.localScale = scale;
+
+        isFading = false;
+        fadeRoutine = null;
+        canvasGroup.alpha = 1f;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetPosition(Vector2 localPos)
     {
-        transform.rotation = Camera.main.transform.rotation;
-        transform.position = target.position + offset;
+        rectTransform.localPosition = localPos;
+    }
+
+    public void UpdateValue(float current, float max)
+    {
+        slider.value = current / max;
+    }
+
+    public void TryStartFade()
+    {
+        if (isFading) return;
+
+        isFading = true;
+        fadeRoutine = StartCoroutine(FadeOut());
+    }
+
+    private IEnumerator FadeOut()
+    {
+        float t = 0f;
+
+        canvasGroup.alpha = 1f;
+
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, t / fadeDuration);
+            yield return null;
+        }
+
+        canvasGroup.alpha = 0f;
+        isFading = false;
+        fadeRoutine = null;
+
+        OnFadeComplete?.Invoke(this);
+    }
+
+    public void CancelFade()
+    {
+        if (!isFading)
+            return;
+
+        if (fadeRoutine != null)
+        {
+            StopCoroutine(fadeRoutine);
+            fadeRoutine = null;
+        }
+
+        fadeRoutine = null;
+        isFading = false;
+
+        canvasGroup.alpha = 1f; // restore visibility
     }
 }

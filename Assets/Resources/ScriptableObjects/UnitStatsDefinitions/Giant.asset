@@ -21,6 +21,8 @@ MonoBehaviour:
   hitRadius: 0.65
   movementSpeed: 1
   critChance: 0
-  critMultiplier: 1.5
+  critDamage: 0
   unitPrio: 0
   isTargetable: 1
+  category: 0
+  healthbarScale: {x: 1.2, y: 1, z: 0.1}

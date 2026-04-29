@@ -7,8 +7,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
-    [SerializeField] protected FloatingHealthBar healthBar;
     [SerializeField] private UnitStatsDefinition baseStats;
+    [SerializeField] private Collider2D collider;
 
     protected UnitStatsDefinition BaseStats => baseStats;
 
@@ -16,10 +16,14 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected UnitMetadata metadata;
     private RuntimeStats runtimeStats;
 
+
     public List<ActiveEffect> ActiveEffects = new ();
 
     private readonly Dictionary<StatType, List<StatModifier>> modifiersByStat = new();
     private readonly HashSet<StatType> dirtyStats = new();
+
+    private FloatingHealthBar healthBar;
+    public Vector3 healthBarScale;
 
     // IUnit
     public float AttackRange => runtimeStats.attackRange;
@@ -86,7 +90,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
         metadata = GetComponent<UnitMetadata>();
         currentHealth = runtimeStats.maxHealth;
-        healthBar = GetComponentInChildren<FloatingHealthBar>();
+
+        healthBarScale = baseStats.healthbarScale;
 
         if (runtimeStats == null)
         {
@@ -95,11 +100,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 #if UNITY_EDITOR
         SyncDebugStats();
 #endif
-    }
-
-    protected virtual void Start()
-    {
-        healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
     }
 
     private void LateUpdate()
@@ -129,10 +129,49 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         SyncDebugStats();
 #endif
 
-        healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
+        if (HealthbarManager.Instance != null)
+        {
+            if (healthBar == null)
+            {
+                healthBar = HealthbarManager.Instance.RequestHealthBar(this);
+            }
+
+            healthBar.CancelFade();
+            
+            healthBar.UpdateValue(currentHealth, MaxHealth);
+        }
+
         if (currentHealth <= 0)
         {
             Die();
+        }
+    }
+
+    public void Heal(int amount)
+    {
+        if (!IsAlive) return;
+
+#if UNITY_EDITOR
+        SyncDebugStats();
+#endif
+
+        bool wasFull = currentHealth == MaxHealth;
+
+        // set health to no more than max health
+        currentHealth = Mathf.Min(MaxHealth, currentHealth + amount);
+
+        if (HealthbarManager.Instance != null)
+        {
+            if (!wasFull &&healthBar != null)
+            {
+                healthBar.UpdateValue(currentHealth, MaxHealth);
+
+                if (currentHealth >= MaxHealth)
+                {
+                    healthBar.TryStartFade();
+                }
+            }
+
         }
     }
 
@@ -145,6 +184,12 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public virtual void Die()
     {
         TargetRegistry.Instance.UnregisterUnit(this);
+
+        if (healthBar != null)
+        {
+            HealthbarManager.Instance.ReturnHealthBarToPool(this);
+        }
+
         Destroy(unit != null ? unit : gameObject);
     }
 
@@ -162,8 +207,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         runtimeStats.armor = finalStats.armor;
         runtimeStats.critChance = finalStats.critChance;
         runtimeStats.critDamage = finalStats.critDamage;
-
-        healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
 
 #if UNITY_EDITOR
         SyncDebugStats();
@@ -228,13 +271,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         }
     }
 
-    public void Heal(int amount)
-    {
-        if(!IsAlive) return;
-        // set health to no more than max health
-        currentHealth = Mathf.Min(MaxHealth, currentHealth + amount);
-    }
-
     private float CalculateStat(StatType stat, float baseValue)
     {
         if (!modifiersByStat.TryGetValue(stat, out var list))
@@ -268,7 +304,14 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
                     runtimeStats.maxHealth = Mathf.RoundToInt(value);
                     currentHealth = Mathf.RoundToInt(runtimeStats.maxHealth * percent);
 
-                    healthBar?.UpdateHealthBar(currentHealth, runtimeStats.maxHealth);
+                    if (HealthbarManager.Instance != null)
+                    {
+                        if (healthBar != null)
+                        {
+                            healthBar.UpdateValue(currentHealth, MaxHealth);
+                        }
+                    }
+
                     break;
                 }
 
@@ -310,6 +353,16 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         Debug.Log($"{name} landed a CRIT for {dmg} damage!");
     }
 
+    public Vector3 GetHeadPosition()
+    {
+        return collider.bounds.center + Vector3.up * collider.bounds.extents.y;
+    }
+
+    public void ClearHealthBarReference()
+    {
+        healthBar = null;
+    }
+
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -318,6 +371,11 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     private void OnDestroy()
     {
+        if (HealthbarManager.Instance != null)
+        {
+            HealthbarManager.Instance.ReturnHealthBarToPool(this);
+        }
+
         if (EffectSystem.Instance != null)
         {
             EffectSystem.Instance.RemoveAllEffects(this);

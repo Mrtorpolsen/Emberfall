@@ -50,7 +50,7 @@ public class GateStatsBaseStatsComponent : UnitMetadata, IUnit, ITargetable
 
     void Start()
     {
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        //healthBar.UpdateHealthBar(currentHealth, maxHealth);
     }
 
     private void Awake()
@@ -63,7 +63,7 @@ public class GateStatsBaseStatsComponent : UnitMetadata, IUnit, ITargetable
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        //healthBar.UpdateHealthBar(currentHealth, maxHealth);
         if (currentHealth <= 0)
         {
             Die();
