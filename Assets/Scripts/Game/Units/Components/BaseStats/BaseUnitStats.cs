@@ -8,7 +8,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
     [SerializeField] private UnitStatsDefinition baseStats;
-    [SerializeField] private Collider2D collider;
+    [SerializeField] private Collider2D unitCollider;
 
     protected UnitStatsDefinition BaseStats => baseStats;
 
@@ -355,7 +355,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public Vector3 GetHeadPosition()
     {
-        return collider.bounds.center + Vector3.up * collider.bounds.extents.y;
+        return unitCollider.bounds.center + Vector3.up * unitCollider.bounds.extents.y;
     }
 
     public void ClearHealthBarReference()

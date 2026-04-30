@@ -31,7 +31,7 @@
 .categoryLabel {
     margin-top: 5px;
     margin-bottom: 5px;
-    font-size: 70px;
+    font-size: 55px;
 }
 
 .categoryContainer {
@@ -94,14 +94,14 @@
     scale: 1 1;
     padding-right: 0;
     flex-grow: 1;
-    margin-right: 33px;
-    margin-left: 33px;
+    margin-right: 23px;
+    margin-left: 23px;
     margin-top: 20px;
     margin-bottom: 20px;
-    border-top-left-radius: 47px;
-    border-top-right-radius: 47px;
-    border-bottom-right-radius: 47px;
-    border-bottom-left-radius: 47px;
+    border-top-left-radius: 27px;
+    border-top-right-radius: 27px;
+    border-bottom-right-radius: 27px;
+    border-bottom-left-radius: 27px;
 }
 
 .progressFill {
