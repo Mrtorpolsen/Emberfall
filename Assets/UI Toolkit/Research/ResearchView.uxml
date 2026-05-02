@@ -7,13 +7,13 @@
             <ui:VisualElement name="ReturnContainer" class="returnContainer" style="flex-grow: 0; max-width: none; max-height: none;">
                 <ui:Button icon-image="project://database/Assets/Art/UI/Icons/return_arrow_icon.png?fileID=2800000&amp;guid=383f5cb4f5435b3458fe31195d6c11e2&amp;type=3#return_arrow_icon" text="Go Back" name="Btn_Return" class="text btnReturn"/>
             </ui:VisualElement>
-            <ui:ScrollView class="scrollViewVertical scrollViewContainer">
+            <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="scrollViewVertical scrollViewContainer">
                 <ui:VisualElement name="ResearchListContainer" style="flex-grow: 1;"/>
             </ui:ScrollView>
         </ui:VisualElement>
         <ui:VisualElement name="ResearchCategoryListPanel" style="flex-grow: 1; display: none;">
             <ui:Label text="Research" name="Label_Heading" class="text labelHeading" style="margin-bottom: 75px;"/>
-            <ui:ScrollView class="scrollViewVertical scrollViewContainer">
+            <ui:ScrollView horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Hidden" class="scrollViewVertical scrollViewContainer">
                 <ui:VisualElement name="ResearchCategoryListContainer" style="flex-grow: 1;"/>
             </ui:ScrollView>
         </ui:VisualElement>
