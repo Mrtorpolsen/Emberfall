@@ -16,7 +16,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected UnitMetadata metadata;
     private RuntimeStats runtimeStats;
 
-
     public List<ActiveEffect> ActiveEffects = new ();
 
     private readonly Dictionary<StatType, List<StatModifier>> modifiersByStat = new();
@@ -24,6 +23,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     private FloatingHealthBar healthBar;
     public Vector3 healthBarScale;
+
+    private bool isDying;
 
     // IUnit
     public float AttackRange => runtimeStats.attackRange;
@@ -183,15 +184,17 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public virtual void Die()
     {
+        if (isDying) return;
+        isDying = true;
+
         TargetRegistry.Instance.UnregisterUnit(this);
 
-        if (healthBar != null)
-        {
-            HealthbarManager.Instance.ReturnHealthBarToPool(this);
-        }
+        OnDeath();
 
         Destroy(unit != null ? unit : gameObject);
     }
+
+    protected virtual void OnDeath() { }
 
     public virtual void ApplyFinalStats(FinalStats finalStats)
     {

@@ -65,7 +65,9 @@ public class CombatComponent : MonoBehaviour
             }
             else if (unit is SapperBaseStatsComponent)
             {
+                //Need to streamline the attack proccess so death is handled in one place
                 (unit as SapperBaseStatsComponent).Explode();
+                (unit as SapperBaseStatsComponent).Die();
             }
             else
             {
