@@ -15,6 +15,7 @@ public class ResearchUIController : IUIScreenController
 
         view = researchView;
         view.OnCategorySelected += HandleCategorySelected;
+        ResearchService.Instance.OnResearchCompleted += HandleResearchUpdate;
 
         ToCategories();
     }
@@ -68,8 +69,22 @@ public class ResearchUIController : IUIScreenController
         view.researchHeading.text = $"{category} Upgrades";
     }
 
+    private void HandleResearchUpdate(ResearchCategory category)
+    {
+        view.RenderResearchList(GenerateResearchNodes(category));
+    }
+
     public void Cleanup()
     {
-        view.Cleanup();
+        if (view != null)
+        {
+            view.OnCategorySelected -= HandleCategorySelected;
+            view.Cleanup();
+            view = null;
+        }
+
+        if (ResearchService.Instance != null)
+            ResearchService.Instance.OnResearchCompleted -= HandleResearchUpdate;
+
     }
 }
