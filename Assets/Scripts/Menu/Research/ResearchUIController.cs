@@ -56,7 +56,14 @@ public class ResearchUIController : IUIScreenController
 
         node.onClick = async () =>
         {
-            //TODO purchase logic
+            bool succes = CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, node.cost);
+
+            if (!succes)
+            {
+                //throw error maybe dropdown stating not enough currency or something
+                Debug.LogWarning("Failed to spend currency / buy talent");
+                return;
+            }
             await ResearchService.Instance.StartResearch(research.Id);
         };
 
