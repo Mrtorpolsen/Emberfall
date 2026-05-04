@@ -64,7 +64,6 @@ public class ResearchTree
                 if (stage == null)
                     continue;
 
-                // ONLY override multiplier
                 stage.MultiplierPerLevel = o.MultiplierPerLevel;
             }
         }
@@ -172,25 +171,22 @@ public class ResearchScaling
     {
         float value = BaseValue;
 
-        for (int lvl = 2; lvl <= level; lvl++)
+        foreach (var stage in ResolvedStages)
         {
-            var stage = GetStageForLevel(lvl);
+            int start = Math.Max(stage.MinLevel, 2); // skip level 1
+            int end = Math.Min(stage.MaxLevel, level);
 
-            if (stage == null)
+            if (end < start)
                 continue;
 
-            value *= stage.MultiplierPerLevel;
+            int count = end - start + 1;
+
+            value *= Mathf.Pow(stage.MultiplierPerLevel, count);
         }
 
         return Mathf.RoundToInt(value);
     }
 
-    private ScalingStage GetStageForLevel(int level)
-    {
-        return ResolvedStages.FirstOrDefault(s =>
-            level >= s.MinLevel &&
-            level <= s.MaxLevel);
-    }
 }
 
 public class ScalingPreset
