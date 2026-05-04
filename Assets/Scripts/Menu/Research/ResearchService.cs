@@ -60,6 +60,7 @@ public class ResearchService : MonoBehaviour
         {
             var tree = JsonConvert.DeserializeObject<ResearchTree>(jsonAsset.text);
             tree.NormalizeCategoryKeys();
+            tree.ApplyScalingPresets();
             playerResearchTree = tree;
 
             if (SaveService.Instance.Current.Research.ActiveResearches.Count > 0)
@@ -127,7 +128,7 @@ public class ResearchService : MonoBehaviour
 
     private IEnumerator ResearchTimerRoutine(ActiveResearch active, ResearchDefinition research)
     {
-        int duration = research.TimeScaling.GetAmountForNextLevelLinear(active.TargetLevel);
+        int duration = research.TimeScaling.GetAmountForLevel(active.TargetLevel);
         long endTime = active.StartTime + duration;
 
         while (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < endTime)
@@ -156,7 +157,7 @@ public class ResearchService : MonoBehaviour
         {
             ResearchDefinition def = playerResearchTree.GetResearchById(active.ResearchId);
 
-            int duration = def.TimeScaling.GetAmountForNextLevelLinear(active.TargetLevel);
+            int duration = def.TimeScaling.GetAmountForLevel(active.TargetLevel);
             long endTime = active.StartTime + duration;
 
             if (now >= endTime)
@@ -183,7 +184,7 @@ public class ResearchService : MonoBehaviour
     public long GetRemainingSeconds(ActiveResearch active)
     {
         ResearchDefinition def = playerResearchTree.GetResearchById(active.ResearchId);
-        int duration = def.TimeScaling.GetAmountForNextLevelLinear(active.TargetLevel);
+        int duration = def.TimeScaling.GetAmountForLevel(active.TargetLevel);
 
         long endTime = active.StartTime + duration;
         long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -194,7 +195,7 @@ public class ResearchService : MonoBehaviour
     public float GetProgress(ActiveResearch active)
     {
         var def = playerResearchTree.GetResearchById(active.ResearchId);
-        int duration = def.TimeScaling.GetAmountForNextLevelLinear(active.TargetLevel);
+        int duration = def.TimeScaling.GetAmountForLevel(active.TargetLevel);
 
         long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         float elapsed = now - active.StartTime;

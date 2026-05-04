@@ -15,6 +15,7 @@ public class ResearchUIController : IUIScreenController
 
         view = researchView;
         view.OnCategorySelected += HandleCategorySelected;
+        ResearchService.Instance.OnResearchCompleted += HandleResearchUpdate;
 
         ToCategories();
     }
@@ -42,14 +43,16 @@ public class ResearchUIController : IUIScreenController
 
         int currentLevel = ResearchService.Instance.GetCurrentResearchLevel(research.Id);
 
+        int targetLevel = currentLevel + 1;
+
         node.name = research.Name;
         node.researchLevelCurrent = currentLevel;
-        node.researchLevelNext = (currentLevel + 1);
+        node.researchLevelNext = targetLevel;
         node.maxLevel = research.MaxLevel;
         node.description = research.Description;
-        node.researchTime = TimeFormatter.FormatCondensedTime(research.TimeScaling.GetAmountForNextLevelLinear(currentLevel));
+        node.researchTime = TimeFormatter.FormatCondensedTime(research.TimeScaling.GetAmountForLevel(targetLevel));
         node.category = research.Category;
-        node.cost = research.CostScaling.GetAmountForNextLevelLinear(currentLevel);
+        node.cost = research.CostScaling.GetAmountForLevel(targetLevel);
 
         node.onClick = async () =>
         {
@@ -66,8 +69,22 @@ public class ResearchUIController : IUIScreenController
         view.researchHeading.text = $"{category} Upgrades";
     }
 
+    private void HandleResearchUpdate(ResearchCategory category)
+    {
+        view.RenderResearchList(GenerateResearchNodes(category));
+    }
+
     public void Cleanup()
     {
-        view.Cleanup();
+        if (view != null)
+        {
+            view.OnCategorySelected -= HandleCategorySelected;
+            view.Cleanup();
+            view = null;
+        }
+
+        if (ResearchService.Instance != null)
+            ResearchService.Instance.OnResearchCompleted -= HandleResearchUpdate;
+
     }
 }

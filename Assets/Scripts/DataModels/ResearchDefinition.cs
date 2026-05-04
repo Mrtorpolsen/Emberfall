@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using JetBrains.Annotations;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,77 @@ using UnityEngine;
 
 public class ResearchTree
 {
+    [JsonProperty("scalingPresets")]
+    public Dictionary<string, ScalingPreset> ScalingPresets { get; set; }
+
     [JsonProperty("research")]
     public Dictionary<string, List<ResearchDefinition>> ResearchByCategory { get; set; }
     public Dictionary<ResearchCategory, List<ResearchDefinition>> ResearchByCategoryEnum { get; private set; }
+
+    public void ApplyScalingPresets()
+    {
+        foreach (var list in ResearchByCategoryEnum.Values)
+        {
+            foreach (var research in list)
+            {
+                if (research.CostScaling != null)
+                    research.CostScaling.ResolvedStages = ResolveScaling(research.CostScaling);
+
+                if (research.TimeScaling != null)
+                    research.TimeScaling.ResolvedStages = ResolveScaling(research.TimeScaling);
+            }
+        }
+    }
+
+    private ScalingStage[] ResolveScaling(ResearchScaling scaling)
+    {
+        if (scaling == null)
+        {
+            Debug.LogWarning("Scaling is null. Returning empty stages.");
+            return Array.Empty<ScalingStage>();
+        }
+
+        var preset = GetScalingPreset(scaling.Preset);
+
+        if (preset == null)
+        {
+            Debug.LogWarning($"Preset '{scaling.Preset}' not found for scaling. Returning empty stages.");
+            return Array.Empty<ScalingStage>();
+        }
+
+        // clone preset (avoid shared references)
+        var stages = preset.Stages
+            .Select(s => new ScalingStage
+            {
+                StageNumber = s.StageNumber,
+                MinLevel = s.MinLevel,
+                MaxLevel = s.MaxLevel,
+                MultiplierPerLevel = s.MultiplierPerLevel
+            })
+            .ToList();
+
+        if (scaling.Overrides != null)
+        {
+            foreach (var o in scaling.Overrides)
+            {
+                var stage = stages.FirstOrDefault(s => s.StageNumber == o.StageNumber);
+                if (stage == null)
+                    continue;
+
+                stage.MultiplierPerLevel = o.MultiplierPerLevel;
+            }
+        }
+
+        return stages
+            .OrderBy(s => s.MinLevel)
+            .ToArray();
+    }
+
+    public ScalingPreset GetScalingPreset(string presetName)
+    {
+        ScalingPresets.TryGetValue(presetName, out var preset);
+        return preset;
+    }
 
     public List<ResearchDefinition> GetResearchByCategory(ResearchCategory category)
     {
@@ -18,7 +87,7 @@ public class ResearchTree
 
     public ResearchDefinition GetResearchById(string id)
     {
-        // extract category from id or from definition
+        // extract category from id
         var research = ResearchByCategoryEnum.Values.SelectMany(list => list)
             .FirstOrDefault(r => r.Id == id);
         return research;
@@ -26,8 +95,11 @@ public class ResearchTree
 
     public ResearchCategory GetResearchCategoryById(string id)
     {
-        ResearchCategory category = GetResearchById(id).Category;
-        return category;
+        var research = GetResearchById(id);
+        if (research == null)
+            return default;
+
+        return research.Category;
     }
 
     public IEnumerable<ResearchCategory> GetCategories(bool sorted = true)
@@ -80,21 +152,60 @@ public enum ResearchCategory
     GlobalAbility
 }
 
+public enum ResearchScalingType
+{
+    Time,
+    Cost
+}
+
 public class ResearchScaling
 {
     public float BaseValue;
-    public float MultiplierPerLevel;
+    public string Preset;
+    public ScalingOverride[] Overrides;
 
-    public int GetAmountForNextLevelLinear(int level)
+    [JsonIgnore]
+    public ScalingStage[] ResolvedStages;
+
+    public int GetAmountForLevel(int level)
     {
-        float value = BaseValue + MultiplierPerLevel * level;
+        float value = BaseValue;
+
+        foreach (var stage in ResolvedStages)
+        {
+            int start = Math.Max(stage.MinLevel, 2); // skip level 1
+            int end = Math.Min(stage.MaxLevel, level);
+
+            if (end < start)
+                continue;
+
+            int count = end - start + 1;
+
+            value *= Mathf.Pow(stage.MultiplierPerLevel, count);
+        }
+
         return Mathf.RoundToInt(value);
     }
-    private int GetAmountForNextLevelExpo(int level)
-    {
-        float value = BaseValue * Mathf.Pow(MultiplierPerLevel, level);
-        return Mathf.RoundToInt(value);
-    }
+
+}
+
+public class ScalingPreset
+{
+    public ScalingStage[] Stages;
+}
+
+public class ScalingStage
+{
+    public int StageNumber;
+    public int MinLevel;
+    public int MaxLevel;
+    public float MultiplierPerLevel;
+}
+
+public class ScalingOverride
+{
+    public int StageNumber;
+    public float MultiplierPerLevel;
 }
 
 public class ResearchPrerequisite

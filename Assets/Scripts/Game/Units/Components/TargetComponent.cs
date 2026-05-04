@@ -11,7 +11,7 @@ public class TargetComponent : MonoBehaviour
     [Header("Reference")]
     private ITargetable currentTarget;
 
-    [SerializeField] private float retargetInterval = 0.2f;
+    [SerializeField] private float retargetInterval = 0.15f;
     private float retargetTimer;
 
     [SerializeField] private LayerMask northTeamLayer;

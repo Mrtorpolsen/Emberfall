@@ -35709,7 +35709,7 @@ MonoBehaviour:
   southSpawn: {fileID: 605416890}
   totalWaves: 100
   timeBetweenWaves: 10
-  isTest: 1
+  isTest: 0
   spawnOfEach: 100
 --- !u!4 &1263956707
 Transform:

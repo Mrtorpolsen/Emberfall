@@ -11,6 +11,8 @@ public class SapperBaseStatsComponent : BaseUnitStats
     private ContactFilter2D contactFilter;
     private LayerMask enemyLayer;
 
+    private bool hasExploded = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -54,11 +56,18 @@ public class SapperBaseStatsComponent : BaseUnitStats
 
             target.TakeDamage(AttackDamage);
         }
-        //set death to trigger target switch
-        currentHealth = 0;
 
-        Destroy(gameObject);
+        hasExploded = true;
     }
+
+    protected override void OnDeath()
+    {
+        if (!hasExploded)
+        {
+            Explode();
+        }
+    }
+
     protected override void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

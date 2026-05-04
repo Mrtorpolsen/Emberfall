@@ -387,9 +387,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EliteFighterBaseStatsComponent
   unit: {fileID: 6717628542700303866}
   baseStats: {fileID: 11400000, guid: a2668b22ea2857445b3557b070e32e97, type: 2}
-  collider: {fileID: 4764436896931820978}
+  unitCollider: {fileID: 4764436896931820978}
   currentHealth: 0
-  healthBarOffset: {x: 0, y: 0, z: 0}
   healthBarScale: {x: 0, y: 0, z: 0}
   debugCost: 0
   debugMaxHealth: 0
