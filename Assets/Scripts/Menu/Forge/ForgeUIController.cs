@@ -128,7 +128,7 @@ public class ForgeUIController : IUIScreenController
                         return;
                     }
                     //Save and add points to talent req
-                    TalentService.Instance.SaveTalent(talent.Id);
+                    TalentService.Instance.AddTalent(talent.Id);
 
                     var talentState = SaveService.Instance.Current.Talents;
 
