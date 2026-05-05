@@ -127,7 +127,7 @@ public class ForgeUIController : IUIScreenController
                         Debug.LogWarning("Failed to spend currency / buy talent");
                         return;
                     }
-                    //Save an add points to talent req
+                    //Save and add points to talent req
                     TalentService.Instance.SaveTalent(talent.Id);
 
                     var talentState = SaveService.Instance.Current.Talents;

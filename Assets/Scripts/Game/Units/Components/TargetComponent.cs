@@ -37,6 +37,8 @@ public class TargetComponent : MonoBehaviour
     private Collider2D[] hitBuffer;
     private ContactFilter2D contactFilter;
 
+    private bool alwaysRetargetClosest;
+
 #if UNITY_EDITOR
     static readonly ProfilerMarker UpdateMarker =
         new ProfilerMarker("TargetComponent.Update");
@@ -66,6 +68,9 @@ public class TargetComponent : MonoBehaviour
         {
             SetPriorities(priorities);
         }
+
+        //temp until rework of targeting system, for sapper to work properly
+        alwaysRetargetClosest = GetComponent<SapperBaseStatsComponent>() != null;
     }
 
     private void Start()
@@ -102,6 +107,12 @@ public class TargetComponent : MonoBehaviour
                 return;
 
             retargetTimer = retargetInterval;
+
+            if (alwaysRetargetClosest)
+            {
+                FindClosestTarget();
+                return;
+            }
 
             if (!IsTargetStillValid())
             {

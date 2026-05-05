@@ -16,6 +16,8 @@ public class ActionButton : MonoBehaviour
 
     private AsyncOperationHandle<Sprite>? iconHandle;
 
+    private string currentIconKey;
+
     private Action clickAction;
     private Func<bool> canInteract;
 
@@ -58,27 +60,32 @@ public class ActionButton : MonoBehaviour
 
     private void LoadIcon(AssetReference iconReference)
     {
-        ReleaseIcon();
-
         if (iconReference == null || !iconReference.RuntimeKeyIsValid())
         {
+            ReleaseIcon();
             iconImage.sprite = null;
             return;
         }
+
+        // Prevent unnecessary loading if the same handler is already loaded
+        if (iconReference.OperationHandle.IsValid())
+        {
+            iconImage.sprite = iconReference.OperationHandle.Convert<Sprite>().Result;
+            return;
+        }
+
+        ReleaseIcon();
 
         var handle = iconReference.LoadAssetAsync<Sprite>();
         iconHandle = handle;
 
         handle.Completed += op =>
         {
-            // Button may have been destroyed or reused
             if (!this || !iconImage)
                 return;
 
             if (op.Status == AsyncOperationStatus.Succeeded)
-            {
                 iconImage.sprite = op.Result;
-            }
         };
     }
 
