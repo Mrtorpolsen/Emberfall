@@ -58,7 +58,7 @@ public class TalentService : MonoBehaviour
         }
     }
 
-    public void SaveTalent(string id)
+    public void AddTalent(string id)
     {
         if (SaveService.Instance.Current.Talents.Purchases.TryGetValue(id, out int purchased))
         {

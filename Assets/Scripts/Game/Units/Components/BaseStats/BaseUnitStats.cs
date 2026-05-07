@@ -10,6 +10,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] private UnitStatsDefinition baseStats;
     [SerializeField] private Collider2D unitCollider;
 
+    [SerializeField] private float showRangeGizmo = 0f;
+
     protected UnitStatsDefinition BaseStats => baseStats;
 
     public int currentHealth;
@@ -369,7 +371,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, baseStats.attackRange);
+        Gizmos.DrawWireSphere(transform.position, showRangeGizmo);
     }
 
     private void OnDestroy()

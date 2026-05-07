@@ -98,6 +98,11 @@ public class HealthbarManager : MonoBehaviour
     {
         if(active.TryGetValue(unit, out FloatingHealthBar healthBar))
         {
+            if (healthBar == null || healthBar.gameObject == null)
+            {
+                return; // Already destroyed
+            }
+
             healthBar.gameObject.SetActive(false);
 
             pool.Enqueue(healthBar);

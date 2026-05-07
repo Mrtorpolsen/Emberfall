@@ -56,6 +56,8 @@ public class SapperBaseStatsComponent : BaseUnitStats
 
             target.TakeDamage(AttackDamage);
         }
+        //To invalidate itself as a target.
+        currentHealth = 0;
 
         hasExploded = true;
     }

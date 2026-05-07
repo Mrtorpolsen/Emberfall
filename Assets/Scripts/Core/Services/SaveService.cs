@@ -13,6 +13,9 @@ public class SaveService : GlobalSystem<SaveService>
 
     public event Func<Task> OnSaveLoaded;
 
+    private readonly object _saveLock = new();
+    private Task _saveTask;
+
     protected override void Awake()
     {
         base.Awake();
@@ -54,13 +57,16 @@ public class SaveService : GlobalSystem<SaveService>
         await InvokeOnSaveLoaded();
     }
 
-    public async Task SaveAsync()
+    public Task SaveAsync()
     {
-        if (!ValidateSavePath())
-            return;
+        lock (_saveLock)
+        {
+            if (_saveTask != null && !_saveTask.IsCompleted)
+                return _saveTask;
 
-        string json = JsonConvert.SerializeObject(Current);
-        await Task.Run(() => File.WriteAllText(savePath, json));
+            _saveTask = SaveInternal();
+            return _saveTask;
+        }
     }
 
     public void Save()
@@ -69,6 +75,16 @@ public class SaveService : GlobalSystem<SaveService>
         {
             if (t.Exception != null)
                 Debug.LogError(t.Exception);
+        });
+    }
+
+    private async Task SaveInternal()
+    {
+        string json = JsonConvert.SerializeObject(Current);
+
+        await Task.Run(() =>
+        {
+            File.WriteAllText(savePath, json);
         });
     }
 
