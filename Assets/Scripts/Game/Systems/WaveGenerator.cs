@@ -8,6 +8,8 @@ public class WaveGenerator
     [SerializeField] private int baseCount = 4;
     [SerializeField] private int sapperCount = 1;
 
+    private int sapperWaveCooldown = 0;
+
     private readonly Func<float> randomFunc;
 
     public event Action<int> OnWaveNumberChanged;
@@ -73,9 +75,14 @@ public class WaveGenerator
                 wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
                 cavalierCount--;
             }
-            if (waveNumberDisplay > 10 && randomFunc() < 0.2f)
+            if (waveNumberDisplay > 10 && sapperWaveCooldown == 0 && randomFunc() < 0.2f)
             {
                 wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.sapperPrefab, sapperCount, spawnDelay));
+                sapperWaveCooldown = 4; // Set cooldown for 5 waves
+            }
+            if (sapperWaveCooldown > 0)
+            {
+                sapperWaveCooldown--;
             }
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, fighterCount, spawnDelay));
             wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, cavalierCount, spawnDelay));
