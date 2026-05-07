@@ -108,6 +108,7 @@ public class TargetComponent : MonoBehaviour
 
             retargetTimer = retargetInterval;
 
+            //temporary solution to make sapper work, since sapper needs to retarget closest every frame to work properly, until we rework the targeting system
             if (alwaysRetargetClosest)
             {
                 FindClosestTarget();
