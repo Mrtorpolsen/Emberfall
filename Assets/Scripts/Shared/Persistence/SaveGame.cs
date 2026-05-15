@@ -3,7 +3,8 @@
 [Serializable]
 public class SaveGame
 {
-    public int Version = 1;
+    public const int CURRENT_SAVE_VERSION = 2;
+    public int Version;
 
     public PlayerTalentState Talents = new();
     public PlayerResearchState Research = new();

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "definitionsVersion": "2.0",
+  "definitionsVersion": 2,
   "gameVersion": "0.3.1",
   "talents": {
     "fighter": [
@@ -61,7 +61,7 @@
         "Id": "fighter_statmodifier_attackspeed_1",
         "IconId": "melee_attackspeed_1",
         "Name": "Weapon Handling",
-        "Description": "Increases fighters attack speed by 2% per purchase",
+        "Description": "Increases fighter's attack speed by 2% per purchase",
         "Category": "Unit",
         "Type": "StatModifier",
         "Tier": 2,
@@ -90,7 +90,7 @@
         "Id": "fighter_statmodifier_health_2",
         "IconId": "global_health_2",
         "Name": "Tough Skin",
-        "Description": "Increases fighters health by 3% per purchase",
+        "Description": "Increases fighter's health by 3% per purchase",
         "Category": "Unit",
         "Type": "StatModifier",
         "Tier": 3,
@@ -148,7 +148,7 @@
         "Id": "fighter_statmodifier_critchance_1",
         "IconId": "melee_critchance_1",
         "Name": "Battle Maneuver",
-        "Description": "Increases fighters crit chance by 2% per purchase",
+        "Description": "Increases fighter's crit chance by 2% per purchase",
         "Category": "Unit",
         "Type": "StatModifier",
         "Tier": 3,
@@ -1019,7 +1019,7 @@
         "Id": "ranger_statmodifier_range_4",
         "IconId": "ranged_range_4",
         "Name": "Perfect Trajectory",
-        "Description": "Increases ranger's range by 2% per purchase",
+        "Description": "Increases ranger's range by 5% per purchase",
         "Category": "Unit",
         "Type": "StatModifier",
         "Tier": 7,
@@ -1541,7 +1541,7 @@
       {
         "Id": "cavalier_statmodifier_damage_3",
         "IconId": "melee_damage_3",
-        "Name": "Cavalier’s Edge",
+        "Name": "Cavalier's Edge",
         "Description": "Increases cavalier's damage by 4% per purchase",
         "Category": "Unit",
         "Type": "StatModifier",

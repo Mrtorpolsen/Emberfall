@@ -169,7 +169,7 @@ public class UIManager : MonoBehaviour
 
             var def = loadout[i];
 
-            unitButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            unitButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
             unitButtons[i].SetClickAction(() =>
             {
                 SpawnManager.Instance.SpawnSouthUnit(
@@ -194,7 +194,7 @@ public class UIManager : MonoBehaviour
 
             AbilityDefinition def = loadout[i];
 
-            abilityButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost && AbilityCooldownManager.Instance.CanUse(def)));
+            abilityButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, def.cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost && AbilityCooldownManager.Instance.CanUse(def)));
             abilityButtons[i].SetClickAction(() =>
             {
                 if (GameManager.Instance.currency[Team.South] < def.Cost && AbilityCooldownManager.Instance.CanUse(def))
@@ -207,7 +207,7 @@ public class UIManager : MonoBehaviour
                     action.Execute(TargetRegistry.Instance);
                 }
 
-                AbilityCooldownManager.Instance.TriggerCooldown(def);
+                AbilityCooldownManager.Instance.TriggerCooldown(def.DisplayName);
             });
 
             boundButtons.Add(abilityButtons[i]);
@@ -226,7 +226,7 @@ public class UIManager : MonoBehaviour
 
             var def = loadout[i];
 
-            towerBuildMenuWestButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            towerBuildMenuWestButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
             towerBuildMenuWestButtons[i].SetClickAction(() =>
             {
                 SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.West);
@@ -245,7 +245,7 @@ public class UIManager : MonoBehaviour
 
             var def = loadout[i];
 
-            towerBuildMenuEastButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            towerBuildMenuEastButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
             towerBuildMenuEastButtons[i].SetClickAction(() =>
             {
                 SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.East);
@@ -262,7 +262,7 @@ public class UIManager : MonoBehaviour
         var sellButton = buttonsToSetup[0];
         var upgradeButton = buttonsToSetup[1];
 
-        sellButton.Setup("Sell", plot.sellValue, sellSprite,
+        sellButton.Setup("Sell", plot.sellValue, sellSprite, 0,
             () => !PauseManager.IsPaused
         );
 
@@ -272,7 +272,7 @@ public class UIManager : MonoBehaviour
             boundButtons.Remove(upgradeButton);
         });
 
-        upgradeButton.Setup("Upgrade", plot.upgradeCost, upgradeSprite,
+        upgradeButton.Setup("Upgrade", plot.upgradeCost, upgradeSprite, 0,
             () => !PauseManager.IsPaused
                 && GameManager.Instance.currency[Team.South] >= plot.upgradeCost
                 && plot.canUpgrade
