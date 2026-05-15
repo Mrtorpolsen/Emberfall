@@ -32,6 +32,7 @@ public class SaveService : GlobalSystem<SaveService>
     public async Task CreateSave()
     {
         Current = new SaveGame();
+        Current.Version = SaveGame.CURRENT_SAVE_VERSION;
         ValidateSave();
         await SaveAsync();
         await InvokeOnSaveLoaded();
@@ -49,24 +50,29 @@ public class SaveService : GlobalSystem<SaveService>
             return;
         }
 
-        string json = await Task.Run(() => File.ReadAllText(savePath)); // async file read
-        Current = JsonConvert.DeserializeObject<SaveGame>(json);
+        string json = await Task.Run(() => File.ReadAllText(savePath));
+
+        var temp = JsonConvert.DeserializeObject<SaveGame>(json);
+
+        //Validate version
+        if (temp == null || temp.Version != SaveGame.CURRENT_SAVE_VERSION)
+        {
+            Debug.LogWarning("Save version mismatch. Creating new save file.");
+
+            await CreateSave();
+            return;
+        }
+
+        Current = temp;
 
         ValidateSave();
-
         await InvokeOnSaveLoaded();
     }
 
     public Task SaveAsync()
     {
-        lock (_saveLock)
-        {
-            if (_saveTask != null && !_saveTask.IsCompleted)
-                return _saveTask;
-
-            _saveTask = SaveInternal();
-            return _saveTask;
-        }
+        var snapshot = DeepClone(Current);
+        return SaveInternal(snapshot);
     }
 
     public void Save()
@@ -78,9 +84,9 @@ public class SaveService : GlobalSystem<SaveService>
         });
     }
 
-    private async Task SaveInternal()
+    private async Task SaveInternal(SaveGame snapshot)
     {
-        string json = JsonConvert.SerializeObject(Current);
+        string json = JsonConvert.SerializeObject(snapshot);
 
         await Task.Run(() =>
         {
@@ -132,5 +138,10 @@ public class SaveService : GlobalSystem<SaveService>
 
         // Currency
         Current.Currency ??= new CurrencyData();
+    }
+    public static T DeepClone<T>(T obj)
+    {
+        var json = JsonConvert.SerializeObject(obj);
+        return JsonConvert.DeserializeObject<T>(json);
     }
 }
