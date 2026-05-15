@@ -175,6 +175,7 @@ public class UnitStatsManager : MonoBehaviour
             attackRange = unitBaseStats.attackRange,
             critChance = unitBaseStats.critChance,
             critDamage = unitBaseStats.critDamage,
+            armor = unitBaseStats.armor,
             movementSpeed = unitBaseStats.movementSpeed,
             hitRadius = unitBaseStats.hitRadius,
             cost = unitBaseStats.cost
