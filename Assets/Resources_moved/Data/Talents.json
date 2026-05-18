@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "definitionsVersion": 2,
-  "gameVersion": "0.4.0",
+  "gameVersion": "0.4.1",
   "talents": {
     "fighter": [
       {
