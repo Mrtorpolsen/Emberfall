@@ -13,9 +13,6 @@ public class SaveService : GlobalSystem<SaveService>
 
     public event Func<Task> OnSaveLoaded;
 
-    private readonly object _saveLock = new();
-    private Task _saveTask;
-
     protected override void Awake()
     {
         base.Awake();
