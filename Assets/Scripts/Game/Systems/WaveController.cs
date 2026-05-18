@@ -15,7 +15,7 @@ public class WaveController : MonoBehaviour
         public int spawnIndex; 
     }
 
-    public static WaveController Instance;
+    public static WaveController Instance { get; private set; }
 
     public static WaveGenerator waveGenerator;
 

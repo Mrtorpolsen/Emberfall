@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EffectSystem : MonoBehaviour
 {
-    public static EffectSystem Instance;
+    public static EffectSystem Instance { get; private set; }
 
     private readonly List<ActiveEffect> activeEffects = new();
     

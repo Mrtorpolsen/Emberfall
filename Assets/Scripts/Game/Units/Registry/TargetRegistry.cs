@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TargetRegistry : MonoBehaviour
 {
-    public static TargetRegistry Instance;
+    public static TargetRegistry Instance { get; private set; }
 
     public HashSet<BaseUnitStats> playerUnits = new();
     public HashSet<BaseUnitStats> enemyUnits = new();
@@ -13,11 +13,10 @@ public class TargetRegistry : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Instance = this;
-        }
+
+        Instance = this;
     }
 
     public void RegisterUnit(BaseUnitStats unit)

@@ -9,7 +9,7 @@ using UnityEngine.AddressableAssets;
 
 public class ResearchService : MonoBehaviour
 {
-    public static ResearchService Instance;
+    public static ResearchService Instance { get; private set; }
     public ResearchTree playerResearchTree;
 
     public event Action<ResearchCategory> OnResearchStarted;

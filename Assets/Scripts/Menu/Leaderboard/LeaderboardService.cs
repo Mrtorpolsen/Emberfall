@@ -8,7 +8,7 @@ using UnityEngine;
 //Needs to be initialized earlier and a singleton since its used in game scene.
 public class LeaderboardService : MonoBehaviour
 {
-    public static LeaderboardService Instance;
+    public static LeaderboardService Instance { get; private set; }
 
     private string leaderboardId = "High_Scores";
     public List<LeaderboardEntry> userScores;
@@ -17,7 +17,12 @@ public class LeaderboardService : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null) { Destroy(gameObject); return; }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
