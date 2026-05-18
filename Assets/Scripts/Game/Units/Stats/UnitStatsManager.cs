@@ -156,7 +156,13 @@ public class UnitStatsManager : MonoBehaviour
             return null;
         }
 
-        return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex, finalStats);
+        //last bit here is to prevent scaling from being applied to the first 10 waves.
+        if (scaling.waveIndex < 10)
+        {
+            return finalStats;
+        }
+
+        return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex - 10, finalStats);
     }
 
     private FinalStats BuildFinalStatsFromBase(UnitStatsDefinition unitBaseStats)
