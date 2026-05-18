@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TimerManager : MonoBehaviour
 {
-    public static TimerManager Instance;
+    public static TimerManager Instance { get; private set; }
 
     public TMP_Text timerText;
 

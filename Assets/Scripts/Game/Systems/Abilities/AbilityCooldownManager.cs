@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityCooldownManager : MonoBehaviour
 {
-    public static AbilityCooldownManager Instance;
+    public static AbilityCooldownManager Instance { get; private set; }
 
     private Dictionary<string, float> lastUseTime = new();
 

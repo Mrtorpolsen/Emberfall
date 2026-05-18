@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;
+    public static UIManager Instance { get; private set; }
 
     [Header("References")]
     [SerializeField] public Canvas gameUI;
@@ -61,12 +61,11 @@ public class UIManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(Instance);
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Instance = this;
-        }
+
+        Instance = this;
 
         boundButtons = new List<ActionButton>();
 

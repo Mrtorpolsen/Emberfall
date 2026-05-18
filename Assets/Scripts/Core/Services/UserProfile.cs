@@ -7,7 +7,7 @@ using UnityEngine.SocialPlatforms.Impl;
 [DisallowMultipleComponent]
 public class UserProfile : MonoBehaviour
 {
-    public static UserProfile Instance;
+    public static UserProfile Instance { get; private set; }
 
     public string userName;
     public int currency;

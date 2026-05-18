@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 [DisallowMultipleComponent]
 public class LoginManager : MonoBehaviour
 {
-    public static LoginManager main;
+    public static LoginManager Instance { get; private set; }
 
     [Header("References")]
     [SerializeField] private UIDocument uiDocument;
@@ -18,13 +18,13 @@ public class LoginManager : MonoBehaviour
 
     private void Awake()
     {
-        if (main != null && main != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        main = this;
+        Instance = this;
     }
 
     private async void Start()

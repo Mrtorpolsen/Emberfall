@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     //Consider seperating this into smaller bits, and have this one start/stop them all
-    public static GameManager Instance;
+    public static GameManager Instance { get; private set; }
 
     public Transform south;
 
@@ -38,6 +38,12 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
 
         currency = new Dictionary<Team, float>()
