@@ -133,9 +133,9 @@ public class UnitStatsCalculator
         };
     }
 
-    public FinalStats CalculateEnemyStats(float waveIndex, FinalStats finalStats)
+    public FinalStats CalculateEnemyStats(int waveIndex, FinalStats finalStats)
     {
-        float wave = waveIndex + 1;
+        int wave = waveIndex + 1;
         int hpPercent = Mathf.RoundToInt(2f * Mathf.Pow(wave, 0.85f));
         int dmgPercent = Mathf.RoundToInt(2f * Mathf.Pow(wave, 0.75f));
 

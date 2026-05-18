@@ -68,14 +68,17 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
 
+        boundButtons = new List<ActionButton>();
+
         sellSprite = await sellTowerIcon.LoadAssetAsync<Sprite>().Task;
         upgradeSprite = await upgradeTowerIcon.LoadAssetAsync<Sprite>().Task;
         towerSprite = await towerIcon.LoadAssetAsync<Sprite>().Task;
         bombSprite = await bombTowerIcon.LoadAssetAsync<Sprite>().Task;
         ballistaSprite = await ballistaTowerIcon.LoadAssetAsync<Sprite>().Task;
+    }
 
-        boundButtons = new List<ActionButton>();
-
+    private void Start()
+    {
         SetupMenuButtons();
         SetupUnitButtons(loadOutUnits);
         SetupTowerBuildMenuButtons(loadOutTowers);
