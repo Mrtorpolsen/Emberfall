@@ -156,7 +156,7 @@ public class UnitStatsManager : MonoBehaviour
             return null;
         }
 
-        //last bit here is to prevent scaling from being applied to the first 10 waves.
+        //last bit here is to delay scaling from being applied to the first 10 waves.
         if (scaling.waveIndex < 10)
         {
             return finalStats;

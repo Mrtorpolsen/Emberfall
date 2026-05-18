@@ -44,6 +44,7 @@ public class ActionButton : MonoBehaviour
         if(cooldownText != null)
             cooldownText.text = "";
     }
+
     public void Setup(string title, float cost, Sprite icon, float cooldown, Func<bool> canInteractFunc)
     {
         unitText.text = title;
