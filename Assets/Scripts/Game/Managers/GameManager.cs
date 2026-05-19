@@ -124,9 +124,10 @@ public class GameManager : MonoBehaviour
     public void SetGameOver(bool gameOver, Team losingTeam)
     {
         StopGameplaySystems();
+        //Needs to be before gameOver, otherwise it will lock the player out of getting rewards
+        EndOfGame();
         UpdateGameState(gameOver, losingTeam);
         HandleUITransition();
-        EndOfGame();
     }
 
 
@@ -143,6 +144,8 @@ public class GameManager : MonoBehaviour
 
     public void EndOfGame()
     {
+        if(isGameOver)
+            return;
         //save score, throws error if not logged in
         LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTime());
         //add cinders
