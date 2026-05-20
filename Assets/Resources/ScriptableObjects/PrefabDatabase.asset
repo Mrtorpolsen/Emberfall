@@ -21,6 +21,8 @@ MonoBehaviour:
   eliteCavalierPrefab: {fileID: 8916063152254937078, guid: 6b3eab09fc8104a4ca35f6c11d02b1e8, type: 3}
   assasinPrefab: {fileID: 6717628542700303866, guid: d9d7fb1ea3c00da439656c73e0522fae, type: 3}
   sapperPrefab: {fileID: 6717628542700303866, guid: 205569ef057d3e245a6bf6d578fb495a, type: 3}
+  guardianPrefab: {fileID: 6717628542700303866, guid: f08e813d68e87fb4dab4d49f6770fdff, type: 3}
+  pikemanPrefab: {fileID: 6717628542700303866, guid: 19f299e5d8fb7774d89f6f4f7ea5806a, type: 3}
   towerPrefab: {fileID: 87936472045436742, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
   ballistaTowerPrefab: {fileID: 87936472045436742, guid: 1de2bf2dac3f9ad4e90de19ac7c3612b, type: 3}
   bombTowerPrefab: {fileID: 87936472045436742, guid: 31e7dd5cc41cdd542bb990ff116af200, type: 3}
