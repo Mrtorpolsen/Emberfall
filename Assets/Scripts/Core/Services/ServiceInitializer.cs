@@ -22,6 +22,4 @@ public class ServiceInitializer : MonoBehaviour
 
         Debug.Log("All services initialized");
     }
-
 }
-

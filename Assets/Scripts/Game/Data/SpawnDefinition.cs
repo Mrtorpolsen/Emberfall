@@ -2,7 +2,7 @@
 using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(menuName = "Game/Spawn Definition")]
-public class SpawnDefinition : ScriptableObject
+public class SpawnDefinition : LoadoutDefinition
 {
     [Header("UI")]
     [SerializeField] private string displayName;

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(menuName = "Game/Ability Definition")]
-public class AbilityDefinition : ScriptableObject
+public class AbilityDefinition : LoadoutDefinition
 {
     [Header("UI")]
     [SerializeField] private string displayName;

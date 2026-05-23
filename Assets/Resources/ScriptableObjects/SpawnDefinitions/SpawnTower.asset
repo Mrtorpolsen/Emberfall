@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e564f39737a52604cad07dda69f121ff, type: 3}
   m_Name: SpawnTower
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
+  id: spawn_tower
   displayName: Tower
   icon:
     m_AssetGUID: 01414d5650a57324395eb0819fddbdfc
@@ -20,6 +21,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
     m_EditorAssetChanged: 1
+  cooldown: 0
   unitPrefab: {fileID: 87936472045436742, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
   stats: {fileID: 11400000, guid: 002d4c92b41d2be44a087178c1d69a66, type: 2}
   Type: 1
