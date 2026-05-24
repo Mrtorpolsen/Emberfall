@@ -41131,17 +41131,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameUI: {fileID: 1477576579}
   pauseMenu: {fileID: 1581866823}
-  loadOutUnits:
-  - {fileID: 11400000, guid: 0bee6ff15e9c2ee47bde568edfe65c52, type: 2}
-  - {fileID: 11400000, guid: ce0d3dd830a71a54bafe188e47c3c38a, type: 2}
-  - {fileID: 11400000, guid: 27d758321c698c145a7838d4875778b9, type: 2}
-  loadOutTowers:
-  - {fileID: 11400000, guid: 5fce8281fbfe9a34bae50189cf5978f0, type: 2}
-  - {fileID: 11400000, guid: 4341fcfeb29a5bd4abf4042b15894d18, type: 2}
-  - {fileID: 11400000, guid: b24ad98ce9d9eee439735ea089ae6182, type: 2}
-  loadOutAbilities:
-  - {fileID: 11400000, guid: 631d878b5c575574cb7f1d8ca4670b5d, type: 2}
-  - {fileID: 11400000, guid: 08053a4e88c407d41aefe84d7925fa62, type: 2}
+  loadOutUnits: []
+  loadOutTowers: []
+  loadOutAbilities: []
   currencyText: {fileID: 1566253339}
   incomeMultiplierText: {fileID: 723177193}
   survivalText: {fileID: 1882980882}

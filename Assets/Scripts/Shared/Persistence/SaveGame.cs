@@ -14,7 +14,7 @@ public class SaveGame
     public CurrencyData Currency = new();
 
     public PlayerUnlockState Unlocks = new();
-    public List<SavedLoadout> Loadouts = new();
+    public PlayerLoadoutCollection Loadouts = new();
 
     public bool HasReceivedLoginGift = false;
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class PlayerLoadoutState
@@ -11,7 +12,14 @@ public class PlayerLoadoutState
 [Serializable]
 public class SavedLoadout
 {
-    public string Id;
+    public int Id;
     public string DisplayName;
     public PlayerLoadoutState State;
+}
+
+[Serializable]
+public class PlayerLoadoutCollection
+{
+    public List<SavedLoadout> Presets = new();
+    public int ActiveLoadoutId;
 }

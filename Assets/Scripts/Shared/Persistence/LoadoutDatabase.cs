@@ -30,8 +30,8 @@ public class LoadoutDatabase : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public AbilityDefinition GetAbility(string id) => abilityMap[id];
+    public AbilityDefinition GetAbility(string id) => id == null ? null : abilityMap[id];
     public List<AbilityDefinition> GetAllAbilities() => abilities;
-    public SpawnDefinition GetSpawn(string id) => spawnMap[id];
+    public SpawnDefinition GetSpawn(string id) => id == null ? null : spawnMap[id];
     public List<SpawnDefinition> GetAllSpawns() => spawns;
 }
