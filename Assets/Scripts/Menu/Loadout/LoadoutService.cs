@@ -15,7 +15,7 @@ public class LoadoutService : MonoBehaviour
         public AbilityDefinition[] AbilityLoadout = new AbilityDefinition[2];
     }
 
-    public int CurrentLoadoutId { get; private set; }
+    public int CurrentLoadoutId => SaveService.Instance.Current.Loadouts.ActiveLoadoutId;
     public ActiveLoadout CurrentLoadout { get; private set; }
 
     private void Awake()
@@ -61,12 +61,11 @@ public class LoadoutService : MonoBehaviour
 
         if (SaveService.Instance.Current.Loadouts.Presets.Count == 0)
         {
-            SetDefaultLoadout();
+            await SetDefaultLoadout();
             return;
         }
         else
         {
-            CurrentLoadoutId = SaveService.Instance.Current.Loadouts.ActiveLoadoutId;
             var activePreset = SaveService.Instance.Current.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
 
             if (activePreset != null)
@@ -81,15 +80,15 @@ public class LoadoutService : MonoBehaviour
             else
             {
                 Debug.LogWarning($"Active loadout preset with ID {CurrentLoadoutId} not found. Setting default loadout.");
-                SetDefaultLoadout();
+                await SetDefaultLoadout();
             }
         }
 
     }
 
-    private void SetDefaultLoadout()
+    private async Task SetDefaultLoadout()
     {
-        CurrentLoadoutId = SaveService.Instance.Current.Loadouts.Presets.Count + 1;
+        SaveService.Instance.Current.Loadouts.ActiveLoadoutId = GenerateLoadoutId();
 
         CurrentLoadout = new ActiveLoadout
         {
@@ -113,7 +112,6 @@ public class LoadoutService : MonoBehaviour
             }
         };
 
-        SaveService.Instance.Current.Loadouts.ActiveLoadoutId = 1;
         var state = new PlayerLoadoutState
         {
             UnitLoadout = new[] { "spawn_fighter", "spawn_ranger", "spawn_cavalier", null },
@@ -123,12 +121,17 @@ public class LoadoutService : MonoBehaviour
 
         SaveService.Instance.Current.Loadouts.Presets.Add(
             new SavedLoadout { 
-                Id = 1,
+                Id = CurrentLoadoutId,
                 DisplayName = "Default Loadout",
                 State = state
             }
         );
 
-        SaveService.Instance.Save();
+        await SaveService.Instance.SaveAsync();
+    }
+
+    private int GenerateLoadoutId()
+    {
+        return SaveService.Instance.Current.Loadouts.NextLoadoutId++;
     }
 }

@@ -22,4 +22,5 @@ public class PlayerLoadoutCollection
 {
     public List<SavedLoadout> Presets = new();
     public int ActiveLoadoutId;
+    public int NextLoadoutId = 1;
 }
