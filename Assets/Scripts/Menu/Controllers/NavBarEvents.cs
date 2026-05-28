@@ -15,7 +15,7 @@ public class NavBarEvents : MonoBehaviour
     {
         { "Btn_Main", nameof(Btn_Main) },
         { "Btn_Leaderboard", nameof(Btn_Leaderboard) },
-        { "Btn_Forge", nameof(Btn_Forge) },
+        { "Btn_Armory", nameof(Btn_Armory) },
         { "Btn_Research", nameof(Btn_Research) },
     };
 
@@ -39,9 +39,9 @@ public class NavBarEvents : MonoBehaviour
     {
         await UIScreenRouter.Instance.LoadScreen("Leaderboard");
     }
-    private async void Btn_Forge()
+    private async void Btn_Armory()
     {
-        await UIScreenRouter.Instance.LoadScreen("Forge");
+        await UIScreenRouter.Instance.LoadScreen("Armory");
     }
     private async void Btn_Research()
     {
