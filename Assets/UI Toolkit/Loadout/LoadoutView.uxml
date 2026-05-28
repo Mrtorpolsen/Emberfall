@@ -17,175 +17,153 @@
             </ui:VisualElement>
             <ui:VisualElement name="SelectedLoutoutContainer" style="flex-grow: 0;">
                 <ui:VisualElement name="UtilityRowContainer" class="selectedLoadoutRow" style="flex-grow: 0; flex-direction: row;">
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="TowerRowContainer" class="selectedLoadoutRow" style="flex-grow: 0; flex-direction: row;">
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="UnitRowContainer" class="selectedLoadoutRow" style="flex-grow: 0; flex-direction: row;">
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="TabMenu" style="flex-grow: 0; flex-direction: column; margin-top: 25px; margin-bottom: 35px;">
+            <ui:VisualElement name="TabMenu" style="flex-grow: 0; flex-direction: column; margin-top: 45px; margin-bottom: 45px;">
                 <ui:VisualElement name="TabButtonContainer" style="flex-grow: 1; flex-direction: row; justify-content: space-evenly;">
                     <ui:Button text="Unit" name="Button_Unit_Tab" class="tab btn_background_half text"/>
                     <ui:Button text="Tower" name="Button_Tower_Tab" class="tab btn_background_half text"/>
                     <ui:Button text="Utility" name="Button_Utility_Tab" class="tab btn_background_half text"/>
                 </ui:VisualElement>
-                <ui:VisualElement name="TabMenuBottom" class="btnBackground1x1" style="flex-grow: 1; height: 10px;"/>
+                <ui:VisualElement name="TabMenuBottom" class="btnBackground1x1" style="flex-grow: 1; height: 15px;"/>
             </ui:VisualElement>
             <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="scrollViewVertical">
-                <ui:VisualElement name="LoadoutSelectionContainer" class="scrollViewContainer" style="justify-content: flex-start;">
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                <ui:VisualElement name="LoadoutSelectionContainer" class="scrollViewContainer" style="justify-content: center;">
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
-                    <ui:VisualElement name="TalentNodeContainer" class="btnBackground1x1 temp loadoutNodeContainer" style="margin-bottom: 20px;">
-                        <ui:Label text="100" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: 70%; padding-bottom: 70%; align-content: center; justify-content: center;">
-                            <ui:VisualElement name="Img_Talent" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;);"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
+                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: best-fit 10px 30px;"/>
+                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
                         </ui:VisualElement>
-                        <ui:Label text="0/5" name="Label_Unlocked" class="text" style="align-self: center; font-size: 26px; margin-top: 4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:ScrollView>
