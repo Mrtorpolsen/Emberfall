@@ -100,3 +100,7 @@
     font-size: 30px;
     color: rgb(255, 235, 225);
 }
+
+.btn_background_half {
+    background-image: url("project://database/Assets/Art/UI/Backgrounds/btn_background_half_512x256.png?fileID=21300000&guid=ea92c55d6cb5fcc40954701941b2dc1b&type=3#btn_background_half_512x256");
+}
