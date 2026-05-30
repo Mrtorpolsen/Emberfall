@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UIElements;
 
-public static class UtilityLoadAdressable
+public static class UtilityLoadAddressable
 {
     private static readonly Dictionary<string, AsyncOperationHandle<Sprite>> iconCache = new();
 

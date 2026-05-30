@@ -52,7 +52,7 @@ public class TalentTreeView
                     node.purchasedLabel.text = $"{current}/{max}";
             };
 
-            UtilityLoadAdressable.LoadAdressableIcon(node.img, imgTalent);
+            UtilityLoadAddressable.LoadAdressableIcon(node.img, imgTalent);
 
             UtilityUIBinding.BindVEClick(visualNode, node.onClick, clickHandlers);
 
