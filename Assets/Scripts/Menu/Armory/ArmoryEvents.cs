@@ -27,13 +27,11 @@ public class ArmoryEvents : IUIScreenEvents
 
     private async void Btn_ForgeNavClicked()
     {
-        Debug.Log("Forge nav clicked");
         await UIScreenRouter.Instance.LoadScreen("Forge");
     }
 
     private async void Btn_LoadoutNavClicked()
     {
-        Debug.Log("Loadout nav clicked");
         await UIScreenRouter.Instance.LoadScreen("Loadout");
     }
 }

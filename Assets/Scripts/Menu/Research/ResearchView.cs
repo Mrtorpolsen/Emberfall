@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 
 public class ResearchView : IUIScreenView
 {
-    public VisualElement ResearchCategoryListPanel { get; private set; }
-    public VisualElement ResearchListPanel { get; private set; }
+    private VisualElement ResearchCategoryListPanel;
+    private VisualElement ResearchListPanel;
 
     private VisualElement researchCategoryListContainer;
     private VisualElement researchListContainer;

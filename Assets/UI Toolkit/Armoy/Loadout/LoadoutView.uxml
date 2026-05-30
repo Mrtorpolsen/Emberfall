@@ -1,6 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle"/>
     <Style src="project://database/Assets/UI%20Toolkit/Armoy/Loadout/LoutoutStyle.uss?fileID=7433441132597879392&amp;guid=0f3c6b78257d336429a13bb248cab09a&amp;type=3#LoutoutStyle"/>
+    <Style src="project://database/Assets/Resources_moved/UI/Menus/Loadout/LoadoutSelectNodeStyle.uss?fileID=7433441132597879392&amp;guid=f49ed0fbe5bebb149bc226f83f6878ea&amp;type=3#LoadoutSelectNodeStyle"/>
     <ui:VisualElement name="LoadoutContainer" style="flex-grow: 1;">
         <ui:Label text="Loadout" name="Label_Heading" class="labelHeading" style="margin-bottom: 20px;"/>
         <ui:VisualElement style="flex-grow: 1;">
@@ -15,68 +16,138 @@
             </ui:VisualElement>
             <ui:VisualElement name="SelectedLoutoutContainer" style="flex-grow: 0;">
                 <ui:VisualElement name="UtilityRowContainer" class="selectedLoadoutRow" style="flex-grow: 0; flex-direction: row;">
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="TowerRowContainer" class="selectedLoadoutRow" style="flex-grow: 0; flex-direction: row;">
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="UnitRowContainer" class="selectedLoadoutRow" style="flex-grow: 0; flex-direction: row;">
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
@@ -91,76 +162,160 @@
             </ui:VisualElement>
             <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="scrollViewVertical">
                 <ui:VisualElement name="LoadoutSelectionContainer" class="scrollViewContainer" style="justify-content: center;">
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 temp loadoutNodeContainer">
-                        <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
-                        <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                            <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); margin-bottom: 0;"/>
+                    <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
+                        <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: flex;">
+                            <ui:Label text="Berserker" name="Label_Cost" class="text" style="align-self: center; font-size: 26px; margin-top: 0; margin-right: 0; margin-bottom: 2px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 4px; padding-left: 0; -unity-text-auto-size: none;"/>
+                            <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
+                                <ui:VisualElement name="Img" class="placeholderImg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin-bottom: 0;"/>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
