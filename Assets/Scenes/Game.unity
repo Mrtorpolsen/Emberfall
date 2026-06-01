@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 211fdcb07f12a264bbbe763df1bc39e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2b8732e4dcbd5f34caa1c7ace5a16896, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4734,7 +4734,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 211fdcb07f12a264bbbe763df1bc39e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bc56064d6eed9a84fbdb6f5adbf8b7d0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -41131,9 +41131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameUI: {fileID: 1477576579}
   pauseMenu: {fileID: 1581866823}
-  loadOutUnits: []
-  loadOutTowers: []
-  loadOutAbilities: []
   currencyText: {fileID: 1566253339}
   incomeMultiplierText: {fileID: 723177193}
   survivalText: {fileID: 1882980882}

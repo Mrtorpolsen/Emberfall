@@ -15,7 +15,7 @@ MonoBehaviour:
   id: ability_fortify
   displayName: Fortify
   icon:
-    m_AssetGUID: 211fdcb07f12a264bbbe763df1bc39e5
+    m_AssetGUID: cb7d628a0c17b924185168d88e2da0b9
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
