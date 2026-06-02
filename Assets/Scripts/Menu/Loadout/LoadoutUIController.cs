@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
 
 public class LoadoutUIController : IUIScreenController
 {
@@ -18,7 +16,12 @@ public class LoadoutUIController : IUIScreenController
 
         BuildLoadoutSlots();
 
+        BuildLoadoutCards();
+
         view.RenderLoadouts(BuildLoadoutSlots());
+        view.RenderLoadoutCards(BuildLoadoutCards());
+
+        DisplayLoadoutName();
     }
 
     private List<LoadoutSlotViewModel> BuildLoadoutSlots()
@@ -50,6 +53,31 @@ public class LoadoutUIController : IUIScreenController
 
         return slot;
     }
+
+    private List<LoadoutCardViewModel> BuildLoadoutCards()
+    {
+        var loadoutCards = new List<LoadoutCardViewModel>();
+        foreach (var loadout in LoadoutService.Instance.GetAllAvailableLoadoutDefinitions())
+        {
+            loadoutCards.Add(BuildLoadoutCards(loadout));
+        }
+        return loadoutCards;
+    }
+
+    private LoadoutCardViewModel BuildLoadoutCards(LoadoutDefinition loadoutDefinition)
+    {
+        var card = new LoadoutCardViewModel();
+        card.label = loadoutDefinition.DisplayName;
+        card.icon = loadoutDefinition.Icon;
+        //TODO locked and Build on click and long click
+        return card;
+    }
+
+    private void DisplayLoadoutName()
+    {
+        view.SetLoadoutHeading(LoadoutService.Instance.GetCurrentLoadoutDisplayName());
+    }
+
 
     public void Cleanup()
     {

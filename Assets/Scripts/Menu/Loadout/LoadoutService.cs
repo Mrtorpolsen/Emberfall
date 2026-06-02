@@ -168,4 +168,16 @@ public class LoadoutService : MonoBehaviour
     {
         return SaveService.Instance.Current.Loadouts.NextLoadoutId++;
     }
+
+    public List<LoadoutDefinition> GetAllAvailableLoadoutDefinitions()
+    {
+        //Todo determine which loadouts are available based on player progress, for now just return all
+        return LoadoutDatabase.Instance.GetAllDefinitions();
+    }
+
+    public string GetCurrentLoadoutDisplayName()
+    {
+        var activePreset = SaveService.Instance.Current.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
+        return activePreset != null ? activePreset.DisplayName : "Unknown Loadout";
+    }
 }

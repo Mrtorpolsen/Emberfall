@@ -36,9 +36,12 @@ public class LoadoutDatabase : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public List<LoadoutDefinition> GetAllDefinitions() => definitionMap.Values.ToList();
     public LoadoutDefinition GetDefinition(string id) => id == null ? null : definitionMap[id];
-    public AbilityDefinition GetAbility(string id) => id == null ? null : abilityMap[id];
+
     public List<AbilityDefinition> GetAllAbilities() => abilities;
+    public AbilityDefinition GetAbility(string id) => id == null ? null : abilityMap[id];
+
     public SpawnDefinition GetSpawn(string id) => id == null ? null : spawnMap[id];
     public List<SpawnDefinition> GetAllSpawns() => spawns;
 }

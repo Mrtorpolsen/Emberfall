@@ -14,7 +14,7 @@ public class LoadoutEvents : IUIScreenEvents
         { "Button_Utility_Tab", nameof(Button_Utility_TabClicked) },
     };
 
-    public void BindEvents(VisualElement root, IUIScreenController manager = null, IUIScreenView view = null)
+    public void BindEvents(VisualElement root, IUIScreenController controller = null, IUIScreenView view = null)
     {
         this.view = view as LoadoutView;
 

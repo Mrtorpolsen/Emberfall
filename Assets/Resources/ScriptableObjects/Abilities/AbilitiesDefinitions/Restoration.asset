@@ -20,6 +20,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  slotType: 2
   cost: 0
   actions:
   - {fileID: 11400000, guid: 11b9bedaa79a33a4894655decff6b38b, type: 2}

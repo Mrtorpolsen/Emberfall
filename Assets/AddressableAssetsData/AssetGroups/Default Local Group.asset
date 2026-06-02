@@ -150,6 +150,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7676a279ed7d72841be2096941423857
+    m_Address: UI/LoadoutCard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7930acfd9e3dda041a511a718b34a5e9
     m_Address: unitunlock_sniper_1
     m_ReadOnly: 0
@@ -222,6 +227,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b8eaa886a277ef94a969f6af8c1044a7
     m_Address: melee_critdamage_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b991c83b61422de48900a8abf9050c70
+    m_Address: UI/LoadoutSelectNode
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

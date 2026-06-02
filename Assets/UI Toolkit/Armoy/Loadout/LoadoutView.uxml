@@ -161,7 +161,7 @@
                 <ui:VisualElement name="TabMenuBottom" class="btnBackground1x1" style="flex-grow: 1; height: 15px;"/>
             </ui:VisualElement>
             <ui:ScrollView vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" class="scrollViewVertical">
-                <ui:VisualElement name="LoadoutSelectionContainer" class="scrollViewContainer" style="justify-content: center;">
+                <ui:VisualElement name="LoadoutCardContainer" class="scrollViewContainer" style="justify-content: center;">
                     <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer" style="display: flex;">
                         <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: none;">
                             <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">

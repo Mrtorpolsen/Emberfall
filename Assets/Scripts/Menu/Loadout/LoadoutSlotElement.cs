@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UIElements;
 
 public class LoadoutSlotElement : IUnbindable
 {
+    public VisualElement Root { get; }
+
     private VisualElement emptyContainer;
     private VisualElement occupiedContainer;
 
@@ -15,8 +16,6 @@ public class LoadoutSlotElement : IUnbindable
     private Action clickHandler;
 
     public bool isEmpty;
-
-    public VisualElement Root { get; }
 
     public LoadoutSlotElement(VisualTreeAsset loadoutSlot)
     {
@@ -46,13 +45,8 @@ public class LoadoutSlotElement : IUnbindable
             emptyContainer.style.display = DisplayStyle.None;
             occupiedContainer.style.display = DisplayStyle.Flex;
             labelName.text = loadout.label;
-            loadout.icon.LoadAssetAsync<Sprite>().Completed += (AsyncOperationHandle<Sprite> handle) =>
-            {
-                if (handle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    imgOccupied.style.backgroundImage = new StyleBackground(handle.Result);
-                }
-            };
+
+            UtilityLoadAddressable.LoadAddressableIcon(loadout.icon, imgOccupied);
         }
 
     }
