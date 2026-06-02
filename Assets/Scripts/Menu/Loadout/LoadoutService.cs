@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -13,6 +14,39 @@ public class LoadoutService : MonoBehaviour
         public SpawnDefinition[] UnitLoadout = new SpawnDefinition[4];
         public SpawnDefinition[] TowerLoadout = new SpawnDefinition[3];
         public AbilityDefinition[] AbilityLoadout = new AbilityDefinition[2];
+
+        public IEnumerable<LoadoutSlot> EnumerateSlots()
+        {
+            for (int i = 0; i < UnitLoadout.Length; i++)
+            {
+                yield return new LoadoutSlot
+                {
+                    Type = DefinitionCategory.Unit,
+                    Index = i,
+                    Definition = UnitLoadout[i]
+                };
+            }
+
+            for (int i = 0; i < TowerLoadout.Length; i++)
+            {
+                yield return new LoadoutSlot
+                {
+                    Type = DefinitionCategory.Tower,
+                    Index = i,
+                    Definition = TowerLoadout[i]
+                };
+            }
+
+            for (int i = 0; i < AbilityLoadout.Length; i++)
+            {
+                yield return new LoadoutSlot
+                {
+                    Type = DefinitionCategory.Utility,
+                    Index = i,
+                    Definition = AbilityLoadout[i]
+                };
+            }
+        }
     }
 
     public int CurrentLoadoutId => SaveService.Instance.Current.Loadouts.ActiveLoadoutId;

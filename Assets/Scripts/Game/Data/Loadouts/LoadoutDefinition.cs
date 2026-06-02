@@ -12,4 +12,7 @@ public abstract class LoadoutDefinition : ScriptableObject
     public string DisplayName => displayName;
     public AssetReference Icon => icon;
 
+    [SerializeField] private DefinitionCategory slotType;
+
+    public DefinitionCategory SlotType => slotType;
 }

@@ -26,7 +26,7 @@ public static class UtilityUIBinding
         {
             if (!bindings.TryGetValue(button.name, out string methodName))
             {
-                Debug.LogWarning($"[UIBinding] No binding for {button.name}");
+                //Debug.LogWarning($"[UIBinding] No binding for {button.name}");
                 continue;
             }
 
@@ -48,7 +48,7 @@ public static class UtilityUIBinding
             // Store for unregistration
             actions[button] = action;
 
-            Debug.Log($"[UIBinding] Bound {button.name} → {methodName}");
+            //Debug.Log($"[UIBinding] Bound {button.name} → {methodName}");
         }
     }
 
