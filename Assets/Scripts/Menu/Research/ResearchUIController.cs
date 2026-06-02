@@ -23,6 +23,7 @@ public class ResearchUIController : IUIScreenController
     public void ToCategories()
     {
         view.RenderResearchCategories();
+        view.ShowCategoryPanel();
     }
 
     public List<ResearchNodeDefinition> GenerateResearchNodes(ResearchCategory category)
@@ -74,6 +75,7 @@ public class ResearchUIController : IUIScreenController
     {
         view.RenderResearchList(GenerateResearchNodes(category));
         view.researchHeading.text = $"{category} Upgrades";
+        view.ShowResearchPanel();
     }
 
     private void HandleResearchUpdate(ResearchCategory category)

@@ -36,7 +36,7 @@ public class ResearchView : IUIScreenView
         {
             throw new InvalidOperationException("Failed to load categories.");
         }
-        ShowCategoryList();
+        ShowCategoryPanel();
 
         researchCategoryListContainer = UtilityUIBinding.QRequired<VisualElement>(root, "ResearchCategoryListContainer");
         researchListContainer = UtilityUIBinding.QRequired<VisualElement>(root, "ResearchListContainer");
@@ -46,11 +46,11 @@ public class ResearchView : IUIScreenView
 
         if (researchCategoryNode == null)
         {
-            throw new InvalidOperationException("Failed to load UI/CategoryNode.");
+            throw new InvalidOperationException($"Failed to load {RESEARCH_CATEGORYNODE_ADDRESSABLE}.");
         }
         if (researchNode == null)
         {
-            throw new InvalidOperationException("Failed to load UI/CategoryNode.");
+            throw new InvalidOperationException($"Failed to load {RESEARCH_RESEARCHNODE_ADDRESSABLE}.");
         }
     }
 
@@ -68,9 +68,8 @@ public class ResearchView : IUIScreenView
                 OnCategorySelected?.Invoke(category);
             };
 
-            researchCategoryListContainer.Add(visualNode);
+            researchCategoryListContainer.Add(visualNode.Root);
         }
-        ShowCategoryList();
     }
 
     public void RenderResearchList(List<ResearchNodeDefinition> researchNodes)
@@ -82,12 +81,11 @@ public class ResearchView : IUIScreenView
             var visualNode = new ResearchNodeElement(researchNode);
             visualNode.Bind(node);
 
-            researchListContainer.Add(visualNode);
+            researchListContainer.Add(visualNode.Root);
         }
-        ShowResearchPanel();
     }
     
-    public void ShowCategoryList()
+    public void ShowCategoryPanel()
     {
         ResearchListPanel.style.display = DisplayStyle.None;
         ResearchCategoryListPanel.style.display = DisplayStyle.Flex;
