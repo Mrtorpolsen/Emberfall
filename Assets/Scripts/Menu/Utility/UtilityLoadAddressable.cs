@@ -16,7 +16,6 @@ public static class UtilityLoadAddressable
 
     public static async Task PreloadPlaceholder()
     {
-        // Already loaded or loading → just return
         if (placeholderSprite != null || placeholderLoading)
             return;
 
@@ -24,9 +23,9 @@ public static class UtilityLoadAddressable
 
         try
         {
-            // Load the asset asynchronously
             var handle = Addressables.LoadAssetAsync<Sprite>(PLACEHOLDER_ADDRESS);
-            placeholderSprite = await handle.Task; // await instead of using Completed event
+
+            placeholderSprite = await handle.Task;
 
             if (placeholderSprite == null)
             {
@@ -70,19 +69,52 @@ public static class UtilityLoadAddressable
                 new StyleBackground(placeholderSprite);
         }
 
-        // Cache hit
+        // CACHE HIT
         if (iconCache.TryGetValue(key, out AsyncOperationHandle<Sprite> cachedHandle))
         {
-            if (cachedHandle.Status == AsyncOperationStatus.Succeeded)
+            // Handle became invalid somehow
+            if (!cachedHandle.IsValid())
             {
-                target.style.backgroundImage =
-                    new StyleBackground(cachedHandle.Result);
+                iconCache.Remove(key);
             }
+            else
+            {
+                // Already loaded
+                if (cachedHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    target.style.backgroundImage =
+                        new StyleBackground(cachedHandle.Result);
 
-            return;
+                    return;
+                }
+
+                // Still loading
+                if (!cachedHandle.IsDone)
+                {
+                    cachedHandle.Completed += op =>
+                    {
+                        if (target == null)
+                            return;
+
+                        if (op.Status == AsyncOperationStatus.Succeeded)
+                        {
+                            target.style.backgroundImage =
+                                new StyleBackground(op.Result);
+                        }
+                    };
+
+                    return;
+                }
+
+                // Failed previously
+                if (cachedHandle.Status == AsyncOperationStatus.Failed)
+                {
+                    iconCache.Remove(key);
+                }
+            }
         }
 
-        // Cache miss
+        // CACHE MISS
         AsyncOperationHandle<Sprite> handle =
             Addressables.LoadAssetAsync<Sprite>(key);
 
@@ -100,6 +132,8 @@ public static class UtilityLoadAddressable
             }
             else
             {
+                iconCache.Remove(key);
+
                 Debug.LogError($"Failed to load addressable sprite: {key}");
             }
         };
@@ -109,7 +143,10 @@ public static class UtilityLoadAddressable
     {
         foreach (var handle in iconCache.Values)
         {
-            Addressables.Release(handle);
+            if (handle.IsValid())
+            {
+                Addressables.Release(handle);
+            }
         }
 
         iconCache.Clear();
