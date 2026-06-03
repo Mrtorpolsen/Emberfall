@@ -29,6 +29,7 @@ public class LoadoutCardElement : IUnbindable
         labelName.text = loadout.label;
         UtilityLoadAddressable.LoadAddressableIcon(loadout.icon, img);
 
+        UtilityLongPress.Register(img, loadout.onLongPress);
         //TODO locked
     }
 

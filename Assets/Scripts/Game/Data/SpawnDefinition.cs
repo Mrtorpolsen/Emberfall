@@ -11,6 +11,7 @@ public class SpawnDefinition : LoadoutDefinition
     [SerializeField] private GameObject unitPrefab;
     [SerializeField] private UnitStatsDefinition stats;
 
+    public UnitStatsDefinition Stats => stats;
     public float Cost => stats.cost;
     public float Cooldown => cooldown;
     public GameObject UnitPrefab => unitPrefab;

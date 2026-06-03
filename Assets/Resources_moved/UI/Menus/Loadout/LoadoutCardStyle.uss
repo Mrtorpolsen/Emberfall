@@ -1,5 +1,4 @@
-VisualElement {
-}
+
 
 .loadoutCardContainer {
     max-width: 225px;
@@ -17,4 +16,5 @@ VisualElement {
     margin-left: 10px;
     align-items: center;
     aspect-ratio: 1;
+    display: flex;
 }

@@ -3,7 +3,7 @@ using UnityEngine.AddressableAssets;
 
 public class LoadoutSlot
 {
-    public DefinitionCategory Type;
+    public DefinitionCategory SlotType;
     public int Index;
     public LoadoutDefinition Definition;
 }
@@ -12,7 +12,7 @@ public class LoadoutSlotViewModel
 {
     public bool isEmpty;
 
-    public DefinitionCategory Type;
+    public DefinitionCategory SlotType;
 
     public string label;
     public AssetReference icon;   

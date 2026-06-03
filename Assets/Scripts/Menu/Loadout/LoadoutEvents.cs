@@ -32,16 +32,16 @@ public class LoadoutEvents : IUIScreenEvents
     }
     private void Button_Unit_TabClicked()
     {
-        Debug.Log("Unit settings clicked");
+        view.ShowCardContainer(DefinitionCategory.Unit);
     }
 
     private void Button_Tower_TabClicked()
     {
-        Debug.Log("Tower settings clicked");
+        view.ShowCardContainer(DefinitionCategory.Tower);
     }
 
     private void Button_Utility_TabClicked()
     {
-        Debug.Log("Utility settings clicked");
+        view.ShowCardContainer(DefinitionCategory.Utility);
     }
 }

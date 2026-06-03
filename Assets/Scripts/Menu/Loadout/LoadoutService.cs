@@ -21,7 +21,7 @@ public class LoadoutService : MonoBehaviour
             {
                 yield return new LoadoutSlot
                 {
-                    Type = DefinitionCategory.Unit,
+                    SlotType = DefinitionCategory.Unit,
                     Index = i,
                     Definition = UnitLoadout[i]
                 };
@@ -31,7 +31,7 @@ public class LoadoutService : MonoBehaviour
             {
                 yield return new LoadoutSlot
                 {
-                    Type = DefinitionCategory.Tower,
+                    SlotType = DefinitionCategory.Tower,
                     Index = i,
                     Definition = TowerLoadout[i]
                 };
@@ -41,7 +41,7 @@ public class LoadoutService : MonoBehaviour
             {
                 yield return new LoadoutSlot
                 {
-                    Type = DefinitionCategory.Utility,
+                    SlotType = DefinitionCategory.Utility,
                     Index = i,
                     Definition = AbilityLoadout[i]
                 };
