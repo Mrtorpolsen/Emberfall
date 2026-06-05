@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786aefa63af5b2d4bb35d91f39c0e3e5, type: 3}
   m_Name: Fortify
   m_EditorClassIdentifier: Assembly-CSharp::AbilityDefinition
-  id: ability_fortify
   displayName: Fortify
   icon:
     m_AssetGUID: cb7d628a0c17b924185168d88e2da0b9
@@ -20,6 +19,9 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  id: ability_fortify
+  unlockId: global_abilityunlock_fortify
+  unlockedByDefault: 0
   slotType: 2
   cost: 0
   actions:

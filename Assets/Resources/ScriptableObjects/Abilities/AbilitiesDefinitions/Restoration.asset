@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786aefa63af5b2d4bb35d91f39c0e3e5, type: 3}
   m_Name: Restoration
   m_EditorClassIdentifier: Assembly-CSharp::AbilityDefinition
-  id: ability_restoration
   displayName: Restoration
   icon:
     m_AssetGUID: 5e9b1f9182317d6478d3d1bf76859844
@@ -20,6 +19,9 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  id: ability_restoration
+  unlockId: global_abilityunlock_restoration
+  unlockedByDefault: 0
   slotType: 2
   cost: 0
   actions:

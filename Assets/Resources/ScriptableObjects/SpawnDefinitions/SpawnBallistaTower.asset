@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e564f39737a52604cad07dda69f121ff, type: 3}
   m_Name: SpawnBallistaTower
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
-  id: spawn_ballista
   displayName: Ballista
   icon:
     m_AssetGUID: a303c33b6e46dbe48a36dfda36f7d95b
@@ -21,6 +20,9 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
     m_EditorAssetChanged: 1
+  id: spawn_ballista
+  unlockId: tower_ballista
+  unlockedByDefault: 1
   slotType: 1
   cooldown: 0
   unitPrefab: {fileID: 87936472045436742, guid: 1de2bf2dac3f9ad4e90de19ac7c3612b, type: 3}

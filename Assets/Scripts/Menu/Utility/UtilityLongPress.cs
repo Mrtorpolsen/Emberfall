@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public static class UtilityLongPress
 {
-    private const int DEFAULT_LONG_PRESS_MS = 250;
+    private const int DEFAULT_LONG_PRESS_MS = 400;
 
     public static void Register(
         VisualElement element,

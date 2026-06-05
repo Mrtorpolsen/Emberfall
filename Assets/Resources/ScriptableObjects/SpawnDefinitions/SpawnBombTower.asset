@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e564f39737a52604cad07dda69f121ff, type: 3}
   m_Name: SpawnBombTower
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
-  id: spawn_bomb
   displayName: Bomb
   icon:
     m_AssetGUID: fa363b1dd9b580644bf9ee9f8df2209a
@@ -21,6 +20,9 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
     m_EditorAssetChanged: 1
+  id: spawn_bomb
+  unlockId: tower_bomb
+  unlockedByDefault: 1
   slotType: 1
   cooldown: 0
   unitPrefab: {fileID: 87936472045436742, guid: 31e7dd5cc41cdd542bb990ff116af200, type: 3}

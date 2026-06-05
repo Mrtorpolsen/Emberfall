@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e564f39737a52604cad07dda69f121ff, type: 3}
   m_Name: SpawnCavalier
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
-  id: spawn_cavalier
   displayName: Cavalier
   icon:
     m_AssetGUID: c25549a652609b147aa07e6cc13325d6
@@ -21,7 +20,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
     m_EditorAssetChanged: 1
+  id: spawn_cavalier
+  unlockId: unit_cavalier
+  unlockedByDefault: 1
+  slotType: 0
   cooldown: 0
   unitPrefab: {fileID: 8916063152254937078, guid: b162035f5f53c22428a2ddeb61f1c82f, type: 3}
   stats: {fileID: 11400000, guid: f5d336250c7dbf644b2de1d239ceb949, type: 2}
-  Type: 0

@@ -148,9 +148,10 @@ public class LoadoutUIController : IUIScreenController
             else
             {
                 //Look into making maybe a getDescription method on the ResearchDefinition that way we can encapsulate the description building there
-                //Need to streamline id for json and def
-                var stats = ResearchService.Instance.playerResearchTree.GetResearchById(loadoutDefinition.Id);
-                description = $"{stats.Description}";
+                var def = LoadoutDatabase.Instance.GetAbility(loadoutDefinition.Id);
+                var stats = ResearchService.Instance.playerResearchTree.GetResearchById(loadoutDefinition.UnlockId);
+
+                description = $"Cooldown: {def.cooldown}s\nCost: {def.Cost}\n{stats.Description}";
             }
 
             PopupManager.Instance.OpenPopup(loadoutDefinition.Icon.AssetGUID,
