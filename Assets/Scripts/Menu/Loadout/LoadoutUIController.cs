@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class LoadoutUIController : IUIScreenController
@@ -56,30 +58,13 @@ public class LoadoutUIController : IUIScreenController
 
             if(loadoutSlot.SlotType == DefinitionCategory.Tower || loadoutSlot.SlotType == DefinitionCategory.Unit)
             {
-                var stats = LoadoutDatabase.Instance.GetSpawn(loadoutSlot.Definition.Id).Stats;
-                if(stats == null)
-                {
-                    Debug.LogError("Stats were null for " + loadoutSlot.Definition.DisplayName);
-                    return;
-                }
-                if(loadoutSlot.SlotType == DefinitionCategory.Tower)
-                {
-                    description = "Cost: " + stats.cost + "\n" +
-                    "Damage: " + stats.attackDamage + "\n" +
-                    "Attack Speed: " + stats.attackSpeed + "\n" +
-                    "Attack Range: " + stats.attackRange;
-                }
-                else
-                {
-                    description = "Cost: " + stats.cost + "\n" +
-                    "Health: " + stats.maxHealth + "\n" +
-                    "Armor: " + stats.armor + "\n" +
-                    "Damage: " + stats.attackDamage + "\n" +
-                    "Attack Speed: " + stats.attackSpeed + "\n" +
-                    "Attack Range: " + stats.attackRange + "\n" +
-                    "Crit Chance: " + stats.critChance + "\n" + 
-                    "Crit Damage: " + stats.critDamage;
-                }
+                var unitKey = LoadoutDatabase.Instance.GetSpawn(loadoutSlot.Definition.Id).Stats.name.ToLowerInvariant();
+
+                UnitStatsManager.Instance.CalculateFinalStatsByKey(unitKey);
+
+                var stats = UnitStatsManager.Instance.FinalStatsByUnit[unitKey];
+
+                description = BuildUnitStatsDescription(loadoutSlot.Definition, stats);
             }
             else
             {
@@ -126,24 +111,7 @@ public class LoadoutUIController : IUIScreenController
                     Debug.LogError("Stats were null for " + loadoutDefinition.DisplayName);
                     return;
                 }
-                if (loadoutDefinition.SlotType == DefinitionCategory.Tower)
-                {
-                    description = "Cost: " + stats.cost + "\n" +
-                    "Damage: " + stats.attackDamage + "\n" +
-                    "Attack Speed: " + stats.attackSpeed + "\n" +
-                    "Attack Range: " + stats.attackRange;
-                }
-                else
-                {
-                    description = "Cost: " + stats.cost + "\n" +
-                    "Health: " + stats.maxHealth + "\n" +
-                    "Armor: " + stats.armor + "\n" +
-                    "Damage: " + stats.attackDamage + "\n" +
-                    "Attack Speed: " + stats.attackSpeed + "\n" +
-                    "Attack Range: " + stats.attackRange + "\n" +
-                    "Crit Chance: " + stats.critChance + "\n" +
-                    "Crit Damage: " + stats.critDamage;
-                }
+                description = BuildUnitStatsDescription(loadoutDefinition, stats);
             }
             else
             {
@@ -167,6 +135,60 @@ public class LoadoutUIController : IUIScreenController
         view.SetLoadoutHeading(LoadoutService.Instance.GetCurrentLoadoutDisplayName());
     }
 
+    private string BuildUnitStatsDescription(LoadoutDefinition loadoutDefinition, UnitStatsDefinition stats)
+    {
+        string description = "";
+
+        switch(loadoutDefinition.SlotType)
+        {
+            case DefinitionCategory.Tower:
+                description = "Cost: " + stats.cost + "\n" +
+                    "Damage: " + stats.attackDamage + "\n" +
+                    "Attack Speed: " + stats.attackSpeed + "\n" +
+                    "Attack Range: " + stats.attackRange;
+                break;
+
+            case DefinitionCategory.Unit:
+                description = "Cost: " + stats.cost + "\n" +
+                    "Health: " + stats.maxHealth + "\n" +
+                    "Armor: " + stats.armor + "\n" +
+                    "Damage: " + stats.attackDamage + "\n" +
+                    "Attack Speed: " + stats.attackSpeed + "\n" +
+                    "Attack Range: " + stats.attackRange + "\n" +
+                    "Crit Chance: " + stats.critChance + "\n" +
+                    "Crit Damage: " + stats.critDamage;
+                break;
+        }
+
+        return description;
+    }
+    private string BuildUnitStatsDescription(LoadoutDefinition loadoutDefinition, FinalStats stats)
+    {
+        string description = "";
+
+        switch(loadoutDefinition.SlotType)
+        {
+            case DefinitionCategory.Tower:
+                description = "Cost: " + stats.cost + "\n" +
+                    "Damage: " + stats.attackDamage + "\n" +
+                    "Attack Speed: " + stats.attackSpeed + "\n" +
+                    "Attack Range: " + stats.attackRange;
+                break;
+
+            case DefinitionCategory.Unit:
+                description = "Cost: " + stats.cost + "\n" +
+                    "Health: " + stats.maxHealth + "\n" +
+                    "Armor: " + stats.armor + "\n" +
+                    "Damage: " + stats.attackDamage + "\n" +
+                    "Attack Speed: " + stats.attackSpeed + "\n" +
+                    "Attack Range: " + stats.attackRange + "\n" +
+                    "Crit Chance: " + stats.critChance + "\n" +
+                    "Crit Damage: " + stats.critDamage;
+                break;
+        }
+
+        return description;
+    }
 
     public void Cleanup()
     {

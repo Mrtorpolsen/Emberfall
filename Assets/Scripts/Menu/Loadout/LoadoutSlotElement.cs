@@ -47,6 +47,7 @@ public class LoadoutSlotElement : IUnbindable
             labelName.text = loadout.label;
 
             UtilityLoadAddressable.LoadAddressableIcon(loadout.icon, imgOccupied);
+            UtilityLongPress.Register(Root, loadout.onLongPress);
         }
 
     }

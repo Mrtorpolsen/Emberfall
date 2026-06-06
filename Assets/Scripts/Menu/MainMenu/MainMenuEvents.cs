@@ -28,6 +28,7 @@ public class MainMenuEvents : IUIScreenEvents
     private void Btn_PlayClicked()
     {
         Debug.Log("Play clicked loading Game...");
+        UnitStatsManager.Instance.RecalculateAllFinalStats();
         SceneManager.LoadScene("Game");
     }
 
