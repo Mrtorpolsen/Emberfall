@@ -17,6 +17,11 @@ VisualElement {
     margin-left: 10px;
     align-items: center;
     aspect-ratio: 1;
+    scale: 1;
+    transition-property: scale;
+    transition-duration: 0.12s;
 }
 
-
+.loadoutSelectNodeContainer.selected {
+    scale: 1.08;
+}

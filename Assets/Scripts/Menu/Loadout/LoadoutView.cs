@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
@@ -20,7 +21,6 @@ public class LoadoutView : IUIScreenView
     private Button loadoutTowerTab;
     private Dictionary<DefinitionCategory, Button> tabButtons;
 
-
     private Label currentLoadoutHeading;
 
     private VisualTreeAsset loadoutSelectNode;
@@ -28,7 +28,6 @@ public class LoadoutView : IUIScreenView
 
     private const string LOADOUT_SELECT_NODE_ADDRESSABLE = "UI/LoadoutSelectNode";
     private const string LOADOUT_CARD_ADDRESSABLE = "UI/LoadoutCard";
-
 
     public async Task InitializeAsync(VisualElement root)
     {
@@ -93,7 +92,6 @@ public class LoadoutView : IUIScreenView
             }
             else if (loadout.SlotType == DefinitionCategory.Unit)
             {
-
                 unitRowContainer.Add(visualNode.Root);
             }
         }

@@ -11,6 +11,7 @@ public class LoadoutSlot
 public class LoadoutSlotViewModel
 {
     public bool isEmpty;
+    public bool isSelected;
 
     public DefinitionCategory SlotType;
 

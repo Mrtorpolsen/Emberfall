@@ -29,8 +29,17 @@ public class LoadoutCardElement : IUnbindable
         labelName.text = loadout.label;
         UtilityLoadAddressable.LoadAddressableIcon(loadout.icon, img);
 
-        UtilityLongPress.Register(Root, loadout.onLongPress);
-        //TODO locked
+        UtilityLongClick.Register(Root, loadout.onLongPress);
+
+        if (loadout.isSelectable)
+        {
+            Root.RegisterCallback<ClickEvent>(_ => loadout.onClick?.Invoke());
+        }
+        else
+        {
+            //TODO add a lock icon or something to indicate it's locked
+            Root.style.opacity = 0.5f;
+        }
     }
 
     public void Unbind()

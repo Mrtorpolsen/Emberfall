@@ -3,7 +3,7 @@ using UnityEngine.AddressableAssets;
 
 public class LoadoutCardViewModel
 {
-    public bool isUnlocked;
+    public bool isSelectable;
 
     public DefinitionCategory Type;
 

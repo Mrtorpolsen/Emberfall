@@ -47,6 +47,15 @@ public class LoadoutService : MonoBehaviour
                 };
             }
         }
+        public ActiveLoadout Clone()
+        {
+            return new ActiveLoadout
+            {
+                UnitLoadout = (SpawnDefinition[])UnitLoadout.Clone(),
+                TowerLoadout = (SpawnDefinition[])TowerLoadout.Clone(),
+                AbilityLoadout = (AbilityDefinition[])AbilityLoadout.Clone()
+            };
+        }
     }
 
     public int CurrentLoadoutId => SaveService.Instance.Current.Loadouts.ActiveLoadoutId;
@@ -146,20 +155,59 @@ public class LoadoutService : MonoBehaviour
             }
         };
 
+        await SaveLoadout(CurrentLoadout);
+    }
+
+    public async Task SaveLoadout(ActiveLoadout activeLoadout)
+    {
         var state = new PlayerLoadoutState
         {
-            UnitLoadout = new[] { "spawn_fighter", "spawn_ranger", "spawn_cavalier", null },
-            TowerLoadout = new[] { "spawn_tower", "spawn_ballista", "spawn_bomb" },
-            AbilityLoadout = new[] { "ability_fortify", "ability_restoration" }
+            UnitLoadout = new string[4],
+            TowerLoadout = new string[3],
+            AbilityLoadout = new string[2]
         };
 
-        SaveService.Instance.Current.Loadouts.Presets.Add(
-            new SavedLoadout { 
-                Id = CurrentLoadoutId,
-                DisplayName = "Default Loadout",
-                State = state
+        foreach (var slot in activeLoadout.EnumerateSlots())
+        {
+            var id = slot.Definition?.Id;
+
+            switch (slot.SlotType)
+            {
+                case DefinitionCategory.Unit:
+                    state.UnitLoadout[slot.Index] = id;
+                    break;
+
+                case DefinitionCategory.Tower:
+                    state.TowerLoadout[slot.Index] = id;
+                    break;
+
+                case DefinitionCategory.Utility:
+                    state.AbilityLoadout[slot.Index] = id;
+                    break;
             }
-        );
+        }
+
+        var existingPreset =
+            SaveService.Instance.Current.Loadouts.Presets
+                .Find(p => p.Id == CurrentLoadoutId);
+
+        if (existingPreset != null)
+        {
+            existingPreset.State = state;
+        }
+        else
+        {
+            SaveService.Instance.Current.Loadouts.Presets.Add(
+                new SavedLoadout
+                {
+                    Id = CurrentLoadoutId,
+                    DisplayName = $"Loadout {CurrentLoadoutId}",
+                    State = state
+                }
+            );
+        }
+
+        CurrentLoadout = activeLoadout.Clone();
 
         await SaveService.Instance.SaveAsync();
     }

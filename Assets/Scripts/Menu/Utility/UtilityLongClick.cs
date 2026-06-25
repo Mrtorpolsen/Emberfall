@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public static class UtilityLongPress
+public static class UtilityLongClick
 {
     private const int DEFAULT_LONG_PRESS_MS = 400;
 

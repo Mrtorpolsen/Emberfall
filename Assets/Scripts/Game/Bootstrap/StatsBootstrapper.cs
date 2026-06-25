@@ -82,6 +82,12 @@ public class StatsBootstrapper
         }
     }
 
+    public void ReloadPlayerData()
+    {
+        LoadAndBuildTalents();
+        LoadAndBuildResearch();
+    }
+
     public void BuildTalentsByUnit()
     {
         talentsByUnit = new Dictionary<string, List<TalentsToApply>>();

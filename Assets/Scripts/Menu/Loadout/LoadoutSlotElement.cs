@@ -13,8 +13,6 @@ public class LoadoutSlotElement : IUnbindable
 
     private VisualElement imgOccupied;
 
-    private Action clickHandler;
-
     public bool isEmpty;
 
     public LoadoutSlotElement(VisualTreeAsset loadoutSlot)
@@ -47,18 +45,19 @@ public class LoadoutSlotElement : IUnbindable
             labelName.text = loadout.label;
 
             UtilityLoadAddressable.LoadAddressableIcon(loadout.icon, imgOccupied);
-            UtilityLongPress.Register(Root, loadout.onLongPress);
+            UtilityLongClick.Register(Root, loadout.onLongPress);
         }
 
-    }
+        if (loadout.isSelected)
+        {
+            Root.AddToClassList("selected");
+        }
+        else
+        {
+            Root.RemoveFromClassList("selected");
+        }
 
-    private void HandleOccupiedClicked()
-    {
-        clickHandler?.Invoke();
-    }
-    private void HandleEmptyClicked()
-    {
-        clickHandler?.Invoke();
+        Root.RegisterCallback<ClickEvent>(evt => loadout.onClick?.Invoke());
     }
 
     public void Unbind()

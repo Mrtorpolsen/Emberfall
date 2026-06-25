@@ -86,6 +86,7 @@ public class UnitStatsManager : MonoBehaviour
     public void RecalculateAllFinalStats()
     {
         finalStatsByUnit.Clear();
+        statsBootstrapper.ReloadPlayerData();
         CalculateAllFinalStats();
     }
 
@@ -107,39 +108,42 @@ public class UnitStatsManager : MonoBehaviour
 
     private FinalStats CalculateFinalStats(UnitStatsDefinition baseStats, string unitKey, Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers)
     {
-            ResearchCategory category = baseStats.category;
 
-            FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
+        ResearchCategory category = baseStats.category;
 
-            //add research
-            if (categoryModifiers.TryGetValue(category, out var categoryMods))
+        FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
+
+        //add research
+        if (categoryModifiers.TryGetValue(category, out var categoryMods))
+        {
+            unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, categoryMods);
+        }
+
+        //add talents
+        if (statsBootstrapper.TalentsByUnit.TryGetValue(unitKey, out var unitTalents))
+        {
+            List<AppliedStatModifier> talentModifiers = new();
+
+            foreach (var talent in unitTalents)
             {
-                unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, categoryMods);
-            }
-
-            //add talents
-            if (statsBootstrapper.TalentsByUnit.TryGetValue(unitKey, out var unitTalents))
-            {
-                List<AppliedStatModifier> talentModifiers = new();
-
-                foreach (var talent in unitTalents)
+                talentModifiers.Add(new AppliedStatModifier
                 {
-                    talentModifiers.Add(new AppliedStatModifier
-                    {
-                        Effects = talent.effects,
-                        Stacks = talent.purchased
-                    });
-                }
-
-                unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, talentModifiers);
+                    Effects = talent.effects,
+                    Stacks = talent.purchased
+                });
             }
 
-            return finalStats;
+            unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, talentModifiers);
+        }
+
+        return finalStats;
     }
 
     //public for testing, look into moving it to its own service
     public void CalculateAllFinalStats()
     {
+        statsBootstrapper.ReloadPlayerData();
+
         if (statsBootstrapper == null) return;
 
         Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = GetResearchStatModifiers();
@@ -154,7 +158,9 @@ public class UnitStatsManager : MonoBehaviour
 
     public void CalculateFinalStatsByKey(string unitKey)
     {
-        if(statsBootstrapper == null) return;
+        statsBootstrapper.ReloadPlayerData();
+
+        if (statsBootstrapper == null) return;
 
         Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = GetResearchStatModifiers();
 
