@@ -35,6 +35,12 @@ public class StatsBootstrapper
         {
             string unit = kvp.Key.Split("_")[0].ToLowerInvariant();
 
+            if(TalentService.Instance.playerTalentTree == null)
+            {
+                Debug.LogError("Player Talent Tree is null. Cannot load talents.");
+                return;
+            }
+
             TalentDefinition talentDef = TalentService.Instance
                 .playerTalentTree.GetTalentById(kvp.Key);
 
@@ -74,6 +80,12 @@ public class StatsBootstrapper
 
             researchToApply.Add(research);
         }
+    }
+
+    public void ReloadPlayerData()
+    {
+        LoadAndBuildTalents();
+        LoadAndBuildResearch();
     }
 
     public void BuildTalentsByUnit()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
@@ -36,6 +37,8 @@ public class UnitStatsManager : MonoBehaviour
         set => unitStatsByUnitKey = value;
     }
 
+    private bool isInitialized = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -45,12 +48,26 @@ public class UnitStatsManager : MonoBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
-        unitStatsCalculator = new UnitStatsCalculator();
+    public void Initialize()
+    {
+        if(isInitialized) return;
+
+        if (unitStatsCalculator == null)
+        {
+            unitStatsCalculator = new UnitStatsCalculator();
+        }
+
         //For testing
         try
         {
-            statsBootstrapper = new StatsBootstrapper();
+            if (statsBootstrapper == null)
+            {
+                statsBootstrapper = new StatsBootstrapper();
+            }
+
             statsBootstrapper.LoadAndBuildTalents();
             statsBootstrapper.LoadAndBuildResearch();
         }
@@ -62,10 +79,20 @@ public class UnitStatsManager : MonoBehaviour
 
         BuildStatsLookup();
         CalculateAllFinalStats();
+
+        isInitialized = true;
+    }
+
+    public void RecalculateAllFinalStats()
+    {
+        finalStatsByUnit.Clear();
+        statsBootstrapper.ReloadPlayerData();
+        CalculateAllFinalStats();
     }
 
     private void BuildStatsLookup()
     {
+        unitStatsByUnitKey.Clear();
         foreach (var unitStats in unitStatsDefinition)
         {
             AddUnitStats(unitStats);
@@ -79,44 +106,75 @@ public class UnitStatsManager : MonoBehaviour
         unitStatsByUnitKey[unitKey] = unitStats;
     }
 
+    private FinalStats CalculateFinalStats(UnitStatsDefinition baseStats, string unitKey, Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers)
+    {
+
+        ResearchCategory category = baseStats.category;
+
+        FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
+
+        //add research
+        if (categoryModifiers.TryGetValue(category, out var categoryMods))
+        {
+            unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, categoryMods);
+        }
+
+        //add talents
+        if (statsBootstrapper.TalentsByUnit.TryGetValue(unitKey, out var unitTalents))
+        {
+            List<AppliedStatModifier> talentModifiers = new();
+
+            foreach (var talent in unitTalents)
+            {
+                talentModifiers.Add(new AppliedStatModifier
+                {
+                    Effects = talent.effects,
+                    Stacks = talent.purchased
+                });
+            }
+
+            unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, talentModifiers);
+        }
+
+        return finalStats;
+    }
+
     //public for testing, look into moving it to its own service
     public void CalculateAllFinalStats()
     {
+        statsBootstrapper.ReloadPlayerData();
+
         if (statsBootstrapper == null) return;
 
         Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = GetResearchStatModifiers();
 
         foreach (var kvp in unitStatsByUnitKey)
         {
-            string unitName = kvp.Key;
-            UnitStatsDefinition baseStats = kvp.Value;
-            ResearchCategory category = baseStats.category;
+            FinalStats finalStats = CalculateFinalStats(kvp.Value, kvp.Key, categoryModifiers);
 
-            FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
-
-            if (categoryModifiers.TryGetValue(category, out var categoryMods))
-            {
-                unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, categoryMods);
-            }
-
-            if (statsBootstrapper.TalentsByUnit.TryGetValue(unitName, out var unitTalents))
-            {
-                List<AppliedStatModifier> talentModifiers = new();
-
-                foreach (var talent in unitTalents)
-                {
-                    talentModifiers.Add(new AppliedStatModifier
-                    {
-                        Effects = talent.effects,
-                        Stacks = talent.purchased
-                    });
-                }
-
-                unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, talentModifiers);
-            }
-
-            finalStatsByUnit[unitName] = finalStats;
+            finalStatsByUnit[kvp.Key] = finalStats;
         }
+    }
+
+    public void CalculateFinalStatsByKey(string unitKey)
+    {
+        statsBootstrapper.ReloadPlayerData();
+
+        if (statsBootstrapper == null) return;
+
+        Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = GetResearchStatModifiers();
+
+        if (!unitStatsByUnitKey.TryGetValue(unitKey, out var unit))
+        {
+            Debug.LogError($"No stats found for unitKey: {unitKey}");
+            return;
+        }
+
+        UnitStatsDefinition baseStats = unit;
+
+        FinalStats finalStats = CalculateFinalStats(baseStats, unitKey, categoryModifiers);
+
+        finalStatsByUnit[unitKey] = finalStats;
     }
 
     public Dictionary<ResearchCategory, List<AppliedStatModifier>> GetResearchStatModifiers()
@@ -141,16 +199,16 @@ public class UnitStatsManager : MonoBehaviour
         return categoryModifiers;
     }
 
-    public FinalStats GetStats(string unitName)
+    public FinalStats GetStats(string unitKey)
     {
-        return finalStatsByUnit.TryGetValue(unitName, out var stats) ? stats : null;
+        return finalStatsByUnit.TryGetValue(unitKey, out var stats) ? stats : null;
     }
 
-    public FinalStats GetEnemyStats(string unitName, WaveController.EnemyScalingContext scaling)
+    public FinalStats GetEnemyStats(string unitKey, WaveController.EnemyScalingContext scaling)
     {
-        if (!unitStatsByUnitKey.TryGetValue(unitName, out var baseStats))
+        if (!unitStatsByUnitKey.TryGetValue(unitKey, out var baseStats))
         {
-            Debug.LogError($"No prefab found for unitKey: {unitName}");
+            Debug.LogError($"No prefab found for unitKey: {unitKey}");
             return null;
         }
 

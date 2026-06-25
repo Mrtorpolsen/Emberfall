@@ -20,6 +20,10 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
     m_EditorAssetChanged: 1
+  id: spawn_bomb
+  unlockId: tower_bomb
+  unlockedByDefault: 1
+  slotType: 1
+  cooldown: 0
   unitPrefab: {fileID: 87936472045436742, guid: 31e7dd5cc41cdd542bb990ff116af200, type: 3}
   stats: {fileID: 11400000, guid: 5464acf54033ee841aa224b626747a0f, type: 2}
-  Type: 1

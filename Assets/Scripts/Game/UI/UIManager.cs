@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,11 +14,6 @@ public class UIManager : MonoBehaviour
     [Header("References")]
     [SerializeField] public Canvas gameUI;
     [SerializeField] public Canvas pauseMenu;
-
-    [Header("References Loadout")]
-    [SerializeField] private SpawnDefinition[] loadOutUnits;
-    [SerializeField] private SpawnDefinition[] loadOutTowers;
-    [SerializeField] private AbilityDefinition[] loadOutAbilities;
 
     [Header("References Game Info")]
     [SerializeField] public TMP_Text currencyText;
@@ -46,6 +42,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private AssetReference bombTowerIcon;
     [SerializeField] private AssetReference ballistaTowerIcon;
 
+    private SpawnDefinition[] loadOutUnits;
+    private SpawnDefinition[] loadOutTowers;
+    private AbilityDefinition[] loadOutAbilities;
+
     private Sprite towerSprite;
     private Sprite bombSprite;
     private Sprite ballistaSprite;
@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
     private BuildingPlot activePlot;
     private GameObject activeMenuPanel;
 
-    private async void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -66,7 +66,20 @@ public class UIManager : MonoBehaviour
         }
 
         Instance = this;
+    }
 
+    private async void Start()
+    {
+        await InitializeAsync();
+
+        SetupMenuButtons();
+        SetupUnitButtons(loadOutUnits);
+        SetupTowerBuildMenuButtons(loadOutTowers);
+        SetupAbilityButtons(loadOutAbilities);
+    }
+
+    private async Task InitializeAsync()
+    {
         boundButtons = new List<ActionButton>();
 
         sellSprite = await sellTowerIcon.LoadAssetAsync<Sprite>().Task;
@@ -74,14 +87,17 @@ public class UIManager : MonoBehaviour
         towerSprite = await towerIcon.LoadAssetAsync<Sprite>().Task;
         bombSprite = await bombTowerIcon.LoadAssetAsync<Sprite>().Task;
         ballistaSprite = await ballistaTowerIcon.LoadAssetAsync<Sprite>().Task;
-    }
 
-    private void Start()
-    {
-        SetupMenuButtons();
-        SetupUnitButtons(loadOutUnits);
-        SetupTowerBuildMenuButtons(loadOutTowers);
-        SetupAbilityButtons(loadOutAbilities);
+        if (LoadoutService.Instance == null)
+        {
+            Debug.LogError("LoadoutService not found, returning to menu");
+            SceneManager.LoadScene("UI_Root");
+            return;
+        }
+
+        loadOutUnits = LoadoutService.Instance.CurrentLoadout.UnitLoadout;
+        loadOutTowers = LoadoutService.Instance.CurrentLoadout.TowerLoadout;
+        loadOutAbilities = LoadoutService.Instance.CurrentLoadout.AbilityLoadout;
     }
 
     private void OnEnable()
@@ -166,10 +182,17 @@ public class UIManager : MonoBehaviour
             if (i >= loadout.Length)
             {
                 unitButtons[i].gameObject.SetActive(false);
-                    continue;
+                continue;
             }
 
             var def = loadout[i];
+
+            if (def == null)
+            {
+                Debug.Log("Definition at index " + i + " is null, skipping button setup.");
+                unitButtons[i].gameObject.SetActive(false);
+                continue;
+            }
 
             unitButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
             unitButtons[i].SetClickAction(() =>
@@ -195,6 +218,13 @@ public class UIManager : MonoBehaviour
             }
 
             AbilityDefinition def = loadout[i];
+
+            if (def == null)
+            {
+                Debug.Log("Definition at index " + i + " is null, skipping button setup.");
+                abilityButtons[i].gameObject.SetActive(false);
+                continue;
+            }
 
             abilityButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, def.cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost && AbilityCooldownManager.Instance.CanUse(def)));
             abilityButtons[i].SetClickAction(() =>
@@ -228,6 +258,13 @@ public class UIManager : MonoBehaviour
 
             var def = loadout[i];
 
+            if (def == null)
+            {
+                Debug.Log("Definition at index " + i + " is null, skipping button setup.");
+                towerBuildMenuWestButtons[i].gameObject.SetActive(false);
+                continue;
+            }
+
             towerBuildMenuWestButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
             towerBuildMenuWestButtons[i].SetClickAction(() =>
             {
@@ -246,6 +283,13 @@ public class UIManager : MonoBehaviour
             }
 
             var def = loadout[i];
+
+            if (def == null)
+            {
+                Debug.Log("Definition at index " + i + " is null, skipping button setup.");
+                towerBuildMenuEastButtons[i].gameObject.SetActive(false);
+                continue;
+            }
 
             towerBuildMenuEastButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
             towerBuildMenuEastButtons[i].SetClickAction(() =>

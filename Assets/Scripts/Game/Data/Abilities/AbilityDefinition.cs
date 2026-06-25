@@ -2,16 +2,12 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(menuName = "Game/Ability Definition")]
-public class AbilityDefinition : ScriptableObject
+public class AbilityDefinition : LoadoutDefinition
 {
     [Header("UI")]
-    [SerializeField] private string displayName;
-    [SerializeField] private AssetReference icon;
     [SerializeField] private int cost;
 
-    public string DisplayName => displayName;
     public float Cost => cost;
-    public AssetReference Icon => icon;
 
     public AbilityAction[] actions;
 
