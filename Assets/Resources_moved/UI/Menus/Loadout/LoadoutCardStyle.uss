@@ -1,0 +1,20 @@
+
+
+.loadoutCardContainer {
+    max-width: 225px;
+    max-height: 225px;
+    width: 100%;
+    height: auto;
+    padding-right: 25px;
+    padding-left: 25px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    min-width: 150px;
+    min-height: 150px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    align-items: center;
+    aspect-ratio: 1;
+    display: flex;
+}

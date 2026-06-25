@@ -8,7 +8,7 @@ public interface IUIScreenView
 
 public interface IUIScreenEvents
 {
-    void BindEvents(VisualElement root, IUIScreenController manager = null, IUIScreenView view = null);
+    void BindEvents(VisualElement root, IUIScreenController controller = null, IUIScreenView view = null);
     void Cleanup();
 }
 

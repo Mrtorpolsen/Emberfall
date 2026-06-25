@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ResearchCategoryNodeElement : VisualElement, IUnbindable
+public class ResearchCategoryNodeElement : IUnbindable
 {
     private ResearchCategory category;
 
@@ -26,23 +26,24 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
 
     private ActiveResearch activeResearch;
 
+    public VisualElement Root { get; }
+
     public ResearchCategoryNodeElement(VisualTreeAsset researchCategoryNode)
     {
-        var visualNode = researchCategoryNode.CloneTree();
-        this.Add(visualNode);
+        Root = researchCategoryNode.CloneTree();
 
-        inactiveContainer = UtilityUIBinding.QRequired<VisualElement>(visualNode, "InactiveContainer");
-        activeContainer = UtilityUIBinding.QRequired<VisualElement>(visualNode, "ActiveContainer");
+        inactiveContainer = UtilityUIBinding.QRequired<VisualElement>(Root, "InactiveContainer");
+        activeContainer = UtilityUIBinding.QRequired<VisualElement>(Root, "ActiveContainer");
 
-        labelCategoryName = UtilityUIBinding.QRequired<Label>(visualNode, "Label_CategoryName");
-        labelResearchName = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchName");
-        labelResearchRank = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchRank");
-        labelResearchTimeLeft = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchTimeLeft");
+        labelCategoryName = UtilityUIBinding.QRequired<Label>(Root, "Label_CategoryName");
+        labelResearchName = UtilityUIBinding.QRequired<Label>(Root, "Label_ResearchName");
+        labelResearchRank = UtilityUIBinding.QRequired<Label>(Root, "Label_ResearchRank");
+        labelResearchTimeLeft = UtilityUIBinding.QRequired<Label>(Root, "Label_ResearchTimeLeft");
 
-        button = UtilityUIBinding.QRequired<Button>(visualNode, "Button_CategoryContainer");
+        button = UtilityUIBinding.QRequired<Button>(Root, "Button_CategoryContainer");
 
-        progressOverlay = UtilityUIBinding.QRequired<VisualElement>(visualNode, "ProgressOverlay");
-        progressFill = UtilityUIBinding.QRequired<VisualElement>(visualNode, "ProgressFill");
+        progressOverlay = UtilityUIBinding.QRequired<VisualElement>(Root, "ProgressOverlay");
+        progressFill = UtilityUIBinding.QRequired<VisualElement>(Root, "ProgressFill");
     }
 
     public void Bind(ResearchCategory category)
@@ -114,7 +115,7 @@ public class ResearchCategoryNodeElement : VisualElement, IUnbindable
         float progress = ResearchService.Instance.GetProgress(activeResearch);
         progressFill.style.width = Length.Percent(progress * 100f);
 
-        progressTask = schedule.Execute(UpdateProgress).Every(32);
+        progressTask = Root.schedule.Execute(UpdateProgress).Every(32);
     }
 
     private void SetInactiveState()

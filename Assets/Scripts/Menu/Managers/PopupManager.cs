@@ -100,7 +100,7 @@ public class PopupManager : MonoBehaviour
         // Load image from path
         if (!string.IsNullOrEmpty(imgAddress))
         {
-            UtilityLoadAdressable.LoadAdressableIcon(imgAddress, img);
+            UtilityLoadAddressable.LoadAddressableIcon(imgAddress, img);
         }
         else
         {

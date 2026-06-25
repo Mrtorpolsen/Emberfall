@@ -55,6 +55,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b8732e4dcbd5f34caa1c7ace5a16896
+    m_Address: Assets/Art/UnitGameIcons/utility_button_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2dfcea0a9efb05f4fbad899138883046
+    m_Address: Assets/Art/UnitGameIcons/build_tower_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3456b2bf60b73a943b98fe9661850bba
     m_Address: ranged_damage_4
     m_ReadOnly: 0
@@ -105,6 +115,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e9b1f9182317d6478d3d1bf76859844
+    m_Address: Assets/Art/UnitGameIcons/restoration_button_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6751bee341ddefa45951ddfb60510e2f
     m_Address: unitunlock_berserker_1
     m_ReadOnly: 0
@@ -132,6 +147,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 724321157cd001f4782d16e0cd46fc3d
     m_Address: melee_attackspeed_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7676a279ed7d72841be2096941423857
+    m_Address: UI/LoadoutCard
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -210,8 +230,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b991c83b61422de48900a8abf9050c70
+    m_Address: UI/LoadoutSelectNode
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bb236c754e2a691499d642c38cf62ed2
     m_Address: Assets/Art/UnitGameIcons/tower_sell.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc56064d6eed9a84fbdb6f5adbf8b7d0
+    m_Address: Assets/Art/UnitGameIcons/troop_button_icon_512x512.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -247,6 +277,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ca7c14b38be6a4949b4942f95ed59218
     m_Address: Assets/Art/UnitGameIcons/tower_upgrade.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb7d628a0c17b924185168d88e2da0b9
+    m_Address: Assets/Art/UnitGameIcons/fortify_button_icon_512x512.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

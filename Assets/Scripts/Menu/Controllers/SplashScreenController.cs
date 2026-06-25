@@ -57,13 +57,15 @@ public class SplashScreenController : MonoBehaviour
         var loadTasks = new List<Task>
         {
             UserProfile.Instance.GetUserScore(),
-            UtilityLoadAdressable.PreloadPlaceholder(),
+            UtilityLoadAddressable.PreloadPlaceholder(),
         };
 
         await Task.WhenAll(loadTasks);
 
+        UnitStatsManager.Instance.Initialize();
+
         //move this to a reward manager or service later
-        if(!SaveService.Instance.Current.HasReceivedLoginGift)
+        if (!SaveService.Instance.Current.HasReceivedLoginGift)
         {
             CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
             SaveService.Instance.Current.HasReceivedLoginGift = true;

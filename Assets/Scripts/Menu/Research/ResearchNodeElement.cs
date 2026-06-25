@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ResearchNodeElement : VisualElement, IUnbindable
+public class ResearchNodeElement : IUnbindable
 {
     private ResearchCategory category;
 
@@ -22,22 +22,23 @@ public class ResearchNodeElement : VisualElement, IUnbindable
     private int cost;
     private int maxLevel;
     private int currentLevel;
+    public VisualElement Root { get; }
+
 
     public ResearchNodeElement(VisualTreeAsset researchNode)
     {
-        var visualNode = researchNode.CloneTree();
-        this.Add(visualNode);
+        Root = researchNode.CloneTree();
 
-        labelResearchName = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchName");
-        labelResearchLevelCurrent = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchLevelCurrent");
-        labelResearchLevelNext = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchLevelNext");
-        labelResearchDescription = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchDescription");
-        labelResearchTime = UtilityUIBinding.QRequired<Label>(visualNode, "Label_ResearchTime");
+        labelResearchName = UtilityUIBinding.QRequired<Label>(Root, "Label_ResearchName");
+        labelResearchLevelCurrent = UtilityUIBinding.QRequired<Label>(Root, "Label_ResearchLevelCurrent");
+        labelResearchLevelNext = UtilityUIBinding.QRequired<Label>(Root, "Label_ResearchLevelNext");
+        labelResearchDescription = UtilityUIBinding.QRequired<Label>(Root, "Label_ResearchDescription");
+        labelResearchTime = UtilityUIBinding.QRequired<Label>(Root, "Label_ResearchTime");
 
-        buttonPurchaseResearch = UtilityUIBinding.QRequired<Button>(visualNode, "Button_PurchaseResearch");
+        buttonPurchaseResearch = UtilityUIBinding.QRequired<Button>(Root, "Button_PurchaseResearch");
 
-        levelContainer = UtilityUIBinding.QRequired<VisualElement>(visualNode, "OverUnderContainer_Level");
-        labelIncrease = UtilityUIBinding.QRequired<Label>(visualNode, "Label_Increase");
+        levelContainer = UtilityUIBinding.QRequired<VisualElement>(Root, "OverUnderContainer_Level");
+        labelIncrease = UtilityUIBinding.QRequired<Label>(Root, "Label_Increase");
     }
 
     public void Bind(ResearchNodeDefinition node)

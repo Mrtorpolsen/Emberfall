@@ -14,7 +14,7 @@ public class MainMenuEvents : IUIScreenEvents
         { "Btn_Offer3", nameof(Btn_Offer3Clicked) }
     };
 
-    public void BindEvents(VisualElement root, IUIScreenController manager = null, IUIScreenView view = null)
+    public void BindEvents(VisualElement root, IUIScreenController controller = null, IUIScreenView view = null)
     {
         UtilityUIBinding.BindEvents(root, this, bindings);
     }
@@ -28,6 +28,7 @@ public class MainMenuEvents : IUIScreenEvents
     private void Btn_PlayClicked()
     {
         Debug.Log("Play clicked loading Game...");
+        UnitStatsManager.Instance.RecalculateAllFinalStats();
         SceneManager.LoadScene("Game");
     }
 
