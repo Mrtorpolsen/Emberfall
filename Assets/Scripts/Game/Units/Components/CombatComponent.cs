@@ -59,19 +59,26 @@ public class CombatComponent : MonoBehaviour
         {
             attackCooldown = 1f / unit.AttackSpeed;
 
-            if (unit.TryGetComponent<RangedShooter>(out var shooter))
+            try
             {
-                shooter.Shoot(target);
+                if (unit.TryGetComponent<RangedShooter>(out var shooter))
+                {
+                    shooter.Shoot(target);
+                }
+                else if (unit is SapperBaseStatsComponent)
+                {
+                    //Need to streamline the attack proccess so death is handled in one place
+                    (unit as SapperBaseStatsComponent).Explode();
+                    (unit as SapperBaseStatsComponent).Die();
+                }
+                else
+                {
+                    target.TakeDamage(unit.GetAttackDamage());
+                }
             }
-            else if (unit is SapperBaseStatsComponent)
+            finally
             {
-                //Need to streamline the attack proccess so death is handled in one place
-                (unit as SapperBaseStatsComponent).Explode();
-                (unit as SapperBaseStatsComponent).Die();
-            }
-            else
-            {
-                target.TakeDamage(unit.GetAttackDamage());
+                targetComponent.NotifySuccessfulAttack();
             }
         }
         if (movement != null)

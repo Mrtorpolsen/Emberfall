@@ -14,6 +14,8 @@ public class TargetComponent : MonoBehaviour
     [SerializeField] private float retargetInterval = 0.15f;
     private float retargetTimer;
 
+    [SerializeField] private float engagementStallTimer;
+
     [SerializeField] private LayerMask northTeamLayer;
     [SerializeField] private LayerMask southTeamLayer;
 
@@ -108,6 +110,11 @@ public class TargetComponent : MonoBehaviour
 
             retargetTimer = retargetInterval;
 
+            if (currentTarget != null && currentTarget.IsAlive)
+                engagementStallTimer += Time.deltaTime;
+            else
+                engagementStallTimer = 0f;
+
             //temporary solution to make sapper work, since sapper needs to retarget closest every frame to work properly, until we rework the targeting system
             if (alwaysRetargetClosest)
             {
@@ -115,7 +122,7 @@ public class TargetComponent : MonoBehaviour
                 return;
             }
 
-            if (!IsTargetStillValid())
+            if (!IsTargetStillValid() || ShouldRetargetDueToStall())
             {
                 FindClosestTarget();
                 return;
@@ -227,8 +234,12 @@ public class TargetComponent : MonoBehaviour
         if (!currentTarget.IsAlive) return false;
 
         float sqrDist = (currentTarget.Transform.position - transform.position).sqrMagnitude;
-
         return sqrDist <= detectionRange * detectionRange;
+    }
+
+    private bool ShouldRetargetDueToStall()
+    {
+        return currentTarget != null && engagementStallTimer > 1f;
     }
 
     public void SetPriorities(IReadOnlyList<ThreatLevel> priorities)
@@ -246,6 +257,11 @@ public class TargetComponent : MonoBehaviour
             return LayerMask.GetMask("SouthTeam");
         else
             return LayerMask.GetMask("NorthTeam");
+    }
+
+    public void NotifySuccessfulAttack()
+    {
+        engagementStallTimer = 0f;
     }
 
     public ITargetable GetCurrentTarget() => currentTarget;
