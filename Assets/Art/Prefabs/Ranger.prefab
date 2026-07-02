@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4453514862014735567}
-  canMove: 0
+  canMove: 1
   rangedZoneRadius: 0.1
   separationInterval: 0.1
 --- !u!114 &7478925129009968955
