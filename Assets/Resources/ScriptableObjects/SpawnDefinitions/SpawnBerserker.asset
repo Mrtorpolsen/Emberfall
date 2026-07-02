@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e564f39737a52604cad07dda69f121ff, type: 3}
+  m_Name: SpawnBerserker
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
+  displayName: Berserker
+  icon:
+    m_AssetGUID: 6db69832970cc1341855ca9bf4e7ebef
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  id: spawn_berserker
+  unlockId: unit_berserker
+  unlockedByDefault: 1
+  slotType: 0
+  cooldown: 0
+  unitPrefab: {fileID: 6717628542700303866, guid: 3be627035f33c474bb682b9988254594, type: 3}
+  stats: {fileID: 11400000, guid: e1ba1a6a0cabcfb4697f53f87937fb7a, type: 2}

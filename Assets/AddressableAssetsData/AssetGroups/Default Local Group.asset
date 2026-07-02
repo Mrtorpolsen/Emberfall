@@ -130,6 +130,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6db69832970cc1341855ca9bf4e7ebef
+    m_Address: Assets/Art/UnitGameIcons/berserker_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6de964e89e6e63642be92a5234612725
     m_Address: global_health_4
     m_ReadOnly: 0

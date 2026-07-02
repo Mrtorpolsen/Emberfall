@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 01414d5650a57324395eb0819fddbdfc
+guid: 6db69832970cc1341855ca9bf4e7ebef
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6772550569537995482
-    second: ranger_tower_icon_512x512_0
+      213: 7588586158546485533
+    second: berserker_icon_512x512_0
+  - first:
+      213: -4545028532218797445
+    second: berserker_icon_512x512_1
+  - first:
+      213: 3334771864520809342
+    second: berserker_icon_512x512_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -87,7 +93,7 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 12
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -126,13 +132,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ranger_tower_icon_512x512_0
+      name: berserker_icon_512x512_0
       rect:
         serializedVersion: 2
-        x: 98
-        y: 0
-        width: 316
-        height: 512
+        x: 174
+        y: 449
+        width: 10
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +147,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ad28ea84cdeecfd50800000000000000
-      internalID: 6772550569537995482
+      spriteID: d110c97b7e2105960800000000000000
+      internalID: 7588586158546485533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: berserker_icon_512x512_1
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 449
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b72651b61a0dce0c0800000000000000
+      internalID: -4545028532218797445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: berserker_icon_512x512_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 29
+        width: 512
+        height: 395
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7bdab7a75d774e20800000000000000
+      internalID: 3334771864520809342
       vertices: []
       indices: 
       edges: []
@@ -161,7 +211,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ranger_tower_icon_512x512_0: 6772550569537995482
+      berserker_icon_512x512_0: 7588586158546485533
+      berserker_icon_512x512_1: -4545028532218797445
+      berserker_icon_512x512_2: 3334771864520809342
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

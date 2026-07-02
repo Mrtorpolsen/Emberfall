@@ -108,6 +108,15 @@ public static class Prefabs
         }
     }
 
+    public static GameObject berserkerPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.berserkerPrefab;
+        }
+    }
+
     //Towers
     public static GameObject towerPrefab
     {
