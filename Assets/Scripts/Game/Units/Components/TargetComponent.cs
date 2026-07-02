@@ -15,7 +15,7 @@ public class TargetComponent : MonoBehaviour
     private float retargetTimer;
 
     [SerializeField] private float engagementStallTimer;
-    private float engagementStallMaxTime = 0.5f;
+    private float engagementStallMaxTime = 0.25f;
 
     [SerializeField] private LayerMask northTeamLayer;
     [SerializeField] private LayerMask southTeamLayer;
