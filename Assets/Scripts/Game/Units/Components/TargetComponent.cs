@@ -15,6 +15,7 @@ public class TargetComponent : MonoBehaviour
     private float retargetTimer;
 
     [SerializeField] private float engagementStallTimer;
+    private float engagementStallMaxTime = 0.5f;
 
     [SerializeField] private LayerMask northTeamLayer;
     [SerializeField] private LayerMask southTeamLayer;
@@ -239,7 +240,7 @@ public class TargetComponent : MonoBehaviour
 
     private bool ShouldRetargetDueToStall()
     {
-        return currentTarget != null && engagementStallTimer > 1f;
+        return currentTarget != null && engagementStallTimer > engagementStallMaxTime;
     }
 
     public void SetPriorities(IReadOnlyList<ThreatLevel> priorities)
