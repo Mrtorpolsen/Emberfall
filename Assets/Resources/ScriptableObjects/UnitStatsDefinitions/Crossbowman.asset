@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34c435560e2d9b346b97cd3c972f3276, type: 3}
-  m_Name: Pikeman
+  m_Name: Crossbowman
   m_EditorClassIdentifier: Assembly-CSharp::UnitStatsDefinition
-  cost: 60
-  maxHealth: 200
-  armor: 2
-  attackDamage: 25
-  attackSpeed: 0.8
-  attackRange: 0.55
+  cost: 125
+  maxHealth: 100
+  armor: 3
+  attackDamage: 40
+  attackSpeed: 0.35
+  attackRange: 2.75
   hitRadius: 0.13
-  movementSpeed: 1.8
+  movementSpeed: 1.5
   critChance: 0
   critDamage: 1.5
-  unitPrio: 4
+  unitPrio: 5
   isTargetable: 1
   category: 0
   healthbarScale: {x: 0.4, y: 0.4, z: 0.01}

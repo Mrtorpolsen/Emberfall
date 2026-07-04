@@ -24,6 +24,8 @@ MonoBehaviour:
   guardianPrefab: {fileID: 6717628542700303866, guid: f08e813d68e87fb4dab4d49f6770fdff, type: 3}
   pikemanPrefab: {fileID: 6717628542700303866, guid: 19f299e5d8fb7774d89f6f4f7ea5806a, type: 3}
   berserkerPrefab: {fileID: 6717628542700303866, guid: 3be627035f33c474bb682b9988254594, type: 3}
+  crossbowmanPrefab: {fileID: 3501163535796704365, guid: 7cf9b933ae504f945b839816d445d00f, type: 3}
+  musketeerPrefab: {fileID: 3501163535796704365, guid: 0c9c4b45148c4c047b7b33adea866fef, type: 3}
   towerPrefab: {fileID: 87936472045436742, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
   ballistaTowerPrefab: {fileID: 87936472045436742, guid: 1de2bf2dac3f9ad4e90de19ac7c3612b, type: 3}
   bombTowerPrefab: {fileID: 87936472045436742, guid: 31e7dd5cc41cdd542bb990ff116af200, type: 3}

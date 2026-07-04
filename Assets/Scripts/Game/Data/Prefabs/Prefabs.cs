@@ -117,6 +117,24 @@ public static class Prefabs
         }
     }
 
+    public static GameObject crossbowmanPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.crossbowmanPrefab;
+        }
+    }
+
+    public static GameObject musketeerPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.musketeerPrefab;
+        }
+    }
+
     //Towers
     public static GameObject towerPrefab
     {

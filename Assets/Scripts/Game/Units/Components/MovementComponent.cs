@@ -60,8 +60,7 @@ public class MovementComponent : MonoBehaviour
 
         target = ApplyTeamBoundary(target);
 
-        if (rangedStats != null || rangedRally != null)
-            target = ApplyRangedZoneBoundary(target);
+        target = ApplyRangedZoneBoundary(target);
 
         bool hasCombatTarget = targetComponent?.GetCurrentTarget() != null;
 
@@ -184,6 +183,9 @@ public class MovementComponent : MonoBehaviour
 
     private Vector2 ApplyRangedZoneBoundary(Vector2 target)
     {
+        if (rangedStats == null || rangedRally == null)
+            return target;
+
         Vector2 center = rangedRally.position;
 
         Vector2 offset = target - center;

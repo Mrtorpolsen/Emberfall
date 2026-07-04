@@ -15,6 +15,8 @@ public class PrefabDatabase : ScriptableObject
     public GameObject guardianPrefab;
     public GameObject pikemanPrefab;
     public GameObject berserkerPrefab;
+    public GameObject crossbowmanPrefab;
+    public GameObject musketeerPrefab;
     public GameObject towerPrefab;
     public GameObject ballistaTowerPrefab;
     public GameObject bombTowerPrefab;
