@@ -18,7 +18,7 @@ MonoBehaviour:
   attackDamage: 20
   attackSpeed: 1
   attackRange: 0.25
-  hitRadius: 0.135
+  hitRadius: 0.13
   movementSpeed: 2
   critChance: 0
   critDamage: 1.5

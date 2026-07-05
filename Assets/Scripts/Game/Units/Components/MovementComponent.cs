@@ -6,13 +6,12 @@ public class MovementComponent : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
 
     [Header("Attributes")]
-    [SerializeField] public bool canMove;
+    [SerializeField] public bool canMove = true;
 
     [Header("Ranged Settings")]
     [SerializeField] private float rangedZoneRadius = 0.1f; // how far they can move from rally
 
-    [SerializeField] private float separationInterval = 0.1f;
-    private float separationTimer;
+    private float stopBuffer = 0.1f; // extend the range to better detect when to stop moving
 
     private Transform south;
     private TargetComponent targetComponent;
@@ -44,28 +43,33 @@ public class MovementComponent : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2? destination = ResolveDestination();
-
-        if (destination.HasValue && canMove)
-        {
-            Vector2 direction = (destination.Value - rb.position).normalized;
-            rb.linearVelocity = direction * unit.MovementSpeed;
-        }
-        else
+        if (!canMove)
         {
             rb.linearVelocity = Vector2.zero;
+            return;
         }
 
-        ApplyTeamBoundary();
-
-        separationTimer += Time.fixedDeltaTime;
-        if (separationTimer >= separationInterval)
+        Vector2? destination = ResolveDestination();
+        if (!destination.HasValue)
         {
-            SeparationForce();
-            separationTimer = 0f;
+            rb.linearVelocity = Vector2.zero;
+            return;
         }
 
-        ApplyRangedZoneBoundary();
+        Vector2 target = destination.Value;
+
+        target = ApplyTeamBoundary(target);
+
+        target = ApplyRangedZoneBoundary(target);
+
+        bool hasCombatTarget = targetComponent?.GetCurrentTarget() != null;
+
+        if (!hasCombatTarget)
+        {
+            target = ApplySeparation(target);
+        }
+
+        MoveToward(target);
     }
 
     public Vector2? ResolveDestination()
@@ -109,6 +113,20 @@ public class MovementComponent : MonoBehaviour
         // Melee units: move toward target or fallback
         if (target != null && target.IsAlive)
         {
+            float stopRange = unit.AttackRange + stopBuffer;
+
+            float distance = Vector2.Distance(
+                rb.position,
+                target.Transform.position
+            );
+
+            if (distance <= stopRange)
+            {
+                rb.linearVelocity = Vector2.zero;
+                return null;
+            }
+
+            // Otherwise keep chasing
             return target.Transform.position;
         }
 
@@ -117,6 +135,19 @@ public class MovementComponent : MonoBehaviour
         return fallback?.position;
     }
 
+    private void MoveToward(Vector2 target)
+    {
+        Vector2 toTarget = target - rb.position;
+        float sqrDist = toTarget.sqrMagnitude;
+
+        if (sqrDist < 0.0001f)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        rb.linearVelocity = toTarget.normalized * unit.MovementSpeed;
+    }
 
     private Transform GetFallbackPoint()
     {
@@ -139,68 +170,82 @@ public class MovementComponent : MonoBehaviour
     }
 
 
-    private void ApplyTeamBoundary()
+    private Vector2 ApplyTeamBoundary(Vector2 target)
     {
         if (unitMetadata.Team != Team.South)
-            return;
+            return target;
 
-        Vector2 pos = rb.position;
-        pos.y = Mathf.Min(
-            pos.y,
-            GameManager.Instance.playerUnitBoundary.transform.position.y
-        );
-        rb.position = pos;
+        float maxY = GameManager.Instance.playerUnitBoundary.transform.position.y;
+        target.y = Mathf.Min(target.y, maxY);
+
+        return target;
     }
 
-    private void ApplyRangedZoneBoundary()
+    private Vector2 ApplyRangedZoneBoundary(Vector2 target)
     {
-        if (rangedStats == null || rangedRally == null) return;
+        if (rangedStats == null || rangedRally == null)
+            return target;
 
-        Vector2 pos = rb.position;
+        Vector2 center = rangedRally.position;
 
-        Vector2 toRally = (Vector2)rangedRally.position - pos;
+        Vector2 offset = target - center;
+        float maxRadius = rangedZoneRadius;
 
-        float distanceSqr = toRally.sqrMagnitude;
-        float radiusSqr = rangedZoneRadius * rangedZoneRadius;
-
-        if (distanceSqr > radiusSqr)
+        if (offset.sqrMagnitude > maxRadius * maxRadius)
         {
-            float distance = Mathf.Sqrt(distanceSqr);
-            Vector2 direction = toRally / distance;
-            pos += direction * Mathf.Min(unit.MovementSpeed * Time.fixedDeltaTime, distance);
-            rb.position = pos;
+            return center + offset.normalized * maxRadius;
         }
+
+        return target;
     }
 
-    private void SeparationForce()
+    private Vector2 ApplySeparation(Vector2 target)
+    {
+        Vector2 offset = GetSeparationOffset();
+
+        if (offset == Vector2.zero)
+            return target;
+
+        float strength = 0.4f;
+
+        return target + offset * strength;
+    }
+
+    private Vector2 GetSeparationOffset()
     {
         float separationRadius = 0.1f;
-        float pushStrength = 0.4f;
-        int unitCount = Physics2D.OverlapCircle(transform.position, separationRadius, separationFilter, hitBuffer);
 
-        Vector2 push = Vector2.zero;
+        int count = Physics2D.OverlapCircle(
+            transform.position,
+            separationRadius,
+            separationFilter,
+            hitBuffer
+        );
 
-        for (int i = 0; i < unitCount; i++)
+        Vector2 offset = Vector2.zero;
+
+        for (int i = 0; i < count; i++)
         {
-            Collider2D unit = hitBuffer[i];
+            Collider2D col = hitBuffer[i];
 
-            if (unit == gameObject) continue;
+            if (col == null || col.gameObject == gameObject)
+                continue;
 
-            if(unit.TryGetComponent<UnitMetadata>(out var otherUnit) && otherUnit.Team == rb.GetComponent<UnitMetadata>().Team)
+            if (!col.TryGetComponent<UnitMetadata>(out var other))
+                continue;
+
+            if (other.Team != unitMetadata.Team)
+                continue;
+
+            Vector2 away = (Vector2)(transform.position - col.transform.position);
+            float sqrMag = away.sqrMagnitude;
+
+            if (sqrMag > 0.0001f)
             {
-                Vector2 away = (Vector2)(transform.position - unit.transform.position);
-                float sqrMag = away.sqrMagnitude;
-
-                if (sqrMag > 0)
-                {
-                    push += away / sqrMag; // away.normalized / away.magnitude = away / (magnitude^2)
-                }
+                offset += away / sqrMag;
             }
         }
 
-        if (push != Vector2.zero)
-        {
-            rb.AddForce(push * pushStrength);
-        }
+        return offset;
     }
 }

@@ -1,6 +1,5 @@
 using UnityEngine;
-public class FighterStatsBaseStatsComponent : BaseUnitStats
+public class FighterBaseStatsComponent : BaseUnitStats
 {
     public override ThreatLevel UnitPrio => ThreatLevel.Normal;
-
 }

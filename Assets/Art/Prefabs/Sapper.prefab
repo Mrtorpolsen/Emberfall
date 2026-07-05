@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 5314775306289127517}
-  canMove: 0
+  canMove: 1
   rangedZoneRadius: 0.1
   separationInterval: 0.1
 --- !u!114 &7252195948236120283
@@ -354,6 +354,7 @@ MonoBehaviour:
   unit: {fileID: 6717628542700303866}
   baseStats: {fileID: 11400000, guid: 8d42d355c2c80f9479fe8f75a9660968, type: 2}
   unitCollider: {fileID: 1474295297500071545}
+  showRangeGizmo: 0
   currentHealth: 0
   healthBarScale: {x: 0, y: 0, z: 0}
   debugCost: 0

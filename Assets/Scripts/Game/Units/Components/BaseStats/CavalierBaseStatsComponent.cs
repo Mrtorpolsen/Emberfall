@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CavalierStatsBaseStatsComponent : BaseUnitStats
+public class CavalierBaseStatsComponent : BaseUnitStats
 {
     public override ThreatLevel UnitPrio => ThreatLevel.High;
 

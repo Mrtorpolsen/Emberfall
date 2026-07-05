@@ -17,8 +17,8 @@ MonoBehaviour:
   armor: 0
   attackDamage: 100
   attackSpeed: 1.5
-  attackRange: 0.2
-  hitRadius: 0.18
+  attackRange: 0.15
+  hitRadius: 0.1
   movementSpeed: 3
   critChance: 0
   critDamage: 1.5

@@ -89,6 +89,51 @@ public static class Prefabs
             return database.sapperPrefab;
         }
     }
+    
+    public static GameObject guardianPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.guardianPrefab;
+        }
+    }
+    
+    public static GameObject pikemanPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.pikemanPrefab;
+        }
+    }
+
+    public static GameObject berserkerPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.berserkerPrefab;
+        }
+    }
+
+    public static GameObject crossbowmanPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.crossbowmanPrefab;
+        }
+    }
+
+    public static GameObject musketeerPrefab
+    {
+        get
+        {
+            EnsureDatabaseLoaded();
+            return database.musketeerPrefab;
+        }
+    }
 
     //Towers
     public static GameObject towerPrefab
