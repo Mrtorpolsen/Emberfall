@@ -5,18 +5,46 @@ using UnityEngine;
 public class TalentTree
 {
     [JsonProperty("talents")]
-    public Dictionary<string, List<TalentDefinition>> TalentsByClass { get; set; }
+    public Dictionary<string, TalentClassDefinition> TalentsByClass { get; set; }
+
+    [JsonProperty("costPresets")]
+    public Dictionary<string, TalentCostPreset> CostPresets { get; set; }
 
     public List<TalentDefinition> GetTalentsByClass(string className)
     {
-        TalentsByClass.TryGetValue(className.ToLower(), out var talents);
-        return talents;
+        if (!TalentsByClass.TryGetValue(className, out TalentClassDefinition classDef))
+        {
+            throw new System.Exception($"Class {className} not found in talent tree");
+        }
+        return classDef.Talents;
     }
+
     public TalentDefinition GetTalentById(string id)
     {
         string className = id.Split("_")[0];
         return GetTalentsByClass(className).Find(unit => unit.Id == id);
     }
+
+    public TalentCostModel GetCostModel(string presetName, int tier)
+    {
+        if(!CostPresets.TryGetValue(presetName, out TalentCostPreset preset))
+        {
+            throw new System.Exception($"Cost preset {presetName} not found");
+        }
+
+        if(!preset.Tiers.TryGetValue(tier.ToString(), out TalentCostModel costModel))
+        {
+            throw new System.Exception($"Tier {tier} not found in preset {presetName}");
+        }
+
+        return costModel;
+    }
+}
+
+public class TalentClassDefinition
+{
+    public string CostPreset;
+    public List<TalentDefinition> Talents;
 }
 
 public class TalentDefinition
@@ -33,10 +61,12 @@ public class TalentDefinition
     public StatEffect[] Effects;      // one upgrade may have multiple effects
     public Unlock[] Unlocks;          // Can be units, abilities or unit skills
 
-    public TalentCostModel Cost;            // dynamic cost scaling
     public TalentPurchaseModel Purchase;    // handles max, infinite, etc.
 
     public TalentPrerequisite[] Prerequisites;
+
+    [JsonIgnore]
+    public TalentCostModel Cost;            // built from presets on load
 
     public int GetCurrentCost()
     {
@@ -62,6 +92,10 @@ public enum TalentType
     UnitUnlock,         // unlock new unit
     TowerUnlock,        // unlock new tower
     Income,             // increase income tick
+}
+public class TalentCostPreset
+{
+    public Dictionary<string, TalentCostModel> Tiers { get; set; }
 }
 
 public class TalentCostModel

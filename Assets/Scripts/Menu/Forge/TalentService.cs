@@ -51,10 +51,23 @@ public class TalentService : MonoBehaviour
         {
             var tree = JsonConvert.DeserializeObject<TalentTree>(jsonAsset.text);
             playerTalentTree = tree;
+
+            foreach (var classDef in playerTalentTree.TalentsByClass.Values)
+            {
+                BuildTalentCosts(classDef);
+            }
         }
         finally
         {
             Addressables.Release(handle);
+        }
+    }
+
+    private void BuildTalentCosts(TalentClassDefinition talents)
+    {
+        foreach (var talent in talents.Talents)
+        {
+            talent.Cost = playerTalentTree.GetCostModel(talents.CostPreset, talent.Tier);
         }
     }
 

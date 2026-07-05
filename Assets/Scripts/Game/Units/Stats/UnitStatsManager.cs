@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -71,8 +72,9 @@ public class UnitStatsManager : MonoBehaviour
             statsBootstrapper.LoadAndBuildTalents();
             statsBootstrapper.LoadAndBuildResearch();
         }
-        catch
+        catch(Exception e)
         {
+            Debug.LogException(e);
             Debug.LogWarning("StatsBootstrapper not initialized. Skipping talent application.");
             statsBootstrapper = null;
         }
