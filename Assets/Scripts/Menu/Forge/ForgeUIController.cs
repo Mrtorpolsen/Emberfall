@@ -73,17 +73,17 @@ public class ForgeUIController : IUIScreenController
 
         foreach (var talent in TalentService.Instance.playerTalentTree.GetTalentsByClass(treeToGenerate))
         {
-            talentNodes.Add(BuildTalentNode(talent));
+            talentNodes.Add(BuildTalentNode(talent, treeToGenerate));
         }
 
         return talentNodes;
     }
 
-    private TalentNodeDefinition BuildTalentNode(TalentDefinition talent)
+    private TalentNodeDefinition BuildTalentNode(Talent talent, string unitName)
     {
         var node = new TalentNodeDefinition();
 
-        int purchased = TalentService.Instance.GetPurchasedTalent(talent.Id);
+        int purchased = TalentService.Instance.GetPurchasedTalent(unitName, talent.Id);
         int max = talent.Purchase.MaxPurchases;
 
         node.img = talent.IconId;
@@ -95,10 +95,10 @@ public class ForgeUIController : IUIScreenController
 
         node.onClick = () =>
         {
-            int purchasedNow = TalentService.Instance.GetPurchasedTalent(talent.Id);
+            int purchasedNow = TalentService.Instance.GetPurchasedTalent(unitName, talent.Id);
             bool canPurchase = purchasedNow < max;
 
-            bool prerequisitsMet = TalentUnlockManager.Instance.ArePrerequisitesMet(talent.Id.Split("_")[0]
+            bool prerequisitsMet = TalentUnlockManager.Instance.ArePrerequisitesMet(unitName.ToLowerInvariant()
                 .ToLowerInvariant(), talent.Prerequisites);
 
             int currentCost = talent.GetCurrentCost();
@@ -114,7 +114,7 @@ public class ForgeUIController : IUIScreenController
                 OnClick = async () =>
                 {
                     //Repull live state
-                    int purchasedAfter = TalentService.Instance.GetPurchasedTalent(talent.Id);
+                    int purchasedAfter = TalentService.Instance.GetPurchasedTalent(unitName, talent.Id);
                     if (purchasedAfter >= max)
                         return;
 
@@ -128,7 +128,7 @@ public class ForgeUIController : IUIScreenController
                         return;
                     }
                     //Save and add points to talent req
-                    TalentService.Instance.AddTalent(talent.Id);
+                    TalentService.Instance.AddTalent(unitName, talent.Id);
 
                     var talentState = SaveService.Instance.Current.Talents;
 
@@ -142,9 +142,9 @@ public class ForgeUIController : IUIScreenController
                     }
 
                     TalentUnlockManager.Instance
-                        .AddPoints(talent.Id.Split("_")[0].ToLowerInvariant(), talent.Tier, 1);
+                        .AddPoints(unitName.ToLowerInvariant(), talent.Tier, 1);
 
-                    int updated = TalentService.Instance.GetPurchasedTalent(talent.Id);
+                    int updated = TalentService.Instance.GetPurchasedTalent(unitName, talent.Id);
 
                     bool stillCanPurchase = updated < max && talentCost <= CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
                     string purchasedTextNow = $"{updated}/{max}";

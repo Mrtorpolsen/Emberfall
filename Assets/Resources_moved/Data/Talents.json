@@ -48,48 +48,22 @@
       }
     }
   },
-  "talents": {
+  "unitDefinitions": {
     "fighter": {
       "costPreset": "common",
+      "archetype": "melee",
+      "tags": [],
       "talents": [
         {
-          "Id": "fighter_statmodifier_damage_1",
-          "IconId": "melee_damage_1",
-          "Name": "Strike Training",
-          "Description": "Increases fighter's attack damage by 1% per purchase",
+          "DefinitionId": "stat_damage_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 1,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.01
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": []
         },
         {
-          "Id": "fighter_statmodifier_health_1",
-          "IconId": "global_health_1",
-          "Name": "Basic Conditioning",
-          "Description": "Increases fighter's health by 2% per purchase",
+          "DefinitionId": "stat_health_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 2,
-          "Effects": [
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 1,
@@ -98,23 +72,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_attackspeed_1",
-          "IconId": "melee_attackspeed_1",
-          "Name": "Weapon Handling",
-          "Description": "Increases fighter's attack speed by 2% per purchase",
+          "DefinitionId": "stat_attackspeed_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 2,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 1,
@@ -123,23 +83,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_health_2",
-          "IconId": "global_health_2",
-          "Name": "Tough Skin",
-          "Description": "Increases fighter's health by 3% per purchase",
+          "DefinitionId": "stat_health_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 3,
-          "Effects": [
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 2,
@@ -148,23 +94,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_damage_2",
-          "IconId": "melee_damage_2",
-          "Name": "Sharp Blows",
-          "Description": "Increases fighter's damage by 3% per purchase",
+          "DefinitionId": "stat_damage_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 3,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 2,
@@ -173,23 +105,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_critchance_1",
-          "IconId": "melee_critchance_1",
-          "Name": "Battle Maneuver",
-          "Description": "Increases fighter's crit chance by 2% per purchase",
+          "DefinitionId": "stat_critchance_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 3,
-          "Effects": [
-            {
-              "Target": "CritChance",
-              "Operation": "Add",
-              "Value": 0.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 2,
@@ -198,23 +116,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_armor_1",
-          "IconId": "global_armor_1",
-          "Name": "Footwork",
-          "Description": "Increases fighter's armor by 2 per purchase",
+          "DefinitionId": "stat_armor_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 4,
-          "Effects": [
-            {
-              "Target": "Armor",
-              "Operation": "Add",
-              "Value": 2
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 3,
@@ -223,23 +127,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_critdamage_1",
-          "IconId": "melee_critdamage_1",
-          "Name": "Momentum",
-          "Description": "Increases fighter's crit damage by 3% per purchase",
+          "DefinitionId": "stat_critdamage_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 4,
-          "Effects": [
-            {
-              "Target": "CritDamage",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 3,
@@ -248,23 +138,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_attackspeed_2",
-          "IconId": "melee_attackspeed_2",
-          "Name": "Efficient Strikes",
-          "Description": "Increases fighter's attack speed by 3% per purchase",
+          "DefinitionId": "stat_attackspeed_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 4,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 3,
@@ -273,23 +149,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_critchance_2",
-          "IconId": "melee_critchance_2",
-          "Name": "Combat Instinct",
-          "Description": "Increases fighter's crit chance by 2% per purchase",
+          "DefinitionId": "stat_critchance_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 5,
-          "Effects": [
-            {
-              "Target": "CritChance",
-              "Operation": "Add",
-              "Value": 0.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 4,
@@ -298,23 +160,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_health_3",
-          "IconId": "global_health_3",
-          "Name": "Reinforced Muscles",
-          "Description": "Increases fighter's health by 4% per purchase",
+          "DefinitionId": "stat_health_3",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 5,
-          "Effects": [
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 4,
@@ -323,23 +171,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_damage_3",
-          "IconId": "melee_damage_3",
-          "Name": "Weapon Mastery",
-          "Description": "Increases fighter's damage by 4% per purchase",
+          "DefinitionId": "stat_damage_3",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 5,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 4,
@@ -348,23 +182,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_critdamage_2",
-          "IconId": "melee_critdamage_2",
-          "Name": "Executioner",
-          "Description": "Increases fighter's crit damage by 4% per purchase",
+          "DefinitionId": "stat_critdamage_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 6,
-          "Effects": [
-            {
-              "Target": "CritDamage",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 5,
@@ -373,23 +193,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_health_4",
-          "IconId": "global_health_4",
-          "Name": "Advanced Conditioning",
-          "Description": "Increases fighter's health by 5% per purchase",
+          "DefinitionId": "stat_health_4",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 6,
-          "Effects": [
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 5,
@@ -398,23 +204,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_critchance_3",
-          "IconId": "melee_critchance_3",
-          "Name": "Executioner's Blow",
-          "Description": "Increases fighter's crit chance by 2% per purchase",
+          "DefinitionId": "stat_critchance_3",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 7,
-          "Effects": [
-            {
-              "Target": "CritChance",
-              "Operation": "Add",
-              "Value": 0.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 6,
@@ -423,23 +215,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_damage_4",
-          "IconId": "melee_damage_4",
-          "Name": "Battle Clarity",
-          "Description": "Increases fighter's damage by 5% per purchase",
+          "DefinitionId": "stat_damage_4",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 7,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 6,
@@ -448,21 +226,9 @@
           ]
         },
         {
-          "Id": "fighter_abilityunlock_stun_1",
-          "IconId": "abilityunlock_stun_1",
-          "Name": "Shield Slam",
-          "Description": "Unlocks Stun ability: stun current target for 0.5 seconds with a 10 second cooldown",
+          "DefinitionId": "abilityunlock_stun",
           "Category": "Unit",
-          "Type": "AbilityUnlock",
           "Tier": 8,
-          "Unlocks": [
-            {
-              "Target": "ShieldSlam"
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
           "Prerequisites": [
             {
               "RequiredTier": 7,
@@ -471,23 +237,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_attackspeed_3",
-          "IconId": "melee_attackspeed_3",
-          "Name": "Advanced Weapon Handling",
-          "Description": "Increases fighter's attack speed by 4% per purchase",
+          "DefinitionId": "stat_attackspeed_3",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 8,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 7,
@@ -496,33 +248,9 @@
           ]
         },
         {
-          "Id": "fighter_statmodifier_allstats_1",
-          "IconId": "global_allstats_1",
-          "Name": "Master Combatant",
-          "Description": "Increases fighter's attack speed, damage and health by 5%",
+          "DefinitionId": "stat_allstats_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 9,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.05
-            },
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.05
-            },
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
           "Prerequisites": [
             {
               "RequiredTier": 8,
@@ -531,21 +259,9 @@
           ]
         },
         {
-          "Id": "fighter_unitunlock_berserker_1",
-          "IconId": "unitunlock_berserker_1",
-          "Name": "Berserker",
-          "Description": "Unlocks subclass Berserker",
+          "DefinitionId": "unitunlock_berserker",
           "Category": "Unit",
-          "Type": "UnitUnlock",
           "Tier": 10,
-          "Unlocks": [
-            {
-              "Target": "Berserker"
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
           "Prerequisites": [
             {
               "RequiredTier": 9,
@@ -554,550 +270,9 @@
           ]
         },
         {
-          "Id": "fighter_unitunlock_guardian_1",
-          "IconId": "unitunlock_guardian_1",
-          "Name": "Guardian",
-          "Description": "Unlocks subclass Guardian",
+          "DefinitionId": "unitunlock_guardian",
           "Category": "Unit",
-          "Type": "UnitUnlock",
           "Tier": 10,
-          "Unlocks": [
-            {
-              "Target": "Guardian"
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 9,
-              "RequiredPointsInTier": 1
-            }
-          ]
-        }
-      ]
-    },
-    "ranger": {
-      "costPreset": "common",
-      "talents": [
-        {
-          "Id": "ranger_statmodifier_damage_1",
-          "IconId": "ranged_damage_1",
-          "Name": "Bow Handling",
-          "Description": "Increases ranger's attack damage by 1% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 1,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.01
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": []
-        },
-        {
-          "Id": "ranger_statmodifier_range_1",
-          "IconId": "ranged_range_1",
-          "Name": "Long Sight",
-          "Description": "Increases ranger's attack range by 2% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 2,
-          "Effects": [
-            {
-              "Target": "AttackRange",
-              "Operation": "Multiply",
-              "Value": 1.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 1,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_attackspeed_1",
-          "IconId": "ranged_attackspeed_1",
-          "Name": "Quick Draw",
-          "Description": "Increases ranger's attack speed by 2% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 2,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 1,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_damage_2",
-          "IconId": "ranged_damage_2",
-          "Name": "Sharpened Arrows",
-          "Description": "Increases ranger's damage by 3% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 3,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 2,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_critchance_1",
-          "IconId": "ranged_critchance_1",
-          "Name": "Precise Aim",
-          "Description": "Increases ranger's crit chance by 2% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 3,
-          "Effects": [
-            {
-              "Target": "CritChance",
-              "Operation": "Add",
-              "Value": 0.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 2,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_range_2",
-          "IconId": "ranged_range_2",
-          "Name": "Eagle Focus",
-          "Description": "Increases ranger's attack range by 3% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 3,
-          "Effects": [
-            {
-              "Target": "AttackRange",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 2,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_critchance_2",
-          "IconId": "ranged_critchance_2",
-          "Name": "Weak Point Targeting",
-          "Description": "Increases ranger's crit chance by 2% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 4,
-          "Effects": [
-            {
-              "Target": "CritChance",
-              "Operation": "Add",
-              "Value": 0.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 3,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_attackspeed_2",
-          "IconId": "ranged_attackspeed_2",
-          "Name": "Rapid Fire",
-          "Description": "Increases ranger's attack speed by 3% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 4,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 3,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_critdamage_1",
-          "IconId": "ranged_critdamage_1",
-          "Name": "Piercing Shots",
-          "Description": "Increases ranger's crit damage by 3% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 4,
-          "Effects": [
-            {
-              "Target": "CritDamage",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 3,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_range_3",
-          "IconId": "ranged_range_3",
-          "Name": "Farshot",
-          "Description": "Increases ranger's attack range by 4% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 5,
-          "Effects": [
-            {
-              "Target": "AttackRange",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 4,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_damage_3",
-          "IconId": "ranged_damage_3",
-          "Name": "Lethal Arrowheads",
-          "Description": "Increases ranger's damage by 4% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 5,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 4,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_critchance_3",
-          "IconId": "ranged_critchance_3",
-          "Name": "Unerring Focus",
-          "Description": "Increases ranger's crit chance by 2% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 5,
-          "Effects": [
-            {
-              "Target": "CritChance",
-              "Operation": "Add",
-              "Value": 0.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 4,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_critdamage_2",
-          "IconId": "ranged_critdamage_2",
-          "Name": "Vital Strike",
-          "Description": "Increases ranger's crit damage by 4% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 6,
-          "Effects": [
-            {
-              "Target": "CritDamage",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 5,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_attackspeed_3",
-          "IconId": "ranged_attackspeed_3",
-          "Name": "Velocity",
-          "Description": "Increases ranger's attack speed by 4% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 6,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 5,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_range_4",
-          "IconId": "ranged_range_4",
-          "Name": "Perfect Trajectory",
-          "Description": "Increases ranger's range by 5% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 7,
-          "Effects": [
-            {
-              "Target": "AttackRange",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 6,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_damage_4",
-          "IconId": "ranged_damage_4",
-          "Name": "Hunter's Precision",
-          "Description": "Increases ranger's damage by 5% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 7,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 6,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_abilityunlock_multishot_1",
-          "IconId": "abilityunlock_multishot_1",
-          "Name": "Multishot",
-          "Description": "Unlocks a Multishot ability: fires an additional arrow every 10 seconds",
-          "Category": "Unit",
-          "Type": "AbilityUnlock",
-          "Tier": 8,
-          "Unlocks": [
-            {
-              "Target": "Multishot"
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_critdamage_3",
-          "IconId": "ranged_critdamage_3",
-          "Name": "Destructive Shot",
-          "Description": "Increases ranger's crit damage by 4% per purchase",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 8,
-          "Effects": [
-            {
-              "Target": "CritDamage",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "Id": "ranger_statmodifier_allstats_1",
-          "IconId": "global_allstats_1",
-          "Name": "Master Marksman",
-          "Description": "Increases ranger's attack speed, damage and range by 5%",
-          "Category": "Unit",
-          "Type": "StatModifier",
-          "Tier": 9,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.05
-            },
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.05
-            },
-            {
-              "Target": "AttackRange",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 8,
-              "RequiredPointsInTier": 6
-            }
-          ]
-        },
-        {
-          "Id": "ranger_unitunlock_sniper_1",
-          "IconId": "unitunlock_sniper_1",
-          "Name": "Sniper",
-          "Description": "Unlocks subclass Sniper",
-          "Category": "Unit",
-          "Type": "UnitUnlock",
-          "Tier": 10,
-          "Unlocks": [
-            {
-              "Target": "Sniper"
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
-          "Prerequisites": [
-            {
-              "RequiredTier": 9,
-              "RequiredPointsInTier": 1
-            }
-          ]
-        },
-        {
-          "Id": "ranger_unitunlock_trapper_1",
-          "IconId": "unitunlock_trapper_1",
-          "Name": "Trapper",
-          "Description": "Unlocks subclass Trapper",
-          "Category": "Unit",
-          "Type": "UnitUnlock",
-          "Tier": 10,
-          "Unlocks": [
-            {
-              "Target": "Trapper"
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
           "Prerequisites": [
             {
               "RequiredTier": 9,
@@ -1109,45 +284,19 @@
     },
     "cavalier": {
       "costPreset": "common",
+      "archetype": "melee",
+      "tags": [],
       "talents": [
         {
-          "Id": "cavalier_statmodifier_damage_1",
-          "IconId": "melee_damage_1",
-          "Name": "Lance Drills",
-          "Description": "Increases cavalier's attack damage by 1% per purchase",
+          "DefinitionId": "stat_damage_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 1,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.01
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": []
         },
         {
-          "Id": "cavalier_statmodifier_health_1",
-          "IconId": "global_health_1",
-          "Name": "Rider Conditioning",
-          "Description": "Increases cavalier's health by 2% per purchase",
+          "DefinitionId": "stat_health_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 2,
-          "Effects": [
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 1,
@@ -1156,23 +305,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_attackspeed_1",
-          "IconId": "melee_attackspeed_1",
-          "Name": "Rein Repositioning",
-          "Description": "Increases cavalier's attack speed by 2% per purchase",
+          "DefinitionId": "stat_attackspeed_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 2,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 1,
@@ -1181,23 +316,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_health_2",
-          "IconId": "global_health_2",
-          "Name": "Mounted Endurance",
-          "Description": "Increases cavalier's health by 3% per purchase",
+          "DefinitionId": "stat_health_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 3,
-          "Effects": [
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 2,
@@ -1206,23 +327,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_damage_2",
-          "IconId": "melee_damage_2",
-          "Name": "Heavy Thrust",
-          "Description": "Increases cavalier's damage by 3% per purchase",
+          "DefinitionId": "stat_damage_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 3,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 2,
@@ -1231,23 +338,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_critchance_1",
-          "IconId": "melee_critchance_1",
-          "Name": "Flanking Technique",
-          "Description": "Increases cavalier's crit chance by 2% per purchase",
+          "DefinitionId": "stat_critchance_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 3,
-          "Effects": [
-            {
-              "Target": "CritChance",
-              "Operation": "Add",
-              "Value": 0.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 2,
@@ -1256,23 +349,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_armor_1",
-          "IconId": "global_armor_1",
-          "Name": "Plate Bardings",
-          "Description": "Increases cavalier's armor by 2 per purchase",
+          "DefinitionId": "stat_armor_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 4,
-          "Effects": [
-            {
-              "Target": "Armor",
-              "Operation": "Add",
-              "Value": 2
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 3,
@@ -1281,23 +360,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_critdamage_1",
-          "IconId": "melee_critdamage_1",
-          "Name": "Lancing Momentum",
-          "Description": "Increases cavalier's crit damage by 3% per purchase",
+          "DefinitionId": "stat_critdamage_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 4,
-          "Effects": [
-            {
-              "Target": "CritDamage",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 3,
@@ -1306,23 +371,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_attackspeed_2",
-          "IconId": "melee_attackspeed_2",
-          "Name": "Swift Charge",
-          "Description": "Increases cavalier's attack speed by 3% per purchase",
+          "DefinitionId": "stat_attackspeed_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 4,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.03
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 3,
@@ -1331,23 +382,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_critchance_2",
-          "IconId": "melee_critchance_2",
-          "Name": "Mounted Precision",
-          "Description": "Increases cavalier's crit chance by 2% per purchase",
+          "DefinitionId": "stat_critchance_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 5,
-          "Effects": [
-            {
-              "Target": "CritChance",
-              "Operation": "Add",
-              "Value": 0.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 4,
@@ -1356,23 +393,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_health_3",
-          "IconId": "global_health_3",
-          "Name": "Armored Resolve",
-          "Description": "Increases cavalier's health by 4% per purchase",
+          "DefinitionId": "stat_health_3",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 5,
-          "Effects": [
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 4,
@@ -1381,23 +404,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_damage_3",
-          "IconId": "melee_damage_3",
-          "Name": "Cavalier's Edge",
-          "Description": "Increases cavalier's damage by 4% per purchase",
+          "DefinitionId": "stat_damage_3",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 5,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 4,
@@ -1406,23 +415,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_critdamage_2",
-          "IconId": "melee_critdamage_2",
-          "Name": "Piercing Charge",
-          "Description": "Increases cavalier's crit damage by 4% per purchase",
+          "DefinitionId": "stat_critdamage_2",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 6,
-          "Effects": [
-            {
-              "Target": "CritDamage",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 5,
@@ -1431,23 +426,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_health_4",
-          "IconId": "global_health_4",
-          "Name": "Steel Will",
-          "Description": "Increases cavalier's health by 5% per purchase",
+          "DefinitionId": "stat_health_4",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 6,
-          "Effects": [
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 5,
@@ -1456,23 +437,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_critchance_3",
-          "IconId": "melee_critchance_3",
-          "Name": "Jousting Instinct",
-          "Description": "Increases cavalier's crit chance by 2% per purchase",
+          "DefinitionId": "stat_critchance_3",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 7,
-          "Effects": [
-            {
-              "Target": "CritChance",
-              "Operation": "Add",
-              "Value": 0.02
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 6,
@@ -1481,23 +448,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_damage_4",
-          "IconId": "melee_damage_4",
-          "Name": "Battle Synchrony",
-          "Description": "Increases cavalier's damage by 5% per purchase",
+          "DefinitionId": "stat_damage_4",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 7,
-          "Effects": [
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 6,
@@ -1506,21 +459,9 @@
           ]
         },
         {
-          "Id": "cavalier_abilityunlock_pushback_1",
-          "IconId": "abilityunlock_pushback_1",
-          "Name": "Lance Strike",
-          "Description": "Unlocks Pushback ability: pushback 2 closest enemies every 10 seconds",
+          "DefinitionId": "abilityunlock_pushback",
           "Category": "Unit",
-          "Type": "AbilityUnlock",
           "Tier": 8,
-          "Unlocks": [
-            {
-              "Target": "LanceStrike"
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
           "Prerequisites": [
             {
               "RequiredTier": 7,
@@ -1529,23 +470,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_attackspeed_3",
-          "IconId": "melee_attackspeed_3",
-          "Name": "Mounted Agility",
-          "Description": "Increases cavalier's attack speed by 4% per purchase",
+          "DefinitionId": "stat_attackspeed_3",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 8,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.04
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 5
-          },
           "Prerequisites": [
             {
               "RequiredTier": 7,
@@ -1554,33 +481,9 @@
           ]
         },
         {
-          "Id": "cavalier_statmodifier_allstats_1",
-          "IconId": "global_allstats_1",
-          "Name": "Knight’s Prowess",
-          "Description": "Increases cavalier's attack speed, damage and health by 5%",
+          "DefinitionId": "stat_allstats_1",
           "Category": "Unit",
-          "Type": "StatModifier",
           "Tier": 9,
-          "Effects": [
-            {
-              "Target": "AttackSpeed",
-              "Operation": "Multiply",
-              "Value": 1.05
-            },
-            {
-              "Target": "AttackDamage",
-              "Operation": "Multiply",
-              "Value": 1.05
-            },
-            {
-              "Target": "Health",
-              "Operation": "Multiply",
-              "Value": 1.05
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
           "Prerequisites": [
             {
               "RequiredTier": 8,
@@ -1589,21 +492,9 @@
           ]
         },
         {
-          "Id": "cavalier_unitunlock_templar_1",
-          "IconId": "unitunlock_templar_1",
-          "Name": "Templar",
-          "Description": "Unlocks subclass Templar",
+          "DefinitionId": "unitunlock_templar",
           "Category": "Unit",
-          "Type": "UnitUnlock",
           "Tier": 10,
-          "Unlocks": [
-            {
-              "Target": "Templar"
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
           "Prerequisites": [
             {
               "RequiredTier": 9,
@@ -1612,21 +503,9 @@
           ]
         },
         {
-          "Id": "cavalier_unitunlock_dragoon_1",
-          "IconId": "unitunlock_dragoon_1",
-          "Name": "Dragoon",
-          "Description": "Unlocks subclass Dragoon",
+          "DefinitionId": "unitunlock_dragoon",
           "Category": "Unit",
-          "Type": "UnitUnlock",
           "Tier": 10,
-          "Unlocks": [
-            {
-              "Target": "Dragoon"
-            }
-          ],
-          "Purchase": {
-            "MaxPurchases": 1
-          },
           "Prerequisites": [
             {
               "RequiredTier": 9,
@@ -1635,6 +514,2634 @@
           ]
         }
       ]
+    },
+    "ranger": {
+      "costPreset": "common",
+      "archetype": "ranged",
+      "tags": [],
+      "talents": [
+        {
+          "DefinitionId": "stat_damage_1",
+          "Category": "Unit",
+          "Tier": 1,
+          "Prerequisites": []
+        },
+        {
+          "DefinitionId": "stat_range_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_1",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_1",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_2",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_multishot",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_3",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_allstats_1",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 6
+            }
+          ]
+        },
+        {
+          "DefinitionId": "unitunlock_sniper",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 1
+            }
+          ]
+        },
+        {
+          "DefinitionId": "unitunlock_trapper",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 1
+            }
+          ]
+        }
+      ]
+    },
+    "berserker": {
+      "costPreset": "common",
+      "archetype": "melee",
+      "tags": [],
+      "talents": [
+        {
+          "DefinitionId": "stat_critchance_1",
+          "Category": "Unit",
+          "Tier": 1,
+          "Prerequisites": []
+        },
+        {
+          "DefinitionId": "stat_damage_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_berserker_minor",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_4",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_allstats_1",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_5",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_berserker_major",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 1
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_5",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        }
+      ]
+    },
+    "pikeman": {
+      "costPreset": "common",
+      "archetype": "melee",
+      "tags": [],
+      "talents": [
+        {
+          "DefinitionId": "stat_damage_1",
+          "Category": "Unit",
+          "Tier": 1,
+          "Prerequisites": []
+        },
+        {
+          "DefinitionId": "stat_health_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_pikeman_minor",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_4",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_allstats_1",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_5",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_pikeman_major",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 1
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_5",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        }
+      ]
+    },
+    "guardian": {
+      "costPreset": "common",
+      "archetype": "melee",
+      "tags": [],
+      "talents": [
+        {
+          "DefinitionId": "stat_health_1",
+          "Category": "Unit",
+          "Tier": 1,
+          "Prerequisites": []
+        },
+        {
+          "DefinitionId": "stat_armor_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_armor_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_armor_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_armor_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_armor_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_armor_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_guardian_minor",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_armor_4",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_allstats_1",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_health_5",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_guardian_major",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 1
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_armor_5",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        }
+      ]
+    },
+    "musketeer": {
+      "costPreset": "common",
+      "archetype": "ranged",
+      "tags": [],
+      "talents": [
+        {
+          "DefinitionId": "stat_damage_1",
+          "Category": "Unit",
+          "Tier": 1,
+          "Prerequisites": []
+        },
+        {
+          "DefinitionId": "stat_critchance_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_musketeer_minor",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_4",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_allstats_1",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_5",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_musketeer_major",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 1
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_5",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        }
+      ]
+    },
+    "crossbowman": {
+      "costPreset": "common",
+      "archetype": "ranged",
+      "tags": [],
+      "talents": [
+        {
+          "DefinitionId": "stat_damage_1",
+          "Category": "Unit",
+          "Tier": 1,
+          "Prerequisites": []
+        },
+        {
+          "DefinitionId": "stat_attackspeed_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_crossbowman_minor",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_4",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_allstats_1",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_5",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_crossbowman_major",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 1
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_5",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "talentData": {
+    "stat_health_1": {
+      "Description": "Increases health by 2% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Health",
+          "Operation": "Multiply",
+          "Value": 1.02
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_health_2": {
+      "Description": "Increases health by 2.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Health",
+          "Operation": "Multiply",
+          "Value": 1.025
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_health_3": {
+      "Description": "Increases health by 3% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Health",
+          "Operation": "Multiply",
+          "Value": 1.03
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_health_4": {
+      "Description": "Increases health by 3.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Health",
+          "Operation": "Multiply",
+          "Value": 1.035
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_health_5": {
+      "Description": "Increases health by 4% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Health",
+          "Operation": "Multiply",
+          "Value": 1.04
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+
+    "stat_armor_1": {
+      "Description": "Increases armor by 1 per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Armor",
+          "Operation": "Add",
+          "Value": 1
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_armor_2": {
+      "Description": "Increases armor by 2 per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Armor",
+          "Operation": "Add",
+          "Value": 2
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_armor_3": {
+      "Description": "Increases armor by 3 per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Armor",
+          "Operation": "Add",
+          "Value": 3
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_armor_4": {
+      "Description": "Increases armor by 4 per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Armor",
+          "Operation": "Add",
+          "Value": 4
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_armor_5": {
+      "Description": "Increases armor by 5 per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "Armor",
+          "Operation": "Add",
+          "Value": 5
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+
+    "stat_damage_1": {
+      "Description": "Increases attack damage by 1% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackDamage",
+          "Operation": "Multiply",
+          "Value": 1.01
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_damage_2": {
+      "Description": "Increases attack damage by 1.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackDamage",
+          "Operation": "Multiply",
+          "Value": 1.015
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_damage_3": {
+      "Description": "Increases attack damage by 2% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackDamage",
+          "Operation": "Multiply",
+          "Value": 1.02
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_damage_4": {
+      "Description": "Increases attack damage by 2.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackDamage",
+          "Operation": "Multiply",
+          "Value": 1.025
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_damage_5": {
+      "Description": "Increases attack damage by 3% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackDamage",
+          "Operation": "Multiply",
+          "Value": 1.03
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_attackspeed_1": {
+      "Description": "Increases attack speed by 2% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackSpeed",
+          "Operation": "Multiply",
+          "Value": 1.02
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_attackspeed_2": {
+      "Description": "Increases attack speed by 2.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackSpeed",
+          "Operation": "Multiply",
+          "Value": 1.025
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_attackspeed_3": {
+      "Description": "Increases attack speed by 3% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackSpeed",
+          "Operation": "Multiply",
+          "Value": 1.03
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_attackspeed_4": {
+      "Description": "Increases attack speed by 3.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackSpeed",
+          "Operation": "Multiply",
+          "Value": 1.035
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_attackspeed_5": {
+      "Description": "Increases attack speed by 4% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackSpeed",
+          "Operation": "Multiply",
+          "Value": 1.04
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+
+    "stat_movement_1": {
+      "Description": "Increases movement speed by 0.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "MovementSpeed",
+          "Operation": "Multiply",
+          "Value": 1.005
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_movement_2": {
+      "Description": "Increases movement speed by 1% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "MovementSpeed",
+          "Operation": "Multiply",
+          "Value": 1.01
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_movement_3": {
+      "Description": "Increases movement speed by 1.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "MovementSpeed",
+          "Operation": "Multiply",
+          "Value": 1.015
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_movement_4": {
+      "Description": "Increases movement speed by 2% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "MovementSpeed",
+          "Operation": "Multiply",
+          "Value": 1.02
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_movement_5": {
+      "Description": "Increases movement speed by 2.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "MovementSpeed",
+          "Operation": "Multiply",
+          "Value": 1.025
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+
+    "stat_range_1": {
+      "Description": "Increases attack range by 0.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackRange",
+          "Operation": "Multiply",
+          "Value": 1.005
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_range_2": {
+      "Description": "Increases attack range by 1% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackRange",
+          "Operation": "Multiply",
+          "Value": 1.01
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_range_3": {
+      "Description": "Increases attack range by 1.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackRange",
+          "Operation": "Multiply",
+          "Value": 1.015
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_range_4": {
+      "Description": "Increases attack range by 2% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackRange",
+          "Operation": "Multiply",
+          "Value": 1.02
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_range_5": {
+      "Description": "Increases attack range by 2.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackRange",
+          "Operation": "Multiply",
+          "Value": 1.025
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_critchance_1": {
+      "Description": "Increases critical chance by 0.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritChance",
+          "Operation": "Add",
+          "Value": 0.005
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_critchance_2": {
+      "Description": "Increases critical chance by 1% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritChance",
+          "Operation": "Add",
+          "Value": 0.01
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_critchance_3": {
+      "Description": "Increases critical chance by 1.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritChance",
+          "Operation": "Add",
+          "Value": 0.015
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_critchance_4": {
+      "Description": "Increases critical chance by 2% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritChance",
+          "Operation": "Add",
+          "Value": 0.02
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_critchance_5": {
+      "Description": "Increases critical chance by 2.5% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritChance",
+          "Operation": "Add",
+          "Value": 0.025
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+
+    "stat_critdamage_1": {
+      "Description": "Increases critical damage by 0.75% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritDamage",
+          "Operation": "Multiply",
+          "Value": 1.0075
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_critdamage_2": {
+      "Description": "Increases critical damage by 1.25% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritDamage",
+          "Operation": "Multiply",
+          "Value": 1.0125
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_critdamage_3": {
+      "Description": "Increases critical damage by 1.75% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritDamage",
+          "Operation": "Multiply",
+          "Value": 1.0175
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_critdamage_4": {
+      "Description": "Increases critical damage by 2.25% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritDamage",
+          "Operation": "Multiply",
+          "Value": 1.0225
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+    "stat_critdamage_5": {
+      "Description": "Increases critical damage by 2.75% per purchase",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "CritDamage",
+          "Operation": "Multiply",
+          "Value": 1.0275
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 5
+      }
+    },
+
+    "stat_allstats_1": {
+      "Description": "Increases attack speed, damage and health by 5%",
+      "Type": "StatModifier",
+      "Effects": [
+        {
+          "Target": "AttackSpeed",
+          "Operation": "Multiply",
+          "Value": 1.05
+        },
+        {
+          "Target": "AttackDamage",
+          "Operation": "Multiply",
+          "Value": 1.05
+        },
+        {
+          "Target": "Health",
+          "Operation": "Multiply",
+          "Value": 1.05
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+    "abilityunlock_stun": {
+      "Description": "Unlocks Stun ability: stun current target for 0.5 seconds with a 10 second cooldown",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "ShieldSlam"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_pushback": {
+      "Description": "Unlocks Pushback ability: push back 2 closest enemies every 10 seconds",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "LanceStrike"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_multishot": {
+      "Description": "Unlocks a Multishot ability: fires an additional arrow every 10 seconds",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "Multishot"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_berserker_minor": {
+      "Description": "Unlocks minor berserker ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "BerserkerMinorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_berserker_major": {
+      "Description": "Unlocks major berserker ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "BerserkerMajorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_pikeman_minor": {
+      "Description": "Unlocks minor pikeman ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "PikemanMinorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_pikeman_major": {
+      "Description": "Unlocks major pikeman ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "PikemanMajorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_guardian_minor": {
+      "Description": "Unlocks minor guardian ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "GuardianMinorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_guardian_major": {
+      "Description": "Unlocks major guardian ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "GuardianMajorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_musketeer_minor": {
+      "Description": "Unlocks minor musketeer ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "MusketeerMinorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_musketeer_major": {
+      "Description": "Unlocks major musketeer ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "MusketeerMajorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_crossbowman_minor": {
+      "Description": "Unlocks minor crossbowman ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "CrossbowmanMinorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "abilityunlock_crossbowman_major": {
+      "Description": "Unlocks major crossbowman ability",
+      "Type": "AbilityUnlock",
+      "Unlocks": [
+        {
+          "Target": "CrossbowmanMajorAbility_PLACEHOLDER"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+    "unitunlock_berserker": {
+      "Description": "Unlocks subclass Berserker",
+      "Type": "UnitUnlock",
+      "Unlocks": [
+        {
+          "Target": "Berserker"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "unitunlock_guardian": {
+      "Description": "Unlocks subclass Guardian",
+      "Type": "UnitUnlock",
+      "Unlocks": [
+        {
+          "Target": "Guardian"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "unitunlock_templar": {
+      "Description": "Unlocks subclass Templar",
+      "Type": "UnitUnlock",
+      "Unlocks": [
+        {
+          "Target": "Templar"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "unitunlock_dragoon": {
+      "Description": "Unlocks subclass Dragoon",
+      "Type": "UnitUnlock",
+      "Unlocks": [
+        {
+          "Target": "Dragoon"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "unitunlock_sniper": {
+      "Description": "Unlocks subclass Sniper",
+      "Type": "UnitUnlock",
+      "Unlocks": [
+        {
+          "Target": "Sniper"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    },
+
+    "unitunlock_trapper": {
+      "Description": "Unlocks subclass Trapper",
+      "Type": "UnitUnlock",
+      "Unlocks": [
+        {
+          "Target": "Trapper"
+        }
+      ],
+      "Purchase": {
+        "MaxPurchases": 1
+      }
+    }
+  },
+  "archetypes": {
+    "default": {
+      "stat_health_1": {
+        "Name": "Conditioning",
+        "IconId": "default_health_1"
+      },
+      "stat_health_2": {
+        "Name": "Iron Constitution",
+        "IconId": "default_health_2"
+      },
+      "stat_health_3": {
+        "Name": "Battle Hardened",
+        "IconId": "default_health_3"
+      },
+      "stat_health_4": {
+        "Name": "Unyielding Resolve",
+        "IconId": "default_health_4"
+      },
+      "stat_health_5": {
+        "Name": "Titan's Endurance",
+        "IconId": "default_health_5"
+      },
+      "stat_armor_1": {
+        "Name": "Reinforced Gear",
+        "IconId": "default_armor_1"
+      },
+      "stat_armor_2": {
+        "Name": "Iron Guard",
+        "IconId": "default_armor_2"
+      },
+      "stat_armor_3": {
+        "Name": "Steel Defense",
+        "IconId": "default_armor_3"
+      },
+      "stat_armor_4": {
+        "Name": "Fortified Armor",
+        "IconId": "default_armor_4"
+      },
+      "stat_armor_5": {
+        "Name": "Adamant Defense",
+        "IconId": "default_armor_5"
+      },
+      "stat_allstats_1": {
+        "Name": "Master Combatant",
+        "IconId": "default_allstats_1"
+      }
+    },
+    "ranged": {
+      "stat_damage_1": {
+        "Name": "Bow Handling",
+        "IconId": "ranged_damage_1"
+      },
+      "stat_damage_2": {
+        "Name": "Sharpened Arrows",
+        "IconId": "ranged_damage_2"
+      },
+      "stat_damage_3": {
+        "Name": "Lethal Arrowheads",
+        "IconId": "ranged_damage_3"
+      },
+      "stat_damage_4": {
+        "Name": "Hunter's Precision",
+        "IconId": "ranged_damage_4"
+      },
+      "stat_damage_5": {
+        "Name": "Deadeye",
+        "IconId": "ranged_damage_5"
+      },
+
+      "stat_attackspeed_1": {
+        "Name": "Fluid Draw",
+        "IconId": "ranged_attackspeed_1"
+      },
+      "stat_attackspeed_2": {
+        "Name": "Quick Draw",
+        "IconId": "ranged_attackspeed_2"
+      },
+      "stat_attackspeed_3": {
+        "Name": "Rapid Fire",
+        "IconId": "ranged_attackspeed_3"
+      },
+      "stat_attackspeed_4": {
+        "Name": "Swift Hands",
+        "IconId": "ranged_attackspeed_4"
+      },
+      "stat_attackspeed_5": {
+        "Name": "Lightning Draw",
+        "IconId": "ranged_attackspeed_5"
+      },
+
+      "stat_critchance_1": {
+        "Name": "Precise Aim",
+        "IconId": "ranged_critchance_1"
+      },
+      "stat_critchance_2": {
+        "Name": "Weak Point Targeting",
+        "IconId": "ranged_critchance_2"
+      },
+      "stat_critchance_3": {
+        "Name": "Unerring Focus",
+        "IconId": "ranged_critchance_3"
+      },
+      "stat_critchance_4": {
+        "Name": "Deadly Precision",
+        "IconId": "ranged_critchance_4"
+      },
+      "stat_critchance_5": {
+        "Name": "Killer Instinct",
+        "IconId": "ranged_critchance_5"
+      },
+
+      "stat_critdamage_1": {
+        "Name": "Piercing Shots",
+        "IconId": "ranged_critdamage_1"
+      },
+      "stat_critdamage_2": {
+        "Name": "Vital Strike",
+        "IconId": "ranged_critdamage_2"
+      },
+      "stat_critdamage_3": {
+        "Name": "Destructive Shot",
+        "IconId": "ranged_critdamage_3"
+      },
+      "stat_critdamage_4": {
+        "Name": "Devastating Impact",
+        "IconId": "ranged_critdamage_4"
+      },
+      "stat_critdamage_5": {
+        "Name": "Execution Shot",
+        "IconId": "ranged_critdamage_5"
+      },
+
+      "stat_range_1": {
+        "Name": "Long Sight",
+        "IconId": "ranged_range_1"
+      },
+      "stat_range_2": {
+        "Name": "Eagle Focus",
+        "IconId": "ranged_range_2"
+      },
+      "stat_range_3": {
+        "Name": "Farshot",
+        "IconId": "ranged_range_3"
+      },
+      "stat_range_4": {
+        "Name": "Perfect Trajectory",
+        "IconId": "ranged_range_4"
+      },
+      "stat_range_5": {
+        "Name": "Sniper's Domain",
+        "IconId": "ranged_range_5"
+      },
+
+      "abilityunlock_multishot": {
+        "Name": "Multishot",
+        "IconId": "abilityunlock_multishot_1"
+      },
+
+      "abilityunlock_musketeer_minor": {
+        "Name": "Minor Special Ability",
+        "IconId": "abilityunlock_minor"
+      },
+      "abilityunlock_musketeer_major": {
+        "Name": "Major Special Ability",
+        "IconId": "abilityunlock_major"
+      },
+      "abilityunlock_crossbowman_minor": {
+        "Name": "Minor Special Ability",
+        "IconId": "abilityunlock_minor"
+      },
+      "abilityunlock_crossbowman_major": {
+        "Name": "Major Special Ability",
+        "IconId": "abilityunlock_major"
+      },
+
+      "unitunlock_sniper": {
+        "Name": "Sniper",
+        "IconId": "unitunlock_sniper_1"
+      },
+      "unitunlock_trapper": {
+        "Name": "Trapper",
+        "IconId": "unitunlock_trapper_1"
+      }
+    },
+    "melee": {
+      "stat_damage_1": {
+        "Name": "Strike Training",
+        "IconId": "melee_damage_1"
+      },
+      "stat_damage_2": {
+        "Name": "Disciplined Strikes",
+        "IconId": "melee_damage_2"
+      },
+      "stat_damage_3": {
+        "Name": "Weapon Mastery",
+        "IconId": "melee_damage_3"
+      },
+      "stat_damage_4": {
+        "Name": "Master-at-Arms",
+        "IconId": "melee_damage_4"
+      },
+      "stat_damage_5": {
+        "Name": "Battle Clarity",
+        "IconId": "melee_damage_5"
+      },
+      "stat_attackspeed_1": {
+        "Name": "Weapon Handling",
+        "IconId": "melee_attackspeed_1"
+      },
+      "stat_attackspeed_2": {
+        "Name": "Efficient Strikes",
+        "IconId": "melee_attackspeed_2"
+      },
+      "stat_attackspeed_3": {
+        "Name": "Advanced Weapon Handling",
+        "IconId": "melee_attackspeed_3"
+      },
+      "stat_attackspeed_4": {
+        "Name": "Relentless Assault",
+        "IconId": "melee_attackspeed_4"
+      },
+      "stat_attackspeed_5": {
+        "Name": "Perfect Form",
+        "IconId": "melee_attackspeed_5"
+      },
+      "stat_critchance_1": {
+        "Name": "Battle Maneuver",
+        "IconId": "melee_critchance_1"
+      },
+      "stat_critchance_2": {
+        "Name": "Combat Instinct",
+        "IconId": "melee_critchance_2"
+      },
+      "stat_critchance_3": {
+        "Name": "Executioner's Blow",
+        "IconId": "melee_critchance_3"
+      },
+      "stat_critchance_4": {
+        "Name": "Fatal Opportunity",
+        "IconId": "melee_critchance_4"
+      },
+      "stat_critchance_5": {
+        "Name": "Perfect Strike",
+        "IconId": "melee_critchance_5"
+      },
+      "stat_critdamage_1": {
+        "Name": "Momentum",
+        "IconId": "melee_critdamage_1"
+      },
+      "stat_critdamage_2": {
+        "Name": "Executioner",
+        "IconId": "melee_critdamage_2"
+      },
+      "stat_critdamage_3": {
+        "Name": "Crushing Blow",
+        "IconId": "melee_critdamage_3"
+      },
+      "stat_critdamage_4": {
+        "Name": "Mortal Strike",
+        "IconId": "melee_critdamage_4"
+      },
+      "stat_critdamage_5": {
+        "Name": "Decisive Finish",
+        "IconId": "melee_critdamage_5"
+      },
+      "stat_range_1": {
+        "Name": "Reach Training",
+        "IconId": "melee_range_1"
+      },
+      "stat_range_2": {
+        "Name": "Extended Reach",
+        "IconId": "melee_range_2"
+      },
+      "stat_range_3": {
+        "Name": "Spear Mastery",
+        "IconId": "melee_range_3"
+      },
+      "stat_range_4": {
+        "Name": "Long Spear",
+        "IconId": "melee_range_4"
+      },
+      "stat_range_5": {
+        "Name": "Perfect Reach",
+        "IconId": "melee_range_5"
+      },
+
+      "abilityunlock_stun": {
+        "Name": "Shield Slam",
+        "IconId": "abilityunlock_stun_1"
+      },
+      "abilityunlock_pushback": {
+        "Name": "Lance Strike",
+        "IconId": "abilityunlock_pushback_1"
+      },
+
+      "abilityunlock_berserker_minor": {
+        "Name": "Minor Special Ability",
+        "IconId": "abilityunlock_minor"
+      },
+      "abilityunlock_berserker_major": {
+        "Name": "Major Special Ability",
+        "IconId": "abilityunlock_major"
+      },
+      "abilityunlock_pikeman_minor": {
+        "Name": "Minor Special Ability",
+        "IconId": "abilityunlock_minor"
+      },
+      "abilityunlock_pikeman_major": {
+        "Name": "Major Special Ability",
+        "IconId": "abilityunlock_major"
+      },
+      "abilityunlock_guardian_minor": {
+        "Name": "Minor Special Ability",
+        "IconId": "abilityunlock_minor"
+      },
+      "abilityunlock_guardian_major": {
+        "Name": "Major Special Ability",
+        "IconId": "abilityunlock_major"
+      },
+
+      "unitunlock_berserker": {
+        "Name": "Berserker",
+        "IconId": "unitunlock_berserker_1"
+      },
+      "unitunlock_guardian": {
+        "Name": "Guardian",
+        "IconId": "unitunlock_guardian_1"
+      },
+      "unitunlock_templar": {
+        "Name": "Templar",
+        "IconId": "unitunlock_templar_1"
+      },
+      "unitunlock_dragoon": {
+        "Name": "Dragoon",
+        "IconId": "unitunlock_dragoon_1"
+      }
     }
   }
 }

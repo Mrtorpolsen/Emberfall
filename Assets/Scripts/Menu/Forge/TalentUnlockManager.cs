@@ -30,20 +30,22 @@ public class TalentUnlockManager : MonoBehaviour
 
         foreach (var kvp in purchases)
         {
-            string unit = kvp.Key.Split("_")[0].ToLowerInvariant();
-            var talentDef = TalentService.Instance.playerTalentTree.GetTalentById(kvp.Key);
-
-            if (!pointsPerTierPerUnit.ContainsKey(unit))
+            foreach (var purchasedTalent in kvp.Value.PurchasedTalents)
             {
-                pointsPerTierPerUnit[unit] = new Dictionary<int, int>();
-            }
+                var talent = TalentService.Instance.playerTalentTree.GetTalentById(kvp.Key, purchasedTalent.Key);
 
-            if (!pointsPerTierPerUnit[unit].ContainsKey(talentDef.Tier))
-            {
-                pointsPerTierPerUnit[unit][talentDef.Tier] = 0;
-            }
+                if (!pointsPerTierPerUnit.ContainsKey(kvp.Key))
+                {
+                    pointsPerTierPerUnit[kvp.Key] = new Dictionary<int, int>();
+                }
 
-            pointsPerTierPerUnit[unit][talentDef.Tier] += kvp.Value;
+                if (!pointsPerTierPerUnit[kvp.Key].ContainsKey(talent.Tier))
+                {
+                    pointsPerTierPerUnit[kvp.Key][talent.Tier] = 0;
+                }
+
+                pointsPerTierPerUnit[kvp.Key][talent.Tier] += purchasedTalent.Value;
+            }
         }
     }
 

@@ -33,27 +33,28 @@ public class StatsBootstrapper
 
         foreach (var kvp in SaveService.Instance.Current.Talents.Purchases)
         {
-            string unit = kvp.Key.Split("_")[0].ToLowerInvariant();
-
-            if(TalentService.Instance.playerTalentTree == null)
+            foreach (var talent in kvp.Value.PurchasedTalents)
             {
-                Debug.LogError("Player Talent Tree is null. Cannot load talents.");
-                return;
+                if(TalentService.Instance.playerTalentTree == null)
+                {
+                    Debug.LogError("Player Talent Tree is null. Cannot load talents.");
+                    return;
+                }
+
+                Talent talentDef = TalentService.Instance
+                    .playerTalentTree.GetTalentById(kvp.Key, talent.Key);
+
+                if (talentDef.Type != TalentType.StatModifier) continue;
+
+                TalentsToApply talentToApply = new TalentsToApply
+                {
+                    unit = kvp.Key,
+                    purchased = kvp.Value.PurchasedTalents[talent.Key],
+                    effects = new List<StatEffect>(talentDef.Effects)
+                };
+
+                talentsToApply.Add(talentToApply);
             }
-
-            TalentDefinition talentDef = TalentService.Instance
-                .playerTalentTree.GetTalentById(kvp.Key);
-
-            if (talentDef.Type != TalentType.StatModifier) continue;
-
-            TalentsToApply talent = new TalentsToApply
-            {
-                unit = unit,
-                purchased = kvp.Value,
-                effects = new List<StatEffect>(talentDef.Effects)
-            };
-
-            talentsToApply.Add(talent);
         }
     }
 

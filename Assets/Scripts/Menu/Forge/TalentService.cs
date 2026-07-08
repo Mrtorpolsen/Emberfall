@@ -1,4 +1,7 @@
 using Newtonsoft.Json;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -52,10 +55,7 @@ public class TalentService : MonoBehaviour
             var tree = JsonConvert.DeserializeObject<TalentTree>(jsonAsset.text);
             playerTalentTree = tree;
 
-            foreach (var classDef in playerTalentTree.TalentsByClass.Values)
-            {
-                BuildTalentCosts(classDef);
-            }
+            BuildTalentsByUnit(playerTalentTree);
         }
         finally
         {
@@ -63,28 +63,75 @@ public class TalentService : MonoBehaviour
         }
     }
 
-    private void BuildTalentCosts(TalentClassDefinition talents)
+    private void BuildTalentsByUnit(TalentTree talentTree)
     {
-        foreach (var talent in talents.Talents)
+        foreach (var unitEntry in talentTree.UnitDefinitions)
         {
-            talent.Cost = playerTalentTree.GetCostModel(talents.CostPreset, talent.Tier);
+            string unitName = unitEntry.Key;
+            TalentUnitDefinition unitDef = unitEntry.Value;
+
+            var tempList = new List<Talent>();
+
+            foreach (var talentNode in unitDef.Talents)
+            {
+                var archetypeOverride = talentTree.GetArchetypeOverride(unitDef.Archetype, talentNode.DefinitionId);
+                var talentData = talentTree.GetTalentData(talentNode.DefinitionId);
+
+                var talent = new Talent
+                {
+                    Id = talentNode.DefinitionId,
+                    IconId = archetypeOverride.IconId,
+                    Name = archetypeOverride.Name,
+                    Description = talentData.Description,
+                    Category = talentNode.Category,
+                    Type = talentData.Type,
+                    Tier = talentNode.Tier,
+                    Effects = talentData.Effects,
+                    Unlocks = talentData.Unlocks,
+                    Purchase = talentData.Purchase,
+                    Prerequisites = talentNode.Prerequisites,
+                    Cost = talentTree.GetCostModel(unitDef.CostPreset, talentNode.Tier)
+                };
+
+                tempList.Add(talent);
+            }
+
+            talentTree.TalentsByUnit.Add(unitName, tempList);
         }
     }
 
-    public void AddTalent(string id)
+    public void AddTalent(string unitName, string talentId)
     {
-        if (SaveService.Instance.Current.Talents.Purchases.TryGetValue(id, out int purchased))
+        var purchases = SaveService.Instance.Current.Talents.Purchases;
+
+        if (!purchases.TryGetValue(unitName, out var unitPurchases))
         {
-            SaveService.Instance.Current.Talents.Purchases[id] = purchased + 1;
+            unitPurchases = new UnitSaveData
+            {
+                PurchasedTalents = new Dictionary<string, int>()
+            };
+
+            purchases[unitName] = unitPurchases;
+        }
+
+        if (unitPurchases.PurchasedTalents.TryGetValue(talentId, out var count))
+        {
+            unitPurchases.PurchasedTalents[talentId] = count + 1;
         }
         else
         {
-            SaveService.Instance.Current.Talents.Purchases.Add(id, 1);
+            unitPurchases.PurchasedTalents[talentId] = 1;
         }
     }
 
-    public int GetPurchasedTalent(string id)
+    public int GetPurchasedTalent(string unitName, string talentId)
     {
-        return SaveService.Instance.Current.Talents.Purchases.TryGetValue(id, out int count) ? count : 0;
+        if (SaveService.Instance.Current.Talents.Purchases.TryGetValue(unitName, out var unitPurchase) &&
+            unitPurchase.PurchasedTalents.TryGetValue(talentId, out var count))
+        {
+            return count;
+        }
+
+        return 0;
     }
 }

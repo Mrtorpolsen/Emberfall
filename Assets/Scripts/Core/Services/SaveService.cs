@@ -125,7 +125,7 @@ public class SaveService : GlobalSystem<SaveService>
 
         // Talents
         Current.Talents ??= new PlayerTalentState();
-        Current.Talents.Purchases ??= new Dictionary<string, int>();
+        Current.Talents.Purchases ??= new Dictionary<string, UnitSaveData>();
         Current.Talents.CurrencySpent ??= new Dictionary<CurrencyTypes, int>();
 
         // Research
