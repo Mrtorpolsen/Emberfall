@@ -70,6 +70,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4268482a2e4716145b3579c038a3fb47
+    m_Address: Assets/Art/UnitGameIcons/pikeman_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 456bd81cc881cec499aca2e1dc9f38f6
     m_Address: default_armor_1
     m_ReadOnly: 0
@@ -172,6 +177,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7d176817a7565ec4f97e08cc09a16e3b
     m_Address: ranged_damage_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f706612e4557aa46a7d7387b107d478
+    m_Address: Assets/Art/UnitGameIcons/musketeer_icon_512x512.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

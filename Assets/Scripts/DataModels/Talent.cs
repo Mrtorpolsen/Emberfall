@@ -8,7 +8,7 @@ public class TalentTree
     public Dictionary<CostPreset, TalentCostPreset> CostPresets { get; set; }
 
     [JsonProperty("unitDefinitions")]
-    public Dictionary<string, TalentUnitDefinition> UnitDefinitions { get; set; }
+    public Dictionary<string, UnitDefinition> UnitDefinitions { get; set; }
 
     [JsonProperty("talentData")]
     public Dictionary<string, TalentData> TalentData { get; set; }
@@ -106,8 +106,9 @@ public class Talent
     }
 }
 
-public class TalentUnitDefinition
+public class UnitDefinition
 {
+    public string IconId;
     public CostPreset CostPreset;
     public Archetype Archetype;
     public List<UnitTags> Tags;

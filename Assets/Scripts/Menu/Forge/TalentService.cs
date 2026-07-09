@@ -68,7 +68,7 @@ public class TalentService : MonoBehaviour
         foreach (var unitEntry in talentTree.UnitDefinitions)
         {
             string unitName = unitEntry.Key;
-            TalentUnitDefinition unitDef = unitEntry.Value;
+            UnitDefinition unitDef = unitEntry.Value;
 
             var tempList = new List<Talent>();
 
