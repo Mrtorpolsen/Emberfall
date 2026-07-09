@@ -284,4 +284,12 @@ public class UnitStatsManagerTests
         }
     }
 
+    [TearDown]
+    public void Cleanup()
+    {
+        foreach (var obj in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+        {
+            Object.DestroyImmediate(obj);
+        }
+    }
 }
