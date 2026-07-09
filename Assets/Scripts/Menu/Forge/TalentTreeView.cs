@@ -25,6 +25,7 @@ public class TalentTreeView
         }
         
         talentNodeContainer = UtilityUIBinding.QRequired<VisualElement>(root, TALENT_NODE_CONTAINER);
+
         ClearTalentRows();
     }
 

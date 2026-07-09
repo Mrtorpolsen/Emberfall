@@ -26,8 +26,6 @@ public class ForgeEvents : IUIScreenEvents
 
         this.controller.SetTalentTreeView(this.view.GetTalentTreeView());
 
-        this.controller.Initialize(view);
-
         UtilityUIBinding.BindEvents(root, this, bindings);
     }
 

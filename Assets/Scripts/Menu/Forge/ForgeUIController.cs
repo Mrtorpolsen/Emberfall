@@ -31,6 +31,8 @@ public class ForgeUIController : IUIScreenController
         //Enforce correct state
         talentTreePanel.style.display = DisplayStyle.None;
         forgePanel.style.display = DisplayStyle.Flex;
+
+        view.RenderUnitContainers(GenerateUnitContainers());
     }
 
     public void SetTalentTreeView(TalentTreeView view)
@@ -60,6 +62,33 @@ public class ForgeUIController : IUIScreenController
     public void Cleanup()
     {
         view.Cleanup();
+    }
+
+    public List<UnitContainerDefinition> GenerateUnitContainers()
+    {
+        List<UnitContainerDefinition> unitContainers = new List<UnitContainerDefinition>();
+        if (TalentService.Instance.playerTalentTree == null)
+        {
+            throw new InvalidOperationException("Player Talent Tree is null. Cannot generate unit containers.");
+        }
+
+        foreach(var unit in TalentService.Instance.playerTalentTree.UnitDefinitions)
+        {
+            unitContainers.Add(BuildUnitContainer(unit.Key, unit.Value.IconId));
+        }
+
+        return unitContainers;
+    }
+
+    public UnitContainerDefinition BuildUnitContainer(string unitId, string iconId)
+    {
+        var container = new UnitContainerDefinition
+        {
+            id = unitId,
+            img = iconId,
+            onClick = () => OpenTalentTree(unitId)
+        };
+        return container;
     }
 
     public List<TalentNodeDefinition> GenerateTalentNodes(string treeToGenerate)

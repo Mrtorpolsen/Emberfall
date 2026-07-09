@@ -1487,7 +1487,7 @@
       ]
     },
     "musketeer": {
-      "iconId": "Assets/Art/UnitGameIcons/muskateer_icon_512x512.png",
+      "iconId": "Assets/Art/UnitGameIcons/musketeer_icon_512x512.png",
       "costPreset": "common",
       "archetype": "ranged",
       "tags": [],
