@@ -1732,7 +1732,7 @@
       ]
     },
     "crossbowman": {
-      "iconId": "place_holder_icon",
+      "iconId": "Assets/Art/UnitGameIcons/crosbow_icon_512x512.png",
       "costPreset": "common",
       "archetype": "ranged",
       "tags": [],

@@ -11,10 +11,6 @@ public class ForgeEvents : IUIScreenEvents
     private readonly Dictionary<string, string> bindings = new()
     {
         { "Btn_Return", nameof(Btn_ReturnCLicked) },
-        { "Btn_Upg_Fighter", nameof(Btn_Upg_FighterClicked) },
-        { "Btn_Upg_Ranger", nameof(Btn_Upg_RangerClicked) },
-        { "Btn_Upg_Cavalier", nameof(Btn_Upg_CavalierClicked) },
-        { "Btn_Upg_Income", nameof(Btn_Upg_IncomeClicked) },
         { "Btn_Refund_Talents", nameof(Btn_Refund_Talents) },
     };
 
@@ -37,24 +33,6 @@ public class ForgeEvents : IUIScreenEvents
     private void Btn_ReturnCLicked()
     {
         controller.BackToForge();
-    }
-
-    private void Btn_Upg_FighterClicked()
-    {
-        controller.OpenTalentTree("fighter");
-    }
-    private void Btn_Upg_RangerClicked()
-    {
-        controller.OpenTalentTree("ranger");
-    }
-
-    private void Btn_Upg_CavalierClicked()
-    {
-        controller.OpenTalentTree("cavalier");
-    }
-    private void Btn_Upg_IncomeClicked()
-    {
-        Debug.Log("Clicked " + nameof(Btn_Upg_IncomeClicked));
     }
 
     private async void Btn_Refund_Talents()

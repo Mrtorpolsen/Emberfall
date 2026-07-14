@@ -140,6 +140,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 686a6488a3e5c7846be276c6f38b72c2
+    m_Address: Assets/Art/UnitGameIcons/crosbow_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6db69832970cc1341855ca9bf4e7ebef
     m_Address: Assets/Art/UnitGameIcons/berserker_icon_512x512.png
     m_ReadOnly: 0
