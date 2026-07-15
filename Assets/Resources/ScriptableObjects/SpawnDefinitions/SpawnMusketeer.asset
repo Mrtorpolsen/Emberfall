@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
   displayName: Musketeer
   icon:
-    m_AssetGUID: 211fdcb07f12a264bbbe763df1bc39e5
+    m_AssetGUID: 7f706612e4557aa46a7d7387b107d478
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

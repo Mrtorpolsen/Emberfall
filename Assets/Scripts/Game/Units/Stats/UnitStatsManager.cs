@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -71,8 +72,9 @@ public class UnitStatsManager : MonoBehaviour
             statsBootstrapper.LoadAndBuildTalents();
             statsBootstrapper.LoadAndBuildResearch();
         }
-        catch
+        catch(Exception e)
         {
+            Debug.LogException(e);
             Debug.LogWarning("StatsBootstrapper not initialized. Skipping talent application.");
             statsBootstrapper = null;
         }
@@ -86,7 +88,7 @@ public class UnitStatsManager : MonoBehaviour
     public void RecalculateAllFinalStats()
     {
         finalStatsByUnit.Clear();
-        statsBootstrapper.ReloadPlayerData();
+        ReloadPlayerData();
         CalculateAllFinalStats();
     }
 
@@ -108,7 +110,6 @@ public class UnitStatsManager : MonoBehaviour
 
     private FinalStats CalculateFinalStats(UnitStatsDefinition baseStats, string unitKey, Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers)
     {
-
         ResearchCategory category = baseStats.category;
 
         FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
@@ -142,8 +143,6 @@ public class UnitStatsManager : MonoBehaviour
     //public for testing, look into moving it to its own service
     public void CalculateAllFinalStats()
     {
-        statsBootstrapper.ReloadPlayerData();
-
         if (statsBootstrapper == null) return;
 
         Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = GetResearchStatModifiers();
@@ -158,8 +157,6 @@ public class UnitStatsManager : MonoBehaviour
 
     public void CalculateFinalStatsByKey(string unitKey)
     {
-        statsBootstrapper.ReloadPlayerData();
-
         if (statsBootstrapper == null) return;
 
         Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers = GetResearchStatModifiers();
@@ -252,6 +249,11 @@ public class UnitStatsManager : MonoBehaviour
         };
 
         return finalStats;
+    }
+
+    public void ReloadPlayerData()
+    {
+        statsBootstrapper.ReloadPlayerData();
     }
 
     private void LogStats(string unitName, FinalStats stats)

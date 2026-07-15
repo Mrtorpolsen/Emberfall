@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI%20Toolkit/Armoy/Forge/ForgeStyle.uss?fileID=7433441132597879392&amp;guid=36f230e4e29f01a4292ae3ab9db4d03c&amp;type=3#ForgeStyle"/>
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle"/>
+    <ui:VisualElement name="UnitContainer" class="unitContainer">
+        <ui:VisualElement name="ImgContainer" class="imgContainer btnBackground1x1 btnPadding1x1" style="margin-bottom: 5px; aspect-ratio: 1;">
+            <ui:VisualElement name="Img_Unit" class="imgUnit" style="background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); width: 100%; height: 100%; align-self: center; aspect-ratio: 1;"/>
+        </ui:VisualElement>
+        <ui:Button text="Upgrade" name="Btn_Upg" double-click-selects-word="true" class="btnUpg text btnBackground2x1"/>
+    </ui:VisualElement>
+</ui:UXML>

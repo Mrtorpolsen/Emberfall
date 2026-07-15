@@ -26,7 +26,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0b93a132750b30546ba471545f8aab26
-    m_Address: global_health_3
+    m_Address: default_health_3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -60,6 +60,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2bdcf7343d4f3b7498b00e7cbd4fd641
+    m_Address: UI/UnitContainer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2dfcea0a9efb05f4fbad899138883046
     m_Address: Assets/Art/UnitGameIcons/build_tower_icon_512x512.png
     m_ReadOnly: 0
@@ -70,8 +75,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4268482a2e4716145b3579c038a3fb47
+    m_Address: Assets/Art/UnitGameIcons/pikeman_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 456bd81cc881cec499aca2e1dc9f38f6
-    m_Address: global_armor_1
+    m_Address: default_armor_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -96,7 +106,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 55f32d0752d5c5644a7022a3892beb4a
-    m_Address: global_health_1
+    m_Address: default_health_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -130,13 +140,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 686a6488a3e5c7846be276c6f38b72c2
+    m_Address: Assets/Art/UnitGameIcons/crosbow_icon_512x512.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6db69832970cc1341855ca9bf4e7ebef
     m_Address: Assets/Art/UnitGameIcons/berserker_icon_512x512.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6de964e89e6e63642be92a5234612725
-    m_Address: global_health_4
+    m_Address: default_health_4
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -172,6 +187,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7d176817a7565ec4f97e08cc09a16e3b
     m_Address: ranged_damage_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f706612e4557aa46a7d7387b107d478
+    m_Address: Assets/Art/UnitGameIcons/musketeer_icon_512x512.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -216,7 +236,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: af13899dae3f27a46a5c60c4919bba42
-    m_Address: global_health_2
+    m_Address: default_health_2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -336,7 +356,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: efee10c3fa28a5542af60e06dbdb0cd9
-    m_Address: global_allstats_1
+    m_Address: default_allstats_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

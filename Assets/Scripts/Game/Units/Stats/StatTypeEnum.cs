@@ -8,5 +8,6 @@
     CritChance,
     CritDamage,
     SplashRadius,
+    MovementSpeed,
     Income,
 }

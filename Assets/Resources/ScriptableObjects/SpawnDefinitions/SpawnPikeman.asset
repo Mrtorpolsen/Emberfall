@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
   displayName: Pikeman
   icon:
-    m_AssetGUID: 211fdcb07f12a264bbbe763df1bc39e5
+    m_AssetGUID: 4268482a2e4716145b3579c038a3fb47
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

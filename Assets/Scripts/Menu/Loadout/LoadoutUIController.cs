@@ -90,6 +90,7 @@ public class LoadoutUIController : IUIScreenController
                 {
                     var unitKey = LoadoutDatabase.Instance.GetSpawn(loadoutSlot.Definition.Id).Stats.name.ToLowerInvariant();
 
+                    UnitStatsManager.Instance.ReloadPlayerData();
                     UnitStatsManager.Instance.CalculateFinalStatsByKey(unitKey);
 
                     var stats = UnitStatsManager.Instance.FinalStatsByUnit[unitKey];
