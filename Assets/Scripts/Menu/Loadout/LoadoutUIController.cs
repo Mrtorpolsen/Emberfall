@@ -349,8 +349,8 @@ public class LoadoutUIController : IUIScreenController
                     "Damage: " + stats.attackDamage + "\n" +
                     "Attack Speed: " + stats.attackSpeed + "\n" +
                     "Attack Range: " + stats.attackRange + "\n" +
-                    "Crit Chance: " + stats.critChance + "\n" +
-                    "Crit Damage: " + stats.critDamage;
+                    "Crit Damage: " + stats.critDamage + "\n" +
+                    "Mass: " + stats.mass;
                 break;
         }
 
@@ -377,7 +377,8 @@ public class LoadoutUIController : IUIScreenController
                     "Attack Speed: " + stats.attackSpeed + "\n" +
                     "Attack Range: " + stats.attackRange + "\n" +
                     "Crit Chance: " + stats.critChance + "\n" +
-                    "Crit Damage: " + stats.critDamage;
+                    "Crit Damage: " + stats.critDamage + "\n" +
+                    "Mass: " + stats.mass;
                 break;
         }
 

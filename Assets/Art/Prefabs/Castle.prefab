@@ -187,10 +187,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab81c8819370f0a429de08ef5cb798f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 0}
-  baseStats: {fileID: 11400000, guid: ef6482486627e6a45a46b06b2982bce5, type: 2}
+  unit: {fileID: 4467444779989242713}
+  statsDef: {fileID: 11400000, guid: ef6482486627e6a45a46b06b2982bce5, type: 2}
   unitCollider: {fileID: 5784983972493727905}
-  unitRigidbody: {fileID: 0}
+  unitRigidbody: {fileID: 1915946360153976347}
   showRangeGizmo: 0
   currentHealth: 0
   healthBarScale: {x: 0, y: 0, z: 0}

@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusketeerBaseStatsComponent
   unit: {fileID: 3501163535796704365}
-  baseStats: {fileID: 11400000, guid: 22eb9ed632672954d8803a8e8e665ef8, type: 2}
+  statsDef: {fileID: 11400000, guid: 22eb9ed632672954d8803a8e8e665ef8, type: 2}
   unitCollider: {fileID: 5301206489407447251}
   unitRigidbody: {fileID: 4453514862014735567}
   showRangeGizmo: 0

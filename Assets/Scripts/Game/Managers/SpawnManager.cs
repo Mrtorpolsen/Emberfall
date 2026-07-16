@@ -78,7 +78,7 @@ public class SpawnManager : MonoBehaviour
             Debug.LogWarning("Not enough currency");
             return false;
         }
-
+        //Spawn offset since its not a tower
         Vector3 spawnPos = spawnPoint.position;
 
         spawnPos.x = Random.Range(-spawnOffSet, spawnOffSet);
@@ -117,6 +117,7 @@ public class SpawnManager : MonoBehaviour
         return true;
     }
 
+    //Doesnt have spawn offset used for tower, need rework or rename to better reflect its purpose
     public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team,
         out GameObject spawnedUnit, FinalStats finalStats = null)
     {
@@ -136,7 +137,9 @@ public class SpawnManager : MonoBehaviour
             return false;
         }
 
-        GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+        Vector3 spawnPos = spawnPoint.position;
+
+        GameObject unit = Instantiate(prefab, spawnPos, spawnPoint.rotation);
         spawnedUnit = unit;
 
         unitBase = unit.GetComponent<BaseUnitStats>();

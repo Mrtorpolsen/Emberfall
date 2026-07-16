@@ -23,6 +23,9 @@ public class MovementComponent : MonoBehaviour
     private Collider2D[] hitBuffer = new Collider2D[8];
     private ContactFilter2D separationFilter;
 
+    private float fallbackOffSet = 0.85f;
+    private float unitFallbackOffSet;
+
     void Awake()
     {
         targetComponent = GetComponent<TargetComponent>();
@@ -39,6 +42,8 @@ public class MovementComponent : MonoBehaviour
             useLayerMask = false,
             useTriggers = true
         };
+
+        unitFallbackOffSet = Random.Range(-fallbackOffSet, fallbackOffSet);
     }
 
     private void FixedUpdate()
@@ -131,6 +136,8 @@ public class MovementComponent : MonoBehaviour
         }
 
         Transform fallback = GetFallbackPoint();
+
+        fallback.position = new Vector3(unitFallbackOffSet, fallback.position.y, fallback.position.z);
 
         return fallback?.position;
     }

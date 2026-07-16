@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PikemanBaseStatsComponent
   unit: {fileID: 6717628542700303866}
-  baseStats: {fileID: 11400000, guid: b5b8b9dbdf4ab404a94a0d46f6a72a9b, type: 2}
+  statsDef: {fileID: 11400000, guid: b5b8b9dbdf4ab404a94a0d46f6a72a9b, type: 2}
   unitCollider: {fileID: 5908416614741118226}
   unitRigidbody: {fileID: 5314775306289127517}
   showRangeGizmo: 0

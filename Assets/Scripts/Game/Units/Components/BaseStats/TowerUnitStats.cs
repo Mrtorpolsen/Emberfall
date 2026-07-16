@@ -44,9 +44,9 @@ public class TowerUnitStats : BaseUnitStats
 
         return new FinalStats
         {
-            attackDamage = Mathf.RoundToInt(BaseStats.attackDamage * multiplier),
-            attackSpeed = BaseStats.attackSpeed * multiplier,
-            attackRange = BaseStats.attackRange * multiplier,
+            attackDamage = Mathf.RoundToInt(StatsDef.attackDamage * multiplier),
+            attackSpeed = StatsDef.attackSpeed * multiplier,
+            attackRange = StatsDef.attackRange * multiplier,
         };
     }
 

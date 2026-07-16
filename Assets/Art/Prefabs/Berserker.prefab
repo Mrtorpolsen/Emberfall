@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BerserkerBaseStatsComponent
   unit: {fileID: 6717628542700303866}
-  baseStats: {fileID: 11400000, guid: e1ba1a6a0cabcfb4697f53f87937fb7a, type: 2}
+  statsDef: {fileID: 11400000, guid: e1ba1a6a0cabcfb4697f53f87937fb7a, type: 2}
   unitCollider: {fileID: 4764436896931820978}
   unitRigidbody: {fileID: 5314775306289127517}
   showRangeGizmo: 0

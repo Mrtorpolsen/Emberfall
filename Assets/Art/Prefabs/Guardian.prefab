@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardianBaseStatsComponent
   unit: {fileID: 6717628542700303866}
-  baseStats: {fileID: 11400000, guid: 61b8de39fe91045479d6ca88b499243d, type: 2}
+  statsDef: {fileID: 11400000, guid: 61b8de39fe91045479d6ca88b499243d, type: 2}
   unitCollider: {fileID: 7147396514207109854}
   unitRigidbody: {fileID: 5314775306289127517}
   showRangeGizmo: 0

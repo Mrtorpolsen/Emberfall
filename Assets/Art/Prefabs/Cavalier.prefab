@@ -281,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 8916063152254937078}
-  baseStats: {fileID: 11400000, guid: f5d336250c7dbf644b2de1d239ceb949, type: 2}
+  statsDef: {fileID: 11400000, guid: f5d336250c7dbf644b2de1d239ceb949, type: 2}
   unitCollider: {fileID: 4491930615712888304}
   unitRigidbody: {fileID: 8933264750351331795}
   showRangeGizmo: 0
