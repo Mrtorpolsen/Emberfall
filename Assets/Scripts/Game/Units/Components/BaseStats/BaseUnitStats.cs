@@ -9,6 +9,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] protected GameObject unit;
     [SerializeField] private UnitStatsDefinition baseStats;
     [SerializeField] private Collider2D unitCollider;
+    [SerializeField] private Rigidbody2D unitRigidbody;
 
     [SerializeField] private float showRangeGizmo = 0f;
 
@@ -37,6 +38,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public float CritDamage => runtimeStats.critDamage;
     public int MaxHealth => runtimeStats.maxHealth;
     public int Armor => runtimeStats.armor;
+    public int Mass => runtimeStats.mass;
 
     // ITargetable
     public GameObject GameObject => gameObject;
@@ -65,6 +67,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] private float debugHitRadius;
 
     [SerializeField] private float debugMovementSpeed;
+    [SerializeField] private int debugMass;
 
     [SerializeField] private float debugCritChance;
     [SerializeField] private float debugCritDamage;
@@ -88,11 +91,17 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
             critChance = baseStats.critChance,
             critDamage = baseStats.critDamage,
             unitPrio = baseStats.unitPrio,
-            isTargetable = baseStats.isTargetable
+            isTargetable = baseStats.isTargetable,
+            mass = baseStats.mass
         };
 
         metadata = GetComponent<UnitMetadata>();
         currentHealth = runtimeStats.maxHealth;
+
+        if (Mass > 0)
+        {
+            unitRigidbody.mass = runtimeStats.mass;
+        }
 
         healthBarScale = baseStats.healthbarScale;
 
@@ -207,6 +216,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         runtimeStats.attackSpeed = finalStats.attackSpeed;
         runtimeStats.attackRange = finalStats.attackRange;
         runtimeStats.movementSpeed = finalStats.movementSpeed;
+        runtimeStats.mass = finalStats.mass;
         runtimeStats.hitRadius = finalStats.hitRadius;
         runtimeStats.cost = finalStats.cost;
         runtimeStats.armor = finalStats.armor;
@@ -412,6 +422,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         debugHitRadius = runtimeStats.hitRadius;
 
         debugMovementSpeed = runtimeStats.movementSpeed;
+        debugMass = runtimeStats.mass;
 
         debugCritChance = runtimeStats.critChance;
         debugCritDamage = runtimeStats.critDamage;

@@ -190,6 +190,8 @@ MonoBehaviour:
   unit: {fileID: 0}
   baseStats: {fileID: 11400000, guid: ef6482486627e6a45a46b06b2982bce5, type: 2}
   unitCollider: {fileID: 5784983972493727905}
+  unitRigidbody: {fileID: 0}
+  showRangeGizmo: 0
   currentHealth: 0
   healthBarScale: {x: 0, y: 0, z: 0}
   debugCost: 0
@@ -201,6 +203,7 @@ MonoBehaviour:
   debugAttackRange: 0
   debugHitRadius: 0
   debugMovementSpeed: 0
+  debugMass: 0
   debugCritChance: 0
   debugCritDamage: 0
   debugUnitPrio: 0

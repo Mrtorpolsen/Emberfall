@@ -18,6 +18,7 @@ public class UnitStatsDefinition : ScriptableObject
 
     [Header("Movement")]
     public float movementSpeed;
+    public int mass;
 
     [Header("Crit")]
     [Range(0f, 1f)] public float critChance;

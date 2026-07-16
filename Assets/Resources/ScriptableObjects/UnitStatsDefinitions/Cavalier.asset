@@ -20,6 +20,7 @@ MonoBehaviour:
   attackRange: 0.35
   hitRadius: 0.18
   movementSpeed: 4
+  mass: 5
   critChance: 0
   critDamage: 1.5
   unitPrio: 4

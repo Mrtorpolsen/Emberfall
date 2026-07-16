@@ -14,6 +14,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform southWestTower;
     [SerializeField] private Transform southEastTower;
 
+    private float spawnOffSet = 0.4f;
+
     private string playerColor = "#2E3A5E";
     private string enemyColor = "#A0170A";
 
@@ -77,7 +79,11 @@ public class SpawnManager : MonoBehaviour
             return false;
         }
 
-        GameObject unit = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+        Vector3 spawnPos = spawnPoint.position;
+
+        spawnPos.x = Random.Range(-spawnOffSet, spawnOffSet);
+
+        GameObject unit = Instantiate(prefab, spawnPos, spawnPoint.rotation);
         unitBase = unit.GetComponent<BaseUnitStats>();
 
         if (unitBase != null && finalStats != null)
