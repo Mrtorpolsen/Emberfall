@@ -15,6 +15,7 @@ public class UnitStatsDefinition : ScriptableObject
     public float attackSpeed;
     public float attackRange;
     public float hitRadius;
+    public float splashRadius;
 
     [Header("Movement")]
     public float movementSpeed;

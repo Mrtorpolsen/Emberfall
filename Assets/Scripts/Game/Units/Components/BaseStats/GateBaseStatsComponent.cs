@@ -50,6 +50,8 @@ public class GateStatsBaseStatsComponent : UnitMetadata, IUnit, ITargetable
 
     public int Mass => throw new System.NotImplementedException();
 
+    public float SplashRadius => throw new System.NotImplementedException();
+
     void Start()
     {
         //healthBar.UpdateHealthBar(currentHealth, maxHealth);

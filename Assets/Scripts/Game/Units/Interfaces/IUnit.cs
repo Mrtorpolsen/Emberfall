@@ -11,4 +11,5 @@ public interface IUnit : IHasTeam
     int MaxHealth { get; }
     int Armor { get; }
     int Mass { get; }
+    float SplashRadius { get; }
 }

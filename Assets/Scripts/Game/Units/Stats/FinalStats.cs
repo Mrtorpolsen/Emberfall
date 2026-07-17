@@ -12,4 +12,5 @@ public class FinalStats
     public float hitRadius;
     public float critChance;
     public float critDamage;
+    public float splashRadius;
 }

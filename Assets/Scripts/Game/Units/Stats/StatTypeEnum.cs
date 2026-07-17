@@ -10,4 +10,5 @@
     SplashRadius,
     MovementSpeed,
     Income,
+    Mass,
 }

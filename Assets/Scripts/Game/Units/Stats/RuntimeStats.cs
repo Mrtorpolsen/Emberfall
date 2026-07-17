@@ -14,4 +14,5 @@ public class RuntimeStats
     public ThreatLevel unitPrio;
     public bool isTargetable;
     public int mass;
+    public float splashRadius;
 }

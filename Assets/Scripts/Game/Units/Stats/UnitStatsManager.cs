@@ -245,7 +245,9 @@ public class UnitStatsManager : MonoBehaviour
             armor = unitBaseStats.armor,
             movementSpeed = unitBaseStats.movementSpeed,
             hitRadius = unitBaseStats.hitRadius,
-            cost = unitBaseStats.cost
+            cost = unitBaseStats.cost,
+            mass = unitBaseStats.mass,
+            splashRadius = unitBaseStats.splashRadius
         };
 
         return finalStats;
@@ -267,6 +269,8 @@ public class UnitStatsManager : MonoBehaviour
             $"  Move Speed: {stats.movementSpeed:F2}\n" +
             $"  Hit Radius: {stats.hitRadius:F2}\n" +
             $"  Cost: {stats.cost:F1}\n" +
+            $"  Mass: {stats.mass:F1}\n" +
+            $"  Splash Radius: {stats.splashRadius:F1}\n" +
             $"  Armor: {stats.armor:F1}"
         );
     }
@@ -282,6 +286,8 @@ public class UnitStatsManager : MonoBehaviour
             $"  Move Speed: {stats.MovementSpeed:F2}\n" +
             $"  Hit Radius: {stats.HitRadius:F2}\n" +
             $"  Cost: {stats.Cost:F1}\n" +
+            $"  Mass: {stats.Mass:F1}\n" +
+            $"  Splash Radius: {stats.SplashRadius:F1}\n" +
             $"  Armor: {stats.Armor:F1}"
         );
     }

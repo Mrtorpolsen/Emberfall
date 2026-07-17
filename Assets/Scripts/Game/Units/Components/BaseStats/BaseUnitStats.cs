@@ -39,6 +39,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public int MaxHealth => runtimeStats.maxHealth;
     public int Armor => runtimeStats.armor;
     public int Mass => runtimeStats.mass;
+    public float SplashRadius => runtimeStats.splashRadius;
 
     // ITargetable
     public GameObject GameObject => gameObject;
@@ -65,6 +66,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] private float debugAttackSpeed;
     [SerializeField] private float debugAttackRange;
     [SerializeField] private float debugHitRadius;
+    [SerializeField] private float debugSplashRadius;
 
     [SerializeField] private float debugMovementSpeed;
     [SerializeField] private int debugMass;
@@ -92,7 +94,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
             critDamage = statsDef.critDamage,
             unitPrio = statsDef.unitPrio,
             isTargetable = statsDef.isTargetable,
-            mass = statsDef.mass
+            mass = statsDef.mass,
+            splashRadius = statsDef.splashRadius
         };
 
         metadata = GetComponent<UnitMetadata>();
@@ -222,6 +225,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         runtimeStats.armor = finalStats.armor;
         runtimeStats.critChance = finalStats.critChance;
         runtimeStats.critDamage = finalStats.critDamage;
+        runtimeStats.splashRadius = finalStats.splashRadius;
 
 #if UNITY_EDITOR
         SyncDebugStats();
@@ -239,6 +243,9 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
             StatType.AttackRange => statsDef.attackRange,
             StatType.CritChance => statsDef.critChance,
             StatType.CritDamage => statsDef.critDamage,
+            StatType.MovementSpeed => statsDef.movementSpeed,
+            StatType.Mass => statsDef.mass,
+            StatType.SplashRadius => statsDef.splashRadius,
             _ => 0f
         };
     }
@@ -354,6 +361,14 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
             case StatType.CritDamage:
                 runtimeStats.critDamage = value;
                 break;
+
+            case StatType.Mass:
+                runtimeStats.mass = Mathf.RoundToInt(value);
+                break;
+
+            case StatType.SplashRadius:
+                runtimeStats.splashRadius = value;
+                break;
         }
     }
 
@@ -420,6 +435,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         debugAttackSpeed = runtimeStats.attackSpeed;
         debugAttackRange = runtimeStats.attackRange;
         debugHitRadius = runtimeStats.hitRadius;
+        debugSplashRadius = runtimeStats.splashRadius;
 
         debugMovementSpeed = runtimeStats.movementSpeed;
         debugMass = runtimeStats.mass;
