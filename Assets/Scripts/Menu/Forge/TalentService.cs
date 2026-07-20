@@ -72,14 +72,26 @@ public class TalentService : MonoBehaviour
 
             var tempList = new List<Talent>();
 
+            var idCounts = new Dictionary<string, int>();
+
             foreach (var talentNode in unitDef.Talents)
             {
                 var archetypeOverride = talentTree.GetArchetypeOverride(unitDef.Archetype, talentNode.DefinitionId);
                 var talentData = talentTree.GetTalentData(talentNode.DefinitionId);
 
+                //For talents with the same definition ID and tier, we need to create unique IDs for each instance of the talent. We can do this by appending a count to the base ID.
+                var baseId = $"{talentNode.DefinitionId}_T{talentNode.Tier}";
+
+                if (!idCounts.TryAdd(baseId, 0))
+                {
+                    idCounts[baseId]++;
+                }
+
+                var talentId = idCounts[baseId] == 0 ? baseId : $"{baseId}_{idCounts[baseId]}";
+
                 var talent = new Talent
                 {
-                    Id = talentNode.DefinitionId,
+                    Id = talentId,
                     IconId = archetypeOverride.IconId,
                     Name = archetypeOverride.Name,
                     Description = talentData.Description,
