@@ -19,6 +19,7 @@ MonoBehaviour:
   attackSpeed: 1
   attackRange: 0.2
   hitRadius: 0.13
+  splashRadius: 1.5
   movementSpeed: 0.5
   mass: 1
   critChance: 0
