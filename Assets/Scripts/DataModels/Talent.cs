@@ -78,7 +78,7 @@ public class TalentTree
 
 public class Talent
 {
-    public string Id;                        // unique id
+    public string Id;                        // comp id of DefinitionId + Tier
     public string IconId;
     public string Name;
     public string Description;

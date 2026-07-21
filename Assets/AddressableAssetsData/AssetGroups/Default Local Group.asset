@@ -106,8 +106,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 456bd81cc881cec499aca2e1dc9f38f6
-    m_Address: default_allstats_1 {         Name Master Combatant,         IconId
-      global_allstats_1       },_armor_1
+    m_Address: default_armor_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -282,7 +281,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a4f27a16fc021a24fb28d0ec3e9e8ddd
-    m_Address: default_heath_5
+    m_Address: default_health_5
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
