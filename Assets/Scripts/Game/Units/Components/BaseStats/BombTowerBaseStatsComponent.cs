@@ -2,8 +2,6 @@
 
 public class BombTowerBaseStatsComponent : TowerUnitStats
 {
-    [SerializeField] private float explosionRadius = 0.4f;
-
     private Collider2D[] hitBuffer;
     private ContactFilter2D contactFilter;
     private LayerMask enemyLayer;
@@ -24,11 +22,9 @@ public class BombTowerBaseStatsComponent : TowerUnitStats
 
     public void Explode(GameObject projObj)
     {
-        float radiusSquare = explosionRadius * explosionRadius;
-
         int hitCount = Physics2D.OverlapCircle(
             projObj.transform.position,
-            explosionRadius,
+            base.SplashRadius,
             contactFilter,
             hitBuffer
         );

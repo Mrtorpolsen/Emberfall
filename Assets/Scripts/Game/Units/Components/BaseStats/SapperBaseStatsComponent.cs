@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class SapperBaseStatsComponent : BaseUnitStats
 {
-    [SerializeField] private float explosionRadius = 1.5f;
-
     public override ThreatLevel UnitPrio => ThreatLevel.Immidate;
 
     private Collider2D[] hitBuffer;
@@ -31,7 +29,7 @@ public class SapperBaseStatsComponent : BaseUnitStats
     {
         int hitCount = Physics2D.OverlapCircle(
             transform.position,
-            explosionRadius,
+            base.SplashRadius,
             contactFilter,
             hitBuffer
         );
@@ -73,6 +71,6 @@ public class SapperBaseStatsComponent : BaseUnitStats
     protected override void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+        Gizmos.DrawWireSphere(transform.position, base.SplashRadius);
     }
 }

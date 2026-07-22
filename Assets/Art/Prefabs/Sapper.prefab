@@ -338,7 +338,6 @@ MonoBehaviour:
   rb: {fileID: 5314775306289127517}
   canMove: 1
   rangedZoneRadius: 0.1
-  separationInterval: 0.1
 --- !u!114 &7252195948236120283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,8 +351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SapperBaseStatsComponent
   unit: {fileID: 6717628542700303866}
-  baseStats: {fileID: 11400000, guid: 8d42d355c2c80f9479fe8f75a9660968, type: 2}
+  statsDef: {fileID: 11400000, guid: 8d42d355c2c80f9479fe8f75a9660968, type: 2}
   unitCollider: {fileID: 1474295297500071545}
+  unitRigidbody: {fileID: 5314775306289127517}
   showRangeGizmo: 0
   currentHealth: 0
   healthBarScale: {x: 0, y: 0, z: 0}
@@ -366,6 +366,7 @@ MonoBehaviour:
   debugAttackRange: 0
   debugHitRadius: 0
   debugMovementSpeed: 0
+  debugMass: 0
   debugCritChance: 0
   debugCritDamage: 0
   debugUnitPrio: 0
@@ -397,6 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   retargetInterval: 0.25
+  engagementStallTimer: 0
   northTeamLayer:
     serializedVersion: 2
     m_Bits: 64

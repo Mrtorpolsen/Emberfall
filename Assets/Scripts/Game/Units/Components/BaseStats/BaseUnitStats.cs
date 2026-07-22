@@ -7,12 +7,13 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
-    [SerializeField] private UnitStatsDefinition baseStats;
+    [SerializeField] public UnitStatsDefinition statsDef;
     [SerializeField] private Collider2D unitCollider;
+    [SerializeField] private Rigidbody2D unitRigidbody;
 
     [SerializeField] private float showRangeGizmo = 0f;
 
-    protected UnitStatsDefinition BaseStats => baseStats;
+    protected UnitStatsDefinition StatsDef => statsDef;
 
     public int currentHealth;
     protected UnitMetadata metadata;
@@ -37,6 +38,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public float CritDamage => runtimeStats.critDamage;
     public int MaxHealth => runtimeStats.maxHealth;
     public int Armor => runtimeStats.armor;
+    public int Mass => runtimeStats.mass;
+    public float SplashRadius => runtimeStats.splashRadius;
 
     // ITargetable
     public GameObject GameObject => gameObject;
@@ -48,7 +51,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     // UnitMetadata
     public Team Team => metadata.Team;
-    public float Cost => baseStats.cost;
+    public float Cost => statsDef.cost;
 
     //Debug
 #if UNITY_EDITOR
@@ -63,8 +66,10 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] private float debugAttackSpeed;
     [SerializeField] private float debugAttackRange;
     [SerializeField] private float debugHitRadius;
+    [SerializeField] private float debugSplashRadius;
 
     [SerializeField] private float debugMovementSpeed;
+    [SerializeField] private int debugMass;
 
     [SerializeField] private float debugCritChance;
     [SerializeField] private float debugCritDamage;
@@ -77,24 +82,31 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         runtimeStats = new RuntimeStats
         {
-            maxHealth = baseStats.maxHealth,
-            attackDamage = baseStats.attackDamage,
-            armor = baseStats.armor,
-            attackSpeed = baseStats.attackSpeed,
-            movementSpeed = baseStats.movementSpeed,
-            attackRange = baseStats.attackRange,
-            cost = baseStats.cost,
-            hitRadius = baseStats.hitRadius,
-            critChance = baseStats.critChance,
-            critDamage = baseStats.critDamage,
-            unitPrio = baseStats.unitPrio,
-            isTargetable = baseStats.isTargetable
+            maxHealth = statsDef.maxHealth,
+            attackDamage = statsDef.attackDamage,
+            armor = statsDef.armor,
+            attackSpeed = statsDef.attackSpeed,
+            movementSpeed = statsDef.movementSpeed,
+            attackRange = statsDef.attackRange,
+            cost = statsDef.cost,
+            hitRadius = statsDef.hitRadius,
+            critChance = statsDef.critChance,
+            critDamage = statsDef.critDamage,
+            unitPrio = statsDef.unitPrio,
+            isTargetable = statsDef.isTargetable,
+            mass = statsDef.mass,
+            splashRadius = statsDef.splashRadius
         };
 
         metadata = GetComponent<UnitMetadata>();
         currentHealth = runtimeStats.maxHealth;
 
-        healthBarScale = baseStats.healthbarScale;
+        if (Mass > 0)
+        {
+            unitRigidbody.mass = runtimeStats.mass;
+        }
+
+        healthBarScale = statsDef.healthbarScale;
 
         if (runtimeStats == null)
         {
@@ -207,11 +219,13 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         runtimeStats.attackSpeed = finalStats.attackSpeed;
         runtimeStats.attackRange = finalStats.attackRange;
         runtimeStats.movementSpeed = finalStats.movementSpeed;
+        runtimeStats.mass = finalStats.mass;
         runtimeStats.hitRadius = finalStats.hitRadius;
         runtimeStats.cost = finalStats.cost;
         runtimeStats.armor = finalStats.armor;
         runtimeStats.critChance = finalStats.critChance;
         runtimeStats.critDamage = finalStats.critDamage;
+        runtimeStats.splashRadius = finalStats.splashRadius;
 
 #if UNITY_EDITOR
         SyncDebugStats();
@@ -222,13 +236,16 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         return stat switch
         {
-            StatType.Health => baseStats.maxHealth,
-            StatType.AttackDamage => baseStats.attackDamage,
-            StatType.Armor => baseStats.armor,
-            StatType.AttackSpeed => baseStats.attackSpeed,
-            StatType.AttackRange => baseStats.attackRange,
-            StatType.CritChance => baseStats.critChance,
-            StatType.CritDamage => baseStats.critDamage,
+            StatType.Health => statsDef.maxHealth,
+            StatType.AttackDamage => statsDef.attackDamage,
+            StatType.Armor => statsDef.armor,
+            StatType.AttackSpeed => statsDef.attackSpeed,
+            StatType.AttackRange => statsDef.attackRange,
+            StatType.CritChance => statsDef.critChance,
+            StatType.CritDamage => statsDef.critDamage,
+            StatType.MovementSpeed => statsDef.movementSpeed,
+            StatType.Mass => statsDef.mass,
+            StatType.SplashRadius => statsDef.splashRadius,
             _ => 0f
         };
     }
@@ -344,6 +361,14 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
             case StatType.CritDamage:
                 runtimeStats.critDamage = value;
                 break;
+
+            case StatType.Mass:
+                runtimeStats.mass = Mathf.RoundToInt(value);
+                break;
+
+            case StatType.SplashRadius:
+                runtimeStats.splashRadius = value;
+                break;
         }
     }
 
@@ -410,8 +435,10 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         debugAttackSpeed = runtimeStats.attackSpeed;
         debugAttackRange = runtimeStats.attackRange;
         debugHitRadius = runtimeStats.hitRadius;
+        debugSplashRadius = runtimeStats.splashRadius;
 
         debugMovementSpeed = runtimeStats.movementSpeed;
+        debugMass = runtimeStats.mass;
 
         debugCritChance = runtimeStats.critChance;
         debugCritDamage = runtimeStats.critDamage;

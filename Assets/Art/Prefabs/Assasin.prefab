@@ -146,7 +146,6 @@ MonoBehaviour:
   rb: {fileID: 5314775306289127517}
   canMove: 1
   rangedZoneRadius: 0.1
-  separationInterval: 0.1
 --- !u!114 &2532687961183592548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,8 +159,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AssasinBaseStatsComponent
   unit: {fileID: 6717628542700303866}
-  baseStats: {fileID: 11400000, guid: f26e67d815635184b8a481c0859587a6, type: 2}
+  statsDef: {fileID: 11400000, guid: f26e67d815635184b8a481c0859587a6, type: 2}
   unitCollider: {fileID: 3370549126216613080}
+  unitRigidbody: {fileID: 5314775306289127517}
   showRangeGizmo: 0
   currentHealth: 0
   healthBarScale: {x: 0, y: 0, z: 0}
@@ -174,6 +174,7 @@ MonoBehaviour:
   debugAttackRange: 0
   debugHitRadius: 0
   debugMovementSpeed: 0
+  debugMass: 0
   debugCritChance: 0
   debugCritDamage: 0
   debugUnitPrio: 0
@@ -204,6 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   retargetInterval: 0.25
+  engagementStallTimer: 0
   northTeamLayer:
     serializedVersion: 2
     m_Bits: 64

@@ -9,9 +9,22 @@ public class MovementComponent : MonoBehaviour
     [SerializeField] public bool canMove = true;
 
     [Header("Ranged Settings")]
-    [SerializeField] private float rangedZoneRadius = 0.1f; // how far they can move from rally
+    [SerializeField] private float rangedZoneRadius = 0.1f;
 
-    private float stopBuffer = 0.1f; // extend the range to better detect when to stop moving
+    [Header("Melee Settings")]
+    [SerializeField] private float meleeZoneRadius = 0.7f;
+
+    [Header("Movement")]
+    [SerializeField] private float arrivalRadius = 0.3f;
+    [SerializeField] private float separationRadius = 0.1f;
+    [SerializeField] private float separationStrength = 0.1f;
+
+    [Header("Stuck Detection")]
+    [SerializeField] private float stuckTime = 1f;
+    [SerializeField] private float retryDelay = 2f;
+    [SerializeField] private float progressThreshold = 0.05f;
+
+    private float stopBuffer = 0.1f;
 
     private Transform south;
     private TargetComponent targetComponent;
@@ -20,8 +33,23 @@ public class MovementComponent : MonoBehaviour
     private RangedShooter rangedStats;
     private Transform rangedRally;
 
-    private Collider2D[] hitBuffer = new Collider2D[8];
+    private readonly Collider2D[] hitBuffer = new Collider2D[8];
     private ContactFilter2D separationFilter;
+
+    private float fallbackXOffSet = 0.85f;
+    private float unitFallbackXOffSet;
+
+    private Vector2 lastProgressPosition;
+    private float stuckTimer;
+    private float retryTimer;
+
+    private bool hasTemporaryPosition;
+    private Vector2 temporaryPosition;
+
+#if UNITY_EDITOR
+    [Header("Debug")]
+    [SerializeField] private Vector2 debugDestination;
+#endif
 
     void Awake()
     {
@@ -29,6 +57,7 @@ public class MovementComponent : MonoBehaviour
         unit = GetComponent<IUnit>();
         unitMetadata = GetComponent<UnitMetadata>();
         rangedStats = GetComponent<RangedShooter>();
+
         south = GameManager.Instance.south;
         rangedRally = GameManager.Instance.GetNextRangedRally();
 
@@ -39,6 +68,10 @@ public class MovementComponent : MonoBehaviour
             useLayerMask = false,
             useTriggers = true
         };
+
+        unitFallbackXOffSet = Random.Range(-fallbackXOffSet, fallbackXOffSet);
+
+        lastProgressPosition = rb.position;
     }
 
     private void FixedUpdate()
@@ -50,26 +83,28 @@ public class MovementComponent : MonoBehaviour
         }
 
         Vector2? destination = ResolveDestination();
+
         if (!destination.HasValue)
         {
             rb.linearVelocity = Vector2.zero;
+            ResetStuckDetection();
             return;
         }
 
         Vector2 target = destination.Value;
 
         target = ApplyTeamBoundary(target);
-
         target = ApplyRangedZoneBoundary(target);
 
-        bool hasCombatTarget = targetComponent?.GetCurrentTarget() != null;
+        UpdateStuckDetection(target);
 
-        if (!hasCombatTarget)
-        {
-            target = ApplySeparation(target);
-        }
+#if UNITY_EDITOR
+        debugDestination = target;
+#endif
 
         MoveToward(target);
+
+        Debug.DrawRay(transform.position, rb.linearVelocity, Color.green);
     }
 
     public Vector2? ResolveDestination()
@@ -85,68 +120,109 @@ public class MovementComponent : MonoBehaviour
 
             if (target != null && target.IsAlive)
             {
-                // Stay inside the zone, move only slightly to avoid clustering
-                float distanceSqr = (currentPos - zoneCenter).sqrMagnitude;
-                float radiusSqr = rangedZoneRadius * rangedZoneRadius;
-
-                if (distanceSqr > radiusSqr)
-                {
-                    // Pull back toward zone if outside
+                if ((currentPos - zoneCenter).sqrMagnitude > rangedZoneRadius * rangedZoneRadius)
                     return zoneCenter;
-                }
-                else
-                {
-                    // Stay in place and attack
-                    return currentPos;
-                }
+
+                return null;
             }
 
-            // No target move toward rally if not already inside
-            if (Vector2.Distance(currentPos, zoneCenter) > 0.1f)
-            {
+            if ((currentPos - zoneCenter).sqrMagnitude > arrivalRadius * arrivalRadius)
                 return zoneCenter;
-            }
 
             return null;
         }
 
-        // Melee units: move toward target or fallback
         if (target != null && target.IsAlive)
         {
             float stopRange = unit.AttackRange + stopBuffer;
 
-            float distance = Vector2.Distance(
-                rb.position,
-                target.Transform.position
-            );
-
-            if (distance <= stopRange)
-            {
-                rb.linearVelocity = Vector2.zero;
+            if (Vector2.Distance(currentPos, target.Transform.position) <= stopRange)
                 return null;
-            }
 
-            // Otherwise keep chasing
             return target.Transform.position;
+        }
+
+        if (hasTemporaryPosition)
+        {
+            retryTimer -= Time.fixedDeltaTime;
+
+            if (retryTimer > 0)
+                return temporaryPosition;
+
+            hasTemporaryPosition = false;
         }
 
         Transform fallback = GetFallbackPoint();
 
-        return fallback?.position;
+        if (fallback == null)
+            return null;
+
+        Vector2 destination =
+            (Vector2)fallback.position +
+            Vector2.right * unitFallbackXOffSet;
+
+        if ((destination - currentPos).sqrMagnitude <= arrivalRadius * arrivalRadius)
+            return null;
+
+        return destination;
     }
 
     private void MoveToward(Vector2 target)
     {
-        Vector2 toTarget = target - rb.position;
-        float sqrDist = toTarget.sqrMagnitude;
+        Vector2 desired = target - rb.position;
 
-        if (sqrDist < 0.0001f)
+        if (desired.sqrMagnitude < 0.0001f)
         {
             rb.linearVelocity = Vector2.zero;
             return;
         }
 
-        rb.linearVelocity = toTarget.normalized * unit.MovementSpeed;
+        desired.Normalize();
+
+        if (targetComponent?.GetCurrentTarget() == null)
+        {
+            desired += GetSeparationOffset(target) * separationStrength;
+
+            if (desired.sqrMagnitude > 0.0001f)
+                desired.Normalize();
+        }
+
+        rb.linearVelocity = desired * unit.MovementSpeed;
+    }
+
+    private void UpdateStuckDetection(Vector2 target)
+    {
+        if (targetComponent?.GetCurrentTarget() != null)
+        {
+            ResetStuckDetection();
+            return;
+        }
+
+        float movedDistance = Vector2.Distance(rb.position, lastProgressPosition);
+
+        if (movedDistance >= progressThreshold)
+        {
+            lastProgressPosition = rb.position;
+            stuckTimer = 0f;
+            return;
+        }
+
+        stuckTimer += Time.fixedDeltaTime;
+
+        if (stuckTimer >= stuckTime && !hasTemporaryPosition)
+        {
+            hasTemporaryPosition = true;
+            temporaryPosition = rb.position;
+            retryTimer = retryDelay;
+
+            rb.linearVelocity = Vector2.zero;
+        }
+    }
+
+    private void ResetStuckDetection()
+    {
+        stuckTimer = 0f;
+        lastProgressPosition = rb.position;
     }
 
     private Transform GetFallbackPoint()
@@ -154,28 +230,20 @@ public class MovementComponent : MonoBehaviour
         bool isRanged = rangedStats != null;
 
         if (unitMetadata.Team == Team.North)
-        {
-            //North team move to south castle
             return south;
-        }
-        else
-        {
-            if (isRanged)
-            {
-                return rangedRally;
-            }
 
-            return GameManager.Instance.playerUnitBoundary;
-        }
+        if (isRanged)
+            return rangedRally;
+
+        return GameManager.Instance.playerUnitBoundary;
     }
-
 
     private Vector2 ApplyTeamBoundary(Vector2 target)
     {
         if (unitMetadata.Team != Team.South)
             return target;
 
-        float maxY = GameManager.Instance.playerUnitBoundary.transform.position.y;
+        float maxY = GameManager.Instance.playerUnitBoundary.position.y;
         target.y = Mathf.Min(target.y, maxY);
 
         return target;
@@ -187,42 +255,25 @@ public class MovementComponent : MonoBehaviour
             return target;
 
         Vector2 center = rangedRally.position;
-
         Vector2 offset = target - center;
-        float maxRadius = rangedZoneRadius;
 
-        if (offset.sqrMagnitude > maxRadius * maxRadius)
-        {
-            return center + offset.normalized * maxRadius;
-        }
+        if (offset.sqrMagnitude > rangedZoneRadius * rangedZoneRadius)
+            return center + offset.normalized * rangedZoneRadius;
 
         return target;
     }
 
-    private Vector2 ApplySeparation(Vector2 target)
+    private Vector2 GetSeparationOffset(Vector2 target)
     {
-        Vector2 offset = GetSeparationOffset();
-
-        if (offset == Vector2.zero)
-            return target;
-
-        float strength = 0.4f;
-
-        return target + offset * strength;
-    }
-
-    private Vector2 GetSeparationOffset()
-    {
-        float separationRadius = 0.1f;
-
         int count = Physics2D.OverlapCircle(
             transform.position,
             separationRadius,
             separationFilter,
-            hitBuffer
-        );
+            hitBuffer);
 
         Vector2 offset = Vector2.zero;
+
+        Vector2 moveDirection = (target - rb.position).normalized;
 
         for (int i = 0; i < count; i++)
         {
@@ -231,18 +282,27 @@ public class MovementComponent : MonoBehaviour
             if (col == null || col.gameObject == gameObject)
                 continue;
 
-            if (!col.TryGetComponent<UnitMetadata>(out var other))
+            if (!col.TryGetComponent(out UnitMetadata other))
                 continue;
 
             if (other.Team != unitMetadata.Team)
                 continue;
 
-            Vector2 away = (Vector2)(transform.position - col.transform.position);
+            Vector2 toOther =
+                ((Vector2)col.transform.position - rb.position).normalized;
+
+            if (Vector2.Dot(moveDirection, toOther) < 0f)
+                continue;
+
+            Vector2 away = rb.position - (Vector2)col.transform.position;
             float sqrMag = away.sqrMagnitude;
 
             if (sqrMag > 0.0001f)
             {
-                offset += away / sqrMag;
+                float distance = Mathf.Sqrt(sqrMag);
+                float strength = 1f - (distance / separationRadius);
+
+                offset += away.normalized * strength;
             }
         }
 

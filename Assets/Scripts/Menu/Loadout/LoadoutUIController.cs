@@ -340,6 +340,28 @@ public class LoadoutUIController : IUIScreenController
                     "Damage: " + stats.attackDamage + "\n" +
                     "Attack Speed: " + stats.attackSpeed + "\n" +
                     "Attack Range: " + stats.attackRange;
+
+                    if (stats.splashRadius > 0)
+                    {
+                        string splashSize;
+
+                        switch (stats.splashRadius)
+                        {
+                            case < 0.5f:
+                                splashSize = "Small";
+                                break;
+                            case > 0.5f and < 1f:
+                                splashSize = "Medium";
+                                break;
+                            default:
+                                splashSize = "Large";
+                                break;
+                        }
+
+                        description += "\nSplash Radius: " + splashSize;
+                    }
+
+
                 break;
 
             case DefinitionCategory.Unit:
@@ -349,8 +371,8 @@ public class LoadoutUIController : IUIScreenController
                     "Damage: " + stats.attackDamage + "\n" +
                     "Attack Speed: " + stats.attackSpeed + "\n" +
                     "Attack Range: " + stats.attackRange + "\n" +
-                    "Crit Chance: " + stats.critChance + "\n" +
-                    "Crit Damage: " + stats.critDamage;
+                    "Crit Damage: " + stats.critDamage + "\n" +
+                    "Mass: " + stats.mass;
                 break;
         }
 
@@ -367,6 +389,27 @@ public class LoadoutUIController : IUIScreenController
                     "Damage: " + stats.attackDamage + "\n" +
                     "Attack Speed: " + stats.attackSpeed + "\n" +
                     "Attack Range: " + stats.attackRange;
+
+                if(stats.splashRadius > 0)
+                {
+                    string splashSize;
+
+                    switch (stats.splashRadius)
+                    {
+                        case < 0.5f:
+                            splashSize = "Small";
+                            break;
+                        case > 0.5f and < 1f:
+                            splashSize = "Medium";
+                            break;
+                        default:
+                            splashSize = "Large";
+                            break;
+                    }
+
+                    description += "\nSplash Radius: " + splashSize;
+                }
+
                 break;
 
             case DefinitionCategory.Unit:
@@ -377,7 +420,8 @@ public class LoadoutUIController : IUIScreenController
                     "Attack Speed: " + stats.attackSpeed + "\n" +
                     "Attack Range: " + stats.attackRange + "\n" +
                     "Crit Chance: " + stats.critChance + "\n" +
-                    "Crit Damage: " + stats.critDamage;
+                    "Crit Damage: " + stats.critDamage + "\n" +
+                    "Mass: " + stats.mass;
                 break;
         }
 

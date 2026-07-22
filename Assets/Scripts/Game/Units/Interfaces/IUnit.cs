@@ -10,4 +10,6 @@ public interface IUnit : IHasTeam
     float MovementSpeed { get; }
     int MaxHealth { get; }
     int Armor { get; }
+    int Mass { get; }
+    float SplashRadius { get; }
 }
