@@ -162,13 +162,4 @@ public static class Prefabs
             return database.bombTowerPrefab;
         }
     }
-
-    public static GameObject gatePrefab
-    {
-        get
-        {
-            EnsureDatabaseLoaded();
-            return database.gatePrefab;
-        }
-    }
 }

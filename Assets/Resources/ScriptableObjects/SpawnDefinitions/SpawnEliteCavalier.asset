@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e564f39737a52604cad07dda69f121ff, type: 3}
+  m_Name: SpawnEliteCavalier
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
+  displayName: Elite Cavalier
+  icon:
+    m_AssetGUID: 211fdcb07f12a264bbbe763df1bc39e5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  id: spawn_elitecavalier
+  unlockId: unit_elitecavalier
+  unlockedByDefault: 0
+  slotType: 0
+  cooldown: 0
+  unitPrefab: {fileID: 8916063152254937078, guid: 6b3eab09fc8104a4ca35f6c11d02b1e8, type: 3}
+  stats: {fileID: 11400000, guid: 649e75f0602485142a45fea833aea99d, type: 2}

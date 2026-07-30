@@ -104,7 +104,7 @@ public class MovementComponent : MonoBehaviour
 
         MoveToward(target);
 
-        Debug.DrawRay(transform.position, rb.linearVelocity, Color.green);
+        //Debug.DrawRay(transform.position, rb.linearVelocity, Color.green);
     }
 
     public Vector2? ResolveDestination()

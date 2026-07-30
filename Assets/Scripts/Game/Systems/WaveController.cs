@@ -90,6 +90,9 @@ public class WaveController : MonoBehaviour
 
                 string unitName = group.prefab.name.ToLowerInvariant();
 
+                //remove to enable stats scaling again
+                scaling.waveIndex = 0;
+
                 FinalStats stats = UnitStatsManager.Instance.GetEnemyStats(unitName, scaling);
 
                 SpawnManager.Instance.SpawnUnit(group.prefab, northSpawn, Team.North, stats);

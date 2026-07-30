@@ -88,7 +88,7 @@ public class LoadoutUIController : IUIScreenController
 
                 if (loadoutSlot.SlotType == DefinitionCategory.Tower || loadoutSlot.SlotType == DefinitionCategory.Unit)
                 {
-                    var unitKey = LoadoutDatabase.Instance.GetSpawn(loadoutSlot.Definition.Id).Stats.name.ToLowerInvariant();
+                    var unitKey = SpawnDatabase.Instance.GetSpawn(loadoutSlot.Definition.Id).Stats.name.ToLowerInvariant();
 
                     UnitStatsManager.Instance.ReloadPlayerData();
                     UnitStatsManager.Instance.CalculateFinalStatsByKey(unitKey);
@@ -147,7 +147,7 @@ public class LoadoutUIController : IUIScreenController
 
             if (loadoutDefinition.SlotType == DefinitionCategory.Tower || loadoutDefinition.SlotType == DefinitionCategory.Unit)
             {
-                var stats = LoadoutDatabase.Instance.GetSpawn(loadoutDefinition.Id).Stats;
+                var stats = SpawnDatabase.Instance.GetSpawn(loadoutDefinition.Id).Stats;
                 if (stats == null)
                 {
                     Debug.LogError("Stats were null for " + loadoutDefinition.DisplayName);
@@ -430,7 +430,7 @@ public class LoadoutUIController : IUIScreenController
 
     private string BuildAbilityDescription(LoadoutDefinition loadoutDefinition)
     {
-        var def = LoadoutDatabase.Instance.GetAbility(loadoutDefinition.Id);
+        var def = AbilityDatabase.Instance.GetAbility(loadoutDefinition.Id);
         var stats = ResearchService.Instance.playerResearchTree.GetResearchById(loadoutDefinition.UnlockId);
 
         return $"Cooldown: {def.cooldown}s\nCost: {def.Cost}\n{stats.Description}";

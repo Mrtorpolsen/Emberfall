@@ -14,10 +14,11 @@ public class WaveGenerator
 
     public event Action<int> OnWaveNumberChanged;
 
-    // For testing to gaurentee spawn
     public WaveGenerator(Func<float> randomFunc = null)
     {
+        // For testing to gaurentee spawn
         this.randomFunc = randomFunc ?? (() => UnityEngine.Random.value);
+
     }
 
     public WaveDefinition GenerateWave(int waveNumber)
@@ -37,7 +38,7 @@ public class WaveGenerator
         else if (waveNumberDisplay <= 20) unitComposition = (0.7f, 0.2f);
         else if (waveNumberDisplay <= 40) unitComposition = (0.6f, 0.3f);
         else if (waveNumberDisplay <= 60) unitComposition = (0.5f, 0.4f);
-
+        
         //scaling
         int unitCount;
 

@@ -102,10 +102,7 @@ public class SpawnManager : MonoBehaviour
 
         unitMetaData.SetTeam(team);
 
-        if(prefab != Prefabs.gatePrefab)
-        {
-            unit.layer = LayerMask.NameToLayer(team.ToString() + "Team");
-        }
+        unit.layer = LayerMask.NameToLayer(team.ToString() + "Team");
 
         if(team == Team.South)
         {
@@ -158,10 +155,7 @@ public class SpawnManager : MonoBehaviour
         UnitMetadata metadata = unit.GetComponent<UnitMetadata>();
         metadata.SetTeam(team);
 
-        if (prefab != Prefabs.gatePrefab)
-        {
-            unit.layer = LayerMask.NameToLayer(team + "Team");
-        }
+        unit.layer = LayerMask.NameToLayer(team + "Team");
 
         if (team == Team.South)
         {
