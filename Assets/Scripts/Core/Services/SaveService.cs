@@ -77,6 +77,12 @@ public class SaveService : GlobalSystem<SaveService>
         Dictionary<string, int> CompletedResearch = root["Research"]?["CompletedResearch"]?.ToObject<Dictionary<string, int>>() ?? new Dictionary<string, int>();
         List<ActiveResearch> activeResearch = root["Research"]?["ActiveResearch"]?.ToObject<List<ActiveResearch>>() ?? new List<ActiveResearch>();
 
+        //Save version 2 - Renamed to ActiveResearch
+        if (activeResearch.Count == 0)
+        {
+            activeResearch = root["Research"]?["ActiveResearches"]?.ToObject<List<ActiveResearch>>() ?? new List<ActiveResearch>();
+        }
+
         //Validate version
         if (version != SaveGame.CURRENT_SAVE_VERSION || version == 0)
         {
