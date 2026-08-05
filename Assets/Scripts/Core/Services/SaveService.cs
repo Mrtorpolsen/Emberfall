@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,10 +27,16 @@ public class SaveService : GlobalSystem<SaveService>
         );
     }
 
-    public async Task CreateSave()
+    public async Task CreateSave(int totalCinders, int totalEmbers, bool hasReceivedLoginGift)
     {
         Current = new SaveGame();
         Current.Version = SaveGame.CURRENT_SAVE_VERSION;
+
+        Current.HasReceivedLoginGift = hasReceivedLoginGift;
+
+        Current.Currency.Cinders = totalCinders;
+        Current.Currency.Embers = totalEmbers;
+
         ValidateSave();
         await SaveAsync();
         await InvokeOnSaveLoaded();
@@ -43,22 +50,38 @@ public class SaveService : GlobalSystem<SaveService>
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No save file found, creating new save file");
-            await CreateSave();
+            await CreateSave(0, 0, false);
             return;
         }
 
         string json = await Task.Run(() => File.ReadAllText(savePath));
 
-        var temp = JsonConvert.DeserializeObject<SaveGame>(json);
+        var root = JObject.Parse(json);
+
+        //TODO make a migration system to handle versioning and changes in the save file structure
+        int version = root.Value<int>("Version");
+
+        int cindersSpent = root["Talents"]?["CurrencySpent"]?.Value<int>("Cinders") ?? 0;
+        int embersSpent = root["Talents"]?["CurrencySpent"]?.Value<int>("Embers") ?? 0;
+
+        int currentCinders = root["Currency"]?.Value<int>("Cinders") ?? 0;
+        int currentEmbers = root["Currency"]?.Value<int>("Embers") ?? 0;
+
+        int cindersToTransfer = cindersSpent + currentCinders;
+        int embersToTransfer = embersSpent + currentEmbers;
+
+        bool hasReceivedLoginGift = root.Value<bool>("HasReceivedLoginGift");
 
         //Validate version
-        if (temp == null || temp.Version != SaveGame.CURRENT_SAVE_VERSION)
+        if (version != SaveGame.CURRENT_SAVE_VERSION || version == 0)
         {
             Debug.LogWarning("Save version mismatch. Creating new save file.");
 
-            await CreateSave();
+            await CreateSave(cindersToTransfer, embersToTransfer, hasReceivedLoginGift);
             return;
         }
+
+        var temp = JsonConvert.DeserializeObject<SaveGame>(json);
 
         Current = temp;
 
