@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class PlayerResearchState
 {
     public Dictionary<string, int> CompletedResearch = new();   //id,stacks
-    public List<ActiveResearch> ActiveResearches = new();
+    public List<ActiveResearch> ActiveResearch = new();
 }
 
 [Serializable]

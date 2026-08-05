@@ -27,12 +27,14 @@ public class SaveService : GlobalSystem<SaveService>
         );
     }
 
-    public async Task CreateSave(int totalCinders, int totalEmbers, bool hasReceivedLoginGift)
+    public async Task CreateSave(int totalCinders, int totalEmbers, Dictionary<string, int> CompletedResearch, List<ActiveResearch> activeResearch, bool hasReceivedLoginGift)
     {
         Current = new SaveGame();
         Current.Version = SaveGame.CURRENT_SAVE_VERSION;
 
         Current.HasReceivedLoginGift = hasReceivedLoginGift;
+        Current.Research.CompletedResearch = CompletedResearch;
+        Current.Research.ActiveResearch = activeResearch;
 
         Current.Currency.Cinders = totalCinders;
         Current.Currency.Embers = totalEmbers;
@@ -50,7 +52,7 @@ public class SaveService : GlobalSystem<SaveService>
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No save file found, creating new save file");
-            await CreateSave(0, 0, false);
+            await CreateSave(0, 0, new Dictionary<string, int>(), new List<ActiveResearch>(), false);
             return;
         }
 
@@ -72,12 +74,15 @@ public class SaveService : GlobalSystem<SaveService>
 
         bool hasReceivedLoginGift = root.Value<bool>("HasReceivedLoginGift");
 
+        Dictionary<string, int> CompletedResearch = root["Research"]?["CompletedResearch"]?.ToObject<Dictionary<string, int>>() ?? new Dictionary<string, int>();
+        List<ActiveResearch> activeResearch = root["Research"]?["ActiveResearch"]?.ToObject<List<ActiveResearch>>() ?? new List<ActiveResearch>();
+
         //Validate version
         if (version != SaveGame.CURRENT_SAVE_VERSION || version == 0)
         {
             Debug.LogWarning("Save version mismatch. Creating new save file.");
 
-            await CreateSave(cindersToTransfer, embersToTransfer, hasReceivedLoginGift);
+            await CreateSave(cindersToTransfer, embersToTransfer, CompletedResearch, activeResearch, hasReceivedLoginGift);
             return;
         }
 
@@ -154,7 +159,7 @@ public class SaveService : GlobalSystem<SaveService>
         // Research
         Current.Research ??= new PlayerResearchState();
         Current.Research.CompletedResearch ??= new Dictionary<string, int>();
-        Current.Research.ActiveResearches ??= new List<ActiveResearch>();
+        Current.Research.ActiveResearch ??= new List<ActiveResearch>();
 
         // Currency
         Current.Currency ??= new CurrencyData();
