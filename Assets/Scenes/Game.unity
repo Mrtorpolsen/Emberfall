@@ -32866,8 +32866,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1439708017}
-  - {fileID: 650984041}
   - {fileID: 1733177083}
+  - {fileID: 650984041}
   - {fileID: 1263956707}
   - {fileID: 573254239}
   - {fileID: 1980298214}
@@ -36326,7 +36326,7 @@ MonoBehaviour:
   southSpawn: {fileID: 605416890}
   totalWaves: 100
   timeBetweenWaves: 10
-  isTest: 1
+  isTest: 0
   spawnOfEach: 100
 --- !u!4 &1263956707
 Transform:

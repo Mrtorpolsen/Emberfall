@@ -19,8 +19,8 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  id: spawn_assasin
-  unlockId: unit_assasin
+  id: spawn_assassin
+  unlockId: unit_assassin
   unlockedByDefault: 0
   slotType: 0
   cooldown: 0
