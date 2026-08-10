@@ -8,23 +8,34 @@ public class SpawnDatabase : MonoBehaviour
 
     [SerializeField] private List<SpawnDefinition> spawns;
 
-    public Dictionary<string, SpawnDefinition> spawnMap;
+    private Dictionary<string, SpawnDefinition> spawnMap;
 
-    public void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            Destroy(gameObject);            
             return;
         }
 
         Instance = this;
 
-        spawnMap = spawns.ToDictionary(x => x.Id);
+        Initialize();
 
         Debug.Log($"Loaded {spawns.Count} spawns into SpawnDatabase.");
 
         DontDestroyOnLoad(gameObject);
+    }
+    //For testing purposes, we can initialize the database with a list of spawns
+    public void Initialize(List<SpawnDefinition> definitions)
+    {
+        spawns = definitions;
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        spawnMap = spawns.ToDictionary(x => x.Id);
     }
 
     public SpawnDefinition GetSpawn(string id) => id == null ? null : spawnMap[id];

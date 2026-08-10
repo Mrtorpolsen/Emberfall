@@ -11,14 +11,15 @@ public class WaveGenerator
     private int sapperWaveCooldown = 0;
 
     private readonly Func<float> randomFunc;
+    private readonly SpawnDatabase spawnDB;
 
     public event Action<int> OnWaveNumberChanged;
 
-    public WaveGenerator(Func<float> randomFunc = null)
+    public WaveGenerator(SpawnDatabase spawnDB, Func<float> randomFunc = null)
     {
         // For testing to gaurentee spawn
         this.randomFunc = randomFunc ?? (() => UnityEngine.Random.value);
-
+        this.spawnDB = spawnDB;
     }
 
     public WaveDefinition GenerateWave(int waveNumber)
@@ -27,7 +28,7 @@ public class WaveGenerator
 
         OnWaveNumberChanged?.Invoke(waveNumberDisplay);
 
-        var wave = new WaveDefinition
+        WaveDefinition wave = new WaveDefinition
         {
             enemiesToSpawn = new List<EnemyGroup>(),
         };
@@ -54,7 +55,7 @@ public class WaveGenerator
         {
             int bossCountForWave = (waveNumberDisplay / 10);
 
-            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.giantPrefab, bossCountForWave, spawnDelay));
+            wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_giant").UnitPrefab, bossCountForWave, spawnDelay));
         }
         else if (IsMilestone(waveNumber, 7, 0, 21)) //start wave 21, and runs every 7 level
         {
@@ -62,31 +63,31 @@ public class WaveGenerator
 
             int assassinCountForWave = 25 + assassinMilestoneIndex * 7;
 
-            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.assasinPrefab, assassinCountForWave, spawnDelay));
+            wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_assassin").UnitPrefab, assassinCountForWave, spawnDelay));
         }
         else
         {
             if (waveNumberDisplay >= 5 && randomFunc() < 0.2f)
             {
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteFighterPrefab, 1, spawnDelay));
+                wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_elitefighter").UnitPrefab, 1, spawnDelay));
                 fighterCount--;
             }
             if (waveNumberDisplay >= 20 && randomFunc() < 0.2f)
             {
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.eliteCavalierPrefab, 1, spawnDelay));
+                wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_elitecavalier").UnitPrefab, 1, spawnDelay));
                 cavalierCount--;
             }
             if (waveNumberDisplay > 10 && sapperWaveCooldown == 0 && randomFunc() < 0.2f)
             {
-                wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.sapperPrefab, sapperCount, spawnDelay));
+                wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_sapper").UnitPrefab, sapperCount, spawnDelay));
                 sapperWaveCooldown = 4; // Set cooldown for 5 waves
             }
             if (sapperWaveCooldown > 0)
             {
                 sapperWaveCooldown--;
             }
-            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, fighterCount, spawnDelay));
-            wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, cavalierCount, spawnDelay));
+            wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_fighter").UnitPrefab, fighterCount, spawnDelay));
+            wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_cavalier").UnitPrefab, cavalierCount, spawnDelay));
         }
 
         return wave;

@@ -42,7 +42,7 @@ public class WaveController : MonoBehaviour
             return;
         }
         Instance = this;
-        waveGenerator = new WaveGenerator();
+        waveGenerator = new WaveGenerator(SpawnDatabase.Instance);
     }
 
     public void StartWaves()
@@ -104,18 +104,19 @@ public class WaveController : MonoBehaviour
 #if UNITY_EDITOR
     private void Benchmark(int spawnOfEach)
     {
+        SpawnDatabase spawnDB = SpawnDatabase.Instance;
         GameManager.Instance.AddCurrency(Team.South, 1000000);
         for (int i = 0; i < spawnOfEach; i++)
         {
-            SpawnManager.Instance.SpawnUnit(Prefabs.fighterPrefab, southSpawn, Team.South);
+            SpawnManager.Instance.SpawnUnit(spawnDB.GetSpawn("spawn_fighter").UnitPrefab, southSpawn, Team.South);
         }
         for (int i = 0; i < spawnOfEach; i++)
         {
-            SpawnManager.Instance.SpawnUnit(Prefabs.rangerPrefab, southSpawn, Team.South);
+            SpawnManager.Instance.SpawnUnit(spawnDB.GetSpawn("spawn_ranger").UnitPrefab, southSpawn, Team.South);
         }
         for (int i = 0; i < spawnOfEach; i++)
         {
-            SpawnManager.Instance.SpawnUnit(Prefabs.cavalierPrefab, southSpawn, Team.South);
+            SpawnManager.Instance.SpawnUnit(spawnDB.GetSpawn("spawn_cavalier").UnitPrefab, southSpawn, Team.South);
         }
 
         CoroutineHelpers.DoAfterDelay(5, () =>
@@ -127,9 +128,9 @@ public class WaveController : MonoBehaviour
             enemiesToSpawn = new List<EnemyGroup>(),
         };
         
-        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.cavalierPrefab, spawnOfEach, 0.5f));
-        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.fighterPrefab, spawnOfEach, 0.5f));
-        wave.enemiesToSpawn.Add(new EnemyGroup(Prefabs.rangerPrefab, spawnOfEach, 0.5f));
+        wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_cavalier").UnitPrefab, spawnOfEach, 0.5f));
+        wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_fighter").UnitPrefab, spawnOfEach, 0.5f));
+        wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_ranger").UnitPrefab, spawnOfEach, 0.5f));
 
         StartCoroutine(SpawnWave(wave));
 

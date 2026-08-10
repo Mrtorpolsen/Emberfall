@@ -1,17 +1,50 @@
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
+using UnityEditor;
 using UnityEngine;
 
 public class WaveGeneratorTests
 {
+    private GameObject _spawnDatabaseObject;
+    private List<SpawnDefinition> _spawnDefinitions;
+    private SpawnDatabase _spawnDB;
+
+    [SetUp]
+    public void SetUp()
+    {
+        _spawnDefinitions = AssetDatabase
+            .FindAssets("t:SpawnDefinition")
+            .Select(guid =>
+                AssetDatabase.LoadAssetAtPath<SpawnDefinition>(
+                    AssetDatabase.GUIDToAssetPath(guid)))
+            .ToList();
+
+        _spawnDatabaseObject = new GameObject("SpawnDatabase");
+        _spawnDB = _spawnDatabaseObject.AddComponent<SpawnDatabase>();
+
+        _spawnDB.Initialize(_spawnDefinitions);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        Object.DestroyImmediate(_spawnDatabaseObject);
+    }
+
+
     [TestCase(9)]  //Wave 10
     [TestCase(19)] //Wave 20
     [TestCase(29)] //Wave 30
     public void GenerateWave_BossExists(int waveIndex)
     {
-        var wave = new WaveGenerator().GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB).GenerateWave(waveIndex);
+
+        var bossPrefab = _spawnDB.GetSpawn("spawn_giant").UnitPrefab;
+
         Assert.That(
-            wave.enemiesToSpawn.Any(e => e.prefab == Prefabs.giantPrefab),
+            wave.enemiesToSpawn.Any(e => e.prefab == bossPrefab),
             Is.True,
             "Boss prefab must be present"
         );
@@ -22,8 +55,11 @@ public class WaveGeneratorTests
     [TestCase(29, 3)] //Wave 30
     public void GenerateWave_BossCount_IsCorrect(int waveIndex, int expectedCount)
     {
-        var wave = new WaveGenerator().GenerateWave(waveIndex);
-        var bossGroup = wave.enemiesToSpawn.First(e => e.prefab == Prefabs.giantPrefab);
+        var wave = new WaveGenerator(_spawnDB).GenerateWave(waveIndex);
+
+        var bossPrefab = _spawnDB.GetSpawn("spawn_giant").UnitPrefab;
+
+        var bossGroup = wave.enemiesToSpawn.First(e => e.prefab == bossPrefab);
         Assert.That(bossGroup.count, Is.EqualTo(expectedCount));
     }
 
@@ -32,9 +68,12 @@ public class WaveGeneratorTests
     [TestCase(34)]  //Wave 35
     public void GenerateWave_AssasinExists(int waveIndex)
     {
-        var wave = new WaveGenerator().GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB).GenerateWave(waveIndex);
+
+        var assasinPrefab = _spawnDB.GetSpawn("spawn_assassin").UnitPrefab;
+
         Assert.That(
-            wave.enemiesToSpawn.Any(e => e.prefab == Prefabs.assasinPrefab),
+            wave.enemiesToSpawn.Any(e => e.prefab == assasinPrefab),
             Is.True,
             "Assasin prefab must be present"
         );
@@ -45,8 +84,11 @@ public class WaveGeneratorTests
     [TestCase(34, 39)]  //Wave 35
     public void GenerateWave_AssasinCount_IsCorrect(int waveIndex, int expectedCount)
     {
-        var wave = new WaveGenerator().GenerateWave(waveIndex);
-        var assasinGroup = wave.enemiesToSpawn.First(e => e.prefab == Prefabs.assasinPrefab);
+        var wave = new WaveGenerator(_spawnDB).GenerateWave(waveIndex);
+
+        var assasinPrefab = _spawnDB.GetSpawn("spawn_assassin").UnitPrefab;
+
+        var assasinGroup = wave.enemiesToSpawn.First(e => e.prefab == assasinPrefab);
         Assert.That(assasinGroup.count, Is.EqualTo(expectedCount));
     }
 
@@ -56,8 +98,11 @@ public class WaveGeneratorTests
     [TestCase(3)] //Wave 4 - Cant spawn
     public void GenerateWave_EliteFighter_CantSpawnBeforeUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.eliteFighterPrefab);
+        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+
+        var eliteFighterPrefab = _spawnDB.GetSpawn("spawn_elitefighter").UnitPrefab;
+
+        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == eliteFighterPrefab);
         Assert.IsNull(waveGroup);
     }
 
@@ -66,8 +111,11 @@ public class WaveGeneratorTests
     [TestCase(26)] //Wave 27 - Can spawn
     public void GenerateWave_EliteFighter_CanSpawnAtOrAfterUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.eliteFighterPrefab);
+        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+
+        var eliteFighterPrefab = _spawnDB.GetSpawn("spawn_elitefighter").UnitPrefab;
+
+        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == eliteFighterPrefab);
         Assert.IsNotNull(waveGroup);
     }
 
@@ -77,8 +125,11 @@ public class WaveGeneratorTests
     [TestCase(18)] //Wave 19 - Cant spawn
     public void GenerateWave_EliteCavalier_CantSpawnBeforeUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.eliteCavalierPrefab);
+        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+
+        var eliteCavalierPrefab = _spawnDB.GetSpawn("spawn_elitecavalier").UnitPrefab;
+
+        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == eliteCavalierPrefab);
         Assert.IsNull(waveGroup);
     }
 
@@ -87,8 +138,11 @@ public class WaveGeneratorTests
     [TestCase(33)] //Wave 34 - Can spawn
     public void GenerateWave_EliteCavalier_CanSpawnAtOrAfterUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.eliteCavalierPrefab);
+        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+
+        var eliteCavalierPrefab = _spawnDB.GetSpawn("spawn_elitecavalier").UnitPrefab;
+
+        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == eliteCavalierPrefab);
         Assert.IsNotNull(waveGroup);
     }
 
@@ -98,8 +152,11 @@ public class WaveGeneratorTests
     [TestCase(8)] //Wave 9 - Cant spawn
     public void GenerateWave_Sapper_CantSpawnBeforeUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.sapperPrefab);
+        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+
+        var sapperPrefab = _spawnDB.GetSpawn("spawn_sapper").UnitPrefab;
+
+        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == sapperPrefab);
         Assert.IsNull(waveGroup);
     }
 
@@ -108,8 +165,11 @@ public class WaveGeneratorTests
     [TestCase(24)] //Wave 25 - Can spawn
     public void GenerateWave_Sapper_CanSpawnAtOrAfterUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.sapperPrefab);
+        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+
+        var sapperPrefab = _spawnDB.GetSpawn("spawn_sapper").UnitPrefab;
+
+        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == sapperPrefab);
         Assert.IsNotNull(waveGroup);
     }
 
@@ -119,9 +179,9 @@ public class WaveGeneratorTests
     public void GenerateWave_BossWave_ContainsOnlyBoss(int waveIndex)
     {
         //Set to 0f, to make sure if elites can spawn they will
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
 
-        var bossPrefab = Prefabs.giantPrefab;
+        var bossPrefab = _spawnDB.GetSpawn("spawn_giant").UnitPrefab;
 
         var bossGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == bossPrefab);
         Assert.That(bossGroup, Is.Not.Null, $"Boss missing in wave {waveIndex + 1}");
@@ -139,9 +199,9 @@ public class WaveGeneratorTests
     public void GenerateWave_AssassinWave_ContainsOnlyAssassins(int waveIndex)
     {
         //Set to 0f, to make sure if elites can spawn they will
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
 
-        var assassinPrefab = Prefabs.assasinPrefab;
+        var assassinPrefab = _spawnDB.GetSpawn("spawn_assassin").UnitPrefab;
 
         var assassinGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == assassinPrefab);
         Assert.That(assassinGroup, Is.Not.Null, $"Assassin missing in wave {waveIndex + 1}");
