@@ -36319,13 +36319,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1263956705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adf0e8440359b4b42a6459078bc2013f, type: 3}
+  m_Script: {fileID: 11500000, guid: b1a54704e89811f4aa9ef82021b3c083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   northSpawn: {fileID: 2061042645}
   southSpawn: {fileID: 605416890}
   totalWaves: 100
   timeBetweenWaves: 10
+  allGenerals:
+  - {fileID: 11400000, guid: aab9a1372240a1046b71acc935d43880, type: 2}
   isTest: 0
   spawnOfEach: 100
 --- !u!4 &1263956707

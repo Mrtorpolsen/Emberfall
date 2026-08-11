@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class WaveDefinition
 {
     public List<EnemyGroup> enemiesToSpawn;
 }
 
-[System.Serializable]
 public class EnemyGroup
 {
     public GameObject prefab;

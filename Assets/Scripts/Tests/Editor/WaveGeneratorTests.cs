@@ -11,6 +11,8 @@ public class WaveGeneratorTests
     private List<SpawnDefinition> _spawnDefinitions;
     private SpawnDatabase _spawnDB;
 
+    private WaveRules _waveRules;
+
     [SetUp]
     public void SetUp()
     {
@@ -39,7 +41,7 @@ public class WaveGeneratorTests
     [TestCase(29)] //Wave 30
     public void GenerateWave_BossExists(int waveIndex)
     {
-        var wave = new WaveGenerator(_spawnDB).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules).GenerateWave(waveIndex);
 
         var bossPrefab = _spawnDB.GetSpawn("spawn_giant").UnitPrefab;
 
@@ -55,7 +57,7 @@ public class WaveGeneratorTests
     [TestCase(29, 3)] //Wave 30
     public void GenerateWave_BossCount_IsCorrect(int waveIndex, int expectedCount)
     {
-        var wave = new WaveGenerator(_spawnDB).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules).GenerateWave(waveIndex);
 
         var bossPrefab = _spawnDB.GetSpawn("spawn_giant").UnitPrefab;
 
@@ -68,7 +70,7 @@ public class WaveGeneratorTests
     [TestCase(34)]  //Wave 35
     public void GenerateWave_AssasinExists(int waveIndex)
     {
-        var wave = new WaveGenerator(_spawnDB).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules).GenerateWave(waveIndex);
 
         var assasinPrefab = _spawnDB.GetSpawn("spawn_assassin").UnitPrefab;
 
@@ -84,7 +86,7 @@ public class WaveGeneratorTests
     [TestCase(34, 39)]  //Wave 35
     public void GenerateWave_AssasinCount_IsCorrect(int waveIndex, int expectedCount)
     {
-        var wave = new WaveGenerator(_spawnDB).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules).GenerateWave(waveIndex);
 
         var assasinPrefab = _spawnDB.GetSpawn("spawn_assassin").UnitPrefab;
 
@@ -98,7 +100,7 @@ public class WaveGeneratorTests
     [TestCase(3)] //Wave 4 - Cant spawn
     public void GenerateWave_EliteFighter_CantSpawnBeforeUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules, () => 0f).GenerateWave(waveIndex);
 
         var eliteFighterPrefab = _spawnDB.GetSpawn("spawn_elitefighter").UnitPrefab;
 
@@ -111,7 +113,7 @@ public class WaveGeneratorTests
     [TestCase(26)] //Wave 27 - Can spawn
     public void GenerateWave_EliteFighter_CanSpawnAtOrAfterUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules, () => 0f).GenerateWave(waveIndex);
 
         var eliteFighterPrefab = _spawnDB.GetSpawn("spawn_elitefighter").UnitPrefab;
 
@@ -125,7 +127,7 @@ public class WaveGeneratorTests
     [TestCase(18)] //Wave 19 - Cant spawn
     public void GenerateWave_EliteCavalier_CantSpawnBeforeUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules, () => 0f).GenerateWave(waveIndex);
 
         var eliteCavalierPrefab = _spawnDB.GetSpawn("spawn_elitecavalier").UnitPrefab;
 
@@ -138,7 +140,7 @@ public class WaveGeneratorTests
     [TestCase(33)] //Wave 34 - Can spawn
     public void GenerateWave_EliteCavalier_CanSpawnAtOrAfterUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules, () => 0f).GenerateWave(waveIndex);
 
         var eliteCavalierPrefab = _spawnDB.GetSpawn("spawn_elitecavalier").UnitPrefab;
 
@@ -152,7 +154,7 @@ public class WaveGeneratorTests
     [TestCase(8)] //Wave 9 - Cant spawn
     public void GenerateWave_Sapper_CantSpawnBeforeUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules, () => 0f).GenerateWave(waveIndex);
 
         var sapperPrefab = _spawnDB.GetSpawn("spawn_sapper").UnitPrefab;
 
@@ -165,7 +167,7 @@ public class WaveGeneratorTests
     [TestCase(24)] //Wave 25 - Can spawn
     public void GenerateWave_Sapper_CanSpawnAtOrAfterUnlockWave(int waveIndex)
     {
-        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules, () => 0f).GenerateWave(waveIndex);
 
         var sapperPrefab = _spawnDB.GetSpawn("spawn_sapper").UnitPrefab;
 
@@ -179,7 +181,7 @@ public class WaveGeneratorTests
     public void GenerateWave_BossWave_ContainsOnlyBoss(int waveIndex)
     {
         //Set to 0f, to make sure if elites can spawn they will
-        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules, () => 0f).GenerateWave(waveIndex);
 
         var bossPrefab = _spawnDB.GetSpawn("spawn_giant").UnitPrefab;
 
@@ -199,7 +201,7 @@ public class WaveGeneratorTests
     public void GenerateWave_AssassinWave_ContainsOnlyAssassins(int waveIndex)
     {
         //Set to 0f, to make sure if elites can spawn they will
-        var wave = new WaveGenerator(_spawnDB, () => 0f).GenerateWave(waveIndex);
+        var wave = new WaveGenerator(_spawnDB, _waveRules, () => 0f).GenerateWave(waveIndex);
 
         var assassinPrefab = _spawnDB.GetSpawn("spawn_assassin").UnitPrefab;
 

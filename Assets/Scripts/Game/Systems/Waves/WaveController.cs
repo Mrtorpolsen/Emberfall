@@ -18,12 +18,16 @@ public class WaveController : MonoBehaviour
     public static WaveController Instance { get; private set; }
 
     public static WaveGenerator waveGenerator;
+    private WaveRules waveRules;
 
     [Header("Settings")]
     [SerializeField] private Transform northSpawn;
     [SerializeField] private Transform southSpawn;
     [SerializeField] private int totalWaves = 100;
     [SerializeField] private float timeBetweenWaves = 10f;
+
+    [Header("Generals")]
+    [SerializeField] private List<GeneralDefinition> allGenerals = new();
 
 #if UNITY_EDITOR
     [Header("Test")]
@@ -42,7 +46,8 @@ public class WaveController : MonoBehaviour
             return;
         }
         Instance = this;
-        waveGenerator = new WaveGenerator(SpawnDatabase.Instance);
+        waveRules = new WaveRules(allGenerals);
+        waveGenerator = new WaveGenerator(SpawnDatabase.Instance, waveRules);
     }
 
     public void StartWaves()

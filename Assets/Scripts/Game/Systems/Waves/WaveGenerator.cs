@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class WaveGenerator
 {
-    [SerializeField] private float waveGrowthRate = 1.05f;
-    [SerializeField] private int baseCount = 4;
-    [SerializeField] private int sapperCount = 1;
+    private float waveGrowthRate = 1.05f;
+    private int baseCount = 4;
+    private int sapperCount = 1;
 
     private int sapperWaveCooldown = 0;
 
     private readonly Func<float> randomFunc;
     private readonly SpawnDatabase spawnDB;
+    private readonly WaveRules waveRules;
 
     public event Action<int> OnWaveNumberChanged;
 
-    public WaveGenerator(SpawnDatabase spawnDB, Func<float> randomFunc = null)
+    public WaveGenerator(SpawnDatabase spawnDB, WaveRules waveRules, Func<float> randomFunc = null)
     {
         // For testing to gaurentee spawn
         this.randomFunc = randomFunc ?? (() => UnityEngine.Random.value);
         this.spawnDB = spawnDB;
+        this.waveRules = waveRules;
     }
 
     public WaveDefinition GenerateWave(int waveNumber)
     {
         int waveNumberDisplay = waveNumber + 1;
+
+        int threatValue = 400;
 
         OnWaveNumberChanged?.Invoke(waveNumberDisplay);
 
@@ -32,6 +36,10 @@ public class WaveGenerator
         {
             enemiesToSpawn = new List<EnemyGroup>(),
         };
+
+        var generalToSpawn = waveRules.GetGeneral();
+
+        Debug.Log($"{generalToSpawn.name} {generalToSpawn.generalUnit} {generalToSpawn.unitRoster[0]} {generalToSpawn.unitRoster[1]}");
 
         (float fighter, float cavalier) unitComposition = (0f, 0f);
 
