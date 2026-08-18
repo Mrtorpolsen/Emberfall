@@ -8643,6 +8643,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 842683762}
   m_CullTransparentMesh: 1
+--- !u!1 &848399305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 848399306}
+  m_Layer: 0
+  m_Name: Boss
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &848399306
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848399305}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.1, y: 3.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1530075882}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &856551937
 GameObject:
   m_ObjectHideFlags: 0
@@ -36328,6 +36359,7 @@ MonoBehaviour:
   timeBetweenWaves: 10
   allGenerals:
   - {fileID: 11400000, guid: aab9a1372240a1046b71acc935d43880, type: 2}
+  - {fileID: 11400000, guid: 011101fb57643d141b1782b2372e5012, type: 2}
   isTest: 0
   spawnOfEach: 100
 --- !u!4 &1263956707
@@ -39597,6 +39629,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 813296832}
+  - {fileID: 848399306}
   - {fileID: 1407721416}
   - {fileID: 2129601661}
   m_Father: {fileID: 1175911537}

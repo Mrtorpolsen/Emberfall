@@ -46,8 +46,12 @@ public class WaveController : MonoBehaviour
             return;
         }
         Instance = this;
+
+        //Get settings from difficulty
+        var waveThreatCalculator = new WaveThreatCalculator(1.1f, 200, 6);
+
         waveRules = new WaveRules(allGenerals);
-        waveGenerator = new WaveGenerator(SpawnDatabase.Instance, waveRules);
+        waveGenerator = new WaveGenerator(SpawnDatabase.Instance, waveThreatCalculator);
     }
 
     public void StartWaves()
@@ -65,9 +69,19 @@ public class WaveController : MonoBehaviour
 
     private IEnumerator RunWaves()
     {
+        //Get the starting general
+        var generalDefinition = waveRules.GetGeneral();
+        int generalSpawnIndex = generalDefinition.spawnLimit;
+
         while (currentWaveIndex < totalWaves && !GameManager.Instance.isGameOver)
         {
-            var wave = waveGenerator.GenerateWave(currentWaveIndex);
+            if (currentWaveIndex >= generalSpawnIndex)
+            {
+                generalDefinition = waveRules.GetGeneral();
+                generalSpawnIndex += generalDefinition.spawnLimit;
+            }
+
+            var wave = waveGenerator.GenerateWave(currentWaveIndex, generalDefinition);
             yield return StartCoroutine(SpawnWave(wave));
             currentWaveIndex++;
 

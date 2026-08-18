@@ -4,31 +4,33 @@ using UnityEngine;
 
 public class WaveGenerator
 {
-    private float waveGrowthRate = 1.05f;
-    private int baseCount = 4;
     private int sapperCount = 1;
 
     private int sapperWaveCooldown = 0;
 
     private readonly Func<float> randomFunc;
     private readonly SpawnDatabase spawnDB;
-    private readonly WaveRules waveRules;
+    private readonly ThreatCalculator threatCalculator = new ThreatCalculator();
+    private readonly WaveThreatCalculator waveThreatCalculator;
 
     public event Action<int> OnWaveNumberChanged;
 
-    public WaveGenerator(SpawnDatabase spawnDB, WaveRules waveRules, Func<float> randomFunc = null)
+    public WaveGenerator(SpawnDatabase spawnDB, WaveThreatCalculator waveThreatCalculator, Func<float> randomFunc = null)
     {
         // For testing to gaurentee spawn
         this.randomFunc = randomFunc ?? (() => UnityEngine.Random.value);
         this.spawnDB = spawnDB;
-        this.waveRules = waveRules;
+        this.waveThreatCalculator = waveThreatCalculator;
     }
 
-    public WaveDefinition GenerateWave(int waveNumber)
+    public WaveDefinition GenerateWave(int waveNumber, GeneralDefinition generalDefinition)
     {
         int waveNumberDisplay = waveNumber + 1;
 
-        int threatValue = 400;
+        var generalRoster = new List<SpawnDefinition>(generalDefinition.unitRoster);
+
+        float threatValue = waveThreatCalculator.GetThreatValueForWave(waveNumber);
+        float spawnDelay = 0.5f;
 
         OnWaveNumberChanged?.Invoke(waveNumberDisplay);
 
@@ -37,65 +39,59 @@ public class WaveGenerator
             enemiesToSpawn = new List<EnemyGroup>(),
         };
 
-        var generalToSpawn = waveRules.GetGeneral();
+        //if (currentGeneral != generalDefinition)
+        //{
+        //    wave.enemiesToSpawn.Add(new EnemyGroup(generalDefinition.generalUnit.UnitPrefab, 1, spawnDelay));
+        //    currentGeneral = generalDefinition;
+        //}
 
-        Debug.Log($"{generalToSpawn.name} {generalToSpawn.generalUnit} {generalToSpawn.unitRoster[0]} {generalToSpawn.unitRoster[1]}");
-
-        (float fighter, float cavalier) unitComposition = (0f, 0f);
-
-        if (waveNumberDisplay <= 10) unitComposition = (1f, 0f);
-        else if (waveNumberDisplay <= 20) unitComposition = (0.7f, 0.2f);
-        else if (waveNumberDisplay <= 40) unitComposition = (0.6f, 0.3f);
-        else if (waveNumberDisplay <= 60) unitComposition = (0.5f, 0.4f);
-        
-        //scaling
-        int unitCount;
-
-        unitCount = Mathf.RoundToInt(baseCount * Mathf.Pow(waveGrowthRate, waveNumber - 1));
-
-        int fighterCount = Mathf.RoundToInt(unitCount * unitComposition.fighter);
-        int cavalierCount = unitCount - fighterCount;
-
-        float spawnDelay = 0.5f;
-
-        //build waves here
-        if (IsMilestone(waveNumber, 10, 0, 10)) //start wave 10, and runs every 10 level
+        if (IsMilestone(waveNumber, 7, 0, 21)) //start wave 21, and runs every 7 level
         {
-            int bossCountForWave = (waveNumberDisplay / 10);
+            float threatCost = threatCalculator.CalculateThreat(spawnDB.GetSpawn("spawn_assassin").Stats);
 
-            wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_giant").UnitPrefab, bossCountForWave, spawnDelay));
-        }
-        else if (IsMilestone(waveNumber, 7, 0, 21)) //start wave 21, and runs every 7 level
-        {
-            int assassinMilestoneIndex = (waveNumberDisplay - 21) / 7;
-
-            int assassinCountForWave = 25 + assassinMilestoneIndex * 7;
+            int assassinCountForWave = Mathf.FloorToInt(threatValue / threatCost);
 
             wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_assassin").UnitPrefab, assassinCountForWave, spawnDelay));
         }
         else
         {
-            if (waveNumberDisplay >= 5 && randomFunc() < 0.2f)
+            int safety = 0;
+            while (generalRoster.Count > 0 && threatValue > 0)
             {
-                wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_elitefighter").UnitPrefab, 1, spawnDelay));
-                fighterCount--;
+                if (++safety > 1000)
+                {
+                    Debug.LogError("Wave generation exceeded 1,000 iterations.");
+                    break;
+                }
+
+                var unitToAdd = generalRoster[UnityEngine.Random.Range(0, generalRoster.Count)];
+                var threatCost = threatCalculator.CalculateThreat(unitToAdd.Stats);
+
+                if (threatCost <= 0)
+                {
+                    throw(new Exception("Threat cost must be greater than zero."));
+                }
+
+                if (threatCost <= threatValue)
+                {
+                    wave.enemiesToSpawn.Add(new EnemyGroup(unitToAdd.UnitPrefab, 1, spawnDelay));
+                    threatValue -= threatCost;
+                }
+                else
+                {
+                    generalRoster.Remove(unitToAdd);
+                }
             }
-            if (waveNumberDisplay >= 20 && randomFunc() < 0.2f)
-            {
-                wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_elitecavalier").UnitPrefab, 1, spawnDelay));
-                cavalierCount--;
-            }
-            if (waveNumberDisplay > 10 && sapperWaveCooldown == 0 && randomFunc() < 0.2f)
-            {
-                wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_sapper").UnitPrefab, sapperCount, spawnDelay));
-                sapperWaveCooldown = 4; // Set cooldown for 5 waves
-            }
-            if (sapperWaveCooldown > 0)
-            {
-                sapperWaveCooldown--;
-            }
-            wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_fighter").UnitPrefab, fighterCount, spawnDelay));
-            wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_cavalier").UnitPrefab, cavalierCount, spawnDelay));
+        }
+
+        if (waveNumberDisplay > 10 && sapperWaveCooldown == 0 && randomFunc() < 0.2f && !IsMilestone(waveNumber, 7, 0, 21))
+        {
+            wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_sapper").UnitPrefab, sapperCount, spawnDelay));
+            sapperWaveCooldown = 4; // Set cooldown for 5 waves
+        }
+        if (sapperWaveCooldown > 0)
+        {
+            sapperWaveCooldown--;
         }
 
         return wave;

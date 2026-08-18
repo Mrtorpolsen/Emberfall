@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5313391fa5734b46a2e715fe9d95d96, type: 3}
-  m_Name: Jef
+  m_Name: Bert
   m_EditorClassIdentifier: Assembly-CSharp::GeneralDefinition
-  id: jef
-  generalName: Jef
+  id: bert
+  generalName: Bert
   tauntPhrases:
-  - My name is Jef
+  - Bert the hert dert
   unitRoster:
-  - {fileID: 11400000, guid: 0bee6ff15e9c2ee47bde568edfe65c52, type: 2}
-  - {fileID: 11400000, guid: 27d758321c698c145a7838d4875778b9, type: 2}
-  generalUnit: {fileID: 11400000, guid: 5cf4b4445e5e473418ab697839d1a0b1, type: 2}
+  - {fileID: 11400000, guid: 402a8ba5a56d87f4297e964dce75be4c, type: 2}
+  generalUnit: {fileID: 11400000, guid: ece90d43e63078f47a04f75cb8af4eb1, type: 2}
   spawnLimit: 10

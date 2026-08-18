@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ThreatCalculator : MonoBehaviour
+public class ThreatCalculator
 {
     private float rangeCoefficient = 0.2f; // Adjust this value to change the influence of range on threat calculation
     private float movementCoefficient = 0.03f; // Adjust this value to change the influence of movement on threat calculation
@@ -11,7 +11,7 @@ public class ThreatCalculator : MonoBehaviour
     //EHP(effective health) = HP^0.85 x ((armor + 100)/100)
     //Power = DPS * EHP * (1 + range * rangeCoefficient) * (1 + movement * movementCoefficient)
     //Threat = sqrt(Power)
-    private float CalculateThreat(UnitStatsDefinition unitStats)
+    public float CalculateThreat(UnitStatsDefinition unitStats)
     {
         float edph = unitStats.attackDamage * (1 + unitStats.critChance * (unitStats.critDamage - 1));
         float dps = edph * unitStats.attackSpeed;
