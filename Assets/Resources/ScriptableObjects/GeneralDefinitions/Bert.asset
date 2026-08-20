@@ -16,7 +16,9 @@ MonoBehaviour:
   generalName: Bert
   tauntPhrases:
   - Bert the hert dert
+  - Bert will dert you
   unitRoster:
-  - {fileID: 11400000, guid: 402a8ba5a56d87f4297e964dce75be4c, type: 2}
-  generalUnit: {fileID: 11400000, guid: ece90d43e63078f47a04f75cb8af4eb1, type: 2}
+  - {fileID: 11400000, guid: 0bee6ff15e9c2ee47bde568edfe65c52, type: 2}
+  - {fileID: 11400000, guid: 27d758321c698c145a7838d4875778b9, type: 2}
+  generalUnit: {fileID: 11400000, guid: 5cf4b4445e5e473418ab697839d1a0b1, type: 2}
   spawnLimit: 10

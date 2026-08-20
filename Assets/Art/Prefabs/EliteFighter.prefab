@@ -285,6 +285,41 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &5074431722561272418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7636670928540648031}
+  m_Layer: 0
+  m_Name: SpeechBubbleAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7636670928540648031
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5074431722561272418}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7627656018753657245}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &6717628542700303866
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +338,7 @@ GameObject:
   - component: {fileID: 5124825557718836729}
   - component: {fileID: 1084606098695626972}
   - component: {fileID: 8026621461746506466}
+  - component: {fileID: 6509427912858050117}
   m_Layer: 0
   m_Name: EliteFighter
   m_TagString: Untagged
@@ -324,6 +360,7 @@ RectTransform:
   m_Children:
   - {fileID: 5494892719249176313}
   - {fileID: 8853367257036473741}
+  - {fileID: 7636670928540648031}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -468,6 +505,14 @@ MonoBehaviour:
   rb: {fileID: 5314775306289127517}
   canMove: 1
   rangedZoneRadius: 0.1
+  meleeZoneRadius: 0.7
+  arrivalRadius: 0.3
+  separationRadius: 0.1
+  separationStrength: 0.1
+  stuckTime: 1
+  retryDelay: 2
+  progressThreshold: 0.05
+  debugDestination: {x: 0, y: 0}
 --- !u!114 &2236094165637862792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,6 +540,7 @@ MonoBehaviour:
   debugAttackSpeed: 0
   debugAttackRange: 0
   debugHitRadius: 0
+  debugSplashRadius: 0
   debugMovementSpeed: 0
   debugMass: 0
   debugCritChance: 0
@@ -562,6 +608,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitMetadata
   team: 0
   isElite: 1
+--- !u!114 &6509427912858050117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6717628542700303866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84532114361f7b742900804a478cf4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpeechBubbleComponent
+  anchor: {fileID: 7636670928540648031}
+  speechBubblePrefab: {fileID: 3592290938553634524, guid: d599e8d688b946148ae1a5269d53053f, type: 3}
 --- !u!1 &6902819915140414663
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,14 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5313391fa5734b46a2e715fe9d95d96, type: 3}
-  m_Name: Jef
+  m_Name: Feff
   m_EditorClassIdentifier: Assembly-CSharp::GeneralDefinition
-  id: jef
-  generalName: Jef
+  id: feff
+  generalName: Feff
   tauntPhrases:
-  - My name is Jef
+  - My name is Feff
+  - Have you seen my brother Jeff?
+  - Are you hiding him from me?
+  - Jeff!? Jeff!?
+  - Im coming Jeff!!!
   unitRoster:
-  - {fileID: 11400000, guid: 0bee6ff15e9c2ee47bde568edfe65c52, type: 2}
-  - {fileID: 11400000, guid: 27d758321c698c145a7838d4875778b9, type: 2}
-  generalUnit: {fileID: 11400000, guid: 5cf4b4445e5e473418ab697839d1a0b1, type: 2}
+  - {fileID: 11400000, guid: 3849ec13d477242429c436bfd95f0509, type: 2}
+  - {fileID: 11400000, guid: d73c17160d1df544aacd7d131a5c67cf, type: 2}
+  generalUnit: {fileID: 11400000, guid: ece90d43e63078f47a04f75cb8af4eb1, type: 2}
   spawnLimit: 10

@@ -22,12 +22,16 @@ public class WaveController : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private Transform northSpawn;
+    [SerializeField] private Transform generalSpawn;
     [SerializeField] private Transform southSpawn;
+    [SerializeField] private Transform bossPosition;
     [SerializeField] private int totalWaves = 100;
     [SerializeField] private float timeBetweenWaves = 10f;
 
     [Header("Generals")]
     [SerializeField] private List<GeneralDefinition> allGenerals = new();
+
+    private GeneralDefinition currentGeneral;
 
 #if UNITY_EDITOR
     [Header("Test")]
@@ -48,7 +52,7 @@ public class WaveController : MonoBehaviour
         Instance = this;
 
         //Get settings from difficulty
-        var waveThreatCalculator = new WaveThreatCalculator(1.1f, 200, 6);
+        var waveThreatCalculator = new WaveThreatCalculator(1.1f, 150, 6);
 
         waveRules = new WaveRules(allGenerals);
         waveGenerator = new WaveGenerator(SpawnDatabase.Instance, waveThreatCalculator);
@@ -70,18 +74,18 @@ public class WaveController : MonoBehaviour
     private IEnumerator RunWaves()
     {
         //Get the starting general
-        var generalDefinition = waveRules.GetGeneral();
-        int generalSpawnIndex = generalDefinition.spawnLimit;
+        currentGeneral = waveRules.GetGeneral();
+        int generalSpawnIndex = currentGeneral.spawnLimit;
 
         while (currentWaveIndex < totalWaves && !GameManager.Instance.isGameOver)
         {
             if (currentWaveIndex >= generalSpawnIndex)
             {
-                generalDefinition = waveRules.GetGeneral();
-                generalSpawnIndex += generalDefinition.spawnLimit;
+                currentGeneral = waveRules.GetGeneral();
+                generalSpawnIndex += currentGeneral.spawnLimit;
             }
 
-            var wave = waveGenerator.GenerateWave(currentWaveIndex, generalDefinition);
+            var wave = waveGenerator.GenerateWave(currentWaveIndex, currentGeneral);
             yield return StartCoroutine(SpawnWave(wave));
             currentWaveIndex++;
 
@@ -114,7 +118,17 @@ public class WaveController : MonoBehaviour
 
                 FinalStats stats = UnitStatsManager.Instance.GetEnemyStats(unitName, scaling);
 
-                SpawnManager.Instance.SpawnUnit(group.prefab, northSpawn, Team.North, stats);
+                if (group.isBoss)
+                {
+                    SpawnManager.Instance.SpawnUnit(group.prefab, generalSpawn, Team.North, out var bossPrefab, stats);
+                    var generalComponent = bossPrefab.AddComponent<GeneralComponent>();
+                    generalComponent.Initialize(currentGeneral, bossPosition, currentWaveIndex);
+                } 
+                else
+                {
+                    SpawnManager.Instance.SpawnUnit(group.prefab, northSpawn, Team.North, stats);
+                }
+
                 yield return new WaitForSeconds(0);
             }
         }

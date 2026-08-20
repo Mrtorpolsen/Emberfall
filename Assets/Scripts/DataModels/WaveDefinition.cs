@@ -9,14 +9,14 @@ public class WaveDefinition
 public class EnemyGroup
 {
     public GameObject prefab;
-    public GameObject bossPrefab;
+    public bool isBoss;
     public int count;
     public float spawnDelay;
 
-    public EnemyGroup(GameObject prefab, int count, float spawnDelay, GameObject bossPrefab = null)
+    public EnemyGroup(GameObject prefab, int count, float spawnDelay, bool isBoss = false)
     {
         this.prefab = prefab;
-        this.bossPrefab = bossPrefab;
+        this.isBoss = isBoss;
         this.count = count;
         this.spawnDelay = spawnDelay;
     }

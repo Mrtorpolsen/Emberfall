@@ -8653,7 +8653,7 @@ GameObject:
   m_Component:
   - component: {fileID: 848399306}
   m_Layer: 0
-  m_Name: Boss
+  m_Name: BossPosition
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -8668,7 +8668,7 @@ Transform:
   m_GameObject: {fileID: 848399305}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1, y: 3.9, z: 0}
+  m_LocalPosition: {x: -1.1, y: 3.259, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9288,6 +9288,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897203791}
   m_CullTransparentMesh: 1
+--- !u!1 &912368479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 912368480}
+  m_Layer: 0
+  m_Name: GeneralSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &912368480
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912368479}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.08409, y: 3.926, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1487897315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &912758285
 GameObject:
   m_ObjectHideFlags: 0
@@ -36354,7 +36385,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   northSpawn: {fileID: 2061042645}
+  generalSpawn: {fileID: 912368480}
   southSpawn: {fileID: 605416890}
+  bossPosition: {fileID: 848399306}
   totalWaves: 100
   timeBetweenWaves: 10
   allGenerals:
@@ -39259,6 +39292,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2061042645}
+  - {fileID: 912368480}
   m_Father: {fileID: 1897632174}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1493238588

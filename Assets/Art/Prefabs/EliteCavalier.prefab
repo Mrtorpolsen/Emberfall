@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3906554970618553275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6046765332304628990}
+  m_Layer: 0
+  m_Name: SpeechBubbleAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6046765332304628990
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3906554970618553275}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3159130279014085829}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &5070683063650672907
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +366,7 @@ GameObject:
   - component: {fileID: 7579999174343758453}
   - component: {fileID: 7348346340122654073}
   - component: {fileID: 5368844351239946403}
+  - component: {fileID: -3621433040743463132}
   m_Layer: 0
   m_Name: EliteCavalier
   m_TagString: Untagged
@@ -346,15 +382,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8916063152254937078}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.66, y: -5.737, z: 0}
   m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4436471197220466890}
   - {fileID: 5313958659431753816}
+  - {fileID: 6046765332304628990}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2717753760806604978
 SpriteRenderer:
   serializedVersion: 2
@@ -456,6 +493,14 @@ MonoBehaviour:
   rb: {fileID: 8933264750351331795}
   canMove: 1
   rangedZoneRadius: 0.1
+  meleeZoneRadius: 0.7
+  arrivalRadius: 0.3
+  separationRadius: 0.1
+  separationStrength: 0.1
+  stuckTime: 1
+  retryDelay: 2
+  progressThreshold: 0.05
+  debugDestination: {x: 0, y: 0}
 --- !u!114 &-2785441664650225115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,6 +528,7 @@ MonoBehaviour:
   debugAttackSpeed: 0
   debugAttackRange: 0
   debugHitRadius: 0
+  debugSplashRadius: 0
   debugMovementSpeed: 0
   debugMass: 0
   debugCritChance: 0
@@ -573,3 +619,17 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.50000006
+--- !u!114 &-3621433040743463132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8916063152254937078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84532114361f7b742900804a478cf4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpeechBubbleComponent
+  anchor: {fileID: 6046765332304628990}
+  speechBubblePrefab: {fileID: 3592290938553634524, guid: d599e8d688b946148ae1a5269d53053f, type: 3}

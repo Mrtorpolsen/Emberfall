@@ -13,6 +13,8 @@ public class WaveGenerator
     private readonly ThreatCalculator threatCalculator = new ThreatCalculator();
     private readonly WaveThreatCalculator waveThreatCalculator;
 
+    private GeneralDefinition currentGeneral;
+
     public event Action<int> OnWaveNumberChanged;
 
     public WaveGenerator(SpawnDatabase spawnDB, WaveThreatCalculator waveThreatCalculator, Func<float> randomFunc = null)
@@ -39,11 +41,11 @@ public class WaveGenerator
             enemiesToSpawn = new List<EnemyGroup>(),
         };
 
-        //if (currentGeneral != generalDefinition)
-        //{
-        //    wave.enemiesToSpawn.Add(new EnemyGroup(generalDefinition.generalUnit.UnitPrefab, 1, spawnDelay));
-        //    currentGeneral = generalDefinition;
-        //}
+        if (currentGeneral != generalDefinition)
+        {
+            wave.enemiesToSpawn.Add(new EnemyGroup(generalDefinition.generalUnit.UnitPrefab, 1, spawnDelay, true));
+            currentGeneral = generalDefinition;
+        }
 
         if (IsMilestone(waveNumber, 7, 0, 21)) //start wave 21, and runs every 7 level
         {
