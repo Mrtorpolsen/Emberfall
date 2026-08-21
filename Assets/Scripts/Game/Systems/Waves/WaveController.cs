@@ -52,7 +52,7 @@ public class WaveController : MonoBehaviour
         Instance = this;
 
         //Get settings from difficulty
-        var waveThreatCalculator = new WaveThreatCalculator(1.1f, 150, 6);
+        var waveThreatCalculator = new WaveThreatCalculator(1.04f, 200, 6);
 
         waveRules = new WaveRules(allGenerals);
         waveGenerator = new WaveGenerator(SpawnDatabase.Instance, waveThreatCalculator);

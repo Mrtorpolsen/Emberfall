@@ -11,9 +11,10 @@ public class PopupManager : MonoBehaviour
     [SerializeField] private UIDocument uIDocument;
 
     private VisualElement root;
-
     private VisualElement blocker;
     private VisualElement container;
+
+    private VisualElement contentImgDescBtn;
     private VisualElement img;
     private Label heading;
     private Label description;
@@ -26,15 +27,26 @@ public class PopupManager : MonoBehaviour
 
     private EventCallback<ClickEvent> stopPropagationCallback;
 
-    private const string BLOCKER_NAME = "PopupBlocker";
-    private const string CONTAINER_NAME = "PopupContainer";
-    private const string IMG_NAME = "Img";
-    private const string HEADING_NAME = "Label_Heading";
-    private const string DESCRIPTION_NAME = "Label_Description";
+    private const string BLOCKER = "PopupBlocker";
+    private const string CONTAINER = "PopupContainer";
 
-    private const string BTNCONTAINER_NAME = "BtnContainer";
-    private const string BTNLABEL_NAME = "Label_Btn";
-    private const string CTA_NAME = "Btn_CTA";
+    private const string CONTENT_IMG_DESC_BTN = "PopupContentImgDescBtn";
+    private const string IMG = "Img";
+    private const string HEADING = "Label_Heading";
+    private const string DESCRIPTION = "Label_Description";
+
+    private const string BTNCONTAINER = "BtnContainer";
+    private const string BTNLABEL = "Label_Btn";
+    private const string BTN_CTA = "Btn_CTA";
+
+    private const string CONTENT_BTN_BTN_BTN = "PopupContent3Img";
+    private const string BTN_CONTAINER1 = "BtnContainer1";
+    private const string BTN_CTA1 = "Btn_CTA1";
+    private const string BTN_CONTAINER2 = "BtnContainer2";
+    private const string BTN_CTA2 = "Btn_CTA2";
+    private const string BTN_CONTAINER3 = "BtnContainer3";
+    private const string BTN_CTA3 = "Btn_CTA3";
+
 
     private void Awake()
     {
@@ -62,15 +74,18 @@ public class PopupManager : MonoBehaviour
 
         root = popupRoot;
 
-        blocker = UtilityUIBinding.QRequired<VisualElement>(root, BLOCKER_NAME);
-        container = UtilityUIBinding.QRequired<VisualElement>(root, CONTAINER_NAME);
+        blocker = UtilityUIBinding.QRequired<VisualElement>(root, BLOCKER);
+        container = UtilityUIBinding.QRequired<VisualElement>(root, CONTAINER);
 
-        img = UtilityUIBinding.QRequired<VisualElement>(root, IMG_NAME);
-        heading = UtilityUIBinding.QRequired<Label>(root, HEADING_NAME);
-        description = UtilityUIBinding.QRequired<Label>(root, DESCRIPTION_NAME);
-        btnContainer = UtilityUIBinding.QRequired<VisualElement>(root, BTNCONTAINER_NAME);
-        btnLabel = UtilityUIBinding.QRequired<Label>(root, BTNLABEL_NAME);
-        btn = UtilityUIBinding.QRequired<Button>(root, CTA_NAME);
+        contentImgDescBtn = UtilityUIBinding.QRequired<VisualElement>(root, CONTENT_IMG_DESC_BTN);
+        img = UtilityUIBinding.QRequired<VisualElement>(root, IMG);
+        heading = UtilityUIBinding.QRequired<Label>(root, HEADING);
+        description = UtilityUIBinding.QRequired<Label>(root, DESCRIPTION);
+        btnContainer = UtilityUIBinding.QRequired<VisualElement>(root, BTNCONTAINER);
+        btnLabel = UtilityUIBinding.QRequired<Label>(root, BTNLABEL);
+        btn = UtilityUIBinding.QRequired<Button>(root, BTN_CTA);
+
+
 
         // Register callbacks
         blocker.RegisterCallback<ClickEvent>(OnBackgroundClicked);
@@ -96,7 +111,7 @@ public class PopupManager : MonoBehaviour
         PopupButtonDefinition buttonDefinition = null)
     {
         blocker.style.display = DisplayStyle.Flex;
-
+        contentImgDescBtn.style.display = DisplayStyle.Flex;
         // Load image from path
         if (!string.IsNullOrEmpty(imgAddress))
         {

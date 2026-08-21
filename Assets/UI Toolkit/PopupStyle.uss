@@ -34,3 +34,46 @@
     justify-content: flex-start;
     align-content: auto;
 }
+
+.btnCTA {
+    background-color: rgba(188, 188, 188, 0);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    height: 100%;
+    align-self: center;
+    max-width: 500px;
+    max-height: 150px;
+    align-items: center;
+    width: 100%;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    font-size: 50px;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-content: flex-end;
+    aspect-ratio: 3;
+}
+
+.BtnBtnBtnContainer {
+    margin-bottom: 50px;
+    flex-grow: 1;
+    width: 100%;
+    height: auto;
+    align-items: auto;
+    align-content: auto;
+    justify-content: flex-end;
+    max-height: none;
+    max-width: 500px;
+    display: flex;
+    flex-shrink: 0;
+    margin-top: 50px;
+    aspect-ratio: auto;
+}

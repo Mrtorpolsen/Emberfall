@@ -66,7 +66,6 @@ public class GeneralComponent : MonoBehaviour
         }
 
         MoveToSpawnPosition(bossPosition.position);
-
     }
 
     private void OnDestroy()

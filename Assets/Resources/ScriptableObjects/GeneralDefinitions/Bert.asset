@@ -17,6 +17,8 @@ MonoBehaviour:
   tauntPhrases:
   - Bert the hert dert
   - Bert will dert you
+  - Bert bert bert
+  - BEEEERRRTTTT
   unitRoster:
   - {fileID: 11400000, guid: 0bee6ff15e9c2ee47bde568edfe65c52, type: 2}
   - {fileID: 11400000, guid: 27d758321c698c145a7838d4875778b9, type: 2}
