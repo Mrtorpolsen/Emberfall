@@ -102,7 +102,7 @@ public class LoadoutUIController : IUIScreenController
                     description = BuildAbilityDescription(loadoutSlot.Definition);
                 }
 
-                PopupManager.Instance.OpenPopup(loadoutSlot.Definition.Icon.AssetGUID,
+                PopupManager.Instance.OpenPopup_ImgDescBtn(loadoutSlot.Definition.Icon.AssetGUID,
                     loadoutSlot.Definition.DisplayName,
                     description);
             };
@@ -160,7 +160,7 @@ public class LoadoutUIController : IUIScreenController
                 description = BuildAbilityDescription(loadoutDefinition);
             }
 
-            PopupManager.Instance.OpenPopup(loadoutDefinition.Icon.AssetGUID,
+            PopupManager.Instance.OpenPopup_ImgDescBtn(loadoutDefinition.Icon.AssetGUID,
                 loadoutDefinition.DisplayName,
                 description);
         };

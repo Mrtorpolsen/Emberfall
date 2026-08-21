@@ -187,7 +187,7 @@ public class ForgeUIController : IUIScreenController
                     await SaveService.Instance.SaveAsync();
                 }
             };
-            PopupManager.Instance.OpenPopup(talent.IconId, talent.Name, talent.Description, popupBtn);
+            PopupManager.Instance.OpenPopup_ImgDescBtn(talent.IconId, talent.Name, talent.Description, popupBtn);
             PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitsMet && hasEnoughCurrency);
 
             if(talent.Type != TalentType.StatModifier)

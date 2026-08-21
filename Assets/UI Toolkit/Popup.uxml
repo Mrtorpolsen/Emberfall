@@ -12,7 +12,7 @@
                     <ui:Button text="100" name="Btn_CTA" icon-image="project://database/Assets/Art/UI/Icons/cinder_icon.png?fileID=2800000&amp;guid=001a100086c2f304f8db9d853eff26d8&amp;type=3#cinder_icon" class="btnBackground2x1 text btnCTA"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="PopupContent3Img" style="flex-grow: 1; display: flex; width: 100%;">
+            <ui:VisualElement name="PopupContentChoice" style="flex-grow: 1; display: flex; width: 100%;">
                 <ui:VisualElement name="BtnContainer1" class="3BtnBtnContainer BtnBtnBtnContainer">
                     <ui:Button text="Easy" name="Btn_CTA1" icon-image="project://database/Assets/Art/UI/Icons/cinder_icon.png?fileID=2800000&amp;guid=001a100086c2f304f8db9d853eff26d8&amp;type=3#cinder_icon" class="btnBackground2x1 text btnCTA"/>
                 </ui:VisualElement>
