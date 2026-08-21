@@ -8,11 +8,13 @@ public class WaveThreatCalculator
     private int scalingDelay;
 
     //Need to set difficulty scaling and starting threat based on difficulty level
-    public WaveThreatCalculator(float difficultyScaling, float startingThreat, int scalingDelay)
+    public WaveThreatCalculator(Difficulty difficulty)
     {
-        this.difficultyScaling = difficultyScaling;
-        this.startingThreat = startingThreat;
-        this.scalingDelay = scalingDelay;
+        this.difficultyScaling = difficulty.DifficultyScaling;
+        this.startingThreat = difficulty.StartingThreat;
+        this.scalingDelay = difficulty.ScalingDelay;
+
+        Debug.Log($"WaveThreatCalculator initialized with difficulty scaling: {difficultyScaling}, starting threat: {startingThreat}, scaling delay: {scalingDelay}");
     }
 
     public int GetThreatValueForWave(int waveNumber)

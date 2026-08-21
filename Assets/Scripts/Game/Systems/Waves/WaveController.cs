@@ -52,7 +52,9 @@ public class WaveController : MonoBehaviour
         Instance = this;
 
         //Get settings from difficulty
-        var waveThreatCalculator = new WaveThreatCalculator(1.04f, 200, 6);
+        var difficultySettings = GameSettingsService.Instance.Difficulty;
+        Debug.Log($"Difficulty Settings: {difficultySettings}");
+        var waveThreatCalculator = new WaveThreatCalculator(Difficulties.Get(difficultySettings));
 
         waveRules = new WaveRules(allGenerals);
         waveGenerator = new WaveGenerator(SpawnDatabase.Instance, waveThreatCalculator);

@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     //Consider seperating this into smaller bits, and have this one start/stop them all
     public static GameManager Instance { get; private set; }
 
+    public DifficultyLevel difficultyLevel { get; set; }
+
     public Transform south;
 
     private int nextRangedSpawn = 0;
