@@ -8643,6 +8643,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 842683762}
   m_CullTransparentMesh: 1
+--- !u!1 &848399305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 848399306}
+  m_Layer: 0
+  m_Name: BossPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &848399306
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848399305}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.1, y: 3.259, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1530075882}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &856551937
 GameObject:
   m_ObjectHideFlags: 0
@@ -9257,6 +9288,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897203791}
   m_CullTransparentMesh: 1
+--- !u!1 &912368479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 912368480}
+  m_Layer: 0
+  m_Name: GeneralSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &912368480
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912368479}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.08409, y: 3.926, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1487897315}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &912758285
 GameObject:
   m_ObjectHideFlags: 0
@@ -32866,8 +32928,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1439708017}
-  - {fileID: 650984041}
   - {fileID: 1733177083}
+  - {fileID: 650984041}
   - {fileID: 1263956707}
   - {fileID: 573254239}
   - {fileID: 1980298214}
@@ -36319,13 +36381,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1263956705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adf0e8440359b4b42a6459078bc2013f, type: 3}
+  m_Script: {fileID: 11500000, guid: b1a54704e89811f4aa9ef82021b3c083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   northSpawn: {fileID: 2061042645}
+  generalSpawn: {fileID: 912368480}
   southSpawn: {fileID: 605416890}
+  bossPosition: {fileID: 848399306}
   totalWaves: 100
   timeBetweenWaves: 10
+  allGenerals:
+  - {fileID: 11400000, guid: aab9a1372240a1046b71acc935d43880, type: 2}
+  - {fileID: 11400000, guid: 011101fb57643d141b1782b2372e5012, type: 2}
   isTest: 0
   spawnOfEach: 100
 --- !u!4 &1263956707
@@ -39225,6 +39292,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2061042645}
+  - {fileID: 912368480}
   m_Father: {fileID: 1897632174}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1493238588
@@ -39595,6 +39663,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 813296832}
+  - {fileID: 848399306}
   - {fileID: 1407721416}
   - {fileID: 2129601661}
   m_Father: {fileID: 1175911537}

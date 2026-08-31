@@ -182,6 +182,14 @@ MonoBehaviour:
   rb: {fileID: 5314775306289127517}
   canMove: 1
   rangedZoneRadius: 0.1
+  meleeZoneRadius: 0.7
+  arrivalRadius: 0.3
+  separationRadius: 0.1
+  separationStrength: 0.1
+  stuckTime: 1
+  retryDelay: 2
+  progressThreshold: 0.05
+  debugDestination: {x: 0, y: 0}
 --- !u!114 &1503434668978237590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +217,7 @@ MonoBehaviour:
   debugAttackSpeed: 0
   debugAttackRange: 0
   debugHitRadius: 0
+  debugSplashRadius: 0
   debugMovementSpeed: 0
   debugMass: 0
   debugCritChance: 0

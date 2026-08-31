@@ -1,156 +1,743 @@
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class WaveGeneratorTests
 {
-    [TestCase(9)]  //Wave 10
-    [TestCase(19)] //Wave 20
-    [TestCase(29)] //Wave 30
-    public void GenerateWave_BossExists(int waveIndex)
+    private GameObject _spawnDatabaseObject;
+    private List<SpawnDefinition> _spawnDefinitions;
+    private SpawnDatabase _spawnDB;
+
+    private WaveThreatCalculator _waveThreatCalculator;
+
+    [SetUp]
+    public void SetUp()
     {
-        var wave = new WaveGenerator().GenerateWave(waveIndex);
-        Assert.That(
-            wave.enemiesToSpawn.Any(e => e.prefab == Prefabs.giantPrefab),
-            Is.True,
-            "Boss prefab must be present"
-        );
+        _spawnDefinitions = AssetDatabase
+            .FindAssets("t:SpawnDefinition")
+            .Select(guid =>
+                AssetDatabase.LoadAssetAtPath<SpawnDefinition>(
+                    AssetDatabase.GUIDToAssetPath(guid)))
+            .ToList();
+
+        _spawnDatabaseObject = new GameObject("SpawnDatabase");
+        _spawnDB = _spawnDatabaseObject.AddComponent<SpawnDatabase>();
+
+        _spawnDB.Initialize(_spawnDefinitions);
+
+        _waveThreatCalculator =
+            new WaveThreatCalculator(Difficulties.Medium);
     }
 
-    [TestCase(9, 1)] //Wave 10
-    [TestCase(19, 2)] //Wave 20
-    [TestCase(29, 3)] //Wave 30
-    public void GenerateWave_BossCount_IsCorrect(int waveIndex, int expectedCount)
+    [TearDown]
+    public void TearDown()
     {
-        var wave = new WaveGenerator().GenerateWave(waveIndex);
-        var bossGroup = wave.enemiesToSpawn.First(e => e.prefab == Prefabs.giantPrefab);
-        Assert.That(bossGroup.count, Is.EqualTo(expectedCount));
+        UnityEngine.Object.DestroyImmediate(_spawnDatabaseObject);
     }
 
-    [TestCase(20)]   //Wave 21
-    [TestCase(27)]  //Wave 28
-    [TestCase(34)]  //Wave 35
-    public void GenerateWave_AssasinExists(int waveIndex)
+    private WaveGenerator CreateGenerator(Func<float> randomFunc = null)
     {
-        var wave = new WaveGenerator().GenerateWave(waveIndex);
-        Assert.That(
-            wave.enemiesToSpawn.Any(e => e.prefab == Prefabs.assasinPrefab),
-            Is.True,
-            "Assasin prefab must be present"
-        );
+        return new WaveGenerator(
+            _spawnDB,
+            _waveThreatCalculator,
+            randomFunc);
     }
 
-    [TestCase(20, 25)]   //Wave 21
-    [TestCase(27, 32)]  //Wave 28
-    [TestCase(34, 39)]  //Wave 35
-    public void GenerateWave_AssasinCount_IsCorrect(int waveIndex, int expectedCount)
+    private GeneralDefinition CreateGeneral(
+        string name,
+        SpawnDefinition generalUnit,
+        List<SpawnDefinition> roster = null)
     {
-        var wave = new WaveGenerator().GenerateWave(waveIndex);
-        var assasinGroup = wave.enemiesToSpawn.First(e => e.prefab == Prefabs.assasinPrefab);
-        Assert.That(assasinGroup.count, Is.EqualTo(expectedCount));
+        var general = ScriptableObject.CreateInstance<GeneralDefinition>();
+
+        general.generalName = name;
+        general.generalUnit = generalUnit;
+        general.unitRoster = roster ?? new List<SpawnDefinition>();
+
+        return general;
     }
 
-    [TestCase(0)] //Wave 1 - Cant spawn
-    [TestCase(1)] //Wave 2 - Cant spawn
-    [TestCase(2)] //Wave 3 - Cant spawn
-    [TestCase(3)] //Wave 4 - Cant spawn
-    public void GenerateWave_EliteFighter_CantSpawnBeforeUnlockWave(int waveIndex)
+    private void DestroyGeneral(GeneralDefinition general)
     {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.eliteFighterPrefab);
-        Assert.IsNull(waveGroup);
+        if (general != null)
+        {
+            UnityEngine.Object.DestroyImmediate(general);
+        }
     }
 
-    [TestCase(4)] //Wave 5 - Can spawn
-    [TestCase(12)] //Wave 13 - Can spawn
-    [TestCase(26)] //Wave 27 - Can spawn
-    public void GenerateWave_EliteFighter_CanSpawnAtOrAfterUnlockWave(int waveIndex)
+    private float CalculateWaveThreat(
+        WaveDefinition wave,
+        GeneralDefinition general)
     {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.eliteFighterPrefab);
-        Assert.IsNotNull(waveGroup);
-    }
-
-    [TestCase(0)] //Wave 1 - Cant spawn
-    [TestCase(8)] //Wave 9 - Cant spawn
-    [TestCase(13)] //Wave 14 - Cant spawn
-    [TestCase(18)] //Wave 19 - Cant spawn
-    public void GenerateWave_EliteCavalier_CantSpawnBeforeUnlockWave(int waveIndex)
-    {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.eliteCavalierPrefab);
-        Assert.IsNull(waveGroup);
-    }
-
-    [TestCase(21)] //Wave 22 - Can spawn
-    [TestCase(28)] //Wave 29 - Can spawn
-    [TestCase(33)] //Wave 34 - Can spawn
-    public void GenerateWave_EliteCavalier_CanSpawnAtOrAfterUnlockWave(int waveIndex)
-    {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.eliteCavalierPrefab);
-        Assert.IsNotNull(waveGroup);
-    }
-
-    [TestCase(0)] //Wave 1 - Cant spawn
-    [TestCase(5)] //Wave 6 - Cant spawn
-    [TestCase(7)] //Wave 8 - Cant spawn
-    [TestCase(8)] //Wave 9 - Cant spawn
-    public void GenerateWave_Sapper_CantSpawnBeforeUnlockWave(int waveIndex)
-    {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.sapperPrefab);
-        Assert.IsNull(waveGroup);
-    }
-
-    [TestCase(10)] //Wave 11 - Can spawn
-    [TestCase(18)] //Wave 19 - Can spawn
-    [TestCase(24)] //Wave 25 - Can spawn
-    public void GenerateWave_Sapper_CanSpawnAtOrAfterUnlockWave(int waveIndex)
-    {
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-        var waveGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == Prefabs.sapperPrefab);
-        Assert.IsNotNull(waveGroup);
-    }
-
-    [TestCase(9)]  // Wave 10
-    [TestCase(19)] // Wave 20
-    [TestCase(29)] // Wave 30
-    public void GenerateWave_BossWave_ContainsOnlyBoss(int waveIndex)
-    {
-        //Set to 0f, to make sure if elites can spawn they will
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
-
-        var bossPrefab = Prefabs.giantPrefab;
-
-        var bossGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == bossPrefab);
-        Assert.That(bossGroup, Is.Not.Null, $"Boss missing in wave {waveIndex + 1}");
+        float totalThreat = 0f;
 
         foreach (var group in wave.enemiesToSpawn)
         {
-            Assert.That(group.prefab, Is.EqualTo(bossPrefab),
-                $"Wave {waveIndex + 1} contains unexpected unit: {group.prefab.name}");
+            // General/boss is intentionally outside the normal threat budget.
+            if (group.isBoss)
+                continue;
+
+            var spawnDefinition = _spawnDefinitions.First(
+                spawn => spawn.UnitPrefab == group.prefab);
+
+            var unitThreat =
+                new ThreatCalculator().CalculateThreat(
+                    spawnDefinition.Stats);
+
+            totalThreat += unitThreat * group.count;
+        }
+
+        return totalThreat;
+    }
+
+
+    // ------------------------------------------------------------------------
+    // General
+    // ------------------------------------------------------------------------
+
+    [Test]
+    public void GenerateWave_FirstWave_AddsGeneral()
+    {
+        var generalUnit = _spawnDB.GetSpawn("spawn_giant");
+        var general = CreateGeneral(
+            "Test General",
+            generalUnit);
+
+        try
+        {
+            var generator = CreateGenerator();
+
+            var wave = generator.GenerateWave(0, general);
+
+            var bossGroup = wave.enemiesToSpawn
+                .FirstOrDefault(group => group.isBoss);
+
+            Assert.That(bossGroup, Is.Not.Null);
+            Assert.That(bossGroup.prefab, Is.EqualTo(generalUnit.UnitPrefab));
+            Assert.That(bossGroup.count, Is.EqualTo(1));
+        }
+        finally
+        {
+            DestroyGeneral(general);
         }
     }
+
+    [Test]
+    public void GenerateWave_NewGeneral_AddsNewGeneral()
+    {
+        var generalUnitA = _spawnDB.GetSpawn("spawn_giant");
+        var generalUnitB = _spawnDB.GetSpawn("spawn_assassin");
+
+        var generalA = CreateGeneral(
+            "General A",
+            generalUnitA);
+
+        var generalB = CreateGeneral(
+            "General B",
+            generalUnitB);
+
+        try
+        {
+            var generator = CreateGenerator();
+
+            var firstWave = generator.GenerateWave(0, generalA);
+            var secondWave = generator.GenerateWave(1, generalB);
+
+            var firstBoss = firstWave.enemiesToSpawn
+                .FirstOrDefault(group => group.isBoss);
+
+            var secondBoss = secondWave.enemiesToSpawn
+                .FirstOrDefault(group => group.isBoss);
+
+            Assert.That(firstBoss, Is.Not.Null);
+            Assert.That(firstBoss.prefab, Is.EqualTo(generalUnitA.UnitPrefab));
+
+            Assert.That(secondBoss, Is.Not.Null);
+            Assert.That(secondBoss.prefab, Is.EqualTo(generalUnitB.UnitPrefab));
+        }
+        finally
+        {
+            DestroyGeneral(generalA);
+            DestroyGeneral(generalB);
+        }
+    }
+
+
+    // ------------------------------------------------------------------------
+    // Normal waves - threat system
+    // ------------------------------------------------------------------------
+
+    [Test]
+    public void GenerateWave_NormalWave_DoesNotExceedThreatBudget()
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            new List<SpawnDefinition>
+            {
+                fighter
+            });
+
+        try
+        {
+            var generator = CreateGenerator();
+
+            const int waveNumber = 0;
+
+            var wave = generator.GenerateWave(
+                waveNumber,
+                general);
+
+            var generatedThreat = CalculateWaveThreat(
+                wave,
+                general);
+
+            var threatBudget =
+                _waveThreatCalculator.GetThreatValueForWave(
+                    waveNumber);
+
+            Assert.That(
+                generatedThreat,
+                Is.LessThanOrEqualTo(threatBudget),
+                $"Generated threat ({generatedThreat}) exceeded " +
+                $"wave budget ({threatBudget}).");
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    [Test]
+    public void GenerateWave_NormalWave_OnlyContainsRosterUnits()
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+        var ranger = _spawnDB.GetSpawn("spawn_ranger");
+
+        var roster = new List<SpawnDefinition>
+        {
+            fighter,
+            ranger
+        };
+
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            roster);
+
+        try
+        {
+            var generator = CreateGenerator();
+
+            var wave = generator.GenerateWave(
+                0,
+                general);
+
+            foreach (var group in wave.enemiesToSpawn)
+            {
+                if (group.isBoss)
+                    continue;
+
+                Assert.That(
+                    roster.Any(unit =>
+                        unit.UnitPrefab == group.prefab),
+                    Is.True,
+                    $"Unexpected unit spawned: {group.prefab.name}");
+            }
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    [Test]
+    public void GenerateWave_NormalWave_GeneratedUnitGroupsHaveCountOne()
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+        var ranger = _spawnDB.GetSpawn("spawn_ranger");
+
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            new List<SpawnDefinition>
+            {
+                fighter,
+                ranger
+            });
+
+        try
+        {
+            var generator = CreateGenerator();
+
+            var wave = generator.GenerateWave(
+                0,
+                general);
+
+            foreach (var group in wave.enemiesToSpawn)
+            {
+                if (group.isBoss)
+                    continue;
+
+                Assert.That(
+                    group.count,
+                    Is.EqualTo(1),
+                    $"Normal unit {group.prefab.name} " +
+                    $"should be added with count 1.");
+            }
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    [Test]
+    public void GenerateWave_NormalWave_StopsWhenNoRosterUnitFitsRemainingThreat()
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+
+        var fighterThreat =
+            new ThreatCalculator().CalculateThreat(
+                fighter.Stats);
+
+        /*
+         * Use a single roster unit.
+         *
+         * The generator can only add Fighters while the remaining
+         * threat budget is large enough. Once it is below the Fighter
+         * threat, generation must stop.
+         */
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            new List<SpawnDefinition>
+            {
+                fighter
+            });
+
+        try
+        {
+            var generator = CreateGenerator();
+
+            var wave = generator.GenerateWave(
+                0,
+                general);
+
+            var generatedThreat = CalculateWaveThreat(
+                wave,
+                general);
+
+            var threatBudget =
+                _waveThreatCalculator.GetThreatValueForWave(0);
+
+            var remainingThreat =
+                threatBudget - generatedThreat;
+
+            Assert.That(
+                remainingThreat,
+                Is.LessThan(fighterThreat),
+                $"Remaining threat ({remainingThreat}) was large enough " +
+                $"for another Fighter ({fighterThreat}), so generation " +
+                $"should not have stopped.");
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+
+    // ------------------------------------------------------------------------
+    // Assassin waves
+    // ------------------------------------------------------------------------
 
     [TestCase(20)] // Wave 21
     [TestCase(27)] // Wave 28
     [TestCase(34)] // Wave 35
-    public void GenerateWave_AssassinWave_ContainsOnlyAssassins(int waveIndex)
+    public void GenerateWave_AssassinWave_ContainsOnlyAssassins(
+        int waveNumber)
     {
-        //Set to 0f, to make sure if elites can spawn they will
-        var wave = new WaveGenerator(() => 0f).GenerateWave(waveIndex);
+        var assassin = _spawnDB.GetSpawn("spawn_assassin");
 
-        var assassinPrefab = Prefabs.assasinPrefab;
+        var general = CreateGeneral(
+            "Test General",
+            assassin,
+            new List<SpawnDefinition>
+            {
+                assassin
+            });
 
-        var assassinGroup = wave.enemiesToSpawn.FirstOrDefault(e => e.prefab == assassinPrefab);
-        Assert.That(assassinGroup, Is.Not.Null, $"Assassin missing in wave {waveIndex + 1}");
-
-        foreach (var group in wave.enemiesToSpawn)
+        try
         {
-            Assert.That(group.prefab, Is.EqualTo(assassinPrefab),
-                $"Wave {waveIndex + 1} contains unexpected unit: {group.prefab.name}");
+            var generator = CreateGenerator();
+
+            var wave = generator.GenerateWave(
+                waveNumber,
+                general);
+
+            var assassinPrefab = assassin.UnitPrefab;
+
+            Assert.That(
+                wave.enemiesToSpawn.Any(
+                    group => group.prefab == assassinPrefab),
+                Is.True,
+                $"Assassin missing in wave {waveNumber + 1}.");
+
+            foreach (var group in wave.enemiesToSpawn)
+            {
+                if (group.isBoss)
+                    continue;
+
+                Assert.That(
+                    group.prefab,
+                    Is.EqualTo(assassinPrefab),
+                    $"Wave {waveNumber + 1} contains " +
+                    $"unexpected unit: {group.prefab.name}");
+            }
+        }
+        finally
+        {
+            DestroyGeneral(general);
         }
     }
 
+[TestCase(20)] // Wave 21
+[TestCase(27)] // Wave 28
+[TestCase(34)] // Wave 35
+public void GenerateWave_AssassinWave_CountIsBasedOnThreatBudget(
+    int waveNumber)
+{
+    var assassin = _spawnDB.GetSpawn("spawn_assassin");
+    var fighter = _spawnDB.GetSpawn("spawn_fighter");
+
+    var assassinThreat =
+        new ThreatCalculator().CalculateThreat(
+            assassin.Stats);
+
+    var general = CreateGeneral(
+        "Test General",
+        fighter,
+        new List<SpawnDefinition>
+        {
+            fighter
+        });
+
+    try
+    {
+        var generator = CreateGenerator();
+
+        // Establish the current general.
+        generator.GenerateWave(0, general);
+
+        // Generate the assassin wave using the same general.
+        var wave = generator.GenerateWave(
+            waveNumber,
+            general);
+
+        var assassinGroup = wave.enemiesToSpawn
+            .FirstOrDefault(group =>
+                group.prefab == assassin.UnitPrefab);
+
+        Assert.That(
+            assassinGroup,
+            Is.Not.Null,
+            $"Assassin group missing in wave {waveNumber + 1}.");
+
+        var threatBudget =
+            _waveThreatCalculator.GetThreatValueForWave(
+                waveNumber);
+
+        var expectedCount =
+            Mathf.FloorToInt(
+                threatBudget / assassinThreat);
+
+        Assert.That(
+            assassinGroup.count,
+            Is.EqualTo(expectedCount));
+    }
+    finally
+    {
+        DestroyGeneral(general);
+    }
+}
+
+    [TestCase(19)] // Wave 20
+    [TestCase(26)] // Wave 27
+    [TestCase(33)] // Wave 34
+    public void GenerateWave_BeforeAssassinWave_DoesNotSpawnAssassins(
+        int waveNumber)
+    {
+        var assassin = _spawnDB.GetSpawn("spawn_assassin");
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            new List<SpawnDefinition>
+            {
+                fighter
+            });
+
+        try
+        {
+            var generator = CreateGenerator();
+
+            var wave = generator.GenerateWave(
+                waveNumber,
+                general);
+
+            Assert.That(
+                wave.enemiesToSpawn.Any(
+                    group => group.prefab == assassin.UnitPrefab),
+                Is.False,
+                $"Assassin should not spawn on wave {waveNumber + 1}.");
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Sappers
+    // ------------------------------------------------------------------------
+
+    [TestCase(0)] // Wave 1
+    [TestCase(9)] // Wave 10
+    public void GenerateWave_Sapper_CannotSpawnBeforeWave11(
+        int waveNumber)
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            new List<SpawnDefinition>
+            {
+                fighter
+            });
+
+        try
+        {
+            var generator = CreateGenerator(
+                () => 0f);
+
+            var wave = generator.GenerateWave(
+                waveNumber,
+                general);
+
+            var sapperPrefab =
+                _spawnDB.GetSpawn("spawn_sapper").UnitPrefab;
+
+            Assert.That(
+                wave.enemiesToSpawn.Any(
+                    group => group.prefab == sapperPrefab),
+                Is.False);
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    [Test]
+    public void GenerateWave_Sapper_CanSpawnAfterWave10()
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+        var sapper = _spawnDB.GetSpawn("spawn_sapper");
+
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            new List<SpawnDefinition>
+            {
+                fighter
+            });
+
+        try
+        {
+            var generator = CreateGenerator(
+                () => 0f);
+
+            // Wave 11
+            var wave = generator.GenerateWave(
+                10,
+                general);
+
+            Assert.That(
+                wave.enemiesToSpawn.Any(
+                    group => group.prefab == sapper.UnitPrefab),
+                Is.True);
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    [Test]
+    public void GenerateWave_Sapper_DoesNotSpawnWhenRandomCheckFails()
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+        var sapper = _spawnDB.GetSpawn("spawn_sapper");
+
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            new List<SpawnDefinition>
+            {
+                fighter
+            });
+
+        try
+        {
+            var generator = CreateGenerator(
+                () => 1f);
+
+            // Wave 11
+            var wave = generator.GenerateWave(
+                10,
+                general);
+
+            Assert.That(
+                wave.enemiesToSpawn.Any(
+                    group => group.prefab == sapper.UnitPrefab),
+                Is.False);
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    [Test]
+    public void GenerateWave_Sapper_DoesNotSpawnOnAssassinWave()
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+        var assassin = _spawnDB.GetSpawn("spawn_assassin");
+        var sapper = _spawnDB.GetSpawn("spawn_sapper");
+
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            new List<SpawnDefinition>
+            {
+                fighter
+            });
+
+        try
+        {
+            var generator = CreateGenerator(
+                () => 0f);
+
+            // Wave 21
+            var wave = generator.GenerateWave(
+                20,
+                general);
+
+            Assert.That(
+                wave.enemiesToSpawn.Any(
+                    group => group.prefab == sapper.UnitPrefab),
+                Is.False);
+
+            Assert.That(
+                wave.enemiesToSpawn.Any(
+                    group => group.prefab == assassin.UnitPrefab),
+                Is.True);
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    [Test]
+    public void GenerateWave_Sapper_RespectsCooldown()
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+        var sapper = _spawnDB.GetSpawn("spawn_sapper");
+
+        var general = CreateGeneral(
+            "Test General",
+            fighter,
+            new List<SpawnDefinition>
+            {
+                fighter
+            });
+
+        try
+        {
+            var generator = CreateGenerator(
+                () => 0f);
+
+            // Wave 11 - Sapper spawns.
+            var wave11 = generator.GenerateWave(
+                10,
+                general);
+
+            Assert.That(
+                wave11.enemiesToSpawn.Any(
+                    group => group.prefab == sapper.UnitPrefab),
+                Is.True);
+
+            // Waves 12-14 should be on cooldown.
+            for (int waveNumber = 11; waveNumber <= 13; waveNumber++)
+            {
+                var wave = generator.GenerateWave(
+                    waveNumber,
+                    general);
+
+                Assert.That(
+                    wave.enemiesToSpawn.Any(
+                        group => group.prefab == sapper.UnitPrefab),
+                    Is.False,
+                    $"Sapper should still be on cooldown in wave {waveNumber + 1}.");
+            }
+
+            // Wave 15 should be eligible again.
+            var wave15 = generator.GenerateWave(
+                14,
+                general);
+
+            Assert.That(
+                wave15.enemiesToSpawn.Any(
+                    group => group.prefab == sapper.UnitPrefab),
+                Is.True);
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Milestones - Currently only used for Assassin waves, but could be used for other things in the future.
+    // ------------------------------------------------------------------------
+
+    [TestCase(9, false)]   // Wave 10
+    [TestCase(19, false)]  // Wave 20
+    [TestCase(20, true)] // Wave 21
+    [TestCase(21, false)] // Wave 22
+    [TestCase(26, false)] // Wave 27
+    [TestCase(27, true)]  // Wave 28
+    [TestCase(33, false)] // Wave 34
+    [TestCase(34, true)]  // Wave 35
+    public void IsMilestone_ReturnsExpectedResult(
+        int waveNumber,
+        bool expected)
+    {
+        var result = WaveGenerator.IsMilestone(
+            waveNumber,
+            7,
+            0,
+            21);
+
+        Assert.That(result, Is.EqualTo(expected));
+    }
 }

@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using System.Collections.Generic;
 using UnityEngine;
 
 public interface ITargetable : IHasTeam
@@ -9,6 +7,7 @@ public interface ITargetable : IHasTeam
     float HitRadius { get; }
     bool IsAlive { get; }
     bool IsTargetable { get; }
+    bool IsInvulnerable { get; }
     void TakeDamage(int amount);
     void Die();
     ThreatLevel UnitPrio { get; }

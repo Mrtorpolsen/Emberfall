@@ -7,6 +7,33 @@ public class MainMenuEvents : IUIScreenEvents
 {
     [SerializeField] private UIDocument uIDocument;
 
+    private PopupButtonDefinition easyPlayBtn = new PopupButtonDefinition
+    {
+        BtnText = "Easy",
+        OnClick = () =>
+        {
+            GameSettingsService.Instance.SetDifficulty(DifficultyLevel.Easy);
+            SceneManager.LoadScene("Game");
+        }
+    };
+    private PopupButtonDefinition mediumPlayBtn = new PopupButtonDefinition
+    {
+        BtnText = "Medium",
+        OnClick = () =>
+        {
+            GameSettingsService.Instance.SetDifficulty(DifficultyLevel.Medium);
+            SceneManager.LoadScene("Game");
+        }
+    };
+    private PopupButtonDefinition hardPlayBtn = new PopupButtonDefinition
+    {
+        BtnText = "Hard",
+        OnClick = () =>
+        {
+            GameSettingsService.Instance.SetDifficulty(DifficultyLevel.Hard);
+            SceneManager.LoadScene("Game");
+        }
+    };
 
     private readonly Dictionary<string, string> bindings = new()
     {
@@ -29,7 +56,8 @@ public class MainMenuEvents : IUIScreenEvents
     {
         Debug.Log("Play clicked loading Game...");
         UnitStatsManager.Instance.RecalculateAllFinalStats();
-        SceneManager.LoadScene("Game");
+        
+        PopupManager.Instance.OpenChoicePopup(easyPlayBtn, mediumPlayBtn, hardPlayBtn);
     }
 
     private void Btn_Offer3Clicked()

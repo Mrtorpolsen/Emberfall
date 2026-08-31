@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5124825557718836729}
   - component: {fileID: 1084606098695626972}
   - component: {fileID: 982534003368495979}
+  - component: {fileID: 862606380646703691}
   m_Layer: 0
   m_Name: Giant
   m_TagString: Untagged
@@ -34,9 +35,10 @@ RectTransform:
   m_GameObject: {fileID: 6717628542700303866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1317525553527231472}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -181,6 +183,13 @@ MonoBehaviour:
   rb: {fileID: 5314775306289127517}
   canMove: 1
   rangedZoneRadius: 0.1
+  arrivalRadius: 0.3
+  separationRadius: 0.1
+  separationStrength: 0.1
+  stuckTime: 1
+  retryDelay: 2
+  progressThreshold: 0.05
+  debugDestination: {x: 0, y: 0}
 --- !u!114 &3985135143687829584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +217,7 @@ MonoBehaviour:
   debugAttackSpeed: 0
   debugAttackRange: 0
   debugHitRadius: 0
+  debugSplashRadius: 0
   debugMovementSpeed: 0
   debugMass: 0
   debugCritChance: 0
@@ -275,3 +285,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitMetadata
   team: 0
   isElite: 0
+--- !u!114 &862606380646703691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6717628542700303866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84532114361f7b742900804a478cf4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpeechBubbleComponent
+  anchor: {fileID: 1317525553527231472}
+  speechBubblePrefab: {fileID: 3592290938553634524, guid: d599e8d688b946148ae1a5269d53053f, type: 3}
+--- !u!1 &7546843097955642621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1317525553527231472}
+  m_Layer: 0
+  m_Name: SpeechBubbleAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1317525553527231472
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7546843097955642621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7627656018753657245}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0}

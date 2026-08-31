@@ -62,7 +62,7 @@ public class ResearchService : MonoBehaviour
             tree.ApplyScalingPresets();
             playerResearchTree = tree;
 
-            if (SaveService.Instance.Current.Research.ActiveResearches.Count > 0)
+            if (SaveService.Instance.Current.Research.ActiveResearch.Count > 0)
             {
                 RestartActiveResearchTimers();
             }
@@ -78,7 +78,7 @@ public class ResearchService : MonoBehaviour
         //Checks if category already being researched
         ResearchDefinition research = playerResearchTree.GetResearchById(id);
 
-        if (SaveService.Instance.Current.Research.ActiveResearches
+        if (SaveService.Instance.Current.Research.ActiveResearch
             .Find(activeResearch => activeResearch.ResearchCategory == research.Category) != null)
         {
             Debug.LogWarning("Category already being researched");
@@ -101,7 +101,7 @@ public class ResearchService : MonoBehaviour
 
         ActiveResearch researchToStart = new ActiveResearch(research.Category, research.Id, (currentLevel + 1), research.Name);
 
-        SaveService.Instance.Current.Research.ActiveResearches.Add(researchToStart);
+        SaveService.Instance.Current.Research.ActiveResearch.Add(researchToStart);
 
         StartCoroutine(ResearchTimerRoutine(researchToStart, research));
 
@@ -110,7 +110,7 @@ public class ResearchService : MonoBehaviour
 
     private void CompleteResearch(ActiveResearch active)
     {
-        SaveService.Instance.Current.Research.ActiveResearches.Remove(active);
+        SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
         SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
         SaveService.Instance.Save();
 
@@ -119,7 +119,7 @@ public class ResearchService : MonoBehaviour
 
     private void CompleteResearchInternal(ActiveResearch active)
     {
-        SaveService.Instance.Current.Research.ActiveResearches.Remove(active);
+        SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
         SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
 
         OnResearchCompleted?.Invoke(active.ResearchCategory);
@@ -152,7 +152,7 @@ public class ResearchService : MonoBehaviour
 
         long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-        foreach (var active in SaveService.Instance.Current.Research.ActiveResearches.ToList())
+        foreach (var active in SaveService.Instance.Current.Research.ActiveResearch.ToList())
         {
             ResearchDefinition def = playerResearchTree.GetResearchById(active.ResearchId);
 
@@ -204,7 +204,7 @@ public class ResearchService : MonoBehaviour
 
     public ActiveResearch IsActiveCategory(ResearchCategory category)
     {
-        return SaveService.Instance.Current?.Research.ActiveResearches
+        return SaveService.Instance.Current?.Research.ActiveResearch
             .Find(r => r.ResearchCategory == category);
     }
 

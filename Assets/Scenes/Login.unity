@@ -404,6 +404,7 @@ GameObject:
   - component: {fileID: 1468156536}
   - component: {fileID: 1468156540}
   - component: {fileID: 1468156541}
+  - component: {fileID: 1468156542}
   m_Layer: 0
   m_Name: Initializations
   m_TagString: Untagged
@@ -487,6 +488,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059407b8ea3309244a1c61e448333aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Menu.Loadout.LoadoutService
+--- !u!114 &1468156542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468156535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe403528fb0022438692012c9fa5e79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameSettingsService
 --- !u!1 &1504421779
 GameObject:
   m_ObjectHideFlags: 0

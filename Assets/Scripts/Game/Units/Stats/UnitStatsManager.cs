@@ -201,8 +201,15 @@ public class UnitStatsManager : MonoBehaviour
         return finalStatsByUnit.TryGetValue(unitKey, out var stats) ? stats : null;
     }
 
+    public List<UnitStatsDefinition> GetAllUnitStats()
+    {
+        return unitStatsDefinition;
+    }
+
     public FinalStats GetEnemyStats(string unitKey, WaveController.EnemyScalingContext scaling)
     {
+        int delayWaves = 10; // Delay scaling for the first 10 waves
+
         if (!unitStatsByUnitKey.TryGetValue(unitKey, out var baseStats))
         {
             Debug.LogError($"No prefab found for unitKey: {unitKey}");
@@ -218,12 +225,12 @@ public class UnitStatsManager : MonoBehaviour
         }
 
         //last bit here is to delay scaling from being applied to the first 10 waves.
-        if (scaling.waveIndex < 10)
+        if (scaling.waveIndex < delayWaves)
         {
             return finalStats;
         }
 
-        return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex - 10, finalStats);
+        return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex - delayWaves, finalStats);
     }
 
     private FinalStats BuildFinalStatsFromBase(UnitStatsDefinition unitBaseStats)

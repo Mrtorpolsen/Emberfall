@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5313391fa5734b46a2e715fe9d95d96, type: 3}
+  m_Name: Feff
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralDefinition
+  id: feff
+  generalName: Feff
+  tauntPhrases:
+  - My name is Feff
+  - Have you seen my brother Jeff?
+  - Are you hiding him from me?
+  - Jeff!? Jeff!?
+  - Im coming Jeff!!!
+  unitRoster:
+  - {fileID: 11400000, guid: 3849ec13d477242429c436bfd95f0509, type: 2}
+  - {fileID: 11400000, guid: d73c17160d1df544aacd7d131a5c67cf, type: 2}
+  generalUnit: {fileID: 11400000, guid: ece90d43e63078f47a04f75cb8af4eb1, type: 2}
+  spawnLimit: 10

@@ -25,6 +25,8 @@ public class DefaultTargetBaseStatsComponent : MonoBehaviour, ITargetable
 
     public bool IsTargetable => throw new System.NotImplementedException();
 
+    public bool IsInvulnerable => throw new System.NotImplementedException();
+
     private void Awake()
     {
         currentHealth = maxHealth;

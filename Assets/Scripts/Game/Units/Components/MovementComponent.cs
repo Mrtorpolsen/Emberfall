@@ -11,9 +11,6 @@ public class MovementComponent : MonoBehaviour
     [Header("Ranged Settings")]
     [SerializeField] private float rangedZoneRadius = 0.1f;
 
-    [Header("Melee Settings")]
-    [SerializeField] private float meleeZoneRadius = 0.7f;
-
     [Header("Movement")]
     [SerializeField] private float arrivalRadius = 0.3f;
     [SerializeField] private float separationRadius = 0.1f;
@@ -45,6 +42,9 @@ public class MovementComponent : MonoBehaviour
 
     private bool hasTemporaryPosition;
     private Vector2 temporaryPosition;
+
+    private bool hasForcedDestination;
+    private Vector2 forcedDestination;
 
 #if UNITY_EDITOR
     [Header("Debug")]
@@ -104,7 +104,7 @@ public class MovementComponent : MonoBehaviour
 
         MoveToward(target);
 
-        Debug.DrawRay(transform.position, rb.linearVelocity, Color.green);
+        //Debug.DrawRay(transform.position, rb.linearVelocity, Color.green);
     }
 
     public Vector2? ResolveDestination()
@@ -113,6 +113,17 @@ public class MovementComponent : MonoBehaviour
         Vector2 currentPos = rb.position;
 
         bool isRanged = rangedStats != null;
+
+        if (hasForcedDestination)
+        {
+            if ((forcedDestination - rb.position).sqrMagnitude <= arrivalRadius * arrivalRadius)
+            {
+                SetMovementEnabled(false);
+                return null;
+            }
+
+            return forcedDestination;
+        }
 
         if (isRanged)
         {
@@ -307,5 +318,27 @@ public class MovementComponent : MonoBehaviour
         }
 
         return offset;
+    }
+
+    public void SetTemporaryDestination(Vector2 destination)
+    {
+        forcedDestination = destination;
+        hasForcedDestination = true;
+        canMove = true;
+    }
+
+    public void ClearTemporaryDestination()
+    {
+        hasForcedDestination = false;
+    }
+
+    public void SetMovementEnabled(bool enabled)
+    {
+        canMove = enabled;
+
+        if (!enabled)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 }

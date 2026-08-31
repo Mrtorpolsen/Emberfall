@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,10 +27,18 @@ public class SaveService : GlobalSystem<SaveService>
         );
     }
 
-    public async Task CreateSave()
+    public async Task CreateSave(int totalCinders, int totalEmbers, Dictionary<string, int> CompletedResearch, List<ActiveResearch> activeResearch, bool hasReceivedLoginGift)
     {
         Current = new SaveGame();
         Current.Version = SaveGame.CURRENT_SAVE_VERSION;
+
+        Current.HasReceivedLoginGift = hasReceivedLoginGift;
+        Current.Research.CompletedResearch = CompletedResearch;
+        Current.Research.ActiveResearch = activeResearch;
+
+        Current.Currency.Cinders = totalCinders;
+        Current.Currency.Embers = totalEmbers;
+
         ValidateSave();
         await SaveAsync();
         await InvokeOnSaveLoaded();
@@ -43,22 +52,47 @@ public class SaveService : GlobalSystem<SaveService>
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No save file found, creating new save file");
-            await CreateSave();
+            await CreateSave(0, 0, new Dictionary<string, int>(), new List<ActiveResearch>(), false);
             return;
         }
 
         string json = await Task.Run(() => File.ReadAllText(savePath));
 
-        var temp = JsonConvert.DeserializeObject<SaveGame>(json);
+        var root = JObject.Parse(json);
+
+        //TODO make a migration system to handle versioning and changes in the save file structure
+        int version = root.Value<int>("Version");
+
+        int cindersSpent = root["Talents"]?["CurrencySpent"]?.Value<int>("Cinders") ?? 0;
+        int embersSpent = root["Talents"]?["CurrencySpent"]?.Value<int>("Embers") ?? 0;
+
+        int currentCinders = root["Currency"]?.Value<int>("Cinders") ?? 0;
+        int currentEmbers = root["Currency"]?.Value<int>("Embers") ?? 0;
+
+        int cindersToTransfer = cindersSpent + currentCinders;
+        int embersToTransfer = embersSpent + currentEmbers;
+
+        bool hasReceivedLoginGift = root.Value<bool>("HasReceivedLoginGift");
+
+        Dictionary<string, int> CompletedResearch = root["Research"]?["CompletedResearch"]?.ToObject<Dictionary<string, int>>() ?? new Dictionary<string, int>();
+        List<ActiveResearch> activeResearch = root["Research"]?["ActiveResearch"]?.ToObject<List<ActiveResearch>>() ?? new List<ActiveResearch>();
+
+        //Save version 2 - Renamed to ActiveResearch
+        if (activeResearch.Count == 0)
+        {
+            activeResearch = root["Research"]?["ActiveResearches"]?.ToObject<List<ActiveResearch>>() ?? new List<ActiveResearch>();
+        }
 
         //Validate version
-        if (temp == null || temp.Version != SaveGame.CURRENT_SAVE_VERSION)
+        if (version != SaveGame.CURRENT_SAVE_VERSION || version == 0)
         {
             Debug.LogWarning("Save version mismatch. Creating new save file.");
 
-            await CreateSave();
+            await CreateSave(cindersToTransfer, embersToTransfer, CompletedResearch, activeResearch, hasReceivedLoginGift);
             return;
         }
+
+        var temp = JsonConvert.DeserializeObject<SaveGame>(json);
 
         Current = temp;
 
@@ -131,7 +165,7 @@ public class SaveService : GlobalSystem<SaveService>
         // Research
         Current.Research ??= new PlayerResearchState();
         Current.Research.CompletedResearch ??= new Dictionary<string, int>();
-        Current.Research.ActiveResearches ??= new List<ActiveResearch>();
+        Current.Research.ActiveResearch ??= new List<ActiveResearch>();
 
         // Currency
         Current.Currency ??= new CurrencyData();

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -61,6 +62,8 @@ public class LoadoutService : MonoBehaviour
     public int CurrentLoadoutId => SaveService.Instance.Current.Loadouts.ActiveLoadoutId;
     public ActiveLoadout CurrentLoadout { get; private set; }
 
+    private Dictionary<string, LoadoutDefinition> definitionMap;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -71,6 +74,11 @@ public class LoadoutService : MonoBehaviour
         Instance = this;
 
         DontDestroyOnLoad(gameObject);
+
+        definitionMap = AbilityDatabase.Instance.GetAllAbilities()
+            .Cast<LoadoutDefinition>()
+            .Concat(SpawnDatabase.Instance.GetAllSpawns())
+            .ToDictionary(x => x.Id);
     }
 
     private void OnEnable()
@@ -96,9 +104,15 @@ public class LoadoutService : MonoBehaviour
 
     private async Task LoadPlayerLoadoutAsync()
     {
-        if(LoadoutDatabase.Instance == null)
+        if(SpawnDatabase.Instance == null)
         {
-            Debug.LogError("LoadoutDatabase not found");
+            Debug.LogError("SpawnDatabase not found");
+            return;
+        }
+
+        if(AbilityDatabase.Instance == null)
+        {
+            Debug.LogError("AbilityDatabase not found");
             return;
         }
 
@@ -115,9 +129,9 @@ public class LoadoutService : MonoBehaviour
             {
                 CurrentLoadout = new ActiveLoadout
                 {
-                    UnitLoadout = Array.ConvertAll(activePreset.State.UnitLoadout, id => LoadoutDatabase.Instance.GetSpawn(id)),
-                    TowerLoadout = Array.ConvertAll(activePreset.State.TowerLoadout, id => LoadoutDatabase.Instance.GetSpawn(id)),
-                    AbilityLoadout = Array.ConvertAll(activePreset.State.AbilityLoadout, id => LoadoutDatabase.Instance.GetAbility(id))
+                    UnitLoadout = Array.ConvertAll(activePreset.State.UnitLoadout, id => SpawnDatabase.Instance.GetSpawn(id)),
+                    TowerLoadout = Array.ConvertAll(activePreset.State.TowerLoadout, id => SpawnDatabase.Instance.GetSpawn(id)),
+                    AbilityLoadout = Array.ConvertAll(activePreset.State.AbilityLoadout, id => AbilityDatabase.Instance.GetAbility(id))
                 };
             } 
             else
@@ -137,21 +151,21 @@ public class LoadoutService : MonoBehaviour
         {
             UnitLoadout = new SpawnDefinition[]
             {
-                LoadoutDatabase.Instance.GetSpawn("spawn_fighter"),
-                LoadoutDatabase.Instance.GetSpawn("spawn_ranger"),
-                LoadoutDatabase.Instance.GetSpawn("spawn_cavalier"),
+                SpawnDatabase.Instance.GetSpawn("spawn_fighter"),
+                SpawnDatabase.Instance.GetSpawn("spawn_ranger"),
+                SpawnDatabase.Instance.GetSpawn("spawn_cavalier"),
                 null
             },
             TowerLoadout = new SpawnDefinition[]
             {
-                LoadoutDatabase.Instance.GetSpawn("spawn_tower"),
-                LoadoutDatabase.Instance.GetSpawn("spawn_ballista"),
-                LoadoutDatabase.Instance.GetSpawn("spawn_bomb")
+                SpawnDatabase.Instance.GetSpawn("spawn_tower"),
+                SpawnDatabase.Instance.GetSpawn("spawn_ballista"),
+                SpawnDatabase.Instance.GetSpawn("spawn_bomb")
             },
             AbilityLoadout = new AbilityDefinition[]
             {
-                LoadoutDatabase.Instance.GetAbility("ability_fortify"),
-                LoadoutDatabase.Instance.GetAbility("ability_restoration")
+                AbilityDatabase.Instance.GetAbility("ability_fortify"),
+                AbilityDatabase.Instance.GetAbility("ability_restoration")
             }
         };
 
@@ -219,8 +233,9 @@ public class LoadoutService : MonoBehaviour
 
     public List<LoadoutDefinition> GetAllAvailableLoadoutDefinitions()
     {
-        //Todo determine which loadouts are available based on player progress, for now just return all
-        return LoadoutDatabase.Instance.GetAllDefinitions();
+        //Todo determine which loadouts are available based on player progress, for now just return all thats on by default
+
+        return GetAllDefinitions().Where(def => def.UnlockedByDefault == true).ToList();
     }
 
     public string GetCurrentLoadoutDisplayName()
@@ -228,4 +243,6 @@ public class LoadoutService : MonoBehaviour
         var activePreset = SaveService.Instance.Current.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
         return activePreset != null ? activePreset.DisplayName : "Unknown Loadout";
     }
+    public List<LoadoutDefinition> GetAllDefinitions() => definitionMap.Values.ToList();
+    public LoadoutDefinition GetDefinition(string id) => id == null ? null : definitionMap[id];
 }
