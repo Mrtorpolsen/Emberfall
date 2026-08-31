@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(UnitMetadata))]
 public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
@@ -28,6 +27,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public Vector3 healthBarScale;
 
     private bool isDying;
+    private bool isInvulnerable = false;
 
     // IUnit
     public float AttackRange => runtimeStats.attackRange;
@@ -48,14 +48,16 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public bool IsAlive => currentHealth > 0;
     public virtual ThreatLevel UnitPrio => runtimeStats.unitPrio;
     public bool IsTargetable => runtimeStats.isTargetable;
+    public bool IsInvulnerable => isInvulnerable;
 
     // UnitMetadata
     public Team Team => metadata.Team;
     public float Cost => statsDef.cost;
 
+
     //Debug
 #if UNITY_EDITOR
-    [Header("Deubg Stats")]
+    [Header("Debug Stats")]
     [SerializeField] private float debugCost;
 
     [SerializeField] private int debugMaxHealth;
@@ -138,6 +140,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public virtual void TakeDamage(int amount)
     {
+        if (IsInvulnerable) return;
+
         currentHealth -= ApplyArmorReduction(amount);
 
 #if UNITY_EDITOR
@@ -391,6 +395,16 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public void ClearHealthBarReference()
     {
         healthBar = null;
+    }
+
+    public void SetTargetable(bool isTargetable)
+    {
+        runtimeStats.isTargetable = isTargetable;
+    }
+
+    public void SetInvulnerable(bool isInvulnerable)
+    {
+        this.isInvulnerable = isInvulnerable;
     }
 
     protected virtual void OnDrawGizmosSelected()

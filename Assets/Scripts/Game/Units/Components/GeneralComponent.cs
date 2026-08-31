@@ -4,11 +4,13 @@ public class GeneralComponent : MonoBehaviour
 {
     private GeneralDefinition generalDefinition;
     private MovementComponent movement;
+    private BaseUnitStats baseUnitStats;
     private int generalWave;
     private SpeechBubbleComponent speechBubble;
 
     private void Awake()
     {
+        baseUnitStats = GetComponent<BaseUnitStats>();
         movement = GetComponent<MovementComponent>();
     }
 
@@ -16,6 +18,8 @@ public class GeneralComponent : MonoBehaviour
     {
         this.generalDefinition = generalDefinition;
         this.generalWave = generalDefinition.spawnLimit + currentWaveIndex;
+
+        SetImmortalState(true);
 
         if (WaveController.waveGenerator != null)
         {
@@ -95,6 +99,21 @@ public class GeneralComponent : MonoBehaviour
 
             movement.ClearTemporaryDestination();
             movement.SetMovementEnabled(true);
+            SetImmortalState(false);
+        }
+    }
+
+    private void SetImmortalState(bool isImmortal)
+    {
+        if (isImmortal)
+        {
+            baseUnitStats.SetTargetable(false);
+            baseUnitStats.SetInvulnerable(true);
+        }
+        else
+        {
+            baseUnitStats.SetTargetable(true);
+            baseUnitStats.SetInvulnerable(false);
         }
     }
 
