@@ -50,7 +50,7 @@
   },
   "unitDefinitions": {
     "fighter": {
-      "iconId": "Assets/Art/UnitGameIcons/fighter_icon_512x512.png",
+      "iconId": "fighter_icon",
       "costPreset": "common",
       "archetype": "melee",
       "tags": [],
@@ -284,7 +284,7 @@
       ]
     },
     "cavalier": {
-      "iconId": "Assets/Art/UnitGameIcons/cavalier_icon_512x512.png",
+      "iconId": "cavalier_icon",
       "costPreset": "common",
       "archetype": "melee",
       "tags": [],
@@ -518,7 +518,7 @@
       ]
     },
     "ranger": {
-      "iconId": "Assets/Art/UnitGameIcons/ranger_icon_512x512.png",
+      "iconId": "ranger_icon",
       "costPreset": "common",
       "archetype": "ranged",
       "tags": [],
@@ -752,7 +752,7 @@
       ]
     },
     "berserker": {
-      "iconId": "Assets/Art/UnitGameIcons/berserker_icon_512x512.png",
+      "iconId": "berserker_icon",
       "costPreset": "common",
       "archetype": "melee",
       "tags": [],
@@ -997,7 +997,7 @@
       ]
     },
     "pikeman": {
-      "iconId": "Assets/Art/UnitGameIcons/pikeman_icon_512x512.png",
+      "iconId": "pikeman_icon",
       "costPreset": "common",
       "archetype": "melee",
       "tags": [],
@@ -1487,7 +1487,7 @@
       ]
     },
     "musketeer": {
-      "iconId": "Assets/Art/UnitGameIcons/musketeer_icon_512x512.png",
+      "iconId": "musketeer_icon",
       "costPreset": "common",
       "archetype": "ranged",
       "tags": [],
@@ -1732,7 +1732,7 @@
       ]
     },
     "crossbowman": {
-      "iconId": "Assets/Art/UnitGameIcons/crosbow_icon_512x512.png",
+      "iconId": "crosbow_icon",
       "costPreset": "common",
       "archetype": "ranged",
       "tags": [],

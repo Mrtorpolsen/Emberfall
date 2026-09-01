@@ -4,12 +4,48 @@ using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
-public class TalentIconAddressSetup
+public class IconAddressSetup
 {
     [MenuItem("Tools/Update Talent Icon Addresses")]
-    public static void UpdateAddresses()
+    public static void UpdateTalentIconAddresses()
     {
         string folderPath = "Assets/Art/TalentIcons";
+        string[] files = Directory.GetFiles(folderPath, "*.png", SearchOption.AllDirectories);
+
+        AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+        if (settings == null)
+        {
+            Debug.LogError("Addressables Settings not found.");
+            return;
+        }
+
+        foreach (string file in files)
+        {
+            string assetPath = file.Replace("\\", "/"); // ensure consistent path
+            string fileName = Path.GetFileNameWithoutExtension(assetPath);
+
+            // Remove resolution suffix (_512x512, _256x256, etc.)
+            string cleanedName = RemoveResolutionSuffix(fileName);
+
+            // Set or create Addressable entry
+            var entry = settings.FindAssetEntry(AssetDatabase.AssetPathToGUID(assetPath));
+            if (entry == null)
+            {
+                entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(assetPath), settings.DefaultGroup);
+            }
+
+            entry.address = cleanedName;
+
+            Debug.Log($"Set Addressable Address: {assetPath} -> {cleanedName}");
+        }
+
+        AssetDatabase.SaveAssets();
+        Debug.Log("Talent icon addresses updated.");
+    }
+    [MenuItem("Tools/Update Unit Game Icon Addresses")]
+    public static void UpdateUnitGameIconAddresses()
+    {
+        string folderPath = "Assets/Art/UnitGameIcons";
         string[] files = Directory.GetFiles(folderPath, "*.png", SearchOption.AllDirectories);
 
         AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;

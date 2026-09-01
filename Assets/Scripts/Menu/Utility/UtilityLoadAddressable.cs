@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.InputSystem;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UIElements;
 
@@ -13,6 +16,50 @@ public static class UtilityLoadAddressable
     private static bool placeholderLoading;
 
     private const string PLACEHOLDER_ADDRESS = "place_holder_icon";
+    private const string PRELOAD_LABEL = "preload";
+    //Temp until all icons are added
+    private static List<string> skipThese = new List<string>
+    {
+        "melee_range_1",
+        "melee_range_2",
+        "melee_range_3",
+        "melee_range_4",
+        "melee_range_5",
+        "abilityunlock_minor",
+        "abilityunlock_major",
+    };
+
+
+    public static async Task PreloadIcons()
+    {
+        var locationsHandle =
+            Addressables.LoadResourceLocationsAsync(PRELOAD_LABEL);
+
+        var locations = await locationsHandle.Task;
+
+        var tasks = new List<Task>();
+
+        foreach (var location in locations)
+        {
+            string key = RemoveResolutionSuffix(location.PrimaryKey);
+
+            //Temp until all icons are added
+            if (skipThese.Contains(key))
+                continue;
+
+            if (iconCache.ContainsKey(key))
+                continue;
+
+            var handle = Addressables.LoadAssetAsync<Sprite>(key);
+
+            iconCache[key] = handle;
+            tasks.Add(handle.Task);
+        }
+
+        await Task.WhenAll(tasks);
+
+        Addressables.Release(locationsHandle);
+    }
 
     public static async Task PreloadPlaceholder()
     {
@@ -62,11 +109,12 @@ public static class UtilityLoadAddressable
 
     private static void InternalLoad(string key, VisualElement target)
     {
-        // Apply placeholder immediately
-        if (placeholderSprite != null)
+        //Temp until all icons are added
+        if (skipThese.Contains(key))
         {
             target.style.backgroundImage =
                 new StyleBackground(placeholderSprite);
+            return;
         }
 
         // CACHE HIT
@@ -134,9 +182,31 @@ public static class UtilityLoadAddressable
             {
                 iconCache.Remove(key);
 
-                Debug.LogError($"Failed to load addressable sprite: {key}");
+                Debug.LogWarning($"Failed to load addressable sprite: {key}");
             }
         };
+
+        //Apply placeholder
+        if (placeholderSprite != null)
+        {
+            target.style.backgroundImage =
+                new StyleBackground(placeholderSprite);
+        }
+    }
+
+    private static string RemoveResolutionSuffix(string fileName)
+    {
+        // Example: melee_damage_1_512x512 -> melee_damage_1
+        int lastUnderscore = fileName.LastIndexOf("_");
+        if (lastUnderscore < 0) return fileName;
+
+        string possibleRes = fileName.Substring(lastUnderscore + 1);
+        if (possibleRes.Contains("x")) // crude check for resolution pattern
+        {
+            return fileName.Substring(0, lastUnderscore);
+        }
+
+        return fileName;
     }
 
     public static void ReleaseAll()
