@@ -28,6 +28,7 @@ public class MovementComponent : MonoBehaviour
     private IUnit unit;
     private UnitMetadata unitMetadata;
     private RangedShooter rangedStats;
+    private Transform meleeRally;
     private Transform rangedRally;
 
     private readonly Collider2D[] hitBuffer = new Collider2D[8];
@@ -60,6 +61,7 @@ public class MovementComponent : MonoBehaviour
 
         south = GameManager.Instance.south;
         rangedRally = GameManager.Instance.GetNextRangedRally();
+        meleeRally = GameManager.Instance.meleeRally;
 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -246,7 +248,7 @@ public class MovementComponent : MonoBehaviour
         if (isRanged)
             return rangedRally;
 
-        return GameManager.Instance.playerUnitBoundary;
+        return meleeRally;
     }
 
     private Vector2 ApplyTeamBoundary(Vector2 target)
@@ -254,7 +256,7 @@ public class MovementComponent : MonoBehaviour
         if (unitMetadata.Team != Team.South)
             return target;
 
-        float maxY = GameManager.Instance.playerUnitBoundary.position.y;
+        float maxY = meleeRally.position.y;
         target.y = Mathf.Min(target.y, maxY);
 
         return target;
