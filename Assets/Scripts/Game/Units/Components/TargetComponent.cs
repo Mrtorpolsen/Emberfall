@@ -25,7 +25,7 @@ public class TargetComponent : MonoBehaviour
 #endif
 
     private TargetSelector targetSelector;
-    private float detectionRange = 1f;
+    private float detectionRange = 3f;
     private IUnit selfUnit;
 
     private ITargetingAgent targetingAgent;
