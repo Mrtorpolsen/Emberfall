@@ -1,4 +1,4 @@
-using System;
+
 using UnityEngine;
 
 public class CinderRewardCalculator
@@ -15,9 +15,8 @@ public class CinderRewardCalculator
 
         if (minutes > 20)
         {
-            return cindersPerMinute[19] + ((minutes - 20) * 20);
+            return (int)((cindersPerMinute[19] + ((minutes - 20) * 20)) * Difficulties.Get(GameSettingsService.Instance.Difficulty).RewardMultiplier);
         }
-
-        return cindersPerMinute[minutes - 1];
+        return (int)(cindersPerMinute[minutes - 1] * Difficulties.Get(GameSettingsService.Instance.Difficulty).RewardMultiplier);
     }
 }
