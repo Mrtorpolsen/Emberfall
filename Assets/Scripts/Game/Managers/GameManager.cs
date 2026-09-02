@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private int nextRangedSpawn = 0;
     public Transform[] playerRangedRallies;
 
-    public Transform playerUnitBoundary;
+    public Transform meleeRally;
 
     public Dictionary<Team, float> currency;
 
@@ -37,6 +37,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] public bool isGameOver = false;
     [SerializeField] public bool isGameRunning = false;
     [SerializeField] public Team winningTeam;
+
+    [Header("Rally Settings")]
+    [SerializeField] private float startYMeleeRally = 0.1f;
+    [SerializeField] private float maxYMeleeRally = 0.1f;
+    [SerializeField] private float minYMeleeRally = -4.15f;
+    [SerializeField] private float startYRangedRally = -1.25f;
+    [SerializeField] private float maxYRangedRally = -0.25f;
+    [SerializeField] private float minYRangedRally = -4.5f;
+
+    private float tileSize = 0.25f;
 
     private void Awake()
     {
@@ -160,5 +170,40 @@ public class GameManager : MonoBehaviour
         Transform selected = playerRangedRallies[nextRangedSpawn];
         nextRangedSpawn = (nextRangedSpawn + 1) % playerRangedRallies.Length;
         return selected;
+    }
+
+    public void AdvanceMeleeRally()
+    {
+        MoveRally(meleeRally, minYMeleeRally, maxYMeleeRally, tileSize);
+    }
+
+    public void FallbackMeleeRally()
+    {
+        MoveRally(meleeRally, minYMeleeRally, maxYMeleeRally, -tileSize);
+    }
+
+    public void AdvanceRangedRally()
+    {
+        foreach(Transform rally in playerRangedRallies)
+        {
+            MoveRally(rally, minYRangedRally, maxYRangedRally, tileSize);
+        }
+    }
+
+    public void FallbackRangedRally()
+    {
+        foreach(Transform rally in playerRangedRallies)
+        {
+            MoveRally(rally, minYRangedRally, maxYRangedRally, -tileSize);
+        }
+    }
+
+    public void MoveRally(Transform rallyPoint, float minY, float maxY, float amount)
+    {
+        Vector2 newPosition = rallyPoint.position;
+
+        newPosition.y = Mathf.Clamp(rallyPoint.position.y + amount, minY, maxY);
+
+        rallyPoint.position = newPosition;
     }
 }
