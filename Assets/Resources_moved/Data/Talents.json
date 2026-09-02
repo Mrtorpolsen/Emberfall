@@ -50,7 +50,7 @@
   },
   "unitDefinitions": {
     "fighter": {
-      "iconId": "Assets/Art/UnitGameIcons/fighter_icon_512x512.png",
+      "iconId": "fighter_icon",
       "costPreset": "common",
       "archetype": "melee",
       "tags": [],
@@ -222,17 +222,6 @@
           "Prerequisites": [
             {
               "RequiredTier": 6,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "abilityunlock_stun",
-          "Category": "Unit",
-          "Tier": 8,
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
               "RequiredPointsInTier": 5
             }
           ]
@@ -284,7 +273,7 @@
       ]
     },
     "cavalier": {
-      "iconId": "Assets/Art/UnitGameIcons/cavalier_icon_512x512.png",
+      "iconId": "cavalier_icon",
       "costPreset": "common",
       "archetype": "melee",
       "tags": [],
@@ -461,17 +450,6 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_pushback",
-          "Category": "Unit",
-          "Tier": 8,
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
           "DefinitionId": "stat_attackspeed_3",
           "Category": "Unit",
           "Tier": 8,
@@ -518,7 +496,7 @@
       ]
     },
     "ranger": {
-      "iconId": "Assets/Art/UnitGameIcons/ranger_icon_512x512.png",
+      "iconId": "ranger_icon",
       "costPreset": "common",
       "archetype": "ranged",
       "tags": [],
@@ -695,17 +673,6 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_multishot",
-          "Category": "Unit",
-          "Tier": 8,
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
           "DefinitionId": "stat_critdamage_3",
           "Category": "Unit",
           "Tier": 8,
@@ -752,7 +719,7 @@
       ]
     },
     "berserker": {
-      "iconId": "Assets/Art/UnitGameIcons/berserker_icon_512x512.png",
+      "iconId": "berserker_icon",
       "costPreset": "common",
       "archetype": "melee",
       "tags": [],
@@ -973,17 +940,6 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_berserker_major",
-          "Category": "Unit",
-          "Tier": 10,
-          "Prerequisites": [
-            {
-              "RequiredTier": 9,
-              "RequiredPointsInTier": 1
-            }
-          ]
-        },
-        {
           "DefinitionId": "stat_critdamage_5",
           "Category": "Unit",
           "Tier": 10,
@@ -997,7 +953,7 @@
       ]
     },
     "pikeman": {
-      "iconId": "Assets/Art/UnitGameIcons/pikeman_icon_512x512.png",
+      "iconId": "pikeman_icon",
       "costPreset": "common",
       "archetype": "melee",
       "tags": [],
@@ -1214,17 +1170,6 @@
             {
               "RequiredTier": 8,
               "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "abilityunlock_pikeman_major",
-          "Category": "Unit",
-          "Tier": 10,
-          "Prerequisites": [
-            {
-              "RequiredTier": 9,
-              "RequiredPointsInTier": 1
             }
           ]
         },
@@ -1463,17 +1408,6 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_guardian_major",
-          "Category": "Unit",
-          "Tier": 10,
-          "Prerequisites": [
-            {
-              "RequiredTier": 9,
-              "RequiredPointsInTier": 1
-            }
-          ]
-        },
-        {
           "DefinitionId": "stat_armor_5",
           "Category": "Unit",
           "Tier": 10,
@@ -1487,7 +1421,7 @@
       ]
     },
     "musketeer": {
-      "iconId": "Assets/Art/UnitGameIcons/musketeer_icon_512x512.png",
+      "iconId": "musketeer_icon",
       "costPreset": "common",
       "archetype": "ranged",
       "tags": [],
@@ -1732,7 +1666,7 @@
       ]
     },
     "crossbowman": {
-      "iconId": "Assets/Art/UnitGameIcons/crosbow_icon_512x512.png",
+      "iconId": "crosbow_icon",
       "costPreset": "common",
       "archetype": "ranged",
       "tags": [],
@@ -1949,17 +1883,6 @@
             {
               "RequiredTier": 8,
               "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "abilityunlock_crossbowman_major",
-          "Category": "Unit",
-          "Tier": 10,
-          "Prerequisites": [
-            {
-              "RequiredTier": 9,
-              "RequiredPointsInTier": 1
             }
           ]
         },
@@ -2620,19 +2543,6 @@
       }
     },
 
-    "abilityunlock_berserker_major": {
-      "Description": "Unlocks major berserker ability",
-      "Type": "AbilityUnlock",
-      "Unlocks": [
-        {
-          "Target": "BerserkerMajorAbility_PLACEHOLDER"
-        }
-      ],
-      "Purchase": {
-        "MaxPurchases": 1
-      }
-    },
-
     "abilityunlock_pikeman_minor": {
       "Description": "Unlocks minor pikeman ability",
       "Type": "AbilityUnlock",
@@ -2646,38 +2556,12 @@
       }
     },
 
-    "abilityunlock_pikeman_major": {
-      "Description": "Unlocks major pikeman ability",
-      "Type": "AbilityUnlock",
-      "Unlocks": [
-        {
-          "Target": "PikemanMajorAbility_PLACEHOLDER"
-        }
-      ],
-      "Purchase": {
-        "MaxPurchases": 1
-      }
-    },
-
     "abilityunlock_guardian_minor": {
       "Description": "Unlocks minor guardian ability",
       "Type": "AbilityUnlock",
       "Unlocks": [
         {
           "Target": "GuardianMinorAbility_PLACEHOLDER"
-        }
-      ],
-      "Purchase": {
-        "MaxPurchases": 1
-      }
-    },
-
-    "abilityunlock_guardian_major": {
-      "Description": "Unlocks major guardian ability",
-      "Type": "AbilityUnlock",
-      "Unlocks": [
-        {
-          "Target": "GuardianMajorAbility_PLACEHOLDER"
         }
       ],
       "Purchase": {
@@ -2724,18 +2608,6 @@
       }
     },
 
-    "abilityunlock_crossbowman_major": {
-      "Description": "Unlocks major crossbowman ability",
-      "Type": "AbilityUnlock",
-      "Unlocks": [
-        {
-          "Target": "CrossbowmanMajorAbility_PLACEHOLDER"
-        }
-      ],
-      "Purchase": {
-        "MaxPurchases": 1
-      }
-    },
     "unitunlock_berserker": {
       "Description": "Unlocks subclass Berserker",
       "Type": "UnitUnlock",
@@ -2984,10 +2856,6 @@
         "Name": "Minor Special Ability",
         "IconId": "abilityunlock_minor"
       },
-      "abilityunlock_crossbowman_major": {
-        "Name": "Major Special Ability",
-        "IconId": "abilityunlock_major"
-      },
 
       "unitunlock_sniper": {
         "Name": "Sniper",
@@ -3113,25 +2981,13 @@
         "Name": "Minor Special Ability",
         "IconId": "abilityunlock_minor"
       },
-      "abilityunlock_berserker_major": {
-        "Name": "Major Special Ability",
-        "IconId": "abilityunlock_major"
-      },
       "abilityunlock_pikeman_minor": {
         "Name": "Minor Special Ability",
         "IconId": "abilityunlock_minor"
       },
-      "abilityunlock_pikeman_major": {
-        "Name": "Major Special Ability",
-        "IconId": "abilityunlock_major"
-      },
       "abilityunlock_guardian_minor": {
         "Name": "Minor Special Ability",
         "IconId": "abilityunlock_minor"
-      },
-      "abilityunlock_guardian_major": {
-        "Name": "Major Special Ability",
-        "IconId": "abilityunlock_major"
       },
 
       "unitunlock_berserker": {

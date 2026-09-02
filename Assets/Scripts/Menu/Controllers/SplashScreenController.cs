@@ -58,6 +58,7 @@ public class SplashScreenController : MonoBehaviour
         {
             UserProfile.Instance.GetUserScore(),
             UtilityLoadAddressable.PreloadPlaceholder(),
+            UtilityLoadAddressable.PreloadIcons(),
         };
 
         await Task.WhenAll(loadTasks);
