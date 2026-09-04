@@ -10,8 +10,6 @@ public class GameManager : MonoBehaviour
     //Consider seperating this into smaller bits, and have this one start/stop them all
     public static GameManager Instance { get; private set; }
 
-    public DifficultyLevel difficultyLevel { get; set; }
-
     public Transform south;
 
     private int nextRangedSpawn = 0;
@@ -39,14 +37,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] public Team winningTeam;
 
     [Header("Rally Settings")]
-    [SerializeField] private float startYMeleeRally = 0.1f;
     [SerializeField] private float maxYMeleeRally = 0.1f;
     [SerializeField] private float minYMeleeRally = -4.15f;
-    [SerializeField] private float startYRangedRally = -1.25f;
     [SerializeField] private float maxYRangedRally = -0.25f;
     [SerializeField] private float minYRangedRally = -4.5f;
+    //[SerializeField] private float startYMeleeRally = 0.1f;
+    //[SerializeField] private float startYRangedRally = -1.25f;
 
-    private float tileSize = 0.25f;
+    private float rallyJump = 1f;
 
     private void Awake()
     {
@@ -159,7 +157,7 @@ public class GameManager : MonoBehaviour
         if(isGameOver)
             return;
         //save score, throws error if not logged in
-        LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTime());
+        LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTime(), GameSettingsService.Instance.Difficulty);
         //add cinders
         CurrencyManager.Instance.Add(CurrencyTypes.Cinders,
             CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes()));
@@ -174,19 +172,19 @@ public class GameManager : MonoBehaviour
 
     public void AdvanceMeleeRally()
     {
-        MoveRally(meleeRally, minYMeleeRally, maxYMeleeRally, tileSize);
+        MoveRally(meleeRally, minYMeleeRally, maxYMeleeRally, rallyJump);
     }
 
     public void FallbackMeleeRally()
     {
-        MoveRally(meleeRally, minYMeleeRally, maxYMeleeRally, -tileSize);
+        MoveRally(meleeRally, minYMeleeRally, maxYMeleeRally, -rallyJump);
     }
 
     public void AdvanceRangedRally()
     {
         foreach(Transform rally in playerRangedRallies)
         {
-            MoveRally(rally, minYRangedRally, maxYRangedRally, tileSize);
+            MoveRally(rally, minYRangedRally, maxYRangedRally, rallyJump);
         }
     }
 
@@ -194,7 +192,7 @@ public class GameManager : MonoBehaviour
     {
         foreach(Transform rally in playerRangedRallies)
         {
-            MoveRally(rally, minYRangedRally, maxYRangedRally, -tileSize);
+            MoveRally(rally, minYRangedRally, maxYRangedRally, -rallyJump);
         }
     }
 

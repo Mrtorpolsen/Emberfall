@@ -1,8 +1,7 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
-using Unity.Services.Leaderboards;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 [DisallowMultipleComponent]
 public class UserProfile : MonoBehaviour
@@ -11,10 +10,14 @@ public class UserProfile : MonoBehaviour
 
     public string userName;
     public int currency;
-    public float UserHighScore { get; private set; } = 0;
+    public Dictionary<DifficultyLevel, double> UserHighScore { get; private set; } = new Dictionary<DifficultyLevel, double>
+    {
+        { DifficultyLevel.Easy, 0 },
+        { DifficultyLevel.Medium, 0 },
+        { DifficultyLevel.Hard, 0 }
+    };
 
     public bool IsLoggedIn() => AuthenticationService.Instance.IsSignedIn;
-    private string leaderboardId = "High_Scores";
 
     private void Awake()
     {
@@ -28,33 +31,10 @@ public class UserProfile : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public async Task<double> GetUserScore()
+    public async Task<Dictionary<DifficultyLevel, double>> GetUserScore()
     {
-        if (!IsLoggedIn())
-        {
-            Debug.LogError("Not logged in");
-            return 0;
-        }
+        UserHighScore = await LeaderboardService.Instance.GetUserScores();
 
-        try
-        {
-            var scoreResponse = await LeaderboardsService.Instance
-                .GetPlayerScoreAsync(leaderboardId);
-
-            if (scoreResponse != null)
-            {
-                UserHighScore = (float)scoreResponse.Score;
-            }
-            else
-            {
-                UserHighScore = 0;
-            }
-            return UserHighScore;
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log("Failed to get score: " + e.Message);
-            return UserHighScore;
-        }
+        return UserHighScore;
     }
 }

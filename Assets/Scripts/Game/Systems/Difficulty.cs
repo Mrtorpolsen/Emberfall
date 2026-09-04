@@ -5,17 +5,20 @@
     public float DifficultyScaling { get; }
     public float StartingThreat { get; }
     public int ScalingDelay { get; }
+    public float RewardMultiplier { get; }
 
     public Difficulty(
         DifficultyLevel level,
         float difficultyScaling,
         float startingThreat,
-        int scalingDelay)
+        int scalingDelay,
+        float rewardMultiplier)
     {
         Level = level;
         DifficultyScaling = difficultyScaling;
         StartingThreat = startingThreat;
         ScalingDelay = scalingDelay;
+        RewardMultiplier = rewardMultiplier;
     }
 }
 public static class Difficulties
@@ -34,20 +37,23 @@ public static class Difficulties
         DifficultyLevel.Easy,
         1.02f,
         100,
-        10
+        10,
+        0.8f
     );
 
     public static readonly Difficulty Medium = new(
         DifficultyLevel.Medium,
         1.04f,
         150,
-        6
+        6,
+        1f
     );
 
     public static readonly Difficulty Hard = new(
         DifficultyLevel.Hard,
         1.06f,
         200,
-        3
+        3,
+        1.2f
     );
 }

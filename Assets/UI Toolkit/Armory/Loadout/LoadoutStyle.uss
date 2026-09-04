@@ -1,0 +1,16 @@
+.settingsContainer {
+    flex-direction: row;
+    margin-bottom: 30px;
+}
+
+
+
+.selectedLoadoutRow {
+    margin-bottom: 0;
+    justify-content: center;
+    flex-direction: row;
+}
+
+
+
+

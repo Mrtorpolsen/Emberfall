@@ -6,7 +6,12 @@
         <ui:VisualElement name="AlignLabel" style="flex-grow: 0; align-items: center;">
             <ui:Label text="In memory of the defender who laid down their lives in protection of the forge" name="Label_SubHeading" class="text labelWrap" style="-unity-text-align: upper-center;"/>
         </ui:VisualElement>
-        <ui:VisualElement name="LeaderboardContainer" style="flex-grow: 1; margin-top: 50px; margin-bottom: 50px; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/big_text_background.png?fileID=2800000&amp;guid=d85745326a4111e4d91b29773f900a8e&amp;type=3#big_text_background&quot;); padding-top: 35px; padding-right: 35px; padding-bottom: 35px; padding-left: 35px; -unity-background-image-tint-color: rgb(82, 74, 74);">
+        <ui:VisualElement name="DifficultyContainer" style="flex-grow: 0; flex-direction: row; justify-content: center; margin-top: 50px;">
+            <ui:Button text="Easy" name="Btn_Easy_Tab" class="btnDifficulty text tab"/>
+            <ui:Button text="Medium" name="Btn_Medium_Tab" class="btnDifficulty text tab"/>
+            <ui:Button text="Hard" name="Btn_Hard_Tab" class="btnDifficulty text tab" style="-unity-text-auto-size: none;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="LeaderboardContainer" style="flex-grow: 1; margin-top: 0; margin-bottom: 50px; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/big_text_background.png?fileID=2800000&amp;guid=d85745326a4111e4d91b29773f900a8e&amp;type=3#big_text_background&quot;); padding-top: 35px; padding-right: 35px; padding-bottom: 35px; padding-left: 35px; -unity-background-image-tint-color: rgb(82, 74, 74);">
             <ui:ScrollView name="ScrollView_Leaderboard" style="flex-grow: 1; -unity-background-image-tint-color: rgba(0, 0, 0, 0);"/>
         </ui:VisualElement>
     </ui:VisualElement>

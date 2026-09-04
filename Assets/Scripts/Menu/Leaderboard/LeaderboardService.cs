@@ -10,8 +10,14 @@ public class LeaderboardService : MonoBehaviour
 {
     public static LeaderboardService Instance { get; private set; }
 
-    private string leaderboardId = "High_Scores";
-    public List<LeaderboardEntry> userScores;
+    private string leaderboardId;
+    private readonly Dictionary<DifficultyLevel, string> leaderboardIds = new()
+    {
+        { DifficultyLevel.Easy, "High_Scores_Easy" },
+        { DifficultyLevel.Medium, "High_Scores_Medium" },
+        { DifficultyLevel.Hard, "High_Scores_Hard" }
+    };
+    public Dictionary<DifficultyLevel, List<LeaderboardEntry>> userScores { get; } = new Dictionary<DifficultyLevel, List<LeaderboardEntry>>();
 
     public bool IsLoggedIn() => AuthenticationService.Instance.IsSignedIn;
 
@@ -29,7 +35,7 @@ public class LeaderboardService : MonoBehaviour
 
     //Think about adding score localy and then try to add it on restart,
     //incase of a service being down or no internet
-    public async void AddScore(float timeSurvived)
+    public async void AddScore(float timeSurvived, DifficultyLevel difficultyLevel)
     {
         if(!IsLoggedIn())
         {
@@ -39,7 +45,7 @@ public class LeaderboardService : MonoBehaviour
 
         int score = Mathf.FloorToInt(timeSurvived);
 
-        if (UserProfile.Instance.UserHighScore > score)
+        if (UserProfile.Instance.UserHighScore[difficultyLevel] > score)
         {
             Debug.Log("Score too low to record");
             return;
@@ -47,6 +53,8 @@ public class LeaderboardService : MonoBehaviour
 
         try
         {
+            leaderboardId = leaderboardIds[difficultyLevel];
+
             //takes int
             var userEntry = await LeaderboardsService.Instance
                 .AddPlayerScoreAsync(leaderboardId, score);
@@ -62,11 +70,53 @@ public class LeaderboardService : MonoBehaviour
         }
     }
 
-    public async Task GetScores()
+    public async Task<Dictionary<DifficultyLevel, List<LeaderboardEntry>>> GetScores(DifficultyLevel difficultyLevel)
     {
-        var scoresResponse = await LeaderboardsService.Instance
-            .GetScoresAsync(leaderboardId);
+        Dictionary<DifficultyLevel, List<LeaderboardEntry>> scores = new();
 
-        userScores = scoresResponse.Results;
+        LeaderboardScoresPage scoresResponse =
+            await LeaderboardsService.Instance.GetScoresAsync(leaderboardIds[difficultyLevel]);
+
+        scores[difficultyLevel] = scoresResponse.Results;
+
+
+        return scores;
+    }
+
+    public async Task<Dictionary<DifficultyLevel, double>> GetUserScores()
+    {
+        Dictionary<DifficultyLevel, double> userHighScores = new()
+        {
+            { DifficultyLevel.Easy, 0 },
+            { DifficultyLevel.Medium, 0 },
+            { DifficultyLevel.Hard, 0 }
+        };
+
+        if (!IsLoggedIn())
+        {
+            Debug.LogError("Not logged in");
+            return userHighScores;
+        }
+
+        try
+        {
+            foreach (var leaderboard in leaderboardIds)
+            {
+                var scoreResponse = await LeaderboardsService.Instance
+                    .GetPlayerScoreAsync(leaderboard.Value);
+                
+                if (scoreResponse != null)
+                {
+                    userHighScores[leaderboard.Key] = scoreResponse.Score;
+                }
+            }
+
+            return userHighScores;
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log("Failed to get score: " + e.Message);
+            return userHighScores;
+        }
     }
 }

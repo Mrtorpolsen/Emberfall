@@ -105,10 +105,33 @@
     background-image: url("project://database/Assets/Art/UI/Backgrounds/btn_background_half_512x256.png?fileID=21300000&guid=ea92c55d6cb5fcc40954701941b2dc1b&type=3#btn_background_half_512x256");
 }
 
+.tab {
+    aspect-ratio: 3;
+    width: 100%;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    min-width: 200px;
+    max-width: 300px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 0;
+    opacity: 0.7;
+}
+
+.active {
+    opacity: 1;
+}
+
+.tab.active {
+}
+
 .placeholderImg {
     background-image: url("project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&guid=211fdcb07f12a264bbbe763df1bc39e5&type=3#place_holder_icon");
 }
-
-
-
-

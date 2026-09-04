@@ -63,7 +63,7 @@ public class UIScreenRouter : MonoBehaviour
         }
 
         RegisterScreen<MainMenuView, MainMenuEvents>("MainMenu", mainMenuVTA);
-        RegisterScreen<LeaderboardView, LeaderboardEvents>("Leaderboard", leaderboardVTA);
+        RegisterScreen<LeaderboardView, LeaderboardEvents, LeaderboardUIController>("Leaderboard", leaderboardVTA);
         RegisterScreen<ForgeView, ForgeEvents, ForgeUIController>("Forge", forgeVTA);
         RegisterScreen<ResearchView, ResearchEvents, ResearchUIController>("Research", researchVTA);
         RegisterScreen<ArmoryView, ArmoryEvents>("Armory", armoryVTA);
