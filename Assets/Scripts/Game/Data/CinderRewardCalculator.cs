@@ -1,6 +1,3 @@
-
-using UnityEngine;
-
 public class CinderRewardCalculator
 {
     private static readonly int[] cindersPerMinute = new int[]
