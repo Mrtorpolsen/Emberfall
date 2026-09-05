@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e564f39737a52604cad07dda69f121ff, type: 3}
+  m_Name: SpawnHoundmaster
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnDefinition
+  displayName: Houndmaster
+  icon:
+    m_AssetGUID: 211fdcb07f12a264bbbe763df1bc39e5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  id: spawn_houndmaster
+  unlockId: unit_houndmaster
+  unlockedByDefault: 1
+  slotType: 0
+  cooldown: 0
+  unitPrefab: {fileID: 3501163535796704365, guid: 438798abf79901c46a5dd416aa23eaf1, type: 3}
+  stats: {fileID: 11400000, guid: c69c17170bb08f94281b742fb0f93529, type: 2}
