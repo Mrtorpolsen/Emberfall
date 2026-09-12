@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "definitionsVersion": 3,
+  "definitionsVersion": 4,
   "gameVersion": "0.5.0",
   "costPresets": {
     "common": {
@@ -87,6 +87,50 @@
         },
         "10": {
           "BaseCost": 1200,
+          "CostMultiplier": 1.35
+        }
+      }
+    },
+    "rare": {
+      "tiers": {
+        "1": {
+          "BaseCost": 60,
+          "CostMultiplier": 1.35
+        },
+        "2": {
+          "BaseCost": 95,
+          "CostMultiplier": 1.35
+        },
+        "3": {
+          "BaseCost": 140,
+          "CostMultiplier": 1.35
+        },
+        "4": {
+          "BaseCost": 210,
+          "CostMultiplier": 1.35
+        },
+        "5": {
+          "BaseCost": 300,
+          "CostMultiplier": 1.35
+        },
+        "6": {
+          "BaseCost": 435,
+          "CostMultiplier": 1.35
+        },
+        "7": {
+          "BaseCost": 615,
+          "CostMultiplier": 1.35
+        },
+        "8": {
+          "BaseCost": 865,
+          "CostMultiplier": 1.35
+        },
+        "9": {
+          "BaseCost": 1245,
+          "CostMultiplier": 1.35
+        },
+        "10": {
+          "BaseCost": 1800,
           "CostMultiplier": 1.35
         }
       }
@@ -764,7 +808,7 @@
     },
     "berserker": {
       "iconId": "berserker_icon",
-      "costPreset": "common",
+      "costPreset": "uncommon",
       "archetype": "melee",
       "tags": [],
       "talents": [
@@ -940,17 +984,6 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_berserker_minor",
-          "Category": "Unit",
-          "Tier": 8,
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
           "DefinitionId": "stat_critchance_4",
           "Category": "Unit",
           "Tier": 8,
@@ -998,7 +1031,7 @@
     },
     "pikeman": {
       "iconId": "pikeman_icon",
-      "costPreset": "common",
+      "costPreset": "uncommon",
       "archetype": "melee",
       "tags": [],
       "talents": [
@@ -1174,17 +1207,6 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_pikeman_minor",
-          "Category": "Unit",
-          "Tier": 8,
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
           "DefinitionId": "stat_health_4",
           "Category": "Unit",
           "Tier": 8,
@@ -1232,7 +1254,7 @@
     },
     "guardian": {
       "iconId": "place_holder_icon",
-      "costPreset": "common",
+      "costPreset": "uncommon",
       "archetype": "melee",
       "tags": [],
       "talents": [
@@ -1408,17 +1430,6 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_guardian_minor",
-          "Category": "Unit",
-          "Tier": 8,
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
           "DefinitionId": "stat_armor_4",
           "Category": "Unit",
           "Tier": 8,
@@ -1466,7 +1477,7 @@
     },
     "musketeer": {
       "iconId": "musketeer_icon",
-      "costPreset": "common",
+      "costPreset": "uncommon",
       "archetype": "ranged",
       "tags": [],
       "talents": [
@@ -1642,17 +1653,6 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_musketeer_minor",
-          "Category": "Unit",
-          "Tier": 8,
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
           "DefinitionId": "stat_damage_4",
           "Category": "Unit",
           "Tier": 8,
@@ -1682,17 +1682,6 @@
             {
               "RequiredTier": 8,
               "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "abilityunlock_musketeer_major",
-          "Category": "Unit",
-          "Tier": 10,
-          "Prerequisites": [
-            {
-              "RequiredTier": 9,
-              "RequiredPointsInTier": 1
             }
           ]
         },
@@ -1711,240 +1700,6 @@
     },
     "crossbowman": {
       "iconId": "crosbow_icon",
-      "costPreset": "common",
-      "archetype": "ranged",
-      "tags": [],
-      "talents": [
-        {
-          "DefinitionId": "stat_damage_1",
-          "Category": "Unit",
-          "Tier": 1,
-          "Prerequisites": []
-        },
-        {
-          "DefinitionId": "stat_attackspeed_1",
-          "Category": "Unit",
-          "Tier": 2,
-          "Prerequisites": [
-            {
-              "RequiredTier": 1,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_critchance_1",
-          "Category": "Unit",
-          "Tier": 2,
-          "Prerequisites": [
-            {
-              "RequiredTier": 1,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_damage_2",
-          "Category": "Unit",
-          "Tier": 3,
-          "Prerequisites": [
-            {
-              "RequiredTier": 2,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_attackspeed_2",
-          "Category": "Unit",
-          "Tier": 3,
-          "Prerequisites": [
-            {
-              "RequiredTier": 2,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_critchance_2",
-          "Category": "Unit",
-          "Tier": 3,
-          "Prerequisites": [
-            {
-              "RequiredTier": 2,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_damage_2",
-          "Category": "Unit",
-          "Tier": 4,
-          "Prerequisites": [
-            {
-              "RequiredTier": 3,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_range_2",
-          "Category": "Unit",
-          "Tier": 4,
-          "Prerequisites": [
-            {
-              "RequiredTier": 3,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_attackspeed_2",
-          "Category": "Unit",
-          "Tier": 4,
-          "Prerequisites": [
-            {
-              "RequiredTier": 3,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_critdamage_3",
-          "Category": "Unit",
-          "Tier": 5,
-          "Prerequisites": [
-            {
-              "RequiredTier": 4,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_damage_3",
-          "Category": "Unit",
-          "Tier": 5,
-          "Prerequisites": [
-            {
-              "RequiredTier": 4,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_attackspeed_3",
-          "Category": "Unit",
-          "Tier": 5,
-          "Prerequisites": [
-            {
-              "RequiredTier": 4,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_range_3",
-          "Category": "Unit",
-          "Tier": 6,
-          "Prerequisites": [
-            {
-              "RequiredTier": 5,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_critchance_3",
-          "Category": "Unit",
-          "Tier": 6,
-          "Prerequisites": [
-            {
-              "RequiredTier": 5,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_damage_4",
-          "Category": "Unit",
-          "Tier": 7,
-          "Prerequisites": [
-            {
-              "RequiredTier": 6,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_critchance_4",
-          "Category": "Unit",
-          "Tier": 7,
-          "Prerequisites": [
-            {
-              "RequiredTier": 6,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "abilityunlock_crossbowman_minor",
-          "Category": "Unit",
-          "Tier": 8,
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_attackspeed_4",
-          "Category": "Unit",
-          "Tier": 8,
-          "Prerequisites": [
-            {
-              "RequiredTier": 7,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_allstats_1",
-          "Category": "Unit",
-          "Tier": 9,
-          "Prerequisites": [
-            {
-              "RequiredTier": 8,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_damage_5",
-          "Category": "Unit",
-          "Tier": 9,
-          "Prerequisites": [
-            {
-              "RequiredTier": 8,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        },
-        {
-          "DefinitionId": "stat_critdamage_5",
-          "Category": "Unit",
-          "Tier": 10,
-          "Prerequisites": [
-            {
-              "RequiredTier": 9,
-              "RequiredPointsInTier": 5
-            }
-          ]
-        }
-      ]
-    },
-    "houndmaster": {
-      "iconId": "place_holder_icon",
       "costPreset": "uncommon",
       "archetype": "ranged",
       "tags": [],
@@ -2121,7 +1876,230 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_crossbowman_minor",
+          "DefinitionId": "stat_attackspeed_4",
+          "Category": "Unit",
+          "Tier": 8,
+          "Prerequisites": [
+            {
+              "RequiredTier": 7,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_allstats_1",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_5",
+          "Category": "Unit",
+          "Tier": 9,
+          "Prerequisites": [
+            {
+              "RequiredTier": 8,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_5",
+          "Category": "Unit",
+          "Tier": 10,
+          "Prerequisites": [
+            {
+              "RequiredTier": 9,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        }
+      ]
+    },
+    "houndmaster": {
+      "iconId": "place_holder_icon",
+      "costPreset": "rare",
+      "archetype": "ranged",
+      "tags": [],
+      "talents": [
+        {
+          "DefinitionId": "stat_damage_1",
+          "Category": "Unit",
+          "Tier": 1,
+          "Prerequisites": []
+        },
+        {
+          "DefinitionId": "stat_attackspeed_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_1",
+          "Category": "Unit",
+          "Tier": 2,
+          "Prerequisites": [
+            {
+              "RequiredTier": 1,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_2",
+          "Category": "Unit",
+          "Tier": 3,
+          "Prerequisites": [
+            {
+              "RequiredTier": 2,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_2",
+          "Category": "Unit",
+          "Tier": 4,
+          "Prerequisites": [
+            {
+              "RequiredTier": 3,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critdamage_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_attackspeed_3",
+          "Category": "Unit",
+          "Tier": 5,
+          "Prerequisites": [
+            {
+              "RequiredTier": 4,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_range_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_3",
+          "Category": "Unit",
+          "Tier": 6,
+          "Prerequisites": [
+            {
+              "RequiredTier": 5,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_damage_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "stat_critchance_4",
+          "Category": "Unit",
+          "Tier": 7,
+          "Prerequisites": [
+            {
+              "RequiredTier": 6,
+              "RequiredPointsInTier": 5
+            }
+          ]
+        },
+        {
+          "DefinitionId": "abilityunlock_houndmaster_minor",
           "Category": "Unit",
           "Tier": 8,
           "Prerequisites": [
@@ -2808,77 +2786,13 @@
       }
     },
 
-    "abilityunlock_berserker_minor": {
-      "Description": "Unlocks minor berserker ability",
-      "Type": "AbilityUnlock",
-      "Unlocks": [
-        {
-          "Target": "BerserkerMinorAbility_PLACEHOLDER"
-        }
-      ],
-      "Purchase": {
-        "MaxPurchases": 1
-      }
-    },
 
-    "abilityunlock_pikeman_minor": {
-      "Description": "Unlocks minor pikeman ability",
+    "abilityunlock_houndmaster_minor": {
+      "Description": "The houndmaster summons a hound every 60s",
       "Type": "AbilityUnlock",
       "Unlocks": [
         {
-          "Target": "PikemanMinorAbility_PLACEHOLDER"
-        }
-      ],
-      "Purchase": {
-        "MaxPurchases": 1
-      }
-    },
-
-    "abilityunlock_guardian_minor": {
-      "Description": "Unlocks minor guardian ability",
-      "Type": "AbilityUnlock",
-      "Unlocks": [
-        {
-          "Target": "GuardianMinorAbility_PLACEHOLDER"
-        }
-      ],
-      "Purchase": {
-        "MaxPurchases": 1
-      }
-    },
-
-    "abilityunlock_musketeer_minor": {
-      "Description": "Unlocks minor musketeer ability",
-      "Type": "AbilityUnlock",
-      "Unlocks": [
-        {
-          "Target": "MusketeerMinorAbility_PLACEHOLDER"
-        }
-      ],
-      "Purchase": {
-        "MaxPurchases": 1
-      }
-    },
-
-    "abilityunlock_musketeer_major": {
-      "Description": "Unlocks major musketeer ability",
-      "Type": "AbilityUnlock",
-      "Unlocks": [
-        {
-          "Target": "MusketeerMajorAbility_PLACEHOLDER"
-        }
-      ],
-      "Purchase": {
-        "MaxPurchases": 1
-      }
-    },
-
-    "abilityunlock_crossbowman_minor": {
-      "Description": "Unlocks minor crossbowman ability",
-      "Type": "AbilityUnlock",
-      "Unlocks": [
-        {
-          "Target": "CrossbowmanMinorAbility_PLACEHOLDER"
+          "Target": "HoundmasterMinorAbility_PLACEHOLDER"
         }
       ],
       "Purchase": {

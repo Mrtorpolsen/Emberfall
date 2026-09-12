@@ -26,4 +26,4 @@ MonoBehaviour:
   cost: 0
   actions:
   - {fileID: 11400000, guid: e96a8b3d920204748803060003f9004c, type: 2}
-  cooldown: 90
+  cooldown: 60

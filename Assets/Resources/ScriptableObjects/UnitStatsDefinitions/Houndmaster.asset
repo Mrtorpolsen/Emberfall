@@ -15,7 +15,7 @@ MonoBehaviour:
   cost: 100
   maxHealth: 100
   armor: 3
-  attackDamage: 30
+  attackDamage: 20
   attackSpeed: 0.4
   attackRange: 2.5
   hitRadius: 0.13
