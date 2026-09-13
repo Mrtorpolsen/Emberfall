@@ -50281,6 +50281,10 @@ MonoBehaviour:
   allGenerals:
   - {fileID: 11400000, guid: aab9a1372240a1046b71acc935d43880, type: 2}
   - {fileID: 11400000, guid: 011101fb57643d141b1782b2372e5012, type: 2}
+  - {fileID: 11400000, guid: c2c5caf50c75d89409c5ade2c800be6a, type: 2}
+  - {fileID: 11400000, guid: 0a7f33be641ea6440ae27b715c607591, type: 2}
+  - {fileID: 11400000, guid: 6359926223d7c34439bc013142cb2354, type: 2}
+  - {fileID: 11400000, guid: b89e96da08d79e34f80db5b93a954d48, type: 2}
   isTest: 0
   spawnOfEach: 100
 --- !u!4 &1263956707

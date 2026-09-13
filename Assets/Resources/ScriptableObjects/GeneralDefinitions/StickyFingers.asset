@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5313391fa5734b46a2e715fe9d95d96, type: 3}
+  m_Name: StickyFingers
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralDefinition
+  id: stickyfingers
+  generalName: Sticky Fingers
+  tauntPhrases:
+  - Some one paid a good dime for your demise.
+  - Encountering me will now make you think.
+  - Is this food safe?? Or is it him?
+  - Who's there lurking in the shadow?
+  - Did I leave that window open?
+  - Every creak, every sound will make you think of me.
+  - For now let me put those fears to rest with my dagger.
+  unitRoster:
+  - {fileID: 11400000, guid: 0bee6ff15e9c2ee47bde568edfe65c52, type: 2}
+  - {fileID: 11400000, guid: fc7ad202c215a2c4285a42f1083f9552, type: 2}
+  - {fileID: 11400000, guid: b44e4e317a43f9f4aab8f9bf75f0f359, type: 2}
+  generalUnit: {fileID: 11400000, guid: 0b6af3a3c1303ea40a98efc6841afad9, type: 2}
+  spawnLimit: 10
