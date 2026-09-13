@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c435560e2d9b346b97cd3c972f3276, type: 3}
   m_Name: Pikeman
   m_EditorClassIdentifier: Assembly-CSharp::UnitStatsDefinition
-  cost: 60
-  maxHealth: 200
+  cost: 50
+  maxHealth: 250
   armor: 2
   attackDamage: 25
   attackSpeed: 0.8
   attackRange: 0.55
   hitRadius: 0.13
+  splashRadius: 0
   movementSpeed: 1.8
   mass: 1
   critChance: 0
