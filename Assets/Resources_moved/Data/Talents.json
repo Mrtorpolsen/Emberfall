@@ -3031,21 +3031,8 @@
         "IconId": "ranged_range_5"
       },
 
-      "abilityunlock_multishot": {
-        "Name": "Multishot",
-        "IconId": "abilityunlock_multishot_1"
-      },
-
-      "abilityunlock_musketeer_minor": {
-        "Name": "Minor Special Ability",
-        "IconId": "abilityunlock_minor"
-      },
-      "abilityunlock_musketeer_major": {
-        "Name": "Major Special Ability",
-        "IconId": "abilityunlock_major"
-      },
-      "abilityunlock_crossbowman_minor": {
-        "Name": "Minor Special Ability",
+      "abilityunlock_houndmaster_minor": {
+        "Name": "Release the hounds",
         "IconId": "abilityunlock_minor"
       },
 
@@ -3158,28 +3145,6 @@
       "stat_range_5": {
         "Name": "Perfect Reach",
         "IconId": "melee_range_5"
-      },
-
-      "abilityunlock_stun": {
-        "Name": "Shield Slam",
-        "IconId": "abilityunlock_stun_1"
-      },
-      "abilityunlock_pushback": {
-        "Name": "Lance Strike",
-        "IconId": "abilityunlock_pushback_1"
-      },
-
-      "abilityunlock_berserker_minor": {
-        "Name": "Minor Special Ability",
-        "IconId": "abilityunlock_minor"
-      },
-      "abilityunlock_pikeman_minor": {
-        "Name": "Minor Special Ability",
-        "IconId": "abilityunlock_minor"
-      },
-      "abilityunlock_guardian_minor": {
-        "Name": "Minor Special Ability",
-        "IconId": "abilityunlock_minor"
       },
 
       "unitunlock_berserker": {
