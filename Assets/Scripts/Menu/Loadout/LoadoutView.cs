@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
@@ -62,7 +61,7 @@ public class LoadoutView : IUIScreenView
         loadoutSelectNode = await Addressables.LoadAssetAsync<VisualTreeAsset>(LOADOUT_SELECT_NODE_ADDRESSABLE).Task;
         loadoutCard = await Addressables.LoadAssetAsync<VisualTreeAsset>(LOADOUT_CARD_ADDRESSABLE).Task;
 
-        if(loadoutSelectNode == null)
+        if (loadoutSelectNode == null)
         {
             throw new InvalidOperationException($"Failed to load {LOADOUT_SELECT_NODE_ADDRESSABLE}.");
         }
@@ -73,7 +72,7 @@ public class LoadoutView : IUIScreenView
 
     public void RenderLoadouts(List<LoadoutSlotViewModel> loadouts)
     {
-        ClearContainer(unitRowContainer );
+        ClearContainer(unitRowContainer);
         ClearContainer(towerRowContainer);
         ClearContainer(utilityRowContainer);
 
@@ -140,7 +139,7 @@ public class LoadoutView : IUIScreenView
         }
         foreach (var kvp in tabButtons)
         {
-            if(kvp.Key == category)
+            if (kvp.Key == category)
             {
                 kvp.Value.AddToClassList("active");
             }

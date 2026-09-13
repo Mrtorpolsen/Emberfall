@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using System.Collections;
+using TMPro;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using TMPro;
-using System;
-using System.Collections;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public class ActionButton : MonoBehaviour
@@ -13,8 +13,8 @@ public class ActionButton : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private TMP_Text topText;
     [SerializeField] private Image iconImage;
-    [SerializeField] private TMP_Text bottomText; 
-    [SerializeField] private TMP_Text cooldownText; 
+    [SerializeField] private TMP_Text bottomText;
+    [SerializeField] private TMP_Text cooldownText;
 
     private AsyncOperationHandle<Sprite>? iconHandle;
 
@@ -33,7 +33,7 @@ public class ActionButton : MonoBehaviour
         LoadIcon(icon);
 
         //Ensure cooldown text is hidden if not on cooldown
-        if(cooldownText != null)
+        if (cooldownText != null)
             cooldownText.text = "";
     }
 

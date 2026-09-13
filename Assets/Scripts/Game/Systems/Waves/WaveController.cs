@@ -12,7 +12,7 @@ public class WaveController : MonoBehaviour
         // or maybe use this to track how many spawns we've made,
         // compared to how many kills and figure out increase in
         // dmg to units if too many units alive.
-        public int spawnIndex; 
+        public int spawnIndex;
     }
 
     public static WaveController Instance { get; private set; }
@@ -106,9 +106,9 @@ public class WaveController : MonoBehaviour
         int spawnIndex = 0;
         //Debug.Log($"Spawning Wave {currentWaveIndex + 1}: {wave.enemiesToSpawn.Count} groups");
 
-        foreach(var group in wave.enemiesToSpawn)
+        foreach (var group in wave.enemiesToSpawn)
         {
-            for(int i = 0; i < group.count; i++)
+            for (int i = 0; i < group.count; i++)
             {
                 var scaling = new EnemyScalingContext
                 {
@@ -131,7 +131,7 @@ public class WaveController : MonoBehaviour
                     SpawnManager.Instance.SpawnUnit(group.prefab, generalSpawn, Team.North, out var bossPrefab, stats);
                     var generalComponent = bossPrefab.AddComponent<GeneralComponent>();
                     generalComponent.Initialize(currentGeneral, bossPosition, currentWaveIndex);
-                } 
+                }
                 else
                 {
                     SpawnManager.Instance.SpawnUnit(group.prefab, northSpawn, Team.North, stats);
@@ -168,7 +168,7 @@ public class WaveController : MonoBehaviour
         {
             enemiesToSpawn = new List<EnemyGroup>(),
         };
-        
+
         wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_cavalier").UnitPrefab, spawnOfEach, 0.5f));
         wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_fighter").UnitPrefab, spawnOfEach, 0.5f));
         wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_ranger").UnitPrefab, spawnOfEach, 0.5f));

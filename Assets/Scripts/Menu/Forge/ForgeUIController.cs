@@ -72,7 +72,7 @@ public class ForgeUIController : IUIScreenController
             throw new InvalidOperationException("Player Talent Tree is null. Cannot generate unit containers.");
         }
 
-        foreach(var unit in TalentService.Instance.playerTalentTree.UnitDefinitions)
+        foreach (var unit in TalentService.Instance.playerTalentTree.UnitDefinitions)
         {
             unitContainers.Add(BuildUnitContainer(unit.Key, unit.Value.IconId));
         }
@@ -151,7 +151,7 @@ public class ForgeUIController : IUIScreenController
                     //TODO add the currency logic
                     bool succes = CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, talentCost);
 
-                    if(!succes)
+                    if (!succes)
                     {
                         Debug.LogWarning("Failed to spend currency / buy talent");
                         return;
@@ -161,7 +161,7 @@ public class ForgeUIController : IUIScreenController
 
                     var talentState = SaveService.Instance.Current.Talents;
 
-                    if (!talentState.CurrencySpent.TryGetValue(CurrencyTypes.Cinders, out int spent)) 
+                    if (!talentState.CurrencySpent.TryGetValue(CurrencyTypes.Cinders, out int spent))
                     {
                         talentState.CurrencySpent[CurrencyTypes.Cinders] = talentCost;
                     }
@@ -190,7 +190,7 @@ public class ForgeUIController : IUIScreenController
             PopupManager.Instance.OpenPopup_ImgDescBtn(talent.IconId, talent.Name, talent.Description, popupBtn);
             PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitsMet && hasEnoughCurrency);
 
-            if(talent.Type != TalentType.StatModifier)
+            if (talent.Type != TalentType.StatModifier)
             {
                 PopupManager.Instance.ButtonIsActive(false);
             }
@@ -200,7 +200,7 @@ public class ForgeUIController : IUIScreenController
 
     public async Task RefundTalentsAsync()
     {
-        foreach(var currency in SaveService.Instance.Current.Talents.CurrencySpent)
+        foreach (var currency in SaveService.Instance.Current.Talents.CurrencySpent)
         {
             CurrencyManager.Instance.Add(currency.Key, currency.Value);
         }

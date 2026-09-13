@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class MusketeerBaseStatsComponent : BaseUnitStats
+﻿public class MusketeerBaseStatsComponent : BaseUnitStats
 {
 
 }

@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UnityEngine.UIElements;
 
 public class ArmoryView : IUIScreenView

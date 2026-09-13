@@ -29,7 +29,7 @@ public class TowerUnitStats : BaseUnitStats
     public float GetTotalInvested()
     {
         float total = 0f;
-        
+
         for (int i = 0; i < currentTier; i++)
         {
             total += Cost * Mathf.Pow(TierMultiplier, i);

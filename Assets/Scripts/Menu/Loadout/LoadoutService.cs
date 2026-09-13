@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -104,13 +102,13 @@ public class LoadoutService : MonoBehaviour
 
     private async Task LoadPlayerLoadoutAsync()
     {
-        if(SpawnDatabase.Instance == null)
+        if (SpawnDatabase.Instance == null)
         {
             Debug.LogError("SpawnDatabase not found");
             return;
         }
 
-        if(AbilityDatabase.Instance == null)
+        if (AbilityDatabase.Instance == null)
         {
             Debug.LogError("AbilityDatabase not found");
             return;
@@ -133,7 +131,7 @@ public class LoadoutService : MonoBehaviour
                     TowerLoadout = Array.ConvertAll(activePreset.State.TowerLoadout, id => SpawnDatabase.Instance.GetSpawn(id)),
                     AbilityLoadout = Array.ConvertAll(activePreset.State.AbilityLoadout, id => AbilityDatabase.Instance.GetAbility(id))
                 };
-            } 
+            }
             else
             {
                 Debug.LogWarning($"Active loadout preset with ID {CurrentLoadoutId} not found. Setting default loadout.");

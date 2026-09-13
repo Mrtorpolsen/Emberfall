@@ -1,9 +1,7 @@
 #if UNITY_ANDROID
-using GooglePlayGames;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
-public class  PlayGamesManager : MonoBehaviour
+public class PlayGamesManager : MonoBehaviour
 {
     //void Start()
     //{

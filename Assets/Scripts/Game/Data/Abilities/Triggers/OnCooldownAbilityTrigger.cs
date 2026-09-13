@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class OnCooldownAbilityTrigger : AbilityTrigger
+﻿public class OnCooldownAbilityTrigger : AbilityTrigger
 {
     private string cooldownKey;
 

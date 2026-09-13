@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(menuName = "Game/Spawn Definition")]
 public class SpawnDefinition : LoadoutDefinition

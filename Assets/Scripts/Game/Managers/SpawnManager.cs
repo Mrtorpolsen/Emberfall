@@ -1,5 +1,3 @@
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -93,18 +91,18 @@ public class SpawnManager : MonoBehaviour
 
         SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
 
-        if (sr != null) 
+        if (sr != null)
         {
             AssignColor(sr, team);
         }
-            
+
         UnitMetadata unitMetaData = unit.GetComponent<UnitMetadata>();
 
         unitMetaData.SetTeam(team);
 
         unit.layer = LayerMask.NameToLayer(team.ToString() + "Team");
 
-        if(team == Team.South)
+        if (team == Team.South)
         {
             GameManager.Instance.SubtractCurrency(team, unitBase.Cost);
         }
@@ -177,5 +175,5 @@ public class SpawnManager : MonoBehaviour
             sr.color = teamColor;
         }
     }
-}   
+}
 

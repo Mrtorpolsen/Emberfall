@@ -38,7 +38,7 @@ public class LeaderboardService : MonoBehaviour
     //incase of a service being down or no internet
     public async void AddScore(float timeSurvived, DifficultyLevel difficultyLevel)
     {
-        if(!IsLoggedIn())
+        if (!IsLoggedIn())
         {
             Debug.Log("Not logged in");
             return;
@@ -106,7 +106,7 @@ public class LeaderboardService : MonoBehaviour
             {
                 var scoreResponse = await LeaderboardsService.Instance
                     .GetPlayerScoreAsync(leaderboard.Value);
-                
+
                 if (scoreResponse != null)
                 {
                     userHighScores[leaderboard.Key] = scoreResponse.Score;

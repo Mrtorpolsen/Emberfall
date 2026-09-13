@@ -6,7 +6,7 @@ public class EffectSystem : MonoBehaviour
     public static EffectSystem Instance { get; private set; }
 
     private readonly List<ActiveEffect> activeEffects = new();
-    
+
     private readonly Dictionary<(BaseUnitStats, EffectId), ActiveEffect> activeEffectsLookup = new();
 
     private void Awake()
@@ -55,7 +55,7 @@ public class EffectSystem : MonoBehaviour
             activeEffect.Effect.Tick(activeEffect.Target, deltaTime);
             activeEffect.RemainingDuration -= deltaTime;
 
-            if(activeEffect.RemainingDuration <= 0f)
+            if (activeEffect.RemainingDuration <= 0f)
             {
                 activeEffect.Effect.OnExpire(activeEffect.Target);
 
@@ -73,9 +73,9 @@ public class EffectSystem : MonoBehaviour
         {
             var activeEffect = activeEffects[i];
 
-            if(activeEffect.Target != target)
+            if (activeEffect.Target != target)
                 continue;
-            
+
             activeEffect.Effect.OnExpire(activeEffect.Target);
 
             activeEffectsLookup.Remove((activeEffect.Target, activeEffect.Id));

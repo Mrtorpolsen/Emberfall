@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class StatsBootstrapper
@@ -35,7 +34,7 @@ public class StatsBootstrapper
         {
             foreach (var talent in kvp.Value.PurchasedTalents)
             {
-                if(TalentService.Instance.playerTalentTree == null)
+                if (TalentService.Instance.playerTalentTree == null)
                 {
                     Debug.LogError("Player Talent Tree is null. Cannot load talents.");
                     return;

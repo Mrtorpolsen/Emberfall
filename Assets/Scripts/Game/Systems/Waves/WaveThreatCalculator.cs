@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WaveThreatCalculator
 {
@@ -19,10 +18,10 @@ public class WaveThreatCalculator
 
     public int GetThreatValueForWave(int waveNumber)
     {
-        if(waveNumber < scalingDelay)
+        if (waveNumber < scalingDelay)
         {
             return Mathf.RoundToInt(startingThreat);
-        } 
+        }
         else
         {
             return Mathf.RoundToInt(startingThreat * Mathf.Pow(difficultyScaling, waveNumber));

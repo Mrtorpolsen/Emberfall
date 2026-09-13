@@ -18,7 +18,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected UnitMetadata metadata;
     private RuntimeStats runtimeStats;
 
-    public List<ActiveEffect> ActiveEffects = new ();
+    public List<ActiveEffect> ActiveEffects = new();
 
     private readonly Dictionary<StatType, List<StatModifier>> modifiersByStat = new();
     private readonly HashSet<StatType> dirtyStats = new();
@@ -156,7 +156,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
             }
 
             healthBar.CancelFade();
-            
+
             healthBar.UpdateValue(currentHealth, MaxHealth);
         }
 
@@ -181,7 +181,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
         if (HealthbarManager.Instance != null)
         {
-            if (!wasFull &&healthBar != null)
+            if (!wasFull && healthBar != null)
             {
                 healthBar.UpdateValue(currentHealth, MaxHealth);
 
@@ -258,9 +258,9 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         int dmg = runtimeStats.attackDamage;
 
-        if(runtimeStats.critChance > 0)
+        if (runtimeStats.critChance > 0)
         {
-            if(RollCrit())
+            if (RollCrit())
             {
                 dmg = Mathf.RoundToInt(dmg * runtimeStats.critDamage);
                 ShowCritFeedback(dmg);

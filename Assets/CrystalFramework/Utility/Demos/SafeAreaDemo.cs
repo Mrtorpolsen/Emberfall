@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
 namespace Crystal
 {
@@ -9,24 +9,24 @@ namespace Crystal
         SafeArea.SimDevice[] Sims;
         int SimIdx;
 
-        void Awake ()
+        void Awake()
         {
             if (!Application.isEditor)
-                Destroy (this);
+                Destroy(this);
 
-            Sims = (SafeArea.SimDevice[])Enum.GetValues (typeof (SafeArea.SimDevice));
+            Sims = (SafeArea.SimDevice[])Enum.GetValues(typeof(SafeArea.SimDevice));
         }
 
-        void Update ()
+        void Update()
         {
-            if (Input.GetKeyDown (KeySafeArea))
-                ToggleSafeArea ();
+            if (Input.GetKeyDown(KeySafeArea))
+                ToggleSafeArea();
         }
 
         /// <summary>
         /// Toggle the safe area simulation device.
         /// </summary>
-        void ToggleSafeArea ()
+        void ToggleSafeArea()
         {
             SimIdx++;
 
@@ -34,7 +34,7 @@ namespace Crystal
                 SimIdx = 0;
 
             SafeArea.Sim = Sims[SimIdx];
-            Debug.LogFormat ("Switched to sim device {0} with debug key '{1}'", Sims[SimIdx], KeySafeArea);
+            Debug.LogFormat("Switched to sim device {0} with debug key '{1}'", Sims[SimIdx], KeySafeArea);
         }
     }
 }

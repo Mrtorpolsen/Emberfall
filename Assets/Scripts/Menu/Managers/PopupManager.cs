@@ -184,8 +184,8 @@ public class PopupManager : MonoBehaviour
         blocker.style.display = DisplayStyle.Flex;
         contentChoice.style.display = DisplayStyle.Flex;
         contentImgDescBtn.style.display = DisplayStyle.None;
-        
-        if(buttonDefinition1 != null && buttonDefinition1.OnClick != null)
+
+        if (buttonDefinition1 != null && buttonDefinition1.OnClick != null)
         {
             ConfigureButton(buttonDefinition1, btnContainer1, null, btn1, ref btnAction1);
         }
@@ -194,7 +194,7 @@ public class PopupManager : MonoBehaviour
             btnContainer1.style.display = DisplayStyle.None;
         }
 
-        if(buttonDefinition2 != null && buttonDefinition2.OnClick != null)
+        if (buttonDefinition2 != null && buttonDefinition2.OnClick != null)
         {
             ConfigureButton(buttonDefinition2, btnContainer2, null, btn2, ref btnAction2);
         }
@@ -203,7 +203,7 @@ public class PopupManager : MonoBehaviour
             btnContainer2.style.display = DisplayStyle.None;
         }
 
-        if(buttonDefinition3 != null && buttonDefinition3.OnClick != null)
+        if (buttonDefinition3 != null && buttonDefinition3.OnClick != null)
         {
             ConfigureButton(buttonDefinition3, btnContainer3, null, btn3, ref btnAction3);
         }
@@ -211,8 +211,8 @@ public class PopupManager : MonoBehaviour
         {
             btnContainer3.style.display = DisplayStyle.None;
         }
-        
-        if(buttonDefinition4 != null && buttonDefinition4.OnClick != null)
+
+        if (buttonDefinition4 != null && buttonDefinition4.OnClick != null)
         {
             ConfigureButton(buttonDefinition4, btnContainer4, null, btn4, ref btnAction4);
         }
@@ -238,7 +238,7 @@ public class PopupManager : MonoBehaviour
         btnImgDescBtn.text = "";
         btnImgDescBtn.SetEnabled(false);
 
-        if( btnImgDescBtnAction != null)
+        if (btnImgDescBtnAction != null)
         {
             btnImgDescBtn.clicked -= btnImgDescBtnAction;
         }
@@ -257,15 +257,15 @@ public class PopupManager : MonoBehaviour
         {
             btn1.clicked -= btnAction1;
         }
-        if(btnAction2 != null)
+        if (btnAction2 != null)
         {
             btn2.clicked -= btnAction2;
         }
-        if(btnAction3 != null)
+        if (btnAction3 != null)
         {
             btn3.clicked -= btnAction3;
         }
-        if(btnAction4 != null)
+        if (btnAction4 != null)
         {
             btn4.clicked -= btnAction4;
         }
@@ -277,7 +277,7 @@ public class PopupManager : MonoBehaviour
     }
 
     private void ConfigureButton(PopupButtonDefinition buttonDefinition,
-        VisualElement btnContainer, 
+        VisualElement btnContainer,
         Label btnLabel, Button btn,
         ref Action currentAction)
     {

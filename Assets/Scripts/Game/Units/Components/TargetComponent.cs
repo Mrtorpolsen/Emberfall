@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,7 +56,7 @@ public class TargetComponent : MonoBehaviour
     {
         selfUnit = GetComponent<IUnit>();
 
-        if(selfUnit.AttackRange > detectionRange)
+        if (selfUnit.AttackRange > detectionRange)
         {
             detectionRange = selfUnit.AttackRange;
         }
@@ -98,7 +97,7 @@ public class TargetComponent : MonoBehaviour
             useTriggers = true
         };
     }
-    
+
     void Update()
     {
 #if  UNITY_EDITOR
@@ -159,24 +158,24 @@ public class TargetComponent : MonoBehaviour
                     hitBuffer
                 );
             }
-                for (int i = 0; i < hitCount; i++)
-                {
-                    Collider2D hit = hitBuffer[i];
+            for (int i = 0; i < hitCount; i++)
+            {
+                Collider2D hit = hitBuffer[i];
 
-                    if (!hit.TryGetComponent<ITargetable>(out var target))
-                        continue;
+                if (!hit.TryGetComponent<ITargetable>(out var target))
+                    continue;
 
-                    if (!target.IsTargetable)
-                        continue;
+                if (!target.IsTargetable)
+                    continue;
 
-                    if (target.Team == selfUnit.Team)
-                        continue;
+                if (target.Team == selfUnit.Team)
+                    continue;
 
-                    possibleTargets.Add(target);
-                }
-                Vector2 selfPos = transform.position;
+                possibleTargets.Add(target);
+            }
+            Vector2 selfPos = transform.position;
 
-                currentTarget = targetSelector.SelectTarget(possibleTargets, selfPos, priorities);
+            currentTarget = targetSelector.SelectTarget(possibleTargets, selfPos, priorities);
         }
     }
 

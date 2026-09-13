@@ -66,7 +66,7 @@ public class MainMenuEvents : IUIScreenEvents
     {
         Debug.Log("Play clicked loading Game...");
         UnitStatsManager.Instance.RecalculateAllFinalStats();
-        
+
         PopupManager.Instance.OpenChoicePopup(easyPlayBtn, mediumPlayBtn, hardPlayBtn, nightmarePlayBtn);
     }
 

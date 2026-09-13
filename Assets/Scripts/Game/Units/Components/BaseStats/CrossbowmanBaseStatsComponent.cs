@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class CrossbowmanBaseStatsComponent : BaseUnitStats
+﻿public class CrossbowmanBaseStatsComponent : BaseUnitStats
 {
 
 }

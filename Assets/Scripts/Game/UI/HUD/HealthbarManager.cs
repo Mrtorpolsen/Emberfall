@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class HealthbarManager : MonoBehaviour
 {
@@ -69,10 +67,10 @@ public class HealthbarManager : MonoBehaviour
         if (pool.Count > 0)
         {
             healthBar = pool.Dequeue();
-        } 
+        }
         else
         {
-            for(int i = 0; i < 10; i++) // Expand pool if empty
+            for (int i = 0; i < 10; i++) // Expand pool if empty
             {
                 FloatingHealthBar newBar = Instantiate(prefab, canvas.transform);
                 newBar.gameObject.SetActive(false);
@@ -96,7 +94,7 @@ public class HealthbarManager : MonoBehaviour
 
     public void ReturnHealthBarToPool(BaseUnitStats unit)
     {
-        if(active.TryGetValue(unit, out FloatingHealthBar healthBar))
+        if (active.TryGetValue(unit, out FloatingHealthBar healthBar))
         {
             if (healthBar == null || healthBar.gameObject == null)
             {

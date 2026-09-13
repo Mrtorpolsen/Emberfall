@@ -18,6 +18,6 @@ public class SpeechBubble : MonoBehaviour
 
     public void Hide()
     {
-        animator.Play("SpeechBubbleHide");  
+        animator.Play("SpeechBubbleHide");
     }
 }

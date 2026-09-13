@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-public class StatModifierEffect : IEffect
+﻿public class StatModifierEffect : IEffect
 {
     public EffectId Id => EffectId.StatModifier;
 

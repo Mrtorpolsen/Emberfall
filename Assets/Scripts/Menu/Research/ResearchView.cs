@@ -84,7 +84,7 @@ public class ResearchView : IUIScreenView
             researchListContainer.Add(visualNode.Root);
         }
     }
-    
+
     public void ShowCategoryPanel()
     {
         ResearchListPanel.style.display = DisplayStyle.None;

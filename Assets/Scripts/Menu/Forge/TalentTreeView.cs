@@ -23,7 +23,7 @@ public class TalentTreeView
             Debug.LogError("Talent node template not loaded!");
             return;
         }
-        
+
         talentNodeContainer = UtilityUIBinding.QRequired<VisualElement>(root, TALENT_NODE_CONTAINER);
 
         ClearTalentRows();
@@ -36,7 +36,7 @@ public class TalentTreeView
         foreach (var node in talentNodes)
         {
             VisualElement visualNode = UtilityUIBinding.InstantiateRoot(talentNode);
-            
+
             var labelCost = UtilityUIBinding.QRequired<Label>(visualNode, "Label_Cost");
             var imgTalent = UtilityUIBinding.QRequired<VisualElement>(visualNode, "Img_Talent");
             var labelUnlocked = UtilityUIBinding.QRequired<Label>(visualNode, "Label_Unlocked");

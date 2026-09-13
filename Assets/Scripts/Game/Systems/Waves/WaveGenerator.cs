@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WaveGenerator
@@ -71,7 +71,7 @@ public class WaveGenerator
 
                 if (threatCost <= 0)
                 {
-                    throw(new Exception("Threat cost must be greater than zero."));
+                    throw (new Exception("Threat cost must be greater than zero."));
                 }
 
                 if (threatCost <= threatValue)

@@ -20,7 +20,7 @@ public class ArrowBaseStatsComponent : MonoBehaviour, IProjectile
     private void Update()
     {
         timeAlive += Time.deltaTime;
-        if(timeAlive >= 5f)
+        if (timeAlive >= 5f)
         {
             Destroy(gameObject);
         }

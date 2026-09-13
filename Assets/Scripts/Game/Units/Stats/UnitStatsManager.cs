@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
@@ -54,7 +53,7 @@ public class UnitStatsManager : MonoBehaviour
 
     public void Initialize()
     {
-        if(isInitialized) return;
+        if (isInitialized) return;
 
         if (unitStatsCalculator == null)
         {
@@ -72,7 +71,7 @@ public class UnitStatsManager : MonoBehaviour
             statsBootstrapper.LoadAndBuildTalents();
             statsBootstrapper.LoadAndBuildResearch();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.LogException(e);
             Debug.LogWarning("StatsBootstrapper not initialized. Skipping talent application.");

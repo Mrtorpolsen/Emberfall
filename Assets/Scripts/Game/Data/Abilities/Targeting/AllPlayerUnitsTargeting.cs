@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "Game/Targeting/All Player Units")]
 public class AllPlayerUnitsTargeting : TargetingDefinition

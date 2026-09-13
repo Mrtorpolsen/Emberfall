@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -103,7 +102,7 @@ public class UIScreenRouter : MonoBehaviour
     {
         if (isLoading)
             return;
-        
+
         isLoading = true;
 
         try
@@ -160,11 +159,11 @@ public class UIScreenRouter : MonoBehaviour
     //Checks if its UI_Root that gets loaded, then reassigns references and loads mainmenu
     private async void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
     {
-        if(scene.name != "UI_Root")
+        if (scene.name != "UI_Root")
         {
             return;
         }
-        if(!hasInitialized)
+        if (!hasInitialized)
         {
             hasInitialized = true;
             return;
@@ -187,7 +186,7 @@ public class UIScreenRouter : MonoBehaviour
         var root = uiDocument.rootVisualElement;
         contentContainer = root.Q<VisualElement>("ContentContainer");
 
-        if(contentContainer == null)
+        if (contentContainer == null)
         {
             Debug.LogError("ContentContainer not found in UI_Root!");
             return;

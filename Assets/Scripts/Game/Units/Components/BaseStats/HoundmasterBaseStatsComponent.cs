@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-public class HoundmasterBaseStatsComponent : BaseUnitStats
+﻿public class HoundmasterBaseStatsComponent : BaseUnitStats
 {
 
 

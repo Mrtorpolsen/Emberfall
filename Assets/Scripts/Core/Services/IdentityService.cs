@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class IdentityService : GlobalSystem<IdentityService>
 {
     public IPlayerIdentity Current { get; private set; }

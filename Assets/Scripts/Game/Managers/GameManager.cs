@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -75,10 +72,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (isGameRunning)
-        { 
+        {
             currencyTimer += Time.deltaTime;
 
-            if(currencyTimer >= currencyInterval)
+            if (currencyTimer >= currencyInterval)
             {
                 currencyTimer = 0f;
 
@@ -154,7 +151,7 @@ public class GameManager : MonoBehaviour
 
     public void EndOfGame()
     {
-        if(isGameOver)
+        if (isGameOver)
             return;
         //save score, throws error if not logged in
         LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTimeInMiliseconds(), GameSettingsService.Instance.Difficulty);
@@ -182,7 +179,7 @@ public class GameManager : MonoBehaviour
 
     public void AdvanceRangedRally()
     {
-        foreach(Transform rally in playerRangedRallies)
+        foreach (Transform rally in playerRangedRallies)
         {
             MoveRally(rally, minYRangedRally, maxYRangedRally, rallyJump);
         }
@@ -190,7 +187,7 @@ public class GameManager : MonoBehaviour
 
     public void FallbackRangedRally()
     {
-        foreach(Transform rally in playerRangedRallies)
+        foreach (Transform rally in playerRangedRallies)
         {
             MoveRally(rally, minYRangedRally, maxYRangedRally, -rallyJump);
         }

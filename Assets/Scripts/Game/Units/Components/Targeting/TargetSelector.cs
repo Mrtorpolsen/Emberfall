@@ -12,25 +12,25 @@ public class TargetSelector
         }
 
         //no prio list retrun
-        if(priorities == null || priorities.Count == 0)
+        if (priorities == null || priorities.Count == 0)
         {
             return GetClosest(possibleTargets, selfPos);
         }
 
         //starts at 0 and works up, returns when closest target in prio has been found.
         //If no target, move to next prio.
-        foreach(var prio in priorities)
+        foreach (var prio in priorities)
         {
             ITargetable best = null;
             float bestSqrDistance = float.PositiveInfinity;
 
-            foreach(var target in possibleTargets)
+            foreach (var target in possibleTargets)
             {
                 if (target.UnitPrio != prio)
                     continue;
 
                 float sqrDist = (selfPos - (Vector2)target.Transform.position).sqrMagnitude;
-                if(sqrDist < bestSqrDistance)
+                if (sqrDist < bestSqrDistance)
                 {
                     bestSqrDistance = sqrDist;
                     best = target;

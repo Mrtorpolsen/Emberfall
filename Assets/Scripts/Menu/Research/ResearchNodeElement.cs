@@ -52,7 +52,7 @@ public class ResearchNodeElement : IUnbindable
         labelResearchLevelNext.text = node.researchLevelNext.ToString();
         labelResearchDescription.text = node.description;
         labelResearchTime.text = node.researchTime;
-        
+
         if (category == ResearchCategory.GlobalAbility)
         {
             levelContainer.style.display = DisplayStyle.None;
@@ -116,7 +116,7 @@ public class ResearchNodeElement : IUnbindable
 
     private bool IsButtonEnabled()
     {
-        if (currentLevel == maxLevel || CurrencyManager.Instance.Get(CurrencyTypes.Cinders) <  cost)
+        if (currentLevel == maxLevel || CurrencyManager.Instance.Get(CurrencyTypes.Cinders) < cost)
         {
             return false;
         }

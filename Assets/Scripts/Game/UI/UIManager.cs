@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
@@ -354,7 +353,7 @@ public class UIManager : MonoBehaviour
 
     public void RefreshAllButtons()
     {
-        if(boundButtons == null)
+        if (boundButtons == null)
             return;
 
         foreach (var button in boundButtons)

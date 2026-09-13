@@ -8,7 +8,7 @@ public class HealAction : AbilityAction
 
     public override void Execute(AbilityContext context)
     {
-        if(AbilityCooldownManager.Instance == null)
+        if (AbilityCooldownManager.Instance == null)
         {
             Debug.LogError($"AbilityCooldownManager instance is null. \n Name: {context.Caster.name}  \n {abilityDefinition.name}");
             return;

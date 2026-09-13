@@ -19,8 +19,8 @@ public class CombatComponent : MonoBehaviour
 
     private void Update()
     {
-        if (attackCooldown > 0) 
-        { 
+        if (attackCooldown > 0)
+        {
             attackCooldown -= Time.deltaTime;
         }
 
@@ -94,7 +94,7 @@ public class CombatComponent : MonoBehaviour
             if (unit is BombTowerBaseStatsComponent)
             {
                 (unit as BombTowerBaseStatsComponent).Explode(projObj);
-            } 
+            }
             else
             {
                 target.TakeDamage(damage);

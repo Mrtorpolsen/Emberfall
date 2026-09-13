@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TalentTree
@@ -24,7 +24,7 @@ public class TalentTree
         {
             throw new System.Exception($"Class {unitName} not found in talent tree");
         }
-        return talents; 
+        return talents;
     }
 
     public Talent GetTalentById(string className, string talentId)
@@ -34,12 +34,12 @@ public class TalentTree
 
     public TalentCostModel GetCostModel(CostPreset presetName, int tier)
     {
-        if(!CostPresets.TryGetValue(presetName, out TalentCostPreset preset))
+        if (!CostPresets.TryGetValue(presetName, out TalentCostPreset preset))
         {
             throw new System.Exception($"Cost preset {presetName} not found");
         }
 
-        if(!preset.Tiers.TryGetValue(tier.ToString(), out TalentCostModel costModel))
+        if (!preset.Tiers.TryGetValue(tier.ToString(), out TalentCostModel costModel))
         {
             throw new System.Exception($"Tier {tier} not found in preset {presetName}");
         }
@@ -101,7 +101,7 @@ public class Talent
         float baseCost = Cost.BaseCost;      // e.g. 100
         float multiplier = Cost.CostMultiplier; // e.g. 1.5
         int purchased = Purchase.Purchased;
-        
+
         return Mathf.FloorToInt(baseCost + (baseCost * multiplier * purchased));
     }
 }
@@ -188,10 +188,10 @@ public class TalentPurchaseModel
 
 public class TalentPrerequisite
 {
-    public string RequiredUpgradeId; 
+    public string RequiredUpgradeId;
 
     public int RequiredTier;
-    public int RequiredPointsInTier; 
+    public int RequiredPointsInTier;
 
     public string RequiredAchievementId; // e.g “KillBoss5”
 }

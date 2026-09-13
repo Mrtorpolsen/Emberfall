@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UIElements;
 
 public class LoadoutSlotElement : IUnbindable
@@ -30,14 +29,14 @@ public class LoadoutSlotElement : IUnbindable
     public void Bind(LoadoutSlotViewModel loadout)
     {
         Unbind();
-        
+
         isEmpty = loadout.isEmpty;
 
         if (isEmpty)
         {
             emptyContainer.style.display = DisplayStyle.Flex;
             occupiedContainer.style.display = DisplayStyle.None;
-        } 
+        }
         else
         {
             emptyContainer.style.display = DisplayStyle.None;

@@ -11,7 +11,7 @@ public abstract class LoadoutDefinition : ScriptableObject
     [SerializeField] private string unlockId;
     [SerializeField] private bool unlockedByDefault;
     [SerializeField] private DefinitionCategory slotType;
-    
+
     public string Id => id;
     public string UnlockId => unlockId;
     public bool UnlockedByDefault => unlockedByDefault;

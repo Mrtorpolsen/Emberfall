@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(menuName = "Game/Ability Definition")]
 public class AbilityDefinition : LoadoutDefinition

@@ -340,25 +340,25 @@ public class LoadoutUIController : IUIScreenController
                     "Attack Speed: " + stats.attackSpeed + "\n" +
                     "Attack Range: " + stats.attackRange;
 
-                    if (stats.splashRadius > 0)
+                if (stats.splashRadius > 0)
+                {
+                    string splashSize;
+
+                    switch (stats.splashRadius)
                     {
-                        string splashSize;
-
-                        switch (stats.splashRadius)
-                        {
-                            case < 0.5f:
-                                splashSize = "Small";
-                                break;
-                            case > 0.5f and < 1f:
-                                splashSize = "Medium";
-                                break;
-                            default:
-                                splashSize = "Large";
-                                break;
-                        }
-
-                        description += "\nSplash Radius: " + splashSize;
+                        case < 0.5f:
+                            splashSize = "Small";
+                            break;
+                        case > 0.5f and < 1f:
+                            splashSize = "Medium";
+                            break;
+                        default:
+                            splashSize = "Large";
+                            break;
                     }
+
+                    description += "\nSplash Radius: " + splashSize;
+                }
 
 
                 break;
@@ -389,7 +389,7 @@ public class LoadoutUIController : IUIScreenController
                     "Attack Speed: " + stats.attackSpeed + "\n" +
                     "Attack Range: " + stats.attackRange;
 
-                if(stats.splashRadius > 0)
+                if (stats.splashRadius > 0)
                 {
                     string splashSize;
 
