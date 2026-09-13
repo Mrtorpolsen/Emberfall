@@ -25,7 +25,7 @@ public class WaveController : MonoBehaviour
     [SerializeField] private Transform generalSpawn;
     [SerializeField] private Transform southSpawn;
     [SerializeField] private Transform bossPosition;
-    [SerializeField] private int totalWaves = 100;
+    [SerializeField] private int totalWaves = 1000;
     [SerializeField] private float timeBetweenWaves = 10f;
 
     [Header("Generals")]
@@ -33,14 +33,17 @@ public class WaveController : MonoBehaviour
 
     private GeneralDefinition currentGeneral;
 
+    private int currentWaveIndex = 0;
+    private bool isSpawning = false;
+
+    private Difficulty currentDifficulty;
+
 #if UNITY_EDITOR
     [Header("Test")]
     [SerializeField] private Boolean isTest;
     [SerializeField] private int spawnOfEach;
 #endif
 
-    private int currentWaveIndex = 0;
-    private bool isSpawning = false;
 
     private void Awake()
     {
@@ -52,9 +55,9 @@ public class WaveController : MonoBehaviour
         Instance = this;
 
         //Get settings from difficulty
-        var difficultySettings = GameSettingsService.Instance.Difficulty;
-        Debug.Log($"Difficulty Settings: {difficultySettings}");
-        var waveThreatCalculator = new WaveThreatCalculator(Difficulties.Get(difficultySettings));
+        currentDifficulty = Difficulties.Get(GameSettingsService.Instance.Difficulty);
+        Debug.Log($"Difficulty Settings: {currentDifficulty.Level}");
+        var waveThreatCalculator = new WaveThreatCalculator(currentDifficulty);
 
         waveRules = new WaveRules(allGenerals);
         waveGenerator = new WaveGenerator(SpawnDatabase.Instance, waveThreatCalculator);
@@ -116,7 +119,10 @@ public class WaveController : MonoBehaviour
                 string unitName = group.prefab.name.ToLowerInvariant();
 
                 //remove to enable stats scaling again
-                scaling.waveIndex = 0;
+                if (!currentDifficulty.StatScaling)
+                {
+                    scaling.waveIndex = 0;
+                }
 
                 FinalStats stats = UnitStatsManager.Instance.GetEnemyStats(unitName, scaling);
 

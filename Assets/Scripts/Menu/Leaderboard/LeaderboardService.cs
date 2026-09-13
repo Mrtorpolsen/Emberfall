@@ -15,7 +15,8 @@ public class LeaderboardService : MonoBehaviour
     {
         { DifficultyLevel.Easy, "High_Scores_Easy" },
         { DifficultyLevel.Medium, "High_Scores_Medium" },
-        { DifficultyLevel.Hard, "High_Scores_Hard" }
+        { DifficultyLevel.Hard, "High_Scores_Hard" },
+        { DifficultyLevel.Nightmare, "High_Scores_Nightmare" }
     };
     public Dictionary<DifficultyLevel, List<LeaderboardEntry>> userScores { get; } = new Dictionary<DifficultyLevel, List<LeaderboardEntry>>();
 
@@ -89,7 +90,8 @@ public class LeaderboardService : MonoBehaviour
         {
             { DifficultyLevel.Easy, 0 },
             { DifficultyLevel.Medium, 0 },
-            { DifficultyLevel.Hard, 0 }
+            { DifficultyLevel.Hard, 0 },
+            { DifficultyLevel.Nightmare, 0 }
         };
 
         if (!IsLoggedIn())

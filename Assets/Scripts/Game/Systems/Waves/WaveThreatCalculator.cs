@@ -10,7 +10,7 @@ public class WaveThreatCalculator
     //Need to set difficulty scaling and starting threat based on difficulty level
     public WaveThreatCalculator(Difficulty difficulty)
     {
-        this.difficultyScaling = difficulty.DifficultyScaling;
+        this.difficultyScaling = difficulty.ThreatScaling;
         this.startingThreat = difficulty.StartingThreat;
         this.scalingDelay = difficulty.ScalingDelay;
 

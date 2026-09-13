@@ -9,7 +9,8 @@ public class LeaderboardEvents : IUIScreenEvents
     {
         { LeaderboardView.BTN_EASY, nameof(Btn_EasyClicked) },
         { LeaderboardView.BTN_MEDIUM, nameof(Btn_MediumClicked) },
-        { LeaderboardView.BTN_HARD, nameof(Btn_HardClicked) }
+        { LeaderboardView.BTN_HARD, nameof(Btn_HardClicked) },
+        { LeaderboardView.BTN_NIGHTMARE, nameof(Btn_NightmareClicked) }
     };
 
     public void BindEvents(VisualElement root,
@@ -34,6 +35,11 @@ public class LeaderboardEvents : IUIScreenEvents
     private void Btn_HardClicked()
     {
         controller.OpenLeaderboard(DifficultyLevel.Hard);
+    }
+
+    private void Btn_NightmareClicked()
+    {
+        controller.OpenLeaderboard(DifficultyLevel.Nightmare);
     }
 
     public void Cleanup()

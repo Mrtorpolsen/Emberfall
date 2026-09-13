@@ -35,6 +35,16 @@ public class MainMenuEvents : IUIScreenEvents
         }
     };
 
+    private PopupButtonDefinition nightmarePlayBtn = new PopupButtonDefinition
+    {
+        BtnText = "Nightmare",
+        OnClick = () =>
+        {
+            GameSettingsService.Instance.SetDifficulty(DifficultyLevel.Nightmare);
+            SceneManager.LoadScene("Game");
+        }
+    };
+
     private readonly Dictionary<string, string> bindings = new()
     {
         { "Btn_Play", nameof(Btn_PlayClicked) },
@@ -57,7 +67,7 @@ public class MainMenuEvents : IUIScreenEvents
         Debug.Log("Play clicked loading Game...");
         UnitStatsManager.Instance.RecalculateAllFinalStats();
         
-        PopupManager.Instance.OpenChoicePopup(easyPlayBtn, mediumPlayBtn, hardPlayBtn);
+        PopupManager.Instance.OpenChoicePopup(easyPlayBtn, mediumPlayBtn, hardPlayBtn, nightmarePlayBtn);
     }
 
     private void Btn_Offer3Clicked()

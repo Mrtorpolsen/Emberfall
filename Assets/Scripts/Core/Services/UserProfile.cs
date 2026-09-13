@@ -14,7 +14,8 @@ public class UserProfile : MonoBehaviour
     {
         { DifficultyLevel.Easy, 0 },
         { DifficultyLevel.Medium, 0 },
-        { DifficultyLevel.Hard, 0 }
+        { DifficultyLevel.Hard, 0 },
+        { DifficultyLevel.Nightmare, 0 }
     };
 
     public bool IsLoggedIn() => AuthenticationService.Instance.IsSignedIn;

@@ -22,6 +22,9 @@
                 <ui:VisualElement name="BtnContainer3" class="3BtnBtnContainer BtnBtnBtnContainer">
                     <ui:Button text="Hard" name="Btn_CTA3" icon-image="project://database/Assets/Art/UI/Icons/cinder_icon.png?fileID=2800000&amp;guid=001a100086c2f304f8db9d853eff26d8&amp;type=3#cinder_icon" class="btnBackground2x1 text btnCTA"/>
                 </ui:VisualElement>
+                <ui:VisualElement name="BtnContainer4" class="3BtnBtnContainer BtnBtnBtnContainer">
+                    <ui:Button text="Nightmare" name="Btn_CTA4" icon-image="project://database/Assets/Art/UI/Icons/cinder_icon.png?fileID=2800000&amp;guid=001a100086c2f304f8db9d853eff26d8&amp;type=3#cinder_icon" class="btnBackground2x1 text btnCTA"/>
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

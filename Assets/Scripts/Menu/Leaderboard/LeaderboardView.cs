@@ -15,6 +15,7 @@ public class LeaderboardView : IUIScreenView
     private Button btnEasy;
     private Button btnMedium;
     private Button btnHard;
+    private Button btnNightmare;
     private Dictionary<DifficultyLevel, Button> difficultyButtons;
 
     private const string LEADERBOARD_LEADERBOARDROW_ADDRESSABLE = "UI/LeaderboardRow";
@@ -22,6 +23,7 @@ public class LeaderboardView : IUIScreenView
     public const string BTN_EASY = "Btn_Easy_Tab";
     public const string BTN_MEDIUM = "Btn_Medium_Tab";
     public const string BTN_HARD = "Btn_Hard_Tab";
+    public const string BTN_NIGHTMARE = "Btn_Nightmare_Tab";
 
     public async Task InitializeAsync(VisualElement root)
     {
@@ -37,12 +39,14 @@ public class LeaderboardView : IUIScreenView
         btnEasy = UtilityUIBinding.QRequired<Button>(root, BTN_EASY);
         btnMedium = UtilityUIBinding.QRequired<Button>(root, BTN_MEDIUM);
         btnHard = UtilityUIBinding.QRequired<Button>(root, BTN_HARD);
+        btnNightmare = UtilityUIBinding.QRequired<Button>(root, BTN_NIGHTMARE);
 
         difficultyButtons = new Dictionary<DifficultyLevel, Button>
         {
             { DifficultyLevel.Easy, btnEasy },
             { DifficultyLevel.Medium, btnMedium },
-            { DifficultyLevel.Hard, btnHard }
+            { DifficultyLevel.Hard, btnHard },
+            { DifficultyLevel.Nightmare, btnNightmare }
         };
     }
 

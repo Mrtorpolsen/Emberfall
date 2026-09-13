@@ -27,13 +27,16 @@ public class PopupManager : MonoBehaviour
     private VisualElement btnContainer1;
     private VisualElement btnContainer2;
     private VisualElement btnContainer3;
+    private VisualElement btnContainer4;
     private Button btn1;
     private Button btn2;
     private Button btn3;
+    private Button btn4;
 
-    private Action btn1Action;
-    private Action btn2Action;
-    private Action btn3Action;
+    private Action btnAction1;
+    private Action btnAction2;
+    private Action btnAction3;
+    private Action btnAction4;
 
     private EventCallback<ClickEvent> stopPropagationCallback;
 
@@ -56,6 +59,8 @@ public class PopupManager : MonoBehaviour
     private const string BTN_CTA2 = "Btn_CTA2";
     private const string BTN_CONTAINER3 = "BtnContainer3";
     private const string BTN_CTA3 = "Btn_CTA3";
+    private const string BTN_CONTAINER4 = "BtnContainer4";
+    private const string BTN_CTA4 = "Btn_CTA4";
 
 
     private void Awake()
@@ -102,6 +107,8 @@ public class PopupManager : MonoBehaviour
         btn2 = UtilityUIBinding.QRequired<Button>(root, BTN_CTA2);
         btnContainer3 = UtilityUIBinding.QRequired<VisualElement>(root, BTN_CONTAINER3);
         btn3 = UtilityUIBinding.QRequired<Button>(root, BTN_CTA3);
+        btnContainer4 = UtilityUIBinding.QRequired<VisualElement>(root, BTN_CONTAINER4);
+        btn4 = UtilityUIBinding.QRequired<Button>(root, BTN_CTA4);
 
         // Register callbacks
         blocker.RegisterCallback<ClickEvent>(OnBackgroundClicked);
@@ -172,7 +179,7 @@ public class PopupManager : MonoBehaviour
     }
 
     public void OpenChoicePopup(PopupButtonDefinition buttonDefinition1 = null, PopupButtonDefinition buttonDefinition2 = null,
-        PopupButtonDefinition buttonDefinition3 = null)
+        PopupButtonDefinition buttonDefinition3 = null, PopupButtonDefinition buttonDefinition4 = null)
     {
         blocker.style.display = DisplayStyle.Flex;
         contentChoice.style.display = DisplayStyle.Flex;
@@ -180,7 +187,7 @@ public class PopupManager : MonoBehaviour
         
         if(buttonDefinition1 != null && buttonDefinition1.OnClick != null)
         {
-            ConfigureButton(buttonDefinition1, btnContainer1, null, btn1, ref btn1Action);
+            ConfigureButton(buttonDefinition1, btnContainer1, null, btn1, ref btnAction1);
         }
         else
         {
@@ -189,7 +196,7 @@ public class PopupManager : MonoBehaviour
 
         if(buttonDefinition2 != null && buttonDefinition2.OnClick != null)
         {
-            ConfigureButton(buttonDefinition2, btnContainer2, null, btn2, ref btn2Action);
+            ConfigureButton(buttonDefinition2, btnContainer2, null, btn2, ref btnAction2);
         }
         else
         {
@@ -198,11 +205,20 @@ public class PopupManager : MonoBehaviour
 
         if(buttonDefinition3 != null && buttonDefinition3.OnClick != null)
         {
-            ConfigureButton(buttonDefinition3, btnContainer3, null, btn3, ref btn3Action);
+            ConfigureButton(buttonDefinition3, btnContainer3, null, btn3, ref btnAction3);
         }
         else
         {
             btnContainer3.style.display = DisplayStyle.None;
+        }
+        
+        if(buttonDefinition4 != null && buttonDefinition4.OnClick != null)
+        {
+            ConfigureButton(buttonDefinition4, btnContainer4, null, btn4, ref btnAction4);
+        }
+        else
+        {
+            btnContainer4.style.display = DisplayStyle.None;
         }
     }
 
@@ -237,22 +253,27 @@ public class PopupManager : MonoBehaviour
         btn2.SetEnabled(false);
         btn3.SetEnabled(false);
 
-        if (btn1Action != null)
+        if (btnAction1 != null)
         {
-            btn1.clicked -= btn1Action;
+            btn1.clicked -= btnAction1;
         }
-        if(btn2Action != null)
+        if(btnAction2 != null)
         {
-            btn2.clicked -= btn2Action;
+            btn2.clicked -= btnAction2;
         }
-        if(btn3Action != null)
+        if(btnAction3 != null)
         {
-            btn3.clicked -= btn3Action;
+            btn3.clicked -= btnAction3;
+        }
+        if(btnAction4 != null)
+        {
+            btn4.clicked -= btnAction4;
         }
 
-        btn1Action = null;
-        btn2Action = null;
-        btn3Action = null;
+        btnAction1 = null;
+        btnAction2 = null;
+        btnAction3 = null;
+        btnAction4 = null;
     }
 
     private void ConfigureButton(PopupButtonDefinition buttonDefinition,

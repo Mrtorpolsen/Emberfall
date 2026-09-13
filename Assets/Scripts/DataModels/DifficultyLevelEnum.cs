@@ -2,5 +2,6 @@
 {
     Easy,
     Medium,
-    Hard
+    Hard,
+    Nightmare
 }
