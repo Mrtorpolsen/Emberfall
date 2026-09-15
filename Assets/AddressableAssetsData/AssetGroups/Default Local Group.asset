@@ -279,6 +279,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 880c541a4a7d8b746bcc4e69259d1c4f
+    m_Address: guardian_icon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 957a20b2739a07b45ab5d3bf5d42247e
     m_Address: unitunlock_templar_1
     m_ReadOnly: 0

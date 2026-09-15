@@ -1253,7 +1253,7 @@
       ]
     },
     "guardian": {
-      "iconId": "place_holder_icon",
+      "iconId": "guardian_icon",
       "costPreset": "uncommon",
       "archetype": "melee",
       "tags": [],

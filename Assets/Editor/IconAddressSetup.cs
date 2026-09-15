@@ -59,7 +59,7 @@ public class IconAddressSetup
         {
             string assetPath = file.Replace("\\", "/"); // ensure consistent path
             string fileName = Path.GetFileNameWithoutExtension(assetPath);
-
+                
             // Remove resolution suffix (_512x512, _256x256, etc.)
             string cleanedName = RemoveResolutionSuffix(fileName);
 
@@ -71,6 +71,8 @@ public class IconAddressSetup
             }
 
             entry.address = cleanedName;
+
+            entry.labels.Add("preload");
 
             Debug.Log($"Set Addressable Address: {assetPath} -> {cleanedName}");
         }
