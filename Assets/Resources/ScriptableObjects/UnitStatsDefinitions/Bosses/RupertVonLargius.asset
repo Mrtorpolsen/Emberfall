@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34c435560e2d9b346b97cd3c972f3276, type: 3}
-  m_Name: Giant
+  m_Name: RupertVonLargius
   m_EditorClassIdentifier: Assembly-CSharp::UnitStatsDefinition
   cost: 0
-  maxHealth: 1000
-  armor: 0
-  attackDamage: 200
-  attackSpeed: 0.75
-  attackRange: 0.8
-  hitRadius: 0.4
+  maxHealth: 1500
+  armor: 10
+  attackDamage: 300
+  attackSpeed: 0.5
+  attackRange: 0.9
+  hitRadius: 0.45
   splashRadius: 0
-  movementSpeed: 1
-  mass: 50
+  movementSpeed: 0.8
+  mass: 60
   critChance: 0
   critDamage: 1.5
   unitPrio: 0

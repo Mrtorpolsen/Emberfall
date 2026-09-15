@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5313391fa5734b46a2e715fe9d95d96, type: 3}
+  m_Name: GeneralRichefield
+  m_EditorClassIdentifier: Assembly-CSharp::GeneralDefinition
+  id: generalrichefield
+  generalName: General Richefield
+  tauntPhrases:
+  - "Sir \u201C Players name \u201C, I hope you\u2019re prepared"
+  - Soldiers! Formation Zeta!
+  - Cavalry! Left and Right flank maneuver.
+  - Do not fear! Victory is in our grasp!
+  - Victory is in our grasp! Now!
+  - "Okay ,... Victory is in our \u2026 Ouh Crums!"
+  - You will regret the day you met General Richfield! I mean Me !
+  unitRoster:
+  - {fileID: 11400000, guid: 0bee6ff15e9c2ee47bde568edfe65c52, type: 2}
+  - {fileID: 11400000, guid: b607463b07d6270418990bb20418d3a2, type: 2}
+  - {fileID: 11400000, guid: 27d758321c698c145a7838d4875778b9, type: 2}
+  - {fileID: 11400000, guid: ece90d43e63078f47a04f75cb8af4eb1, type: 2}
+  generalUnit: {fileID: 11400000, guid: 0a1969f835dd17a4689ffc9a686d6f13, type: 2}
+  spawnLimit: 10

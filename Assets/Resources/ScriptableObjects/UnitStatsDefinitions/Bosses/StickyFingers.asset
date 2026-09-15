@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34c435560e2d9b346b97cd3c972f3276, type: 3}
-  m_Name: Giant
+  m_Name: StickyFingers
   m_EditorClassIdentifier: Assembly-CSharp::UnitStatsDefinition
   cost: 0
-  maxHealth: 1000
+  maxHealth: 220
   armor: 0
-  attackDamage: 200
-  attackSpeed: 0.75
-  attackRange: 0.8
-  hitRadius: 0.4
+  attackDamage: 450
+  attackSpeed: 1.5
+  attackRange: 0.9
+  hitRadius: 0.13
   splashRadius: 0
-  movementSpeed: 1
-  mass: 50
-  critChance: 0
+  movementSpeed: 3
+  mass: 1
+  critChance: 0.2
   critDamage: 1.5
   unitPrio: 0
-  isTargetable: 1
+  isTargetable: 0
   category: 0
-  healthbarScale: {x: 1.2, y: 1, z: 0.1}
+  healthbarScale: {x: 0.4, y: 0.4, z: 0.1}
