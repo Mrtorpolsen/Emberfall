@@ -184,13 +184,20 @@ public class ForgeUIController : IUIScreenController
 
                     node.UpdatePurchasedText?.Invoke(updated, max);
 
+                    if (talent.Type == TalentType.UnitUnlock ||
+                        talent.Type == TalentType.AbilityUnlock ||
+                        talent.Type == TalentType.TowerUnlock)
+                    {
+                        UnlockService.Instance.Unlock(talent.Id);
+                    }
+
                     await SaveService.Instance.SaveAsync();
                 }
             };
             PopupManager.Instance.OpenPopup_ImgDescBtn(talent.IconId, talent.Name, talent.Description, popupBtn);
             PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitsMet && hasEnoughCurrency);
 
-            if (talent.Type != TalentType.StatModifier)
+            if (talent.Type != TalentType.StatModifier && talent.Type != TalentType.UnitUnlock)
             {
                 PopupManager.Instance.ButtonIsActive(false);
             }

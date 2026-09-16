@@ -20,7 +20,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   id: spawn_berserker
-  unlockId: unit_berserker
+  unlockId: unlock_unit_berserker
   unlockedByDefault: 1
   slotType: 0
   cooldown: 0

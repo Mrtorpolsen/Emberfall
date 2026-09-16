@@ -20,7 +20,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   id: spawn_giant
-  unlockId: unit_giant
+  unlockId: unlock_unit_giant
   unlockedByDefault: 0
   slotType: 0
   cooldown: 0

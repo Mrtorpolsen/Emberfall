@@ -20,7 +20,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   id: spawn_musketeer
-  unlockId: unit_musketeer
+  unlockId: unlock_unit_musketeer
   unlockedByDefault: 1
   slotType: 0
   cooldown: 0

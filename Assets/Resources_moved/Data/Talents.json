@@ -332,12 +332,12 @@
           "Prerequisites": [
             {
               "RequiredTier": 8,
-              "RequiredPointsInTier": 6
+              "RequiredPointsInTier": 5
             }
           ]
         },
         {
-          "DefinitionId": "unitunlock_berserker",
+          "DefinitionId": "unlock_unit_berserker",
           "Category": "Unit",
           "Tier": 10,
           "Prerequisites": [
@@ -348,7 +348,7 @@
           ]
         },
         {
-          "DefinitionId": "unitunlock_guardian",
+          "DefinitionId": "unlock_unit_guardian",
           "Category": "Unit",
           "Tier": 10,
           "Prerequisites": [
@@ -555,12 +555,12 @@
           "Prerequisites": [
             {
               "RequiredTier": 8,
-              "RequiredPointsInTier": 6
+              "RequiredPointsInTier": 5
             }
           ]
         },
         {
-          "DefinitionId": "unitunlock_templar",
+          "DefinitionId": "unlock_unit_templar",
           "Category": "Unit",
           "Tier": 10,
           "Prerequisites": [
@@ -571,7 +571,7 @@
           ]
         },
         {
-          "DefinitionId": "unitunlock_dragoon",
+          "DefinitionId": "unlock_unit_dragoon",
           "Category": "Unit",
           "Tier": 10,
           "Prerequisites": [
@@ -778,12 +778,12 @@
           "Prerequisites": [
             {
               "RequiredTier": 8,
-              "RequiredPointsInTier": 6
+              "RequiredPointsInTier": 5
             }
           ]
         },
         {
-          "DefinitionId": "unitunlock_sniper",
+          "DefinitionId": "unlock_unit_sniper",
           "Category": "Unit",
           "Tier": 10,
           "Prerequisites": [
@@ -794,7 +794,7 @@
           ]
         },
         {
-          "DefinitionId": "unitunlock_trapper",
+          "DefinitionId": "unlock_unit_trapper",
           "Category": "Unit",
           "Tier": 10,
           "Prerequisites": [
@@ -2099,7 +2099,7 @@
           ]
         },
         {
-          "DefinitionId": "abilityunlock_houndmaster_minor",
+          "DefinitionId": "unlock_ability_houndmaster_minor",
           "Category": "Unit",
           "Tier": 8,
           "Prerequisites": [
@@ -2747,7 +2747,7 @@
         "MaxPurchases": 1
       }
     },
-    "abilityunlock_stun": {
+    "unlock_ability_stun": {
       "Description": "Unlocks Stun ability: stun current target for 0.5 seconds with a 10 second cooldown",
       "Type": "AbilityUnlock",
       "Unlocks": [
@@ -2760,7 +2760,7 @@
       }
     },
 
-    "abilityunlock_pushback": {
+    "unlock_ability_pushback": {
       "Description": "Unlocks Pushback ability: push back 2 closest enemies every 10 seconds",
       "Type": "AbilityUnlock",
       "Unlocks": [
@@ -2773,7 +2773,7 @@
       }
     },
 
-    "abilityunlock_multishot": {
+    "unlock_ability_multishot": {
       "Description": "Unlocks a Multishot ability: fires an additional arrow every 10 seconds",
       "Type": "AbilityUnlock",
       "Unlocks": [
@@ -2787,7 +2787,7 @@
     },
 
 
-    "abilityunlock_houndmaster_minor": {
+    "unlock_ability_houndmaster_minor": {
       "Description": "The houndmaster summons a hound every 60s",
       "Type": "AbilityUnlock",
       "Unlocks": [
@@ -2800,7 +2800,7 @@
       }
     },
 
-    "unitunlock_berserker": {
+    "unlock_unit_berserker": {
       "Description": "Unlocks subclass Berserker",
       "Type": "UnitUnlock",
       "Unlocks": [
@@ -2813,7 +2813,7 @@
       }
     },
 
-    "unitunlock_guardian": {
+    "unlock_unit_guardian": {
       "Description": "Unlocks subclass Guardian",
       "Type": "UnitUnlock",
       "Unlocks": [
@@ -2826,7 +2826,7 @@
       }
     },
 
-    "unitunlock_templar": {
+    "unlock_unit_templar": {
       "Description": "Unlocks subclass Templar",
       "Type": "UnitUnlock",
       "Unlocks": [
@@ -2839,7 +2839,7 @@
       }
     },
 
-    "unitunlock_dragoon": {
+    "unlock_unit_dragoon": {
       "Description": "Unlocks subclass Dragoon",
       "Type": "UnitUnlock",
       "Unlocks": [
@@ -2852,7 +2852,7 @@
       }
     },
 
-    "unitunlock_sniper": {
+    "unlock_unit_sniper": {
       "Description": "Unlocks subclass Sniper",
       "Type": "UnitUnlock",
       "Unlocks": [
@@ -2865,7 +2865,7 @@
       }
     },
 
-    "unitunlock_trapper": {
+    "unlock_unit_trapper": {
       "Description": "Unlocks subclass Trapper",
       "Type": "UnitUnlock",
       "Unlocks": [
@@ -3031,18 +3031,18 @@
         "IconId": "ranged_range_5"
       },
 
-      "abilityunlock_houndmaster_minor": {
+      "unlock_ability_houndmaster_minor": {
         "Name": "Release the hounds",
-        "IconId": "abilityunlock_minor"
+        "IconId": "unlock_ability_minor"
       },
 
-      "unitunlock_sniper": {
+      "unlock_unit_sniper": {
         "Name": "Sniper",
-        "IconId": "unitunlock_sniper_1"
+        "IconId": "unlock_unit_sniper"
       },
-      "unitunlock_trapper": {
+      "unlock_unit_trapper": {
         "Name": "Trapper",
-        "IconId": "unitunlock_trapper_1"
+        "IconId": "unlock_unit_trapper"
       }
     },
     "melee": {
@@ -3147,21 +3147,21 @@
         "IconId": "melee_range_5"
       },
 
-      "unitunlock_berserker": {
+      "unlock_unit_berserker": {
         "Name": "Berserker",
-        "IconId": "unitunlock_berserker_1"
+        "IconId": "unlock_unit_berserker"
       },
-      "unitunlock_guardian": {
+      "unlock_unit_guardian": {
         "Name": "Guardian",
-        "IconId": "unitunlock_guardian_1"
+        "IconId": "unlock_unit_guardian"
       },
-      "unitunlock_templar": {
+      "unlock_unit_templar": {
         "Name": "Templar",
-        "IconId": "unitunlock_templar_1"
+        "IconId": "unlock_unit_templar"
       },
-      "unitunlock_dragoon": {
+      "unlock_unit_dragoon": {
         "Name": "Dragoon",
-        "IconId": "unitunlock_dragoon_1"
+        "IconId": "unlock_unit_dragoon"
       }
     }
   }

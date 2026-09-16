@@ -20,7 +20,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   id: spawn_pikeman
-  unlockId: unit_pikeman
+  unlockId: unlock_unit_pikeman
   unlockedByDefault: 1
   slotType: 0
   cooldown: 0
