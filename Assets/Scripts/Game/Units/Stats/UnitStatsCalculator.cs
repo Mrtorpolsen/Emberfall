@@ -145,6 +145,11 @@ public class UnitStatsCalculator
         ApplyEnemyEffect(StatType.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
         ApplyEnemyEffect(StatType.AttackDamage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
 
+        if (finalStats.attackRange < 2)
+        {
+            finalStats.attackRange -= 1;
+        }
+
         return finalStats;
     }
 

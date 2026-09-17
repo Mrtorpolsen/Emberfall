@@ -127,7 +127,7 @@ public class MovementComponent : MonoBehaviour
             return forcedDestination;
         }
 
-        if (isRanged)
+        if (isRanged && unitMetadata.Team == Team.South)
         {
             Vector2 zoneCenter = rangedRally.position;
 
@@ -264,7 +264,7 @@ public class MovementComponent : MonoBehaviour
 
     private Vector2 ApplyRangedZoneBoundary(Vector2 target)
     {
-        if (rangedStats == null || rangedRally == null)
+        if (rangedStats == null || rangedRally == null || unitMetadata.Team != Team.South)
             return target;
 
         Vector2 center = rangedRally.position;
