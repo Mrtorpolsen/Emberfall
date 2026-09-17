@@ -1,6 +1,7 @@
 .text {
     color: rgb(255, 235, 225);
     font-size: 40px;
+    text-overflow: clip;
 }
 
 .btnBig {

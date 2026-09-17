@@ -6,7 +6,7 @@
         <ui:VisualElement name="ContentContainer" class="ContentContainer contentContainer" style="flex-grow: 1;">
             <ui:VisualElement name="IconUsernameContainer" class="IconUsernameContainer iconUsernameContainer" style="flex-grow: 1;">
                 <ui:VisualElement name="Icon_Trophy" class="iconTrophy"/>
-                <ui:Label text="Test Name" name="Label_Username" class="labelUsername text labelSize"/>
+                <ui:Label text="Test Name" name="Label_Username" class="labelUsername text labelSize" style="max-width: 80%; text-overflow: ellipsis; overflow: hidden; flex-grow: 1; -unity-text-align: upper-left;"/>
             </ui:VisualElement>
             <ui:Label text="10:00" name="Label_Score" class="labelScore text labelSize"/>
         </ui:VisualElement>
