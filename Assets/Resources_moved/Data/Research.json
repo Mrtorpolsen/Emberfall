@@ -309,13 +309,13 @@
         "MaxLevel": 1,
 
         "CostScaling": {
-          "BaseValue": 10,
+          "BaseValue": 5000,
           "Preset": "cost_standard",
           "Overrides": []
         },
 
         "TimeScaling": {
-          "BaseValue": 10,
+          "BaseValue": 6000,
           "Preset": "time_standard",
           "Overrides": []
         },

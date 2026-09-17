@@ -17,4 +17,8 @@ public class UnlockService : GlobalSystem<UnlockService>
         }
     }
 
+    public int GetUnlockedCount()
+    {
+        return unlockedItems.Count;
+    }
 }

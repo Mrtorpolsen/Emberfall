@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -19,11 +20,29 @@ public class AbilityDatabase : MonoBehaviour
 
         Instance = this;
 
-        abilityMap = abilities.ToDictionary(x => x.Id);
-
         Debug.Log($"Loaded {abilities.Count} spawns into AbilityDatabase.");
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    //For testing purposes, we can initialize the database with a list of spawns
+    public void InitializeForTesting(List<AbilityDefinition> definitions)
+    {
+        abilities = definitions;
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        abilityMap = abilities.ToDictionary(x =>
+        {
+            if (x.UnlockedByDefault)
+            {
+                UnlockService.Instance.Unlock(x.UnlockId);
+            }
+
+            return x.Id;
+        });
     }
 
     public AbilityDefinition GetAbility(string id) => id == null ? null : abilityMap[id];

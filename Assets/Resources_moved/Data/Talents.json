@@ -3149,11 +3149,11 @@
 
       "unlock_unit_berserker": {
         "Name": "Berserker",
-        "IconId": "unlock_unit_berserker"
+        "IconId": "berserker_icon"
       },
       "unlock_unit_guardian": {
         "Name": "Guardian",
-        "IconId": "unlock_unit_guardian"
+        "IconId": "guardian_icon"
       },
       "unlock_unit_templar": {
         "Name": "Templar",
