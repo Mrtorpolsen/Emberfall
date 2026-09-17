@@ -6,8 +6,13 @@ public class ServiceInitializer : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+    }
 
+    private void Start()
+    {
         InitializeServices();
+
+        InitializeDatabases();
 
         SceneManager.LoadScene("Login");
     }
@@ -17,7 +22,14 @@ public class ServiceInitializer : MonoBehaviour
         IdentityService.Create();
         SaveService.Create();
         CurrencyManager.Create();
+        UnlockService.Create();
 
         Debug.Log("All services initialized");
+    }
+
+    private void InitializeDatabases()
+    {
+        SpawnDatabase.Instance.Initialize();
+        AbilityDatabase.Instance.Initialize();
     }
 }

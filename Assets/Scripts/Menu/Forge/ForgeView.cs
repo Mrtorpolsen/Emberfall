@@ -33,7 +33,7 @@ public class ForgeView : IUIScreenView
         ForgePanel.style.display = DisplayStyle.Flex;
     }
 
-    public void RenderUnitContainers(List<UnitContainerDefinition> unitContainers)
+    public void RenderUnitContainers(List<UnitTalentContainerDefinition> unitContainers)
     {
         ClearUnitsContainer();
 
@@ -43,6 +43,8 @@ public class ForgeView : IUIScreenView
 
             var imgUnit = UtilityUIBinding.QRequired<VisualElement>(visualUnit, "Img_Unit");
             var btnUpg = UtilityUIBinding.QRequired<Button>(visualUnit, "Btn_Upg");
+
+            btnUpg.SetEnabled(unit.isUnlocked);
 
             UtilityLoadAddressable.LoadAddressableIcon(unit.img, imgUnit);
             UtilityUIBinding.BindVEClick(btnUpg, unit.onClick, clickHandlers);

@@ -20,22 +20,28 @@ public class SpawnDatabase : MonoBehaviour
 
         Instance = this;
 
-        Initialize();
-
         Debug.Log($"Loaded {spawns.Count} spawns into SpawnDatabase.");
 
         DontDestroyOnLoad(gameObject);
     }
     //For testing purposes, we can initialize the database with a list of spawns
-    public void Initialize(List<SpawnDefinition> definitions)
+    public void InitializeForTesting(List<SpawnDefinition> definitions)
     {
         spawns = definitions;
         Initialize();
     }
 
-    private void Initialize()
+    public void Initialize()
     {
-        spawnMap = spawns.ToDictionary(x => x.Id);
+        spawnMap = spawns.ToDictionary(x =>
+        {
+            if (x.UnlockedByDefault)
+            {
+                UnlockService.Instance.Unlock(x.UnlockId);
+            }
+
+            return x.Id;
+        });
     }
 
     public SpawnDefinition GetSpawn(string id) => id == null ? null : spawnMap[id];

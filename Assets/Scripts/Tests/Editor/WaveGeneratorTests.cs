@@ -26,7 +26,7 @@ public class WaveGeneratorTests
         _spawnDatabaseObject = new GameObject("SpawnDatabase");
         _spawnDB = _spawnDatabaseObject.AddComponent<SpawnDatabase>();
 
-        _spawnDB.Initialize(_spawnDefinitions);
+        _spawnDB.InitializeForTesting(_spawnDefinitions);
 
         _waveThreatCalculator =
             new WaveThreatCalculator(Difficulties.Medium);

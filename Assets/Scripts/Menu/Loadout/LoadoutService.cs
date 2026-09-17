@@ -233,7 +233,7 @@ public class LoadoutService : MonoBehaviour
     {
         //Todo determine which loadouts are available based on player progress, for now just return all thats on by default
 
-        return GetAllDefinitions().Where(def => def.UnlockedByDefault == true).ToList();
+        return GetAllDefinitions().Where(def => def.UnlockedByDefault == true || UnlockService.Instance.IsUnlocked(def.UnlockId)).ToList();
     }
 
     public string GetCurrentLoadoutDisplayName()

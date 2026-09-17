@@ -12,6 +12,8 @@ public class ForgeUIController : IUIScreenController
     private ForgeView view;
     private TalentTreeView talentTreeView;
 
+    private bool isDirty = false;
+
     public void Initialize(IUIScreenView screenView)
     {
         if (screenView is not ForgeView forgeView)
@@ -53,6 +55,12 @@ public class ForgeUIController : IUIScreenController
 
     public void BackToForge()
     {
+        if (isDirty)
+        {
+            view.RenderUnitContainers(GenerateUnitContainers());
+            isDirty = false;
+        }
+
         forgePanel.style.display = DisplayStyle.Flex;
         talentTreePanel.style.display = DisplayStyle.None;
 
@@ -64,9 +72,9 @@ public class ForgeUIController : IUIScreenController
         view.Cleanup();
     }
 
-    public List<UnitContainerDefinition> GenerateUnitContainers()
+    public List<UnitTalentContainerDefinition> GenerateUnitContainers()
     {
-        List<UnitContainerDefinition> unitContainers = new List<UnitContainerDefinition>();
+        List<UnitTalentContainerDefinition> unitContainers = new List<UnitTalentContainerDefinition>();
         if (TalentService.Instance.playerTalentTree == null)
         {
             throw new InvalidOperationException("Player Talent Tree is null. Cannot generate unit containers.");
@@ -80,13 +88,14 @@ public class ForgeUIController : IUIScreenController
         return unitContainers;
     }
 
-    public UnitContainerDefinition BuildUnitContainer(string unitId, string iconId)
+    public UnitTalentContainerDefinition BuildUnitContainer(string unitId, string iconId)
     {
-        var container = new UnitContainerDefinition
+        var container = new UnitTalentContainerDefinition
         {
             id = unitId,
             img = iconId,
-            onClick = () => OpenTalentTree(unitId)
+            onClick = () => OpenTalentTree(unitId),
+            isUnlocked = IsUnlocked(unitId)
         };
         return container;
     }
@@ -184,13 +193,21 @@ public class ForgeUIController : IUIScreenController
 
                     node.UpdatePurchasedText?.Invoke(updated, max);
 
+                    if (talent.Type == TalentType.UnitUnlock ||
+                        talent.Type == TalentType.AbilityUnlock ||
+                        talent.Type == TalentType.TowerUnlock)
+                    {
+                        UnlockService.Instance.Unlock(talent.Id);
+                        isDirty = true;
+                    }
+
                     await SaveService.Instance.SaveAsync();
                 }
             };
             PopupManager.Instance.OpenPopup_ImgDescBtn(talent.IconId, talent.Name, talent.Description, popupBtn);
             PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitsMet && hasEnoughCurrency);
 
-            if (talent.Type != TalentType.StatModifier)
+            if (talent.Type != TalentType.StatModifier && talent.Type != TalentType.UnitUnlock)
             {
                 PopupManager.Instance.ButtonIsActive(false);
             }
@@ -208,5 +225,10 @@ public class ForgeUIController : IUIScreenController
         SaveService.Instance.Current.Talents.CurrencySpent.Clear();
         TalentUnlockManager.Instance.ResetAll();
         await SaveService.Instance.SaveAsync();
+    }
+
+    private bool IsUnlocked(string unitName)
+    {
+        return UnlockService.Instance.IsUnlocked("unlock_unit_" + unitName.ToLowerInvariant());
     }
 }

@@ -16,6 +16,8 @@ public class ResearchService : MonoBehaviour
     public event Action<ResearchCategory> OnResearchCompleted;
     public event Action<ResearchCategory, long> OnResearchTimeUpdated;
 
+    private HashSet<string> unlockResearch = new HashSet<string>();
+
     private const string RESEARCH_ADDRESSABLE = "Research";
 
     private void Awake()
@@ -66,6 +68,8 @@ public class ResearchService : MonoBehaviour
             {
                 RestartActiveResearchTimers();
             }
+
+            ProvideUnlocked();
         }
         finally
         {
@@ -114,6 +118,8 @@ public class ResearchService : MonoBehaviour
         SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
         SaveService.Instance.Save();
 
+        PostUnlock(active);
+
         OnResearchCompleted?.Invoke(active.ResearchCategory);
     }
 
@@ -121,6 +127,8 @@ public class ResearchService : MonoBehaviour
     {
         SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
         SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
+
+        PostUnlock(active);
 
         OnResearchCompleted?.Invoke(active.ResearchCategory);
     }
@@ -217,5 +225,37 @@ public class ResearchService : MonoBehaviour
         }
 
         return 0;
+    }
+
+    private void PostUnlock(ActiveResearch active)
+    {
+        if (active.ResearchCategory == ResearchCategory.GlobalAbility)
+        {
+            if (UnlockService.Instance != null)
+            {
+                UnlockService.Instance.Unlock(active.ResearchId);
+            }
+            else
+            {
+                Debug.LogError("UnlockService is null. Cannot provide global ability unlock.");
+            }
+        }
+    }
+
+    private void ProvideUnlocked()
+    {
+        if (UnlockService.Instance == null)
+        {
+            Debug.LogError("UnlockService is null. Cannot provide talent unlocks.");
+            return;
+        }
+
+        foreach (var research in playerResearchTree.GetResearchByCategory(ResearchCategory.GlobalAbility))
+        {
+            if (SaveService.Instance.Current.Research.CompletedResearch.TryGetValue(research.Id, out int level) && level > 0)
+            {
+                UnlockService.Instance.Unlock(research.Id);
+            }
+        }
     }
 }

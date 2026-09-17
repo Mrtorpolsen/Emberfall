@@ -11,6 +11,8 @@ public class TalentService : MonoBehaviour
 
     private const string TALENTS_ADDRESSABLE = "Talents";
 
+    private List<(string unitId, string talentId)> unlockTalents = new List<(string unitId, string talentId)>();
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -54,6 +56,8 @@ public class TalentService : MonoBehaviour
             playerTalentTree = tree;
 
             BuildTalentsByUnit(playerTalentTree);
+
+            ProvideUnlocked();
         }
         finally
         {
@@ -63,6 +67,9 @@ public class TalentService : MonoBehaviour
 
     private void BuildTalentsByUnit(TalentTree talentTree)
     {
+        unlockTalents.Clear();
+        talentTree.TalentsByUnit.Clear();
+
         foreach (var unitEntry in talentTree.UnitDefinitions)
         {
             string unitName = unitEntry.Key;
@@ -74,18 +81,30 @@ public class TalentService : MonoBehaviour
 
             foreach (var talentNode in unitDef.Talents)
             {
-                var archetypeOverride = talentTree.GetArchetypeOverride(unitDef.Archetype, talentNode.DefinitionId);
-                var talentData = talentTree.GetTalentData(talentNode.DefinitionId);
+                TalentOverride archetypeOverride = talentTree.GetArchetypeOverride(unitDef.Archetype, talentNode.DefinitionId);
+                TalentData talentData = talentTree.GetTalentData(talentNode.DefinitionId);
 
-                //For talents with the same definition ID and tier, we need to create unique IDs for each instance of the talent. We can do this by appending a count to the base ID.
-                var baseId = $"{talentNode.DefinitionId}_T{talentNode.Tier}";
 
-                if (!idCounts.TryAdd(baseId, 0))
+                string talentId = talentNode.DefinitionId;
+
+                if (talentData.Type == TalentType.AbilityUnlock ||
+                    talentData.Type == TalentType.UnitUnlock ||
+                    talentData.Type == TalentType.TowerUnlock)
                 {
-                    idCounts[baseId]++;
-                }
+                    unlockTalents.Add((unitName, talentNode.DefinitionId));
+                } 
+                else
+                {
+                    //For talents with the same definition ID and tier, we need to create unique IDs for each instance of the talent. We can do this by appending a count to the base ID.
+                    string baseId = $"{talentNode.DefinitionId}_T{talentNode.Tier}";
 
-                var talentId = idCounts[baseId] == 0 ? baseId : $"{baseId}_{idCounts[baseId]}";
+                    if (!idCounts.TryAdd(baseId, 0))
+                    {
+                        idCounts[baseId]++;
+                    }
+
+                    talentId = idCounts[baseId] == 0 ? baseId : $"{baseId}_{idCounts[baseId]}";
+                }
 
                 var talent = new Talent
                 {
@@ -131,6 +150,23 @@ public class TalentService : MonoBehaviour
         else
         {
             unitPurchases.PurchasedTalents[talentId] = 1;
+        }
+    }
+
+    private void ProvideUnlocked()
+    {
+        if (UnlockService.Instance == null)
+        {
+            Debug.LogError("UnlockService is null. Cannot provide talent unlocks.");
+            return;
+        }
+
+        foreach (var talent in unlockTalents)
+        {
+            if (GetPurchasedTalent(talent.unitId, talent.talentId) > 0)
+            {
+                UnlockService.Instance.Unlock(talent.talentId);
+            }
         }
     }
 

@@ -20,7 +20,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   id: ability_restoration
-  unlockId: global_abilityunlock_restoration
+  unlockId: unlock_global_ability_restoration
   unlockedByDefault: 1
   slotType: 2
   cost: 0

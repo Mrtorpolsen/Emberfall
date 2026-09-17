@@ -279,7 +279,7 @@
 
     "globalability": [
       {
-        "Id": "global_abilityunlock_restoration",
+        "Id": "unlock_global_ability_restoration",
         "Name": "Restoration",
         "Description": "Instantly heal all troops by 50%",
         "Category": "GlobalAbility",
@@ -302,7 +302,7 @@
       },
 
       {
-        "Id": "global_abilityunlock_fortify",
+        "Id": "unlock_global_ability_fortify",
         "Name": "Fortify",
         "Description": "Increase units armor by 20 for 20s",
         "Category": "GlobalAbility",

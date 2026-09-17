@@ -20,7 +20,7 @@ MonoBehaviour:
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   id: spawn_houndmaster
-  unlockId: unit_houndmaster
+  unlockId: unlock_unit_houndmaster
   unlockedByDefault: 1
   slotType: 0
   cooldown: 0
