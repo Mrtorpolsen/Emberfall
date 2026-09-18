@@ -27,17 +27,12 @@ public class SaveService : GlobalSystem<SaveService>
         );
     }
 
-    public async Task CreateSave(int totalCinders, int totalEmbers, Dictionary<string, int> CompletedResearch, List<ActiveResearch> activeResearch, bool hasReceivedLoginGift)
+    public async Task CreateNewSave()
     {
-        Current = new SaveGame();
-        Current.Version = SaveGame.CURRENT_SAVE_VERSION;
-
-        Current.HasReceivedLoginGift = hasReceivedLoginGift;
-        Current.Research.CompletedResearch = CompletedResearch;
-        Current.Research.ActiveResearch = activeResearch;
-
-        Current.Currency.Cinders = totalCinders;
-        Current.Currency.Embers = totalEmbers;
+        Current = new SaveGame
+        {
+            Version = CurrentSaveVersion.CURRENT_SAVE_VERSION
+        };
 
         ValidateSave();
         await SaveAsync();
@@ -52,51 +47,49 @@ public class SaveService : GlobalSystem<SaveService>
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No save file found, creating new save file");
-            await CreateSave(0, 0, new Dictionary<string, int>(), new List<ActiveResearch>(), false);
+            await CreateNewSave();
             return;
         }
 
         string json = await Task.Run(() => File.ReadAllText(savePath));
 
-        var root = JObject.Parse(json);
+        JObject root;
 
-        //TODO make a migration system to handle versioning and changes in the save file structure
-        int version = root.Value<int>("Version");
-
-        int cindersSpent = root["Talents"]?["CurrencySpent"]?.Value<int>("Cinders") ?? 0;
-        int embersSpent = root["Talents"]?["CurrencySpent"]?.Value<int>("Embers") ?? 0;
-
-        int currentCinders = root["Currency"]?.Value<int>("Cinders") ?? 0;
-        int currentEmbers = root["Currency"]?.Value<int>("Embers") ?? 0;
-
-        int cindersToTransfer = cindersSpent + currentCinders;
-        int embersToTransfer = embersSpent + currentEmbers;
-
-        bool hasReceivedLoginGift = root.Value<bool>("HasReceivedLoginGift");
-
-        Dictionary<string, int> CompletedResearch = root["Research"]?["CompletedResearch"]?.ToObject<Dictionary<string, int>>() ?? new Dictionary<string, int>();
-        List<ActiveResearch> activeResearch = root["Research"]?["ActiveResearch"]?.ToObject<List<ActiveResearch>>() ?? new List<ActiveResearch>();
-
-        //Save version 2 - Renamed to ActiveResearch
-        if (activeResearch.Count == 0)
+        try
         {
-            activeResearch = root["Research"]?["ActiveResearches"]?.ToObject<List<ActiveResearch>>() ?? new List<ActiveResearch>();
+            root = JObject.Parse(json);
         }
-
-        //Validate version
-        if (version != SaveGame.CURRENT_SAVE_VERSION || version == 0)
+        catch (JsonReaderException e)
         {
-            Debug.LogWarning("Save version mismatch. Creating new save file.");
-
-            await CreateSave(cindersToTransfer, embersToTransfer, CompletedResearch, activeResearch, hasReceivedLoginGift);
+            Debug.LogError($"Failed to parse save file: {e.Message}");
+            Debug.LogError("Creating new save.");
+            await SaveCorrupt(json);
+            await CreateNewSave();
             return;
         }
 
-        var temp = JsonConvert.DeserializeObject<SaveGame>(json);
+        int version = root.Value<int>("Version");
 
-        Current = temp;
+        if (version < 3)
+        {
+            Debug.LogError("Save file too old to migrate, creating new save");
+            await CreateNewSave();
+            return;
+        }
 
-        ValidateSave();
+        if (version < CurrentSaveVersion.CURRENT_SAVE_VERSION)
+        {
+            Current = Migrate(root, version);
+
+            ValidateSave();
+            await SaveAsync();
+        }
+        else
+        {
+            Current = JsonConvert.DeserializeObject<SaveGame>(json);
+            ValidateSave();
+        }
+
         await InvokeOnSaveLoaded();
     }
 
@@ -122,6 +115,16 @@ public class SaveService : GlobalSystem<SaveService>
         await Task.Run(() =>
         {
             File.WriteAllText(savePath, json);
+        });
+    }
+
+    private async Task SaveCorrupt(string json)
+    {
+        string corruptSavePath = savePath + ".corrupt" + "-" + DateTime.Now.ToString();
+
+        await Task.Run(() =>
+        {
+            File.WriteAllText(corruptSavePath, json);
         });
     }
 
@@ -154,25 +157,64 @@ public class SaveService : GlobalSystem<SaveService>
 
     private void ValidateSave()
     {
-        // Ensure the root save exists
         Current ??= new SaveGame();
 
-        // Talents
         Current.Talents ??= new PlayerTalentState();
         Current.Talents.Purchases ??= new Dictionary<string, UnitSaveData>();
         Current.Talents.CurrencySpent ??= new Dictionary<CurrencyTypes, int>();
 
-        // Research
         Current.Research ??= new PlayerResearchState();
         Current.Research.CompletedResearch ??= new Dictionary<string, int>();
         Current.Research.ActiveResearch ??= new List<ActiveResearch>();
 
-        // Currency
         Current.Currency ??= new CurrencyData();
+
+        Current.Loadouts ??= new PlayerLoadoutCollection();
+        Current.Flags ??= new PlayerFlagsState();
     }
+
     public static T DeepClone<T>(T obj)
     {
         var json = JsonConvert.SerializeObject(obj);
         return JsonConvert.DeserializeObject<T>(json);
+    }
+
+    private SaveGame Migrate(JObject root, int version)
+    {
+        return version switch
+        {
+            3 => Migrate3To4(root.ToObject<SaveGame3>()),
+            _ => throw new Exception($"No migration found for version {version}")
+        };
+    }
+
+    private SaveGame Migrate3To4(SaveGame3 oldSave)
+    {
+        Debug.Log("running Migrate3To4");
+        SaveGame newSave = new SaveGame
+        {
+            Version = CurrentSaveVersion.CURRENT_SAVE_VERSION,
+            Talents = oldSave.Talents,
+            Research = oldSave.Research,
+            Currency = oldSave.Currency,
+            Loadouts = oldSave.Loadouts
+        };
+
+        int cindersSpent = oldSave.Talents.CurrencySpent.TryGetValue(
+            CurrencyTypes.Cinders, out int cinders)
+            ? cinders
+            : 0;
+
+        int embersSpent = oldSave.Talents.CurrencySpent.TryGetValue(
+            CurrencyTypes.Embers, out int embers)
+            ? embers
+            : 0;
+
+        newSave.Currency.Cinders += cindersSpent;
+        newSave.Currency.Embers += embersSpent;
+
+        newSave.Flags.HasReceivedLoginGift = oldSave.HasReceivedLoginGift;
+
+        return newSave;
     }
 }
