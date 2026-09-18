@@ -66,10 +66,10 @@ public class SplashScreenController : MonoBehaviour
         UnitStatsManager.Instance.Initialize();
 
         //move this to a reward manager or service later
-        if (!SaveService.Instance.Current.HasReceivedLoginGift)
+        if (!SaveService.Instance.Current.Flags.HasReceivedLoginGift)
         {
             CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
-            SaveService.Instance.Current.HasReceivedLoginGift = true;
+            SaveService.Instance.Current.Flags.HasReceivedLoginGift = true;
             await SaveService.Instance.SaveAsync();
         }
 
