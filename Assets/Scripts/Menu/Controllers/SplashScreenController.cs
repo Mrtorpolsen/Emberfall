@@ -1,22 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine.UIElements;
 
-public class SplashScreenController : MonoBehaviour
+public class SplashScreenController
 {
-    [SerializeField] private VisualTreeAsset splashVTA;
-    [SerializeField] private UIDocument uIDocument;
+    private readonly VisualTreeAsset splashVTA;
 
     private VisualElement splashPanel;
+    private VisualElement splashContainer;
 
-    private async void Start()
+    public SplashScreenController(VisualTreeAsset splashVTA)
     {
-        var root = uIDocument.rootVisualElement;
-
+        this.splashVTA = splashVTA;
+    }
+    public void Initialize(VisualElement root)
+    {
         // Create a container for splash if not already
-        var splashContainer = root.Q("SplashContainer");
+        splashContainer = root.Q("SplashContainer");
         if (splashContainer == null)
         {
             splashContainer = new VisualElement { name = "SplashContainer" };
@@ -37,73 +35,17 @@ public class SplashScreenController : MonoBehaviour
         splashPanel.style.left = 0;
         splashPanel.style.right = 0;
         splashPanel.style.bottom = 0;
-
-        if (SaveService.Instance == null || IdentityService.Instance == null)
-        {
-            Debug.LogError("SaveService or IdentityService missing");
-            return;
-        }
-
-        if (IdentityService.Instance.Current == null)
-        {
-            Debug.LogError("Identity not authenticated before Splash");
-            return;
-        }
-
-        SaveService.Instance.InitializeForPlayer(IdentityService.Instance.Current.GetPlayerId());
-        await SaveService.Instance.Load();
-
-        // Load all needed data
-        var loadTasks = new List<Task>
-        {
-            UserProfile.Instance.GetUserScore(),
-            UtilityLoadAddressable.PreloadPlaceholder(),
-            UtilityLoadAddressable.PreloadIcons(),
-        };
-
-        await Task.WhenAll(loadTasks);
-
-        UnitStatsManager.Instance.Initialize();
-
-        //move this to a reward manager or service later
-        if (!SaveService.Instance.Current.Flags.HasReceivedLoginGift)
-        {
-            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
-            SaveService.Instance.Current.Flags.HasReceivedLoginGift = true;
-            await SaveService.Instance.SaveAsync();
-        }
-
-        InitializeTopBar();
-        //Remove when done testing
-        //await Task.Delay(3000);
-
-        splashContainer.Remove(splashPanel);
-
-        splashPanel.style.display = DisplayStyle.None;
-        splashContainer.style.display = DisplayStyle.None;
-
-        try
-        {
-            await UIScreenRouter.Instance.LoadScreen("MainMenu");
-        }
-        catch (Exception e)
-        {
-            Debug.LogException(e);
-        }
     }
 
-    private void InitializeTopBar()
+    public void Show()
     {
-        var topBar = FindFirstObjectByType<TopBarView>();
-        if (topBar == null)
-        {
-            Debug.LogError("TopBarView not found");
-            return;
-        }
+        splashPanel.style.display = DisplayStyle.Flex;
+        splashContainer.style.display = DisplayStyle.Flex;
+    }
 
-        topBar.Initialize(
-            UserProfile.Instance.userName,
-            CurrencyManager.Instance.Get(CurrencyTypes.Cinders)
-        );
+    public void Hide()
+    {
+        splashPanel.style.display = DisplayStyle.None;
+        splashContainer.style.display = DisplayStyle.None;
     }
 }
