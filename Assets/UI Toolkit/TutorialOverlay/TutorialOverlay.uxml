@@ -1,4 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/TutorialOverlay/TutorialOverlayStyle.uss?fileID=7433441132597879392&amp;guid=0fabb346c3f851849ad4de8a12ff59c1&amp;type=3#TutorialOverlayStyle"/>
-    <ui:VisualElement name="TutorialContainer" style="flex-grow: 1;"/>
+    <ui:VisualElement name="TutorialContainer" picking-mode="Ignore" style="flex-grow: 1;">
+        <ui:VisualElement name="HighlightBox" picking-mode="Ignore" class="highlightBox"/>
+    </ui:VisualElement>
 </ui:UXML>

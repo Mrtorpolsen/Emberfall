@@ -1,1 +1,17 @@
-VisualElement {}
+
+
+.highlightBox {
+    border-top-width: 7px;
+    border-right-width: 7px;
+    border-bottom-width: 7px;
+    border-left-width: 7px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-left-color: rgb(200, 204, 13);
+    border-right-color: rgb(200, 204, 13);
+    border-top-color: rgb(200, 204, 13);
+    border-bottom-color: rgb(200, 204, 13);
+    position: absolute;
+}
