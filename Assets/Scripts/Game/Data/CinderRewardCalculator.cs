@@ -2,8 +2,8 @@ public class CinderRewardCalculator
 {
     private static readonly int[] cindersPerMinute = new int[]
     {
-        20, 33, 49, 66, 84, 103, 123, 144, 165, 187,
-        210, 233, 256, 280, 305, 330, 355, 380, 406, 432
+        40, 66, 98, 132, 168, 206, 246, 288, 330, 374,
+        420, 466, 512, 560, 610, 660, 710, 760, 812, 864
     };
 
     public static int GetCinders(int minutes)
