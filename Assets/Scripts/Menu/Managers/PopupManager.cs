@@ -127,8 +127,8 @@ public class PopupManager : MonoBehaviour
 
     public void OpenPopup_ImgDescBtn(
         string imgAddress = null,
-        string title = null,
-        string desc = null,
+        string heading = null,
+        string description = null,
         PopupButtonDefinition buttonDefinition = null)
     {
         blocker.style.display = DisplayStyle.Flex;
@@ -147,24 +147,24 @@ public class PopupManager : MonoBehaviour
             img.style.display = DisplayStyle.None;
         }
 
-        if (!string.IsNullOrEmpty(title))
+        if (!string.IsNullOrEmpty(heading))
         {
-            heading.style.display = DisplayStyle.Flex;
-            heading.text = title;
+            this.heading.style.display = DisplayStyle.Flex;
+            this.heading.text = heading;
         }
         else
         {
-            heading.style.display = DisplayStyle.None;
+            this.heading.style.display = DisplayStyle.None;
         }
 
-        if (!string.IsNullOrEmpty(desc))
+        if (!string.IsNullOrEmpty(description))
         {
-            description.style.display = DisplayStyle.Flex;
-            description.text = desc;
+            this.description.style.display = DisplayStyle.Flex;
+            this.description.text = description;
         }
         else
         {
-            description.style.display = DisplayStyle.None;
+            this.description.style.display = DisplayStyle.None;
         }
 
         // Configure button

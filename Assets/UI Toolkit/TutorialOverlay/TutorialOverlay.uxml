@@ -1,6 +1,23 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/TutorialOverlay/TutorialOverlayStyle.uss?fileID=7433441132597879392&amp;guid=0fabb346c3f851849ad4de8a12ff59c1&amp;type=3#TutorialOverlayStyle"/>
-    <ui:VisualElement name="TutorialContainer" picking-mode="Ignore" style="flex-grow: 1;">
-        <ui:VisualElement name="HighlightBox" picking-mode="Ignore" class="highlightBox"/>
+    <Style src="project://database/Assets/UI%20Toolkit/Popup/PopupStyle.uss?fileID=7433441132597879392&amp;guid=3ae99aed850e6f04f9c4440bc89a8ae3&amp;type=3#PopupStyle"/>
+    <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle"/>
+    <ui:VisualElement name="TutorialContainer" picking-mode="Ignore" style="flex-grow: 1; align-items: center; justify-content: center;">
+        <ui:VisualElement name="TopBlocker" class="blocker"/>
+        <ui:VisualElement name="RightBlocker" class="blocker"/>
+        <ui:VisualElement name="BottomBlocker" class="blocker"/>
+        <ui:VisualElement name="LeftBlocker" class="blocker"/>
+        <ui:VisualElement name="HighlightBox" picking-mode="Ignore" class="highlightBox" style="display: flex;"/>
+        <ui:VisualElement name="TutorialPopupContainer" class="popupContainer" style="height: auto; max-height: 49%; background-image: resource(&quot;UI/Images/popup_box_opacity_95&quot;); -unity-background-image-tint-color: rgb(255, 255, 255); display: flex; align-self: auto; min-height: auto;">
+            <ui:VisualElement name="TutorialPopupContent" style="flex-grow: 1; width: 100%; height: 100%; align-items: center; visibility: visible; display: flex;">
+                <ui:VisualElement name="Img" class="imgTalent" style="background-image: url(&quot;project://database/Assets/Resources_moved/UI/Images/Talents/place_holder_icon.png?fileID=2800000&amp;guid=211fdcb07f12a264bbbe763df1bc39e5&amp;type=3#place_holder_icon&quot;); max-height: 450px; max-width: 450px; display: none;"/>
+                <ui:Label text="This is a tutorial" name="Label_Heading" class="text" style="font-size: 50px; margin-top: 10px; margin-bottom: 0; flex-grow: 1; flex-wrap: wrap; white-space: normal; -unity-text-align: upper-center;"/>
+                <ui:Label text="Yes yes, very tutorial, much much munch of tutorial information.Yes yes, very tutorial, much much munch of tutorial information.Yes yes, very tutorial, much much munch of tutorial information.Yes yes, very tutorial, much much munch of tutorial information.Yes yes, very tutorial, much much munch of tutorial information.Yes yes, very tutorial, much much munch of tutorial information.Yes yes, very tutorial, much much munch of tutorial information.Yes yes, very tutorial, much much munch of tutorial information." name="Label_Description" class="text" style="font-size: 35px; white-space: normal; -unity-text-align: upper-center; flex-grow: 0; flex-shrink: 1; width: 100%; margin-top: 50px; margin-bottom: 50px; text-overflow: ellipsis; overflow: hidden; max-height: 134%;"/>
+                <ui:VisualElement name="BtnContainer" style="flex-grow: 1; width: 100%; height: auto; align-items: auto; align-content: auto; justify-content: flex-end; max-height: none; max-width: 500px; display: flex; flex-shrink: 0; margin-top: 0;">
+                    <ui:Label text="0/5" name="Label_Btn" class="text" style="font-size: 40px; align-self: center; margin-top: 0; display: none;"/>
+                    <ui:Button text="Next" name="Btn_CTA" class="btnBackground2x1 text btnCTA"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -10,7 +10,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     [SerializeField] private Collider2D unitCollider;
     [SerializeField] private Rigidbody2D unitRigidbody;
 
-    [SerializeField] private float showRangeGizmo = 0f;
+    [SerializeField] private float showRangeGizmo1 = 0f;
+    [SerializeField] private float showRangeGizmo2 = 0f;
 
     protected UnitStatsDefinition StatsDef => statsDef;
 
@@ -410,7 +411,10 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, showRangeGizmo);
+        Gizmos.DrawWireSphere(transform.position, showRangeGizmo1);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, showRangeGizmo2);
     }
 
     private void OnDestroy()

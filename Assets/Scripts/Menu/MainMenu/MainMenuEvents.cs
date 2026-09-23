@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using static UnityEditor.Recorder.OutputPath;
 
 public class MainMenuEvents : IUIScreenEvents
 {
     [SerializeField] private UIDocument uIDocument;
+    private VisualElement root;
 
     private PopupButtonDefinition easyPlayBtn = new PopupButtonDefinition
     {
@@ -53,6 +55,7 @@ public class MainMenuEvents : IUIScreenEvents
 
     public void BindEvents(VisualElement root, IUIScreenController controller = null, IUIScreenView view = null)
     {
+        this.root = root;
         UtilityUIBinding.BindEvents(root, this, bindings);
     }
 
@@ -73,5 +76,23 @@ public class MainMenuEvents : IUIScreenEvents
     private void Btn_Offer3Clicked()
     {
         Debug.Log("Btn_Offer3 clicked...");
+        var element = UtilityUIBinding.QRequired<VisualElement>(root, "Btn_Play");
+        var element1 = UtilityUIBinding.QRequired<VisualElement>(root, "Img_WaveAttackContainer");
+        var element2 = UtilityUIBinding.QRequired<VisualElement>(root, "Btn_Offer5");
+        var element3 = UtilityUIBinding.QRequired<VisualElement>(root, "EasyHighScoreContainer");
+
+        var popupData3 = new TutorialPopupData { description = "this is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yo", heading = "Testus maximus", 
+            onClick = () => { TutorialController.Instance.Hide(); } };
+        var popupData2 = new TutorialPopupData { description = "this is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yo", heading = "Testus maximus", 
+            onClick = () => { TutorialController.Instance.ExecuteTutorialStep(popupData3, element3); } };
+        var popupData1 = new TutorialPopupData { description = "this is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yo", heading = "Testus maximus", 
+            onClick = () => { TutorialController.Instance.ExecuteTutorialStep(popupData2, element2); } };
+        var popupData0 = new TutorialPopupData { description = "this is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yo", heading = "Testus maximus", 
+            onClick = () => { TutorialController.Instance.ExecuteTutorialStep(popupData1, element1); } };
+        var popupData = new TutorialPopupData { description = "this is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yothis is a test yo", heading = "Testus maximus", 
+            onClick = () => { TutorialController.Instance.ExecuteTutorialStep(popupData1, element); } };
+
+        TutorialController.Instance.ExecuteTutorialStep(popupData, null, true);
+
     }
 }
