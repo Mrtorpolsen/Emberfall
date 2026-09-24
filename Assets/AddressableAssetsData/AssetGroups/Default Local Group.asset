@@ -39,6 +39,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13c3b2c01bcb49349a8f375f2da9425e
+    m_Address: UI/TutorialOverlay
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 153d9e81fbc1d7c4789a38bf8d2340ff
     m_Address: melee_attackspeed_4
     m_ReadOnly: 0

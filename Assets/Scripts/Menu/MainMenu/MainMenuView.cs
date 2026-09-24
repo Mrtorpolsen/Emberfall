@@ -27,6 +27,8 @@ public class MainMenuView : IUIScreenView
         labelHard.text = TimeFormatter.FormatTimeMiliseconds((float)userHighScores[DifficultyLevel.Hard]);
         labelNightmare.text = TimeFormatter.FormatTimeMiliseconds((float)userHighScores[DifficultyLevel.Nightmare]);
 
+        TutorialFlow.Instance.MainMenuReady();
+
         return Task.CompletedTask;
     }
 }

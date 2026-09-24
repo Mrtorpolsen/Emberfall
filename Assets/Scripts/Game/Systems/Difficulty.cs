@@ -30,6 +30,7 @@ public static class Difficulties
     {
         return level switch
         {
+            DifficultyLevel.Tutorial => Tutorial,
             DifficultyLevel.Easy => Easy,
             DifficultyLevel.Medium => Medium,
             DifficultyLevel.Hard => Hard,
@@ -37,6 +38,14 @@ public static class Difficulties
             _ => Medium
         };
     }
+
+    public static readonly Difficulty Tutorial = new(
+        DifficultyLevel.Tutorial,
+        100,
+        1.02f,
+        1,
+        0f
+    );
 
     public static readonly Difficulty Easy = new(
         DifficultyLevel.Easy,

@@ -20,7 +20,7 @@ public class Bootstrapper : MonoBehaviour
 
         splashScreenController.Show();
 
-        TutorialController.Instance.Initialize(root);
+        await TutorialFlow.Instance.Initialize(root);
 
         if (SaveService.Instance == null || IdentityService.Instance == null)
         {

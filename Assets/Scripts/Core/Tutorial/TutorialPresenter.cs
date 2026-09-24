@@ -1,20 +1,15 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
+using static TutorialFlow;
 
-public class TutorialPopupData
+public class TutorialPresenter
 {
-    public string imgAddress = null;
-    public string heading = null;
-    public string description = null;
-    public Action onClick = null;
-}
+    private VisualTreeAsset tutorialOverlayVTA;
 
-public class TutorialController : MonoBehaviour
-{
-    public static TutorialController Instance { get; private set; }
-
-    [SerializeField] private VisualTreeAsset tutorialOverlayVTA;
+    private VisualElement root;
 
     //tutorialOverlayPanel is the templateContainer
     private VisualElement tutorialOverlayPanel;
@@ -53,21 +48,15 @@ public class TutorialController : MonoBehaviour
     private const string BTN_CONTAINER = "BtnContainer";
     private const string BTN_CTA = "Btn_CTA";
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+    private const string TUTORIAL_OVERLAY_ADDRESSABLE = "UI/TutorialOverlay";
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    public void Initialize(VisualElement root)
+    public async Task Initialize(VisualElement root)
     {
         ResetOverlay();
+
+        this.root = root;
+
+        tutorialOverlayVTA = await Addressables.LoadAssetAsync<VisualTreeAsset>(TUTORIAL_OVERLAY_ADDRESSABLE).Task;
 
         tutorialOverlayContainer = root.Q("TutorialOverlayContainer");
         if (tutorialOverlayContainer == null)
@@ -118,16 +107,18 @@ public class TutorialController : MonoBehaviour
         Hide();
     }
 
-    public void ExecuteTutorialStep(TutorialPopupData popupData, VisualElement target = null, bool isFullPickingMode = true)
+    public void ExecuteTutorialStep(TutorialPopupData popupData, TutorialStep tutorialStep = null)
     {
-        Show();
-        ShowPopup(popupData);
+        VisualElement targetVE = tutorialStep.target != null ? GetVisualElement(tutorialStep.target) : null;
 
-        HighlightElement(target);
+        Show();
+        ShowPopup(popupData, tutorialStep);
+
+        HighlightElement(targetVE);
 
         tutorialPopupContainer.schedule.Execute(() =>
         {
-            PositionPopup(target);
+            PositionPopup(targetVE);
         });
     }
 
@@ -135,9 +126,12 @@ public class TutorialController : MonoBehaviour
     {
         if (targetElement == null)
         {
+            tutorialContainer.pickingMode = PickingMode.Position;
             highlightBox.style.display = DisplayStyle.None;
             return;
         }
+
+        tutorialContainer.pickingMode = PickingMode.Ignore;
 
         Rect targetBounds = targetElement.worldBound;
 
@@ -234,7 +228,7 @@ public class TutorialController : MonoBehaviour
         tutorialPopupContainer.style.top = localPosition.y;
     }
 
-    public void ShowPopup(TutorialPopupData popupData)
+    public void ShowPopup(TutorialPopupData popupData, TutorialStep tutorialStep)
     {
         if (!string.IsNullOrEmpty(popupData.imgAddress))
         {
@@ -266,14 +260,14 @@ public class TutorialController : MonoBehaviour
             description.style.display = DisplayStyle.None;
         }
 
-        if (popupData.onClick != null)
+        if (tutorialStep.onComplete != null)
         {
             if (oldActionRef != null)
             {
                 cta.clicked -= oldActionRef;
             }
 
-            oldActionRef = popupData.onClick;
+            oldActionRef = tutorialStep.onComplete;
             cta.clicked += oldActionRef;
 
             btnContainer.style.display = DisplayStyle.Flex;
@@ -292,10 +286,9 @@ public class TutorialController : MonoBehaviour
         tutorialPopupContainer.style.display = DisplayStyle.Flex;
     }
 
-    public void StopHighlightElement()
+    private VisualElement GetVisualElement(string target)
     {
-        highlightBox.style.display = DisplayStyle.None;
-        Hide();
+        return UtilityUIBinding.QRequired<VisualElement>(root, target);
     }
 
     public void Show()

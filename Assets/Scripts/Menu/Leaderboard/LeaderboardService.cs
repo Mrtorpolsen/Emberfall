@@ -34,10 +34,13 @@ public class LeaderboardService : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    //Think about adding score localy and then try to add it on restart,
+    //Think about saving score localy and then try to add it on restart,
     //incase of a service being down or no internet
     public async void AddScore(float timeSurvived, DifficultyLevel difficultyLevel)
     {
+        if (difficultyLevel == DifficultyLevel.Tutorial)
+            return;
+
         if (!IsLoggedIn())
         {
             Debug.Log("Not logged in");
