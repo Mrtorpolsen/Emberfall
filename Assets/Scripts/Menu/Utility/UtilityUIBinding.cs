@@ -10,6 +10,9 @@ public static class UtilityUIBinding
     private static readonly Dictionary<object, Dictionary<Button, Action>> instanceActions
         = new Dictionary<object, Dictionary<Button, Action>>();
 
+    private static readonly Dictionary<Button, Action> buttonActions
+        = new Dictionary<Button, Action>();
+
     public static void BindEvents(VisualElement root, object target, Dictionary<string, string> bindings)
     {
         if (!instanceActions.ContainsKey(target))
@@ -46,6 +49,8 @@ public static class UtilityUIBinding
 
             // Store for unregistration
             actions[button] = action;
+
+            buttonActions[button] = action;
 
             //Debug.Log($"[UIBinding] Bound {button.name} → {methodName}");
         }
@@ -116,6 +121,15 @@ public static class UtilityUIBinding
             );
 
         return element;
+    }
+
+    public static void UnbindButtonClick(Button button)
+    {
+        if (!buttonActions.TryGetValue(button, out var action))
+            return;
+
+        button.clicked -= action;
+        buttonActions.Remove(button);
     }
 
     public static VisualElement InstantiateRoot(VisualTreeAsset asset)

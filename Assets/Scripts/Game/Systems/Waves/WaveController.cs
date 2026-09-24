@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WaveController : MonoBehaviour
@@ -56,10 +57,19 @@ public class WaveController : MonoBehaviour
 
         //Get settings from difficulty
         currentDifficulty = Difficulties.Get(GameSettingsService.Instance.Difficulty);
+
+        var activeGenerals = allGenerals;
+
+        if (currentDifficulty.Level == DifficultyLevel.Tutorial)
+        {
+            activeGenerals = allGenerals.Where((general) => general.id == "sirtutorthethird").ToList();
+            totalWaves = activeGenerals[0].spawnLimit;
+        }
+
         Debug.Log($"Difficulty Settings: {currentDifficulty.Level}");
         var waveThreatCalculator = new WaveThreatCalculator(currentDifficulty);
 
-        waveRules = new WaveRules(allGenerals);
+        waveRules = new WaveRules(activeGenerals);
         waveGenerator = new WaveGenerator(SpawnDatabase.Instance, waveThreatCalculator);
     }
 

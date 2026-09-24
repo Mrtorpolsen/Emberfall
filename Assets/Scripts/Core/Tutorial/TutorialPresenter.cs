@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
-using static TutorialFlow;
 
 public class TutorialPresenter
 {
@@ -11,7 +10,6 @@ public class TutorialPresenter
 
     private VisualElement root;
 
-    //tutorialOverlayPanel is the templateContainer
     private VisualElement tutorialOverlayPanel;
     private VisualElement tutorialOverlayContainer;
     private VisualElement tutorialContainer;
@@ -32,6 +30,7 @@ public class TutorialPresenter
 
     private VisualElement btnContainer;
     private Button cta;
+
     private Action oldActionRef = null;
 
     private const string HIGHLIGHT_BOX = "HighlightBox";
@@ -56,12 +55,20 @@ public class TutorialPresenter
 
         this.root = root;
 
-        tutorialOverlayVTA = await Addressables.LoadAssetAsync<VisualTreeAsset>(TUTORIAL_OVERLAY_ADDRESSABLE).Task;
+        tutorialOverlayVTA =
+            await Addressables.LoadAssetAsync<VisualTreeAsset>(
+                TUTORIAL_OVERLAY_ADDRESSABLE
+            ).Task;
 
         tutorialOverlayContainer = root.Q("TutorialOverlayContainer");
+
         if (tutorialOverlayContainer == null)
         {
-            tutorialOverlayContainer = new VisualElement { name = "TutorialOverlayContainer" };
+            tutorialOverlayContainer = new VisualElement
+            {
+                name = "TutorialOverlayContainer"
+            };
+
             root.Add(tutorialOverlayContainer);
         }
 
@@ -82,22 +89,70 @@ public class TutorialPresenter
         tutorialOverlayPanel.style.bottom = 0;
         tutorialOverlayPanel.pickingMode = PickingMode.Ignore;
 
+        highlightBox = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            HIGHLIGHT_BOX
+        );
 
-        highlightBox = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, HIGHLIGHT_BOX);
-        tutorialPopupContainer = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, TUTORIAL_POPUP_CONTAINER);
-        tutorialPopupContent = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, TUTORIAL_POPUP_CONTENT);
-        img = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, IMG);
-        heading = UtilityUIBinding.QRequired<Label>(tutorialOverlayPanel, LABEL_HEADING);
-        description = UtilityUIBinding.QRequired<Label>(tutorialOverlayPanel, LABEL_DESCRIPTION);
-        btnContainer = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, BTN_CONTAINER);
-        cta = UtilityUIBinding.QRequired<Button>(tutorialOverlayPanel, BTN_CTA);
+        tutorialPopupContainer = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            TUTORIAL_POPUP_CONTAINER
+        );
 
-        tutorialContainer = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, TUTORIAL_CONTAINER);
+        tutorialPopupContent = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            TUTORIAL_POPUP_CONTENT
+        );
 
-        topBlocker = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, TOP_BLOCKER);
-        rightBlocker = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, RIGHT_BLOCKER);
-        bottomBlocker = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, BOTTOM_BLOCKER);
-        leftBlocker = UtilityUIBinding.QRequired<VisualElement>(tutorialOverlayPanel, LEFT_BLOCKER);
+        img = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            IMG
+        );
+
+        heading = UtilityUIBinding.QRequired<Label>(
+            tutorialOverlayPanel,
+            LABEL_HEADING
+        );
+
+        description = UtilityUIBinding.QRequired<Label>(
+            tutorialOverlayPanel,
+            LABEL_DESCRIPTION
+        );
+
+        btnContainer = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            BTN_CONTAINER
+        );
+
+        cta = UtilityUIBinding.QRequired<Button>(
+            tutorialOverlayPanel,
+            BTN_CTA
+        );
+
+        tutorialContainer = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            TUTORIAL_CONTAINER
+        );
+
+        topBlocker = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            TOP_BLOCKER
+        );
+
+        rightBlocker = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            RIGHT_BLOCKER
+        );
+
+        bottomBlocker = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            BOTTOM_BLOCKER
+        );
+
+        leftBlocker = UtilityUIBinding.QRequired<VisualElement>(
+            tutorialOverlayPanel,
+            LEFT_BLOCKER
+        );
 
         tutorialPopupContainer.style.display = DisplayStyle.None;
         highlightBox.style.display = DisplayStyle.None;
@@ -107,19 +162,83 @@ public class TutorialPresenter
         Hide();
     }
 
-    public void ExecuteTutorialStep(TutorialPopupData popupData, TutorialStep tutorialStep = null)
+    public void ExecuteTutorialStep(
+        TutorialPopupData popupData,
+        TutorialStep tutorialStep)
     {
-        VisualElement targetVE = tutorialStep.target != null ? GetVisualElement(tutorialStep.target) : null;
+        VisualElement target = string.IsNullOrEmpty(tutorialStep.target)
+            ? null
+            : GetVisualElement(tutorialStep.target);
 
         Show();
-        ShowPopup(popupData, tutorialStep);
 
-        HighlightElement(targetVE);
+        HighlightElement(target);
+
+        ShowPopup(popupData);
+
+        if (target != null)
+        {
+            if (!popupData.hasButton)
+            {
+                BindTargetClick(target, tutorialStep);
+            }
+            else
+            {
+                BindPopupClick(tutorialStep);
+            }
+        }
+        else
+        {
+            BindPopupClick(tutorialStep);
+        }
 
         tutorialPopupContainer.schedule.Execute(() =>
         {
-            PositionPopup(targetVE);
+            PositionPopup(target);
         });
+    }
+
+    private void BindPopupClick(TutorialStep tutorialStep)
+    {
+        if (tutorialStep.onComplete == null)
+            return;
+
+        if (oldActionRef != null)
+        {
+            cta.clicked -= oldActionRef;
+        }
+
+        oldActionRef = tutorialStep.onComplete;
+        cta.clicked += oldActionRef;
+    }
+
+    private void BindTargetClick(
+        VisualElement target,
+        TutorialStep tutorialStep)
+    {
+        if (target is Button button && tutorialStep.overrideOnClick)
+        {
+            UtilityUIBinding.UnbindButtonClick(button);
+        }
+
+        EventCallback<ClickEvent> callback = null;
+
+        callback = evt =>
+        {
+            target.UnregisterCallback(callback);
+            tutorialStep.onComplete?.Invoke();
+        };
+
+        target.RegisterCallback(callback);
+    }
+
+    private void RemovePopupClick()
+    {
+        if (oldActionRef == null)
+            return;
+
+        cta.clicked -= oldActionRef;
+        oldActionRef = null;
     }
 
     public void HighlightElement(VisualElement targetElement = null)
@@ -164,7 +283,6 @@ public class TutorialPresenter
         rightBlocker.style.width = containerWidth - bottomRight.x;
         rightBlocker.style.height = targetHeight;
 
-
         highlightBox.style.left = topLeft.x - 5;
         highlightBox.style.top = topLeft.y - 5;
         highlightBox.style.width = targetWidth + 10;
@@ -193,13 +311,10 @@ public class TutorialPresenter
         float popupHeight = tutorialPopupContainer.resolvedStyle.height;
         float y;
 
-
         Rect targetBounds = target.worldBound;
-
 
         float spaceAbove = targetBounds.yMin - overlayBounds.yMin;
         float spaceBelow = overlayBounds.yMax - targetBounds.yMax;
-
 
         if (spaceBelow >= spaceAbove)
         {
@@ -228,12 +343,16 @@ public class TutorialPresenter
         tutorialPopupContainer.style.top = localPosition.y;
     }
 
-    public void ShowPopup(TutorialPopupData popupData, TutorialStep tutorialStep)
+    public void ShowPopup(
+        TutorialPopupData popupData)
     {
         if (!string.IsNullOrEmpty(popupData.imgAddress))
         {
             img.style.display = DisplayStyle.Flex;
-            UtilityLoadAddressable.LoadAddressableIcon(popupData.imgAddress, img);
+            UtilityLoadAddressable.LoadAddressableIcon(
+                popupData.imgAddress,
+                img
+            );
         }
         else
         {
@@ -260,35 +379,20 @@ public class TutorialPresenter
             description.style.display = DisplayStyle.None;
         }
 
-        if (tutorialStep.onComplete != null)
-        {
-            if (oldActionRef != null)
-            {
-                cta.clicked -= oldActionRef;
-            }
-
-            oldActionRef = tutorialStep.onComplete;
-            cta.clicked += oldActionRef;
-
-            btnContainer.style.display = DisplayStyle.Flex;
-        }
-        else
-        {
-            if (oldActionRef != null)
-            {
-                cta.clicked -= oldActionRef;
-                oldActionRef = null;
-            }
-
-            btnContainer.style.display = DisplayStyle.None;
-        }
+        btnContainer.style.display =
+            popupData.hasButton && popupData.hasButton
+                ? DisplayStyle.Flex
+                : DisplayStyle.None;
 
         tutorialPopupContainer.style.display = DisplayStyle.Flex;
     }
 
-    private VisualElement GetVisualElement(string target)
+    public VisualElement GetVisualElement(string target)
     {
-        return UtilityUIBinding.QRequired<VisualElement>(root, target);
+        return UtilityUIBinding.QRequired<VisualElement>(
+            root,
+            target
+        );
     }
 
     public void Show()
@@ -305,11 +409,7 @@ public class TutorialPresenter
 
     public void ResetOverlay()
     {
-        if (oldActionRef != null && cta != null)
-        {
-            cta.clicked -= oldActionRef;
-            oldActionRef = null;
-        }
+        RemovePopupClick();
 
         if (tutorialOverlayContainer != null)
         {

@@ -5,4 +5,5 @@ public class TutorialPopupData
     public string imgAddress = null;
     public string heading = null;
     public string description = null;
+    public bool hasButton = false;
 }

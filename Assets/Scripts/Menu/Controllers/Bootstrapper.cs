@@ -20,8 +20,6 @@ public class Bootstrapper : MonoBehaviour
 
         splashScreenController.Show();
 
-        await TutorialFlow.Instance.Initialize(root);
-
         if (SaveService.Instance == null || IdentityService.Instance == null)
         {
             Debug.LogError("SaveService or IdentityService missing");
@@ -49,18 +47,11 @@ public class Bootstrapper : MonoBehaviour
 
         UnitStatsManager.Instance.Initialize();
 
-        //move this to a reward manager or service later
-        if (!SaveService.Instance.Current.Flags.HasReceivedLoginGift)
-        {
-            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
-            SaveService.Instance.Current.Flags.HasReceivedLoginGift = true;
-            await SaveService.Instance.SaveAsync();
-        }
-
         InitializeTopBar();
         //Remove when done testing
         //await Task.Delay(3000);
 
+        await TutorialFlow.Instance.Initialize(root);
 
         splashScreenController.Hide();
 

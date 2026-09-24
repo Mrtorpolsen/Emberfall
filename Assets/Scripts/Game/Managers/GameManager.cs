@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     private void HandleUITransition()
     {
         gameUICanvas.SetActive(false);
-        UIManager.Instance.Initialize();
+        UIManager.Instance.SetGameOver();
     }
 
     private void StopGameplaySystems()
@@ -137,6 +137,24 @@ public class GameManager : MonoBehaviour
         HandleUITransition();
     }
 
+    public void SetTutorialOver()
+    {
+        gameUICanvas.SetActive(false);
+        UIManager.Instance.SetTutorialOver();
+        EndOfTutorial();
+    }
+
+    public void EndOfTutorial()
+    {
+        //move this to a reward manager or service later
+        if (!SaveService.Instance.Current.Flags.HasReceivedLoginGift)
+        {
+            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
+            SaveService.Instance.Current.Flags.HasReceivedLoginGift = true;
+            SaveService.Instance.Save();
+        }
+        //Emit tutorial over
+    }
 
     public void StartGame()
     {

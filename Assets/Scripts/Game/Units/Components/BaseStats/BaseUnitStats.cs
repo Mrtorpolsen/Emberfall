@@ -417,7 +417,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         Gizmos.DrawWireSphere(transform.position, showRangeGizmo2);
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         if (HealthbarManager.Instance != null)
         {
