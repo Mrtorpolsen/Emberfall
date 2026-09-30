@@ -76,6 +76,11 @@ public class LoadoutView : IUIScreenView
         ClearContainer(towerRowContainer);
         ClearContainer(utilityRowContainer);
 
+        //setting for tutorial
+        int utilityIndex = 0;
+        int towerIndex = 0;
+        int unitIndex = 0;
+
         foreach (var loadout in loadouts)
         {
             var visualNode = new LoadoutSlotElement(loadoutSelectNode);
@@ -84,14 +89,20 @@ public class LoadoutView : IUIScreenView
             if (loadout.SlotType == DefinitionCategory.Utility)
             {
                 utilityRowContainer.Add(visualNode.Root);
+                visualNode.Root.name = "LoadoutSlot" + DefinitionCategory.Utility.ToString() + utilityIndex;
+                utilityIndex++;
             }
             else if (loadout.SlotType == DefinitionCategory.Tower)
             {
                 towerRowContainer.Add(visualNode.Root);
+                visualNode.Root.name = "LoadoutSlot" + DefinitionCategory.Tower.ToString() + towerIndex;
+                towerIndex++;
             }
             else if (loadout.SlotType == DefinitionCategory.Unit)
             {
                 unitRowContainer.Add(visualNode.Root);
+                visualNode.Root.name = "LoadoutSlot" + DefinitionCategory.Unit.ToString() + unitIndex;
+                unitIndex++;
             }
         }
     }

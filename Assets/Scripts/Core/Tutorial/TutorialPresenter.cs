@@ -33,6 +33,12 @@ public class TutorialPresenter
 
     private Action oldActionRef = null;
 
+    private Button boundButton;
+    private Action boundButtonAction;
+
+    private VisualElement boundVisualElement;
+    private EventCallback<ClickEvent> boundVisualElementAction;
+
     private const string HIGHLIGHT_BOX = "HighlightBox";
     private const string TOP_BLOCKER = "TopBlocker";
     private const string RIGHT_BLOCKER = "RightBlocker";
@@ -158,6 +164,7 @@ public class TutorialPresenter
         highlightBox.style.display = DisplayStyle.None;
 
         tutorialOverlayContainer.style.display = DisplayStyle.None;
+        tutorialOverlayContainer.BringToFront();
 
         Hide();
     }
@@ -171,8 +178,6 @@ public class TutorialPresenter
             : GetVisualElement(tutorialStep.target);
 
         Show();
-
-        HighlightElement(target);
 
         ShowPopup(popupData);
 
@@ -192,10 +197,12 @@ public class TutorialPresenter
             BindPopupClick(tutorialStep);
         }
 
+        //Should look into UI telling its ready instead StartingIn
         tutorialPopupContainer.schedule.Execute(() =>
         {
+            HighlightElement(target);
             PositionPopup(target);
-        });
+        }).StartingIn(2);
     }
 
     private void BindPopupClick(TutorialStep tutorialStep)
@@ -216,20 +223,58 @@ public class TutorialPresenter
         VisualElement target,
         TutorialStep tutorialStep)
     {
-        if (target is Button button && tutorialStep.overrideOnClick)
+        RemoveTargetClick();
+
+        if (target is Button button)
         {
-            UtilityUIBinding.UnbindButtonClick(button);
+            if (tutorialStep.overrideOnClick)
+            {
+                UtilityUIBinding.UnbindButtonClick(button);
+            }
+
+            boundButton = button;
+            boundButtonAction = tutorialStep.onComplete;
+
+            button.clicked += boundButtonAction;
+        }
+        else
+        {
+            boundVisualElement = target;
+
+            boundVisualElementAction = _ =>
+            {
+                boundVisualElement.UnregisterCallback(
+                    boundVisualElementAction
+                );
+                tutorialStep.onComplete?.Invoke();
+            };
+
+            boundVisualElement.RegisterCallback(
+                boundVisualElementAction,
+                TrickleDown.TrickleDown
+            );
+        }
+    }
+
+    private void RemoveTargetClick()
+    {
+        if (boundButton != null && boundButtonAction != null)
+        {
+            boundButton.clicked -= boundButtonAction;
         }
 
-        EventCallback<ClickEvent> callback = null;
-
-        callback = evt =>
+        if (boundVisualElement != null && boundVisualElementAction != null)
         {
-            target.UnregisterCallback(callback);
-            tutorialStep.onComplete?.Invoke();
-        };
+            boundVisualElement.UnregisterCallback(
+                boundVisualElementAction
+            );
+        }
 
-        target.RegisterCallback(callback);
+        boundButton = null;
+        boundButtonAction = null;
+
+        boundVisualElement = null;
+        boundVisualElementAction = null;
     }
 
     private void RemovePopupClick()
@@ -380,7 +425,7 @@ public class TutorialPresenter
         }
 
         btnContainer.style.display =
-            popupData.hasButton && popupData.hasButton
+            popupData.hasButton
                 ? DisplayStyle.Flex
                 : DisplayStyle.None;
 

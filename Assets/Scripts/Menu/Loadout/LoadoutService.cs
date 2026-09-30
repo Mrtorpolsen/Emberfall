@@ -176,9 +176,9 @@ public class LoadoutService : MonoBehaviour
         {
             UnitLoadout = new SpawnDefinition[]
             {
+                null,
                 SpawnDatabase.Instance.GetSpawn("spawn_fighter"),
                 SpawnDatabase.Instance.GetSpawn("spawn_ranger"),
-                null,
                 null
             },
             TowerLoadout = new SpawnDefinition[]
@@ -189,10 +189,18 @@ public class LoadoutService : MonoBehaviour
             },
             AbilityLoadout = new AbilityDefinition[]
             {
+                null,
+                null
             }
         };
 
         return tutorialLoadout;
+    }
+
+    public async void SetTutorialLoadout()
+    {
+        CurrentLoadout = GetTutorialLoadout();
+        await SaveLoadout(CurrentLoadout);
     }
 
     public async Task SaveLoadout(ActiveLoadout activeLoadout)

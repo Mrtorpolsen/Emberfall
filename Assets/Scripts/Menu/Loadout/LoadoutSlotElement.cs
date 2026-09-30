@@ -61,6 +61,6 @@ public class LoadoutSlotElement : IUnbindable
 
     public void Unbind()
     {
-        Debug.Log("Unbinding LoadoutSlotElement");
+        //Debug.Log("Unbinding LoadoutSlotElement");
     }
 }

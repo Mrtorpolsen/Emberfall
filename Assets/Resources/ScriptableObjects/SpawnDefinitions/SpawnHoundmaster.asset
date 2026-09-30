@@ -21,7 +21,7 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   id: spawn_houndmaster
   unlockId: unlock_unit_houndmaster
-  unlockedByDefault: 1
+  unlockedByDefault: 0
   slotType: 0
   cooldown: 0
   unitPrefab: {fileID: 3501163535796704365, guid: 438798abf79901c46a5dd416aa23eaf1, type: 3}

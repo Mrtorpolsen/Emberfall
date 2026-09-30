@@ -21,7 +21,7 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   id: spawn_guardian
   unlockId: unlock_unit_guardian
-  unlockedByDefault: 1
+  unlockedByDefault: 0
   slotType: 0
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: f08e813d68e87fb4dab4d49f6770fdff, type: 3}

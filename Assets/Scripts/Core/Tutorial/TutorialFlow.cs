@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -31,12 +32,12 @@ public class TutorialFlow : MonoBehaviour
 
     public async Task Initialize(VisualElement root)
     {
+        //Inject the VTA
+        tutorialPresenter = new TutorialPresenter();
+        await tutorialPresenter.Initialize(root);
+
         if (hasInitialized)
             return;
-
-        tutorialPresenter = new TutorialPresenter();
-
-        await tutorialPresenter.Initialize(root);
 
         steps = new TutorialStep[]
         {
@@ -113,20 +114,215 @@ public class TutorialFlow : MonoBehaviour
                     currentStep++;
                     PlayStep(currentStep);
                 },
-                overrideOnClick = true
             },
             new TutorialStep
             {
-                target = "",
                 popup = new TutorialPopupData
                 {
                     heading = "Units",
-                    description = "",
+                    description = "In here are the talents of all your unlocked units. As you progress in game and talents, you will unlock more. They will automatically appear in here.",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "Btn_Upg",
+                popup = new TutorialPopupData
+                {
+                    heading = "Upgrade a Unit",
+                    description = "Now lets upgrade a unit to make it stronger! Press here to access the Fighters talents.",
                     hasButton = false
                 },
-                onComplete = () => {},
-                overrideOnClick = true
-            }
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                popup = new TutorialPopupData
+                {
+                    heading = "Talents",
+                    description = "In here you see all the fighter specific talents. In here you will be working your way from the top down, gradually unlocking stronger and more expensive talents. Some units even unlock new ones near the bottom!",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "TalentNodeContainer",
+                popup = new TutorialPopupData
+                {
+                    heading = "Purchasing a talents",
+                    description = "Now click the T1 talent of the fighter, and lets get to upgrading!",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                popup = new TutorialPopupData
+                {
+                    heading = "Talent details",
+                    description = "In here you see all there is to know about the talent. What it's effect is, whats required to unlock it, and how much it costs (this can also be seen in the talent overview). You can look at the later!",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "Btn_CTA",
+                popup = new TutorialPopupData
+                {
+                    heading = "Buy the talent",
+                    description = "Click here to buy the talent",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    PopupManager.Instance.ClosePopup();
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "TalentNodeContainer",
+                popup = new TutorialPopupData
+                {
+                    heading = "Keeping track",
+                    description = "You can keep track of what you have purchased and how much they each cost out here.",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "Btn_Armory",
+                popup = new TutorialPopupData
+                {
+                    heading = "Back to the Armory",
+                    description = "Now that you have bought a talent, lets head on back to the forge and check out the loadout.",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "Btn_LoadoutNav",
+                popup = new TutorialPopupData
+                {
+                    heading = "The Loadout Menu",
+                    description = "The loadout menu is where you select and experiment with the units, abilities and towers that you bring into battle! In there you can also see the base stats and the stats with your upgrades applied, of all you have unlocked.",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "SelectedLoutoutContainer",
+                popup = new TutorialPopupData
+                {
+                    heading = "Your selected loadout",
+                    description = "Here is your current loadout, which is what you will bring into battle",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "TabMenu",
+                popup = new TutorialPopupData
+                {
+                    heading = "Different Categories",
+                    description = "There are three different categories, each having a limited number you can bring into battle. From the top, Abilities, Tower and last Units.",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "unity-content-viewport",
+                popup = new TutorialPopupData
+                {
+                    heading = "The available",
+                    description = "Here is what you have currrently unlocked and can bring. More will appear as you unlock them",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "LoadoutSlotUnit0",
+                popup = new TutorialPopupData
+                {
+                    heading = "Switching Units",
+                    description = "Click here on the empty slot to enter picking mode.",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "LoadoutCard",
+                popup = new TutorialPopupData
+                {
+                    heading = "Switching Units",
+                    description = "Now click on the Cavalier to bring it to your loadout.",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "LoadoutSlotUnit1",
+                popup = new TutorialPopupData
+                {
+                    heading = "Your Stats",
+                    description = "Press and hold to open your stats",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
             /* 
             new TutorialStep
             {
@@ -155,7 +351,18 @@ public class TutorialFlow : MonoBehaviour
     {
         if (isPlayingTutorial)
         {
+            LoadoutService.Instance.SetTutorialLoadout();
             PlayStep(2);
+            //PlayStep(currentStep);
+        }
+    }
+
+    public void ArmoryReady()
+    {
+        if (isPlayingTutorial)
+        {
+            //LoadoutService.Instance.SetTutorialLoadout();
+            //PlayStep(12);
             //PlayStep(currentStep);
         }
     }
@@ -170,6 +377,10 @@ public class TutorialFlow : MonoBehaviour
         }
 
         currentStep = step;
+        if (currentStep == (steps.Count() - 3))
+        {
+            Debug.Log("hey");
+        }
 
         TutorialStep tutorialStep = steps[currentStep];
 

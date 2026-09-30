@@ -16,8 +16,6 @@ public class ResearchService : MonoBehaviour
     public event Action<ResearchCategory> OnResearchCompleted;
     public event Action<ResearchCategory, long> OnResearchTimeUpdated;
 
-    private HashSet<string> unlockResearch = new HashSet<string>();
-
     private const string RESEARCH_ADDRESSABLE = "Research";
 
     private void Awake()
