@@ -8,10 +8,10 @@ public class LoadoutEvents : IUIScreenEvents
 
     private readonly Dictionary<string, string> bindings = new()
     {
-        { "Button_Settings", nameof(Button_SettingsClicked) },
-        { "Button_Unit_Tab", nameof(Button_Unit_TabClicked) },
-        { "Button_Tower_Tab", nameof(Button_Tower_TabClicked) },
-        { "Button_Utility_Tab", nameof(Button_Utility_TabClicked) },
+        { "Btn_Settings", nameof(Btn_SettingsClicked) },
+        { LoadoutView.LOADOUT_BTN_UNIT_TAB, nameof(Btn_Unit_TabClicked) },
+        { LoadoutView.LOADOUT_BTN_TOWER_TAB, nameof(Btn_Tower_TabClicked) },
+        { LoadoutView.LOADOUT_BTN_UTILITY_TAB, nameof(Btn_Utility_TabClicked) },
     };
 
     public void BindEvents(VisualElement root, IUIScreenController controller = null, IUIScreenView view = null)
@@ -26,21 +26,21 @@ public class LoadoutEvents : IUIScreenEvents
         UtilityUIBinding.CleanupEvents(this);
     }
 
-    private void Button_SettingsClicked()
+    private void Btn_SettingsClicked()
     {
         Debug.Log("Settings settings clicked");
     }
-    private void Button_Unit_TabClicked()
+    private void Btn_Unit_TabClicked()
     {
         view.ShowCardContainer(DefinitionCategory.Unit);
     }
 
-    private void Button_Tower_TabClicked()
+    private void Btn_Tower_TabClicked()
     {
         view.ShowCardContainer(DefinitionCategory.Tower);
     }
 
-    private void Button_Utility_TabClicked()
+    private void Btn_Utility_TabClicked()
     {
         view.ShowCardContainer(DefinitionCategory.Utility);
     }

@@ -6,4 +6,11 @@ public class TutorialStep
     public TutorialPopupData popup;
     public Action onComplete;
     public bool overrideOnClick = false;
+    public TutorialInteraction interaction = TutorialInteraction.Click;
+}
+
+public enum TutorialInteraction
+{
+    Click,
+    LongClick
 }

@@ -18,6 +18,8 @@ public class TutorialFlow : MonoBehaviour
 
     public bool isPlayingTutorial = false;
 
+    public bool isBlockingLoadoutClear = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -55,7 +57,6 @@ public class TutorialFlow : MonoBehaviour
                     PlayStep(currentStep);
                 }
             },
-
             new TutorialStep
             {
                 target = "Btn_Play",
@@ -130,6 +131,20 @@ public class TutorialFlow : MonoBehaviour
             },
             new TutorialStep
             {
+                target = "Btn_Refund_Talents",
+                popup = new TutorialPopupData
+                {
+                    heading = "Refund",
+                    description = "And dont worry, if you regret your talent choices or want to try something else, you can refund it here!",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
                 target = "Btn_Upg",
                 popup = new TutorialPopupData
                 {
@@ -175,7 +190,8 @@ public class TutorialFlow : MonoBehaviour
                 {
                     heading = "Talent details",
                     description = "In here you see all there is to know about the talent. What it's effect is, whats required to unlock it, and how much it costs (this can also be seen in the talent overview). You can look at the later!",
-                    hasButton = true
+                    hasButton = true,
+                    position = TutorialPopupLocation.Top
                 },
                 onComplete = () => {
                     currentStep++;
@@ -297,11 +313,11 @@ public class TutorialFlow : MonoBehaviour
             },
             new TutorialStep
             {
-                target = "LoadoutCard",
+                target = "LoadoutCardUnit0",
                 popup = new TutorialPopupData
                 {
                     heading = "Switching Units",
-                    description = "Now click on the Cavalier to bring it to your loadout.",
+                    description = "Click here to bring the Cavalier into your loadut.",
                     hasButton = false
                 },
                 onComplete = () => {
@@ -311,12 +327,167 @@ public class TutorialFlow : MonoBehaviour
             },
             new TutorialStep
             {
+                target = "UnitRowContainer",
+                popup = new TutorialPopupData
+                {
+                    heading = "Good job!",
+                    description = "These are the units you bring into battle, and in this order.",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                    isBlockingLoadoutClear = true;
+                },
+            },
+            new TutorialStep
+            {
                 target = "LoadoutSlotUnit1",
                 popup = new TutorialPopupData
                 {
                     heading = "Your Stats",
                     description = "Press and hold to open your stats",
+                    hasButton = false,
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                    isBlockingLoadoutClear = false;
+                },
+                interaction = TutorialInteraction.LongClick
+            },
+            new TutorialStep
+            {
+                popup = new TutorialPopupData
+                {
+                    heading = "Your Stats1",
+                    description = "These are the stats of your unit with your upgrades applied. See how it has 21 damage? Thats from the talent we purchased earlier.",
+                    hasButton = true,
+                    position = TutorialPopupLocation.Top
+                },
+                onComplete = () => {
+                    PopupManager.Instance.ClosePopup();
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "Btn_Research",
+                popup = new TutorialPopupData
+                {
+                    heading = "Next up Research!",
+                    description = "Now lets head to the research screen. Dont worry, we're almost there so you can get back to defending!",
                     hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                popup = new TutorialPopupData
+                {
+                    heading = "Different Research Categories",
+                    description = "Here you see the different categories you can research. They all contain small upgrade that applies to all within that category! The only exception being Global Ability, which contains powerful but expensive abilities you can activate in battle!",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "Button_CategoryContainer",
+                popup = new TutorialPopupData
+                {
+                    heading = "Purchasing an upgrade for units",
+                    description = "Lets buy one for units",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "ResearchNodeContainer",
+                popup = new TutorialPopupData
+                {
+                    heading = "Research",
+                    description = "Here you will find the details about the research, which stage it is, what it does and how long it takes to research it.",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "Button_PurchaseResearch",
+                popup = new TutorialPopupData
+                {
+                    heading = "Start Research",
+                    description = "Lets start a research and get more health on our units",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "Btn_Research",
+                popup = new TutorialPopupData
+                {
+                    heading = "Back to the overview",
+                    description = "In the overview you can see your current active research.",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                popup = new TutorialPopupData
+                {
+                    heading = "Active Research",
+                    description = "You can max have one active research per category.",
+                    hasButton = true
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                target = "Btn_Leaderboard",
+                popup = new TutorialPopupData
+                {
+                    heading = "Last step!",
+                    description = "Last up is the leaderboard",
+                    hasButton = false
+                },
+                onComplete = () => {
+                    currentStep++;
+                    PlayStep(currentStep);
+                },
+            },
+            new TutorialStep
+            {
+                popup = new TutorialPopupData
+                {
+                    heading = "Thats it!",
+                    description = "In here you will be able to see how long you and your fellow players have survived. All that is left is to wish you good luck! Good luck!",
+                    hasButton = true
                 },
                 onComplete = () => {
                     currentStep++;
@@ -371,16 +542,12 @@ public class TutorialFlow : MonoBehaviour
     {
         if (step >= steps.Length)
         {
-            // TutorialCompleted();
+            TutorialCompleted();
             isPlayingTutorial = false;
             return;
         }
 
         currentStep = step;
-        if (currentStep == (steps.Count() - 3))
-        {
-            Debug.Log("hey");
-        }
 
         TutorialStep tutorialStep = steps[currentStep];
 
@@ -390,8 +557,14 @@ public class TutorialFlow : MonoBehaviour
         );
     }
 
+    public void RebindCurrentTarget()
+    {
+        tutorialPresenter?.RebindCurrentTarget();
+    }
+
     private void TutorialCompleted()
     {
+        tutorialPresenter.Hide();
         SaveService.Instance.Current.Flags.HasCompletedTutorial = true;
         SaveService.Instance.Save();
     }

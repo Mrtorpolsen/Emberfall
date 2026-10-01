@@ -121,7 +121,6 @@ public class PopupManager : MonoBehaviour
 
     private void OnBackgroundClicked(ClickEvent evt)
     {
-        Debug.Log("Background clicked");
         ClosePopup();
     }
 

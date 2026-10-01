@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public class LoadoutSlotElement : IUnbindable
@@ -13,6 +14,8 @@ public class LoadoutSlotElement : IUnbindable
     private VisualElement imgOccupied;
 
     public bool isEmpty;
+
+    private EventCallback<ClickEvent> boundCallback;
 
     public LoadoutSlotElement(VisualTreeAsset loadoutSlot)
     {
@@ -56,11 +59,16 @@ public class LoadoutSlotElement : IUnbindable
             Root.RemoveFromClassList("selected");
         }
 
-        Root.RegisterCallback<ClickEvent>(evt => loadout.onClick?.Invoke());
+        boundCallback = evt => loadout.onClick?.Invoke();
+        Root.RegisterCallback(boundCallback);
     }
 
     public void Unbind()
     {
-        //Debug.Log("Unbinding LoadoutSlotElement");
+        if (boundCallback != null)
+        {
+            Root.UnregisterCallback(boundCallback);
+            boundCallback = null;
+        }
     }
 }

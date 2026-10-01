@@ -39,6 +39,9 @@ public class TutorialPresenter
     private VisualElement boundVisualElement;
     private EventCallback<ClickEvent> boundVisualElementAction;
 
+    private TutorialStep currentTutorialStep;
+    private TutorialStep completedStep;
+
     private const string HIGHLIGHT_BOX = "HighlightBox";
     private const string TOP_BLOCKER = "TopBlocker";
     private const string RIGHT_BLOCKER = "RightBlocker";
@@ -173,6 +176,8 @@ public class TutorialPresenter
         TutorialPopupData popupData,
         TutorialStep tutorialStep)
     {
+        currentTutorialStep = tutorialStep;
+
         VisualElement target = string.IsNullOrEmpty(tutorialStep.target)
             ? null
             : GetVisualElement(tutorialStep.target);
@@ -185,7 +190,16 @@ public class TutorialPresenter
         {
             if (!popupData.hasButton)
             {
-                BindTargetClick(target, tutorialStep);
+                switch (tutorialStep.interaction)
+                {
+                    case TutorialInteraction.Click:
+                        BindTargetClick(target, tutorialStep);
+                        break;
+
+                    case TutorialInteraction.LongClick:
+                        BindTargetLongClick(target, tutorialStep);
+                        break;
+                }
             }
             else
             {
@@ -200,8 +214,8 @@ public class TutorialPresenter
         //Should look into UI telling its ready instead StartingIn
         tutorialPopupContainer.schedule.Execute(() =>
         {
-            HighlightElement(target);
-            PositionPopup(target);
+            HighlightElement(tutorialStep.popup.hasButton ,target);
+            PositionPopup(tutorialStep.popup.position, target);
         }).StartingIn(2);
     }
 
@@ -215,7 +229,7 @@ public class TutorialPresenter
             cta.clicked -= oldActionRef;
         }
 
-        oldActionRef = tutorialStep.onComplete;
+        oldActionRef = () => CompleteCurrentStep(tutorialStep);
         cta.clicked += oldActionRef;
     }
 
@@ -233,7 +247,10 @@ public class TutorialPresenter
             }
 
             boundButton = button;
-            boundButtonAction = tutorialStep.onComplete;
+            boundButtonAction = () =>
+            {
+                CompleteCurrentStep(tutorialStep);
+            };
 
             button.clicked += boundButtonAction;
         }
@@ -246,13 +263,46 @@ public class TutorialPresenter
                 boundVisualElement.UnregisterCallback(
                     boundVisualElementAction
                 );
-                tutorialStep.onComplete?.Invoke();
+
+                CompleteCurrentStep(tutorialStep);
             };
 
             boundVisualElement.RegisterCallback(
                 boundVisualElementAction,
                 TrickleDown.TrickleDown
             );
+        }
+    }
+
+    private void BindTargetLongClick(
+        VisualElement target,
+        TutorialStep tutorialStep)
+    {
+        UtilityLongClick.Append(
+            target,
+            () => CompleteCurrentStep(tutorialStep)
+        );
+    }
+
+    public void RebindCurrentTarget()
+    {
+        if (currentTutorialStep == null ||
+            string.IsNullOrEmpty(currentTutorialStep.target))
+        {
+            return;
+        }
+
+        VisualElement target = GetVisualElement(currentTutorialStep.target);
+
+        switch (currentTutorialStep.interaction)
+        {
+            case TutorialInteraction.Click:
+                BindTargetClick(target, currentTutorialStep);
+                break;
+
+            case TutorialInteraction.LongClick:
+                BindTargetLongClick(target, currentTutorialStep);
+                break;
         }
     }
 
@@ -286,7 +336,7 @@ public class TutorialPresenter
         oldActionRef = null;
     }
 
-    public void HighlightElement(VisualElement targetElement = null)
+    public void HighlightElement(bool hasPopuptButton, VisualElement targetElement = null)
     {
         if (targetElement == null)
         {
@@ -334,19 +384,31 @@ public class TutorialPresenter
         highlightBox.style.height = targetHeight + 10;
 
         highlightBox.style.display = DisplayStyle.Flex;
+
+        highlightBox.pickingMode = hasPopuptButton ? PickingMode.Position : PickingMode.Ignore;
     }
 
-    private void PositionPopup(VisualElement target = null)
+    private void PositionPopup(TutorialPopupLocation position, VisualElement target = null)
     {
         const float spacing = 20f;
         const float edgePadding = 25f;
 
         if (target == null)
         {
-            tutorialPopupContainer.style.left = 0;
-            tutorialPopupContainer.style.top = 0;
-            tutorialContainer.style.justifyContent = Justify.Center;
-            return;
+            if (position == TutorialPopupLocation.Auto)
+            {
+                tutorialPopupContainer.style.left = 0;
+                tutorialPopupContainer.style.top = 0;
+                tutorialContainer.style.justifyContent = Justify.Center;
+                return;
+            }
+            else if (position == TutorialPopupLocation.Top)
+            {
+                tutorialPopupContainer.style.left = 0;
+                tutorialPopupContainer.style.top = edgePadding;
+                tutorialContainer.style.justifyContent = Justify.FlexStart;
+                return;
+            }
         }
 
         tutorialContainer.style.justifyContent = Justify.FlexStart;
@@ -438,6 +500,19 @@ public class TutorialPresenter
             root,
             target
         );
+    }
+
+    private void CompleteCurrentStep(TutorialStep tutorialStep)
+    {
+        if (completedStep == tutorialStep)
+            return;
+
+        if (currentTutorialStep != tutorialStep)
+            return;
+
+        completedStep = tutorialStep;
+
+        tutorialStep.onComplete?.Invoke();
     }
 
     public void Show()
