@@ -54,9 +54,12 @@ public class WaveController : MonoBehaviour
             return;
         }
         Instance = this;
+    }
 
-        //Get settings from difficulty
-        currentDifficulty = Difficulties.Get(GameSettingsService.Instance.Difficulty);
+    public void InitializeDifficulty(Difficulty difficulty)
+    {
+        //Can move generals to sets and here the set gets selected based on difficulty, but for now keep it simple
+        currentDifficulty = difficulty;
 
         var activeGenerals = allGenerals;
 

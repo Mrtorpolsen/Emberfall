@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -19,6 +18,8 @@ public class TutorialFlow : MonoBehaviour
     public bool isPlayingTutorial = false;
 
     public bool isBlockingLoadoutClear = false;
+
+    private int preGamePlaySteps = 2;
 
     private void Awake()
     {
@@ -54,7 +55,7 @@ public class TutorialFlow : MonoBehaviour
                 onComplete = () =>
                 {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 }
             },
             new TutorialStep
@@ -85,7 +86,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -99,7 +100,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -113,7 +114,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -126,7 +127,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -140,7 +141,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -154,7 +155,8 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    TalentService.Instance.SetTutorialTalentState();
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -167,7 +169,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -181,7 +183,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -195,7 +197,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -210,7 +212,7 @@ public class TutorialFlow : MonoBehaviour
                 onComplete = () => {
                     PopupManager.Instance.ClosePopup();
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -224,7 +226,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -238,7 +240,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -252,7 +254,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -266,7 +268,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -280,7 +282,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -294,7 +296,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -308,7 +310,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -322,7 +324,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -336,7 +338,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                     isBlockingLoadoutClear = true;
                 },
             },
@@ -346,12 +348,12 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Your Stats",
-                    description = "Press and hold to open your stats",
+                    description = "If you press and hold you can see the details of the unit / tower / ability, in the top its your stats, at the bottom is the base stats. For now press and hold here to see your fighter stats.",
                     hasButton = false,
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                     isBlockingLoadoutClear = false;
                 },
                 interaction = TutorialInteraction.LongClick
@@ -360,7 +362,7 @@ public class TutorialFlow : MonoBehaviour
             {
                 popup = new TutorialPopupData
                 {
-                    heading = "Your Stats1",
+                    heading = "Your Stats",
                     description = "These are the stats of your unit with your upgrades applied. See how it has 21 damage? Thats from the talent we purchased earlier.",
                     hasButton = true,
                     position = TutorialPopupLocation.Top
@@ -368,7 +370,7 @@ public class TutorialFlow : MonoBehaviour
                 onComplete = () => {
                     PopupManager.Instance.ClosePopup();
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -382,7 +384,8 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    ResearchService.Instance.SetTutorialResearchState();
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -395,7 +398,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -409,7 +412,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -423,7 +426,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -437,7 +440,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -451,7 +454,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -464,7 +467,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -478,7 +481,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             new TutorialStep
@@ -491,7 +494,7 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    PlayStep(currentStep);
+                    PlayMenuStep(currentStep);
                 },
             },
             /* 
@@ -522,23 +525,18 @@ public class TutorialFlow : MonoBehaviour
     {
         if (isPlayingTutorial)
         {
-            LoadoutService.Instance.SetTutorialLoadout();
-            PlayStep(2);
-            //PlayStep(currentStep);
+            PlayMenuStep(2);
+            //StartTutorial();
         }
     }
 
-    public void ArmoryReady()
+    private void StartTutorial()
     {
-        if (isPlayingTutorial)
-        {
-            //LoadoutService.Instance.SetTutorialLoadout();
-            //PlayStep(12);
-            //PlayStep(currentStep);
-        }
+        LoadoutService.Instance.SetTutorialLoadout();
+        PlayMenuStep(currentStep);
     }
 
-    public void PlayStep(int step)
+    public void PlayMenuStep(int step)
     {
         if (step >= steps.Length)
         {
@@ -560,6 +558,11 @@ public class TutorialFlow : MonoBehaviour
     public void RebindCurrentTarget()
     {
         tutorialPresenter?.RebindCurrentTarget();
+    }
+
+    public void SetGamePlayTutorialOver()
+    {
+        currentStep = preGamePlaySteps;
     }
 
     private void TutorialCompleted()

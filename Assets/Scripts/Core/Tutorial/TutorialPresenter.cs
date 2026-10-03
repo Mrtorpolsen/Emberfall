@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
@@ -338,12 +339,21 @@ public class TutorialPresenter
 
     public void HighlightElement(bool hasPopuptButton, VisualElement targetElement = null)
     {
+        float containerWidth = tutorialContainer.layout.width;
+        float containerHeight = tutorialContainer.layout.height;
+
         if (targetElement == null)
         {
             tutorialContainer.pickingMode = PickingMode.Position;
             highlightBox.style.display = DisplayStyle.None;
+            BlockerCoverAll();
+
             return;
         }
+
+        bottomBlocker.style.display = DisplayStyle.Flex;
+        leftBlocker.style.display = DisplayStyle.Flex;
+        rightBlocker.style.display = DisplayStyle.Flex;
 
         tutorialContainer.pickingMode = PickingMode.Ignore;
 
@@ -354,9 +364,6 @@ public class TutorialPresenter
 
         float targetWidth = bottomRight.x - topLeft.x;
         float targetHeight = bottomRight.y - topLeft.y;
-
-        float containerWidth = tutorialContainer.layout.width;
-        float containerHeight = tutorialContainer.layout.height;
 
         topBlocker.style.left = 0;
         topBlocker.style.top = 0;
@@ -380,12 +387,32 @@ public class TutorialPresenter
 
         highlightBox.style.left = topLeft.x - 5;
         highlightBox.style.top = topLeft.y - 5;
-        highlightBox.style.width = targetWidth + 10;
-        highlightBox.style.height = targetHeight + 10;
+        highlightBox.style.width = targetWidth + 23;
+        highlightBox.style.height = targetHeight + 23;
 
         highlightBox.style.display = DisplayStyle.Flex;
 
         highlightBox.pickingMode = hasPopuptButton ? PickingMode.Position : PickingMode.Ignore;
+    }
+
+    private void BlockerCoverAll()
+    {
+        topBlocker.style.left = 0;
+        topBlocker.style.top = 0;
+        topBlocker.style.width = tutorialContainer.layout.width;
+        topBlocker.style.height = tutorialContainer.layout.height;
+
+        bottomBlocker.style.display = DisplayStyle.None;
+        leftBlocker.style.display = DisplayStyle.None;
+        rightBlocker.style.display = DisplayStyle.None;
+    }
+
+    private void HideBlockers()
+    {
+        topBlocker.style.display = DisplayStyle.None;
+        bottomBlocker.style.display = DisplayStyle.None;
+        leftBlocker.style.display = DisplayStyle.None;
+        rightBlocker.style.display = DisplayStyle.None;
     }
 
     private void PositionPopup(TutorialPopupLocation position, VisualElement target = null)

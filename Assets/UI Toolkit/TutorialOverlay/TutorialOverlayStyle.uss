@@ -7,13 +7,15 @@
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
     border-bottom-left-radius: 6px;
-    border-left-color: rgb(200, 204, 13);
-    border-right-color: rgb(200, 204, 13);
-    border-top-color: rgb(200, 204, 13);
-    border-bottom-color: rgb(200, 204, 13);
+    border-left-color: rgba(200, 204, 13, 0);
+    border-right-color: rgba(200, 204, 13, 0);
+    border-top-color: rgba(200, 204, 13, 0);
+    border-bottom-color: rgba(200, 204, 13, 0);
     position: absolute;
+    background-image: url("project://database/Assets/Art/UI/Backgrounds/highlight_box_1.png?fileID=2800000&guid=37b68b3fb87d35e46b5d2856ad00a11d&type=3#highlight_box_1");
 }
 
 .blocker {
     position: absolute;
+    background-color: rgba(0, 0, 0, 0.59);
 }

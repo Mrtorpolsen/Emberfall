@@ -21,7 +21,7 @@ MonoBehaviour:
   hitRadius: 0.26
   splashRadius: 0
   movementSpeed: 2
-  mass: 2
+  mass: 5
   critChance: 0
   critDamage: 1.5
   unitPrio: 0

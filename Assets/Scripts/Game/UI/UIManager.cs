@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
         if (LoadoutService.Instance == null)
         {
             Debug.LogError("LoadoutService not found, returning to menu");
-            SceneManager.LoadScene("UI_Root");
+            //SceneManager.LoadScene("UI_Root");
             return;
         }
 

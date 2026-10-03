@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -137,6 +138,30 @@ public class GameManager : MonoBehaviour
         HandleUITransition();
     }
 
+    public async Task StartGame()
+    {
+        Difficulty difficulty = Difficulties.Get(GameSettingsService.Instance.Difficulty);
+
+        if (difficulty.Level == DifficultyLevel.Tutorial)
+        {
+            await StartTutorial();
+        }
+
+        WaveController.Instance.InitializeDifficulty(difficulty);
+        Instance.isGameRunning = true;
+        TimerManager.Instance.StartTimer();
+
+        StartCoroutine(CoroutineHelpers.DoAfterDelay(3f, () =>
+        {
+            WaveController.Instance.StartWaves();
+        }));
+    }
+
+    public async Task StartTutorial()
+    {
+        await GamePlayTutorialPresenter.Instance.RunTutorial();
+    }
+
     public void SetTutorialOver()
     {
         gameUICanvas.SetActive(false);
@@ -154,17 +179,7 @@ public class GameManager : MonoBehaviour
             SaveService.Instance.Save();
         }
         //Emit tutorial over
-    }
-
-    public void StartGame()
-    {
-        Instance.isGameRunning = true;
-        TimerManager.Instance.StartTimer();
-
-        StartCoroutine(CoroutineHelpers.DoAfterDelay(3f, () =>
-        {
-            WaveController.Instance.StartWaves();
-        }));
+        TutorialFlow.Instance.SetGamePlayTutorialOver();
     }
 
     public void EndOfGame()
