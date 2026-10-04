@@ -3836,17 +3836,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294631064}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2089643315}
-  m_Father: {fileID: 1477576580}
+  m_Father: {fileID: 1654869225}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3, y: -216}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &294631066
@@ -4030,18 +4030,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 320548555}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1882980881}
-  m_Father: {fileID: 1477576580}
+  m_Father: {fileID: 1654869225}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.399994, y: 176.00226}
-  m_SizeDelta: {x: 900, y: 181.71729}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 900, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &320548557
 MonoBehaviour:
@@ -7135,7 +7135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8922554561026046295, guid: f58ece6f1e93c664581b909c07e3b6f2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 840.91
+      value: 841.9
       objectReference: {fileID: 0}
     - target: {fileID: 8922554561026046295, guid: f58ece6f1e93c664581b909c07e3b6f2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7222,17 +7222,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550489397}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 912758286}
-  m_Father: {fileID: 1477576580}
+  m_Father: {fileID: 1654869225}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3, y: -42}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &550489399
@@ -48189,17 +48189,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 992436744}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1981221701}
-  m_Father: {fileID: 1477576580}
+  m_Father: {fileID: 1654869225}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3, y: -390}
+  m_AnchoredPosition: {x: -5.399988, y: -303.4304}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &992436746
@@ -51374,8 +51374,8 @@ MonoBehaviour:
   rallyPanel: {fileID: 192310562}
   towerPanel: {fileID: 71795132}
   unitsPanel: {fileID: 318215361}
-  unitsExplanation: {fileID: 1781595106}
-  sendFighter: {fileID: 902855979}
+  unitsExplanationPanel: {fileID: 1781595106}
+  sendFighterPanel: {fileID: 902855979}
   gameInfoButton: {fileID: 233684939}
   menuButton: {fileID: 5018176322217876222}
   rallyButton: {fileID: 1796967351}
@@ -52717,9 +52717,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2324961053806963377, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
-      value: Lastly we have the units. This is where you can send the troops that
-        you have brough into battle. Remember, units have different stats and have
-        to support eachother. For instance a ranged unit work best with a melee frontline.
+      value: 'Lastly we have the units. This is where you can send the troops that
+        you bring into battle.
+
+
+        Remember, units have different stats and
+        have to support eachother. For instance a ranged unit work best with a melee
+        frontline.'
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -52735,7 +52739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 344.16
+      value: 372.91
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -52743,7 +52747,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -257.3
+      value: -271.675
       objectReference: {fileID: 0}
     - target: {fileID: 3032015986146345612, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -52795,7 +52799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4626590635687199934, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -490.38
+      value: -519.13
       objectReference: {fileID: 0}
     - target: {fileID: 5261173276956135202, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -52807,7 +52811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5323497639862041252, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 556.38
+      value: 585.13
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -52819,7 +52823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 556.38
+      value: 585.13
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -52827,7 +52831,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -278.19
+      value: -292.565
       objectReference: {fileID: 0}
     - target: {fileID: 6905455924914809223, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -54189,7 +54193,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1477576577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54265,10 +54269,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 320548556}
-  - {fileID: 550489398}
-  - {fileID: 294631065}
-  - {fileID: 992436745}
+  - {fileID: 1654869225}
   m_Father: {fileID: 383675725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -55350,7 +55351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8922554561026046295, guid: f58ece6f1e93c664581b909c07e3b6f2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 840.91
+      value: 841.9
       objectReference: {fileID: 0}
     - target: {fileID: 8922554561026046295, guid: f58ece6f1e93c664581b909c07e3b6f2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -56381,9 +56382,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2324961053806963377, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
-      value: These are building plots, clicking them will allow you to build towers.
-        Clicking them again after a tower has been built will let you either upgrade
-        it or sell it for 50% of the original cost.
+      value: "These are building plots, clicking them will open build menu. \n\nClicking
+        them again after a tower has been built will let you either upgrade it or
+        sell it for 50% of the original cost."
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -56399,7 +56400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 257.92
+      value: 286.66
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -56407,7 +56408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -214.18001
+      value: -228.55
       objectReference: {fileID: 0}
     - target: {fileID: 3032015986146345612, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -56459,7 +56460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4626590635687199934, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -404.14
+      value: -432.88
       objectReference: {fileID: 0}
     - target: {fileID: 5261173276956135202, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -56471,7 +56472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5323497639862041252, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 470.14
+      value: 498.88
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -56483,7 +56484,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 470.14
+      value: 498.88
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -56491,7 +56492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -235.07
+      value: -249.44
       objectReference: {fileID: 0}
     - target: {fileID: 6905455924914809223, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -57200,6 +57201,87 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46bf69eaf31882d4b96fabd3d3f591da, type: 3}
+--- !u!1 &1654869224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1654869225}
+  - component: {fileID: 1654869227}
+  - component: {fileID: 1654869226}
+  m_Layer: 5
+  m_Name: VerticalGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1654869225
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654869224}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 320548556}
+  - {fileID: 550489398}
+  - {fileID: 294631065}
+  - {fileID: 992436745}
+  m_Father: {fileID: 1477576580}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 8.399994, y: -86.56955}
+  m_SizeDelta: {x: 900, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1654869226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654869224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
+--- !u!114 &1654869227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654869224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 80
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1001 &1679579744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58442,8 +58524,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2324961053806963377, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
-      value: You can order your units to advace or fallback by moving the rally points
-        on the field. This is done by issueing orders from the orders menu below.
+      value: "You can order your units to advace or fallback by moving the rally
+        points on the field.\n\n This is done by issueing orders from the orders
+        menu below."
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -58459,7 +58542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 229.17
+      value: 286.66
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -58467,7 +58550,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -199.805
+      value: -228.55
       objectReference: {fileID: 0}
     - target: {fileID: 3032015986146345612, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -58519,7 +58602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4626590635687199934, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -375.39
+      value: -432.88
       objectReference: {fileID: 0}
     - target: {fileID: 5261173276956135202, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -58531,7 +58614,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5323497639862041252, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 441.39
+      value: 498.88
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -58543,7 +58626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 441.39
+      value: 498.88
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -58551,7 +58634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -220.695
+      value: -249.44
       objectReference: {fileID: 0}
     - target: {fileID: 6905455924914809223, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -59309,7 +59392,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.000005722046, y: 18.171661}
-  m_SizeDelta: {x: 900, y: 181.7173}
+  m_SizeDelta: {x: 850, y: 180}
   m_Pivot: {x: 0.5, y: 0.6}
 --- !u!114 &1882980882
 MonoBehaviour:
@@ -62961,7 +63044,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play!
+  m_text: Replay
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -64136,18 +64219,18 @@ PrefabInstance:
       value: 'Here you see the action button:
 
 
-        Units - Where you send unit
+        Units - Where you send units
 
 
         Abilities
-        - Where you use your abilities
+        - Where you use abilities
 
 
-        Income - Upgrade your income
+        Income - Where you upgrade income
 
 
         Orders
-        - Move you units'' rally points'
+        - Where you move rally points'
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y

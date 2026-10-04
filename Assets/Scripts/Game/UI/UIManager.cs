@@ -69,6 +69,7 @@ public class UIManager : MonoBehaviour
         }
 
         Instance = this;
+        EnsureCorrectInitialPanelState();
     }
 
     private async void Start()
@@ -112,7 +113,6 @@ public class UIManager : MonoBehaviour
             loadOutTowers = LoadoutService.Instance.CurrentLoadout.TowerLoadout;
             loadOutAbilities = LoadoutService.Instance.CurrentLoadout.AbilityLoadout;
         }
-
     }
 
     private void OnEnable()
@@ -176,12 +176,19 @@ public class UIManager : MonoBehaviour
     {
         bottomMenuButton.gameObject.SetActive(false);
         gameUI.gameObject.SetActive(true);
-        survivalText.SetText($"Congratulations! You beat the tutorial and if this is  your first time, you earned 2000 cinders <voffset=0.35em><sprite=0></voffset>");
+        survivalText.SetText($"Congratulations! You beat Sir Tutor the Third and earned 2000 cinders <voffset=0.35em><sprite=0></voffset>");
+    }
+
+    public void SetTutorialGameOver()
+    {
+        topMenuButton.gameObject.SetActive(false);
+        gameUI.gameObject.SetActive(true);
+        survivalText.SetText($"Learning can be tough, and Sir Tutor the Third can be a hard teacher! Try again, but this time build more fighters!");
     }
 
     public void GoToMainMenu()
     {
-        GameManager.Instance.EndOfGame();
+        GameManager.Instance.AwardReward();
         //Use scenemanager to get root
         SceneManager.LoadScene("UI_Root");
     }
@@ -508,5 +515,11 @@ public class UIManager : MonoBehaviour
             default:
                 return towerSprite;
         }
+    }
+
+    private void EnsureCorrectInitialPanelState()
+    {
+        gameUI.gameObject.SetActive(false);
+        pauseMenu.gameObject.SetActive(false);
     }
 }

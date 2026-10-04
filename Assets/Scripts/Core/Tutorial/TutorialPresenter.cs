@@ -387,8 +387,8 @@ public class TutorialPresenter
 
         highlightBox.style.left = topLeft.x - 5;
         highlightBox.style.top = topLeft.y - 5;
-        highlightBox.style.width = targetWidth + 23;
-        highlightBox.style.height = targetHeight + 23;
+        highlightBox.style.width = targetWidth + 5;
+        highlightBox.style.height = targetHeight + 5;
 
         highlightBox.style.display = DisplayStyle.Flex;
 

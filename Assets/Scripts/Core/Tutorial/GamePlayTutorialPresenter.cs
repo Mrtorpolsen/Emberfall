@@ -17,8 +17,8 @@ public class GamePlayTutorialPresenter : MonoBehaviour
     [SerializeField] private GameObject unitsPanel;
 
     [Header("Units sub panels")]
-    [SerializeField] private GameObject unitsExplanation;
-    [SerializeField] private GameObject sendFighter;
+    [SerializeField] private GameObject unitsExplanationPanel;
+    [SerializeField] private GameObject sendFighterPanel;
 
     [Header("Popup Buttons")]
     [SerializeField] private Button gameInfoButton;
@@ -44,7 +44,7 @@ public class GamePlayTutorialPresenter : MonoBehaviour
         }
 
         Instance = this;
-        tutorialCanvas.gameObject.SetActive(false);
+        EnsureCorrectInitialVisualState();
     }
 
     public Task RunTutorial()
@@ -87,13 +87,13 @@ public class GamePlayTutorialPresenter : MonoBehaviour
     {
         towerPanel.gameObject.SetActive(false);
         unitsPanel.gameObject.SetActive(true);
-        unitsExplanation.gameObject.SetActive(true);
+        unitsExplanationPanel.gameObject.SetActive(true);
     }
 
     public void ShowSendFighterPanel()
     {
-        unitsExplanation.gameObject.SetActive(false);
-        sendFighter.gameObject.SetActive(true);
+        unitsExplanationPanel.gameObject.SetActive(false);
+        sendFighterPanel.gameObject.SetActive(true);
     }
 
     public void SpawnFighter()
@@ -112,5 +112,17 @@ public class GamePlayTutorialPresenter : MonoBehaviour
     {
         tutorialCanvas.gameObject.SetActive(false);
         completionSource?.TrySetResult(true);
+    }
+
+    private void EnsureCorrectInitialVisualState()
+    {
+        tutorialCanvas.gameObject.SetActive(false);
+        gameInfoPanel.gameObject.SetActive(false);
+        menuPanel.gameObject.SetActive(false);
+        rallyPanel.gameObject.SetActive(false);
+        towerPanel.gameObject.SetActive(false);
+        unitsPanel.gameObject.SetActive(false);
+        unitsExplanationPanel.gameObject.SetActive(false);
+        sendFighterPanel.gameObject.SetActive(false);
     }
 }

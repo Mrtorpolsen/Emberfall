@@ -22,4 +22,4 @@ MonoBehaviour:
   unitRoster:
   - {fileID: 11400000, guid: 0bee6ff15e9c2ee47bde568edfe65c52, type: 2}
   generalUnit: {fileID: 11400000, guid: 8c0aed28bafc3f944b08d3cee9d09f5b, type: 2}
-  spawnLimit: 2
+  spawnLimit: 5

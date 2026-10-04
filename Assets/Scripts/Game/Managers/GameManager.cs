@@ -44,6 +44,9 @@ public class GameManager : MonoBehaviour
 
     private float rallyJump = 1f;
 
+    private bool hasReceivedReward = false;
+    private bool isTutorial = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -133,9 +136,14 @@ public class GameManager : MonoBehaviour
     {
         StopGameplaySystems();
         //Needs to be before gameOver, otherwise it will lock the player out of getting rewards
-        EndOfGame();
         UpdateGameState(gameOver, losingTeam);
+        if (isTutorial)
+        {
+            UIManager.Instance.SetTutorialGameOver();
+            return;
+        }
         HandleUITransition();
+        AwardReward();
     }
 
     public async Task StartGame()
@@ -159,6 +167,7 @@ public class GameManager : MonoBehaviour
 
     public async Task StartTutorial()
     {
+        isTutorial = true;
         await GamePlayTutorialPresenter.Instance.RunTutorial();
     }
 
@@ -182,10 +191,12 @@ public class GameManager : MonoBehaviour
         TutorialFlow.Instance.SetGamePlayTutorialOver();
     }
 
-    public void EndOfGame()
+    public void AwardReward()
     {
-        if (isGameOver)
+        if (hasReceivedReward)
             return;
+
+        hasReceivedReward = true;
         //save score, throws error if not logged in
         LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTimeInMiliseconds(), GameSettingsService.Instance.Difficulty);
         //add cinders
