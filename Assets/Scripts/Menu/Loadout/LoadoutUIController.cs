@@ -61,18 +61,21 @@ public class LoadoutUIController : IUIScreenController
 
         slot.onClick = () =>
         {
-            if (interactionMode == LoadoutInteractionMode.Viewing)
+            if (!TutorialFlow.Instance.isBlockingLoadoutClear)
             {
-                BeginSlotSelection(loadoutSlot);
-            }
-            else if (interactionMode == LoadoutInteractionMode.SelectingReplacement)
-            {
-                if (selectedSlotType == loadoutSlot.SlotType && selectedSlotIndex == loadoutSlot.Index)
+                if (interactionMode == LoadoutInteractionMode.Viewing)
                 {
-                    ClearSlot(loadoutSlot);
+                    BeginSlotSelection(loadoutSlot);
                 }
-                interactionMode = LoadoutInteractionMode.Viewing;
-                ExitReplacementMode();
+                else if (interactionMode == LoadoutInteractionMode.SelectingReplacement)
+                {
+                    if (selectedSlotType == loadoutSlot.SlotType && selectedSlotIndex == loadoutSlot.Index)
+                    {
+                        ClearSlot(loadoutSlot);
+                    }
+                    interactionMode = LoadoutInteractionMode.Viewing;
+                    ExitReplacementMode();
+                }
             }
         };
 
@@ -184,7 +187,6 @@ public class LoadoutUIController : IUIScreenController
         SetInteractionMode(LoadoutInteractionMode.SelectingReplacement);
 
         RefreshSlotState();
-        Debug.Log($"Selected slot for replacement: {slot.Definition?.DisplayName ?? "Empty Slot"} of type {slot.SlotType}");
     }
 
     private void TryAssignCard(LoadoutDefinition definition)
@@ -274,6 +276,11 @@ public class LoadoutUIController : IUIScreenController
     private void RefreshCardState()
     {
         view.RenderLoadoutCards(BuildLoadoutCards());
+
+        if (TutorialFlow.Instance.isPlayingTutorial)
+        {
+            TutorialFlow.Instance.RebindCurrentTarget();
+        }
     }
 
     private void RefreshSlotState()

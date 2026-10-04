@@ -10,21 +10,4 @@ public class GeneralDefinition : ScriptableObject
     public List<SpawnDefinition> unitRoster;
     public SpawnDefinition generalUnit;
     public int spawnLimit;
-
-    public float GetMinCost(ThreatCalculator threatCalculator)
-    {
-        float minCost = threatCalculator.CalculateThreat(unitRoster[0].Stats);
-
-        foreach (var unit in unitRoster)
-        {
-            float cost = threatCalculator.CalculateThreat(unit.Stats);
-
-            if (cost < minCost)
-            {
-                minCost = cost;
-            }
-        }
-
-        return minCost;
-    }
 }

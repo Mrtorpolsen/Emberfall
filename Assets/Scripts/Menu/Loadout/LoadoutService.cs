@@ -170,6 +170,39 @@ public class LoadoutService : MonoBehaviour
         await SaveLoadout(CurrentLoadout);
     }
 
+    public ActiveLoadout GetTutorialLoadout()
+    {
+        var tutorialLoadout = new ActiveLoadout
+        {
+            UnitLoadout = new SpawnDefinition[]
+            {
+                null,
+                SpawnDatabase.Instance.GetSpawn("spawn_fighter"),
+                SpawnDatabase.Instance.GetSpawn("spawn_ranger"),
+                null
+            },
+            TowerLoadout = new SpawnDefinition[]
+            {
+                SpawnDatabase.Instance.GetSpawn("spawn_tower"),
+                SpawnDatabase.Instance.GetSpawn("spawn_ballista"),
+                SpawnDatabase.Instance.GetSpawn("spawn_bomb")
+            },
+            AbilityLoadout = new AbilityDefinition[]
+            {
+                null,
+                null
+            }
+        };
+
+        return tutorialLoadout;
+    }
+
+    public async void SetTutorialLoadout()
+    {
+        CurrentLoadout = GetTutorialLoadout();
+        await SaveLoadout(CurrentLoadout);
+    }
+
     public async Task SaveLoadout(ActiveLoadout activeLoadout)
     {
         var state = new PlayerLoadoutState

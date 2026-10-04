@@ -13,6 +13,8 @@ public class LoadoutCardElement : IUnbindable
 
     public bool isUnlocked;
 
+    private EventCallback<ClickEvent> boundCallback;
+
     public LoadoutCardElement(VisualTreeAsset loadoutCard)
     {
         Root = UtilityUIBinding.InstantiateRoot(loadoutCard);
@@ -33,7 +35,8 @@ public class LoadoutCardElement : IUnbindable
 
         if (loadout.isSelectable)
         {
-            Root.RegisterCallback<ClickEvent>(_ => loadout.onClick?.Invoke());
+            boundCallback = evt => loadout.onClick?.Invoke();
+            Root.RegisterCallback(boundCallback);
         }
         else
         {
@@ -44,6 +47,10 @@ public class LoadoutCardElement : IUnbindable
 
     public void Unbind()
     {
-        Debug.Log("Unbinding LoadoutCardElement");
+        if (boundCallback != null)
+        {
+            Root.UnregisterCallback(boundCallback);
+            boundCallback = null;
+        }
     }
 }

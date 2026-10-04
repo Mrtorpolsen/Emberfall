@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -42,6 +43,9 @@ public class GameManager : MonoBehaviour
     //[SerializeField] private float startYRangedRally = -1.25f;
 
     private float rallyJump = 1f;
+
+    private bool hasReceivedReward = false;
+    private bool isTutorial = false;
 
     private void Awake()
     {
@@ -119,7 +123,7 @@ public class GameManager : MonoBehaviour
     private void HandleUITransition()
     {
         gameUICanvas.SetActive(false);
-        UIManager.Instance.Initialize();
+        UIManager.Instance.SetGameOver();
     }
 
     private void StopGameplaySystems()
@@ -132,14 +136,26 @@ public class GameManager : MonoBehaviour
     {
         StopGameplaySystems();
         //Needs to be before gameOver, otherwise it will lock the player out of getting rewards
-        EndOfGame();
         UpdateGameState(gameOver, losingTeam);
+        if (isTutorial)
+        {
+            UIManager.Instance.SetTutorialGameOver();
+            return;
+        }
         HandleUITransition();
+        AwardReward();
     }
 
-
-    public void StartGame()
+    public async Task StartGame()
     {
+        Difficulty difficulty = Difficulties.Get(GameSettingsService.Instance.Difficulty);
+
+        if (difficulty.Level == DifficultyLevel.Tutorial)
+        {
+            await StartTutorial();
+        }
+
+        WaveController.Instance.InitializeDifficulty(difficulty);
         Instance.isGameRunning = true;
         TimerManager.Instance.StartTimer();
 
@@ -149,10 +165,38 @@ public class GameManager : MonoBehaviour
         }));
     }
 
-    public void EndOfGame()
+    public async Task StartTutorial()
     {
-        if (isGameOver)
+        isTutorial = true;
+        await GamePlayTutorialPresenter.Instance.RunTutorial();
+    }
+
+    public void SetTutorialOver()
+    {
+        gameUICanvas.SetActive(false);
+        UIManager.Instance.SetTutorialOver();
+        EndOfTutorial();
+    }
+
+    public void EndOfTutorial()
+    {
+        //move this to a reward manager or service later
+        if (!SaveService.Instance.Current.Flags.HasReceivedLoginGift)
+        {
+            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
+            SaveService.Instance.Current.Flags.HasReceivedLoginGift = true;
+            SaveService.Instance.Save();
+        }
+        //Emit tutorial over
+        TutorialFlow.Instance.SetGamePlayTutorialOver();
+    }
+
+    public void AwardReward()
+    {
+        if (hasReceivedReward)
             return;
+
+        hasReceivedReward = true;
         //save score, throws error if not logged in
         LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTimeInMiliseconds(), GameSettingsService.Instance.Difficulty);
         //add cinders

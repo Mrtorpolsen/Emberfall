@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] public TMP_Text currencyText;
     [SerializeField] public TMP_Text incomeMultiplierText;
     [SerializeField] private TMP_Text survivalText;
+    [SerializeField] private Button topMenuButton;
+    [SerializeField] private Button bottomMenuButton;
     [SerializeField] private TMP_Text incomeCostText;
     [SerializeField] private TMP_Text waveCountText;
 
@@ -67,6 +69,7 @@ public class UIManager : MonoBehaviour
         }
 
         Instance = this;
+        EnsureCorrectInitialPanelState();
     }
 
     private async void Start()
@@ -92,13 +95,24 @@ public class UIManager : MonoBehaviour
         if (LoadoutService.Instance == null)
         {
             Debug.LogError("LoadoutService not found, returning to menu");
-            SceneManager.LoadScene("UI_Root");
+            //SceneManager.LoadScene("UI_Root");
             return;
         }
 
-        loadOutUnits = LoadoutService.Instance.CurrentLoadout.UnitLoadout;
-        loadOutTowers = LoadoutService.Instance.CurrentLoadout.TowerLoadout;
-        loadOutAbilities = LoadoutService.Instance.CurrentLoadout.AbilityLoadout;
+        if (GameSettingsService.Instance.Difficulty == DifficultyLevel.Tutorial)
+        {
+            var tutorialLoadout = LoadoutService.Instance.GetTutorialLoadout();
+
+            loadOutUnits = tutorialLoadout.UnitLoadout;
+            loadOutTowers = tutorialLoadout.TowerLoadout;
+            loadOutAbilities = tutorialLoadout.AbilityLoadout;
+        }
+        else
+        {
+            loadOutUnits = LoadoutService.Instance.CurrentLoadout.UnitLoadout;
+            loadOutTowers = LoadoutService.Instance.CurrentLoadout.TowerLoadout;
+            loadOutAbilities = LoadoutService.Instance.CurrentLoadout.AbilityLoadout;
+        }
     }
 
     private void OnEnable()
@@ -139,7 +153,7 @@ public class UIManager : MonoBehaviour
         RefreshAllButtons();
     }
 
-    public void Initialize()
+    public void SetGameOver()
     {
         gameUI.gameObject.SetActive(true);
         SetGameOverMessage();
@@ -158,9 +172,23 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void SetTutorialOver()
+    {
+        bottomMenuButton.gameObject.SetActive(false);
+        gameUI.gameObject.SetActive(true);
+        survivalText.SetText($"Congratulations! You beat Sir Tutor the Third and earned 2000 cinders <voffset=0.35em><sprite=0></voffset>");
+    }
+
+    public void SetTutorialGameOver()
+    {
+        topMenuButton.gameObject.SetActive(false);
+        gameUI.gameObject.SetActive(true);
+        survivalText.SetText($"Learning can be tough, and Sir Tutor the Third can be a hard teacher! Try again, but this time build more fighters!");
+    }
+
     public void GoToMainMenu()
     {
-        GameManager.Instance.EndOfGame();
+        GameManager.Instance.AwardReward();
         //Use scenemanager to get root
         SceneManager.LoadScene("UI_Root");
     }
@@ -175,6 +203,8 @@ public class UIManager : MonoBehaviour
         unitsButton.onClick.AddListener(() => ToggleButtonPanel(unitButtonsPanel));
         abilitiesButton.onClick.AddListener(() => ToggleButtonPanel(abilityButtonsPanel));
         orderButton.onClick.AddListener(() => ToggleButtonPanel(orderButtonsPanel));
+        topMenuButton.onClick.AddListener(() => GoToMainMenu());
+        bottomMenuButton.onClick.AddListener(() => RestartGame());
     }
 
     public void SetupUnitButtons(SpawnDefinition[] loadout)
@@ -485,5 +515,11 @@ public class UIManager : MonoBehaviour
             default:
                 return towerSprite;
         }
+    }
+
+    private void EnsureCorrectInitialPanelState()
+    {
+        gameUI.gameObject.SetActive(false);
+        pauseMenu.gameObject.SetActive(false);
     }
 }

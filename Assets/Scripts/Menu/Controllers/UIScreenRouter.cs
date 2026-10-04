@@ -104,6 +104,7 @@ public class UIScreenRouter : MonoBehaviour
             return;
 
         isLoading = true;
+        LoadingSpinner.Instance.ShowSpinner();
 
         try
         {
@@ -118,6 +119,7 @@ public class UIScreenRouter : MonoBehaviour
         finally
         {
             isLoading = false;
+            LoadingSpinner.Instance.HideSpinner();
         }
     }
 
@@ -204,7 +206,7 @@ public class UIScreenRouter : MonoBehaviour
         }
     }
 
-    //Setup for popup, delaing with the template container
+    //Setup for popup
     private void SetupPopup(VisualElement root)
     {
         popupBlockerContainer = root.Q<VisualElement>(POPUP_BLOCKER_CONTAINER);

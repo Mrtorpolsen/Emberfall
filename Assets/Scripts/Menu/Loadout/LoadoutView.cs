@@ -27,6 +27,9 @@ public class LoadoutView : IUIScreenView
 
     private const string LOADOUT_SELECT_NODE_ADDRESSABLE = "UI/LoadoutSelectNode";
     private const string LOADOUT_CARD_ADDRESSABLE = "UI/LoadoutCard";
+    public const string LOADOUT_BTN_UNIT_TAB = "Btn_Unit_Tab";
+    public const string LOADOUT_BTN_TOWER_TAB = "Btn_Tower_Tab";
+    public const string LOADOUT_BTN_UTILITY_TAB = "Btn_Utility_Tab";
 
     public async Task InitializeAsync(VisualElement root)
     {
@@ -40,9 +43,9 @@ public class LoadoutView : IUIScreenView
         loadoutTowerCardContainer = UtilityUIBinding.QRequired<VisualElement>(root, "LoadoutTowerCardContainer");
         loadoutUtilityCardContainer = UtilityUIBinding.QRequired<VisualElement>(root, "LoadoutUtilityCardContainer");
 
-        loadoutUnitTab = UtilityUIBinding.QRequired<Button>(root, "Button_Unit_Tab");
-        loadoutTowerTab = UtilityUIBinding.QRequired<Button>(root, "Button_Tower_Tab");
-        loadoutUtilityTab = UtilityUIBinding.QRequired<Button>(root, "Button_Utility_Tab");
+        loadoutUnitTab = UtilityUIBinding.QRequired<Button>(root, LOADOUT_BTN_UNIT_TAB);
+        loadoutTowerTab = UtilityUIBinding.QRequired<Button>(root, LOADOUT_BTN_TOWER_TAB);
+        loadoutUtilityTab = UtilityUIBinding.QRequired<Button>(root, LOADOUT_BTN_UTILITY_TAB);
 
         cardContainers = new()
         {
@@ -76,6 +79,11 @@ public class LoadoutView : IUIScreenView
         ClearContainer(towerRowContainer);
         ClearContainer(utilityRowContainer);
 
+        //setting for tutorial
+        int utilityIndex = 0;
+        int towerIndex = 0;
+        int unitIndex = 0;
+
         foreach (var loadout in loadouts)
         {
             var visualNode = new LoadoutSlotElement(loadoutSelectNode);
@@ -84,14 +92,20 @@ public class LoadoutView : IUIScreenView
             if (loadout.SlotType == DefinitionCategory.Utility)
             {
                 utilityRowContainer.Add(visualNode.Root);
+                visualNode.Root.name = "LoadoutSlot" + DefinitionCategory.Utility.ToString() + utilityIndex;
+                utilityIndex++;
             }
             else if (loadout.SlotType == DefinitionCategory.Tower)
             {
                 towerRowContainer.Add(visualNode.Root);
+                visualNode.Root.name = "LoadoutSlot" + DefinitionCategory.Tower.ToString() + towerIndex;
+                towerIndex++;
             }
             else if (loadout.SlotType == DefinitionCategory.Unit)
             {
                 unitRowContainer.Add(visualNode.Root);
+                visualNode.Root.name = "LoadoutSlot" + DefinitionCategory.Unit.ToString() + unitIndex;
+                unitIndex++;
             }
         }
     }
@@ -102,6 +116,10 @@ public class LoadoutView : IUIScreenView
         ClearContainer(loadoutTowerCardContainer);
         ClearContainer(loadoutUtilityCardContainer);
 
+        int utilityIndex = 0;
+        int towerIndex = 0;
+        int unitIndex = 0;
+
         foreach (var loadoutCard in loadoutCards)
         {
             var visualNode = new LoadoutCardElement(this.loadoutCard);
@@ -111,14 +129,20 @@ public class LoadoutView : IUIScreenView
             if (loadoutCard.Type == DefinitionCategory.Unit)
             {
                 loadoutUnitCardContainer.Add(visualNode.Root);
+                visualNode.Root.name = "LoadoutCard" + DefinitionCategory.Unit.ToString() + unitIndex;
+                unitIndex++;
             }
             else if (loadoutCard.Type == DefinitionCategory.Tower)
             {
                 loadoutTowerCardContainer.Add(visualNode.Root);
+                visualNode.Root.name = "LoadoutCard" + DefinitionCategory.Tower.ToString() + towerIndex;
+                towerIndex++;
             }
             else if (loadoutCard.Type == DefinitionCategory.Utility)
             {
                 loadoutUtilityCardContainer.Add(visualNode.Root);
+                visualNode.Root.name = "LoadoutCard" + DefinitionCategory.Utility.ToString() + utilityIndex;
+                utilityIndex++;
             }
         }
     }

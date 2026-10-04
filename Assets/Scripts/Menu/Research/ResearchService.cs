@@ -16,7 +16,7 @@ public class ResearchService : MonoBehaviour
     public event Action<ResearchCategory> OnResearchCompleted;
     public event Action<ResearchCategory, long> OnResearchTimeUpdated;
 
-    private HashSet<string> unlockResearch = new HashSet<string>();
+    private readonly Dictionary<string, Coroutine> researchCoroutines = new();
 
     private const string RESEARCH_ADDRESSABLE = "Research";
 
@@ -107,7 +107,8 @@ public class ResearchService : MonoBehaviour
 
         SaveService.Instance.Current.Research.ActiveResearch.Add(researchToStart);
 
-        StartCoroutine(ResearchTimerRoutine(researchToStart, research));
+        var coroutine = StartCoroutine(ResearchTimerRoutine(researchToStart, research));
+        researchCoroutines[researchToStart.ResearchId] = coroutine;
 
         await SaveService.Instance.SaveAsync();
     }
@@ -151,6 +152,7 @@ public class ResearchService : MonoBehaviour
         OnResearchTimeUpdated?.Invoke(active.ResearchCategory, 0);
 
         CompleteResearch(active);
+        researchCoroutines.Remove(active.ResearchId);
     }
 
     private async void RestartActiveResearchTimers()
@@ -173,7 +175,8 @@ public class ResearchService : MonoBehaviour
             }
             else
             {
-                StartCoroutine(ResearchTimerRoutine(active, def));
+                var coroutine = StartCoroutine(ResearchTimerRoutine(active, def));
+                researchCoroutines[active.ResearchId] = coroutine;
             }
         }
 
@@ -257,5 +260,26 @@ public class ResearchService : MonoBehaviour
                 UnlockService.Instance.Unlock(research.Id);
             }
         }
+    }
+
+    public void SetTutorialResearchState()
+    {
+        var researchId = "unit_statsmodifier_health";
+
+        if (researchCoroutines.TryGetValue(researchId, out var coroutine))
+        {
+            StopCoroutine(coroutine);
+            researchCoroutines.Remove(researchId);
+        }
+
+        var active = SaveService.Instance.Current.Research.ActiveResearch
+            .Find(x => x.ResearchId == researchId);
+
+        if (active != null)
+        {
+            SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
+        }
+
+        SaveService.Instance.Current.Research.CompletedResearch[researchId] = 0;
     }
 }

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -150,6 +151,28 @@ public class TalentService : MonoBehaviour
         else
         {
             unitPurchases.PurchasedTalents[talentId] = 1;
+        }
+    }
+
+    public void SetTutorialTalentState()
+    {
+        string unitName = "fighter";
+        string talentId = "stat_damage_1_T1";
+        var purchases = SaveService.Instance.Current.Talents.Purchases;
+
+        if (!purchases.TryGetValue(unitName, out var unitPurchases))
+        {
+            unitPurchases = new UnitSaveData
+            {
+                PurchasedTalents = new Dictionary<string, int>()
+            };
+
+            purchases[unitName] = unitPurchases;
+        }
+
+        if (unitPurchases.PurchasedTalents.TryGetValue(talentId, out var count))
+        {
+            unitPurchases.PurchasedTalents[talentId] = 0;
         }
     }
 

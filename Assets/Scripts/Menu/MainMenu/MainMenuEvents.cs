@@ -16,6 +16,7 @@ public class MainMenuEvents : IUIScreenEvents
             SceneManager.LoadScene("Game");
         }
     };
+
     private PopupButtonDefinition mediumPlayBtn = new PopupButtonDefinition
     {
         BtnText = "Medium",
@@ -25,6 +26,7 @@ public class MainMenuEvents : IUIScreenEvents
             SceneManager.LoadScene("Game");
         }
     };
+
     private PopupButtonDefinition hardPlayBtn = new PopupButtonDefinition
     {
         BtnText = "Hard",
