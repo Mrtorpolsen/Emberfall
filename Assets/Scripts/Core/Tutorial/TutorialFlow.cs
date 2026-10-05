@@ -363,7 +363,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Your Stats",
-                    description = "These are the stats of your unit with your upgrades applied. See how it has 21 damage? Thats from the talent we purchased earlier.",
+                    description = "These are the stats of your unit with your upgrades applied. See how it has 206 health? Thats from the talent we purchased earlier.",
                     hasButton = true,
                     position = TutorialPopupLocation.Top
                 },
@@ -497,20 +497,6 @@ public class TutorialFlow : MonoBehaviour
                     PlayMenuStep(currentStep);
                 },
             },
-            /* 
-            new TutorialStep
-            {
-                target = "",
-                popup = new TutorialPopupData
-                {
-                    heading = "",
-                    description = "",
-                    hasButton = false
-                },
-                onComplete = () => {},
-                overrideOnClick = true
-            }
-             */
         };
 
         hasInitialized = true;
@@ -525,8 +511,7 @@ public class TutorialFlow : MonoBehaviour
     {
         if (isPlayingTutorial)
         {
-            PlayMenuStep(2);
-            //StartTutorial();
+            StartTutorial();
         }
     }
 

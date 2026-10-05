@@ -68,9 +68,9 @@ public class GameManager : MonoBehaviour
         OnCurrencyChanged?.Invoke((int)currency[Team.South]);
     }
 
-    public void Start()
+    public async void Start()
     {
-        StartGame();
+        await StartGame();
     }
 
     void Update()

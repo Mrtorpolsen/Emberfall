@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "definitionsVersion": 4,
+  "definitionsVersion": 5,
   "gameVersion": "0.5.0",
   "costPresets": {
     "common": {
@@ -144,13 +144,13 @@
       "tags": [],
       "talents": [
         {
-          "DefinitionId": "stat_damage_1",
+          "DefinitionId": "stat_health_1",
           "Category": "Unit",
           "Tier": 1,
           "Prerequisites": []
         },
         {
-          "DefinitionId": "stat_health_1",
+          "DefinitionId": "stat_damage_1",
           "Category": "Unit",
           "Tier": 2,
           "Prerequisites": [

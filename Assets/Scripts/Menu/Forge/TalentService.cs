@@ -157,7 +157,7 @@ public class TalentService : MonoBehaviour
     public void SetTutorialTalentState()
     {
         string unitName = "fighter";
-        string talentId = "stat_damage_1_T1";
+        string talentId = "stat_health_1_T1";
         var purchases = SaveService.Instance.Current.Talents.Purchases;
 
         if (!purchases.TryGetValue(unitName, out var unitPurchases))

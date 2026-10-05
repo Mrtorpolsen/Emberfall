@@ -154,9 +154,9 @@
             </ui:VisualElement>
             <ui:VisualElement name="TabMenu" style="flex-grow: 0; flex-direction: column; margin-top: 45px; margin-bottom: 45px;">
                 <ui:VisualElement name="TabButtonContainer" style="flex-grow: 1; flex-direction: row; justify-content: space-evenly;">
-                    <ui:Button text="Unit" name="Btn_Unit_Tab" class="tab btn_background_half text"/>
-                    <ui:Button text="Tower" name="Btn_Tower_Tab" class="tab btn_background_half text"/>
-                    <ui:Button text="Utility" name="Btn_Utility_Tab" class="tab btn_background_half text"/>
+                    <ui:Button text="Units" name="Btn_Unit_Tab" class="tab btn_background_half text"/>
+                    <ui:Button text="Towers" name="Btn_Tower_Tab" class="tab btn_background_half text"/>
+                    <ui:Button text="Abilities" name="Btn_Utility_Tab" class="tab btn_background_half text"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="TabMenuBottom" class="btnBackground1x1" style="flex-grow: 1; height: 15px;"/>
             </ui:VisualElement>
