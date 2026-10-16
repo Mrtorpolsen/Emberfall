@@ -49,7 +49,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Welcome to Emberfall!",
-                    description = $"{UserProfile.Instance.userName}, never heard that before. Welcome to emberfall!\n\nEmberfall is a td-ish game where you defend against the enemy, earn currency and spend that currency to upgrade your units and unlock new ones, rising through the difficulties until you reach the top!\n\nBut enough talk, let's get going!",
+                    description = $"{UserProfile.Instance.userName}, never heard that before. Welcome to emberfall!\n\nEmberfall is a td-ish game where you defend against the enemy, earn currency and spend that currency to upgrade your units and unlock new ones, rising through the difficulties until you reach the top!\n\nEnough talk, let's get going!",
                     hasButton = true
                 },
                 onComplete = () =>

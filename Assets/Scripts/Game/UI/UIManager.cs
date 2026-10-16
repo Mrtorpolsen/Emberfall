@@ -124,10 +124,7 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.OnCurrencyChanged += UpdateCurrencyText;
             GameManager.Instance.OnIncomeMultiplierChanged += UpdateIncomeMultiplierText;
         }
-        if (WaveController.waveGenerator != null)
-        {
-            WaveController.waveGenerator.OnWaveNumberChanged += UpdateWaveCountText;
-        }
+        BindWaveChangeUpdateEvent();
     }
 
     private void OnDisable()
@@ -146,6 +143,14 @@ public class UIManager : MonoBehaviour
     }
 
     public void OnPauseBtnClick() { PauseManager.TogglePause(); }
+
+    public void BindWaveChangeUpdateEvent()
+    {
+        if (WaveController.waveGenerator != null)
+        {
+            WaveController.waveGenerator.OnWaveNumberChanged += UpdateWaveCountText;
+        }
+    }
 
     private void TogglePauseMenu(bool paused)
     {

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,10 +31,12 @@ public class GamePlayTutorialPresenter : MonoBehaviour
     [Header("Spawn Fighter")]
     [SerializeField] private Button spawnFighterButton;
     [SerializeField] private GameObject fighterPrefab;
+    [SerializeField] private TMP_Text remainingFighters;
 
     private TaskCompletionSource<bool> completionSource;
 
     public int fighterSpawnCount = 0;
+    private int totalFightersToSpawn = 5;
 
     private void Awake()
     {
@@ -99,10 +102,10 @@ public class GamePlayTutorialPresenter : MonoBehaviour
     public void SpawnFighter()
     {
         fighterSpawnCount++;
-
+        remainingFighters.text = (totalFightersToSpawn - fighterSpawnCount).ToString();
         SpawnManager.Instance.SpawnSouthUnit(fighterPrefab, "fighter");
 
-        if (fighterSpawnCount >= 5)
+        if (fighterSpawnCount >= totalFightersToSpawn)
         {
             TutorialComplete();
         }
@@ -124,5 +127,6 @@ public class GamePlayTutorialPresenter : MonoBehaviour
         unitsPanel.gameObject.SetActive(false);
         unitsExplanationPanel.gameObject.SetActive(false);
         sendFighterPanel.gameObject.SetActive(false);
+        remainingFighters.text = totalFightersToSpawn.ToString();
     }
 }

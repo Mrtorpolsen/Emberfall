@@ -156,6 +156,7 @@ public class GameManager : MonoBehaviour
         }
 
         WaveController.Instance.InitializeDifficulty(difficulty);
+        UIManager.Instance.BindWaveChangeUpdateEvent();
         Instance.isGameRunning = true;
         TimerManager.Instance.StartTimer();
 
