@@ -118,3 +118,6 @@ $RECYCLE.BIN/
 
 
 /Assets/Resources/PerformanceTestRunInfo.json
+
+#Claude
+.claude/settings.local.json
