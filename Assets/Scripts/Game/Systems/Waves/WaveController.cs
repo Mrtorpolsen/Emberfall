@@ -61,11 +61,14 @@ public class WaveController : MonoBehaviour
         //Can move generals to sets and here the set gets selected based on difficulty, but for now keep it simple
         currentDifficulty = difficulty;
 
-        var activeGenerals = allGenerals;
+        List<GeneralDefinition> activeGenerals = allGenerals;
+        //Temporary solution, until the general difficulty sets are implemented
+        GeneralDefinition tutorialGeneral = allGenerals.FirstOrDefault((general) => general.id == "sirtutorthethird");
+        activeGenerals.Remove(tutorialGeneral);
 
         if (currentDifficulty.Level == DifficultyLevel.Tutorial)
         {
-            activeGenerals = allGenerals.Where((general) => general.id == "sirtutorthethird").ToList();
+            activeGenerals = new List<GeneralDefinition> { tutorialGeneral };
             totalWaves = activeGenerals[0].spawnLimit;
         }
 
