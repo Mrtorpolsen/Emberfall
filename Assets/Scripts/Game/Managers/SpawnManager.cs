@@ -45,12 +45,12 @@ public class SpawnManager : MonoBehaviour
 
     public bool SpawnSouthUnit(GameObject prefab, string unitName)
     {
-        FinalStats finalStats = UnitStatsManager.Instance.GetStats(unitName.ToLowerInvariant());
+        StatBlock finalStats = UnitStatsManager.Instance.GetStats(unitName.ToLowerInvariant());
 
         return SpawnUnit(prefab, southSpawn, Team.South, finalStats);
     }
 
-    public bool SpawnSouthTower(GameObject prefab, SpawnSide spawnSide, out GameObject spawnedTower, FinalStats finalStats = null)
+    public bool SpawnSouthTower(GameObject prefab, SpawnSide spawnSide, out GameObject spawnedTower, StatBlock finalStats = null)
     {
         spawnedTower = null;
 
@@ -61,7 +61,7 @@ public class SpawnManager : MonoBehaviour
         return SpawnUnit(prefab, towerPoint, Team.South, out spawnedTower, finalStats);
     }
 
-    public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team, FinalStats finalStats = null)
+    public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team, StatBlock finalStats = null)
     {
         BaseUnitStats unitBase = prefab.GetComponent<BaseUnitStats>();
 
@@ -114,7 +114,7 @@ public class SpawnManager : MonoBehaviour
 
     //Doesnt have spawn offset used for tower, need rework or rename to better reflect its purpose
     public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team,
-        out GameObject spawnedUnit, FinalStats finalStats = null)
+        out GameObject spawnedUnit, StatBlock finalStats = null)
     {
         spawnedUnit = null;
 

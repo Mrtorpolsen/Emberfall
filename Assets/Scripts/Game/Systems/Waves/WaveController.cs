@@ -142,7 +142,7 @@ public class WaveController : MonoBehaviour
                     scaling.waveIndex = 0;
                 }
 
-                FinalStats stats = UnitStatsManager.Instance.GetEnemyStats(unitName, scaling);
+                StatBlock stats = UnitStatsManager.Instance.GetEnemyStats(unitName, scaling);
 
                 if (group.isBoss)
                 {

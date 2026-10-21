@@ -48,6 +48,8 @@ public class UnitStatsDefinition : ScriptableObject
         block.Set(StatType.SplashRadius, splashRadius);
         block.Set(StatType.MovementSpeed, movementSpeed);
         block.Set(StatType.Mass, mass);
+        block.Set(StatType.HitRadius, hitRadius);
+        block.Set(StatType.Cost, cost);
         return block;
     }
 }

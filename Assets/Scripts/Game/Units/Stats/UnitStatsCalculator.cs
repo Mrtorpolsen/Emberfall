@@ -7,7 +7,7 @@ public class UnitStatsCalculator
     private const float EnemyRangedRangeMultiplier = 0.8f;
 
     // Applies all progression modifiers in one pass so percentages add up against the definition value
-    public void ApplyModifiers(ref FinalStats stats, UnitStatsDefinition baseStats, IEnumerable<AppliedStatModifier> modifiers)
+    public void ApplyModifiers(StatBlock stats, UnitStatsDefinition baseStats, IEnumerable<AppliedStatModifier> modifiers)
     {
         var modifiersByStat = new Dictionary<StatType, List<StatModifier>>();
 
@@ -29,11 +29,11 @@ public class UnitStatsCalculator
 
         foreach (var kvp in modifiersByStat)
         {
-            stats.Stats.Set(kvp.Key, StatPipeline.Calculate(baseBlock.Get(kvp.Key), kvp.Value));
+            stats.Set(kvp.Key, StatPipeline.Calculate(baseBlock.Get(kvp.Key), kvp.Value));
         }
     }
 
-    public FinalStats CalculateEnemyStats(int waveIndex, FinalStats finalStats, bool isRanged = false)
+    public StatBlock CalculateEnemyStats(int waveIndex, StatBlock finalStats, bool isRanged = false)
     {
         int wave = waveIndex + 1;
         int hpPercent = Mathf.RoundToInt(2f * Mathf.Pow(wave, 0.85f));
@@ -42,21 +42,21 @@ public class UnitStatsCalculator
         float hpMultiplier = 1f + (hpPercent * 0.01f);
         float dmgMultiplier = 1f + (dmgPercent * 0.01f);
 
-        ApplyEnemyEffect(StatType.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
-        ApplyEnemyEffect(StatType.AttackDamage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
+        ApplyEnemyEffect(StatType.Health, EffectOperation.Multiply, hpMultiplier, finalStats);
+        ApplyEnemyEffect(StatType.AttackDamage, EffectOperation.Multiply, dmgMultiplier, finalStats);
 
         if (isRanged)
         {
-            finalStats.attackRange *= EnemyRangedRangeMultiplier;
+            finalStats.Set(StatType.AttackRange, finalStats.Get(StatType.AttackRange) * EnemyRangedRangeMultiplier);
         }
 
         return finalStats;
     }
 
     private void ApplyEnemyEffect(StatType target, EffectOperation operation,
-        float value, ref FinalStats stats)
+        float value, StatBlock stats)
     {
-        float current = stats.Stats.Get(target);
+        float current = stats.Get(target);
 
         float result = operation switch
         {
@@ -67,6 +67,6 @@ public class UnitStatsCalculator
             _ => current
         };
 
-        stats.Stats.Set(target, result);
+        stats.Set(target, result);
     }
 }

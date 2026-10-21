@@ -384,23 +384,23 @@ public class LoadoutUIController : IUIScreenController
 
         return description;
     }
-    private string BuildUnitStatsDescription(LoadoutDefinition loadoutDefinition, FinalStats stats)
+    private string BuildUnitStatsDescription(LoadoutDefinition loadoutDefinition, StatBlock stats)
     {
         string description = "";
 
         switch (loadoutDefinition.SlotType)
         {
             case DefinitionCategory.Tower:
-                description = "Cost: " + stats.cost + "\n" +
-                    "Damage: " + stats.attackDamage + "\n" +
-                    "Attack Speed: " + stats.attackSpeed + "\n" +
-                    "Attack Range: " + stats.attackRange;
+                description = "Cost: " + stats.Get(StatType.Cost) + "\n" +
+                    "Damage: " + stats.GetInt(StatType.AttackDamage) + "\n" +
+                    "Attack Speed: " + stats.Get(StatType.AttackSpeed) + "\n" +
+                    "Attack Range: " + stats.Get(StatType.AttackRange);
 
-                if (stats.splashRadius > 0)
+                if (stats.Get(StatType.SplashRadius) > 0)
                 {
                     string splashSize;
 
-                    switch (stats.splashRadius)
+                    switch (stats.Get(StatType.SplashRadius))
                     {
                         case < 0.5f:
                             splashSize = "Small";
@@ -419,15 +419,15 @@ public class LoadoutUIController : IUIScreenController
                 break;
 
             case DefinitionCategory.Unit:
-                description = "Cost: " + stats.cost + "\n" +
-                    "Health: " + stats.maxHealth + "\n" +
-                    "Armor: " + stats.armor + "\n" +
-                    "Damage: " + stats.attackDamage + "\n" +
-                    "Attack Speed: " + stats.attackSpeed + "\n" +
-                    "Attack Range: " + stats.attackRange + "\n" +
-                    "Crit Chance: " + stats.critChance + "\n" +
-                    "Crit Damage: " + stats.critDamage + "\n" +
-                    "Mass: " + stats.mass;
+                description = "Cost: " + stats.Get(StatType.Cost) + "\n" +
+                    "Health: " + stats.GetInt(StatType.Health) + "\n" +
+                    "Armor: " + stats.GetInt(StatType.Armor) + "\n" +
+                    "Damage: " + stats.GetInt(StatType.AttackDamage) + "\n" +
+                    "Attack Speed: " + stats.Get(StatType.AttackSpeed) + "\n" +
+                    "Attack Range: " + stats.Get(StatType.AttackRange) + "\n" +
+                    "Crit Chance: " + stats.Get(StatType.CritChance) + "\n" +
+                    "Crit Damage: " + stats.Get(StatType.CritDamage) + "\n" +
+                    "Mass: " + stats.GetInt(StatType.Mass);
                 break;
         }
 

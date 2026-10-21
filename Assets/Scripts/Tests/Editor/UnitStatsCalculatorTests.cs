@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class UnitStatsCalculatorTests
 {
+    private static StatBlock Block(params (StatType stat, float value)[] values)
+    {
+        var block = new StatBlock();
+        foreach (var (stat, value) in values)
+        {
+            block.Set(stat, value);
+        }
+        return block;
+    }
+
     [Test]
     public void ApplyModifier_AdditiveCritTalent_StacksCorrectly()
     {
         var calculator = new UnitStatsCalculator();
 
-        FinalStats stats = new FinalStats
-        {
-            critChance = 0f
-        };
+        StatBlock stats = Block((StatType.CritChance, 0f));
 
         UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
         baseStats.critChance = 0f;
@@ -34,9 +41,9 @@ public class UnitStatsCalculatorTests
             }
         };
 
-        calculator.ApplyModifiers(ref stats, baseStats, talents);
+        calculator.ApplyModifiers(stats, baseStats, talents);
         // 0 + 0.1 + 0.1 + 0.1
-        Assert.AreEqual(0.3f, stats.critChance);
+        Assert.AreEqual(0.3f, stats.Get(StatType.CritChance));
     }
 
     [Test]
@@ -44,10 +51,7 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        FinalStats stats = new FinalStats
-        {
-            maxHealth = 200
-        };
+        StatBlock stats = Block((StatType.Health, 200));
 
         UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
         baseStats.maxHealth = 200;
@@ -83,7 +87,7 @@ public class UnitStatsCalculatorTests
             }
         };
 
-        calculator.ApplyModifiers(ref stats, baseStats, talents);
+        calculator.ApplyModifiers(stats, baseStats, talents);
 
         // delta 1 = 1 + (1.02 - 1) * 5 = 1.10
         // 200 * 1.1 - 200 = 20
@@ -98,7 +102,7 @@ public class UnitStatsCalculatorTests
                 (200 * (1 + (1.02f - 1) * 5) - 200) +   // first delta
                 (200 * (1 + (1.03f - 1) * 3) - 200)     // second delta
             ),
-            stats.maxHealth
+            stats.GetInt(StatType.Health)
         );
     }
 
@@ -107,10 +111,7 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        FinalStats stats = new FinalStats
-        {
-            attackDamage = 20
-        };
+        StatBlock stats = Block((StatType.AttackDamage, 20));
 
         UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
         baseStats.attackDamage = 20;
@@ -132,13 +133,13 @@ public class UnitStatsCalculatorTests
             }
         };
 
-        calculator.ApplyModifiers(ref stats, baseStats, talents);
+        calculator.ApplyModifiers(stats, baseStats, talents);
 
         // magnitude = 1 + (1.05 - 1) * 5 = 1.25
         // 20 * 1.25 = 25
         Assert.AreEqual(
             Mathf.RoundToInt(20 * (1 + (1.05f - 1) * 5)),
-            stats.attackDamage
+            stats.GetInt(StatType.AttackDamage)
         );
     }
 
@@ -147,10 +148,7 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        FinalStats stats = new FinalStats
-        {
-            attackRange = 0.2f
-        };
+        StatBlock stats = Block((StatType.AttackRange, 0.2f));
 
         UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
         baseStats.attackRange = 0.2f;
@@ -172,10 +170,10 @@ public class UnitStatsCalculatorTests
         }
     };
 
-        calculator.ApplyModifiers(ref stats, baseStats, talents);
+        calculator.ApplyModifiers(stats, baseStats, talents);
 
         // 0.2 + (0.15 * 5) = 0.95f
-        Assert.AreEqual(0.95f, stats.attackRange, 0.0001f);
+        Assert.AreEqual(0.95f, stats.Get(StatType.AttackRange), 0.0001f);
     }
 
     [Test]
@@ -183,10 +181,7 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        FinalStats stats = new FinalStats
-        {
-            maxHealth = 100
-        };
+        StatBlock stats = Block((StatType.Health, 100));
 
         UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
         baseStats.maxHealth = 100;
@@ -208,11 +203,11 @@ public class UnitStatsCalculatorTests
         }
     };
 
-        calculator.ApplyModifiers(ref stats, baseStats, talents);
+        calculator.ApplyModifiers(stats, baseStats, talents);
 
         // magnitude = 1 + (1.075 - 1) * 3 = 1.225
         // 100 * 1.225 = 122.5 rounded to 123
-        Assert.AreEqual(Mathf.RoundToInt(100 * (1 + (1.075f - 1) * 3)), stats.maxHealth);
+        Assert.AreEqual(Mathf.RoundToInt(100 * (1 + (1.075f - 1) * 3)), stats.GetInt(StatType.Health));
     }
 
     [Test]
@@ -220,13 +215,7 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        var stats = new FinalStats
-        {
-            maxHealth = 100,
-            attackDamage = 20,
-            critChance = 0.05f,
-            attackSpeed = 1f
-        };
+        var stats = Block((StatType.Health, 100), (StatType.AttackDamage, 20), (StatType.CritChance, 0.05f), (StatType.AttackSpeed, 1f));
 
         UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
         baseStats.maxHealth = 100;
@@ -237,12 +226,12 @@ public class UnitStatsCalculatorTests
         // Simulate empty save: no purchased talents
         var playerTalents = new List<AppliedStatModifier>();
 
-        calculator.ApplyModifiers(ref stats, baseStats, playerTalents);
+        calculator.ApplyModifiers(stats, baseStats, playerTalents);
 
-        Assert.AreEqual(100, stats.maxHealth);
-        Assert.AreEqual(20, stats.attackDamage);
-        Assert.AreEqual(0.05f, stats.critChance, 0.0001f);
-        Assert.AreEqual(1f, stats.attackSpeed);
+        Assert.AreEqual(100, stats.GetInt(StatType.Health));
+        Assert.AreEqual(20, stats.GetInt(StatType.AttackDamage));
+        Assert.AreEqual(0.05f, stats.Get(StatType.CritChance), 0.0001f);
+        Assert.AreEqual(1f, stats.Get(StatType.AttackSpeed));
     }
 
 
@@ -255,13 +244,7 @@ public class UnitStatsCalculatorTests
 
         var calculator = new UnitStatsCalculator();
 
-        var baseStats = new FinalStats
-        {
-            maxHealth = 100,
-            attackDamage = 10,
-            attackSpeed = 1f,  // should remain unchanged
-            critChance = 0.05f // should remain unchanged
-        };
+        var baseStats = Block((StatType.Health, 100), (StatType.AttackDamage, 10), (StatType.AttackSpeed, 1f), (StatType.CritChance, 0.05f));
 
         var result = calculator.CalculateEnemyStats(waveIndex, baseStats);
 
@@ -271,8 +254,8 @@ public class UnitStatsCalculatorTests
         float expectedHpMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.85f)) * 0.01f;
         float expectedDmgMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.75f)) * 0.01f;
 
-        Assert.AreEqual(Mathf.RoundToInt(100 * expectedHpMultiplier), result.maxHealth);
-        Assert.AreEqual(Mathf.RoundToInt(10 * expectedDmgMultiplier), result.attackDamage);
+        Assert.AreEqual(Mathf.RoundToInt(100 * expectedHpMultiplier), result.GetInt(StatType.Health));
+        Assert.AreEqual(Mathf.RoundToInt(10 * expectedDmgMultiplier), result.GetInt(StatType.AttackDamage));
     }
 
     [Test]
@@ -283,11 +266,7 @@ public class UnitStatsCalculatorTests
 
         var calculator = new UnitStatsCalculator();
 
-        var baseStats = new FinalStats
-        {
-            maxHealth = 500,
-            attackDamage = 50,
-        };
+        var baseStats = Block((StatType.Health, 500), (StatType.AttackDamage, 50));
 
         var result = calculator.CalculateEnemyStats(waveIndex, baseStats);
 
@@ -296,8 +275,8 @@ public class UnitStatsCalculatorTests
         float expectedHpMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.85f)) * 0.01f;
         float expectedDmgMultiplier = 1f + Mathf.RoundToInt(2f * Mathf.Pow(actualWave, 0.75f)) * 0.01f;
 
-        Assert.AreEqual(Mathf.RoundToInt(500 * expectedHpMultiplier), result.maxHealth);
-        Assert.AreEqual(Mathf.RoundToInt(50 * expectedDmgMultiplier), result.attackDamage);
+        Assert.AreEqual(Mathf.RoundToInt(500 * expectedHpMultiplier), result.GetInt(StatType.Health));
+        Assert.AreEqual(Mathf.RoundToInt(50 * expectedDmgMultiplier), result.GetInt(StatType.AttackDamage));
     }
 
     [Test]
@@ -305,20 +284,14 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        var baseStats = new FinalStats
-        {
-            attackSpeed = 0.7f,
-            critChance = 0.05f,
-            attackRange = 2f,
-            armor = 5
-        };
+        var baseStats = Block((StatType.AttackSpeed, 0.7f), (StatType.CritChance, 0.05f), (StatType.AttackRange, 2f), (StatType.Armor, 5));
 
         var result = calculator.CalculateEnemyStats(10, baseStats);
 
-        Assert.AreEqual(0.7f, result.attackSpeed);
-        Assert.AreEqual(0.05f, result.critChance, 0.0001f);
-        Assert.AreEqual(2f, result.attackRange);
-        Assert.AreEqual(5, result.armor);
+        Assert.AreEqual(0.7f, result.Get(StatType.AttackSpeed));
+        Assert.AreEqual(0.05f, result.Get(StatType.CritChance), 0.0001f);
+        Assert.AreEqual(2f, result.Get(StatType.AttackRange));
+        Assert.AreEqual(5, result.GetInt(StatType.Armor));
     }
 
     [Test]
@@ -326,10 +299,7 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        FinalStats stats = new FinalStats
-        {
-            armor = 10
-        };
+        StatBlock stats = Block((StatType.Armor, 10));
 
         UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
         baseStats.armor = 10;
@@ -351,9 +321,9 @@ public class UnitStatsCalculatorTests
             }
         };
 
-        calculator.ApplyModifiers(ref stats, baseStats, talents);
+        calculator.ApplyModifiers(stats, baseStats, talents);
         // 10 - 3 - 3
-        Assert.AreEqual(4, stats.armor);
+        Assert.AreEqual(4, stats.GetInt(StatType.Armor));
     }
 
     [Test]
@@ -361,14 +331,11 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        var baseStats = new FinalStats
-        {
-            attackRange = 5f
-        };
+        var baseStats = Block((StatType.AttackRange, 5f));
 
         var result = calculator.CalculateEnemyStats(0, baseStats, isRanged: true);
 
-        Assert.AreEqual(4f, result.attackRange, 0.0001f);
+        Assert.AreEqual(4f, result.Get(StatType.AttackRange), 0.0001f);
     }
 
     [Test]
@@ -376,14 +343,11 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        var baseStats = new FinalStats
-        {
-            attackRange = 0.25f
-        };
+        var baseStats = Block((StatType.AttackRange, 0.25f));
 
         var result = calculator.CalculateEnemyStats(0, baseStats);
 
-        Assert.AreEqual(0.25f, result.attackRange, 0.0001f);
+        Assert.AreEqual(0.25f, result.Get(StatType.AttackRange), 0.0001f);
     }
 
     [Test]
@@ -391,10 +355,7 @@ public class UnitStatsCalculatorTests
     {
         var calculator = new UnitStatsCalculator();
 
-        FinalStats stats = new FinalStats
-        {
-            movementSpeed = 2f
-        };
+        StatBlock stats = Block((StatType.MovementSpeed, 2f));
 
         UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
         baseStats.movementSpeed = 2f;
@@ -416,8 +377,8 @@ public class UnitStatsCalculatorTests
             }
         };
 
-        calculator.ApplyModifiers(ref stats, baseStats, talents);
+        calculator.ApplyModifiers(stats, baseStats, talents);
         // 2 * (1 + 0.05 * 2)
-        Assert.AreEqual(2.2f, stats.movementSpeed, 0.0001f);
+        Assert.AreEqual(2.2f, stats.Get(StatType.MovementSpeed), 0.0001f);
     }
 }

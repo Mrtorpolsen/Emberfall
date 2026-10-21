@@ -53,7 +53,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     // ITargetable
     public GameObject GameObject => gameObject;
     public Transform Transform => (this != null) ? transform : null;
-    public float HitRadius => runtimeStats.hitRadius;
+    public float HitRadius => currentStats.Get(StatType.HitRadius);
     public bool IsAlive => !isDying && currentHealth > 0;
     public virtual ThreatLevel UnitPrio => runtimeStats.unitPrio;
     public bool IsTargetable => runtimeStats.isTargetable;
@@ -61,7 +61,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     // UnitMetadata
     public Team Team => metadata.Team;
-    public float Cost => statsDef.cost;
+    public float Cost => currentStats.Get(StatType.Cost);
 
 
     //Debug
@@ -93,8 +93,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         runtimeStats = new RuntimeStats
         {
-            cost = statsDef.cost,
-            hitRadius = statsDef.hitRadius,
             unitPrio = statsDef.unitPrio,
             isTargetable = statsDef.isTargetable
         };
@@ -198,12 +196,9 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     protected virtual void OnDeath() { }
 
-    public virtual void ApplyFinalStats(FinalStats finalStats)
+    public virtual void ApplyFinalStats(StatBlock finalStats)
     {
-        runtimeStats.cost = finalStats.cost;
-        runtimeStats.hitRadius = finalStats.hitRadius;
-
-        SetProgressionStats(finalStats.Stats.Clone());
+        SetProgressionStats(finalStats.Clone());
     }
 
     private void SetProgressionStats(StatBlock stats)
@@ -389,7 +384,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         if (runtimeStats == null) return;
 
-        debugCost = runtimeStats.cost;
+        debugCost = Cost;
 
         debugMaxHealth = MaxHealth;
         debugCurrentHealth = currentHealth;
@@ -398,7 +393,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         debugAttackDamage = AttackDamage;
         debugAttackSpeed = AttackSpeed;
         debugAttackRange = AttackRange;
-        debugHitRadius = runtimeStats.hitRadius;
+        debugHitRadius = HitRadius;
         debugSplashRadius = SplashRadius;
 
         debugMovementSpeed = MovementSpeed;

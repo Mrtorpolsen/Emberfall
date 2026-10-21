@@ -23,8 +23,8 @@ public class UnitStatsManager : MonoBehaviour
         set => unitStatsCalculator = value;
     }
 
-    private Dictionary<string, FinalStats> finalStatsByUnit = new();
-    public Dictionary<string, FinalStats> FinalStatsByUnit
+    private Dictionary<string, StatBlock> finalStatsByUnit = new();
+    public Dictionary<string, StatBlock> FinalStatsByUnit
     {
         get => finalStatsByUnit;
         set => finalStatsByUnit = value;
@@ -107,11 +107,11 @@ public class UnitStatsManager : MonoBehaviour
         unitStatsByUnitKey[unitKey] = unitStats;
     }
 
-    private FinalStats CalculateFinalStats(UnitStatsDefinition baseStats, string unitKey, Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers)
+    private StatBlock CalculateFinalStats(UnitStatsDefinition baseStats, string unitKey, Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers)
     {
         ResearchCategory category = baseStats.category;
 
-        FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
+        StatBlock finalStats = BuildFinalStatsFromBase(baseStats);
 
         List<AppliedStatModifier> modifiers = new();
 
@@ -134,7 +134,7 @@ public class UnitStatsManager : MonoBehaviour
             }
         }
 
-        unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, modifiers);
+        unitStatsCalculator.ApplyModifiers(finalStats, baseStats, modifiers);
 
         return finalStats;
     }
@@ -148,7 +148,7 @@ public class UnitStatsManager : MonoBehaviour
 
         foreach (var kvp in unitStatsByUnitKey)
         {
-            FinalStats finalStats = CalculateFinalStats(kvp.Value, kvp.Key, categoryModifiers);
+            StatBlock finalStats = CalculateFinalStats(kvp.Value, kvp.Key, categoryModifiers);
 
             finalStatsByUnit[kvp.Key] = finalStats;
         }
@@ -168,7 +168,7 @@ public class UnitStatsManager : MonoBehaviour
 
         UnitStatsDefinition baseStats = unit;
 
-        FinalStats finalStats = CalculateFinalStats(baseStats, unitKey, categoryModifiers);
+        StatBlock finalStats = CalculateFinalStats(baseStats, unitKey, categoryModifiers);
 
         finalStatsByUnit[unitKey] = finalStats;
     }
@@ -195,7 +195,7 @@ public class UnitStatsManager : MonoBehaviour
         return categoryModifiers;
     }
 
-    public FinalStats GetStats(string unitKey)
+    public StatBlock GetStats(string unitKey)
     {
         return finalStatsByUnit.TryGetValue(unitKey, out var stats) ? stats : null;
     }
@@ -205,7 +205,7 @@ public class UnitStatsManager : MonoBehaviour
         return unitStatsDefinition;
     }
 
-    public FinalStats GetEnemyStats(string unitKey, WaveController.EnemyScalingContext scaling)
+    public StatBlock GetEnemyStats(string unitKey, WaveController.EnemyScalingContext scaling)
     {
         int delayWaves = 10; // Delay scaling for the first 10 waves
 
@@ -215,7 +215,7 @@ public class UnitStatsManager : MonoBehaviour
             return null;
         }
 
-        FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
+        StatBlock finalStats = BuildFinalStatsFromBase(baseStats);
 
         if (finalStats == null)
         {
@@ -232,7 +232,7 @@ public class UnitStatsManager : MonoBehaviour
         return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex - delayWaves, finalStats, scaling.isRanged);
     }
 
-    private FinalStats BuildFinalStatsFromBase(UnitStatsDefinition unitBaseStats)
+    private StatBlock BuildFinalStatsFromBase(UnitStatsDefinition unitBaseStats)
     {
         if (unitBaseStats == null)
         {
@@ -240,33 +240,12 @@ public class UnitStatsManager : MonoBehaviour
             return null;
         }
 
-        return new FinalStats(unitBaseStats.ToStatBlock())
-        {
-            hitRadius = unitBaseStats.hitRadius,
-            cost = unitBaseStats.cost
-        };
+        return unitBaseStats.ToStatBlock();
     }
 
     public void ReloadPlayerData()
     {
         statsBootstrapper.ReloadPlayerData();
-    }
-
-    private void LogStats(string unitName, FinalStats stats)
-    {
-        Debug.Log(
-            $"[FinalStats] {unitName}\n" +
-            $"  Health: {stats.maxHealth}\n" +
-            $"  Damage: {stats.attackDamage}\n" +
-            $"  Attack Speed: {stats.attackSpeed:F3}\n" +
-            $"  Range: {stats.attackRange:F2}\n" +
-            $"  Move Speed: {stats.movementSpeed:F2}\n" +
-            $"  Hit Radius: {stats.hitRadius:F2}\n" +
-            $"  Cost: {stats.cost:F1}\n" +
-            $"  Mass: {stats.mass:F1}\n" +
-            $"  Splash Radius: {stats.splashRadius:F1}\n" +
-            $"  Armor: {stats.armor:F1}"
-        );
     }
 
     private void LogStats(string unitName, BaseUnitStats stats)

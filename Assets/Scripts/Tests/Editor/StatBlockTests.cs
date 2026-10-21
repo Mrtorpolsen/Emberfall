@@ -28,11 +28,11 @@ public class StatBlockTests
     }
 
     [Test]
-    public void FinalStats_IntStats_RoundOnRead()
+    public void GetInt_RoundsOnRead()
     {
-        var stats = new FinalStats();
-        stats.Stats.Set(StatType.Health, 104.6f);
+        var block = new StatBlock();
+        block.Set(StatType.Health, 104.6f);
 
-        Assert.AreEqual(105, stats.maxHealth);
+        Assert.AreEqual(105, block.GetInt(StatType.Health));
     }
 }
