@@ -240,23 +240,11 @@ public class UnitStatsManager : MonoBehaviour
             return null;
         }
 
-        FinalStats finalStats = new FinalStats
+        return new FinalStats(unitBaseStats.ToStatBlock())
         {
-            maxHealth = unitBaseStats.maxHealth,
-            attackDamage = unitBaseStats.attackDamage,
-            attackSpeed = unitBaseStats.attackSpeed,
-            attackRange = unitBaseStats.attackRange,
-            critChance = unitBaseStats.critChance,
-            critDamage = unitBaseStats.critDamage,
-            armor = unitBaseStats.armor,
-            movementSpeed = unitBaseStats.movementSpeed,
             hitRadius = unitBaseStats.hitRadius,
-            cost = unitBaseStats.cost,
-            mass = unitBaseStats.mass,
-            splashRadius = unitBaseStats.splashRadius
+            cost = unitBaseStats.cost
         };
-
-        return finalStats;
     }
 
     public void ReloadPlayerData()

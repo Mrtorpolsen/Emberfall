@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 // One float per StatType, indexed by the enum value. StatType must stay contiguous from 0.
 public class StatBlock
@@ -8,6 +9,9 @@ public class StatBlock
     private readonly float[] values = new float[StatCount];
 
     public float Get(StatType stat) => values[(int)stat];
+
+    // Int stats are stored unrounded and rounded only here, when read
+    public int GetInt(StatType stat) => Mathf.RoundToInt(values[(int)stat]);
 
     public void Set(StatType stat, float value) => values[(int)stat] = value;
 

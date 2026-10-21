@@ -40,14 +40,14 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     // IUnit
     public float AttackRange => currentStats.Get(StatType.AttackRange);
-    public int AttackDamage => GetInt(StatType.AttackDamage);
+    public int AttackDamage => currentStats.GetInt(StatType.AttackDamage);
     public float AttackSpeed => currentStats.Get(StatType.AttackSpeed);
     public float MovementSpeed => currentStats.Get(StatType.MovementSpeed);
     public float CritChance => currentStats.Get(StatType.CritChance);
     public float CritDamage => currentStats.Get(StatType.CritDamage);
-    public int MaxHealth => GetInt(StatType.Health);
-    public int Armor => GetInt(StatType.Armor);
-    public int Mass => GetInt(StatType.Mass);
+    public int MaxHealth => currentStats.GetInt(StatType.Health);
+    public int Armor => currentStats.GetInt(StatType.Armor);
+    public int Mass => currentStats.GetInt(StatType.Mass);
     public float SplashRadius => currentStats.Get(StatType.SplashRadius);
 
     // ITargetable
@@ -232,8 +232,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         return progression.Clone();
     }
-
-    private int GetInt(StatType stat) => Mathf.RoundToInt(currentStats.Get(stat));
 
     public int GetAttackDamage()
     {
