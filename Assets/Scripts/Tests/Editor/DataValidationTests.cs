@@ -66,6 +66,49 @@ public class DataValidationTests
         Assert.IsEmpty(errors, string.Join("\n", errors));
     }
 
+    [Test]
+    public void SpawnDefinitions_ResolveToStats()
+    {
+        var errors = new List<string>();
+
+        foreach (string guid in AssetDatabase.FindAssets("t:SpawnDefinition"))
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            var spawn = AssetDatabase.LoadAssetAtPath<SpawnDefinition>(path);
+
+            if (spawn.UnitPrefab == null)
+            {
+                errors.Add($"{path} has no unit prefab");
+                continue;
+            }
+
+            if (spawn.Stats == null)
+            {
+                errors.Add($"{path} has no stats");
+                continue;
+            }
+
+            // Spawning looks stats up by the lowercased prefab name, which must match the stats asset name
+            if (spawn.UnitPrefab.name.ToLowerInvariant() != spawn.Stats.name.ToLowerInvariant())
+            {
+                errors.Add($"{path}: prefab '{spawn.UnitPrefab.name}' doesn't match stats '{spawn.Stats.name}'");
+            }
+
+            var unitStats = spawn.UnitPrefab.GetComponent<BaseUnitStats>();
+
+            if (unitStats == null)
+            {
+                errors.Add($"{path}: prefab '{spawn.UnitPrefab.name}' has no BaseUnitStats on its root");
+            }
+            else if (unitStats.statsDef != spawn.Stats)
+            {
+                errors.Add($"{path}: prefab '{spawn.UnitPrefab.name}' uses stats '{(unitStats.statsDef != null ? unitStats.statsDef.name : "none")}', not '{spawn.Stats.name}'");
+            }
+        }
+
+        Assert.IsEmpty(errors, string.Join("\n", errors));
+    }
+
     private static void ValidateEffects(string owner, JToken effects, List<string> errors)
     {
         if (effects == null || !effects.HasValues)
