@@ -38,16 +38,17 @@ public class TowerUnitStats : BaseUnitStats
         return total;
     }
 
-    public FinalStats GetTierStats()
+    // Tiers scale the tower's upgraded (talent/research) stats
+    protected override StatBlock BuildBaseStats(StatBlock progression)
     {
+        StatBlock stats = progression.Clone();
         float multiplier = Mathf.Pow(TierMultiplier, currentTier - 1);
 
-        return new FinalStats
-        {
-            attackDamage = Mathf.RoundToInt(StatsDef.attackDamage * multiplier),
-            attackSpeed = StatsDef.attackSpeed * multiplier,
-            attackRange = StatsDef.attackRange * multiplier,
-        };
+        stats.Set(StatType.AttackDamage, stats.Get(StatType.AttackDamage) * multiplier);
+        stats.Set(StatType.AttackSpeed, stats.Get(StatType.AttackSpeed) * multiplier);
+        stats.Set(StatType.AttackRange, stats.Get(StatType.AttackRange) * multiplier);
+
+        return stats;
     }
 
     public void UpgradeTier()
@@ -56,8 +57,7 @@ public class TowerUnitStats : BaseUnitStats
 
         currentTier++;
 
-        FinalStats newStats = GetTierStats();
-        ApplyFinalStats(newStats);
+        RebuildBaseStats();
 
         ShowTierStars();
     }
