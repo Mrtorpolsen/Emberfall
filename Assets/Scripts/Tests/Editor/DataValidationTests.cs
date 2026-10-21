@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
 using UnityEngine;
 
 // Validates the talent/research JSON so data mistakes fail here instead of silently in play
@@ -103,6 +105,55 @@ public class DataValidationTests
             else if (unitStats.statsDef != spawn.Stats)
             {
                 errors.Add($"{path}: prefab '{spawn.UnitPrefab.name}' uses stats '{(unitStats.statsDef != null ? unitStats.statsDef.name : "none")}', not '{spawn.Stats.name}'");
+            }
+        }
+
+        Assert.IsEmpty(errors, string.Join("\n", errors));
+    }
+
+    [Test]
+    public void TalentIcons_ExistAsAddressables()
+    {
+        var settings = AddressableAssetSettingsDefaultObject.Settings;
+        Assert.IsNotNull(settings, "Addressables settings not found");
+
+        var addresses = new HashSet<string>();
+
+        foreach (var group in settings.groups)
+        {
+            if (group == null) continue;
+
+            foreach (var entry in group.entries)
+            {
+                addresses.Add(entry.address);
+            }
+        }
+
+        var iconIds = new HashSet<string>();
+
+        foreach (var property in JObject.Parse(LoadText(TalentsPath)).Descendants().OfType<JProperty>())
+        {
+            if (string.Equals(property.Name, "IconId", StringComparison.OrdinalIgnoreCase) && property.Value.Type == JTokenType.String)
+            {
+                iconIds.Add((string)property.Value);
+            }
+        }
+
+        var errors = new List<string>();
+
+        foreach (string iconId in iconIds)
+        {
+            if (!addresses.Contains(iconId) && !UtilityLoadAddressable.KnownMissingIcons.Contains(iconId))
+            {
+                errors.Add($"Icon '{iconId}' is not an addressable (add it, or list it in UtilityLoadAddressable.KnownMissingIcons)");
+            }
+        }
+
+        foreach (string iconId in UtilityLoadAddressable.KnownMissingIcons)
+        {
+            if (addresses.Contains(iconId))
+            {
+                errors.Add($"Icon '{iconId}' exists now; remove it from UtilityLoadAddressable.KnownMissingIcons");
             }
         }
 

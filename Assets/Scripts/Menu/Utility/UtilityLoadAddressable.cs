@@ -14,16 +14,15 @@ public static class UtilityLoadAddressable
 
     private const string PLACEHOLDER_ADDRESS = "place_holder_icon";
     private const string PRELOAD_LABEL = "preload";
-    //Temp until all icons are added
-    private static List<string> skipThese = new List<string>
+    // Icons referenced in data whose art doesn't exist yet; shown as the placeholder without trying to load.
+    // DataValidationTests fails if an icon is missing and not listed here, or listed here but now exists.
+    public static readonly HashSet<string> KnownMissingIcons = new()
     {
-        "melee_range_1",
-        "melee_range_2",
-        "melee_range_3",
-        "melee_range_4",
-        "melee_range_5",
-        "abilityunlock_minor",
-        "abilityunlock_major",
+        "unlock_ability_minor",
+        "unlock_unit_dragoon",
+        "unlock_unit_sniper",
+        "unlock_unit_templar",
+        "unlock_unit_trapper",
     };
 
 
@@ -40,8 +39,7 @@ public static class UtilityLoadAddressable
         {
             string key = RemoveResolutionSuffix(location.PrimaryKey);
 
-            //Temp until all icons are added
-            if (skipThese.Contains(key))
+            if (KnownMissingIcons.Contains(key))
                 continue;
 
             if (iconCache.ContainsKey(key))
@@ -106,8 +104,7 @@ public static class UtilityLoadAddressable
 
     private static void InternalLoad(string key, VisualElement target)
     {
-        //Temp until all icons are added
-        if (skipThese.Contains(key))
+        if (KnownMissingIcons.Contains(key))
         {
             target.style.backgroundImage =
                 new StyleBackground(placeholderSprite);
