@@ -159,81 +159,17 @@ public class UnitStatsCalculator
     private void ApplyEnemyEffect(StatType target, EffectOperation operation,
         float value, ref FinalStats stats)
     {
-        switch (target)
+        float current = stats.Stats.Get(target);
+
+        float result = operation switch
         {
-            case StatType.Health:
-                ApplyEmemy(ref stats.maxHealth, operation, value);
-                break;
+            EffectOperation.Add => current + value,
+            EffectOperation.Subtract => current - value,
+            EffectOperation.Multiply => current * value,
+            EffectOperation.Set => value,
+            _ => current
+        };
 
-            case StatType.AttackDamage:
-                ApplyEmemy(ref stats.attackDamage, operation, value);
-                break;
-
-            case StatType.AttackSpeed:
-                ApplyEmemy(ref stats.attackSpeed, operation, value);
-                break;
-
-            case StatType.AttackRange:
-                ApplyEmemy(ref stats.attackRange, operation, value);
-                break;
-
-            case StatType.Armor:
-                ApplyEmemy(ref stats.armor, operation, value);
-                break;
-
-            case StatType.CritChance:
-                ApplyEmemy(ref stats.critChance, operation, value);
-                break;
-
-            case StatType.CritDamage:
-                ApplyEmemy(ref stats.critDamage, operation, value);
-                break;
-        }
-    }
-
-    private void ApplyEmemy(ref int stat, EffectOperation operation, float value)
-    {
-        int intValue = Mathf.RoundToInt(value);
-
-        switch (operation)
-        {
-            case EffectOperation.Add:
-                stat += intValue;
-                break;
-
-            case EffectOperation.Subtract:
-                stat -= intValue;
-                break;
-
-            case EffectOperation.Multiply:
-                stat = Mathf.RoundToInt(stat * value);
-                break;
-
-            case EffectOperation.Set:
-                stat = intValue;
-                break;
-        }
-    }
-
-    private void ApplyEmemy(ref float stat, EffectOperation operation, float value)
-    {
-        switch (operation)
-        {
-            case EffectOperation.Add:
-                stat += value;
-                break;
-
-            case EffectOperation.Subtract:
-                stat -= value;
-                break;
-
-            case EffectOperation.Multiply:
-                stat *= value;
-                break;
-
-            case EffectOperation.Set:
-                stat = value;
-                break;
-        }
+        stats.Stats.Set(target, result);
     }
 }
