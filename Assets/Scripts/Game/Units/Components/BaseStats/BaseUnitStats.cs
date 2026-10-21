@@ -303,21 +303,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         if (!modifiersByStat.TryGetValue(stat, out var list))
             return baseValue;
 
-        float value = baseValue;
-
-        foreach (var mod in list)
-        {
-            if (mod.Type == ModifierType.Flat)
-            {
-                value += mod.Value;
-            }
-            else if (mod.Type == ModifierType.Percent)
-            {
-                value *= (1f + mod.Value); // multiplicative stacking
-            }
-        }
-
-        return value;
+        return StatPipeline.Calculate(baseValue, list);
     }
 
     private void ApplyToRuntime(StatType stat, float value)

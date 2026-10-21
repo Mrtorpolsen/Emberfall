@@ -113,28 +113,28 @@ public class UnitStatsManager : MonoBehaviour
 
         FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
 
+        List<AppliedStatModifier> modifiers = new();
+
         //add research
         if (categoryModifiers.TryGetValue(category, out var categoryMods))
         {
-            unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, categoryMods);
+            modifiers.AddRange(categoryMods);
         }
 
         //add talents
         if (statsBootstrapper.TalentsByUnit.TryGetValue(unitKey, out var unitTalents))
         {
-            List<AppliedStatModifier> talentModifiers = new();
-
             foreach (var talent in unitTalents)
             {
-                talentModifiers.Add(new AppliedStatModifier
+                modifiers.Add(new AppliedStatModifier
                 {
                     Effects = talent.effects,
                     Stacks = talent.purchased
                 });
             }
-
-            unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, talentModifiers);
         }
+
+        unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, modifiers);
 
         return finalStats;
     }

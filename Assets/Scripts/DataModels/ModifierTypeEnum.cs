@@ -1,5 +1,6 @@
 ﻿public enum ModifierType
 {
     Flat,
-    Percent
+    Percent,
+    Set
 }

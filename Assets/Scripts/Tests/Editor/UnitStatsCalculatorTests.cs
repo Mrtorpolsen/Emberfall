@@ -385,4 +385,39 @@ public class UnitStatsCalculatorTests
 
         Assert.AreEqual(0.25f, result.attackRange, 0.0001f);
     }
+
+    [Test]
+    public void ApplyModifier_MovementSpeedTalent_IsApplied()
+    {
+        var calculator = new UnitStatsCalculator();
+
+        FinalStats stats = new FinalStats
+        {
+            movementSpeed = 2f
+        };
+
+        UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
+        baseStats.movementSpeed = 2f;
+
+        var talents = new List<AppliedStatModifier>
+        {
+            new AppliedStatModifier
+            {
+                Stacks = 2,
+                Effects = new List<StatEffect>
+                {
+                    new StatEffect
+                    {
+                        Target = StatType.MovementSpeed,
+                        Operation = EffectOperation.Multiply,
+                        Value = 1.05f
+                    }
+                }
+            }
+        };
+
+        calculator.ApplyModifiers(ref stats, baseStats, talents);
+        // 2 * (1 + 0.05 * 2)
+        Assert.AreEqual(2.2f, stats.movementSpeed, 0.0001f);
+    }
 }
