@@ -46,7 +46,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public GameObject GameObject => gameObject;
     public Transform Transform => (this != null) ? transform : null;
     public float HitRadius => runtimeStats.hitRadius;
-    public bool IsAlive => currentHealth > 0;
+    public bool IsAlive => !isDying && currentHealth > 0;
     public virtual ThreatLevel UnitPrio => runtimeStats.unitPrio;
     public bool IsTargetable => runtimeStats.isTargetable;
     public bool IsInvulnerable => isInvulnerable;

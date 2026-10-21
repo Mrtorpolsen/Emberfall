@@ -56,6 +56,9 @@ public class TargetComponent : MonoBehaviour
     {
         selfUnit = GetComponent<IUnit>();
 
+        // Stagger so units spawned together don't all query targets in the same frame
+        retargetTimer = Random.Range(0f, retargetInterval);
+
         if (selfUnit.AttackRange > detectionRange)
         {
             detectionRange = selfUnit.AttackRange;
@@ -111,7 +114,7 @@ public class TargetComponent : MonoBehaviour
             retargetTimer = retargetInterval;
 
             if (currentTarget != null && currentTarget.IsAlive)
-                engagementStallTimer += Time.deltaTime;
+                engagementStallTimer += retargetInterval;
             else
                 engagementStallTimer = 0f;
 

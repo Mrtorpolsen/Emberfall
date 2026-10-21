@@ -110,7 +110,7 @@ public class UIScreenRouter : MonoBehaviour
         {
             if (!screens.TryGetValue(screenName, out var def))
             {
-                Debug.LogError($"No screen registered with name '{name}'");
+                Debug.LogError($"No screen registered with name '{screenName}'");
                 return;
             }
 

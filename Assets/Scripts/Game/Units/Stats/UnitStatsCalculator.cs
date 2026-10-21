@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UnitStatsCalculator
 {
+    // Keeps enemy ranged units from outranging the player's ranged units once scaling kicks in
+    private const float EnemyRangedRangeMultiplier = 0.8f;
+
     public void ApplyModifiers(ref FinalStats stats, UnitStatsDefinition baseStats, IEnumerable<AppliedStatModifier> modifiers)
     {
         foreach (AppliedStatModifier modifier in modifiers)
@@ -13,7 +16,7 @@ public class UnitStatsCalculator
                 float magnitude = effect.Operation switch
                 {
                     EffectOperation.Add => effect.Value * modifier.Stacks,
-                    EffectOperation.Subtract => -(effect.Value * modifier.Stacks),
+                    EffectOperation.Subtract => effect.Value * modifier.Stacks,
                     EffectOperation.Multiply => 1 + (effect.Value - 1) * modifier.Stacks,
                     EffectOperation.Set => effect.Value,
                     _ => effect.Value
@@ -133,7 +136,7 @@ public class UnitStatsCalculator
         };
     }
 
-    public FinalStats CalculateEnemyStats(int waveIndex, FinalStats finalStats)
+    public FinalStats CalculateEnemyStats(int waveIndex, FinalStats finalStats, bool isRanged = false)
     {
         int wave = waveIndex + 1;
         int hpPercent = Mathf.RoundToInt(2f * Mathf.Pow(wave, 0.85f));
@@ -145,9 +148,9 @@ public class UnitStatsCalculator
         ApplyEnemyEffect(StatType.Health, EffectOperation.Multiply, hpMultiplier, ref finalStats);
         ApplyEnemyEffect(StatType.AttackDamage, EffectOperation.Multiply, dmgMultiplier, ref finalStats);
 
-        if (finalStats.attackRange < 2)
+        if (isRanged)
         {
-            finalStats.attackRange -= 1;
+            finalStats.attackRange *= EnemyRangedRangeMultiplier;
         }
 
         return finalStats;

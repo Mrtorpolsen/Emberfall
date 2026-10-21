@@ -79,7 +79,7 @@ public class SpawnManager : MonoBehaviour
         //Spawn offset since its not a tower
         Vector3 spawnPos = spawnPoint.position;
 
-        spawnPos.x = Random.Range(-spawnOffSet, spawnOffSet);
+        spawnPos.x += Random.Range(-spawnOffSet, spawnOffSet);
 
         GameObject unit = Instantiate(prefab, spawnPos, spawnPoint.rotation);
         unitBase = unit.GetComponent<BaseUnitStats>();

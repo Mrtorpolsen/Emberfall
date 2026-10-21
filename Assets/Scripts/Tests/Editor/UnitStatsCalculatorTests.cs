@@ -320,4 +320,69 @@ public class UnitStatsCalculatorTests
         Assert.AreEqual(2f, result.attackRange);
         Assert.AreEqual(5, result.armor);
     }
+
+    [Test]
+    public void ApplyModifier_SubtractTalent_ReducesStat()
+    {
+        var calculator = new UnitStatsCalculator();
+
+        FinalStats stats = new FinalStats
+        {
+            armor = 10
+        };
+
+        UnitStatsDefinition baseStats = ScriptableObject.CreateInstance<UnitStatsDefinition>();
+        baseStats.armor = 10;
+
+        var talents = new List<AppliedStatModifier>
+        {
+            new AppliedStatModifier
+            {
+                Stacks = 2,
+                Effects = new List<StatEffect>
+                {
+                    new StatEffect
+                    {
+                        Target = StatType.Armor,
+                        Operation = EffectOperation.Subtract,
+                        Value = 3f
+                    }
+                }
+            }
+        };
+
+        calculator.ApplyModifiers(ref stats, baseStats, talents);
+        // 10 - 3 - 3
+        Assert.AreEqual(4, stats.armor);
+    }
+
+    [Test]
+    public void CalculateEnemyStats_Ranged_ReducesAttackRange()
+    {
+        var calculator = new UnitStatsCalculator();
+
+        var baseStats = new FinalStats
+        {
+            attackRange = 5f
+        };
+
+        var result = calculator.CalculateEnemyStats(0, baseStats, isRanged: true);
+
+        Assert.AreEqual(4f, result.attackRange, 0.0001f);
+    }
+
+    [Test]
+    public void CalculateEnemyStats_Melee_KeepsAttackRange()
+    {
+        var calculator = new UnitStatsCalculator();
+
+        var baseStats = new FinalStats
+        {
+            attackRange = 0.25f
+        };
+
+        var result = calculator.CalculateEnemyStats(0, baseStats);
+
+        Assert.AreEqual(0.25f, result.attackRange, 0.0001f);
+    }
 }

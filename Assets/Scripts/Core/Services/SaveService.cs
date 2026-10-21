@@ -120,7 +120,7 @@ public class SaveService : GlobalSystem<SaveService>
 
     private async Task SaveCorrupt(string json)
     {
-        string corruptSavePath = savePath + ".corrupt" + "-" + DateTime.Now.ToString();
+        string corruptSavePath = savePath + ".corrupt" + "-" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
 
         await Task.Run(() =>
         {

@@ -229,7 +229,7 @@ public class UnitStatsManager : MonoBehaviour
             return finalStats;
         }
 
-        return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex - delayWaves, finalStats);
+        return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex - delayWaves, finalStats, scaling.isRanged);
     }
 
     private FinalStats BuildFinalStatsFromBase(UnitStatsDefinition unitBaseStats)

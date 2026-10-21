@@ -9,6 +9,7 @@ public class WaveController : MonoBehaviour
     public struct EnemyScalingContext
     {
         public int waveIndex;
+        public bool isRanged;
         // For later, incase we want some soft enrage,
         // or maybe use this to track how many spawns we've made,
         // compared to how many kills and figure out increase in
@@ -61,7 +62,7 @@ public class WaveController : MonoBehaviour
         //Can move generals to sets and here the set gets selected based on difficulty, but for now keep it simple
         currentDifficulty = difficulty;
 
-        List<GeneralDefinition> activeGenerals = allGenerals;
+        List<GeneralDefinition> activeGenerals = new List<GeneralDefinition>(allGenerals);
         //Temporary solution, until the general difficulty sets are implemented
         GeneralDefinition tutorialGeneral = allGenerals.FirstOrDefault((general) => general.id == "sirtutorthethird");
         activeGenerals.Remove(tutorialGeneral);
@@ -129,7 +130,8 @@ public class WaveController : MonoBehaviour
                 var scaling = new EnemyScalingContext
                 {
                     waveIndex = currentWaveIndex,
-                    spawnIndex = spawnIndex++
+                    spawnIndex = spawnIndex++,
+                    isRanged = group.prefab.TryGetComponent<RangedShooter>(out _)
                 };
 
                 string unitName = group.prefab.name.ToLowerInvariant();
