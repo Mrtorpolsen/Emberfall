@@ -146,7 +146,7 @@ public class WaveController : MonoBehaviour
 
                 if (group.isBoss)
                 {
-                    SpawnManager.Instance.SpawnUnit(group.prefab, generalSpawn, Team.North, out var bossPrefab, stats);
+                    SpawnManager.Instance.SpawnUnitAtPoint(group.prefab, generalSpawn, Team.North, out var bossPrefab, stats);
                     var generalComponent = bossPrefab.AddComponent<GeneralComponent>();
                     generalComponent.Initialize(currentGeneral, bossPosition, currentWaveIndex);
                 }

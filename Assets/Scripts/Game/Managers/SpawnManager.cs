@@ -50,118 +50,78 @@ public class SpawnManager : MonoBehaviour
         return SpawnUnit(prefab, southSpawn, Team.South, finalStats);
     }
 
-    public bool SpawnSouthTower(GameObject prefab, SpawnSide spawnSide, out GameObject spawnedTower, StatBlock finalStats = null)
+    public bool SpawnSouthTower(GameObject prefab, SpawnSide spawnSide, out GameObject spawnedTower)
     {
-        spawnedTower = null;
-
         Transform towerPoint = spawnSide == SpawnSide.West ? southWestTower : southEastTower;
 
-        finalStats = UnitStatsManager.Instance.GetStats(prefab.name.ToLowerInvariant());
+        StatBlock finalStats = UnitStatsManager.Instance.GetStats(prefab.name.ToLowerInvariant());
 
-        return SpawnUnit(prefab, towerPoint, Team.South, out spawnedTower, finalStats);
+        return SpawnUnitAtPoint(prefab, towerPoint, Team.South, out spawnedTower, finalStats);
     }
 
+    // Spawns near the point with a small random x offset so units don't stack
     public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team, StatBlock finalStats = null)
     {
-        BaseUnitStats unitBase = prefab.GetComponent<BaseUnitStats>();
-
-        if (unitBase == null)
-        {
-            Debug.LogError("Prefab has no UnitStats component!");
-            return false;
-        }
-
-        if (team == Team.South && GameManager.Instance.currency[Team.South] < unitBase.Cost)
-        {
-            Debug.LogWarning("Not enough currency");
-            return false;
-        }
-        //Spawn offset since its not a tower
         Vector3 spawnPos = spawnPoint.position;
-
         spawnPos.x += Random.Range(-spawnOffSet, spawnOffSet);
 
-        GameObject unit = Instantiate(prefab, spawnPos, spawnPoint.rotation);
-        unitBase = unit.GetComponent<BaseUnitStats>();
-
-        if (unitBase != null && finalStats != null)
-        {
-            unitBase.ApplyFinalStats(finalStats);
-        }
-
-        SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
-
-        if (sr != null)
-        {
-            AssignColor(sr, team);
-        }
-
-        UnitMetadata unitMetaData = unit.GetComponent<UnitMetadata>();
-
-        unitMetaData.SetTeam(team);
-
-        unit.layer = LayerMask.NameToLayer(team.ToString() + "Team");
-
-        if (team == Team.South)
-        {
-            GameManager.Instance.SubtractCurrency(team, unitBase.Cost);
-        }
-
-        TargetRegistry.Instance.RegisterUnit(unitBase);
-
-        return true;
+        return TrySpawn(prefab, spawnPos, spawnPoint.rotation, team, finalStats, chargeCost: team == Team.South, out _);
     }
 
-    //Doesnt have spawn offset used for tower, need rework or rename to better reflect its purpose
-    public bool SpawnUnit(GameObject prefab, Transform spawnPoint, Team team,
-        out GameObject spawnedUnit, StatBlock finalStats = null)
+    // Spawns exactly at the point (towers, generals)
+    public bool SpawnUnitAtPoint(GameObject prefab, Transform spawnPoint, Team team, out GameObject spawnedUnit, StatBlock finalStats = null)
+    {
+        return TrySpawn(prefab, spawnPoint.position, spawnPoint.rotation, team, finalStats, chargeCost: team == Team.South, out spawnedUnit);
+    }
+
+    private bool TrySpawn(GameObject prefab, Vector3 position, Quaternion rotation, Team team,
+        StatBlock finalStats, bool chargeCost, out GameObject spawnedUnit)
     {
         spawnedUnit = null;
 
-        BaseUnitStats unitBase = prefab.GetComponent<BaseUnitStats>();
+        BaseUnitStats prefabStats = prefab.GetComponent<BaseUnitStats>();
 
-        if (unitBase == null)
+        if (prefabStats == null)
         {
             Debug.LogError("Prefab has no UnitStats component!");
             return false;
         }
 
-        if (team == Team.South && GameManager.Instance.currency[Team.South] < unitBase.Cost)
+        // A prefab's BaseUnitStats never ran Awake, so read cost from the stats it will spawn with
+        float cost = finalStats != null ? finalStats.Get(StatType.Cost) : prefabStats.statsDef.cost;
+
+        if (chargeCost && GameManager.Instance.currency[team] < cost)
         {
             Debug.LogWarning("Not enough currency");
             return false;
         }
 
-        Vector3 spawnPos = spawnPoint.position;
+        GameObject unit = Instantiate(prefab, position, rotation);
+        BaseUnitStats unitBase = unit.GetComponent<BaseUnitStats>();
 
-        GameObject unit = Instantiate(prefab, spawnPos, spawnPoint.rotation);
-        spawnedUnit = unit;
-
-        unitBase = unit.GetComponent<BaseUnitStats>();
-
-        if (unitBase != null && finalStats != null)
+        if (finalStats != null)
         {
             unitBase.ApplyFinalStats(finalStats);
         }
 
         SpriteRenderer sr = unit.GetComponent<SpriteRenderer>();
+
         if (sr != null)
         {
             AssignColor(sr, team);
         }
 
-        UnitMetadata metadata = unit.GetComponent<UnitMetadata>();
-        metadata.SetTeam(team);
-
+        unit.GetComponent<UnitMetadata>().SetTeam(team);
         unit.layer = LayerMask.NameToLayer(team + "Team");
 
-        if (team == Team.South)
+        if (chargeCost)
         {
-            GameManager.Instance.SubtractCurrency(team, unitBase.Cost);
+            GameManager.Instance.SubtractCurrency(team, cost);
         }
 
         TargetRegistry.Instance.RegisterUnit(unitBase);
 
+        spawnedUnit = unit;
         return true;
     }
 
