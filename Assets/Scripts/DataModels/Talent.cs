@@ -27,9 +27,13 @@ public class TalentTree
         return talents;
     }
 
+    // Null if the class or talent no longer exists, e.g. a save with purchases for a removed unit
     public Talent GetTalentById(string className, string talentId)
     {
-        return GetTalentsByClass(className).Find(unit => unit.Id == talentId);
+        if (!TalentsByUnit.TryGetValue(className, out List<Talent> talents))
+            return null;
+
+        return talents.Find(talent => talent.Id == talentId);
     }
 
     public TalentCostModel GetCostModel(CostPreset presetName, int tier)
