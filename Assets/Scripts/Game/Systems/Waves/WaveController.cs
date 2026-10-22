@@ -32,6 +32,8 @@ public class WaveController : MonoBehaviour
 
     [Header("Generals")]
     [SerializeField] private List<GeneralDefinition> allGenerals = new();
+    // Only used in the tutorial; excluded from the normal general pool
+    [SerializeField] private GeneralDefinition tutorialGeneral;
 
     private GeneralDefinition currentGeneral;
 
@@ -64,7 +66,6 @@ public class WaveController : MonoBehaviour
 
         List<GeneralDefinition> activeGenerals = new List<GeneralDefinition>(allGenerals);
         //Temporary solution, until the general difficulty sets are implemented
-        GeneralDefinition tutorialGeneral = allGenerals.FirstOrDefault((general) => general.id == "sirtutorthethird");
         activeGenerals.Remove(tutorialGeneral);
 
         if (currentDifficulty.Level == DifficultyLevel.Tutorial)

@@ -14,8 +14,9 @@ public class SpawnManager : MonoBehaviour
 
     private float spawnOffSet = 0.4f;
 
-    private string playerColor = "#2E3A5E";
-    private string enemyColor = "#A0170A";
+    [Header("Team Colors")]
+    [SerializeField] private Color playerColor = new Color32(0x2E, 0x3A, 0x5E, 0xFF);
+    [SerializeField] private Color enemyColor = new Color32(0xA0, 0x17, 0x0A, 0xFF);
 
     private void Awake()
     {
@@ -153,13 +154,7 @@ public class SpawnManager : MonoBehaviour
 
     public void AssignColor(SpriteRenderer sr, Team team)
     {
-        string teamColorCode = team == Team.North ? enemyColor : playerColor;
-        Color teamColor;
-
-        if (UnityEngine.ColorUtility.TryParseHtmlString(teamColorCode, out teamColor))
-        {
-            sr.color = teamColor;
-        }
+        sr.color = team == Team.North ? enemyColor : playerColor;
     }
 }
 

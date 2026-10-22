@@ -9228,6 +9228,8 @@ MonoBehaviour:
   southSpawn: {fileID: 605416890}
   southWestTower: {fileID: 1201073178}
   southEastTower: {fileID: 624098710}
+  playerColor: {r: 0.18039216, g: 0.22745098, b: 0.36862746, a: 1}
+  enemyColor: {r: 0.627451, g: 0.09019608, b: 0.039215688, a: 1}
 --- !u!4 &650984041
 Transform:
   m_ObjectHideFlags: 0
@@ -51325,6 +51327,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6359926223d7c34439bc013142cb2354, type: 2}
   - {fileID: 11400000, guid: b89e96da08d79e34f80db5b93a954d48, type: 2}
   - {fileID: 11400000, guid: 1beac205a290bcc4a87cb8664a430f70, type: 2}
+  tutorialGeneral: {fileID: 11400000, guid: 1beac205a290bcc4a87cb8664a430f70, type: 2}
   isTest: 0
   spawnOfEach: 100
 --- !u!4 &1263956707
