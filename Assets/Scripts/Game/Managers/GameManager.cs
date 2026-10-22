@@ -169,6 +169,7 @@ public class GameManager : MonoBehaviour
     public async Task StartTutorial()
     {
         isTutorial = true;
+        UIManager.Instance.LockPauseMenuForTutorial();
         await GamePlayTutorialPresenter.Instance.RunTutorial();
     }
 

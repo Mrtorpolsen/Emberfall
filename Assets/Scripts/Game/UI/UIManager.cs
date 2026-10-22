@@ -38,6 +38,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private List<ActionButton> towerBuildMenuEastButtons;
     [SerializeField] private List<ActionButton> towerMenuEastButtons;
 
+    [Header("References Pause Menu")]
+    [SerializeField] private Button pauseMainMenuButton;
+    [SerializeField] private TMP_Text pauseTitleText;
+
+    private const string TutorialPauseMessage = "Paused...\nThe main menu is locked until you defeat Sir Tutor the Third!";
+
     [Header("Tower Assets")]
     [SerializeField] private AssetReference sellTowerIcon;
     [SerializeField] private AssetReference upgradeTowerIcon;
@@ -201,6 +207,19 @@ public class UIManager : MonoBehaviour
         {
             survivalText.SetText($"You didnt survive for long...");
         }
+    }
+
+    // Leaving mid-tutorial isn't allowed; after Sir Tutor dies the tutorial-over panel offers the main menu instead
+    public void LockPauseMenuForTutorial()
+    {
+        if (pauseMainMenuButton == null || pauseTitleText == null)
+        {
+            Debug.LogError("Pause menu references not assigned on UIManager");
+            return;
+        }
+
+        pauseMainMenuButton.interactable = false;
+        pauseTitleText.SetText(TutorialPauseMessage);
     }
 
     public void SetTutorialOver()
