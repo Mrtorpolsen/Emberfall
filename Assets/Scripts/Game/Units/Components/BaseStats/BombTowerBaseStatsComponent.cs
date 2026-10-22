@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BombTowerBaseStatsComponent : TowerUnitStats
+public class BombTowerBaseStatsComponent : TowerUnitStats, IProjectileImpact
 {
     private Collider2D[] hitBuffer;
     private ContactFilter2D contactFilter;
@@ -20,10 +20,16 @@ public class BombTowerBaseStatsComponent : TowerUnitStats
         };
     }
 
-    public void Explode(GameObject projObj)
+    // Bombs splash around where they land instead of hitting a single target
+    public void OnProjectileImpact(ITargetable target, int damage, Vector2 position)
+    {
+        Explode(position);
+    }
+
+    private void Explode(Vector2 position)
     {
         int hitCount = Physics2D.OverlapCircle(
-            projObj.transform.position,
+            position,
             base.SplashRadius,
             contactFilter,
             hitBuffer

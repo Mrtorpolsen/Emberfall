@@ -2,21 +2,21 @@
 
 [RequireComponent(typeof(BaseUnitStats))]
 [RequireComponent(typeof(CombatComponent))]
-public class RangedShooter : MonoBehaviour
+public class RangedShooter : MonoBehaviour, IAttack
 {
     [Header("Projectile")]
     [SerializeField] private GameObject projectilePrefab;
 
     private BaseUnitStats stats;
-    private CombatComponent combat;
+    private IProjectileImpact impact;
 
     private void Awake()
     {
         stats = GetComponent<BaseUnitStats>();
-        combat = GetComponent<CombatComponent>();
+        impact = GetComponent<IProjectileImpact>();
     }
 
-    public void Shoot(ITargetable target)
+    public void Attack(ITargetable target)
     {
         if (projectilePrefab == null || target == null) return;
 
@@ -29,7 +29,18 @@ public class RangedShooter : MonoBehaviour
             : LayerMask.NameToLayer("NorthTeamProjectile");
 
         projScript.SetTarget(target);
-        projScript.Init(stats, stats.GetAttackDamage());
-        projScript.OnHit += (t, dmg) => combat.ApplyProjectileDamage(t, dmg, projObj);
+        projScript.Init(this, stats.GetAttackDamage());
+    }
+
+    // Projectiles report hits here; the hit still lands if the shooter died while the projectile was in flight
+    public static void ApplyHit(RangedShooter shooter, ITargetable target, int damage, Vector2 position)
+    {
+        if (shooter != null && shooter.impact != null)
+        {
+            shooter.impact.OnProjectileImpact(target, damage, position);
+            return;
+        }
+
+        target.TakeDamage(damage);
     }
 }

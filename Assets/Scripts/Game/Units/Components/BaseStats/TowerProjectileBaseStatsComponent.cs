@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 public class TowerProjectileBaseStatsComponent : MonoBehaviour, IProjectile
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] public IUnit shooter;
+    private RangedShooter shooter;
 
 
     [Header("Attributes")]
@@ -14,9 +13,8 @@ public class TowerProjectileBaseStatsComponent : MonoBehaviour, IProjectile
 
 
     private Transform target;
-    public event Action<ITargetable, int> OnHit;
 
-    public void Init(IUnit owner, int _damage)
+    public void Init(RangedShooter owner, int _damage)
     {
         shooter = owner;
         damage = _damage;
@@ -42,7 +40,7 @@ public class TowerProjectileBaseStatsComponent : MonoBehaviour, IProjectile
 
         if (targetable != null && targetable.IsAlive)
         {
-            OnHit?.Invoke(targetable, damage);
+            RangedShooter.ApplyHit(shooter, targetable, damage, transform.position);
             Destroy(gameObject);
         }
     }

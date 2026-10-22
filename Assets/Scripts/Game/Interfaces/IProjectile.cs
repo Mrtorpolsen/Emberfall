@@ -1,8 +1,5 @@
-﻿using System;
-
-public interface IProjectile
+﻿public interface IProjectile
 {
     void SetTarget(ITargetable target);
-    void Init(IUnit shooter, int damage);
-    event Action<ITargetable, int> OnHit;
+    void Init(RangedShooter shooter, int damage);
 }
