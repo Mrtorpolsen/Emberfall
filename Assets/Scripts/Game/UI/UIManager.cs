@@ -279,10 +279,7 @@ public class UIManager : MonoBehaviour
             unitButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
             unitButtons[i].SetClickAction(() =>
             {
-                SpawnManager.Instance.SpawnSouthUnit(
-                    def.UnitPrefab,
-                    def.UnitPrefab.name.ToLowerInvariant()
-                );
+                SpawnManager.Instance.SpawnSouthUnit(def.UnitPrefab);
             });
 
             boundButtons.Add(unitButtons[i]);

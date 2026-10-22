@@ -90,12 +90,7 @@ public class DataValidationTests
                 continue;
             }
 
-            // Spawning looks stats up by the lowercased prefab name, which must match the stats asset name
-            if (spawn.UnitPrefab.name.ToLowerInvariant() != spawn.Stats.name.ToLowerInvariant())
-            {
-                errors.Add($"{path}: prefab '{spawn.UnitPrefab.name}' doesn't match stats '{spawn.Stats.name}'");
-            }
-
+            // Spawning gets upgraded stats through the prefab's statsDef, so it must be the spawn's stats
             var unitStats = spawn.UnitPrefab.GetComponent<BaseUnitStats>();
 
             if (unitStats == null)

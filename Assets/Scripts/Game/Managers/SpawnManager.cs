@@ -43,20 +43,24 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public bool SpawnSouthUnit(GameObject prefab, string unitName)
+    public bool SpawnSouthUnit(GameObject prefab)
     {
-        StatBlock finalStats = UnitStatsManager.Instance.GetStats(unitName.ToLowerInvariant());
-
-        return SpawnUnit(prefab, southSpawn, Team.South, finalStats);
+        return SpawnUnit(prefab, southSpawn, Team.South, GetPlayerStats(prefab));
     }
 
     public bool SpawnSouthTower(GameObject prefab, SpawnSide spawnSide, out GameObject spawnedTower)
     {
         Transform towerPoint = spawnSide == SpawnSide.West ? southWestTower : southEastTower;
 
-        StatBlock finalStats = UnitStatsManager.Instance.GetStats(prefab.name.ToLowerInvariant());
+        return SpawnUnitAtPoint(prefab, towerPoint, Team.South, out spawnedTower, GetPlayerStats(prefab));
+    }
 
-        return SpawnUnitAtPoint(prefab, towerPoint, Team.South, out spawnedTower, finalStats);
+    // Upgraded stats via the prefab's own stats definition, so renaming a prefab can't break the lookup
+    private static StatBlock GetPlayerStats(GameObject prefab)
+    {
+        return prefab.TryGetComponent<BaseUnitStats>(out var prefabStats)
+            ? UnitStatsManager.Instance.GetStats(prefabStats.statsDef)
+            : null;
     }
 
     // Spawns near the point with a small random x offset so units don't stack
@@ -77,13 +81,17 @@ public class SpawnManager : MonoBehaviour
     // Summons are free and spawn for the caster's team; player summons get upgraded stats, enemy summons current wave scaling
     public bool SpawnSummon(GameObject prefab, BaseUnitStats caster)
     {
-        StatBlock finalStats = null;
+        StatBlock finalStats;
 
-        if (prefab.TryGetComponent<BaseUnitStats>(out var prefabStats))
+        if (caster.Team == Team.South)
         {
-            finalStats = caster.Team == Team.South
-                ? UnitStatsManager.Instance.GetStats(prefabStats.statsDef)
-                : UnitStatsManager.Instance.GetEnemyStats(prefabStats.statsDef, WaveController.Instance.CreateScalingContext(prefab));
+            finalStats = GetPlayerStats(prefab);
+        }
+        else
+        {
+            finalStats = prefab.TryGetComponent<BaseUnitStats>(out var prefabStats)
+                ? UnitStatsManager.Instance.GetEnemyStats(prefabStats.statsDef, WaveController.Instance.CreateScalingContext(prefab))
+                : null;
         }
 
         Vector3 spawnPos = caster.transform.position;

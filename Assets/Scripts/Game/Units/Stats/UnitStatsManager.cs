@@ -194,12 +194,7 @@ public class UnitStatsManager : MonoBehaviour
         return categoryModifiers;
     }
 
-    public StatBlock GetStats(string unitKey)
-    {
-        return finalStatsByUnit.TryGetValue(unitKey, out var stats) ? stats : null;
-    }
-
-    // For units missing from the stats list (e.g. summons): calculated on first use, then kept up to date by RecalculateAllFinalStats
+    // Player unit stats; units outside the SpawnDatabase (e.g. summons) are calculated on first use, then kept up to date by RecalculateAllFinalStats
     public StatBlock GetStats(UnitStatsDefinition definition)
     {
         string unitKey = definition.name.ToLowerInvariant();
