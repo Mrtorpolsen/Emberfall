@@ -36,6 +36,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public Vector3 healthBarScale;
 
     private bool isDying;
+    private bool resourcesReleased;
     private bool isInvulnerable = false;
 
     // IUnit
@@ -182,19 +183,46 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         return Mathf.Max(1, Mathf.RoundToInt(dmg * reductionFactor));
     }
 
-    public virtual void Die()
+    // The single death path: subclasses react in OnDeath, never by overriding Die or using OnDestroy
+    public void Die()
     {
         if (isDying) return;
         isDying = true;
 
-        TargetRegistry.Instance.UnregisterUnit(this);
-
         OnDeath();
 
-        Destroy(unit != null ? unit : gameObject);
+        ReleaseResources();
+
+        Destroy(Root);
     }
 
+    // Called once when the unit dies (not when it's destroyed for other reasons, like leaving the scene)
     protected virtual void OnDeath() { }
+
+    // The object removed on death; the unit's root if set
+    protected virtual GameObject Root => unit != null ? unit : gameObject;
+
+    // Unregisters the unit and returns what it borrowed; safe to call more than once
+    private void ReleaseResources()
+    {
+        if (resourcesReleased) return;
+        resourcesReleased = true;
+
+        if (TargetRegistry.Instance != null)
+        {
+            TargetRegistry.Instance.UnregisterUnit(this);
+        }
+
+        if (HealthbarManager.Instance != null)
+        {
+            HealthbarManager.Instance.ReturnHealthBarToPool(this);
+        }
+
+        if (EffectSystem.Instance != null)
+        {
+            EffectSystem.Instance.RemoveAllEffects(this);
+        }
+    }
 
     public virtual void ApplyFinalStats(StatBlock finalStats)
     {
@@ -358,17 +386,10 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         Gizmos.DrawWireSphere(transform.position, showRangeGizmo2);
     }
 
+    // Safety net for units destroyed without dying (sold towers, scene unload)
     protected virtual void OnDestroy()
     {
-        if (HealthbarManager.Instance != null)
-        {
-            HealthbarManager.Instance.ReturnHealthBarToPool(this);
-        }
-
-        if (EffectSystem.Instance != null)
-        {
-            EffectSystem.Instance.RemoveAllEffects(this);
-        }
+        ReleaseResources();
     }
 
 #if !UNITY_EDITOR

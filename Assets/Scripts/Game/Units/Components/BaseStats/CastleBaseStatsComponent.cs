@@ -24,9 +24,10 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
     }
 #endif
 
-    public override void Die()
+    protected override GameObject Root => castle != null ? castle : gameObject;
+
+    protected override void OnDeath()
     {
-        Destroy(castle != null ? castle : gameObject);
         GameManager.Instance.SetGameOver(true, Team);
     }
 

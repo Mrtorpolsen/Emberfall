@@ -2,10 +2,9 @@
 
 public class SirTutorTheThirdBaseStatsComponent : BaseUnitStats
 {
-    //Only for tutor to end the tutorial
-    protected override void OnDestroy()
+    // Killing the tutor ends the tutorial; leaving the match early doesn't
+    protected override void OnDeath()
     {
-        base.OnDestroy();
         GameManager.Instance.SetTutorialOver();
     }
 }

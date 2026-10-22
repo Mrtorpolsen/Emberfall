@@ -72,7 +72,6 @@ public class WaveController : MonoBehaviour
             activeGenerals = new List<GeneralDefinition> { tutorialGeneral };
             totalWaves = activeGenerals[0].spawnLimit;
         }
-            activeGenerals = new List<GeneralDefinition> { tutorialGeneral };
 
         Debug.Log($"Difficulty Settings: {currentDifficulty.Level}");
         var waveThreatCalculator = new WaveThreatCalculator(currentDifficulty);
