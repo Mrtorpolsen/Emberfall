@@ -200,6 +200,23 @@ public class UnitStatsManager : MonoBehaviour
         return finalStatsByUnit.TryGetValue(unitKey, out var stats) ? stats : null;
     }
 
+    // For units missing from the stats list (e.g. summons): calculated on first use, then kept up to date by RecalculateAllFinalStats
+    public StatBlock GetStats(UnitStatsDefinition definition)
+    {
+        string unitKey = definition.name.ToLowerInvariant();
+
+        if (finalStatsByUnit.TryGetValue(unitKey, out var stats))
+            return stats;
+
+        if (statsBootstrapper == null) return null;
+
+        AddUnitStats(definition);
+        stats = CalculateFinalStats(definition, unitKey, GetResearchStatModifiers());
+        finalStatsByUnit[unitKey] = stats;
+
+        return stats;
+    }
+
     public List<UnitStatsDefinition> GetAllUnitStats()
     {
         return unitStatsDefinition;
@@ -207,13 +224,19 @@ public class UnitStatsManager : MonoBehaviour
 
     public StatBlock GetEnemyStats(string unitKey, WaveController.EnemyScalingContext scaling)
     {
-        int delayWaves = 10; // Delay scaling for the first 10 waves
-
         if (!unitStatsByUnitKey.TryGetValue(unitKey, out var baseStats))
         {
             Debug.LogError($"No prefab found for unitKey: {unitKey}");
             return null;
         }
+
+        return GetEnemyStats(baseStats, scaling);
+    }
+
+    // Enemies use definition stats (no player progression) plus wave scaling
+    public StatBlock GetEnemyStats(UnitStatsDefinition baseStats, WaveController.EnemyScalingContext scaling)
+    {
+        int delayWaves = 1; // Delay scaling for the first 10 waves
 
         StatBlock finalStats = BuildFinalStatsFromBase(baseStats);
 

@@ -72,6 +72,7 @@ public class WaveController : MonoBehaviour
             activeGenerals = new List<GeneralDefinition> { tutorialGeneral };
             totalWaves = activeGenerals[0].spawnLimit;
         }
+            activeGenerals = new List<GeneralDefinition> { tutorialGeneral };
 
         Debug.Log($"Difficulty Settings: {currentDifficulty.Level}");
         var waveThreatCalculator = new WaveThreatCalculator(currentDifficulty);
@@ -127,20 +128,10 @@ public class WaveController : MonoBehaviour
         {
             for (int i = 0; i < group.count; i++)
             {
-                var scaling = new EnemyScalingContext
-                {
-                    waveIndex = currentWaveIndex,
-                    spawnIndex = spawnIndex++,
-                    isRanged = group.prefab.TryGetComponent<RangedShooter>(out _)
-                };
+                var scaling = CreateScalingContext(group.prefab);
+                scaling.spawnIndex = spawnIndex++;
 
                 string unitName = group.prefab.name.ToLowerInvariant();
-
-                //remove to enable stats scaling again
-                if (!currentDifficulty.StatScaling)
-                {
-                    scaling.waveIndex = 0;
-                }
 
                 StatBlock stats = UnitStatsManager.Instance.GetEnemyStats(unitName, scaling);
 
@@ -161,6 +152,17 @@ public class WaveController : MonoBehaviour
         }
         isSpawning = false;
     }
+    // Scaling for an enemy spawned now (wave spawns and enemy summons)
+    public EnemyScalingContext CreateScalingContext(GameObject prefab)
+    {
+        return new EnemyScalingContext
+        {
+            // Difficulties without stat scaling always use wave 0
+            waveIndex = currentDifficulty.StatScaling ? currentWaveIndex : 0,
+            isRanged = prefab.TryGetComponent<RangedShooter>(out _)
+        };
+    }
+
 #if UNITY_EDITOR
     private void Benchmark(int spawnOfEach)
     {

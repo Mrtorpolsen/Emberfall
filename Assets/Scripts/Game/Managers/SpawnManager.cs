@@ -74,6 +74,24 @@ public class SpawnManager : MonoBehaviour
         return TrySpawn(prefab, spawnPoint.position, spawnPoint.rotation, team, finalStats, chargeCost: team == Team.South, out spawnedUnit);
     }
 
+    // Summons are free and spawn for the caster's team; player summons get upgraded stats, enemy summons current wave scaling
+    public bool SpawnSummon(GameObject prefab, BaseUnitStats caster)
+    {
+        StatBlock finalStats = null;
+
+        if (prefab.TryGetComponent<BaseUnitStats>(out var prefabStats))
+        {
+            finalStats = caster.Team == Team.South
+                ? UnitStatsManager.Instance.GetStats(prefabStats.statsDef)
+                : UnitStatsManager.Instance.GetEnemyStats(prefabStats.statsDef, WaveController.Instance.CreateScalingContext(prefab));
+        }
+
+        Vector3 spawnPos = caster.transform.position;
+        spawnPos.x += Random.Range(-spawnOffSet, spawnOffSet);
+
+        return TrySpawn(prefab, spawnPos, caster.transform.rotation, caster.Team, finalStats, chargeCost: false, out _);
+    }
+
     private bool TrySpawn(GameObject prefab, Vector3 position, Quaternion rotation, Team team,
         StatBlock finalStats, bool chargeCost, out GameObject spawnedUnit)
     {
