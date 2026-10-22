@@ -107,6 +107,33 @@ public class DataValidationTests
     }
 
     [Test]
+    public void TalentUnitKeys_MatchUnitStatsDefinitions()
+    {
+        // Talents apply to a unit when its stats asset name (lowercased) equals its key in Talents.json.
+        // Saves store purchases under the same key, so these keys should never change.
+        var statsKeys = new HashSet<string>();
+
+        foreach (string guid in AssetDatabase.FindAssets("t:UnitStatsDefinition"))
+        {
+            var stats = AssetDatabase.LoadAssetAtPath<UnitStatsDefinition>(AssetDatabase.GUIDToAssetPath(guid));
+            statsKeys.Add(stats.name.ToLowerInvariant());
+        }
+
+        var unitDefinitions = (JObject)JObject.Parse(LoadText(TalentsPath))["unitDefinitions"];
+        var errors = new List<string>();
+
+        foreach (var unit in unitDefinitions.Properties())
+        {
+            if (!statsKeys.Contains(unit.Name))
+            {
+                errors.Add($"Talents.json unit '{unit.Name}' has no UnitStatsDefinition named '{unit.Name}' (case-insensitive)");
+            }
+        }
+
+        Assert.IsEmpty(errors, string.Join("\n", errors));
+    }
+
+    [Test]
     public void TalentIcons_ExistAsAddressables()
     {
         var settings = AddressableAssetSettingsDefaultObject.Settings;
