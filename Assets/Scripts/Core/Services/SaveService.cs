@@ -60,40 +60,53 @@ public class SaveService : GlobalSystem<SaveService>
         string json = await Task.Run(() => File.ReadAllText(savePath));
 
         JObject root;
+        int version;
 
         try
         {
             root = JObject.Parse(json);
+            version = root.Value<int>("Version");
         }
-        catch (JsonReaderException e)
+        catch (Exception e)
         {
-            Debug.LogError($"Failed to parse save file: {e.Message}");
-            Debug.LogError("Creating new save.");
-            await SaveCorrupt(json);
+            Debug.LogError($"Failed to parse save file, creating new save: {e.Message}");
+            await BackupSave(json, "corrupt");
             await CreateNewSave();
             return;
         }
-
-        int version = root.Value<int>("Version");
 
         if (version < SaveMigrator.OldestSupportedVersion)
         {
-            Debug.LogError("Save file too old to migrate, creating new save");
+            Debug.LogError($"Save version {version} is too old to migrate, creating new save");
+            await BackupSave(json, $"unsupported-v{version}");
             await CreateNewSave();
             return;
         }
 
-        if (version < CurrentSaveVersion.CURRENT_SAVE_VERSION)
-        {
-            Current = SaveMigrator.Migrate(root);
+        bool migrated = version < CurrentSaveVersion.CURRENT_SAVE_VERSION;
+        SaveGame loaded;
 
-            ValidateSave();
-            await SaveAsync();
-        }
-        else
+        try
         {
-            Current = JsonConvert.DeserializeObject<SaveGame>(json);
-            ValidateSave();
+            loaded = migrated
+                ? SaveMigrator.Migrate(root)
+                : JsonConvert.DeserializeObject<SaveGame>(json);
+        }
+        catch (Exception e)
+        {
+            // Valid JSON that doesn't fit SaveGame or fails to migrate; keep a copy so it can be recovered
+            Debug.LogError($"Failed to load save version {version}, creating new save: {e}");
+            await BackupSave(json, $"failed-v{version}");
+            await CreateNewSave();
+            return;
+        }
+
+        Current = loaded;
+        ValidateSave();
+
+        if (migrated)
+        {
+            await SaveAsync();
         }
 
         await InvokeOnSaveLoaded();
@@ -151,13 +164,14 @@ public class SaveService : GlobalSystem<SaveService>
         }
     }
 
-    private async Task SaveCorrupt(string json)
+    // Copies a save we can't use next to the real one before it gets replaced, e.g. <id>_save.json.corrupt-20261022-143000
+    private async Task BackupSave(string json, string reason)
     {
-        string corruptSavePath = savePath + ".corrupt" + "-" + DateTime.Now.ToString("yyyyMMdd-HHmmss");
+        string backupPath = $"{savePath}.{reason}-{DateTime.Now:yyyyMMdd-HHmmss}";
 
         await Task.Run(() =>
         {
-            File.WriteAllText(corruptSavePath, json);
+            File.WriteAllText(backupPath, json);
         });
     }
 
