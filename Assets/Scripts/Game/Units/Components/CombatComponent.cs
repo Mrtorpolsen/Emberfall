@@ -8,6 +8,7 @@ public class CombatComponent : MonoBehaviour
     private BaseUnitStats unit;
     private ITargetable target;
     private MovementComponent movement;
+    private RangedShooter shooter;
     private float attackCooldown;
 
     private void Awake()
@@ -15,6 +16,7 @@ public class CombatComponent : MonoBehaviour
         unit = GetComponent<BaseUnitStats>();
         targetComponent = GetComponent<TargetComponent>();
         movement = GetComponent<MovementComponent>();
+        shooter = GetComponent<RangedShooter>();
     }
 
     private void Update()
@@ -61,7 +63,7 @@ public class CombatComponent : MonoBehaviour
 
             try
             {
-                if (unit.TryGetComponent<RangedShooter>(out var shooter))
+                if (shooter != null)
                 {
                     shooter.Shoot(target);
                 }
