@@ -86,11 +86,20 @@ public class UIManager : MonoBehaviour
     {
         boundButtons = new List<ActionButton>();
 
-        sellSprite = await sellTowerIcon.LoadAssetAsync<Sprite>().Task;
-        upgradeSprite = await upgradeTowerIcon.LoadAssetAsync<Sprite>().Task;
-        towerSprite = await towerIcon.LoadAssetAsync<Sprite>().Task;
-        bombSprite = await bombTowerIcon.LoadAssetAsync<Sprite>().Task;
-        ballistaSprite = await ballistaTowerIcon.LoadAssetAsync<Sprite>().Task;
+        // Loaded in parallel; released in OnDestroy
+        var sellHandle = sellTowerIcon.LoadAssetAsync<Sprite>();
+        var upgradeHandle = upgradeTowerIcon.LoadAssetAsync<Sprite>();
+        var towerHandle = towerIcon.LoadAssetAsync<Sprite>();
+        var bombHandle = bombTowerIcon.LoadAssetAsync<Sprite>();
+        var ballistaHandle = ballistaTowerIcon.LoadAssetAsync<Sprite>();
+
+        await Task.WhenAll(sellHandle.Task, upgradeHandle.Task, towerHandle.Task, bombHandle.Task, ballistaHandle.Task);
+
+        sellSprite = sellHandle.Result;
+        upgradeSprite = upgradeHandle.Result;
+        towerSprite = towerHandle.Result;
+        bombSprite = bombHandle.Result;
+        ballistaSprite = ballistaHandle.Result;
 
         if (LoadoutService.Instance == null)
         {
@@ -139,6 +148,23 @@ public class UIManager : MonoBehaviour
         if (WaveController.waveGenerator != null)
         {
             WaveController.waveGenerator.OnWaveNumberChanged -= UpdateWaveCountText;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        ReleaseIfLoaded(sellTowerIcon);
+        ReleaseIfLoaded(upgradeTowerIcon);
+        ReleaseIfLoaded(towerIcon);
+        ReleaseIfLoaded(bombTowerIcon);
+        ReleaseIfLoaded(ballistaTowerIcon);
+    }
+
+    private static void ReleaseIfLoaded(AssetReference reference)
+    {
+        if (reference != null && reference.OperationHandle.IsValid())
+        {
+            reference.ReleaseAsset();
         }
     }
 
