@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
 {
-    [Header("Unit Stats Definitions")]
-    [SerializeField] private List<UnitStatsDefinition> unitStatsDefinition;
-
     public static UnitStatsManager Instance { get; private set; }
 
     private StatsBootstrapper statsBootstrapper;
@@ -91,12 +88,14 @@ public class UnitStatsManager : MonoBehaviour
         CalculateAllFinalStats();
     }
 
+    // Player-spawnable units come from the SpawnDatabase; others (summons) are added on first use by GetStats(definition).
+    // Enemies don't need to be here: GetEnemyStats takes their definition directly.
     private void BuildStatsLookup()
     {
         unitStatsByUnitKey.Clear();
-        foreach (var unitStats in unitStatsDefinition)
+        foreach (var spawn in SpawnDatabase.Instance.GetAllSpawns())
         {
-            AddUnitStats(unitStats);
+            AddUnitStats(spawn.Stats);
         }
     }
 
@@ -215,22 +214,6 @@ public class UnitStatsManager : MonoBehaviour
         finalStatsByUnit[unitKey] = stats;
 
         return stats;
-    }
-
-    public List<UnitStatsDefinition> GetAllUnitStats()
-    {
-        return unitStatsDefinition;
-    }
-
-    public StatBlock GetEnemyStats(string unitKey, WaveController.EnemyScalingContext scaling)
-    {
-        if (!unitStatsByUnitKey.TryGetValue(unitKey, out var baseStats))
-        {
-            Debug.LogError($"No prefab found for unitKey: {unitKey}");
-            return null;
-        }
-
-        return GetEnemyStats(baseStats, scaling);
     }
 
     // Enemies use definition stats (no player progression) plus wave scaling

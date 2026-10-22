@@ -125,14 +125,14 @@ public class WaveController : MonoBehaviour
 
         foreach (var group in wave.enemiesToSpawn)
         {
+            UnitStatsDefinition statsDef = group.prefab.GetComponent<BaseUnitStats>().statsDef;
+
             for (int i = 0; i < group.count; i++)
             {
                 var scaling = CreateScalingContext(group.prefab);
                 scaling.spawnIndex = spawnIndex++;
 
-                string unitName = group.prefab.name.ToLowerInvariant();
-
-                StatBlock stats = UnitStatsManager.Instance.GetEnemyStats(unitName, scaling);
+                StatBlock stats = UnitStatsManager.Instance.GetEnemyStats(statsDef, scaling);
 
                 if (group.isBoss)
                 {
