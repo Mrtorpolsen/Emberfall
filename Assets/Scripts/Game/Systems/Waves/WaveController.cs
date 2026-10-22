@@ -155,7 +155,8 @@ public class WaveController : MonoBehaviour
                     SpawnManager.Instance.SpawnUnit(group.prefab, northSpawn, Team.North, stats);
                 }
 
-                yield return new WaitForSeconds(0);
+                // One spawn per frame
+                yield return null;
             }
         }
         isSpawning = false;
