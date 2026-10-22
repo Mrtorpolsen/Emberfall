@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ public class SaveService : GlobalSystem<SaveService>
     public SaveGame Current { get; private set; }
 
     private string savePath;
+
+    // Saves are written one at a time; each request is numbered so an older snapshot never overwrites a newer one
+    private readonly SemaphoreSlim saveLock = new(1, 1);
+    private int requestedSaveSequence;
+    private int writtenSaveSequence;
 
     public event Func<Task> OnSaveLoaded;
 
@@ -95,8 +101,9 @@ public class SaveService : GlobalSystem<SaveService>
 
     public Task SaveAsync()
     {
-        var snapshot = DeepClone(Current);
-        return SaveInternal(snapshot);
+        // Serializing on the main thread at call time is the snapshot
+        string json = JsonConvert.SerializeObject(Current);
+        return SaveInternal(json, ++requestedSaveSequence);
     }
 
     public void Save()
@@ -108,14 +115,40 @@ public class SaveService : GlobalSystem<SaveService>
         });
     }
 
-    private async Task SaveInternal(SaveGame snapshot)
+    private async Task SaveInternal(string json, int sequence)
     {
-        string json = JsonConvert.SerializeObject(snapshot);
+        await saveLock.WaitAsync();
 
-        await Task.Run(() =>
+        try
         {
-            File.WriteAllText(savePath, json);
-        });
+            // A newer snapshot was already written; writing this one would roll the save back
+            if (sequence <= writtenSaveSequence)
+                return;
+
+            await Task.Run(() => WriteAtomic(savePath, json));
+            writtenSaveSequence = sequence;
+        }
+        finally
+        {
+            saveLock.Release();
+        }
+    }
+
+    // Write to a temp file, then swap it in, so a crash or kill mid-write can't leave a truncated save
+    private static void WriteAtomic(string path, string contents)
+    {
+        string tempPath = path + ".tmp";
+
+        File.WriteAllText(tempPath, contents);
+
+        if (File.Exists(path))
+        {
+            File.Replace(tempPath, path, null);
+        }
+        else
+        {
+            File.Move(tempPath, path);
+        }
     }
 
     private async Task SaveCorrupt(string json)
@@ -171,12 +204,6 @@ public class SaveService : GlobalSystem<SaveService>
 
         Current.Loadouts ??= new PlayerLoadoutCollection();
         Current.Flags ??= new PlayerFlagsState();
-    }
-
-    public static T DeepClone<T>(T obj)
-    {
-        var json = JsonConvert.SerializeObject(obj);
-        return JsonConvert.DeserializeObject<T>(json);
     }
 
     private SaveGame Migrate(JObject root, int version)
