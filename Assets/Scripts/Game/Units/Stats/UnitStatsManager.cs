@@ -236,7 +236,7 @@ public class UnitStatsManager : MonoBehaviour
     // Enemies use definition stats (no player progression) plus wave scaling
     public StatBlock GetEnemyStats(UnitStatsDefinition baseStats, WaveController.EnemyScalingContext scaling)
     {
-        int delayWaves = 1; // Delay scaling for the first 10 waves
+        int delayWaves = 10; // Delay scaling for the first 10 waves
 
         StatBlock finalStats = BuildFinalStatsFromBase(baseStats);
 
