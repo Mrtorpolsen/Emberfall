@@ -76,7 +76,7 @@ public class SaveService : GlobalSystem<SaveService>
 
         int version = root.Value<int>("Version");
 
-        if (version < 3)
+        if (version < SaveMigrator.OldestSupportedVersion)
         {
             Debug.LogError("Save file too old to migrate, creating new save");
             await CreateNewSave();
@@ -85,7 +85,7 @@ public class SaveService : GlobalSystem<SaveService>
 
         if (version < CurrentSaveVersion.CURRENT_SAVE_VERSION)
         {
-            Current = Migrate(root, version);
+            Current = SaveMigrator.Migrate(root);
 
             ValidateSave();
             await SaveAsync();
@@ -204,44 +204,5 @@ public class SaveService : GlobalSystem<SaveService>
 
         Current.Loadouts ??= new PlayerLoadoutCollection();
         Current.Flags ??= new PlayerFlagsState();
-    }
-
-    private SaveGame Migrate(JObject root, int version)
-    {
-        return version switch
-        {
-            3 => Migrate3To4(root.ToObject<SaveGame3>()),
-            _ => throw new Exception($"No migration found for version {version}")
-        };
-    }
-
-    private SaveGame Migrate3To4(SaveGame3 oldSave)
-    {
-        Debug.Log("running Migrate3To4");
-        SaveGame newSave = new SaveGame
-        {
-            Version = CurrentSaveVersion.CURRENT_SAVE_VERSION,
-            Talents = oldSave.Talents,
-            Research = oldSave.Research,
-            Currency = oldSave.Currency,
-            Loadouts = oldSave.Loadouts
-        };
-
-        int cindersSpent = oldSave.Talents.CurrencySpent.TryGetValue(
-            CurrencyTypes.Cinders, out int cinders)
-            ? cinders
-            : 0;
-
-        int embersSpent = oldSave.Talents.CurrencySpent.TryGetValue(
-            CurrencyTypes.Embers, out int embers)
-            ? embers
-            : 0;
-
-        newSave.Currency.Cinders += cindersSpent;
-        newSave.Currency.Embers += embersSpent;
-
-        newSave.Flags.HasReceivedLoginGift = oldSave.HasReceivedLoginGift;
-
-        return newSave;
     }
 }
