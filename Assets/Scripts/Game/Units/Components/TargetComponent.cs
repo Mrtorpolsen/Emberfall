@@ -146,52 +146,43 @@ public class TargetComponent : MonoBehaviour
         using (FindTargetMarker.Auto())
 #endif
         {
-            possibleTargets.Clear();
-            int hitCount;
-#if UNITY_EDITOR
-            using (OverlapMarker.Auto())
-#endif
-            {
-                hitCount = Physics2D.OverlapCircle(
-                    transform.position,
-                    DetectionRange,
-                    contactFilter,
-                    hitBuffer
-                );
-            }
-            for (int i = 0; i < hitCount; i++)
-            {
-                Collider2D hit = hitBuffer[i];
+            CollectTargets();
 
-                if (!hit.TryGetComponent<ITargetable>(out var target))
-                    continue;
-
-                if (!target.IsTargetable)
-                    continue;
-
-                if (target.Team == selfUnit.Team)
-                    continue;
-
-                possibleTargets.Add(target);
-            }
-            Vector2 selfPos = transform.position;
-
-            currentTarget = targetSelector.SelectTarget(possibleTargets, selfPos, priorities);
+            currentTarget = targetSelector.SelectTarget(possibleTargets, transform.position, priorities);
         }
     }
 
+    // Switches only to a strictly higher priority, so equal-priority targets don't make the unit flip back and forth
     private void TryPriorityOverride()
     {
         if (currentTarget == null) return;
 
-        ThreatLevel currentThreat = currentTarget.UnitPrio;
+        CollectTargets();
 
-        int hitCount = Physics2D.OverlapCircle(
-            transform.position,
-            DetectionRange,
-            contactFilter,
-            hitBuffer
-        );
+        ITargetable best = targetSelector.SelectTarget(possibleTargets, transform.position, priorities);
+
+        if (best != null && IsHigherPriority(best.UnitPrio, currentTarget.UnitPrio))
+        {
+            currentTarget = best;
+        }
+    }
+
+    // Fills possibleTargets with targetable enemies within detection range
+    private void CollectTargets()
+    {
+        possibleTargets.Clear();
+        int hitCount;
+#if UNITY_EDITOR
+        using (OverlapMarker.Auto())
+#endif
+        {
+            hitCount = Physics2D.OverlapCircle(
+                transform.position,
+                DetectionRange,
+                contactFilter,
+                hitBuffer
+            );
+        }
 
         for (int i = 0; i < hitCount; i++)
         {
@@ -206,11 +197,7 @@ public class TargetComponent : MonoBehaviour
             if (target.Team == selfUnit.Team)
                 continue;
 
-            if (IsHigherPriority(target.UnitPrio, currentThreat))
-            {
-                currentTarget = target;
-                return;
-            }
+            possibleTargets.Add(target);
         }
     }
 
