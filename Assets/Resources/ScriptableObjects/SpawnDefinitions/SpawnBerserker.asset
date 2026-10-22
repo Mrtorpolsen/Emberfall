@@ -21,7 +21,7 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   id: spawn_berserker
   unlockId: unlock_unit_berserker
-  unlockedByDefault: 0
+  unlockedByDefault: 1
   slotType: 0
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 3be627035f33c474bb682b9988254594, type: 3}
