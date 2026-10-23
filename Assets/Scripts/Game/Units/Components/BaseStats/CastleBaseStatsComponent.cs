@@ -19,7 +19,7 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
         if (isTest)
         {
             currentHealth = 100000000;
-            GameManager.Instance.AddCurrency(Team.South, 100000);
+            GameManager.Instance.Economy.Add(Team.South, 100000);
         }
     }
 #endif

@@ -15,21 +15,16 @@ public class GameManager : MonoBehaviour
 
     public Transform meleeRally;
 
-    public Dictionary<Team, float> currency;
-
-    public event Action<int> OnCurrencyChanged;
-    public event Action<float> OnIncomeMultiplierChanged;
+    public MatchEconomy Economy { get; private set; }
 
     [Header("References")]
     [SerializeField] GameObject gameUICanvas;
 
     [Header("Attributes")]
-    [SerializeField] float currencyTimer = 0f;
     [SerializeField] float currencyInterval = 1f;
-    [SerializeField] float incomePerTick = 20;
     [SerializeField] float baseIncomePerTick = 20;
     [SerializeField] float incomeMultiplier = 1;
-    [SerializeField] public float incomeUpgradeCost = 200;
+    [SerializeField] float incomeUpgradeCost = 200;
     [SerializeField] public bool isGameOver = false;
     [SerializeField] public bool isGameRunning = false;
     [SerializeField] public Team winningTeam;
@@ -57,15 +52,10 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
 
-        currency = new Dictionary<Team, float>()
-        {
-            { Team.North, 1000 },
-            { Team.South, 300 },
-        };
+        Economy = new MatchEconomy(southCurrency: 300, northCurrency: 1000, baseIncomePerTick, currencyInterval,
+            incomeMultiplier, incomeUpgradeCost);
 
         PauseManager.SetPaused(false);
-
-        OnCurrencyChanged?.Invoke((int)currency[Team.South]);
     }
 
     public async void Start()
@@ -77,36 +67,8 @@ public class GameManager : MonoBehaviour
     {
         if (isGameRunning)
         {
-            currencyTimer += Time.deltaTime;
-
-            if (currencyTimer >= currencyInterval)
-            {
-                currencyTimer = 0f;
-
-                AddCurrency(Team.South, incomePerTick);
-            }
+            Economy.Tick(Time.deltaTime);
         }
-    }
-
-    public void AddCurrency(Team team, float amount)
-    {
-        currency[team] += amount;
-        OnCurrencyChanged?.Invoke((int)currency[team]);
-        UIManager.Instance.RefreshAllButtons();
-    }
-
-    public void SubtractCurrency(Team team, float amount)
-    {
-        currency[team] -= amount;
-        OnCurrencyChanged?.Invoke((int)currency[team]);
-        UIManager.Instance.RefreshAllButtons();
-    }
-
-    public void UpgradeIncomeModifier()
-    {
-        incomeMultiplier += (float)0.2;
-        incomePerTick = baseIncomePerTick * incomeMultiplier;
-        OnIncomeMultiplierChanged?.Invoke(incomeMultiplier);
     }
 
     private void UpdateGameState(bool gameOver, Team losingTeam)

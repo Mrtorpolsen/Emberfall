@@ -59,7 +59,7 @@ public class BuildingPlot : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.AddCurrency(Team.South, sellValue);
+        GameManager.Instance.Economy.Add(Team.South, sellValue);
         Destroy(currentTower);
 
         currentTower = null;
@@ -70,7 +70,7 @@ public class BuildingPlot : MonoBehaviour
 
     public void UpgradeTower(SpawnSide spawnSide)
     {
-        if (state != PlotState.Occupied || currentTower == null || GameManager.Instance.currency[Team.South] < upgradeCost)
+        if (state != PlotState.Occupied || currentTower == null || !GameManager.Instance.Economy.CanAfford(Team.South, upgradeCost))
             return;
 
         if (!currentTower.TryGetComponent<TowerUnitStats>(out var towerStats))
@@ -82,7 +82,7 @@ public class BuildingPlot : MonoBehaviour
         if (!towerStats.CanUpgrade())
             return;
 
-        GameManager.Instance.SubtractCurrency(Team.South, upgradeCost);
+        GameManager.Instance.Economy.TrySpend(Team.South, upgradeCost);
 
         towerStats.UpgradeTier();
 

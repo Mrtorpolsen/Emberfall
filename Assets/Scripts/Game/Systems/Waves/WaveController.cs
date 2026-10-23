@@ -167,7 +167,7 @@ public class WaveController : MonoBehaviour
     private void Benchmark(int spawnOfEach)
     {
         SpawnDatabase spawnDB = SpawnDatabase.Instance;
-        GameManager.Instance.AddCurrency(Team.South, 1000000);
+        GameManager.Instance.Economy.Add(Team.South, 1000000);
         for (int i = 0; i < spawnOfEach; i++)
         {
             SpawnManager.Instance.SpawnUnit(spawnDB.GetSpawn("spawn_fighter").UnitPrefab, southSpawn, Team.South);

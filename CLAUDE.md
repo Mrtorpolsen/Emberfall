@@ -69,6 +69,9 @@ Every modifier goes through `StatPipeline`: `base * (1 + sum of Percent) + sum o
 
 Each unit type has a thin `*BaseStatsComponent : BaseUnitStats` subclass (mostly just `UnitPrio` threat level) in `Units/Components/BaseStats/`; towers derive from `TowerUnitStats`. Behaviour is composed from sibling components (`MovementComponent`, `CombatComponent`, `TargetComponent`/`TargetSelector`, `RangedShooter`, `UnitAbilityComponent`) plus `TargetRegistry` for lookups.
 
+### Match economy
+In-match currency and income live in `MatchEconomy` (plain C#, tested), owned by `GameManager.Economy` and ticked while the game runs. Spend with `TrySpend` (checks and subtracts in one call); the HUD (`UIManager`) listens to `CurrencyChanged`/`IncomeChanged` instead of being called. Meta-currency (cinders/embers in the save) is separate: `CurrencyManager`.
+
 ### Waves and abilities
 - `WaveController` drives a match; `WaveGenerator` builds each `WaveDefinition` from the `SpawnDatabase` using a threat budget (`WaveThreatCalculator`, `WaveRules`, `Difficulty`) and the selected `GeneralDefinition` (boss). It takes an injectable random function for tests.
 - Abilities: `AbilityDefinition` → `AbilityAction`s (`Heal`, `StatModification`, `Summon`), triggered via `AbilityTriggerFactory`/`AbilityTrigger` (e.g. cooldown-based), executed by `AbilitySystem` with `AbilityCooldownManager`.

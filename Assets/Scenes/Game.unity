@@ -10022,7 +10022,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: x1.0
+  m_text: 20
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -53740,9 +53740,7 @@ MonoBehaviour:
   - {fileID: 2129601661}
   meleeRally: {fileID: 33266122}
   gameUICanvas: {fileID: 556354267}
-  currencyTimer: 0
   currencyInterval: 1
-  incomePerTick: 20
   baseIncomePerTick: 20
   incomeMultiplier: 1
   incomeUpgradeCost: 200

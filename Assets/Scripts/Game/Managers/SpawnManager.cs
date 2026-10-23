@@ -31,14 +31,7 @@ public class SpawnManager : MonoBehaviour
 
     public void UpgradeIncome()
     {
-        if (GameManager.Instance.currency[Team.South] >= GameManager.Instance.incomeUpgradeCost)
-        {
-            GameManager.Instance.UpgradeIncomeModifier();
-            GameManager.Instance.SubtractCurrency(Team.South, GameManager.Instance.incomeUpgradeCost);
-            GameManager.Instance.incomeUpgradeCost += 50;
-            UIManager.Instance.UpdateIncomeCostText();
-        }
-        else
+        if (!GameManager.Instance.Economy.TryUpgradeIncome())
         {
             Debug.Log($"{Team.South} - Insufficient currency");
         }
@@ -117,7 +110,7 @@ public class SpawnManager : MonoBehaviour
         // A prefab's BaseUnitStats never ran Awake, so read cost from the stats it will spawn with
         float cost = finalStats != null ? finalStats.Get(StatType.Cost) : prefabStats.statsDef.cost;
 
-        if (chargeCost && GameManager.Instance.currency[team] < cost)
+        if (chargeCost && !GameManager.Instance.Economy.TrySpend(team, cost))
         {
             Debug.LogWarning("Not enough currency");
             return false;
@@ -140,11 +133,6 @@ public class SpawnManager : MonoBehaviour
 
         unit.GetComponent<UnitMetadata>().SetTeam(team);
         unit.layer = LayerMask.NameToLayer(team + "Team");
-
-        if (chargeCost)
-        {
-            GameManager.Instance.SubtractCurrency(team, cost);
-        }
 
         TargetRegistry.Instance.RegisterUnit(unitBase);
 

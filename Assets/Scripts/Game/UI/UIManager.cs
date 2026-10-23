@@ -136,8 +136,8 @@ public class UIManager : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.OnCurrencyChanged += UpdateCurrencyText;
-            GameManager.Instance.OnIncomeMultiplierChanged += UpdateIncomeMultiplierText;
+            GameManager.Instance.Economy.CurrencyChanged += HandleCurrencyChanged;
+            GameManager.Instance.Economy.IncomeChanged += HandleIncomeChanged;
         }
         BindWaveChangeUpdateEvent();
     }
@@ -148,8 +148,8 @@ public class UIManager : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.OnCurrencyChanged -= UpdateCurrencyText;
-            GameManager.Instance.OnIncomeMultiplierChanged -= UpdateIncomeMultiplierText;
+            GameManager.Instance.Economy.CurrencyChanged -= HandleCurrencyChanged;
+            GameManager.Instance.Economy.IncomeChanged -= HandleIncomeChanged;
         }
         if (WaveController.waveGenerator != null)
         {
@@ -276,7 +276,7 @@ public class UIManager : MonoBehaviour
                 continue;
             }
 
-            unitButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            unitButtons[i].Setup(def.DisplayName, def.Cost, def.Icon, def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.Economy.CanAfford(Team.South, def.Cost)));
             unitButtons[i].SetClickAction(() =>
             {
                 SpawnManager.Instance.SpawnSouthUnit(def.UnitPrefab);
@@ -305,13 +305,11 @@ public class UIManager : MonoBehaviour
                 continue;
             }
 
-            abilityButtons[i].Setup(def, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost && AbilityCooldownManager.Instance.CanUse(def)));
+            abilityButtons[i].Setup(def, (() => !PauseManager.IsPaused && GameManager.Instance.Economy.CanAfford(Team.South, def.Cost) && AbilityCooldownManager.Instance.CanUse(def)));
             abilityButtons[i].SetClickAction(() =>
             {
-                if (GameManager.Instance.currency[Team.South] < def.Cost && AbilityCooldownManager.Instance.CanUse(def))
+                if (!AbilityCooldownManager.Instance.CanUse(def) || !GameManager.Instance.Economy.TrySpend(Team.South, def.Cost))
                     return;
-
-                GameManager.Instance.SubtractCurrency(Team.South, def.Cost);
 
                 foreach (var action in def.actions)
                 {
@@ -344,7 +342,7 @@ public class UIManager : MonoBehaviour
                 continue;
             }
 
-            towerBuildMenuWestButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            towerBuildMenuWestButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.Economy.CanAfford(Team.South, def.Cost)));
             towerBuildMenuWestButtons[i].SetClickAction(() =>
             {
                 SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.West);
@@ -370,7 +368,7 @@ public class UIManager : MonoBehaviour
                 continue;
             }
 
-            towerBuildMenuEastButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= def.Cost));
+            towerBuildMenuEastButtons[i].Setup(def.DisplayName, def.Cost, GetTowerSprite(def.DisplayName.ToLowerInvariant()), def.Cooldown, (() => !PauseManager.IsPaused && GameManager.Instance.Economy.CanAfford(Team.South, def.Cost)));
             towerBuildMenuEastButtons[i].SetClickAction(() =>
             {
                 SpawnSouthTowerClickAction(def.UnitPrefab, SpawnSide.East);
@@ -399,7 +397,7 @@ public class UIManager : MonoBehaviour
 
         upgradeButton.Setup("Upgrade", plot.upgradeCost, upgradeSprite, 0,
             () => !PauseManager.IsPaused
-                && GameManager.Instance.currency[Team.South] >= plot.upgradeCost
+                && GameManager.Instance.Economy.CanAfford(Team.South, plot.upgradeCost)
                 && plot.canUpgrade
         );
 
@@ -437,7 +435,7 @@ public class UIManager : MonoBehaviour
         {
             button.Refresh();
         }
-        incomeButton.interactable = (!PauseManager.IsPaused && GameManager.Instance.currency[Team.South] >= GameManager.Instance.incomeUpgradeCost);
+        incomeButton.interactable = (!PauseManager.IsPaused && GameManager.Instance.Economy.CanAfford(Team.South, GameManager.Instance.Economy.IncomeUpgradeCost));
         orderButton.interactable = (!PauseManager.IsPaused);
     }
 
@@ -462,18 +460,24 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateIncomeCostText()
+    private void HandleCurrencyChanged(Team team, float amount)
     {
-        incomeCostText.text = GameManager.Instance.incomeUpgradeCost.ToString();
+        // Only the player's currency is shown
+        if (team != Team.South)
+            return;
+
+        currencyText.text = ((int)amount).ToString();
+        RefreshAllButtons();
     }
 
-    private void UpdateCurrencyText(int currency)
+    private void HandleIncomeChanged()
     {
-        currencyText.text = currency.ToString();
+        UpdateIncomeText(GameManager.Instance.Economy.IncomePerTick);
+        incomeCostText.text = GameManager.Instance.Economy.IncomeUpgradeCost.ToString();
     }
-    private void UpdateIncomeMultiplierText(float multiplier)
+    private void UpdateIncomeText(float incomePerTick)
     {
-        incomeMultiplierText.text = "x" + multiplier.ToString("F1");
+        incomeMultiplierText.text = incomePerTick.ToString();
     }
 
     private void UpdateWaveCountText(int waveNumber)
