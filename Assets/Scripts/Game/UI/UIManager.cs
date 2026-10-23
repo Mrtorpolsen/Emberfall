@@ -385,7 +385,7 @@ public class UIManager : MonoBehaviour
         var sellButton = buttonsToSetup[0];
         var upgradeButton = buttonsToSetup[1];
 
-        sellButton.Setup("Sell", plot.sellValue, sellSprite, 0,
+        sellButton.Setup("Sell", plot.SellValue, sellSprite, 0,
             () => !PauseManager.IsPaused
         );
 
@@ -395,10 +395,10 @@ public class UIManager : MonoBehaviour
             boundButtons.Remove(upgradeButton);
         });
 
-        upgradeButton.Setup("Upgrade", plot.upgradeCost, upgradeSprite, 0,
+        upgradeButton.Setup("Upgrade", plot.UpgradeCost, upgradeSprite, 0,
             () => !PauseManager.IsPaused
-                && GameManager.Instance.Economy.CanAfford(Team.South, plot.upgradeCost)
-                && plot.canUpgrade
+                && GameManager.Instance.Economy.CanAfford(Team.South, plot.UpgradeCost)
+                && plot.CanUpgrade
         );
 
         upgradeButton.SetClickAction(() =>
@@ -415,15 +415,15 @@ public class UIManager : MonoBehaviour
 
     public void RefreshTowerMenu(ActionButton sellButton, ActionButton upgradeButton, BuildingPlot plot)
     {
-        sellButton.UpdateText("Sell", plot.sellValue);
+        sellButton.UpdateText("Sell", plot.SellValue);
 
-        if (!plot.canUpgrade)
+        if (!plot.CanUpgrade)
         {
             upgradeButton.UpdateText("Upgrade", "Max");
             return;
         }
 
-        upgradeButton.UpdateText("Upgrade", plot.upgradeCost);
+        upgradeButton.UpdateText("Upgrade", plot.UpgradeCost);
     }
 
     public void RefreshAllButtons()

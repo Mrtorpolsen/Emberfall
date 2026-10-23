@@ -5,8 +5,8 @@ public class TargetRegistry : MonoBehaviour
 {
     public static TargetRegistry Instance { get; private set; }
 
-    public HashSet<BaseUnitStats> playerUnits = new();
-    public HashSet<BaseUnitStats> enemyUnits = new();
+    private readonly HashSet<BaseUnitStats> playerUnits = new();
+    private readonly HashSet<BaseUnitStats> enemyUnits = new();
 
     private void Awake()
     {

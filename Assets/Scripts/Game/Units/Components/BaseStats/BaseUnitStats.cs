@@ -7,18 +7,18 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
-    [SerializeField] public UnitStatsDefinition statsDef;
+    [SerializeField] private UnitStatsDefinition statsDef;
     [SerializeField] private Collider2D unitCollider;
     [SerializeField] private Rigidbody2D unitRigidbody;
 
     [SerializeField] private float showRangeGizmo1 = 0f;
     [SerializeField] private float showRangeGizmo2 = 0f;
 
-    protected UnitStatsDefinition StatsDef => statsDef;
+    public UnitStatsDefinition StatsDef => statsDef;
 
     private static readonly StatType[] AllStats = (StatType[])Enum.GetValues(typeof(StatType));
 
-    public int currentHealth;
+    protected int currentHealth;
     protected UnitMetadata metadata;
     private RuntimeStats runtimeStats;
 

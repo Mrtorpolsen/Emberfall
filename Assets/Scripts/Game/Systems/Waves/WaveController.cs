@@ -100,7 +100,7 @@ public class WaveController : MonoBehaviour
         currentGeneral = waveRules.GetGeneral();
         int generalSpawnIndex = currentGeneral.spawnLimit;
 
-        while (currentWaveIndex < totalWaves && !GameManager.Instance.isGameOver)
+        while (currentWaveIndex < totalWaves && !GameManager.Instance.IsGameOver)
         {
             if (currentWaveIndex >= generalSpawnIndex)
             {
@@ -126,7 +126,7 @@ public class WaveController : MonoBehaviour
 
         foreach (var group in wave.enemiesToSpawn)
         {
-            UnitStatsDefinition statsDef = group.prefab.GetComponent<BaseUnitStats>().statsDef;
+            UnitStatsDefinition statsDef = group.prefab.GetComponent<BaseUnitStats>().StatsDef;
 
             for (int i = 0; i < group.count; i++)
             {

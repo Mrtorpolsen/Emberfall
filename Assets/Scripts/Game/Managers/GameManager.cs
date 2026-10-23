@@ -8,12 +8,14 @@ public class GameManager : MonoBehaviour
     //Consider separating this into smaller bits, and have this one start/stop them all
     public static GameManager Instance { get; private set; }
 
-    public Transform south;
+    [SerializeField] private Transform south;
+    public Transform South => south;
 
     private int nextRangedSpawn = 0;
-    public Transform[] playerRangedRallies;
+    [SerializeField] private Transform[] playerRangedRallies;
 
-    public Transform meleeRally;
+    [SerializeField] private Transform meleeRally;
+    public Transform MeleeRally => meleeRally;
 
     public MatchEconomy Economy { get; private set; }
 
@@ -25,9 +27,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] float baseIncomePerTick = 20;
     [SerializeField] float incomeMultiplier = 1;
     [SerializeField] float incomeUpgradeCost = 200;
-    [SerializeField] public bool isGameOver = false;
-    [SerializeField] public bool isGameRunning = false;
-    [SerializeField] public Team winningTeam;
+    [SerializeField] private bool isGameOver = false;
+    [SerializeField] private bool isGameRunning = false;
+    [SerializeField] private Team winningTeam;
+
+    public bool IsGameOver => isGameOver;
 
     [Header("Rally Settings")]
     [SerializeField] private float maxYMeleeRally = 0.1f;
@@ -119,7 +123,7 @@ public class GameManager : MonoBehaviour
 
         WaveController.Instance.InitializeDifficulty(difficulty);
         UIManager.Instance.BindWaveChangeUpdateEvent();
-        Instance.isGameRunning = true;
+        isGameRunning = true;
         TimerManager.Instance.StartTimer();
 
         StartCoroutine(CoroutineHelpers.DoAfterDelay(3f, () =>

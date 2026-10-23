@@ -59,9 +59,9 @@ public class MovementComponent : MonoBehaviour
         unitMetadata = GetComponent<UnitMetadata>();
         rangedStats = GetComponent<RangedShooter>();
 
-        south = GameManager.Instance.south;
+        south = GameManager.Instance.South;
         rangedRally = GameManager.Instance.GetNextRangedRally();
-        meleeRally = GameManager.Instance.meleeRally;
+        meleeRally = GameManager.Instance.MeleeRally;
 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 

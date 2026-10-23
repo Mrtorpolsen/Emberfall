@@ -15,9 +15,9 @@ public class BuildingPlot : MonoBehaviour
     private PlotState state = PlotState.Empty;
     private GameObject currentTower;
 
-    public float upgradeCost;
-    public float sellValue;
-    public bool canUpgrade;
+    public float UpgradeCost { get; private set; }
+    public float SellValue { get; private set; }
+    public bool CanUpgrade { get; private set; }
     public bool HasTower => state == PlotState.Occupied;
 
     public void OnPlotClicked()
@@ -43,9 +43,9 @@ public class BuildingPlot : MonoBehaviour
             Debug.LogError("Can't get tower BaseUnitStats.");
             return;
         }
-        sellValue = towerStats.GetSellValue();
-        upgradeCost = towerStats.GetUpgradeCost();
-        canUpgrade = towerStats.CanUpgrade();
+        SellValue = towerStats.GetSellValue();
+        UpgradeCost = towerStats.GetUpgradeCost();
+        CanUpgrade = towerStats.CanUpgrade();
     }
 
     public void SellTower()
@@ -53,13 +53,13 @@ public class BuildingPlot : MonoBehaviour
         if (state != PlotState.Occupied || currentTower == null)
             return;
 
-        if (sellValue <= 0)
+        if (SellValue <= 0)
         {
             Debug.LogError("Cant sell tower, value is 0 or less");
             return;
         }
 
-        GameManager.Instance.Economy.Add(Team.South, sellValue);
+        GameManager.Instance.Economy.Add(Team.South, SellValue);
         Destroy(currentTower);
 
         currentTower = null;
@@ -70,7 +70,7 @@ public class BuildingPlot : MonoBehaviour
 
     public void UpgradeTower(SpawnSide spawnSide)
     {
-        if (state != PlotState.Occupied || currentTower == null || !GameManager.Instance.Economy.CanAfford(Team.South, upgradeCost))
+        if (state != PlotState.Occupied || currentTower == null || !GameManager.Instance.Economy.CanAfford(Team.South, UpgradeCost))
             return;
 
         if (!currentTower.TryGetComponent<TowerUnitStats>(out var towerStats))
@@ -82,13 +82,13 @@ public class BuildingPlot : MonoBehaviour
         if (!towerStats.CanUpgrade())
             return;
 
-        GameManager.Instance.Economy.TrySpend(Team.South, upgradeCost);
+        GameManager.Instance.Economy.TrySpend(Team.South, UpgradeCost);
 
         towerStats.UpgradeTier();
 
-        sellValue = towerStats.GetSellValue();
-        upgradeCost = towerStats.GetUpgradeCost();
-        canUpgrade = towerStats.CanUpgrade();
+        SellValue = towerStats.GetSellValue();
+        UpgradeCost = towerStats.GetUpgradeCost();
+        CanUpgrade = towerStats.CanUpgrade();
     }
 
     public GameObject GetTower()

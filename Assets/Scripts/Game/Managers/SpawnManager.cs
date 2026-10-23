@@ -53,7 +53,7 @@ public class SpawnManager : MonoBehaviour
     private static StatBlock GetPlayerStats(GameObject prefab)
     {
         return prefab.TryGetComponent<BaseUnitStats>(out var prefabStats)
-            ? UnitStatsManager.Instance.GetStats(prefabStats.statsDef)
+            ? UnitStatsManager.Instance.GetStats(prefabStats.StatsDef)
             : null;
     }
 
@@ -84,7 +84,7 @@ public class SpawnManager : MonoBehaviour
         else
         {
             finalStats = prefab.TryGetComponent<BaseUnitStats>(out var prefabStats)
-                ? UnitStatsManager.Instance.GetEnemyStats(prefabStats.statsDef, WaveController.Instance.CreateScalingContext(prefab))
+                ? UnitStatsManager.Instance.GetEnemyStats(prefabStats.StatsDef, WaveController.Instance.CreateScalingContext(prefab))
                 : null;
         }
 
@@ -108,7 +108,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         // A prefab's BaseUnitStats never ran Awake, so read cost from the stats it will spawn with
-        float cost = finalStats != null ? finalStats.Get(StatType.Cost) : prefabStats.statsDef.cost;
+        float cost = finalStats != null ? finalStats.Get(StatType.Cost) : prefabStats.StatsDef.cost;
 
         if (chargeCost && !GameManager.Instance.Economy.TrySpend(team, cost))
         {

@@ -97,9 +97,9 @@ public class DataValidationTests
             {
                 errors.Add($"{path}: prefab '{spawn.UnitPrefab.name}' has no BaseUnitStats on its root");
             }
-            else if (unitStats.statsDef != spawn.Stats)
+            else if (unitStats.StatsDef != spawn.Stats)
             {
-                errors.Add($"{path}: prefab '{spawn.UnitPrefab.name}' uses stats '{(unitStats.statsDef != null ? unitStats.statsDef.name : "none")}', not '{spawn.Stats.name}'");
+                errors.Add($"{path}: prefab '{spawn.UnitPrefab.name}' uses stats '{(unitStats.StatsDef != null ? unitStats.StatsDef.name : "none")}', not '{spawn.Stats.name}'");
             }
         }
 
