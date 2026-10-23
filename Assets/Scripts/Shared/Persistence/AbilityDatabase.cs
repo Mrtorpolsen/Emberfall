@@ -34,15 +34,7 @@ public class AbilityDatabase : MonoBehaviour
 
     public void Initialize()
     {
-        abilityMap = abilities.ToDictionary(x =>
-        {
-            if (x.UnlockedByDefault)
-            {
-                UnlockService.Instance.Unlock(x.UnlockId);
-            }
-
-            return x.Id;
-        });
+        abilityMap = abilities.ToDictionary(x => x.Id);
     }
 
     public AbilityDefinition GetAbility(string id) => id == null ? null : abilityMap[id];
