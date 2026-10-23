@@ -73,6 +73,9 @@ Each unit type has a thin `*BaseStatsComponent : BaseUnitStats` subclass (mostly
 ### Tutorial
 `TutorialFlow` (persistent) owns menu tutorial steps and flags in `PlayerFlagsState`; `GamePlayTutorialPresenter` handles the in-game tutorial. `GameManager` has an `isTutorial` mode that changes spawning (e.g. the tutorial boss `SirTutorTheThird`) — check tutorial vs. normal paths when touching spawning/waves.
 
+## Roadmap
+Pre-release work (GPGS sign-in, cloud save, achievements, IAP/ads, Play production, iOS) is planned in `docs/release-plan.md`.
+
 ## Keeping this file current
 After any change that affects architecture, conventions or current state,
 update this file (or the relevant docs/ file) before finishing.
