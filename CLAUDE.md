@@ -54,8 +54,9 @@ The in-game HUD (`Game/UI/UIManager`, `ActionButton`) is separate from the menu 
 `SaveService` writes a single JSON file (Newtonsoft) per player ID. `SaveGame` (`Shared/Persistence/SaveGame.cs`) is the root; `CurrentSaveVersion.CURRENT_SAVE_VERSION` gates migration. **When changing the save shape**: bump the version, keep the old shape as a `SaveGameN` class (legacy types live under `SaveMigration/vN/`), and add a `MigrateNToM` case in `SaveService.Migrate`. Corrupt saves are copied aside rather than overwritten.
 
 ### Data definitions
-- ScriptableObjects under `Assets/Resources/ScriptableObjects/` define units (`UnitStatsDefinition`), spawnable entries (`SpawnDefinition`), generals/bosses (`GeneralDefinition`), abilities (`AbilityDefinition` + `AbilityAction` assets), and targeting.
-- Talent and research trees are JSON (`Assets/Resources_moved/Data/Talents.json`, `Research.json`) loaded through **Addressables** by key (`"Talents"`, `"Research"`). Icons and many UI assets are also addressable — new addressable assets must be added to a group in `AddressableAssetsData`.
+- ScriptableObjects under `Assets/Data/ScriptableObjects/` define units (`UnitStatsDefinition`), spawnable entries (`SpawnDefinition`), generals/bosses (`GeneralDefinition`), abilities (`AbilityDefinition` + `AbilityAction` assets), and targeting. They're referenced directly (scenes/prefabs), not loaded by path.
+- Talent and research trees are JSON (`Assets/Addressables/Data/Talents.json`, `Research.json`) loaded through **Addressables** by key (`"Talents"`, `"Research"`). Menu UXML/USS templates live under `Assets/Addressables/UI/`. Icons and many UI assets are also addressable — new addressable assets must be added to a group in `AddressableAssetsData`.
+- `Assets/Resources/` only holds what is loaded by path — `Resources.Load` in code or `resource("…")` in UXML/USS: currently `UI/cinder_icon.png`. Everything in `Resources` ships in every build, so don't put referenced assets there, and don't move anything out of it without checking for `resource(` references.
 
 ### Unit stats pipeline
 All numeric stats are a `StatBlock` (one float per `StatType`; int stats are rounded only on read via `GetInt`). `StatType` is serialized as an int in assets, so only append to it. `UnitStatsDefinition.ToStatBlock()` is the single definition→stats mapping.

@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle"/>
-    <Style src="project://database/Assets/Resources_moved/UI/Menus/Leaderboard/LeaderboardRowStyle.uss?fileID=7433441132597879392&amp;guid=a2924fff73ea5ab4dad7527a56b873a5&amp;type=3#LeaderboardRowStyle"/>
+    <Style src="project://database/Assets/Addressables/UI/Menus/Leaderboard/LeaderboardRowStyle.uss?fileID=7433441132597879392&amp;guid=a2924fff73ea5ab4dad7527a56b873a5&amp;type=3#LeaderboardRowStyle"/>
     <ui:VisualElement name="LeaderboardRowContainer" class="leaderboardRow" style="margin-bottom: 10px;">
         <ui:Label text="1000" name="Label_Rank" class="labelRank text labelSize"/>
         <ui:VisualElement name="ContentContainer" class="ContentContainer contentContainer" style="flex-grow: 1;">

@@ -11,8 +11,8 @@ using UnityEngine;
 // Validates the talent/research JSON so data mistakes fail here instead of silently in play
 public class DataValidationTests
 {
-    private const string TalentsPath = "Assets/Resources_moved/Data/Talents.json";
-    private const string ResearchPath = "Assets/Resources_moved/Data/Research.json";
+    private const string TalentsPath = "Assets/Addressables/Data/Talents.json";
+    private const string ResearchPath = "Assets/Addressables/Data/Research.json";
 
     [Test]
     public void TalentsJson_DeserializesIntoTalentTree()
