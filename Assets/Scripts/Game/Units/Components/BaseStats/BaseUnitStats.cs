@@ -125,7 +125,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         if (IsInvulnerable) return;
 
-        currentHealth -= ApplyArmorReduction(amount);
+        currentHealth -= DamageCalculator.ApplyArmor(amount, Armor);
 
 #if UNITY_EDITOR
         SyncDebugStats();
@@ -175,12 +175,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
             }
 
         }
-    }
-
-    private int ApplyArmorReduction(int dmg)
-    {
-        float reductionFactor = 100f / (Armor + 100f);
-        return Mathf.Max(1, Mathf.RoundToInt(dmg * reductionFactor));
     }
 
     // The single death path: subclasses react in OnDeath, never by overriding Die or using OnDestroy
@@ -258,15 +252,11 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public int GetAttackDamage()
     {
-        int dmg = AttackDamage;
+        int dmg = DamageCalculator.RollAttackDamage(AttackDamage, CritChance, CritDamage, UnityEngine.Random.value, out bool isCrit);
 
-        if (CritChance > 0)
+        if (isCrit)
         {
-            if (RollCrit())
-            {
-                dmg = Mathf.RoundToInt(dmg * CritDamage);
-                ShowCritFeedback(dmg);
-            }
+            ShowCritFeedback(dmg);
         }
 
         return dmg;
@@ -344,11 +334,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
                 currentStats.Set(stat, value);
                 break;
         }
-    }
-
-    protected bool RollCrit()
-    {
-        return UnityEngine.Random.value <= CritChance;
     }
 
     protected virtual void ShowCritFeedback(int dmg)
