@@ -2,7 +2,7 @@
 
 public class SapperBaseStatsComponent : BaseUnitStats, IAttack
 {
-    public override ThreatLevel UnitPrio => ThreatLevel.Immidate;
+    public override ThreatLevel UnitPrio => ThreatLevel.Immediate;
 
     private Collider2D[] hitBuffer;
     private ContactFilter2D contactFilter;

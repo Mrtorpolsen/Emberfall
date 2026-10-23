@@ -1,4 +1,4 @@
-﻿public class AssasinBaseStatsComponent : BaseUnitStats
+﻿public class AssassinBaseStatsComponent : BaseUnitStats
 {
     public override ThreatLevel UnitPrio => ThreatLevel.Special;
 }

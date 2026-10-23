@@ -22,7 +22,7 @@ public class LoadoutUIController : IUIScreenController
     {
         if (screenView is not LoadoutView loadoutView)
         {
-            Debug.LogError("ResearchUIController recieved the wrong view type");
+            Debug.LogError("LoadoutUIController received the wrong view type");
             return;
         }
 

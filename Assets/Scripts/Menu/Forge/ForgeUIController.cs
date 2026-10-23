@@ -27,7 +27,7 @@ public class ForgeUIController : IUIScreenController
         forgePanel = forgeView.ForgePanel;
         talentTreePanel = forgeView.TalentTreePanel;
 
-        //Get prerequisits from talents
+        //Get prerequisites from talents
         TalentUnlockManager.Instance.InitializeFromForge();
 
         //Enforce correct state
@@ -136,7 +136,7 @@ public class ForgeUIController : IUIScreenController
             int purchasedNow = TalentService.Instance.GetPurchasedTalent(unitName, talent.Id);
             bool canPurchase = purchasedNow < max;
 
-            bool prerequisitsMet = TalentUnlockManager.Instance.ArePrerequisitesMet(unitName.ToLowerInvariant()
+            bool prerequisitesMet = TalentUnlockManager.Instance.ArePrerequisitesMet(unitName.ToLowerInvariant()
                 .ToLowerInvariant(), talent.Prerequisites);
 
             int currentCost = talent.GetCurrentCost();
@@ -145,7 +145,7 @@ public class ForgeUIController : IUIScreenController
             var popupBtn = new PopupButtonDefinition
             {
                 //Todo need to reconstruct this to handle multiple prerequisites and different eg achievement
-                LabelText = prerequisitsMet ? $"{purchasedNow}/{max}" : $"Requires {talent.Prerequisites[0].RequiredPointsInTier} points in Tier {talent.Prerequisites[0].RequiredTier}",
+                LabelText = prerequisitesMet ? $"{purchasedNow}/{max}" : $"Requires {talent.Prerequisites[0].RequiredPointsInTier} points in Tier {talent.Prerequisites[0].RequiredTier}",
                 BtnText = currentCost.ToString(),
                 BtnIconPath = "UI/cinder_icon",
 
@@ -205,7 +205,7 @@ public class ForgeUIController : IUIScreenController
                 }
             };
             PopupManager.Instance.OpenPopup_ImgDescBtn(talent.IconId, talent.Name, talent.Description, popupBtn);
-            PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitsMet && hasEnoughCurrency);
+            PopupManager.Instance.ButtonIsActive(canPurchase && prerequisitesMet && hasEnoughCurrency);
 
             if (talent.Type != TalentType.StatModifier && talent.Type != TalentType.UnitUnlock)
             {
