@@ -290,6 +290,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d7b7530fa4983f47a467068eded6820
+    m_Address: melee_range_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 957a20b2739a07b45ab5d3bf5d42247e
     m_Address: unitunlock_templar_1
     m_ReadOnly: 0
@@ -485,6 +491,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d04a8c4679aa6cd4a8c2897273c8338a
+    m_Address: melee_range_2
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d1261b146eeaa2f4e9c8093bbf697ecc
     m_Address: ranged_critdamage_2
     m_ReadOnly: 0
@@ -511,6 +523,18 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d9753d620fe878b4d8cefb7448b1bff5
     m_Address: unitunlock_trapper_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd0413285796ffc4198b998f6e8b207c
+    m_Address: melee_range_3
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de24480a17c097e4990f4956cd72f588
+    m_Address: melee_range_1
     m_ReadOnly: 0
     m_SerializedLabels:
     - preload
@@ -558,6 +582,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f3a5a0a1dde9e484485cfc45326bfae0
     m_Address: melee_damage_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f7cc19385d894584f8ca219f79815f90
+    m_Address: melee_range_4
     m_ReadOnly: 0
     m_SerializedLabels:
     - preload

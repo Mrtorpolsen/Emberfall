@@ -11,7 +11,8 @@ public class UnitAbilityComponent : MonoBehaviour
     [SerializeField] private UnitAbility minorAbility;
     [SerializeField] private UnitAbility majorAbility;
 
-    private void Awake()
+    // Start, not Awake: triggers can fire immediately, and the spawner sets team and stats after Instantiate (which runs Awake)
+    private void Start()
     {
         if (minorAbility.ability != null)
         {

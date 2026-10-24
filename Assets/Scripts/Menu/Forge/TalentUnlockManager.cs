@@ -34,6 +34,8 @@ public class TalentUnlockManager : MonoBehaviour
             {
                 var talent = TalentService.Instance.playerTalentTree.GetTalentById(kvp.Key, purchasedTalent.Key);
 
+                if (talent == null) continue;
+
                 if (!pointsPerTierPerUnit.ContainsKey(kvp.Key))
                 {
                     pointsPerTierPerUnit[kvp.Key] = new Dictionary<int, int>();

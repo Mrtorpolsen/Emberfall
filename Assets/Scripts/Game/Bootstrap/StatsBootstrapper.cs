@@ -43,6 +43,12 @@ public class StatsBootstrapper
                 Talent talentDef = TalentService.Instance
                     .playerTalentTree.GetTalentById(kvp.Key, talent.Key);
 
+                if (talentDef == null)
+                {
+                    Debug.LogWarning($"Saved talent '{talent.Key}' for '{kvp.Key}' no longer exists. Skipping.");
+                    continue;
+                }
+
                 if (talentDef.Type != TalentType.StatModifier) continue;
 
                 TalentsToApply talentToApply = new TalentsToApply
@@ -64,6 +70,12 @@ public class StatsBootstrapper
         foreach (var kvp in SaveService.Instance.Current.Research.CompletedResearch)
         {
             ResearchDefinition researchDef = ResearchService.Instance.playerResearchTree.GetResearchById(kvp.Key);
+
+            if (researchDef == null)
+            {
+                Debug.LogWarning($"Saved research '{kvp.Key}' no longer exists. Skipping.");
+                continue;
+            }
 
             //If add category type, skip non stats.
             // TODO get only stat related research, need to move it to its own and only expose stat related here.

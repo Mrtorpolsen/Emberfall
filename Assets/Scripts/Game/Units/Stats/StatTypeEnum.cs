@@ -11,4 +11,6 @@
     MovementSpeed,
     Income,
     Mass,
+    HitRadius,
+    Cost,
 }

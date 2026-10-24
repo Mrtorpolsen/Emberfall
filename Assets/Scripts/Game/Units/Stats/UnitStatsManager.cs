@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class UnitStatsManager : MonoBehaviour
 {
-    [Header("Unit Stats Definitions")]
-    [SerializeField] private List<UnitStatsDefinition> unitStatsDefinition;
-
     public static UnitStatsManager Instance { get; private set; }
 
     private StatsBootstrapper statsBootstrapper;
@@ -23,8 +20,8 @@ public class UnitStatsManager : MonoBehaviour
         set => unitStatsCalculator = value;
     }
 
-    private Dictionary<string, FinalStats> finalStatsByUnit = new();
-    public Dictionary<string, FinalStats> FinalStatsByUnit
+    private Dictionary<string, StatBlock> finalStatsByUnit = new();
+    public Dictionary<string, StatBlock> FinalStatsByUnit
     {
         get => finalStatsByUnit;
         set => finalStatsByUnit = value;
@@ -91,12 +88,14 @@ public class UnitStatsManager : MonoBehaviour
         CalculateAllFinalStats();
     }
 
+    // Player-spawnable units come from the SpawnDatabase; others (summons) are added on first use by GetStats(definition).
+    // Enemies don't need to be here: GetEnemyStats takes their definition directly.
     private void BuildStatsLookup()
     {
         unitStatsByUnitKey.Clear();
-        foreach (var unitStats in unitStatsDefinition)
+        foreach (var spawn in SpawnDatabase.Instance.GetAllSpawns())
         {
-            AddUnitStats(unitStats);
+            AddUnitStats(spawn.Stats);
         }
     }
 
@@ -107,34 +106,34 @@ public class UnitStatsManager : MonoBehaviour
         unitStatsByUnitKey[unitKey] = unitStats;
     }
 
-    private FinalStats CalculateFinalStats(UnitStatsDefinition baseStats, string unitKey, Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers)
+    private StatBlock CalculateFinalStats(UnitStatsDefinition baseStats, string unitKey, Dictionary<ResearchCategory, List<AppliedStatModifier>> categoryModifiers)
     {
         ResearchCategory category = baseStats.category;
 
-        FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
+        StatBlock finalStats = BuildFinalStatsFromBase(baseStats);
+
+        List<AppliedStatModifier> modifiers = new();
 
         //add research
         if (categoryModifiers.TryGetValue(category, out var categoryMods))
         {
-            unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, categoryMods);
+            modifiers.AddRange(categoryMods);
         }
 
         //add talents
         if (statsBootstrapper.TalentsByUnit.TryGetValue(unitKey, out var unitTalents))
         {
-            List<AppliedStatModifier> talentModifiers = new();
-
             foreach (var talent in unitTalents)
             {
-                talentModifiers.Add(new AppliedStatModifier
+                modifiers.Add(new AppliedStatModifier
                 {
                     Effects = talent.effects,
                     Stacks = talent.purchased
                 });
             }
-
-            unitStatsCalculator.ApplyModifiers(ref finalStats, baseStats, talentModifiers);
         }
+
+        unitStatsCalculator.ApplyModifiers(finalStats, baseStats, modifiers);
 
         return finalStats;
     }
@@ -148,7 +147,7 @@ public class UnitStatsManager : MonoBehaviour
 
         foreach (var kvp in unitStatsByUnitKey)
         {
-            FinalStats finalStats = CalculateFinalStats(kvp.Value, kvp.Key, categoryModifiers);
+            StatBlock finalStats = CalculateFinalStats(kvp.Value, kvp.Key, categoryModifiers);
 
             finalStatsByUnit[kvp.Key] = finalStats;
         }
@@ -168,7 +167,7 @@ public class UnitStatsManager : MonoBehaviour
 
         UnitStatsDefinition baseStats = unit;
 
-        FinalStats finalStats = CalculateFinalStats(baseStats, unitKey, categoryModifiers);
+        StatBlock finalStats = CalculateFinalStats(baseStats, unitKey, categoryModifiers);
 
         finalStatsByUnit[unitKey] = finalStats;
     }
@@ -195,27 +194,29 @@ public class UnitStatsManager : MonoBehaviour
         return categoryModifiers;
     }
 
-    public FinalStats GetStats(string unitKey)
+    // Player unit stats; units outside the SpawnDatabase (e.g. summons) are calculated on first use, then kept up to date by RecalculateAllFinalStats
+    public StatBlock GetStats(UnitStatsDefinition definition)
     {
-        return finalStatsByUnit.TryGetValue(unitKey, out var stats) ? stats : null;
+        string unitKey = definition.name.ToLowerInvariant();
+
+        if (finalStatsByUnit.TryGetValue(unitKey, out var stats))
+            return stats;
+
+        if (statsBootstrapper == null) return null;
+
+        AddUnitStats(definition);
+        stats = CalculateFinalStats(definition, unitKey, GetResearchStatModifiers());
+        finalStatsByUnit[unitKey] = stats;
+
+        return stats;
     }
 
-    public List<UnitStatsDefinition> GetAllUnitStats()
-    {
-        return unitStatsDefinition;
-    }
-
-    public FinalStats GetEnemyStats(string unitKey, WaveController.EnemyScalingContext scaling)
+    // Enemies use definition stats (no player progression) plus wave scaling
+    public StatBlock GetEnemyStats(UnitStatsDefinition baseStats, WaveController.EnemyScalingContext scaling)
     {
         int delayWaves = 10; // Delay scaling for the first 10 waves
 
-        if (!unitStatsByUnitKey.TryGetValue(unitKey, out var baseStats))
-        {
-            Debug.LogError($"No prefab found for unitKey: {unitKey}");
-            return null;
-        }
-
-        FinalStats finalStats = BuildFinalStatsFromBase(baseStats);
+        StatBlock finalStats = BuildFinalStatsFromBase(baseStats);
 
         if (finalStats == null)
         {
@@ -229,10 +230,10 @@ public class UnitStatsManager : MonoBehaviour
             return finalStats;
         }
 
-        return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex - delayWaves, finalStats);
+        return unitStatsCalculator.CalculateEnemyStats(scaling.waveIndex - delayWaves, finalStats, scaling.isRanged);
     }
 
-    private FinalStats BuildFinalStatsFromBase(UnitStatsDefinition unitBaseStats)
+    private StatBlock BuildFinalStatsFromBase(UnitStatsDefinition unitBaseStats)
     {
         if (unitBaseStats == null)
         {
@@ -240,45 +241,12 @@ public class UnitStatsManager : MonoBehaviour
             return null;
         }
 
-        FinalStats finalStats = new FinalStats
-        {
-            maxHealth = unitBaseStats.maxHealth,
-            attackDamage = unitBaseStats.attackDamage,
-            attackSpeed = unitBaseStats.attackSpeed,
-            attackRange = unitBaseStats.attackRange,
-            critChance = unitBaseStats.critChance,
-            critDamage = unitBaseStats.critDamage,
-            armor = unitBaseStats.armor,
-            movementSpeed = unitBaseStats.movementSpeed,
-            hitRadius = unitBaseStats.hitRadius,
-            cost = unitBaseStats.cost,
-            mass = unitBaseStats.mass,
-            splashRadius = unitBaseStats.splashRadius
-        };
-
-        return finalStats;
+        return unitBaseStats.ToStatBlock();
     }
 
     public void ReloadPlayerData()
     {
         statsBootstrapper.ReloadPlayerData();
-    }
-
-    private void LogStats(string unitName, FinalStats stats)
-    {
-        Debug.Log(
-            $"[FinalStats] {unitName}\n" +
-            $"  Health: {stats.maxHealth}\n" +
-            $"  Damage: {stats.attackDamage}\n" +
-            $"  Attack Speed: {stats.attackSpeed:F3}\n" +
-            $"  Range: {stats.attackRange:F2}\n" +
-            $"  Move Speed: {stats.movementSpeed:F2}\n" +
-            $"  Hit Radius: {stats.hitRadius:F2}\n" +
-            $"  Cost: {stats.cost:F1}\n" +
-            $"  Mass: {stats.mass:F1}\n" +
-            $"  Splash Radius: {stats.splashRadius:F1}\n" +
-            $"  Armor: {stats.armor:F1}"
-        );
     }
 
     private void LogStats(string unitName, BaseUnitStats stats)

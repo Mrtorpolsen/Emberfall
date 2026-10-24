@@ -16,6 +16,6 @@ public class SummonAction : AbilityAction
         if (!AbilityCooldownManager.Instance.CanUse(abilityDefinition, context.Caster))
             return;
 
-        SpawnManager.Instance.SpawnUnit(summonPrefab, context.Caster.Transform, Team.South);
+        SpawnManager.Instance.SpawnSummon(summonPrefab, context.Caster);
     }
 }

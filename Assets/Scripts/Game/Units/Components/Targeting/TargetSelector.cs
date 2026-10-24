@@ -11,7 +11,7 @@ public class TargetSelector
             return null;
         }
 
-        //no prio list retrun
+        //no prio list return
         if (priorities == null || priorities.Count == 0)
         {
             return GetClosest(possibleTargets, selfPos);

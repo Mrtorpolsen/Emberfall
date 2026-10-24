@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,18 +7,25 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 {
     [Header("Reference")]
     [SerializeField] protected GameObject unit;
-    [SerializeField] public UnitStatsDefinition statsDef;
+    [SerializeField] private UnitStatsDefinition statsDef;
     [SerializeField] private Collider2D unitCollider;
     [SerializeField] private Rigidbody2D unitRigidbody;
 
     [SerializeField] private float showRangeGizmo1 = 0f;
     [SerializeField] private float showRangeGizmo2 = 0f;
 
-    protected UnitStatsDefinition StatsDef => statsDef;
+    public UnitStatsDefinition StatsDef => statsDef;
 
-    public int currentHealth;
+    private static readonly StatType[] AllStats = (StatType[])Enum.GetValues(typeof(StatType));
+
+    protected int currentHealth;
     protected UnitMetadata metadata;
     private RuntimeStats runtimeStats;
+
+    // progression (talents/research, or the definition) -> base (+ permanent changes like tower tier) -> current (+ active modifiers)
+    private StatBlock progressionStats;
+    private StatBlock baseStats;
+    private readonly StatBlock currentStats = new();
 
     public List<ActiveEffect> ActiveEffects = new();
 
@@ -28,32 +36,33 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public Vector3 healthBarScale;
 
     private bool isDying;
+    private bool resourcesReleased;
     private bool isInvulnerable = false;
 
     // IUnit
-    public float AttackRange => runtimeStats.attackRange;
-    public int AttackDamage => runtimeStats.attackDamage;
-    public float AttackSpeed => runtimeStats.attackSpeed;
-    public float MovementSpeed => runtimeStats.movementSpeed;
-    public float CritChance => runtimeStats.critChance;
-    public float CritDamage => runtimeStats.critDamage;
-    public int MaxHealth => runtimeStats.maxHealth;
-    public int Armor => runtimeStats.armor;
-    public int Mass => runtimeStats.mass;
-    public float SplashRadius => runtimeStats.splashRadius;
+    public float AttackRange => currentStats.Get(StatType.AttackRange);
+    public int AttackDamage => currentStats.GetInt(StatType.AttackDamage);
+    public float AttackSpeed => currentStats.Get(StatType.AttackSpeed);
+    public float MovementSpeed => currentStats.Get(StatType.MovementSpeed);
+    public float CritChance => currentStats.Get(StatType.CritChance);
+    public float CritDamage => currentStats.Get(StatType.CritDamage);
+    public int MaxHealth => currentStats.GetInt(StatType.Health);
+    public int Armor => currentStats.GetInt(StatType.Armor);
+    public int Mass => currentStats.GetInt(StatType.Mass);
+    public float SplashRadius => currentStats.Get(StatType.SplashRadius);
 
     // ITargetable
     public GameObject GameObject => gameObject;
     public Transform Transform => (this != null) ? transform : null;
-    public float HitRadius => runtimeStats.hitRadius;
-    public bool IsAlive => currentHealth > 0;
+    public float HitRadius => currentStats.Get(StatType.HitRadius);
+    public bool IsAlive => !isDying && currentHealth > 0;
     public virtual ThreatLevel UnitPrio => runtimeStats.unitPrio;
     public bool IsTargetable => runtimeStats.isTargetable;
     public bool IsInvulnerable => isInvulnerable;
 
     // UnitMetadata
     public Team Team => metadata.Team;
-    public float Cost => statsDef.cost;
+    public float Cost => currentStats.Get(StatType.Cost);
 
 
     //Debug
@@ -85,39 +94,15 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         runtimeStats = new RuntimeStats
         {
-            maxHealth = statsDef.maxHealth,
-            attackDamage = statsDef.attackDamage,
-            armor = statsDef.armor,
-            attackSpeed = statsDef.attackSpeed,
-            movementSpeed = statsDef.movementSpeed,
-            attackRange = statsDef.attackRange,
-            cost = statsDef.cost,
-            hitRadius = statsDef.hitRadius,
-            critChance = statsDef.critChance,
-            critDamage = statsDef.critDamage,
             unitPrio = statsDef.unitPrio,
-            isTargetable = statsDef.isTargetable,
-            mass = statsDef.mass,
-            splashRadius = statsDef.splashRadius
+            isTargetable = statsDef.isTargetable
         };
 
         metadata = GetComponent<UnitMetadata>();
-        currentHealth = runtimeStats.maxHealth;
 
-        if (Mass > 0)
-        {
-            unitRigidbody.mass = runtimeStats.mass;
-        }
+        SetProgressionStats(statsDef.ToStatBlock());
 
         healthBarScale = statsDef.healthbarScale;
-
-        if (runtimeStats == null)
-        {
-            Debug.LogError($"{name} has no runtimeStats assigned.", this);
-        }
-#if UNITY_EDITOR
-        SyncDebugStats();
-#endif
     }
 
     private void LateUpdate()
@@ -126,10 +111,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
         foreach (var stat in dirtyStats)
         {
-            float baseValue = GetBaseStat(stat);
-            float finalValue = CalculateStat(stat, baseValue);
-
-            ApplyToRuntime(stat, finalValue);
+            ApplyToRuntime(stat, CalculateStat(stat, baseStats.Get(stat)));
         }
 
         dirtyStats.Clear();
@@ -143,7 +125,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         if (IsInvulnerable) return;
 
-        currentHealth -= ApplyArmorReduction(amount);
+        currentHealth -= DamageCalculator.ApplyArmor(amount, Armor);
 
 #if UNITY_EDITOR
         SyncDebugStats();
@@ -195,77 +177,86 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         }
     }
 
-    private int ApplyArmorReduction(int dmg)
-    {
-        float reductionFactor = 100f / (runtimeStats.armor + 100f);
-        return Mathf.Max(1, Mathf.RoundToInt(dmg * reductionFactor));
-    }
-
-    public virtual void Die()
+    // The single death path: subclasses react in OnDeath, never by overriding Die or using OnDestroy
+    public void Die()
     {
         if (isDying) return;
         isDying = true;
 
-        TargetRegistry.Instance.UnregisterUnit(this);
-
         OnDeath();
 
-        Destroy(unit != null ? unit : gameObject);
+        ReleaseResources();
+
+        Destroy(Root);
     }
 
+    // Called once when the unit dies (not when it's destroyed for other reasons, like leaving the scene)
     protected virtual void OnDeath() { }
 
-    public virtual void ApplyFinalStats(FinalStats finalStats)
-    {
-        runtimeStats.maxHealth = finalStats.maxHealth;
-        currentHealth = finalStats.maxHealth;
+    // The object removed on death; the unit's root if set
+    protected virtual GameObject Root => unit != null ? unit : gameObject;
 
-        runtimeStats.attackDamage = finalStats.attackDamage;
-        runtimeStats.attackSpeed = finalStats.attackSpeed;
-        runtimeStats.attackRange = finalStats.attackRange;
-        runtimeStats.movementSpeed = finalStats.movementSpeed;
-        runtimeStats.mass = finalStats.mass;
-        runtimeStats.hitRadius = finalStats.hitRadius;
-        runtimeStats.cost = finalStats.cost;
-        runtimeStats.armor = finalStats.armor;
-        runtimeStats.critChance = finalStats.critChance;
-        runtimeStats.critDamage = finalStats.critDamage;
-        runtimeStats.splashRadius = finalStats.splashRadius;
+    // Unregisters the unit and returns what it borrowed; safe to call more than once
+    private void ReleaseResources()
+    {
+        if (resourcesReleased) return;
+        resourcesReleased = true;
+
+        if (TargetRegistry.Instance != null)
+        {
+            TargetRegistry.Instance.UnregisterUnit(this);
+        }
+
+        if (HealthbarManager.Instance != null)
+        {
+            HealthbarManager.Instance.ReturnHealthBarToPool(this);
+        }
+
+        if (EffectSystem.Instance != null)
+        {
+            EffectSystem.Instance.RemoveAllEffects(this);
+        }
+    }
+
+    public virtual void ApplyFinalStats(StatBlock finalStats)
+    {
+        SetProgressionStats(finalStats.Clone());
+    }
+
+    private void SetProgressionStats(StatBlock stats)
+    {
+        progressionStats = stats;
+        RebuildBaseStats();
+    }
+
+    // Call when something that BuildBaseStats depends on changes (e.g. tower tier)
+    protected void RebuildBaseStats()
+    {
+        baseStats = BuildBaseStats(progressionStats);
+
+        foreach (StatType stat in AllStats)
+        {
+            ApplyToRuntime(stat, CalculateStat(stat, baseStats.Get(stat)));
+        }
 
 #if UNITY_EDITOR
         SyncDebugStats();
 #endif
     }
 
-    private float GetBaseStat(StatType stat)
+    // Permanent changes on top of progression stats; override for things like tower tiers
+    protected virtual StatBlock BuildBaseStats(StatBlock progression)
     {
-        return stat switch
-        {
-            StatType.Health => statsDef.maxHealth,
-            StatType.AttackDamage => statsDef.attackDamage,
-            StatType.Armor => statsDef.armor,
-            StatType.AttackSpeed => statsDef.attackSpeed,
-            StatType.AttackRange => statsDef.attackRange,
-            StatType.CritChance => statsDef.critChance,
-            StatType.CritDamage => statsDef.critDamage,
-            StatType.MovementSpeed => statsDef.movementSpeed,
-            StatType.Mass => statsDef.mass,
-            StatType.SplashRadius => statsDef.splashRadius,
-            _ => 0f
-        };
+        return progression.Clone();
     }
 
     public int GetAttackDamage()
     {
-        int dmg = runtimeStats.attackDamage;
+        int dmg = DamageCalculator.RollAttackDamage(AttackDamage, CritChance, CritDamage, UnityEngine.Random.value, out bool isCrit);
 
-        if (runtimeStats.critChance > 0)
+        if (isCrit)
         {
-            if (RollCrit())
-            {
-                dmg = Mathf.RoundToInt(dmg * runtimeStats.critDamage);
-                ShowCritFeedback(dmg);
-            }
+            ShowCritFeedback(dmg);
         }
 
         return dmg;
@@ -303,21 +294,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         if (!modifiersByStat.TryGetValue(stat, out var list))
             return baseValue;
 
-        float value = baseValue;
-
-        foreach (var mod in list)
-        {
-            if (mod.Type == ModifierType.Flat)
-            {
-                value += mod.Value;
-            }
-            else if (mod.Type == ModifierType.Percent)
-            {
-                value *= (1f + mod.Value); // multiplicative stacking
-            }
-        }
-
-        return value;
+        return StatPipeline.Calculate(baseValue, list);
     }
 
     private void ApplyToRuntime(StatType stat, float value)
@@ -326,10 +303,11 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         {
             case StatType.Health:
                 {
-                    float percent = (float)currentHealth / runtimeStats.maxHealth;
+                    // Keep the same health percentage when max health changes (full on first set)
+                    float percent = MaxHealth > 0 ? (float)currentHealth / MaxHealth : 1f;
 
-                    runtimeStats.maxHealth = Mathf.RoundToInt(value);
-                    currentHealth = Mathf.RoundToInt(runtimeStats.maxHealth * percent);
+                    currentStats.Set(stat, value);
+                    currentHealth = Mathf.RoundToInt(MaxHealth * percent);
 
                     if (HealthbarManager.Instance != null)
                     {
@@ -342,44 +320,20 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
                     break;
                 }
 
-            case StatType.AttackDamage:
-                runtimeStats.attackDamage = Mathf.RoundToInt(value);
-                break;
-
-            case StatType.Armor:
-                runtimeStats.armor = Mathf.RoundToInt(value);
-                break;
-
-            case StatType.AttackSpeed:
-                runtimeStats.attackSpeed = value;
-                break;
-
-
-            case StatType.AttackRange:
-                runtimeStats.attackRange = value;
-                break;
-
-            case StatType.CritChance:
-                runtimeStats.critChance = value;
-                break;
-
-            case StatType.CritDamage:
-                runtimeStats.critDamage = value;
-                break;
-
             case StatType.Mass:
-                runtimeStats.mass = Mathf.RoundToInt(value);
+                currentStats.Set(stat, value);
+
+                if (Mass > 0 && unitRigidbody != null)
+                {
+                    unitRigidbody.mass = Mass;
+                }
+
                 break;
 
-            case StatType.SplashRadius:
-                runtimeStats.splashRadius = value;
+            default:
+                currentStats.Set(stat, value);
                 break;
         }
-    }
-
-    protected bool RollCrit()
-    {
-        return Random.value <= runtimeStats.critChance;
     }
 
     protected virtual void ShowCritFeedback(int dmg)
@@ -417,17 +371,10 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         Gizmos.DrawWireSphere(transform.position, showRangeGizmo2);
     }
 
+    // Safety net for units destroyed without dying (sold towers, scene unload)
     protected virtual void OnDestroy()
     {
-        if (HealthbarManager.Instance != null)
-        {
-            HealthbarManager.Instance.ReturnHealthBarToPool(this);
-        }
-
-        if (EffectSystem.Instance != null)
-        {
-            EffectSystem.Instance.RemoveAllEffects(this);
-        }
+        ReleaseResources();
     }
 
 #if !UNITY_EDITOR
@@ -443,23 +390,23 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         if (runtimeStats == null) return;
 
-        debugCost = runtimeStats.cost;
+        debugCost = Cost;
 
-        debugMaxHealth = runtimeStats.maxHealth;
+        debugMaxHealth = MaxHealth;
         debugCurrentHealth = currentHealth;
-        debugArmor = runtimeStats.armor;
+        debugArmor = Armor;
 
-        debugAttackDamage = runtimeStats.attackDamage;
-        debugAttackSpeed = runtimeStats.attackSpeed;
-        debugAttackRange = runtimeStats.attackRange;
-        debugHitRadius = runtimeStats.hitRadius;
-        debugSplashRadius = runtimeStats.splashRadius;
+        debugAttackDamage = AttackDamage;
+        debugAttackSpeed = AttackSpeed;
+        debugAttackRange = AttackRange;
+        debugHitRadius = HitRadius;
+        debugSplashRadius = SplashRadius;
 
-        debugMovementSpeed = runtimeStats.movementSpeed;
-        debugMass = runtimeStats.mass;
+        debugMovementSpeed = MovementSpeed;
+        debugMass = Mass;
 
-        debugCritChance = runtimeStats.critChance;
-        debugCritDamage = runtimeStats.critDamage;
+        debugCritChance = CritChance;
+        debugCritDamage = CritDamage;
 
         debugUnitPrio = runtimeStats.unitPrio;
         debugIsTargetable = runtimeStats.isTargetable;

@@ -24,7 +24,10 @@ public class TargetComponent : MonoBehaviour
 #endif
 
     private TargetSelector targetSelector;
-    private float detectionRange = 3f;
+    private const float MinDetectionRange = 3f;
+
+    // Read live so talents, research and buffs to range also widen detection
+    private float DetectionRange => Mathf.Max(MinDetectionRange, selfUnit.AttackRange);
     private IUnit selfUnit;
 
     private ITargetingAgent targetingAgent;
@@ -56,10 +59,8 @@ public class TargetComponent : MonoBehaviour
     {
         selfUnit = GetComponent<IUnit>();
 
-        if (selfUnit.AttackRange > detectionRange)
-        {
-            detectionRange = selfUnit.AttackRange;
-        }
+        // Stagger so units spawned together don't all query targets in the same frame
+        retargetTimer = Random.Range(0f, retargetInterval);
 
         targetSelector = new TargetSelector();
 
@@ -111,7 +112,7 @@ public class TargetComponent : MonoBehaviour
             retargetTimer = retargetInterval;
 
             if (currentTarget != null && currentTarget.IsAlive)
-                engagementStallTimer += Time.deltaTime;
+                engagementStallTimer += retargetInterval;
             else
                 engagementStallTimer = 0f;
 
@@ -145,52 +146,43 @@ public class TargetComponent : MonoBehaviour
         using (FindTargetMarker.Auto())
 #endif
         {
-            possibleTargets.Clear();
-            int hitCount;
-#if UNITY_EDITOR
-            using (OverlapMarker.Auto())
-#endif
-            {
-                hitCount = Physics2D.OverlapCircle(
-                    transform.position,
-                    detectionRange,
-                    contactFilter,
-                    hitBuffer
-                );
-            }
-            for (int i = 0; i < hitCount; i++)
-            {
-                Collider2D hit = hitBuffer[i];
+            CollectTargets();
 
-                if (!hit.TryGetComponent<ITargetable>(out var target))
-                    continue;
-
-                if (!target.IsTargetable)
-                    continue;
-
-                if (target.Team == selfUnit.Team)
-                    continue;
-
-                possibleTargets.Add(target);
-            }
-            Vector2 selfPos = transform.position;
-
-            currentTarget = targetSelector.SelectTarget(possibleTargets, selfPos, priorities);
+            currentTarget = targetSelector.SelectTarget(possibleTargets, transform.position, priorities);
         }
     }
 
+    // Switches only to a strictly higher priority, so equal-priority targets don't make the unit flip back and forth
     private void TryPriorityOverride()
     {
         if (currentTarget == null) return;
 
-        ThreatLevel currentThreat = currentTarget.UnitPrio;
+        CollectTargets();
 
-        int hitCount = Physics2D.OverlapCircle(
-            transform.position,
-            detectionRange,
-            contactFilter,
-            hitBuffer
-        );
+        ITargetable best = targetSelector.SelectTarget(possibleTargets, transform.position, priorities);
+
+        if (best != null && IsHigherPriority(best.UnitPrio, currentTarget.UnitPrio))
+        {
+            currentTarget = best;
+        }
+    }
+
+    // Fills possibleTargets with targetable enemies within detection range
+    private void CollectTargets()
+    {
+        possibleTargets.Clear();
+        int hitCount;
+#if UNITY_EDITOR
+        using (OverlapMarker.Auto())
+#endif
+        {
+            hitCount = Physics2D.OverlapCircle(
+                transform.position,
+                DetectionRange,
+                contactFilter,
+                hitBuffer
+            );
+        }
 
         for (int i = 0; i < hitCount; i++)
         {
@@ -205,11 +197,7 @@ public class TargetComponent : MonoBehaviour
             if (target.Team == selfUnit.Team)
                 continue;
 
-            if (IsHigherPriority(target.UnitPrio, currentThreat))
-            {
-                currentTarget = target;
-                return;
-            }
+            possibleTargets.Add(target);
         }
     }
 
@@ -234,7 +222,7 @@ public class TargetComponent : MonoBehaviour
         if (!currentTarget.IsAlive) return false;
 
         float sqrDist = (currentTarget.Transform.position - transform.position).sqrMagnitude;
-        return sqrDist <= detectionRange * detectionRange;
+        return sqrDist <= DetectionRange * DetectionRange;
     }
 
     private bool ShouldRetargetDueToStall()

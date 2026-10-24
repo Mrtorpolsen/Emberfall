@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class HealthbarManager : MonoBehaviour
@@ -40,7 +39,8 @@ public class HealthbarManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        foreach (var kvp in active.ToArray())
+        // Nothing in this loop adds or removes bars, so iterate directly (no copy)
+        foreach (var kvp in active)
         {
             BaseUnitStats unit = kvp.Key;
             FloatingHealthBar healthBar = kvp.Value;

@@ -8,6 +8,7 @@ public class CombatComponent : MonoBehaviour
     private BaseUnitStats unit;
     private ITargetable target;
     private MovementComponent movement;
+    private IAttack attack;
     private float attackCooldown;
 
     private void Awake()
@@ -15,6 +16,7 @@ public class CombatComponent : MonoBehaviour
         unit = GetComponent<BaseUnitStats>();
         targetComponent = GetComponent<TargetComponent>();
         movement = GetComponent<MovementComponent>();
+        attack = GetComponent<IAttack>();
     }
 
     private void Update()
@@ -61,18 +63,13 @@ public class CombatComponent : MonoBehaviour
 
             try
             {
-                if (unit.TryGetComponent<RangedShooter>(out var shooter))
+                if (attack != null)
                 {
-                    shooter.Shoot(target);
-                }
-                else if (unit is SapperBaseStatsComponent)
-                {
-                    //Need to streamline the attack proccess so death is handled in one place
-                    (unit as SapperBaseStatsComponent).Explode();
-                    (unit as SapperBaseStatsComponent).Die();
+                    attack.Attack(target);
                 }
                 else
                 {
+                    // Melee
                     target.TakeDamage(unit.GetAttackDamage());
                 }
             }
@@ -84,21 +81,6 @@ public class CombatComponent : MonoBehaviour
         if (movement != null)
         {
             movement.canMove = dist > unit.AttackRange;
-        }
-    }
-
-    public void ApplyProjectileDamage(ITargetable target, int damage, GameObject projObj)
-    {
-        if (target != null && target.IsAlive)
-        {
-            if (unit is BombTowerBaseStatsComponent)
-            {
-                (unit as BombTowerBaseStatsComponent).Explode(projObj);
-            }
-            else
-            {
-                target.TakeDamage(damage);
-            }
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class AbilityCooldownManager : MonoBehaviour
@@ -8,6 +7,7 @@ public class AbilityCooldownManager : MonoBehaviour
     public static AbilityCooldownManager Instance { get; private set; }
 
     private Dictionary<string, float> readyTime = new();
+    private readonly List<string> expiredKeys = new();
 
     public event Action<string> OnCooldownTriggered;
     public event Action<string> OnCooldownComplete;
@@ -29,13 +29,21 @@ public class AbilityCooldownManager : MonoBehaviour
 
         var time = Time.time;
 
-        foreach (var cooldown in readyTime.ToList())
+        // Collect first: completion handlers can trigger new cooldowns, which modifies readyTime
+        expiredKeys.Clear();
+
+        foreach (var cooldown in readyTime)
         {
             if (time >= cooldown.Value)
             {
-                readyTime.Remove(cooldown.Key);
-                OnCooldownComplete?.Invoke(cooldown.Key);
+                expiredKeys.Add(cooldown.Key);
             }
+        }
+
+        foreach (string key in expiredKeys)
+        {
+            readyTime.Remove(key);
+            OnCooldownComplete?.Invoke(key);
         }
     }
 

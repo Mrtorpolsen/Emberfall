@@ -103,7 +103,7 @@ public class GamePlayTutorialPresenter : MonoBehaviour
     {
         fighterSpawnCount++;
         remainingFighters.text = (totalFightersToSpawn - fighterSpawnCount).ToString();
-        SpawnManager.Instance.SpawnSouthUnit(fighterPrefab, "fighter");
+        SpawnManager.Instance.SpawnSouthUnit(fighterPrefab);
 
         if (fighterSpawnCount >= totalFightersToSpawn)
         {

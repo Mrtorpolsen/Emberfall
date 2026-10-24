@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -11,6 +12,11 @@ public class SaveService : GlobalSystem<SaveService>
     public SaveGame Current { get; private set; }
 
     private string savePath;
+
+    // Saves are written one at a time; each request is numbered so an older snapshot never overwrites a newer one
+    private readonly SemaphoreSlim saveLock = new(1, 1);
+    private int requestedSaveSequence;
+    private int writtenSaveSequence;
 
     public event Func<Task> OnSaveLoaded;
 
@@ -54,40 +60,53 @@ public class SaveService : GlobalSystem<SaveService>
         string json = await Task.Run(() => File.ReadAllText(savePath));
 
         JObject root;
+        int version;
 
         try
         {
             root = JObject.Parse(json);
+            version = root.Value<int>("Version");
         }
-        catch (JsonReaderException e)
+        catch (Exception e)
         {
-            Debug.LogError($"Failed to parse save file: {e.Message}");
-            Debug.LogError("Creating new save.");
-            await SaveCorrupt(json);
+            Debug.LogError($"Failed to parse save file, creating new save: {e.Message}");
+            await BackupSave(json, "corrupt");
             await CreateNewSave();
             return;
         }
 
-        int version = root.Value<int>("Version");
-
-        if (version < 3)
+        if (version < SaveMigrator.OldestSupportedVersion)
         {
-            Debug.LogError("Save file too old to migrate, creating new save");
+            Debug.LogError($"Save version {version} is too old to migrate, creating new save");
+            await BackupSave(json, $"unsupported-v{version}");
             await CreateNewSave();
             return;
         }
 
-        if (version < CurrentSaveVersion.CURRENT_SAVE_VERSION)
-        {
-            Current = Migrate(root, version);
+        bool migrated = version < CurrentSaveVersion.CURRENT_SAVE_VERSION;
+        SaveGame loaded;
 
-            ValidateSave();
+        try
+        {
+            loaded = migrated
+                ? SaveMigrator.Migrate(root)
+                : JsonConvert.DeserializeObject<SaveGame>(json);
+        }
+        catch (Exception e)
+        {
+            // Valid JSON that doesn't fit SaveGame or fails to migrate; keep a copy so it can be recovered
+            Debug.LogError($"Failed to load save version {version}, creating new save: {e}");
+            await BackupSave(json, $"failed-v{version}");
+            await CreateNewSave();
+            return;
+        }
+
+        Current = loaded;
+        ValidateSave();
+
+        if (migrated)
+        {
             await SaveAsync();
-        }
-        else
-        {
-            Current = JsonConvert.DeserializeObject<SaveGame>(json);
-            ValidateSave();
         }
 
         await InvokeOnSaveLoaded();
@@ -95,8 +114,9 @@ public class SaveService : GlobalSystem<SaveService>
 
     public Task SaveAsync()
     {
-        var snapshot = DeepClone(Current);
-        return SaveInternal(snapshot);
+        // Serializing on the main thread at call time is the snapshot
+        string json = JsonConvert.SerializeObject(Current);
+        return SaveInternal(json, ++requestedSaveSequence);
     }
 
     public void Save()
@@ -108,23 +128,50 @@ public class SaveService : GlobalSystem<SaveService>
         });
     }
 
-    private async Task SaveInternal(SaveGame snapshot)
+    private async Task SaveInternal(string json, int sequence)
     {
-        string json = JsonConvert.SerializeObject(snapshot);
+        await saveLock.WaitAsync();
 
-        await Task.Run(() =>
+        try
         {
-            File.WriteAllText(savePath, json);
-        });
+            // A newer snapshot was already written; writing this one would roll the save back
+            if (sequence <= writtenSaveSequence)
+                return;
+
+            await Task.Run(() => WriteAtomic(savePath, json));
+            writtenSaveSequence = sequence;
+        }
+        finally
+        {
+            saveLock.Release();
+        }
     }
 
-    private async Task SaveCorrupt(string json)
+    // Write to a temp file, then swap it in, so a crash or kill mid-write can't leave a truncated save
+    private static void WriteAtomic(string path, string contents)
     {
-        string corruptSavePath = savePath + ".corrupt" + "-" + DateTime.Now.ToString();
+        string tempPath = path + ".tmp";
+
+        File.WriteAllText(tempPath, contents);
+
+        if (File.Exists(path))
+        {
+            File.Replace(tempPath, path, null);
+        }
+        else
+        {
+            File.Move(tempPath, path);
+        }
+    }
+
+    // Copies a save we can't use next to the real one before it gets replaced, e.g. <id>_save.json.corrupt-20261022-143000
+    private async Task BackupSave(string json, string reason)
+    {
+        string backupPath = $"{savePath}.{reason}-{DateTime.Now:yyyyMMdd-HHmmss}";
 
         await Task.Run(() =>
         {
-            File.WriteAllText(corruptSavePath, json);
+            File.WriteAllText(backupPath, json);
         });
     }
 
@@ -171,50 +218,5 @@ public class SaveService : GlobalSystem<SaveService>
 
         Current.Loadouts ??= new PlayerLoadoutCollection();
         Current.Flags ??= new PlayerFlagsState();
-    }
-
-    public static T DeepClone<T>(T obj)
-    {
-        var json = JsonConvert.SerializeObject(obj);
-        return JsonConvert.DeserializeObject<T>(json);
-    }
-
-    private SaveGame Migrate(JObject root, int version)
-    {
-        return version switch
-        {
-            3 => Migrate3To4(root.ToObject<SaveGame3>()),
-            _ => throw new Exception($"No migration found for version {version}")
-        };
-    }
-
-    private SaveGame Migrate3To4(SaveGame3 oldSave)
-    {
-        Debug.Log("running Migrate3To4");
-        SaveGame newSave = new SaveGame
-        {
-            Version = CurrentSaveVersion.CURRENT_SAVE_VERSION,
-            Talents = oldSave.Talents,
-            Research = oldSave.Research,
-            Currency = oldSave.Currency,
-            Loadouts = oldSave.Loadouts
-        };
-
-        int cindersSpent = oldSave.Talents.CurrencySpent.TryGetValue(
-            CurrencyTypes.Cinders, out int cinders)
-            ? cinders
-            : 0;
-
-        int embersSpent = oldSave.Talents.CurrencySpent.TryGetValue(
-            CurrencyTypes.Embers, out int embers)
-            ? embers
-            : 0;
-
-        newSave.Currency.Cinders += cindersSpent;
-        newSave.Currency.Embers += embersSpent;
-
-        newSave.Flags.HasReceivedLoginGift = oldSave.HasReceivedLoginGift;
-
-        return newSave;
     }
 }

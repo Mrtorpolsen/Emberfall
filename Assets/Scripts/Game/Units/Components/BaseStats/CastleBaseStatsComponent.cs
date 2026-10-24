@@ -19,14 +19,15 @@ public class CastleStatsBaseStatsComponent : BaseUnitStats
         if (isTest)
         {
             currentHealth = 100000000;
-            GameManager.Instance.AddCurrency(Team.South, 100000);
+            GameManager.Instance.Economy.Add(Team.South, 100000);
         }
     }
 #endif
 
-    public override void Die()
+    protected override GameObject Root => castle != null ? castle : gameObject;
+
+    protected override void OnDeath()
     {
-        Destroy(castle != null ? castle : gameObject);
         GameManager.Instance.SetGameOver(true, Team);
     }
 

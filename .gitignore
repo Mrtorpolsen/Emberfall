@@ -115,9 +115,11 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-
-
 /Assets/Resources/PerformanceTestRunInfo.json
 
 #Claude
 .claude/settings.local.json
+
+# Ignore temporaries from GameCI
+/[Aa]rtifacts/
+/[Cc]odeCoverage/

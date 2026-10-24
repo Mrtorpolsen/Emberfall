@@ -5,7 +5,7 @@ public class BallistaTowerStatsBaseStatsComponent : TowerUnitStats, ITargetingAg
     protected IReadOnlyList<ThreatLevel> preferredPriorities = new List<ThreatLevel>
     {
         ThreatLevel.Boss,
-        ThreatLevel.Immidate,
+        ThreatLevel.Immediate,
         ThreatLevel.Elite,
         ThreatLevel.High
     };

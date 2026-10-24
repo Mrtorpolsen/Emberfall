@@ -34,4 +34,22 @@ public class UnitStatsDefinition : ScriptableObject
 
     [Header("Healthbar")]
     public Vector3 healthbarScale;
+
+    public StatBlock ToStatBlock()
+    {
+        var block = new StatBlock();
+        block.Set(StatType.Health, maxHealth);
+        block.Set(StatType.AttackDamage, attackDamage);
+        block.Set(StatType.AttackSpeed, attackSpeed);
+        block.Set(StatType.AttackRange, attackRange);
+        block.Set(StatType.Armor, armor);
+        block.Set(StatType.CritChance, critChance);
+        block.Set(StatType.CritDamage, critDamage);
+        block.Set(StatType.SplashRadius, splashRadius);
+        block.Set(StatType.MovementSpeed, movementSpeed);
+        block.Set(StatType.Mass, mass);
+        block.Set(StatType.HitRadius, hitRadius);
+        block.Set(StatType.Cost, cost);
+        return block;
+    }
 }

@@ -88,25 +88,25 @@ public class UnitStatsManagerTests
         // 20 * (1 + 0.02*95) = 20 * 2.9 = 58
         Assert.AreEqual(
             Mathf.RoundToInt(20 * (1 + (1.02f - 1) * 95)),
-            fighterStats.attackDamage
+            fighterStats.GetInt(StatType.AttackDamage)
         );
 
         // base stat value + ((stacks) * (effect value))
         // 200 + 50 = 250
-        Assert.AreEqual(200 + (10 * 5), fighterStats.maxHealth);
+        Assert.AreEqual(200 + (10 * 5), fighterStats.GetInt(StatType.Health));
 
         // 15 * 2.9 = 43
         Assert.AreEqual(
             Mathf.RoundToInt(15 * (1 + (1.02f - 1) * 95)),
-            rangerStats.attackDamage
+            rangerStats.GetInt(StatType.AttackDamage)
         );
         // 100 + 50 = 150
-        Assert.AreEqual(100 + (10 * 5), rangerStats.maxHealth);
+        Assert.AreEqual(100 + (10 * 5), rangerStats.GetInt(StatType.Health));
 
         // 45 * (1 + 0.02*35) = 45 * 1.7 = 77
         Assert.AreEqual(
             Mathf.RoundToInt(45 * (1 + (1.02f - 1) * 35)),
-            towerStats.attackDamage
+            towerStats.GetInt(StatType.AttackDamage)
         );
     }
 
@@ -145,7 +145,7 @@ public class UnitStatsManagerTests
             20
             + (20 * ((1 + (1.02f - 1) * 95) - 1))
             + (20 * ((1 + (1.05f - 1) * 2) - 1))),
-            fighterStats.attackDamage
+            fighterStats.GetInt(StatType.AttackDamage)
         );
 
         // talent magnitude = 1 + (0.05 * 3) = 1.15
@@ -160,7 +160,7 @@ public class UnitStatsManagerTests
             Mathf.RoundToInt(
             200 * (1 + (1.05f - 1) * 3)
             + (10 * 5)),
-            fighterStats.maxHealth);
+            fighterStats.GetInt(StatType.Health));
     }
 
     private class StatsBootstrapperMock : StatsBootstrapper

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Leaderboards;
+using Unity.Services.Leaderboards.Exceptions;
 using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 
@@ -103,9 +104,9 @@ public class LeaderboardService : MonoBehaviour
             return userHighScores;
         }
 
-        try
+        foreach (var leaderboard in leaderboardIds)
         {
-            foreach (var leaderboard in leaderboardIds)
+            try
             {
                 var scoreResponse = await LeaderboardsService.Instance
                     .GetPlayerScoreAsync(leaderboard.Value);
@@ -115,13 +116,18 @@ public class LeaderboardService : MonoBehaviour
                     userHighScores[leaderboard.Key] = scoreResponse.Score;
                 }
             }
+            catch (LeaderboardsException e) when (e.Reason == LeaderboardsExceptionReason.EntryNotFound)
+            {
+                // No score on this leaderboard yet; keep 0 and check the others
+            }
+            catch (System.Exception e)
+            {
+                // Likely a connection problem; stop instead of waiting on every remaining request
+                Debug.Log("Failed to get score: " + e.Message);
+                break;
+            }
+        }
 
-            return userHighScores;
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log("Failed to get score: " + e.Message);
-            return userHighScores;
-        }
+        return userHighScores;
     }
 }

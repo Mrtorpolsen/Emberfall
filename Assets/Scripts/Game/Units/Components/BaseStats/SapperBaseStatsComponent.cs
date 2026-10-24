@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class SapperBaseStatsComponent : BaseUnitStats
+public class SapperBaseStatsComponent : BaseUnitStats, IAttack
 {
-    public override ThreatLevel UnitPrio => ThreatLevel.Immidate;
+    public override ThreatLevel UnitPrio => ThreatLevel.Immediate;
 
     private Collider2D[] hitBuffer;
     private ContactFilter2D contactFilter;
@@ -24,7 +24,14 @@ public class SapperBaseStatsComponent : BaseUnitStats
         };
     }
 
-    public void Explode()
+    // Sappers attack by blowing themselves up
+    public void Attack(ITargetable target)
+    {
+        Explode();
+        Die();
+    }
+
+    private void Explode()
     {
         int hitCount = Physics2D.OverlapCircle(
             transform.position,

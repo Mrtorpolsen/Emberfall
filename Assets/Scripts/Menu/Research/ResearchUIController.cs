@@ -9,7 +9,7 @@ public class ResearchUIController : IUIScreenController
     {
         if (screenView is not ResearchView researchView)
         {
-            Debug.LogError("ResearchUIController recieved the wrong view type");
+            Debug.LogError("ResearchUIController received the wrong view type");
             return;
         }
 

@@ -19,7 +19,7 @@ public class WaveGenerator
 
     public WaveGenerator(SpawnDatabase spawnDB, WaveThreatCalculator waveThreatCalculator, Func<float> randomFunc = null)
     {
-        // For testing to gaurentee spawn
+        // For testing to guarantee spawn
         this.randomFunc = randomFunc ?? (() => UnityEngine.Random.value);
         this.spawnDB = spawnDB;
         this.waveThreatCalculator = waveThreatCalculator;

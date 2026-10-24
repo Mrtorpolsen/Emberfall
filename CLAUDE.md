@@ -54,17 +54,24 @@ The in-game HUD (`Game/UI/UIManager`, `ActionButton`) is separate from the menu 
 `SaveService` writes a single JSON file (Newtonsoft) per player ID. `SaveGame` (`Shared/Persistence/SaveGame.cs`) is the root; `CurrentSaveVersion.CURRENT_SAVE_VERSION` gates migration. **When changing the save shape**: bump the version, keep the old shape as a `SaveGameN` class (legacy types live under `SaveMigration/vN/`), and add a `MigrateNToM` case in `SaveService.Migrate`. Corrupt saves are copied aside rather than overwritten.
 
 ### Data definitions
-- ScriptableObjects under `Assets/Resources/ScriptableObjects/` define units (`UnitStatsDefinition`), spawnable entries (`SpawnDefinition`), generals/bosses (`GeneralDefinition`), abilities (`AbilityDefinition` + `AbilityAction` assets), and targeting.
-- Talent and research trees are JSON (`Assets/Resources_moved/Data/Talents.json`, `Research.json`) loaded through **Addressables** by key (`"Talents"`, `"Research"`). Icons and many UI assets are also addressable — new addressable assets must be added to a group in `AddressableAssetsData`.
+- ScriptableObjects under `Assets/Data/ScriptableObjects/` define units (`UnitStatsDefinition`), spawnable entries (`SpawnDefinition`), generals/bosses (`GeneralDefinition`), abilities (`AbilityDefinition` + `AbilityAction` assets), and targeting. They're referenced directly (scenes/prefabs), not loaded by path.
+- Talent and research trees are JSON (`Assets/Addressables/Data/Talents.json`, `Research.json`) loaded through **Addressables** by key (`"Talents"`, `"Research"`). Menu UXML/USS templates live under `Assets/Addressables/UI/`. Icons and many UI assets are also addressable — new addressable assets must be added to a group in `AddressableAssetsData`.
+- `Assets/Resources/` only holds what is loaded by path — `Resources.Load` in code or `resource("…")` in UXML/USS: currently `UI/cinder_icon.png`. Everything in `Resources` ships in every build, so don't put referenced assets there, and don't move anything out of it without checking for `resource(` references.
 
 ### Unit stats pipeline
-Final stats = base `UnitStatsDefinition` + player progression:
+All numeric stats are a `StatBlock` (one float per `StatType`; int stats are rounded only on read via `GetInt`). `StatType` is serialized as an int in assets, so only append to it. `UnitStatsDefinition.ToStatBlock()` is the single definition→stats mapping.
+
+Every modifier goes through `StatPipeline`: `base * (1 + sum of Percent) + sum of Flat`, `Set` overrides. Percentages are additive and only scale the base, not flat bonuses.
+
 1. `StatsBootstrapper` reads purchased talents/research from the save and groups their `StatEffect`s (by unit key / research category).
-2. `UnitStatsCalculator` applies effects as `AppliedStatModifier`s (Add/Subtract scale linearly with stacks; Multiply is `1 + (v-1)*stacks` relative to base; Set overrides) into a `FinalStats`.
-3. `UnitStatsManager` caches `FinalStatsByUnit`; `SpawnManager` passes `FinalStats` into spawned units.
-4. At runtime each unit's `BaseUnitStats` holds `RuntimeStats` plus temporary `StatModifier`s/`ActiveEffect`s (from `EffectSystem`) with dirty-stat recalculation.
+2. `UnitStatsCalculator.ApplyModifiers` converts them (`StatModifier.FromEffect`; JSON Multiply `1.05` = +5% Percent, scaled by stacks) and runs research + talents through the pipeline in one pass, relative to the definition values. Enemy wave scaling (`CalculateEnemyStats`) is applied on top for enemies.
+3. `UnitStatsManager` caches the result per unit key in `FinalStatsByUnit`; `SpawnManager` passes it to spawned units via `ApplyFinalStats`.
+4. Each unit's `BaseUnitStats` keeps progression → base (+ permanent changes via `BuildBaseStats`, e.g. `TowerUnitStats` tiers multiply the upgraded stats) → current (+ runtime `StatModifier`s from `EffectSystem`, recalculated for dirty stats in `LateUpdate`). Runtime percentages therefore scale the upgraded value. `RuntimeStats` only holds non-numeric values (`unitPrio`, `isTargetable`).
 
 Each unit type has a thin `*BaseStatsComponent : BaseUnitStats` subclass (mostly just `UnitPrio` threat level) in `Units/Components/BaseStats/`; towers derive from `TowerUnitStats`. Behaviour is composed from sibling components (`MovementComponent`, `CombatComponent`, `TargetComponent`/`TargetSelector`, `RangedShooter`, `UnitAbilityComponent`) plus `TargetRegistry` for lookups.
+
+### Match economy
+In-match currency and income live in `MatchEconomy` (plain C#, tested), owned by `GameManager.Economy` and ticked while the game runs. Spend with `TrySpend` (checks and subtracts in one call); the HUD (`UIManager`) listens to `CurrencyChanged`/`IncomeChanged` instead of being called. Meta-currency (cinders/embers in the save) is separate: `CurrencyManager`.
 
 ### Waves and abilities
 - `WaveController` drives a match; `WaveGenerator` builds each `WaveDefinition` from the `SpawnDatabase` using a threat budget (`WaveThreatCalculator`, `WaveRules`, `Difficulty`) and the selected `GeneralDefinition` (boss). It takes an injectable random function for tests.

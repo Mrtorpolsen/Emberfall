@@ -1,20 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 public class Bootstrapper : MonoBehaviour
 {
-    [SerializeField] private VisualTreeAsset splashlVTA;
+    [FormerlySerializedAs("splashlVTA")]
+    [SerializeField] private VisualTreeAsset splashVTA;
     [SerializeField] private UIDocument uIDocument;
 
     private async void Start()
     {
         var root = uIDocument.rootVisualElement;
 
-        SplashScreenController splashScreenController = new SplashScreenController(splashlVTA);
+        SplashScreenController splashScreenController = new SplashScreenController(splashVTA);
 
         splashScreenController.Initialize(root);
 

@@ -33,15 +33,7 @@ public class SpawnDatabase : MonoBehaviour
 
     public void Initialize()
     {
-        spawnMap = spawns.ToDictionary(x =>
-        {
-            if (x.UnlockedByDefault)
-            {
-                UnlockService.Instance.Unlock(x.UnlockId);
-            }
-
-            return x.Id;
-        });
+        spawnMap = spawns.ToDictionary(x => x.Id);
     }
 
     public SpawnDefinition GetSpawn(string id) => id == null ? null : spawnMap[id];

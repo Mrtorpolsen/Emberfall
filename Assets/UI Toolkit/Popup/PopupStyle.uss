@@ -17,7 +17,7 @@
 
 .popupContainer {
     flex-grow: 0;
-    background-image: resource("UI/Images/popup_box_opacity_95");
+    background-image: url("project://database/Assets/Art/UI/popup_box_opacity_95.png?fileID=2800000&guid=d0f111afc82248f4b878092427387852&type=3#popup_box_opacity_95");
     -unity-background-image-tint-color: rgb(82, 74, 74);
     width: 60%;
     min-width: auto;

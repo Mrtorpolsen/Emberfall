@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/UI%20Toolkit/CommonStyle.uss?fileID=7433441132597879392&amp;guid=0b2b72f60fa71064ba05ca62a4a9380a&amp;type=3#CommonStyle"/>
     <Style src="project://database/Assets/UI%20Toolkit/Armory/Loadout/LoadoutStyle.uss?fileID=7433441132597879392&amp;guid=0f3c6b78257d336429a13bb248cab09a&amp;type=3#LoadoutStyle"/>
-    <Style src="project://database/Assets/Resources_moved/UI/Menus/Loadout/LoadoutSelectNodeStyle.uss?fileID=7433441132597879392&amp;guid=f49ed0fbe5bebb149bc226f83f6878ea&amp;type=3#LoadoutSelectNodeStyle"/>
+    <Style src="project://database/Assets/Addressables/UI/Menus/Loadout/LoadoutSelectNodeStyle.uss?fileID=7433441132597879392&amp;guid=f49ed0fbe5bebb149bc226f83f6878ea&amp;type=3#LoadoutSelectNodeStyle"/>
     <ui:VisualElement name="LoadoutContainer" style="flex-grow: 1;">
         <ui:Label text="Loadout" name="Label_Heading" class="labelHeading" style="margin-bottom: 20px;"/>
         <ui:VisualElement style="flex-grow: 1;">
