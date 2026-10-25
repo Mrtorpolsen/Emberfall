@@ -165,6 +165,32 @@ Phase 6  iOS port
 
 The closed test can run on the current build. Push updated builds to the closed track as phases land, so testers exercise sign-in, cloud save and purchases before production.
 
+## Timeline
+
+Target: **Android 1.0 live before Feb 1, 2027**. iOS follows if time allows. Planned at about 4–5 hours a day (~30 h/week), with a two-week break over Christmas.
+
+| Week | Dates | Work | Milestone |
+|---|---|---|---|
+| 1 | Oct 26 – Nov 1 | Phase 0 admin (testers, closed track, privacy/support site, Play forms, trader/payments/tax, UGS environments). **Crash reporting** (cheap, and it captures testers' crashes from day one). Play Games console setup. | Closed test running |
+| 2 | Nov 2 – Nov 8 | Google Play Games sign-in, linking anonymous accounts, account deletion | |
+| 3–4 | Nov 9 – Nov 22 | Cloud save (save v5, sync, conflict handling), remote talent/research data | ~Nov 16: **apply for production access** |
+| 5 | Nov 23 – Nov 29 | Achievements | |
+| 6–7 | Nov 30 – Dec 13 | IAP shop, receipt validation, restore/pending purchases | Payments profile approved |
+| 8 | Dec 14 – Dec 20 | Ads + consent form | **Feature complete**, build on closed track |
+| | Dec 21 – Jan 3 | Holidays. Testers play the feature-complete build. Enroll in the Apple Developer Program. | |
+| 9 | Jan 4 – Jan 10 | Settings screen, name filter, 16 KB and large-screen checks, upgrade test, store listing assets, fixes from tester feedback | **Release candidate** |
+| 10 | Jan 11 – Jan 17 | Final fixes, submit to production, staged rollout | **Android 1.0 submitted** (~Jan 15) |
+| 11–12 | Jan 18 – Jan 31 | Buffer for review and rollout issues | **Android 1.0 live by Jan 31** |
+
+**Done means** Android 1.0 is live in production before Feb 1. The iOS port starts once Android is live. That will most likely be February, unless Android ships early enough to start it in January.
+
+**If a phase slips**, cut in this order to protect the date: ads → achievements → remote talent/research data. All three can ship in 1.1.
+
+**The date depends on these:**
+- Recruiting 12 testers in week 1. Every day the closed test starts late pushes production access back a day.
+- The payments profile and merchant account being approved before week 6.
+- Access to a Mac or a cloud build service for iOS
+
 ## Open questions
 
 - Game data: Remote Config (simple key/value JSON) or CCD remote Addressables (more setup, also handles icons)?
