@@ -109,7 +109,7 @@ Store listing and build:
 - [ ] **Target SDK 36 on large screens:** Android ignores orientation locks on screens 600dp and wider (tablets, foldables). Test the game there, or limit supported devices.
 - [ ] **Edge-to-edge** is enforced from targetSdk 35, so check the safe area on Android too.
 - [ ] Device catalog: exclude devices that are too weak to run the game well.
-- [ ] Release mechanics: use a **staged rollout** (e.g. 10% → 50% → 100%) and choose which countries to release in and what to charge. Pre-registration is optional, but it can build an audience while the closed test runs.
+- [ ] Release mechanics: use a **staged rollout** (e.g. 10% → 50% → 100%) and choose which countries to release in and what to charge. Pre-registration is optional, and it stays locked until production access is granted (like the production and open testing tracks). The earliest you could start it is after approval, around late November, to build an audience before launch.
 
 ### 7. Business, legal and policy
 
