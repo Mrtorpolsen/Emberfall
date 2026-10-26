@@ -363,7 +363,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Your Stats",
-                    description = "These are the stats of your unit with your upgrades applied. See how it has 206 health? That's from the talent we purchased earlier.",
+                    description = "These are the stats of your unit with your upgrades applied. See how it has more than 200 health? That's from the talent we purchased earlier.",
                     hasButton = true,
                     position = TutorialPopupLocation.Top
                 },
