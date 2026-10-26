@@ -319,7 +319,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Switching Units",
-                    description = "Click here to bring the Cavalier into your loadout.",
+                    description = "Click here to bring another unit into your loadout.",
                     hasButton = false
                 },
                 onComplete = () => {
