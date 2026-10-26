@@ -39,6 +39,9 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     private bool resourcesReleased;
     private bool isInvulnerable = false;
 
+    private const float PlayAreaCheckInterval = 0.5f;
+    private float playAreaCheckTimer;
+
     // IUnit
     public float AttackRange => currentStats.Get(StatType.AttackRange);
     public int AttackDamage => currentStats.GetInt(StatType.AttackDamage);
@@ -55,7 +58,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     public GameObject GameObject => gameObject;
     public Transform Transform => (this != null) ? transform : null;
     public float HitRadius => currentStats.Get(StatType.HitRadius);
-    public bool IsAlive => !isDying && currentHealth > 0;
+    // this != null is Unity's destroyed check: units removed without Die() (left the play area, sold) must read as dead to anyone still holding them
+    public bool IsAlive => this != null && !isDying && currentHealth > 0;
     public virtual ThreatLevel UnitPrio => runtimeStats.unitPrio;
     public bool IsTargetable => runtimeStats.isTargetable;
     public bool IsInvulnerable => isInvulnerable;
@@ -103,6 +107,21 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         SetProgressionStats(statsDef.ToStatBlock());
 
         healthBarScale = statsDef.healthbarScale;
+    }
+
+    // Physics can push moving units through the walls (e.g. many spawning at once); they weren't killed, so no OnDeath
+    private void Update()
+    {
+        if (unitRigidbody == null || unitRigidbody.bodyType != RigidbodyType2D.Dynamic) return;
+
+        playAreaCheckTimer -= Time.deltaTime;
+        if (playAreaCheckTimer > 0f) return;
+        playAreaCheckTimer = PlayAreaCheckInterval;
+
+        if (!PlayArea.Contains(unitRigidbody.position))
+        {
+            Destroy(Root);
+        }
     }
 
     private void LateUpdate()
@@ -376,14 +395,6 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     {
         ReleaseResources();
     }
-
-#if !UNITY_EDITOR
-    //TODO create world bounds instead.
-    private void OnBecameInvisible()
-    {
-        Die();
-    }
-#endif
 
 #if UNITY_EDITOR
     private void SyncDebugStats()

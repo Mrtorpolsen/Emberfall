@@ -14,6 +14,18 @@ public class TowerProjectileBaseStatsComponent : MonoBehaviour, IProjectile
 
     private Transform target;
 
+    private float timeAlive;
+
+    private void Update()
+    {
+        // Without a target the projectile keeps flying straight, so it needs a lifetime
+        timeAlive += Time.deltaTime;
+        if (timeAlive >= 5f || !PlayArea.Contains(transform.position))
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void Init(RangedShooter owner, int _damage)
     {
         shooter = owner;
@@ -43,9 +55,5 @@ public class TowerProjectileBaseStatsComponent : MonoBehaviour, IProjectile
             RangedShooter.ApplyHit(shooter, targetable, damage, transform.position);
             Destroy(gameObject);
         }
-    }
-    private void OnBecameInvisible()
-    {
-        Destroy(gameObject);
     }
 }
