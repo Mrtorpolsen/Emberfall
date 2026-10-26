@@ -15,7 +15,7 @@ MonoBehaviour:
   id: generalrichefield
   generalName: General Richefield
   tauntPhrases:
-  - "Sir \u201C Players name \u201C, I hope you\u2019re prepared"
+  - "I hope you\u2019re prepared sir!"
   - Soldiers! Formation Zeta!
   - Cavalry! Left and Right flank maneuver.
   - Do not fear! Victory is in our grasp!
