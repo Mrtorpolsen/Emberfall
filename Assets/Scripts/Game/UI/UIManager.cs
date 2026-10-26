@@ -201,11 +201,11 @@ public class UIManager : MonoBehaviour
         int cinders = CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes());
         if (cinders > 0)
         {
-            survivalText.SetText($"Survival: {TimerManager.Instance.GetFormattedTime()} and earned {cinders} cinders <voffset=0.35em><sprite=0></voffset>");
+            survivalText.SetText($"You survived {TimerManager.Instance.GetFormattedTime()} and earned {cinders} cinders <voffset=0.35em><sprite=0></voffset>");
         }
         else
         {
-            survivalText.SetText($"You didnt survive for long...");
+            survivalText.SetText($"You didn't survive for long...");
         }
     }
 
@@ -233,7 +233,7 @@ public class UIManager : MonoBehaviour
     {
         topMenuButton.gameObject.SetActive(false);
         gameUI.gameObject.SetActive(true);
-        survivalText.SetText($"Learning can be tough, and Sir Tutor the Third can be a hard teacher! Try again, but this time build more fighters!");
+        survivalText.SetText($"Learning can be tough, and Sir Tutor the Third can be a hard teacher! Try again, but this time build more Fighters!");
     }
 
     public void GoToMainMenu()

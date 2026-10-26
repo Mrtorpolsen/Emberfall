@@ -348,7 +348,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Your Stats",
-                    description = "If you press and hold, you can see the details of the unit / tower / ability. At the top are your stats, and at the bottom are the base stats. For now, press and hold here to see your Fighter's stats.",
+                    description = "If you <b>press and hold</b>, you can see the details of the unit / tower / ability. At the top are your stats, and at the bottom are the base stats. For now, <b>press and hold</b> here to see your Fighter's stats.",
                     hasButton = false,
                 },
                 onComplete = () => {

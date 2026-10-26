@@ -4,7 +4,7 @@
     <ui:VisualElement name="LeaderboardContainer" class="mainContainer" style="flex-grow: 1;">
         <ui:Label text="Leaderboard" name="Label_Heading" class="text labelHeading"/>
         <ui:VisualElement name="AlignLabel" style="flex-grow: 0; align-items: center;">
-            <ui:Label text="In memory of the defender who laid down their lives in protection of the forge" name="Label_SubHeading" class="text labelWrap" style="-unity-text-align: upper-center;"/>
+            <ui:Label text="In memory of the defenders who laid down their lives protecting the Forge" name="Label_SubHeading" class="text labelWrap" style="-unity-text-align: upper-center;"/>
         </ui:VisualElement>
         <ui:VisualElement name="DifficultyContainer" style="flex-grow: 0; flex-direction: row; justify-content: center; margin-top: 50px;">
             <ui:Button text="Easy" name="Btn_Easy_Tab" class="btnDifficulty text tab"/>

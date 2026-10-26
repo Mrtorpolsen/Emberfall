@@ -140,7 +140,7 @@ public class ForgeUIController : IUIScreenController
             var popupBtn = new PopupButtonDefinition
             {
                 //Todo need to reconstruct this to handle multiple prerequisites and different eg achievement
-                LabelText = prerequisitesMet ? $"{purchasedNow}/{max}" : $"Requires {talent.Prerequisites[0].RequiredPointsInTier} points in Tier {talent.Prerequisites[0].RequiredTier}",
+                LabelText = prerequisitesMet ? $"{purchasedNow}/{max}" : $"Requires {talent.Prerequisites[0].RequiredPointsInTier} point{(talent.Prerequisites[0].RequiredPointsInTier == 1 ? "" : "s")} in Tier {talent.Prerequisites[0].RequiredTier}",
                 BtnText = currentCost.ToString(),
                 BtnIconPath = "UI/cinder_icon",
 

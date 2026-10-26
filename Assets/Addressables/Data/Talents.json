@@ -2748,7 +2748,7 @@
       }
     },
     "unlock_ability_stun": {
-      "Description": "Unlocks Stun ability: stun current target for 0.5 seconds with a 10 second cooldown",
+      "Description": "Unlocks the Stun ability: stuns the current target for 0.5 seconds (10-second cooldown)",
       "Type": "AbilityUnlock",
       "Unlocks": [
         {
@@ -2761,7 +2761,7 @@
     },
 
     "unlock_ability_pushback": {
-      "Description": "Unlocks Pushback ability: push back 2 closest enemies every 10 seconds",
+      "Description": "Unlocks the Pushback ability: pushes back the 2 closest enemies every 10 seconds",
       "Type": "AbilityUnlock",
       "Unlocks": [
         {
@@ -2774,7 +2774,7 @@
     },
 
     "unlock_ability_multishot": {
-      "Description": "Unlocks a Multishot ability: fires an additional arrow every 10 seconds",
+      "Description": "Unlocks the Multishot ability: fires an additional arrow every 10 seconds",
       "Type": "AbilityUnlock",
       "Unlocks": [
         {
@@ -2788,7 +2788,7 @@
 
 
     "unlock_ability_houndmaster_minor": {
-      "Description": "The houndmaster summons a hound every 60s",
+      "Description": "The Houndmaster summons a hound every 60 seconds",
       "Type": "AbilityUnlock",
       "Unlocks": [
         {
@@ -2801,7 +2801,7 @@
     },
 
     "unlock_unit_berserker": {
-      "Description": "Unlocks subclass Berserker",
+      "Description": "Unlocks the Berserker subclass",
       "Type": "UnitUnlock",
       "Unlocks": [
         {
@@ -2814,7 +2814,7 @@
     },
 
     "unlock_unit_guardian": {
-      "Description": "Unlocks subclass Guardian",
+      "Description": "Unlocks the Guardian subclass",
       "Type": "UnitUnlock",
       "Unlocks": [
         {
@@ -2827,7 +2827,7 @@
     },
 
     "unlock_unit_templar": {
-      "Description": "Unlocks subclass Templar",
+      "Description": "Unlocks the Templar subclass",
       "Type": "UnitUnlock",
       "Unlocks": [
         {
@@ -2840,7 +2840,7 @@
     },
 
     "unlock_unit_dragoon": {
-      "Description": "Unlocks subclass Dragoon",
+      "Description": "Unlocks the Dragoon subclass",
       "Type": "UnitUnlock",
       "Unlocks": [
         {
@@ -2853,7 +2853,7 @@
     },
 
     "unlock_unit_sniper": {
-      "Description": "Unlocks subclass Sniper",
+      "Description": "Unlocks the Sniper subclass",
       "Type": "UnitUnlock",
       "Unlocks": [
         {
@@ -2866,7 +2866,7 @@
     },
 
     "unlock_unit_trapper": {
-      "Description": "Unlocks subclass Trapper",
+      "Description": "Unlocks the Trapper subclass",
       "Type": "UnitUnlock",
       "Unlocks": [
         {
@@ -3032,7 +3032,7 @@
       },
 
       "unlock_ability_houndmaster_minor": {
-        "Name": "Release the hounds",
+        "Name": "Release the Hounds",
         "IconId": "unlock_ability_minor"
       },
 

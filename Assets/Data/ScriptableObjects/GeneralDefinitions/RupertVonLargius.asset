@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RupertVonLargius
   m_EditorClassIdentifier: Assembly-CSharp::GeneralDefinition
   id: rupertvonlargius
-  generalName: Rupert Von Largius
+  generalName: Rupert von Largius
   tauntPhrases:
   - Play time is over!
   - My armies are wast
