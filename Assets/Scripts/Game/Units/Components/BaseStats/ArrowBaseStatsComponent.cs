@@ -18,7 +18,7 @@ public class ArrowBaseStatsComponent : MonoBehaviour, IProjectile
     private void Update()
     {
         timeAlive += Time.deltaTime;
-        if (timeAlive >= 5f)
+        if (timeAlive >= 5f || !PlayArea.Contains(transform.position))
         {
             Destroy(gameObject);
         }
@@ -58,9 +58,5 @@ public class ArrowBaseStatsComponent : MonoBehaviour, IProjectile
             RangedShooter.ApplyHit(shooter, targetable, damage, transform.position);
             Destroy(gameObject);
         }
-    }
-    private void OnBecameInvisible()
-    {
-        Destroy(gameObject);
     }
 }
