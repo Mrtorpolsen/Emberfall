@@ -14,7 +14,7 @@
                     <ui:Button text="Settings" name="Button_Settings" class="btnBackground1x1" style="flex-grow: 0; aspect-ratio: 2; height: 100px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; color: rgb(255, 235, 225); font-size: 35px;"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="SelectedLoutoutContainer" style="flex-grow: 0;">
+            <ui:VisualElement name="SelectedLoadoutContainer" style="flex-grow: 0;">
                 <ui:VisualElement name="UtilityRowContainer" class="selectedLoadoutRow" style="flex-grow: 0; flex-direction: row;">
                     <ui:VisualElement name="LoadoutSelectNode" class="btnBackground1x1 loadoutSelectNodeContainer">
                         <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">

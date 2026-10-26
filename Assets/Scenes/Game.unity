@@ -12083,7 +12083,7 @@ MonoBehaviour:
 
 
     Time
-    Survive
+    Survived
 
 
     Income
@@ -52618,13 +52618,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2324961053806963377, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
-      value: 'Lastly we have the units. This is where you can send the troops that
-        you bring into battle.
+      value: 'Lastly, we have the units. This is where you can send the troops you
+        bring into battle.
 
+        
 
-        Remember, units have different stats and
-        have to support eachother. For instance a ranged unit work best with a melee
-        frontline.'
+        Remember, units have different stats
+        and need to support each other. For instance, a ranged unit works best with
+        a melee frontline.'
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -56279,9 +56280,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2324961053806963377, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
-      value: "These are building plots, clicking them will open build menu. \n\nClicking
-        them again after a tower has been built will let you either upgrade it or
-        sell it for 50% of the original cost."
+      value: 'These are building plots. Clicking one will open the build menu.
+
+        
+
+        Clicking
+        it again after a tower has been built will let you either upgrade the tower
+        or sell it for 50% of its original cost.'
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -56297,7 +56302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 286.66
+      value: 315.41
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -56305,7 +56310,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -228.55
+      value: -242.925
       objectReference: {fileID: 0}
     - target: {fileID: 3032015986146345612, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -56357,7 +56362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4626590635687199934, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -432.88
+      value: -461.63
       objectReference: {fileID: 0}
     - target: {fileID: 5261173276956135202, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -56369,7 +56374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5323497639862041252, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 498.88
+      value: 527.63
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -56381,7 +56386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 498.88
+      value: 527.63
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -56389,7 +56394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -249.44
+      value: -263.815
       objectReference: {fileID: 0}
     - target: {fileID: 6905455924914809223, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -58161,7 +58166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2324961053806963377, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
-      value: 'Now send 5 fighters and lets get this show on the road!
+      value: 'Now send 5 fighters and let''s get this show on the road!
 
 
         Remaining:'
@@ -58438,9 +58443,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2324961053806963377, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
-      value: "You can order your units to advace or fallback by moving the rally
-        points on the field.\n\n This is done by issueing orders from the orders
-        menu below."
+      value: 'You can order your units to advance or fall back by moving the rally
+        points on the field.
+
+        
+
+        You do this by issuing orders from
+        the Orders menu below.'
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -58456,7 +58465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 286.66
+      value: 257.92
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -58464,7 +58473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -228.55
+      value: -214.18001
       objectReference: {fileID: 0}
     - target: {fileID: 3032015986146345612, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -58516,7 +58525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4626590635687199934, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -432.88
+      value: -404.14
       objectReference: {fileID: 0}
     - target: {fileID: 5261173276956135202, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -58528,7 +58537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5323497639862041252, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 498.88
+      value: 470.14
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -58540,7 +58549,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 498.88
+      value: 470.14
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -58548,7 +58557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662000154692057760, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -249.44
+      value: -235.07
       objectReference: {fileID: 0}
     - target: {fileID: 6905455924914809223, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
@@ -64130,21 +64139,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2324961053806963377, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_text
-      value: 'Here you see the action button:
+      value: 'Here you see the action buttons:
 
 
-        Units - Where you send units
+        Units: send out your units
 
+        
 
-        Abilities
-        - Where you use abilities
+        Abilities:
+        use your abilities
 
+        
 
-        Income - Where you upgrade income
+        Income: upgrade your income
 
+        
 
-        Orders
-        - Where you move rally points'
+        Orders:
+        move your rally points'
       objectReference: {fileID: 0}
     - target: {fileID: 2605410410353554981, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchorMax.y
@@ -64192,7 +64204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3032015986146345612, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -45.109985
+      value: -45.11
       objectReference: {fileID: 0}
     - target: {fileID: 3222006543555407977, guid: e2d74f97c3b8fb64b90aff02d825e286, type: 3}
       propertyPath: m_Name

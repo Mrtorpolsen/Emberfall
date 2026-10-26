@@ -49,7 +49,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Welcome to Emberfall!",
-                    description = $"{UserProfile.Instance.userName}, never heard that before. Welcome to emberfall!\n\nEmberfall is a td-ish game where you defend against the enemy, earn currency and spend that currency to upgrade your units and unlock new ones, rising through the difficulties until you reach the top!\n\nEnough talk, let's get going!",
+                    description = $"{UserProfile.Instance.userName}, welcome to Emberfall!\n\nEmberfall is a TD-ish game where you defend against enemy waves, earn currency and spend that currency to upgrade your units and unlock new ones, rising through the difficulties until you reach the top!\n\nEnough talk, let's get going!",
                     hasButton = true
                 },
                 onComplete = () =>
@@ -81,7 +81,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Currency",
-                    description = "Here in Emberfall we run on cinders, its what makes upgrades and unlocking new units possible. After the last battle you got 2000 of them, let's go spend them!",
+                    description = "Here in Emberfall we run on cinders; it's what makes upgrades and unlocking new units possible. After the last battle you got 2000 of them, let's go spend them!",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -136,7 +136,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Refunds",
-                    description = "And dont worry, if you regret your talent choices or want to try something else, you can refund them here!",
+                    description = "And don't worry, if you regret your talent choices or want to try something else, you can refund them here!",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -150,7 +150,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Upgrade a Unit",
-                    description = "Now lets upgrade a unit to make it stronger!\n\nPress here to access the Fighters talents.",
+                    description = "Now let's upgrade a unit to make it stronger!\n\nPress here to access the Fighter's talents.",
                     hasButton = false
                 },
                 onComplete = () => {
@@ -164,7 +164,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Talents",
-                    description = "In here you'll see all the fighter specific talents. You'll be working your way from the top down, gradually unlocking stronger and more expensive talents. Some units even unlock new ones near the bottom!",
+                    description = "In here you'll see all the Fighter-specific talents. You'll be working your way from the top down, gradually unlocking stronger and more expensive talents. Some units even unlock new ones near the bottom!",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -177,7 +177,7 @@ public class TutorialFlow : MonoBehaviour
                 target = "TalentNodeContainer",
                 popup = new TutorialPopupData
                 {
-                    heading = "Purchasing a talents",
+                    heading = "Purchasing a talent",
                     description = "Now click the tier 1 talent, and let's get to upgrading!",
                     hasButton = false
                 },
@@ -191,7 +191,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Talent details",
-                    description = "In here you'll see all there is to know about the talent. What it does, what is required to unlock it, and how much it'll cost (this can also be seen in the talent overview).",
+                    description = "In here you'll see all there is to know about the talent: what it does, what is required to unlock it, and how much it'll cost (this can also be seen in the talent overview).",
                     hasButton = true,
                     position = TutorialPopupLocation.Top
                 },
@@ -221,7 +221,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Keeping track",
-                    description = "You can keep track of what you have purchased and how much they each cost.",
+                    description = "You can keep track of what you have purchased and how much each one cost.",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -235,7 +235,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Back to the Armory",
-                    description = "Now that you have bought a talent, let's head on back to the forge and check out the loadout.",
+                    description = "Now that you have bought a talent, let's head on back to the Armory and check out the loadout.",
                     hasButton = false
                 },
                 onComplete = () => {
@@ -249,7 +249,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "The Loadout Menu",
-                    description = "The loadout menu is where you select and experiment with the units, abilities and towers that you bring into battle!\n\nIn there you can also see the base stats and the stats with your upgrades applied, of all you have unlocked.",
+                    description = "The loadout menu is where you select and experiment with the units, abilities and towers that you bring into battle!\n\nIn there you can also see the base stats, and the stats with your upgrades applied, for everything you have unlocked.",
                     hasButton = false
                 },
                 onComplete = () => {
@@ -259,11 +259,11 @@ public class TutorialFlow : MonoBehaviour
             },
             new TutorialStep
             {
-                target = "SelectedLoutoutContainer",
+                target = "SelectedLoadoutContainer",
                 popup = new TutorialPopupData
                 {
                     heading = "Your selected loadout",
-                    description = "Here is your current loadout, which is what you will bring into battle",
+                    description = "Here is your current loadout, which is what you will bring into battle.",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -290,8 +290,8 @@ public class TutorialFlow : MonoBehaviour
                 target = "unity-content-viewport",
                 popup = new TutorialPopupData
                 {
-                    heading = "The available",
-                    description = "Here is what you have currrently unlocked. More will appear as you unlock them",
+                    heading = "What's available",
+                    description = "Here is what you have currently unlocked. More will appear as you unlock them.",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -319,7 +319,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Switching Units",
-                    description = "Click here to bring the Cavalier into your loadut.",
+                    description = "Click here to bring the Cavalier into your loadout.",
                     hasButton = false
                 },
                 onComplete = () => {
@@ -333,7 +333,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Good job!",
-                    description = "These are the units you bring into battle, and in this order in the menu.",
+                    description = "These are the units you bring into battle, in the order they will appear in the menu.",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -348,7 +348,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Your Stats",
-                    description = "If you press and hold you can see the details of the unit / tower / ability. In the top its your stats, at the bottom is the base stats. For now press and hold here to see your fighter stats.",
+                    description = "If you press and hold, you can see the details of the unit / tower / ability. At the top are your stats, and at the bottom are the base stats. For now, press and hold here to see your Fighter's stats.",
                     hasButton = false,
                 },
                 onComplete = () => {
@@ -363,7 +363,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Your Stats",
-                    description = "These are the stats of your unit with your upgrades applied. See how it has 206 health? Thats from the talent we purchased earlier.",
+                    description = "These are the stats of your unit with your upgrades applied. See how it has 206 health? That's from the talent we purchased earlier.",
                     hasButton = true,
                     position = TutorialPopupLocation.Top
                 },
@@ -379,7 +379,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Next up Research!",
-                    description = "Now lets head to the research screen. Dont worry, we're almost there so you can get back to defending!",
+                    description = "Now let's head to the research screen. Don't worry, we're almost done, so you can get back to defending!",
                     hasButton = false
                 },
                 onComplete = () => {
@@ -393,7 +393,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Different Research Categories",
-                    description = "Here you see the different categories you can research. They all contain small upgrades that applies to all within that category! The only exception being Global Ability, which contains powerful and expensive abilities you can activate in battle!",
+                    description = "Here you see the different categories you can research. They all contain small upgrades that apply to everything within that category! The only exception is Global Abilities, which contains powerful and expensive abilities you can activate in battle!",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -406,8 +406,8 @@ public class TutorialFlow : MonoBehaviour
                 target = "Button_CategoryContainer",
                 popup = new TutorialPopupData
                 {
-                    heading = "Purchasing a research for units",
-                    description = "Lets buy one for units",
+                    heading = "Researching for units",
+                    description = "Let's buy one for units.",
                     hasButton = false
                 },
                 onComplete = () => {
@@ -421,7 +421,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Research",
-                    description = "Here you will find the details about the research, what stage it is, what it does and how long it takes to research it.",
+                    description = "Here you will find the details about the research: what stage it is at, what it does, and how long it takes to research.",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -435,7 +435,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Start Research",
-                    description = "Lets start a research and get more health on our units.",
+                    description = "Let's start researching and get more health for our units.",
                     hasButton = false
                 },
                 onComplete = () => {
@@ -462,7 +462,7 @@ public class TutorialFlow : MonoBehaviour
                 popup = new TutorialPopupData
                 {
                     heading = "Active Research",
-                    description = "You can max have one active research per category.",
+                    description = "You can have at most one active research per category.",
                     hasButton = true
                 },
                 onComplete = () => {
@@ -488,8 +488,8 @@ public class TutorialFlow : MonoBehaviour
             {
                 popup = new TutorialPopupData
                 {
-                    heading = "Thats it!",
-                    description = "In here you will be able to see how long you and your fellow players have survived.\n\n Now all that is left is to wish you good luck!\n\nGood luck!",
+                    heading = "That's it!",
+                    description = "In here you will be able to see how long you and your fellow players have survived.\n\nNow all that is left is to wish you good luck!",
                     hasButton = true
                 },
                 onComplete = () => {
