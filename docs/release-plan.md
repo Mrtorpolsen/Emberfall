@@ -103,7 +103,7 @@ Store listing and build:
 
 - [ ] Store listing: title, short and full description, 512×512 icon, 1024×500 feature graphic, phone screenshots (tablet optional), category.
 - [ ] Build: AAB, Play App Signing enabled, **upload keystore backed up outside the project**. targetSdk must meet the current Play requirement (pin it explicitly instead of "highest installed"). 64-bit (IL2CPP, ARM64).
-- [ ] Version hygiene: `bundleVersion` is `"Emberfall v0.5.1"`, and players see it as the Play versionName. Use plain `1.0.0`. Bump versionCode on every upload.
+- [x] Version hygiene: `bundleVersion` is plain `MAJOR.MINOR.PATCH` (players see it as the Play versionName), and versionCode goes up on every upload. See [Releasing](#releasing).
 - [ ] Pre-launch report: fix the crashes and ANRs it reports.
 - [ ] **16 KB memory page size:** Play requires native code to support it for apps targeting Android 15+. Unity 6 handles the engine, but every native plugin must too (GPGS, ads SDK, IAP). Check the APK Analyzer or the Play Console warning on the next upload.
 - [ ] **Target SDK 36 on large screens:** Android ignores orientation locks on screens 600dp and wider (tablets, foldables). Test the game there, or limit supported devices.
@@ -190,6 +190,40 @@ Target: **Android 1.0 live before Feb 1, 2027**. iOS follows if time allows. Pla
 - Recruiting 12 testers in week 1. Every day the closed test starts late pushes production access back a day.
 - The payments profile and merchant account being approved before week 6.
 - Access to a Mac or a cloud build service for iOS
+
+## Releasing
+
+Releases are tags on `master`; there are no release branches.
+
+**Versions**
+- Version name (`bundleVersion` in Player Settings): `MAJOR.MINOR.PATCH`. Bump PATCH for fixes, MINOR for features.
+- Version code (`AndroidBundleVersionCode`): +1 for every upload to Play, on any track (internal testing included). Play rejects a code that has been uploaded before.
+- `gameVersion` in `Talents.json` and `Research.json` matches the version name. Bump `definitionsVersion` in a file whenever its content changes.
+
+**Steps**
+1. Commit the version bump on `master`: version name, version code, and the JSON versions.
+2. Build Addressables (Window → Asset Management → Addressables → Groups → Build → New Build → Default Build Script). They are not built with the player, so skipping this ships the old data.
+3. Run the EditMode tests.
+4. Build the AAB from that commit and upload it.
+5. Tag the commit you built and push the tag:
+   ```
+   git tag -a v0.5.2 -m "v0.5.2 (code 11)"
+   git push origin v0.5.2
+   ```
+6. Optional: create a GitHub Release from the tag with the release notes (reuse them for Play's "What's new").
+
+If you rebuild after a fix, either move the tag before pushing it or make the fix a new version. Only tag what was uploaded.
+
+**Hotfixes**
+If `master` has unreleased work when a released version needs a fix, branch from the tag, fix there, release, and merge back:
+```
+git switch -c hotfix/0.5.3 v0.5.2
+# fix, bump to 0.5.3 / next code, build, upload, tag v0.5.3
+git switch master && git merge hotfix/0.5.3
+```
+When `master` has nothing unreleased, fix on `master` instead.
+
+`git log v0.5.1..v0.5.2` lists what changed between two releases, and `git checkout v0.5.2` gives you the exact code players are running.
 
 ## Open questions
 

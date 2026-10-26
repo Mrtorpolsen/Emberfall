@@ -82,6 +82,7 @@ In-match currency and income live in `MatchEconomy` (plain C#, tested), owned by
 
 ## Roadmap
 Pre-release work (GPGS sign-in, cloud save, achievements, IAP/ads, Play production, iOS) is planned in `docs/release-plan.md`.
+The release process (versioning, Addressables build, tagging, hotfixes) is the "Releasing" section of the same file.
 
 ## Keeping this file current
 After any change that affects architecture, conventions or current state,
