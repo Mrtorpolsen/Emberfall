@@ -22,6 +22,13 @@ public class CameraController : MonoBehaviour
             targetCamera = Camera.main;
     }
 
+    private void Start()
+    {
+        // The scene's starting size may show more than the bounds on this screen's aspect.
+        targetCamera.orthographicSize = Mathf.Min(targetCamera.orthographicSize, GetMaxZoom());
+        ClampCameraPosition();
+    }
+
     private void OnEnable()
     {
         EnhancedTouchSupport.Enable();
@@ -119,7 +126,7 @@ public class CameraController : MonoBehaviour
         Vector3 worldBefore = ScreenToWorld(screenPosition);
 
         float newZoom = targetCamera.orthographicSize - zoomDelta;
-        newZoom = Mathf.Clamp(newZoom, minZoom, maxZoom);
+        newZoom = Mathf.Clamp(newZoom, minZoom, GetMaxZoom());
 
         targetCamera.orthographicSize = newZoom;
 
@@ -128,6 +135,15 @@ public class CameraController : MonoBehaviour
         targetCamera.transform.position += worldBefore - worldAfter;
 
         ClampCameraPosition();
+    }
+
+    // Largest size whose view still fits inside the bounds, so fully zoomed out there's no room to pan on the tighter axis
+    private float GetMaxZoom()
+    {
+        Bounds bounds = cameraBounds.bounds;
+        float fitZoom = Mathf.Min(bounds.extents.y, bounds.extents.x / targetCamera.aspect);
+
+        return Mathf.Max(minZoom, Mathf.Min(maxZoom, fitZoom));
     }
 
     private Vector3 ScreenToWorld(Vector2 screenPosition)
