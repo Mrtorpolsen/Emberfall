@@ -16,6 +16,8 @@ Tests are NUnit **EditMode** tests in `Assets/Scripts/Tests/Editor/` (compiled i
 "C:\Program Files\Unity\Hub\Editor\6000.3.9f1\Editor\Unity.exe" -batchmode -projectPath . -runTests -testPlatform EditMode -testResults results.xml [-testFilter WaveGeneratorTests]
 ```
 
+Crash reporting is Unity Diagnostics, enabled in the project settings. Debug symbols are set in Build Profiles, not Player Settings, so they aren't committed. Upload each shipped build's symbols as described under "Releasing" in `docs/release-plan.md`. `CrashReportingTester` (on GameManager) only works in development builds: hold the top-left corner to throw an exception, or the top-right corner to force a native crash.
+
 Some tests load real ScriptableObject assets through `AssetDatabase` (e.g. `WaveGeneratorTests` loads every `SpawnDefinition`), so changing data assets can break tests.
 
 ## Repo conventions

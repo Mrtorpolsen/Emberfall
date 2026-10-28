@@ -130,10 +130,11 @@ Store listing and build:
 
 ### 8. Release readiness (not in your list, worth doing)
 
-- [ ] Crash reporting and analytics: Unity Analytics plus Cloud Diagnostics, or Firebase Crashlytics. You want this before strangers play.
+- [x] Crash reporting: Unity Diagnostics, shipped in v0.5.4 (code 13). Sessions, managed exceptions and native crashes are reported, and native stack traces are symbolicated once the build's symbols are uploaded (see Releasing). There's no in-game opt-out yet. That belongs on the settings screen below. Note: a report's scene field is the scene open when the report is sent on the next launch, not where the crash happened.
+- [ ] Analytics: Unity Analytics or similar, still to decide.
 - [ ] Offline and failure handling: no internet at launch, a service outage, or sign-in failure shouldn't hard-block the game. The leaderboard already has a TODO for queueing scores.
 - [ ] Settings screen: audio, account (link Google, delete account), privacy/consent, restore purchases, credits/licenses.
-- [ ] Remove debug tools from release builds (`Game/Debug`, the `ClearSessionToken` comment in `LoginManager`) and check that Development Build is off.
+- [ ] Remove debug tools from release builds (`Game/Debug`, the `ClearSessionToken` comment in `LoginManager`) and check that Development Build is off. `CrashReportingTester` (on GameManager in `Game.unity`) is already safe: release builds compile only a stub that destroys itself.
 - [ ] Performance pass on low-end Android (profile captures already exist).
 - [x] **Separate UGS environments** (`development` and `production`), so test saves and test scores don't mix with real players'. Check free-tier quotas and rate limits and set a billing alert. Created Oct 28: `production` (the original, holds the existing leaderboards and accounts) and `development` (empty; recreate leaderboards there before using it).
 - [ ] **Android auto-backup:** once cloud save exists, turn it off or exclude the save file so an OS restore can't conflict with the cloud copy.
@@ -200,8 +201,8 @@ Target: **Android 1.0 live before Feb 1, 2027**. iOS follows if time allows. Pla
 Store declarations and the privacy policy must match the build on the track. When a feature below lands in a build, update everything listed for it in the same release. The daily briefing should remind about these when the matching work starts or ships.
 
 **Crash reporting** (Week 1)
-- [ ] Data safety form: crash logs and diagnostics, device or other IDs the tool uses
-- [ ] Privacy policy: name the crash tool and the data it receives, update the "Last updated" date
+- [x] Data safety form: crash logs and diagnostics, device or other IDs the tool uses (done for v0.5.4)
+- [x] Privacy policy: name the crash tool and the data it receives, update the "Last updated" date (October 28, 2026: Unity Diagnostics, installation ID, 90-day retention, no opt-out yet)
 
 **Google Play Games sign-in, cloud save, account deletion** (Weeks 2–4)
 - [ ] Publish the Play Games project right before the sign-in build ships (add testers under Testers until then)
@@ -245,6 +246,9 @@ Releases are tags on `master`; there are no release branches.
 2. Build Addressables (Window → Asset Management → Addressables → Groups → Build → New Build → Default Build Script). They are not built with the player, so skipping this ships the old data.
 3. Run the EditMode tests.
 4. Build the AAB from that commit and upload it.
+   - Build Profiles → Android: Development Build off (the `CrashReportingTester` trigger only exists in development builds), Debug Symbols Level `Full`, Format `Zip` and `Include In Bundle`.
+   - `Include In Bundle` gives Play the symbols for Android vitals crashes and ANRs. If Play still warns that debug symbols are missing (bundle over `androidSymbolsSizeThreshold`, 800 MB), upload the `*.symbols.zip` under App bundle explorer → the version code → Downloads → Native debug symbols.
+   - Upload the same `*.symbols.zip` to Unity Dashboard → Diagnostics → Debugging Symbols. Use that zip, not the `.so` files under `Library/`, which are stripped. Each build has its own symbols, so upload them for every build you ship.
 5. Tag the commit you built and push the tag:
    ```
    git tag -a v0.5.2 -m "v0.5.2 (code 11)"
