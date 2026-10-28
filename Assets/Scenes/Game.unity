@@ -53701,6 +53701,7 @@ GameObject:
   - component: {fileID: 1439708018}
   - component: {fileID: 1439708020}
   - component: {fileID: 1439708021}
+  - component: {fileID: 1439708022}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -53780,6 +53781,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerManager
   timerText: {fileID: 589758926}
+--- !u!114 &1439708022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439708015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b16a201c85f98449a2d26f28e249d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrashReportingTester
+  holdSeconds: 2
 --- !u!1 &1439935902
 GameObject:
   m_ObjectHideFlags: 0
