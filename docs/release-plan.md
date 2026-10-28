@@ -32,6 +32,7 @@ These choices affect almost every other workstream.
 Everything below depends on a stable, recoverable player ID. Right now, a player who reinstalls loses their anonymous account.
 
 - [ ] Play Console → Play Games Services: create or confirm the game project and link it to the app. Add OAuth credentials: an Android client for **both** the upload key SHA-1 and the Play App Signing SHA-1, plus a **web client** for the server auth code.
+  - Progress (Oct 28): Play Games project `emberfall-dev` created and linked, SDK step and testers done. OAuth consent screen being finished (scopes `games`, `games_lite`, `drive.appdata`, no logo, so no verification needed). Credentials (both SHA-1s plus web client) still open. Publish the project only right before the sign-in build ships.
 - [ ] Unity Dashboard → Authentication → add the Google Play Games identity provider (web client ID and secret).
 - [ ] Wire up GPGS v2: `PlayGamesPlatform.Activate()`. v2 signs in automatically at launch. Then `RequestServerSideAccess` → `AuthenticationService.SignInWithGooglePlayGamesAsync(authCode)`.
 - [ ] **Account linking:** existing internal testers have anonymous accounts. Use `LinkWithGooglePlayGamesAsync` on the anonymous session so progress (and leaderboard entries) carry over. Handle the "already linked to another account" error.
@@ -87,13 +88,14 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
 The thing you're thinking of is probably **developer account (identity) verification** plus **production access**. Personal developer accounts created after Nov 2023 must:
 
 - [ ] Run a **closed test with at least 12 opted-in testers for 14 consecutive days**. Internal testing doesn't count. Then answer the production access questionnaire. Start this early, because it's the long pole and other work can happen in parallel.
+  - Progress (Oct 28): closed track submitted and approved; 8 testers confirmed, still recruiting. The 14-day clock starts when 12 are opted in (write the date here). Aim for 15–20 testers as a buffer.
 - [ ] Finish developer identity/contact verification if the console still shows it as pending.
 
 The App content section in Play Console needs all of these:
 
-- [ ] Privacy policy URL (hosted page covering UGS, ads and IAP data)
-- [ ] App access (explain the login, or provide test credentials)
-- [ ] Ads declaration
+- [x] Privacy policy URL (hosted page covering UGS, ads and IAP data). Live and covers UGS only; update it with crash reporting, Google sign-in, cloud save, IAP and ads as they ship.
+- [x] App access (explain the login, or provide test credentials). Answered for the current build (anonymous sign-in, nothing restricted); re-check when Google sign-in, IAP and ads ship.
+- [x] Ads declaration. "No ads" for the current build; redo in the ads release together with the Data safety form and advertising ID answer.
 - [ ] Content rating (IARC questionnaire)
 - [ ] Target audience and content
 - [ ] Data safety form (account info, game progress, purchase history, ad IDs, crash/diagnostics data)
@@ -114,9 +116,11 @@ Store listing and build:
 ### 7. Business, legal and policy
 
 - [ ] **EU trader status (Digital Services Act)** declaration in Play Console, and later in App Store Connect. A monetizing developer counts as a trader, and the store page then shows your name, address, email and phone publicly. Decide whether to use a business address or a company first.
+  - Progress (Oct 28): the console shows no trader field, banner or alert. Re-check Account details when IAP or ads are added (by Week 6) and before production.
 - [ ] Payments profile and bank details for each store, plus tax forms (W-8BEN if you're outside the US) to avoid US withholding. Store income is also taxable where you live.
+  - Progress (Oct 28): payments profile created and bank details submitted, awaiting verification. W-8BEN still to do once the console offers it. Must be approved before Week 6 (Nov 30). Open question for SKAT or an accountant: CVR number, VAT and how Play payouts are reported (agreement 3.5 makes the developer responsible for transaction taxes in some countries).
 - [ ] Apple Small Business Program: you must enroll to get the 15% fee instead of 30%. Google's 15% on the first $1M a year is automatic.
-- [ ] **Support email** in the store listing (required). One simple website can hold the privacy policy, the account deletion page and the support contact.
+- [x] **Support email** in the store listing (required). One simple website can hold the privacy policy, the account deletion page and the support contact.
 - [ ] **Loot box odds:** if anything you sell is randomized, both stores require the odds to be shown before purchase.
 - [ ] **Asset licenses:** confirm that all art, music, fonts and asset packs (e.g. `CrystalFramework`) allow commercial use. Add open-source attributions (Newtonsoft, GPGS, ad/IAP SDKs) to a credits/licenses screen.
 - [ ] Unity license: Personal is fine below $200k revenue a year; above that you need Pro.
@@ -131,7 +135,7 @@ Store listing and build:
 - [ ] Settings screen: audio, account (link Google, delete account), privacy/consent, restore purchases, credits/licenses.
 - [ ] Remove debug tools from release builds (`Game/Debug`, the `ClearSessionToken` comment in `LoginManager`) and check that Development Build is off.
 - [ ] Performance pass on low-end Android (profile captures already exist).
-- [ ] **Separate UGS environments** (`development` and `production`), so test saves and test scores don't mix with real players'. Check free-tier quotas and rate limits and set a billing alert.
+- [x] **Separate UGS environments** (`development` and `production`), so test saves and test scores don't mix with real players'. Check free-tier quotas and rate limits and set a billing alert. Created Oct 28: `production` (the original, holds the existing leaderboards and accounts) and `development` (empty; recreate leaderboards there before using it).
 - [ ] **Android auto-backup:** once cloud save exists, turn it off or exclude the save file so an OS restore can't conflict with the cloud copy.
 - [ ] **Use server time** for anything time-gated (daily rewards, login gifts), because device clocks can be changed. Optionally add the Play Integrity API and a sanity check that rejects impossible leaderboard scores.
 - [ ] **Minimum version / forced update** via Remote Config, to block old clients after a save-format change.
