@@ -1,22 +1,19 @@
-   {
-     "permissions": {
-       "deny": [
-         "Read(./Library/**)",
-         "Read(./Temp/**)",
-         "Read(./Obj/**)",
-         "Read(./Logs/**)",
-         "Read(./Build/**)",
-         "Read(./Builds/**)",
-         "Read(./UserSettings/**)",
-         "Edit(./Library/**)",
-         "Edit(./ProjectSettings/**)",
-         "Edit(./Packages/packages-lock.json)",
-         "Bash(git push:*)"
-       ],
-       "allow": [
-         "Bash(git status)",
-         "Bash(git diff:*)",
-         "Bash(git log:*)"
-       ]
-     }
-   }
+{
+  "permissions": {
+    "deny": [
+      "Read(./Library/**)",
+      "Read(./Temp/**)",
+      "Read(./Obj/**)",
+      "Read(./Logs/**)",
+      "Read(./Build/**)",
+      "Read(./Builds/**)",
+      "Read(./UserSettings/**)",
+      "Edit(./Library/**)",
+      "Edit(./ProjectSettings/**)",
+      "Edit(./Packages/packages-lock.json)"
+    ],
+    "allow": ["Bash(git status)", "Bash(git diff:*)", "Bash(git log:*)"],
+
+    "ask": ["Bash(git push:*)"]
+  }
+}
