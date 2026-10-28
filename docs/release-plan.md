@@ -1,19 +1,20 @@
 # Emberfall release plan
 
-Status: planning only, as of v0.5.1 (Android internal testing). Nothing in here has been built yet.
+Status: in progress, as of v0.5.4 (code 13) on the closed testing track. Week 1 admin and crash reporting are done; Google sign-in coding starts Nov 2.
 
 ## Where things stand
 
 | Area | Current state in the repo |
 |---|---|
 | Login | `LoginManager` signs in **anonymously** with Unity Authentication, then asks the player to type a name. `UnityAuthIdentity` returns `"offline"` when not signed in. |
-| Google Play Games | Plugin v2.1.0 is imported (`Assets/GooglePlayGames`, manifest androidlib, `GPGSIds.cs` with one leaderboard ID), but `PlayGamesManager` is commented out, so it isn't used. |
+| Google Play Games | Plugin v2.1.0 is imported (`Assets/GooglePlayGames`, manifest androidlib, `GPGSIds.cs` with one leaderboard ID), but `PlayGamesManager` is commented out, so it isn't used. The console side (game project, credentials, UGS provider, testers) is set up. |
 | Save | `SaveService` writes `{playerId}_save.json` to `persistentDataPath` (local only, save version 4). |
 | Talents / research data | `Talents.json` / `Research.json` are bundled Addressables. |
 | Leaderboards | Unity Leaderboards (`High_Scores_<Difficulty>`). The GPGS leaderboard in `GPGSIds` isn't used. |
 | Currencies | `Cinders`, `Embers` live in the local save. Nothing is validated on a server. |
 | Achievements / shop / ads | None. |
-| Android build | versionCode 10, minSdk 25, targetSdk = "highest installed". |
+| Crash reporting | Unity Diagnostics (since v0.5.4). |
+| Android build | v0.5.4 / versionCode 13 on the closed track, minSdk 25, targetSdk = "highest installed". |
 | iOS | Not set up. |
 
 ## Two things to decide first
@@ -31,9 +32,11 @@ These choices affect almost every other workstream.
 
 Everything below depends on a stable, recoverable player ID. Right now, a player who reinstalls loses their anonymous account.
 
-- [ ] Play Console → Play Games Services: create or confirm the game project and link it to the app. Add OAuth credentials: an Android client for **both** the upload key SHA-1 and the Play App Signing SHA-1, plus a **web client** for the server auth code.
-  - Progress (Oct 28): Play Games project `emberfall-dev` created and linked, SDK step and testers done. OAuth consent screen being finished (scopes `games`, `games_lite`, `drive.appdata`, no logo, so no verification needed). Credentials (both SHA-1s plus web client) still open. Publish the project only right before the sign-in build ships.
-- [ ] Unity Dashboard → Authentication → add the Google Play Games identity provider (web client ID and secret).
+- [x] Play Console → Play Games Services: create or confirm the game project and link it to the app. Add OAuth credentials: an Android client for **both** the upload key SHA-1 and the Play App Signing SHA-1, plus a **web client** for the server auth code.
+  - Done (Oct 28): Play Games project `emberfall-dev` (player-facing name Emberfall) created and linked. Three credentials: Android with the Play App Signing SHA-1, Android with the upload key SHA-1, and a Game server (web) client. You and the closed track are added under Testers. OAuth consent screen is "In production" with app name Emberfall (scopes `games`, `games_lite`, `drive.appdata`, no logo). Sideloaded debug-keystore builds need a fourth Android credential with that SHA-1. Publish the project only right before the sign-in build ships.
+- [x] Unity Dashboard → Authentication → add the Google Play Games identity provider (web client ID and secret).
+  - Done (Oct 28). Authentication isn't environment-scoped, so the provider and player accounts are shared by `development` and `production`. Use a throwaway account when testing account deletion. Leaderboards are recreated in `development`.
+- [ ] Optional, before launch: submit **branding verification** for the OAuth consent screen (Google Cloud → Google Auth Platform → Branding; the console says the branding must be verified before it is shown to users). It needs a homepage URL, the privacy policy link, a support email and an authorized domain verified in Search Console, and can take days or weeks. Scope verification is not needed (the scopes are non-sensitive). Check on a real device with a non-tester account whether a consent prompt appears at all.
 - [ ] Wire up GPGS v2: `PlayGamesPlatform.Activate()`. v2 signs in automatically at launch. Then `RequestServerSideAccess` → `AuthenticationService.SignInWithGooglePlayGamesAsync(authCode)`.
 - [ ] **Account linking:** existing internal testers have anonymous accounts. Use `LinkWithGooglePlayGamesAsync` on the anonymous session so progress (and leaderboard entries) carry over. Handle the "already linked to another account" error.
 - [ ] Keep anonymous sign-in as the fallback if GPGS sign-in fails or is declined. Offer "Sign in with Google" later from settings.
@@ -96,10 +99,10 @@ The App content section in Play Console needs all of these:
 - [x] Privacy policy URL (hosted page covering UGS, ads and IAP data). Live and covers UGS only; update it with crash reporting, Google sign-in, cloud save, IAP and ads as they ship.
 - [x] App access (explain the login, or provide test credentials). Answered for the current build (anonymous sign-in, nothing restricted); re-check when Google sign-in, IAP and ads ship.
 - [x] Ads declaration. "No ads" for the current build; redo in the ads release together with the Data safety form and advertising ID answer.
-- [ ] Content rating (IARC questionnaire)
-- [ ] Target audience and content
-- [ ] Data safety form (account info, game progress, purchase history, ad IDs, crash/diagnostics data)
-- [ ] Data deletion URL (from workstream 1)
+- [x] Content rating (IARC questionnaire)
+- [x] Target audience and content
+- [x] Data safety form (account info, game progress, purchase history, ad IDs, crash/diagnostics data). Answered for v0.5.4 (UGS data plus crash logs, diagnostics and the installation ID); update it as features ship, per [Re-check when features ship](#re-check-when-features-ship).
+- [x] Data deletion URL (from workstream 1). Filled in, pointing to the support site's `delete-account.html`; update that page when Google sign-in and cloud save ship.
 
 Store listing and build:
 
