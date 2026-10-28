@@ -70,6 +70,7 @@ crashlytics-build.properties
 
 # Addressables generated files
 Assets/AddressableAssetsData/link.xml
+Assets/AddressableAssetsData/link.xml.meta
 Assets/AddressableAssetsData/**/*.bin
 Assets/AddressableAssetsData/**/*.json
 
