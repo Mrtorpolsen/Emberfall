@@ -195,6 +195,42 @@ Target: **Android 1.0 live before Feb 1, 2027**. iOS follows if time allows. Pla
 - The payments profile and merchant account being approved before week 6.
 - Access to a Mac or a cloud build service for iOS
 
+## Re-check when features ship
+
+Store declarations and the privacy policy must match the build on the track. When a feature below lands in a build, update everything listed for it in the same release. The daily briefing should remind about these when the matching work starts or ships.
+
+**Crash reporting** (Week 1)
+- [ ] Data safety form: crash logs and diagnostics, device or other IDs the tool uses
+- [ ] Privacy policy: name the crash tool and the data it receives, update the "Last updated" date
+
+**Google Play Games sign-in, cloud save, account deletion** (Weeks 2–4)
+- [ ] Publish the Play Games project right before the sign-in build ships (add testers under Testers until then)
+- [ ] App access declaration: re-check (anonymous fallback should keep it unrestricted)
+- [ ] Data safety form: email or Google account info, game progress stored on the server
+- [ ] Privacy policy: Google sign-in, cloud save (progress is no longer device-only), in-app account deletion; update the section 6 deletion wording
+- [ ] Data deletion URL in Play Console
+
+**Achievements** (Week 5)
+- [ ] Data safety form and privacy policy: achievement progress
+
+**IAP** (Weeks 6–7)
+- [ ] Trader status and public address: re-check Account details, make sure the payments profile is approved
+- [ ] Data safety form: purchase history
+- [ ] Privacy policy: purchases and payment processing by Google
+- [ ] App access declaration: re-check
+- [ ] Tax category per product (agreement 3.5 makes the developer responsible)
+- [ ] Credit card statement name in the payments profile
+
+**Ads and consent** (Week 8)
+- [ ] "Contains ads" declaration in Play Console
+- [ ] Advertising ID answer, and check the merged manifest for `AD_ID`
+- [ ] Data safety form: device or other IDs and the ad SDK's data collection
+- [ ] Privacy policy: remove "we don't show ads" and "no advertising IDs", describe the ad provider and the consent form
+- [ ] Target audience stays 13+ (avoid the Families program)
+
+**Renaming the game**
+- [ ] OAuth consent screen app name (must match the Play Games project name), store listing, credit card statement name, privacy policy
+
 ## Releasing
 
 Releases are tags on `master`; there are no release branches.
