@@ -100,7 +100,8 @@ public class LeaderboardService : MonoBehaviour
 
         if (!IsLoggedIn())
         {
-            Debug.LogError("Not logged in");
+            // Expected when playing offline
+            Debug.Log("Not logged in; high scores unavailable");
             return userHighScores;
         }
 

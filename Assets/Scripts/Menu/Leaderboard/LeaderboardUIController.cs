@@ -32,6 +32,12 @@ public class LeaderboardUIController : IUIScreenController
             view.RenderLeaderboard(scores[difficultyLevel]);
             view.SetActiveLeaderboardBtn(difficultyLevel);
         }
+        catch (System.Exception e)
+        {
+            // Offline (not signed in) or the service is unreachable
+            Debug.LogWarning("Failed to load leaderboard: " + e.Message);
+            Toast.Show("Couldn't load the leaderboard. Check your connection.");
+        }
         finally
         {
             LoadingSpinner.Instance.HideSpinner();

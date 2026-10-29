@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 // A message that drops down from the top of the screen and hides itself. Each UI Toolkit scene calls Attach
-// with its root once; Show uses the most recently attached root. Built in code so it needs no UXML/USS.
+// with its root once; Show uses the most recently attached root. A message shown while no root is attached
+// (e.g. right before a scene change) waits for the next Attach. Built in code so it needs no UXML/USS.
 public static class Toast
 {
     private const long VisibleMs = 3000;
@@ -12,6 +13,7 @@ public static class Toast
     private static VisualElement banner;
     private static Label label;
     private static IVisualElementScheduledItem hideTask;
+    private static string pendingMessage;
 
     public static void Attach(VisualElement root)
     {
@@ -39,17 +41,26 @@ public static class Toast
 
         SetVisible(false);
         root.Add(banner);
+
+        if (pendingMessage != null)
+        {
+            string message = pendingMessage;
+            pendingMessage = null;
+
+            // Next frame, so the banner slides in from its hidden position
+            banner.schedule.Execute(() => Show(message));
+        }
     }
 
     public static void Show(string message)
     {
-        Debug.Log("Toast: " + message);
-
         if (banner?.panel == null)
         {
-            Debug.LogWarning("Toast has no attached root; message not shown");
+            pendingMessage = message;
             return;
         }
+
+        Debug.Log("Toast: " + message);
 
         label.text = message;
         banner.BringToFront();

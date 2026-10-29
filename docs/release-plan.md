@@ -43,6 +43,7 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
 - [ ] Keep anonymous sign-in as the fallback if GPGS sign-in fails or is declined. Offer "Sign in with Google" later from settings.
 - [ ] Username: default to the GPGS display name, or keep the custom name prompt (and its validation).
 - [ ] Replace the `"offline"` player ID in `UnityAuthIdentity`. Offline play needs a defined behavior (play locally with a cached ID, then sync later).
+  - Code in (Oct 29), awaiting a device test: if restoring a saved session fails, `LoginManager` plays offline with the last player ID and name cached in PlayerPrefs (`UnityAuthIdentity`); leaderboards are unavailable and sign-in is retried on the next launch. A first launch still needs a connection. Scores from offline matches are still dropped (see "Offline and failure handling" under Release readiness).
 - [ ] **Account deletion** (required by both Google Play and Apple when accounts exist): an in-app "delete account" option that calls `DeleteAccountAsync` and clears Cloud Save, plus a web URL/form for the Play Console data-deletion field.
 ### 2. Cloud save and remote data
 

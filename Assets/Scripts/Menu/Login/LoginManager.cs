@@ -20,6 +20,8 @@ public class LoginManager : MonoBehaviour
     private TextField input_name;
     private Button btn_login;
 
+    private const string LAST_PLAYER_NAME_KEY = "LastPlayerName";
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -48,22 +50,53 @@ public class LoginManager : MonoBehaviour
                 await auth.SignInAnonymouslyAsync();
                 Debug.Log("Signed in! PlayerID: " + auth.PlayerId);
             }
-            catch (AuthenticationException e)
+            catch (RequestFailedException e)
             {
-                Debug.LogError("Authentication failed: " + e);
-                return;
+                // Offline or the service is down. Any failure plays offline, so a server error never costs a guest their account.
+                Debug.LogWarning("Restoring the session failed: " + e);
+
+                if (TryStartOffline())
+                {
+                    return;
+                }
+
+                Toast.Show("Couldn't connect. Check your connection and try again.");
             }
         }
 
         if (auth.IsSignedIn && !string.IsNullOrEmpty(auth.PlayerName))
         {
-            UserProfile.Instance.userName = auth.PlayerName;
+            ApplyUserName(auth.PlayerName);
             Login();
             return;
         }
 
         // ensure rootVisualElement is ready
         uiDocument.rootVisualElement.schedule.Execute(_ => InitializeUI());
+    }
+
+    // Plays locally as the last signed-in player (UnityAuthIdentity falls back to the cached ID); sign-in is retried
+    // on the next launch. Needs a previous online launch to have cached the ID and name.
+    private bool TryStartOffline()
+    {
+        string playerName = PlayerPrefs.GetString(LAST_PLAYER_NAME_KEY, null);
+        if (IdentityService.Instance.Current.GetPlayerId() == null || string.IsNullOrEmpty(playerName))
+        {
+            return false;
+        }
+
+        UserProfile.Instance.userName = playerName;
+        Toast.Show("Couldn't connect. Playing offline; leaderboards are unavailable.");
+        Login();
+        return true;
+    }
+
+    // Cached for offline launches
+    private static void ApplyUserName(string playerName)
+    {
+        UserProfile.Instance.userName = playerName;
+        PlayerPrefs.SetString(LAST_PLAYER_NAME_KEY, playerName);
+        PlayerPrefs.Save();
     }
 
     private void InitializeUI()
@@ -158,7 +191,7 @@ public class LoginManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(auth.PlayerName))
         {
-            UserProfile.Instance.userName = auth.PlayerName;
+            ApplyUserName(auth.PlayerName);
             Login();
             return;
         }
@@ -189,7 +222,7 @@ public class LoginManager : MonoBehaviour
         try
         {
             await AuthenticationService.Instance.UpdatePlayerNameAsync(newName);
-            UserProfile.Instance.userName = AuthenticationService.Instance.PlayerName;
+            ApplyUserName(AuthenticationService.Instance.PlayerName);
             Debug.Log("Name updated: " + newName);
 
             Login();
