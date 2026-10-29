@@ -22,26 +22,30 @@ public static class PlayGamesManager
 #if UNITY_ANDROID && !UNITY_EDITOR
         var result = new TaskCompletionSource<string>();
 
-        PlayGamesPlatform.Activate();
-        PlayGamesPlatform.Instance.Authenticate(status =>
+        // The plugin throws on misconfiguration (e.g. a missing web client ID); without the guards the task would never complete
+        Guarded(result, () =>
         {
-            if (status == SignInStatus.Success)
+            PlayGamesPlatform.Activate();
+            PlayGamesPlatform.Instance.Authenticate(status => Guarded(result, () =>
             {
-                RequestAuthCode(result);
-                return;
-            }
-
-            PlayGamesPlatform.Instance.ManuallyAuthenticate(manualStatus =>
-            {
-                if (manualStatus != SignInStatus.Success)
+                if (status == SignInStatus.Success)
                 {
-                    Debug.Log("Play Games sign-in unavailable: " + manualStatus);
-                    result.TrySetResult(null);
+                    RequestAuthCode(result);
                     return;
                 }
 
-                RequestAuthCode(result);
-            });
+                PlayGamesPlatform.Instance.ManuallyAuthenticate(manualStatus => Guarded(result, () =>
+                {
+                    if (manualStatus != SignInStatus.Success)
+                    {
+                        Debug.Log("Play Games sign-in unavailable: " + manualStatus);
+                        result.TrySetResult(null);
+                        return;
+                    }
+
+                    RequestAuthCode(result);
+                }));
+            }));
         });
 
         return result.Task;
@@ -54,6 +58,19 @@ public static class PlayGamesManager
     private static void RequestAuthCode(TaskCompletionSource<string> result)
     {
         PlayGamesPlatform.Instance.RequestServerSideAccess(false, code => result.TrySetResult(string.IsNullOrEmpty(code) ? null : code));
+    }
+
+    private static void Guarded(TaskCompletionSource<string> result, System.Action action)
+    {
+        try
+        {
+            action();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Play Games sign-in failed: " + e);
+            result.TrySetResult(null);
+        }
     }
 #endif
 }

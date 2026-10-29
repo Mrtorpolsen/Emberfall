@@ -88,6 +88,8 @@ public class LoginManager : MonoBehaviour
         input_name = UtilityUIBinding.QRequired<TextField>(root, "Input_Username");
         btn_login = UtilityUIBinding.QRequired<Button>(root, "Btn_Login");
 
+        Toast.Attach(root);
+
         btn_signInGoogle.style.display = PlayGamesManager.IsSupported ? DisplayStyle.Flex : DisplayStyle.None;
 
         btn_signInGoogle.clicked += OnSignInGoogleClicked;
@@ -115,7 +117,7 @@ public class LoginManager : MonoBehaviour
 
             await auth.SignInWithGooglePlayGamesAsync(authCode);
             return true;
-        });
+        }, "Couldn't sign in with Google. Try again or continue as guest.");
     }
 
     private async void OnContinueGuestClicked()
@@ -124,12 +126,12 @@ public class LoginManager : MonoBehaviour
         {
             await auth.SignInAnonymouslyAsync();
             return true;
-        });
+        }, "Couldn't sign in. Check your connection and try again.");
     }
 
     // signIn returns false if the player cancelled. On cancel or failure the choice stays on screen
     // so the player can retry or pick another option.
-    private async Task SignInAsync(System.Func<IAuthenticationService, Task<bool>> signIn)
+    private async Task SignInAsync(System.Func<IAuthenticationService, Task<bool>> signIn, string failureMessage)
     {
         var auth = AuthenticationService.Instance;
         panel_signIn.SetEnabled(false);
@@ -147,6 +149,7 @@ public class LoginManager : MonoBehaviour
 
         if (!signedIn)
         {
+            Toast.Show(failureMessage);
             panel_signIn.SetEnabled(true);
             return;
         }
@@ -179,7 +182,7 @@ public class LoginManager : MonoBehaviour
         string newName = input_name.text.Trim();
         if (string.IsNullOrEmpty(newName))
         {
-            Debug.LogWarning("Username cannot be empty!");
+            Toast.Show("Please enter a name.");
             return;
         }
 
@@ -194,6 +197,7 @@ public class LoginManager : MonoBehaviour
         catch (AuthenticationException e)
         {
             Debug.LogError("Failed to update username: " + e);
+            Toast.Show("Couldn't set that name. Try another one.");
         }
     }
 
