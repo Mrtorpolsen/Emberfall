@@ -43,6 +43,7 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
 - [ ] Keep anonymous sign-in as the fallback if GPGS sign-in fails or is declined. Offer "Sign in with Google" later from settings.
 - [ ] Username: default to the GPGS display name, or keep the custom name prompt (and its validation).
   - Decided (Oct 29): keep the prompt; for new Play Games accounts it's prefilled with the Play Games name (whitespace removed, cut to 12 characters). Awaiting a device test.
+  - Names are checked by `ProfanityFilter` against `Assets/Data/ProfanityWords.txt` (curated LDNOOBW list plus an allowlist).
 - [ ] Replace the `"offline"` player ID in `UnityAuthIdentity`. Offline play needs a defined behavior (play locally with a cached ID, then sync later).
   - Code in (Oct 29), awaiting a device test: if restoring a saved session fails, `LoginManager` plays offline with the last player ID and name cached in PlayerPrefs (`UnityAuthIdentity`); leaderboards are unavailable and sign-in is retried on the next launch. A first launch still needs a connection. Scores from offline matches are still dropped (see "Offline and failure handling" under Release readiness).
 - [ ] **Account deletion** (required by both Google Play and Apple when accounts exist): an in-app "delete account" option that calls `DeleteAccountAsync` and clears Cloud Save, plus a web URL/form for the Play Console data-deletion field.
@@ -128,7 +129,7 @@ Store listing and build:
 - [ ] Apple Small Business Program: you must enroll to get the 15% fee instead of 30%. Google's 15% on the first $1M a year is automatic.
 - [x] **Support email** in the store listing (required). One simple website can hold the privacy policy, the account deletion page and the support contact.
 - [ ] **Loot box odds:** if anything you sell is randomized, both stores require the odds to be shown before purchase.
-- [ ] **Asset licenses:** confirm that all art, music, fonts and asset packs (e.g. `CrystalFramework`) allow commercial use. Add open-source attributions (Newtonsoft, GPGS, ad/IAP SDKs) to a credits/licenses screen.
+- [ ] **Asset licenses:** confirm that all art, music, fonts and asset packs (e.g. `CrystalFramework`) allow commercial use. Add open-source attributions (Newtonsoft, GPGS, ad/IAP SDKs, and the LDNOOBW word list behind the name filter, CC BY 4.0) to a credits/licenses screen.
 - [ ] Unity license: Personal is fine below $200k revenue a year; above that you need Pro.
 - [ ] Name check: search the stores and trademark databases for "Emberfall" before spending on marketing.
 - [ ] **Username moderation:** custom names show on public leaderboards, which counts as user-generated content under store rules. Add a profanity/length filter and a way to rename or remove a name.

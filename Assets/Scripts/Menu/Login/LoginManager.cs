@@ -13,6 +13,7 @@ public class LoginManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private UIDocument uiDocument;
+    [SerializeField] private TextAsset profanityWords;
 
     private VisualElement panel_signIn;
     private VisualElement panel_name;
@@ -22,6 +23,8 @@ public class LoginManager : MonoBehaviour
     private Button btn_login;
 
     private const string LAST_PLAYER_NAME_KEY = "LastPlayerName";
+
+    private ProfanityFilter profanityFilter;
 
     private void Awake()
     {
@@ -39,7 +42,7 @@ public class LoginManager : MonoBehaviour
         await UnityServices.InitializeAsync();
 
         //Clears saved token FOR TESTING
-        //AuthenticationService.Instance.ClearSessionToken();
+        AuthenticationService.Instance.ClearSessionToken();
 
         var auth = AuthenticationService.Instance;
 
@@ -235,6 +238,12 @@ public class LoginManager : MonoBehaviour
             return;
         }
 
+        if (!IsNameAllowed(newName))
+        {
+            Toast.Show("That name isn't allowed. Try another one.");
+            return;
+        }
+
         try
         {
             await AuthenticationService.Instance.UpdatePlayerNameAsync(newName);
@@ -248,6 +257,19 @@ public class LoginManager : MonoBehaviour
             Debug.LogError("Failed to update username: " + e);
             Toast.Show("Couldn't set that name. Try another one.");
         }
+    }
+
+    private bool IsNameAllowed(string playerName)
+    {
+        if (profanityWords == null)
+        {
+            // Don't lock everyone out of signing up over a missing reference
+            Debug.LogError("Profanity word list is not assigned on LoginManager; name not checked");
+            return true;
+        }
+
+        profanityFilter ??= new ProfanityFilter(profanityWords.text);
+        return profanityFilter.IsAllowed(playerName);
     }
 
     private void OnDestroy()
