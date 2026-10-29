@@ -47,6 +47,7 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
 - [ ] Replace the `"offline"` player ID in `UnityAuthIdentity`. Offline play needs a defined behavior (play locally with a cached ID, then sync later).
   - Code in (Oct 29), awaiting a device test: if restoring a saved session fails, `LoginManager` plays offline with the last player ID and name cached in PlayerPrefs (`UnityAuthIdentity`); leaderboards are unavailable and sign-in is retried on the next launch. A first launch still needs a connection. Scores from offline matches are still dropped (see "Offline and failure handling" under Release readiness).
 - [ ] **Account deletion** (required by both Google Play and Apple when accounts exist): an in-app "delete account" option that calls `DeleteAccountAsync` and clears Cloud Save, plus a web URL/form for the Play Console data-deletion field.
+  - Code in (Oct 29), awaiting a test: tap the username in the top bar → Account popup → Delete account → confirm. `AccountService` deletes the UGS account, the local save and backups, the cached ID/name and the session, then restarts from Bootstrap. Check in the Dashboard whether the player's leaderboard entries go with the account. Cloud Save clearing comes with workstream 2.
 ### 2. Cloud save and remote data
 
 - [ ] Add packages: `com.unity.services.cloudsave` (and Remote Config or CCD for definitions).

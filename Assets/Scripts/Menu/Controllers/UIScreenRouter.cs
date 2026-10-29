@@ -50,6 +50,12 @@ public class UIScreenRouter : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    private void OnDestroy()
+    {
+        // The event is static: a destroyed router (e.g. after the account-deletion restart) must stop handling scene loads
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void Start()
     {
         var root = uiDocument.rootVisualElement;

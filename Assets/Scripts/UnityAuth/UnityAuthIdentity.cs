@@ -19,4 +19,9 @@ public class UnityAuthIdentity : IPlayerIdentity
 
         return PlayerPrefs.GetString(LAST_PLAYER_ID_KEY, null);
     }
+
+    public static void ClearCachedPlayer()
+    {
+        PlayerPrefs.DeleteKey(LAST_PLAYER_ID_KEY);
+    }
 }

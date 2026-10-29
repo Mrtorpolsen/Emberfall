@@ -70,6 +70,12 @@ public static class Toast
         hideTask = banner.schedule.Execute(() => SetVisible(false)).StartingIn(VisibleMs);
     }
 
+    // For a message that should outlive the current scene (e.g. right before a restart)
+    public static void ShowOnNextScreen(string message)
+    {
+        pendingMessage = message;
+    }
+
     private static void SetVisible(bool visible)
     {
         banner.style.translate = new Translate(0, Length.Percent(visible ? 0 : -100));

@@ -22,7 +22,7 @@ public class LoginManager : MonoBehaviour
     private TextField input_name;
     private Button btn_login;
 
-    private const string LAST_PLAYER_NAME_KEY = "LastPlayerName";
+    public const string LAST_PLAYER_NAME_KEY = "LastPlayerName";
 
     private ProfanityFilter profanityFilter;
 
@@ -42,7 +42,7 @@ public class LoginManager : MonoBehaviour
         await UnityServices.InitializeAsync();
 
         //Clears saved token FOR TESTING
-        AuthenticationService.Instance.ClearSessionToken();
+        //AuthenticationService.Instance.ClearSessionToken();
 
         var auth = AuthenticationService.Instance;
 

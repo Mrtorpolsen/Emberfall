@@ -51,6 +51,8 @@ Menus are UI Toolkit (UXML/USS under `Assets/UI Toolkit/`), not uGUI. `UIScreenR
 
 Init order is View → Controller → Events; on swap, Events and Controller are cleaned up. Adding a screen = create the three classes under `Scripts/Menu/<Feature>/`, a UXML, a `VisualTreeAsset` field on `UIScreenRouter`, and a `RegisterScreen` call. Long-lived per-feature state lives in `*Service` classes (`TalentService`, `ResearchService`, `LoadoutService`, `LeaderboardService`).
 
+Tapping the username in the top bar opens `AccountPopup` (account deletion via `AccountService`, which restarts the game from Bootstrap by destroying our DontDestroyOnLoad objects).
+
 Short player-facing messages (errors, confirmations) go through `Toast.Show(message)`, a drop-down banner built in code; `LoginManager` and `Bootstrapper` attach it to their UIDocument roots. Modal popups with buttons use `PopupManager`.
 
 The in-game HUD (`Game/UI/UIManager`, `ActionButton`) is separate from the menu router.
