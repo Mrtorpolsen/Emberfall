@@ -100,6 +100,11 @@ public class Talent
 
     public TalentCostModel Cost;            // built from presets on load
 
+    public bool IsUnlockType =>
+        Type == TalentType.UnitUnlock ||
+        Type == TalentType.AbilityUnlock ||
+        Type == TalentType.TowerUnlock;
+
     public int GetCurrentCost()
     {
         float baseCost = Cost.BaseCost;      // e.g. 100

@@ -377,7 +377,9 @@ public class LoadoutUIController : IUIScreenController
                     "Damage: " + stats.attackDamage + "\n" +
                     "Attack Speed: " + stats.attackSpeed + "\n" +
                     "Attack Range: " + stats.attackRange + "\n" +
+                    "Crit Chance: " + stats.critChance + "\n" +
                     "Crit Damage: " + stats.critDamage + "\n" +
+                    "Movement Speed: " + stats.movementSpeed + "\n" +
                     "Mass: " + stats.mass;
                 break;
         }
@@ -427,6 +429,7 @@ public class LoadoutUIController : IUIScreenController
                     "Attack Range: " + stats.Get(StatType.AttackRange) + "\n" +
                     "Crit Chance: " + stats.Get(StatType.CritChance) + "\n" +
                     "Crit Damage: " + stats.Get(StatType.CritDamage) + "\n" +
+                    "Movement Speed: " + stats.Get(StatType.MovementSpeed) + "\n" +
                     "Mass: " + stats.GetInt(StatType.Mass);
                 break;
         }
