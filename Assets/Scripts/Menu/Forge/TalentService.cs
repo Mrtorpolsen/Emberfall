@@ -192,6 +192,53 @@ public class TalentService : MonoBehaviour
         }
     }
 
+    public bool CanAfford(int cost)
+    {
+        return cost <= CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
+    }
+
+    public async Task<TalentPurchaseResult> TryPurchaseAsync(string unitName, Talent talent)
+    {
+        int max = talent.Purchase.MaxPurchases;
+
+        //Repull live state
+        int owned = GetPurchasedTalent(unitName, talent.Id);
+        if (owned >= max)
+            return TalentPurchaseResult.Failed(owned);
+
+        int cost = talent.GetCurrentCost();
+        if (!CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, cost))
+        {
+            Debug.LogWarning("Failed to spend currency / buy talent");
+            return TalentPurchaseResult.Failed(owned);
+        }
+
+        AddTalent(unitName, talent.Id);
+        RecordCurrencySpent(CurrencyTypes.Cinders, cost);
+
+        TalentUnlockManager.Instance.AddPoints(unitName.ToLowerInvariant(), talent.Tier, 1);
+
+        if (talent.IsUnlockType)
+        {
+            UnlockService.Instance.Unlock(talent.Id);
+        }
+
+        await SaveService.Instance.SaveAsync();
+
+        owned = GetPurchasedTalent(unitName, talent.Id);
+        bool canBuyMore = owned < max && CanAfford(talent.GetCurrentCost());
+
+        return new TalentPurchaseResult(true, owned, canBuyMore);
+    }
+
+    private void RecordCurrencySpent(CurrencyTypes currency, int amount)
+    {
+        var currencySpent = SaveService.Instance.Current.Talents.CurrencySpent;
+
+        currencySpent.TryGetValue(currency, out int spent);
+        currencySpent[currency] = spent + amount;
+    }
+
     public int GetPurchasedTalent(string unitName, string talentId)
     {
         if (SaveService.Instance.Current.Talents.Purchases.TryGetValue(unitName, out var unitPurchase) &&
@@ -202,4 +249,20 @@ public class TalentService : MonoBehaviour
 
         return 0;
     }
+}
+
+public readonly struct TalentPurchaseResult
+{
+    public readonly bool Success;
+    public readonly int Owned;
+    public readonly bool CanBuyMore;
+
+    public TalentPurchaseResult(bool success, int owned, bool canBuyMore)
+    {
+        Success = success;
+        Owned = owned;
+        CanBuyMore = canBuyMore;
+    }
+
+    public static TalentPurchaseResult Failed(int owned) => new TalentPurchaseResult(false, owned, false);
 }

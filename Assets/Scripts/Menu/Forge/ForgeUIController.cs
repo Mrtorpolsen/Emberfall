@@ -135,7 +135,7 @@ public class ForgeUIController : IUIScreenController
                 .ToLowerInvariant(), talent.Prerequisites);
 
             int currentCost = talent.GetCurrentCost();
-            bool hasEnoughCurrency = currentCost < CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
+            bool hasEnoughCurrency = TalentService.Instance.CanAfford(currentCost);
 
             var popupBtn = new PopupButtonDefinition
             {
@@ -146,57 +146,20 @@ public class ForgeUIController : IUIScreenController
 
                 OnClick = async () =>
                 {
-                    //Repull live state
-                    int purchasedAfter = TalentService.Instance.GetPurchasedTalent(unitName, talent.Id);
-                    if (purchasedAfter >= max)
+                    var result = await TalentService.Instance.TryPurchaseAsync(unitName, talent);
+                    if (!result.Success)
                         return;
-
-                    int talentCost = talent.GetCurrentCost();
-                    //TODO add the currency logic
-                    bool succes = CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, talentCost);
-
-                    if (!succes)
-                    {
-                        Debug.LogWarning("Failed to spend currency / buy talent");
-                        return;
-                    }
-                    //Save and add points to talent req
-                    TalentService.Instance.AddTalent(unitName, talent.Id);
-
-                    var talentState = SaveService.Instance.Current.Talents;
-
-                    if (!talentState.CurrencySpent.TryGetValue(CurrencyTypes.Cinders, out int spent))
-                    {
-                        talentState.CurrencySpent[CurrencyTypes.Cinders] = talentCost;
-                    }
-                    else
-                    {
-                        talentState.CurrencySpent[CurrencyTypes.Cinders] = spent + talentCost;
-                    }
-
-                    TalentUnlockManager.Instance
-                        .AddPoints(unitName.ToLowerInvariant(), talent.Tier, 1);
-
-                    int updated = TalentService.Instance.GetPurchasedTalent(unitName, talent.Id);
-
-                    bool stillCanPurchase = updated < max && talentCost <= CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
-                    string purchasedTextNow = $"{updated}/{max}";
 
                     //update label to match new purchase
-                    PopupManager.Instance.UpdateButtonLabel(purchasedTextNow);
-                    PopupManager.Instance.ButtonIsActive(stillCanPurchase);
+                    PopupManager.Instance.UpdateButtonLabel($"{result.Owned}/{max}");
+                    PopupManager.Instance.ButtonIsActive(result.CanBuyMore);
 
-                    node.UpdatePurchasedText?.Invoke(updated, max);
+                    node.UpdatePurchasedText?.Invoke(result.Owned, max);
 
-                    if (talent.Type == TalentType.UnitUnlock ||
-                        talent.Type == TalentType.AbilityUnlock ||
-                        talent.Type == TalentType.TowerUnlock)
+                    if (talent.IsUnlockType)
                     {
-                        UnlockService.Instance.Unlock(talent.Id);
                         isDirty = true;
                     }
-
-                    await SaveService.Instance.SaveAsync();
                 }
             };
             PopupManager.Instance.OpenPopup_ImgDescBtn(talent.IconId, talent.Name, talent.Description, popupBtn);
