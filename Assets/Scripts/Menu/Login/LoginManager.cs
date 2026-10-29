@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -149,6 +150,9 @@ public class LoginManager : MonoBehaviour
             }
 
             await auth.SignInWithGooglePlayGamesAsync(authCode);
+
+            // Suggested in the name prompt, which only shows if the account has no name yet
+            input_name.value = ToNameSuggestion(PlayGamesManager.GetDisplayName());
             return true;
         }, "Couldn't sign in with Play Games. Try again or continue as guest.");
     }
@@ -197,6 +201,18 @@ public class LoginManager : MonoBehaviour
         }
 
         ShowPanel(panel_name);
+    }
+
+    // Player names can't contain whitespace and the field caps the length
+    private string ToNameSuggestion(string displayName)
+    {
+        if (string.IsNullOrEmpty(displayName))
+        {
+            return "";
+        }
+
+        string name = new string(displayName.Where(c => !char.IsWhiteSpace(c)).ToArray());
+        return name.Length > input_name.maxLength ? name.Substring(0, input_name.maxLength) : name;
     }
 
     private async void OnLoginClicked()

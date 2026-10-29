@@ -54,6 +54,16 @@ public static class PlayGamesManager
 #endif
     }
 
+    // The signed-in player's Play Games name, or null
+    public static string GetDisplayName()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        return PlayGamesPlatform.Instance.IsAuthenticated() ? PlayGamesPlatform.Instance.GetUserDisplayName() : null;
+#else
+        return null;
+#endif
+    }
+
 #if UNITY_ANDROID && !UNITY_EDITOR
     private static void RequestAuthCode(TaskCompletionSource<string> result)
     {
