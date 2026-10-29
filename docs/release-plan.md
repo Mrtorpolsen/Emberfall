@@ -47,7 +47,13 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
 - [ ] Replace the `"offline"` player ID in `UnityAuthIdentity`. Offline play needs a defined behavior (play locally with a cached ID, then sync later).
   - Code in (Oct 29), awaiting a device test: if restoring a saved session fails, `LoginManager` plays offline with the last player ID and name cached in PlayerPrefs (`UnityAuthIdentity`); leaderboards are unavailable and sign-in is retried on the next launch. A first launch still needs a connection. Scores from offline matches are still dropped (see "Offline and failure handling" under Release readiness).
 - [ ] **Account deletion** (required by both Google Play and Apple when accounts exist): an in-app "delete account" option that calls `DeleteAccountAsync` and clears Cloud Save, plus a web URL/form for the Play Console data-deletion field.
-  - Code in (Oct 29), awaiting a test: tap the username in the top bar → Account popup → Delete account → confirm. `AccountService` deletes the UGS account, the local save and backups, the cached ID/name and the session, then restarts from Bootstrap. Check in the Dashboard whether the player's leaderboard entries go with the account. Cloud Save clearing comes with workstream 2.
+  - Done in code (Oct 29), tested in the Editor: tap the username in the top bar → Account popup → Delete account → confirm. `AccountService` deletes the UGS account, the local save and backups, the cached ID/name and the session, then restarts from Bootstrap. Leaderboard entries stay behind (see the next item). Cloud Save clearing comes with workstream 2.
+- [ ] **Delete the player's leaderboard scores on account deletion (Cloud Code).** `DeleteAccountAsync` only deletes the Authentication account; Unity's docs say the game must delete the player's data in other UGS services. The Leaderboards client SDK can't delete scores, only the Admin API can (`DeleteLeaderboardPlayerScoreAllLiveLeaderboards`), and that needs server credentials. Do this before the sign-in build ships, since the deletion page and Data safety form will say the data is removed.
+  - Add `com.unity.services.cloudcode` and one Cloud Code function (JS script or C# module) that deletes the calling player's scores from all live leaderboards.
+  - Give it Admin API access (probably a service account key in Secret Manager; confirm whether Cloud Code can call the Admin API without one) and deploy it.
+  - `AccountService`: call it before `DeleteAccountAsync`, while still signed in; if it fails, don't delete the account.
+  - Workstream 2: extend the same function to delete the player's Cloud Save items (Cloud Save Admin API). Analytics deletion is a separate request (different user ID).
+  - Rough effort: half a day to a day, mostly first-time Cloud Code and service account setup.
 ### 2. Cloud save and remote data
 
 - [ ] Add packages: `com.unity.services.cloudsave` (and Remote Config or CCD for definitions).
