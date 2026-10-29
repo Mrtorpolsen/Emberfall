@@ -4,7 +4,7 @@
     <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/UI/Backgrounds/background.png?fileID=-7443756053782179069&amp;guid=d06bc6ebb2ce77c45a96dde194896a09&amp;type=3#background_0&quot;);">
         <ui:VisualElement name="MainContainer" class="mainContainer" style="flex-grow: 1; justify-content: center;">
             <ui:VisualElement name="Panel_SignIn" style="display: none;">
-                <ui:Button text="Sign in with Google" name="Btn_SignInGoogle" class="btnBig btnBackground2x1" style="width: 90%;"/>
+                <ui:Button text="Sign in with Play Games" name="Btn_SignInGoogle" class="btnBig btnBackground2x1" style="width: 90%;"/>
                 <ui:Button text="Continue as guest" name="Btn_ContinueGuest" class="btnBig btnBackground2x1" style="width: 90%;"/>
             </ui:VisualElement>
             <ui:VisualElement name="Panel_Name" style="display: none;">

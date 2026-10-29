@@ -117,7 +117,7 @@ public class LoginManager : MonoBehaviour
 
             await auth.SignInWithGooglePlayGamesAsync(authCode);
             return true;
-        }, "Couldn't sign in with Google. Try again or continue as guest.");
+        }, "Couldn't sign in with Play Games. Try again or continue as guest.");
     }
 
     private async void OnContinueGuestClicked()
