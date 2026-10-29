@@ -11,6 +11,10 @@
                     <ui:Label text="0/5" name="Label_Btn" class="text" style="font-size: 40px; align-self: center; margin-top: 0;"/>
                     <ui:Button text="100" name="Btn_CTA" icon-image="project://database/Assets/Resources/UI/cinder_icon.png?fileID=2800000&amp;guid=f77a2714c975cc4498b0e9d815a84e25&amp;type=3#cinder_icon" class="btnBackground2x1 text btnCTA"/>
                 </ui:VisualElement>
+                <ui:VisualElement name="BtnContainerSecondary" style="flex-grow: 1; width: 100%; height: auto; justify-content: flex-end; max-width: 500px; display: none; flex-shrink: 0; margin-top: 20px;">
+                    <ui:Label text="Label" name="Label_BtnSecondary" class="text" style="font-size: 40px; align-self: center; margin-top: 0;"/>
+                    <ui:Button text="Button" name="Btn_CTASecondary" class="btnBackground2x1 text btnCTA"/>
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="PopupContentChoice" style="flex-grow: 1; display: none; width: 100%;">
                 <ui:VisualElement name="BtnContainer1" class="3BtnBtnContainer BtnBtnBtnContainer">

@@ -5,8 +5,55 @@ using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum LinkResult
+{
+    Linked,
+    Cancelled,
+    AlreadyLinkedElsewhere,
+    Failed
+}
+
 public static class AccountService
 {
+    // A guest (anonymous) account has no external sign-ins linked to it
+    public static bool IsGuest
+    {
+        get
+        {
+            var auth = AuthenticationService.Instance;
+            return auth.IsSignedIn && (auth.PlayerInfo?.Identities == null || auth.PlayerInfo.Identities.Count == 0);
+        }
+    }
+
+    // Links Play Games to the signed-in (guest) account, so its progress and leaderboard entries can be recovered on
+    // any device. If that Play Games account already belongs to another player, nothing changes: the player stays on
+    // this device's account (no cloud save yet, so the other account's progress isn't here anyway).
+    public static async Task<LinkResult> LinkPlayGamesAsync()
+    {
+        string authCode = await PlayGamesManager.GetServerAuthCodeAsync();
+        if (authCode == null)
+        {
+            return LinkResult.Cancelled;
+        }
+
+        try
+        {
+            await AuthenticationService.Instance.LinkWithGooglePlayGamesAsync(authCode);
+            Debug.Log("Linked Play Games to PlayerID: " + AuthenticationService.Instance.PlayerId);
+            return LinkResult.Linked;
+        }
+        catch (AuthenticationException e) when (e.ErrorCode == AuthenticationErrorCodes.AccountAlreadyLinked)
+        {
+            Debug.LogWarning("Play Games account is already linked to another player: " + e);
+            return LinkResult.AlreadyLinkedElsewhere;
+        }
+        catch (RequestFailedException e)
+        {
+            Debug.LogWarning("Linking Play Games failed: " + e);
+            return LinkResult.Failed;
+        }
+    }
+
     // Deletes the UGS account, then everything this install keeps about the player. Call RestartGame after a success.
     // Returns false if the account couldn't be deleted (e.g. offline); nothing local is touched then.
     public static async Task<bool> DeleteAccountAsync()
