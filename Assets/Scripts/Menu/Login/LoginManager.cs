@@ -13,6 +13,10 @@ public class LoginManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private UIDocument uiDocument;
 
+    private VisualElement panel_signIn;
+    private VisualElement panel_name;
+    private Button btn_signInGoogle;
+    private Button btn_continueGuest;
     private TextField input_name;
     private Button btn_login;
 
@@ -34,12 +38,15 @@ public class LoginManager : MonoBehaviour
         //Clears saved token FOR TESTING
         //AuthenticationService.Instance.ClearSessionToken();
 
-        if (!AuthenticationService.Instance.IsSignedIn)
+        var auth = AuthenticationService.Instance;
+
+        // A cached session (guest or Google) is restored without asking; only first launches get the sign-in choice
+        if (!auth.IsSignedIn && auth.SessionTokenExists)
         {
             try
             {
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                Debug.Log("Signed in! PlayerID: " + AuthenticationService.Instance.PlayerId);
+                await auth.SignInAnonymouslyAsync();
+                Debug.Log("Signed in! PlayerID: " + auth.PlayerId);
             }
             catch (AuthenticationException e)
             {
@@ -48,9 +55,9 @@ public class LoginManager : MonoBehaviour
             }
         }
 
-        if (!string.IsNullOrEmpty(AuthenticationService.Instance.PlayerName))
+        if (auth.IsSignedIn && !string.IsNullOrEmpty(auth.PlayerName))
         {
-            UserProfile.Instance.userName = AuthenticationService.Instance.PlayerName;
+            UserProfile.Instance.userName = auth.PlayerName;
             Login();
             return;
         }
@@ -74,10 +81,86 @@ public class LoginManager : MonoBehaviour
             return;
         }
 
+        panel_signIn = UtilityUIBinding.QRequired<VisualElement>(root, "Panel_SignIn");
+        panel_name = UtilityUIBinding.QRequired<VisualElement>(root, "Panel_Name");
+        btn_signInGoogle = UtilityUIBinding.QRequired<Button>(root, "Btn_SignInGoogle");
+        btn_continueGuest = UtilityUIBinding.QRequired<Button>(root, "Btn_ContinueGuest");
         input_name = UtilityUIBinding.QRequired<TextField>(root, "Input_Username");
         btn_login = UtilityUIBinding.QRequired<Button>(root, "Btn_Login");
 
+        btn_signInGoogle.style.display = PlayGamesManager.IsSupported ? DisplayStyle.Flex : DisplayStyle.None;
+
+        btn_signInGoogle.clicked += OnSignInGoogleClicked;
+        btn_continueGuest.clicked += OnContinueGuestClicked;
         btn_login.clicked += OnLoginClicked;
+
+        ShowPanel(AuthenticationService.Instance.IsSignedIn ? panel_name : panel_signIn);
+    }
+
+    private void ShowPanel(VisualElement panel)
+    {
+        panel_signIn.style.display = panel == panel_signIn ? DisplayStyle.Flex : DisplayStyle.None;
+        panel_name.style.display = panel == panel_name ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    private async void OnSignInGoogleClicked()
+    {
+        await SignInAsync(async auth =>
+        {
+            string authCode = await PlayGamesManager.GetServerAuthCodeAsync();
+            if (authCode == null)
+            {
+                return false;
+            }
+
+            await auth.SignInWithGooglePlayGamesAsync(authCode);
+            return true;
+        });
+    }
+
+    private async void OnContinueGuestClicked()
+    {
+        await SignInAsync(async auth =>
+        {
+            await auth.SignInAnonymouslyAsync();
+            return true;
+        });
+    }
+
+    // signIn returns false if the player cancelled. On cancel or failure the choice stays on screen
+    // so the player can retry or pick another option.
+    private async Task SignInAsync(System.Func<IAuthenticationService, Task<bool>> signIn)
+    {
+        var auth = AuthenticationService.Instance;
+        panel_signIn.SetEnabled(false);
+
+        bool signedIn;
+        try
+        {
+            signedIn = await signIn(auth);
+        }
+        catch (RequestFailedException e)
+        {
+            Debug.LogWarning("Sign-in failed: " + e);
+            signedIn = false;
+        }
+
+        if (!signedIn)
+        {
+            panel_signIn.SetEnabled(true);
+            return;
+        }
+
+        Debug.Log("Signed in! PlayerID: " + auth.PlayerId);
+
+        if (!string.IsNullOrEmpty(auth.PlayerName))
+        {
+            UserProfile.Instance.userName = auth.PlayerName;
+            Login();
+            return;
+        }
+
+        ShowPanel(panel_name);
     }
 
     private async void OnLoginClicked()
@@ -116,6 +199,16 @@ public class LoginManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (btn_signInGoogle != null)
+        {
+            btn_signInGoogle.clicked -= OnSignInGoogleClicked;
+        }
+
+        if (btn_continueGuest != null)
+        {
+            btn_continueGuest.clicked -= OnContinueGuestClicked;
+        }
+
         if (btn_login != null)
         {
             btn_login.clicked -= OnLoginClicked;
