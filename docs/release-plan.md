@@ -147,6 +147,7 @@ Store listing and build:
 - [x] Crash reporting: Unity Diagnostics, shipped in v0.5.4 (code 13). Sessions, managed exceptions and native crashes are reported, and native stack traces are symbolicated once the build's symbols are uploaded (see Releasing). There's no in-game opt-out yet. That belongs on the settings screen below. Note: a report's scene field is the scene open when the report is sent on the next launch, not where the crash happened.
 - [ ] Analytics: Unity Analytics or similar, still to decide.
 - [ ] Offline and failure handling: no internet at launch, a service outage, or sign-in failure shouldn't hard-block the game. The leaderboard already has a TODO for queueing scores.
+  - Reconnect mid-session: a session that starts offline (cached player) stays signed out until the next launch. Retry restoring the session when the connection comes back (e.g. on opening the leaderboard or account popup, or periodically) so the player doesn't have to restart the app.
 - [ ] Settings screen: audio, account (link Google, delete account), privacy/consent, restore purchases, credits/licenses.
 - [ ] Remove debug tools from release builds (`Game/Debug`, the `ClearSessionToken` comment in `LoginManager`) and check that Development Build is off. `CrashReportingTester` (on GameManager in `Game.unity`) is already safe: release builds compile only a stub that destroys itself.
 - [ ] Performance pass on low-end Android (profile captures already exist).
