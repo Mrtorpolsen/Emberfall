@@ -116,7 +116,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-/Assets/Resources/PerformanceTestRunInfo.json
+# Performance Testing package temp files (written during builds/test runs)
+/Assets/Resources/PerformanceTestRunInfo.json*
+/Assets/Resources/PerformanceTestRunSettings.json*
 
 #Claude
 .claude/settings.local.json

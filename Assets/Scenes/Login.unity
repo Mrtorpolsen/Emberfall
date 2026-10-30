@@ -464,6 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnityAuthManager
   uiDocument: {fileID: 728406444}
+  profanityWords: {fileID: 4900000, guid: 9bc5b102141bf5f44997131456a8422c, type: 3}
 --- !u!114 &1468156540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,29 +530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52437886dcfe96b459b35dc714135434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitStatsManager
-  unitStatsDefinition:
-  - {fileID: 11400000, guid: f26e67d815635184b8a481c0859587a6, type: 2}
-  - {fileID: 11400000, guid: f5d336250c7dbf644b2de1d239ceb949, type: 2}
-  - {fileID: 11400000, guid: 649e75f0602485142a45fea833aea99d, type: 2}
-  - {fileID: 11400000, guid: a2668b22ea2857445b3557b070e32e97, type: 2}
-  - {fileID: 11400000, guid: ed032cf3991e7234ebc9efaccd5b514c, type: 2}
-  - {fileID: 11400000, guid: 5e5df7e5fc317d040abc8e98991ce499, type: 2}
-  - {fileID: 11400000, guid: 24081ef77828bea43bb39961d9bb1829, type: 2}
-  - {fileID: 11400000, guid: 8d42d355c2c80f9479fe8f75a9660968, type: 2}
-  - {fileID: 11400000, guid: 002d4c92b41d2be44a087178c1d69a66, type: 2}
-  - {fileID: 11400000, guid: 5464acf54033ee841aa224b626747a0f, type: 2}
-  - {fileID: 11400000, guid: 9ed98afc7f903a14d9575483c3c1943d, type: 2}
-  - {fileID: 11400000, guid: 5fbc3762502dd5d4488e4ad266a3e34a, type: 2}
-  - {fileID: 11400000, guid: e1ba1a6a0cabcfb4697f53f87937fb7a, type: 2}
-  - {fileID: 11400000, guid: 61b8de39fe91045479d6ca88b499243d, type: 2}
-  - {fileID: 11400000, guid: 22eb9ed632672954d8803a8e8e665ef8, type: 2}
-  - {fileID: 11400000, guid: b5b8b9dbdf4ab404a94a0d46f6a72a9b, type: 2}
-  - {fileID: 11400000, guid: c69c17170bb08f94281b742fb0f93529, type: 2}
-  - {fileID: 11400000, guid: 14f30c6dcb4ae70409431eea907e3e75, type: 2}
-  - {fileID: 11400000, guid: c162392ed619a90488d31669be1b0c4b, type: 2}
-  - {fileID: 11400000, guid: 617a9e59edd0a1d49bd44648c2a34e65, type: 2}
-  - {fileID: 11400000, guid: ca5855a775cf7824a8ca4a7f40e505b8, type: 2}
-  - {fileID: 11400000, guid: 984869db916081943b0f362ea7e30532, type: 2}
 --- !u!4 &1504421781
 Transform:
   m_ObjectHideFlags: 0

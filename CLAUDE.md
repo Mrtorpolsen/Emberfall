@@ -40,6 +40,7 @@ Build order: `Bootstrap` → `Login` → `UI_Root` (menus) ⇄ `Game`.
 
 - `ServiceInitializer` (Bootstrap scene) creates the persistent services via `GlobalSystem<T>.Create()` (`IdentityService`, `SaveService`, `CurrencyManager`, `UnlockService`), initializes `SpawnDatabase`/`AbilityDatabase`, then loads `Login`.
 - `GlobalSystem<T>` (`Core/GlobalSystem.cs`) is the DontDestroyOnLoad singleton base. Many other managers (`UnitStatsManager`, `UIScreenRouter`, `SpawnDatabase`, `GameManager`, …) hand-roll the same `Instance` + `Awake` pattern instead.
+- `LoginManager` (Login) signs in through Unity Authentication. A cached session (guest or Google) is restored silently; on first launch the player chooses "Sign in with Play Games" (Google Play Games, Android only; `PlayGamesManager` fetches the server auth code) or "Continue as guest" (anonymous), then sets a name if the account has none (checked by `ProfanityFilter` against `Assets/Data/ProfanityWords.txt`, a TextAsset assigned on `LoginManager`; add `+word` lines there for false positives). If restoring a saved session fails (offline), it plays offline as the last player: `UnityAuthIdentity` caches the player ID in PlayerPrefs and returns it while signed out. GPGS only works in device builds.
 - `Bootstrapper` (UI_Root) runs after login: loads the save for the authenticated player, preloads addressables, initializes `UnitStatsManager` and `TutorialFlow`, then routes to `MainMenu`.
 
 ### Menu UI (UI Toolkit)
@@ -49,6 +50,10 @@ Menus are UI Toolkit (UXML/USS under `Assets/UI Toolkit/`), not uGUI. `UIScreenR
 - `IUIScreenEvents` — binds callbacks; must unregister in `Cleanup()`
 
 Init order is View → Controller → Events; on swap, Events and Controller are cleaned up. Adding a screen = create the three classes under `Scripts/Menu/<Feature>/`, a UXML, a `VisualTreeAsset` field on `UIScreenRouter`, and a `RegisterScreen` call. Long-lived per-feature state lives in `*Service` classes (`TalentService`, `ResearchService`, `LoadoutService`, `LeaderboardService`).
+
+Tapping the username in the top bar opens `AccountPopup` (guests: link Play Games; account deletion via `AccountService`, which first deletes the player's leaderboard scores through the `DeletePlayerScores` Cloud Code script, then restarts the game from Bootstrap by destroying our DontDestroyOnLoad objects). The script's source is `CloudCode/DeletePlayerScores.js`; it's deployed by pasting it into the Unity Dashboard, and it reads a service account key from Secret Manager.
+
+Short player-facing messages (errors, confirmations) go through `Toast.Show(message)`, a drop-down banner built in code; `LoginManager` and `Bootstrapper` attach it to their UIDocument roots. Modal popups with buttons use `PopupManager`.
 
 The in-game HUD (`Game/UI/UIManager`, `ActionButton`) is separate from the menu router.
 

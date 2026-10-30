@@ -147,6 +147,37 @@ public class SaveService : GlobalSystem<SaveService>
         }
     }
 
+    // Deletes the save with its temp file and backups (account deletion). Waits for a write in progress, and no
+    // later save is written, so nothing recreates the file before the game restarts.
+    public async Task DeleteSaveFilesAsync()
+    {
+        if (!ValidateSavePath())
+            return;
+
+        await saveLock.WaitAsync();
+
+        try
+        {
+            writtenSaveSequence = int.MaxValue;
+
+            string directory = Path.GetDirectoryName(savePath);
+            string fileName = Path.GetFileName(savePath);
+
+            await Task.Run(() =>
+            {
+                // <id>_save.json, .tmp and .<reason>-<date> backups
+                foreach (string file in Directory.GetFiles(directory, fileName + "*"))
+                {
+                    File.Delete(file);
+                }
+            });
+        }
+        finally
+        {
+            saveLock.Release();
+        }
+    }
+
     // Write to a temp file, then swap it in, so a crash or kill mid-write can't leave a truncated save
     private static void WriteAtomic(string path, string contents)
     {

@@ -23,6 +23,12 @@ public class PopupManager : MonoBehaviour
 
     private Action btnImgDescBtnAction;
 
+    private VisualElement btnSecondaryContainer;
+    private Label btnSecondaryLabel;
+    private Button btnSecondary;
+
+    private Action btnSecondaryAction;
+
     private VisualElement contentChoice;
     private VisualElement btnContainer1;
     private VisualElement btnContainer2;
@@ -51,6 +57,10 @@ public class PopupManager : MonoBehaviour
     private const string BTNCONTAINER = "BtnContainer";
     private const string BTNLABEL = "Label_Btn";
     private const string BTN_CTA = "Btn_CTA";
+
+    private const string BTN_CONTAINER_SECONDARY = "BtnContainerSecondary";
+    private const string BTN_LABEL_SECONDARY = "Label_BtnSecondary";
+    private const string BTN_CTA_SECONDARY = "Btn_CTASecondary";
 
     private const string CONTENT_CHOICE = "PopupContentChoice";
     private const string BTN_CONTAINER1 = "BtnContainer1";
@@ -99,6 +109,9 @@ public class PopupManager : MonoBehaviour
         btnImgDescBtnContainer = UtilityUIBinding.QRequired<VisualElement>(root, BTNCONTAINER);
         btnImgDescBtnLabel = UtilityUIBinding.QRequired<Label>(root, BTNLABEL);
         btnImgDescBtn = UtilityUIBinding.QRequired<Button>(root, BTN_CTA);
+        btnSecondaryContainer = UtilityUIBinding.QRequired<VisualElement>(root, BTN_CONTAINER_SECONDARY);
+        btnSecondaryLabel = UtilityUIBinding.QRequired<Label>(root, BTN_LABEL_SECONDARY);
+        btnSecondary = UtilityUIBinding.QRequired<Button>(root, BTN_CTA_SECONDARY);
 
         contentChoice = UtilityUIBinding.QRequired<VisualElement>(root, CONTENT_CHOICE);
         btnContainer1 = UtilityUIBinding.QRequired<VisualElement>(root, BTN_CONTAINER1);
@@ -128,7 +141,8 @@ public class PopupManager : MonoBehaviour
         string imgAddress = null,
         string heading = null,
         string description = null,
-        PopupButtonDefinition buttonDefinition = null)
+        PopupButtonDefinition buttonDefinition = null,
+        PopupButtonDefinition secondaryButtonDefinition = null)
     {
         blocker.style.display = DisplayStyle.Flex;
         contentImgDescBtn.style.display = DisplayStyle.Flex;
@@ -174,6 +188,16 @@ public class PopupManager : MonoBehaviour
         else
         {
             btnImgDescBtnContainer.style.display = DisplayStyle.None;
+        }
+
+        // Optional second button below the first (e.g. the account popup's Link + Delete)
+        if (secondaryButtonDefinition != null && secondaryButtonDefinition.OnClick != null)
+        {
+            ConfigureButton(secondaryButtonDefinition, btnSecondaryContainer, btnSecondaryLabel, btnSecondary, ref btnSecondaryAction);
+        }
+        else
+        {
+            HideSecondaryButton();
         }
     }
 
@@ -244,6 +268,8 @@ public class PopupManager : MonoBehaviour
 
         btnImgDescBtnAction = null;
 
+        HideSecondaryButton();
+
         btnContainer1.style.display = DisplayStyle.None;
         btnContainer2.style.display = DisplayStyle.None;
         btnContainer3.style.display = DisplayStyle.None;
@@ -273,6 +299,19 @@ public class PopupManager : MonoBehaviour
         btnAction2 = null;
         btnAction3 = null;
         btnAction4 = null;
+    }
+
+    private void HideSecondaryButton()
+    {
+        btnSecondaryContainer.style.display = DisplayStyle.None;
+        btnSecondary.SetEnabled(false);
+
+        if (btnSecondaryAction != null)
+        {
+            btnSecondary.clicked -= btnSecondaryAction;
+        }
+
+        btnSecondaryAction = null;
     }
 
     private void ConfigureButton(PopupButtonDefinition buttonDefinition,

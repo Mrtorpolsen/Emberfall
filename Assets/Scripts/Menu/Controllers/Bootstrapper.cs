@@ -14,6 +14,7 @@ public class Bootstrapper : MonoBehaviour
     private async void Start()
     {
         var root = uIDocument.rootVisualElement;
+        Toast.Attach(root);
 
         SplashScreenController splashScreenController = new SplashScreenController(splashVTA);
 

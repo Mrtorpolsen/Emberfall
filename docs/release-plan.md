@@ -6,8 +6,8 @@ Status: in progress, as of v0.5.4 (code 13) on the closed testing track. Week 1 
 
 | Area | Current state in the repo |
 |---|---|
-| Login | `LoginManager` signs in **anonymously** with Unity Authentication, then asks the player to type a name. `UnityAuthIdentity` returns `"offline"` when not signed in. |
-| Google Play Games | Plugin v2.1.0 is imported (`Assets/GooglePlayGames`, manifest androidlib, `GPGSIds.cs` with one leaderboard ID), but `PlayGamesManager` is commented out, so it isn't used. The console side (game project, credentials, UGS provider, testers) is set up. |
+| Login | On `feature/gpgs-sign-in` (tested on a device, Oct 30): `LoginManager` offers "Sign in with Play Games" or "Continue as guest", restores cached sessions silently, and plays offline with the cached player when a saved session can't be restored. Guests link Play Games and anyone deletes their account from the Account popup. |
+| Google Play Games | Plugin v2.1.0 (`Assets/GooglePlayGames`). `PlayGamesManager` gets the server auth code for Unity Authentication; release builds need the plugin's keep rules in `Assets/Plugins/Android/proguard-user.txt` (R8 strips `PlayGames` otherwise). The console side (game project, credentials, UGS provider, testers) is set up. |
 | Save | `SaveService` writes `{playerId}_save.json` to `persistentDataPath` (local only, save version 4). |
 | Talents / research data | `Talents.json` / `Research.json` are bundled Addressables. |
 | Leaderboards | Unity Leaderboards (`High_Scores_<Difficulty>`). The GPGS leaderboard in `GPGSIds` isn't used. |
@@ -33,16 +33,29 @@ These choices affect almost every other workstream.
 Everything below depends on a stable, recoverable player ID. Right now, a player who reinstalls loses their anonymous account.
 
 - [x] Play Console → Play Games Services: create or confirm the game project and link it to the app. Add OAuth credentials: an Android client for **both** the upload key SHA-1 and the Play App Signing SHA-1, plus a **web client** for the server auth code.
-  - Done (Oct 28): Play Games project `emberfall-dev` (player-facing name Emberfall) created and linked. Three credentials: Android with the Play App Signing SHA-1, Android with the upload key SHA-1, and a Game server (web) client. You and the closed track are added under Testers. OAuth consent screen is "In production" with app name Emberfall (scopes `games`, `games_lite`, `drive.appdata`, no logo). Sideloaded debug-keystore builds need a fourth Android credential with that SHA-1. Publish the project only right before the sign-in build ships.
+  - Done (Oct 28): Play Games project `emberfall-dev` (player-facing name Emberfall) created and linked. Three credentials: Android with the Play App Signing SHA-1, Android with the upload key SHA-1, and a Game server (web) client. You and the closed track are added under Testers. OAuth consent screen is "In production" with app name Emberfall (scopes `games`, `games_lite`, `drive.appdata`, no logo). Sideloaded builds signed with the upload keystore work with the upload key credential; only a build signed with a different keystore (e.g. Unity's debug one) would need a fourth credential. Publish the project only right before the sign-in build ships.
 - [x] Unity Dashboard → Authentication → add the Google Play Games identity provider (web client ID and secret).
   - Done (Oct 28). Authentication isn't environment-scoped, so the provider and player accounts are shared by `development` and `production`. Use a throwaway account when testing account deletion. Leaderboards are recreated in `development`.
 - [ ] Optional, before launch: submit **branding verification** for the OAuth consent screen (Google Cloud → Google Auth Platform → Branding; the console says the branding must be verified before it is shown to users). It needs a homepage URL, the privacy policy link, a support email and an authorized domain verified in Search Console, and can take days or weeks. Scope verification is not needed (the scopes are non-sensitive). Check on a real device with a non-tester account whether a consent prompt appears at all.
-- [ ] Wire up GPGS v2: `PlayGamesPlatform.Activate()`. v2 signs in automatically at launch. Then `RequestServerSideAccess` → `AuthenticationService.SignInWithGooglePlayGamesAsync(authCode)`.
-- [ ] **Account linking:** existing internal testers have anonymous accounts. Use `LinkWithGooglePlayGamesAsync` on the anonymous session so progress (and leaderboard entries) carry over. Handle the "already linked to another account" error.
-- [ ] Keep anonymous sign-in as the fallback if GPGS sign-in fails or is declined. Offer "Sign in with Google" later from settings.
-- [ ] Username: default to the GPGS display name, or keep the custom name prompt (and its validation).
-- [ ] Replace the `"offline"` player ID in `UnityAuthIdentity`. Offline play needs a defined behavior (play locally with a cached ID, then sync later).
+- [x] Wire up GPGS v2: `PlayGamesPlatform.Activate()`. v2 signs in automatically at launch. Then `RequestServerSideAccess` → `AuthenticationService.SignInWithGooglePlayGamesAsync(authCode)`.
+- [x] **Account linking:** existing internal testers have anonymous accounts. Use `LinkWithGooglePlayGamesAsync` on the anonymous session so progress (and leaderboard entries) carry over. Handle the "already linked to another account" error.
+  - Decided (Oct 29): sign-in is the player's choice. The Login screen offers "Sign in with Play Games" or "Continue as guest" on first launch (more providers later), and cached sessions are restored silently. So guests aren't linked automatically: they link from the Account popup (tap the username → "Link Play Games", Android only; tested on a device Oct 30, including the "already linked" case). On "already linked" the player stays on the device account, because there's no cloud save yet. The guest option may be dropped later; revisit with cloud save. Android uses Play Games, not regular Google sign-in (auto sign-in, needed for achievements); pick a cross-platform login (Google, Apple, Unity Player Accounts) with iOS.
+- [x] Keep anonymous sign-in as the fallback if GPGS sign-in fails or is declined. Offer "Sign in with Google" later from settings.
+  - Done (Oct 30): "Continue as guest" on the choice screen; if Play Games sign-in fails or is cancelled the player gets a toast and can pick either option again. Linking later is in the Account popup.
+- [x] Username: default to the GPGS display name, or keep the custom name prompt (and its validation).
+  - Decided (Oct 29): keep the prompt; for new Play Games accounts it's prefilled with the Play Games name (whitespace removed, cut to 12 characters). Tested on a device Oct 30.
+  - Names are checked by `ProfanityFilter` against `Assets/Data/ProfanityWords.txt` (curated LDNOOBW list plus an allowlist).
+- [x] Replace the `"offline"` player ID in `UnityAuthIdentity`. Offline play needs a defined behavior (play locally with a cached ID, then sync later).
+  - Done (tested on a device Oct 30): if restoring a saved session fails, `LoginManager` plays offline with the last player ID and name cached in PlayerPrefs (`UnityAuthIdentity`); leaderboards are unavailable and sign-in is retried on the next launch. A first launch still needs a connection. Scores from offline matches are still dropped (see "Offline and failure handling" under Release readiness).
 - [ ] **Account deletion** (required by both Google Play and Apple when accounts exist): an in-app "delete account" option that calls `DeleteAccountAsync` and clears Cloud Save, plus a web URL/form for the Play Console data-deletion field.
+  - Done in code (Oct 29), tested on a device Oct 30: tap the username in the top bar → Account popup → Delete account → confirm. `AccountService` deletes the UGS account, the local save and backups, the cached ID/name and the session, then restarts from Bootstrap. Leaderboard entries stay behind (see the next item). Cloud Save clearing comes with workstream 2.
+- [x] **Delete the player's leaderboard scores on account deletion (Cloud Code).** `DeleteAccountAsync` only deletes the Authentication account; Unity's docs say the game must delete the player's data in other UGS services. The Leaderboards client SDK can't delete scores, only the Admin API can (`DeleteLeaderboardPlayerScoreAllLiveLeaderboards`), and that needs server credentials. Do this before the sign-in build ships, since the deletion page and Data safety form will say the data is removed.
+  - Add `com.unity.services.cloudcode` and one Cloud Code function (JS script or C# module) that deletes the calling player's scores from all live leaderboards.
+  - Give it Admin API access (probably a service account key in Secret Manager; confirm whether Cloud Code can call the Admin API without one) and deploy it.
+  - `AccountService`: call it before `DeleteAccountAsync`, while still signed in; if it fails, don't delete the account.
+  - Workstream 2: extend the same function to delete the player's Cloud Save items (Cloud Save Admin API). Analytics deletion is a separate request (different user ID).
+  - Rough effort: half a day to a day, mostly first-time Cloud Code and service account setup.
+  - Done (Oct 30), tested in the Editor: Cloud Code script `DeletePlayerScores` (source in `CloudCode/DeletePlayerScores.js`, pasted into the dashboard) sends `DELETE .../leaderboards/scores/players/{playerId}/purge` with a service account key (Leaderboards Admin role) read from Secret Manager (`LEADERBOARDS_SA_KEY_ID`, `LEADERBOARDS_SA_SECRET`). The Cloud Code token can't call admin endpoints. Deployed to `development` only: **deploy it to `production` before the sign-in build ships.**
 ### 2. Cloud save and remote data
 
 - [ ] Add packages: `com.unity.services.cloudsave` (and Remote Config or CCD for definitions).
@@ -125,7 +138,7 @@ Store listing and build:
 - [ ] Apple Small Business Program: you must enroll to get the 15% fee instead of 30%. Google's 15% on the first $1M a year is automatic.
 - [x] **Support email** in the store listing (required). One simple website can hold the privacy policy, the account deletion page and the support contact.
 - [ ] **Loot box odds:** if anything you sell is randomized, both stores require the odds to be shown before purchase.
-- [ ] **Asset licenses:** confirm that all art, music, fonts and asset packs (e.g. `CrystalFramework`) allow commercial use. Add open-source attributions (Newtonsoft, GPGS, ad/IAP SDKs) to a credits/licenses screen.
+- [ ] **Asset licenses:** confirm that all art, music, fonts and asset packs (e.g. `CrystalFramework`) allow commercial use. Add open-source attributions (Newtonsoft, GPGS, ad/IAP SDKs, and the LDNOOBW word list behind the name filter, CC BY 4.0) to a credits/licenses screen.
 - [ ] Unity license: Personal is fine below $200k revenue a year; above that you need Pro.
 - [ ] Name check: search the stores and trademark databases for "Emberfall" before spending on marketing.
 - [ ] **Username moderation:** custom names show on public leaderboards, which counts as user-generated content under store rules. Add a profanity/length filter and a way to rename or remove a name.
@@ -136,6 +149,7 @@ Store listing and build:
 - [x] Crash reporting: Unity Diagnostics, shipped in v0.5.4 (code 13). Sessions, managed exceptions and native crashes are reported, and native stack traces are symbolicated once the build's symbols are uploaded (see Releasing). There's no in-game opt-out yet. That belongs on the settings screen below. Note: a report's scene field is the scene open when the report is sent on the next launch, not where the crash happened.
 - [ ] Analytics: Unity Analytics or similar, still to decide.
 - [ ] Offline and failure handling: no internet at launch, a service outage, or sign-in failure shouldn't hard-block the game. The leaderboard already has a TODO for queueing scores.
+  - Reconnect mid-session: a session that starts offline (cached player) stays signed out until the next launch. Retry restoring the session when the connection comes back (e.g. on opening the leaderboard or account popup, or periodically) so the player doesn't have to restart the app.
 - [ ] Settings screen: audio, account (link Google, delete account), privacy/consent, restore purchases, credits/licenses.
 - [ ] Remove debug tools from release builds (`Game/Debug`, the `ClearSessionToken` comment in `LoginManager`) and check that Development Build is off. `CrashReportingTester` (on GameManager in `Game.unity`) is already safe: release builds compile only a stub that destroys itself.
 - [ ] Performance pass on low-end Android (profile captures already exist).
