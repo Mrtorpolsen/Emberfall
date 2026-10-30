@@ -1,6 +1,6 @@
 # Emberfall release plan
 
-Status: in progress, as of v0.5.4 (code 13) on the closed testing track. Week 1 admin and crash reporting are done; Google sign-in coding starts Nov 2.
+Status: in progress, as of v0.6.0 (code 14), uploaded Oct 30 for review with Google Play Games sign-in and account deletion. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done.
 
 ## Where things stand
 
@@ -14,7 +14,7 @@ Status: in progress, as of v0.5.4 (code 13) on the closed testing track. Week 1 
 | Currencies | `Cinders`, `Embers` live in the local save. Nothing is validated on a server. |
 | Achievements / shop / ads | None. |
 | Crash reporting | Unity Diagnostics (since v0.5.4). |
-| Android build | v0.5.4 / versionCode 13 on the closed track, minSdk 25, targetSdk = "highest installed". |
+| Android build | v0.6.0 / versionCode 14 uploaded Oct 30 (in review; v0.5.4 / 13 before it), minSdk 25, targetSdk = "highest installed". |
 | iOS | Not set up. |
 
 ## Two things to decide first
@@ -33,7 +33,7 @@ These choices affect almost every other workstream.
 Everything below depends on a stable, recoverable player ID. Right now, a player who reinstalls loses their anonymous account.
 
 - [x] Play Console → Play Games Services: create or confirm the game project and link it to the app. Add OAuth credentials: an Android client for **both** the upload key SHA-1 and the Play App Signing SHA-1, plus a **web client** for the server auth code.
-  - Done (Oct 28): Play Games project `emberfall-dev` (player-facing name Emberfall) created and linked. Three credentials: Android with the Play App Signing SHA-1, Android with the upload key SHA-1, and a Game server (web) client. You and the closed track are added under Testers. OAuth consent screen is "In production" with app name Emberfall (scopes `games`, `games_lite`, `drive.appdata`, no logo). Sideloaded builds signed with the upload keystore work with the upload key credential; only a build signed with a different keystore (e.g. Unity's debug one) would need a fourth credential. Publish the project only right before the sign-in build ships.
+  - Done (Oct 28): Play Games project `emberfall-dev` (player-facing name Emberfall) created and linked. Three credentials: Android with the Play App Signing SHA-1, Android with the upload key SHA-1, and a Game server (web) client. You and the closed track are added under Testers. OAuth consent screen is "In production" with app name Emberfall (scopes `games`, `games_lite`, `drive.appdata`, no logo). Sideloaded builds signed with the upload keystore work with the upload key credential; only a build signed with a different keystore (e.g. Unity's debug one) would need a fourth credential. Published Oct 30, with the v0.6.0 upload.
 - [x] Unity Dashboard → Authentication → add the Google Play Games identity provider (web client ID and secret).
   - Done (Oct 28). Authentication isn't environment-scoped, so the provider and player accounts are shared by `development` and `production`. Use a throwaway account when testing account deletion. Leaderboards are recreated in `development`.
 - [ ] Optional, before launch: submit **branding verification** for the OAuth consent screen (Google Cloud → Google Auth Platform → Branding; the console says the branding must be verified before it is shown to users). It needs a homepage URL, the privacy policy link, a support email and an authorized domain verified in Search Console, and can take days or weeks. Scope verification is not needed (the scopes are non-sensitive). Check on a real device with a non-tester account whether a consent prompt appears at all.
@@ -47,15 +47,15 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
   - Names are checked by `ProfanityFilter` against `Assets/Data/ProfanityWords.txt` (curated LDNOOBW list plus an allowlist).
 - [x] Replace the `"offline"` player ID in `UnityAuthIdentity`. Offline play needs a defined behavior (play locally with a cached ID, then sync later).
   - Done (tested on a device Oct 30): if restoring a saved session fails, `LoginManager` plays offline with the last player ID and name cached in PlayerPrefs (`UnityAuthIdentity`); leaderboards are unavailable and sign-in is retried on the next launch. A first launch still needs a connection. Scores from offline matches are still dropped (see "Offline and failure handling" under Release readiness).
-- [ ] **Account deletion** (required by both Google Play and Apple when accounts exist): an in-app "delete account" option that calls `DeleteAccountAsync` and clears Cloud Save, plus a web URL/form for the Play Console data-deletion field.
-  - Done in code (Oct 29), tested on a device Oct 30: tap the username in the top bar → Account popup → Delete account → confirm. `AccountService` deletes the UGS account, the local save and backups, the cached ID/name and the session, then restarts from Bootstrap. Leaderboard entries stay behind (see the next item). Cloud Save clearing comes with workstream 2.
+- [x] **Account deletion** (required by both Google Play and Apple when accounts exist): an in-app "delete account" option that calls `DeleteAccountAsync` and clears Cloud Save, plus a web URL/form for the Play Console data-deletion field.
+  - Done in code (Oct 29), tested on a device Oct 30: tap the username in the top bar → Account popup → Delete account → confirm. `AccountService` deletes the UGS account, the local save and backups, the cached ID/name and the session, then restarts from Bootstrap. Leaderboard scores are deleted first (see the next item). Shipped in v0.6.0; the delete-account page lists the in-game steps, with email as the fallback. Cloud Save clearing comes with workstream 2.
 - [x] **Delete the player's leaderboard scores on account deletion (Cloud Code).** `DeleteAccountAsync` only deletes the Authentication account; Unity's docs say the game must delete the player's data in other UGS services. The Leaderboards client SDK can't delete scores, only the Admin API can (`DeleteLeaderboardPlayerScoreAllLiveLeaderboards`), and that needs server credentials. Do this before the sign-in build ships, since the deletion page and Data safety form will say the data is removed.
   - Add `com.unity.services.cloudcode` and one Cloud Code function (JS script or C# module) that deletes the calling player's scores from all live leaderboards.
   - Give it Admin API access (probably a service account key in Secret Manager; confirm whether Cloud Code can call the Admin API without one) and deploy it.
   - `AccountService`: call it before `DeleteAccountAsync`, while still signed in; if it fails, don't delete the account.
   - Workstream 2: extend the same function to delete the player's Cloud Save items (Cloud Save Admin API). Analytics deletion is a separate request (different user ID).
   - Rough effort: half a day to a day, mostly first-time Cloud Code and service account setup.
-  - Done (Oct 30), tested in the Editor: Cloud Code script `DeletePlayerScores` (source in `CloudCode/DeletePlayerScores.js`, pasted into the dashboard) sends `DELETE .../leaderboards/scores/players/{playerId}/purge` with a service account key (Leaderboards Admin role) read from Secret Manager (`LEADERBOARDS_SA_KEY_ID`, `LEADERBOARDS_SA_SECRET`). The Cloud Code token can't call admin endpoints. Deployed to `development` only: **deploy it to `production` before the sign-in build ships.**
+  - Done (Oct 30), tested in the Editor: Cloud Code script `DeletePlayerScores` (source in `CloudCode/DeletePlayerScores.js`, pasted into the dashboard) sends `DELETE .../leaderboards/scores/players/{playerId}/purge` with a service account key (Leaderboards Admin role) read from Secret Manager (`LEADERBOARDS_SA_KEY_ID`, `LEADERBOARDS_SA_SECRET`). The Cloud Code token can't call admin endpoints. Deployed to `development` and `production` (Oct 30). The secrets are project-level, so both environments read them.
 ### 2. Cloud save and remote data
 
 - [ ] Add packages: `com.unity.services.cloudsave` (and Remote Config or CCD for definitions).
@@ -109,13 +109,13 @@ The thing you're thinking of is probably **developer account (identity) verifica
 
 The App content section in Play Console needs all of these:
 
-- [x] Privacy policy URL (hosted page covering UGS, ads and IAP data). Live and covers UGS only; update it with crash reporting, Google sign-in, cloud save, IAP and ads as they ship.
-- [x] App access (explain the login, or provide test credentials). Answered for the current build (anonymous sign-in, nothing restricted); re-check when Google sign-in, IAP and ads ship.
+- [x] Privacy policy URL (hosted page covering UGS, ads and IAP data). Live; updated Oct 30 for v0.6.0 (Google Play Games sign-in, in-app account deletion). Update it with cloud save, IAP and ads as they ship.
+- [x] App access (explain the login, or provide test credentials). Updated Oct 30 for v0.6.0: Play Games or guest, and "Continue as guest" needs no credentials, so nothing is restricted. Re-check when IAP and ads ship.
 - [x] Ads declaration. "No ads" for the current build; redo in the ads release together with the Data safety form and advertising ID answer.
 - [x] Content rating (IARC questionnaire)
 - [x] Target audience and content
-- [x] Data safety form (account info, game progress, purchase history, ad IDs, crash/diagnostics data). Answered for v0.5.4 (UGS data plus crash logs, diagnostics and the installation ID); update it as features ship, per [Re-check when features ship](#re-check-when-features-ship).
-- [x] Data deletion URL (from workstream 1). Filled in, pointing to the support site's `delete-account.html`; update that page when Google sign-in and cloud save ship.
+- [x] Data safety form (account info, game progress, purchase history, ad IDs, crash/diagnostics data). Answered for v0.5.4 (UGS data plus crash logs, diagnostics and the installation ID); updated Oct 30 for v0.6.0 (Play Games user ID, account creation via OAuth and Other/guest, in-app deletion); update it as features ship, per [Re-check when features ship](#re-check-when-features-ship).
+- [x] Data deletion URL (from workstream 1). Filled in, pointing to the support site's `delete-account.html`; the page was updated Oct 30 with the in-game deletion steps; update it again when cloud save ships.
 
 Store listing and build:
 
@@ -139,6 +139,7 @@ Store listing and build:
 - [x] **Support email** in the store listing (required). One simple website can hold the privacy policy, the account deletion page and the support contact.
 - [ ] **Loot box odds:** if anything you sell is randomized, both stores require the odds to be shown before purchase.
 - [ ] **Asset licenses:** confirm that all art, music, fonts and asset packs (e.g. `CrystalFramework`) allow commercial use. Add open-source attributions (Newtonsoft, GPGS, ad/IAP SDKs, and the LDNOOBW word list behind the name filter, CC BY 4.0) to a credits/licenses screen.
+  - The LDNOOBW list ships from v0.6.0; until the credits screen exists, credit it on the support site.
 - [ ] Unity license: Personal is fine below $200k revenue a year; above that you need Pro.
 - [ ] Name check: search the stores and trademark databases for "Emberfall" before spending on marketing.
 - [ ] **Username moderation:** custom names show on public leaderboards, which counts as user-generated content under store rules. Add a profanity/length filter and a way to rename or remove a name.
@@ -222,11 +223,13 @@ Store declarations and the privacy policy must match the build on the track. Whe
 - [x] Privacy policy: name the crash tool and the data it receives, update the "Last updated" date (October 28, 2026: Unity Diagnostics, installation ID, 90-day retention, no opt-out yet)
 
 **Google Play Games sign-in, cloud save, account deletion** (Weeks 2–4)
-- [ ] Publish the Play Games project right before the sign-in build ships (add testers under Testers until then)
-- [ ] App access declaration: re-check (anonymous fallback should keep it unrestricted)
-- [ ] Data safety form: email or Google account info, game progress stored on the server
-- [ ] Privacy policy: Google sign-in, cloud save (progress is no longer device-only), in-app account deletion; update the section 6 deletion wording
-- [ ] Data deletion URL in Play Console
+- [x] Publish the Play Games project right before the sign-in build ships (published Oct 30 with v0.6.0)
+- [x] App access declaration: re-check (Oct 30: the guest option keeps it unrestricted)
+- [x] Data safety form: Google account info (Oct 30: Play Games user ID, account creation via OAuth and Other, in-app deletion)
+- [ ] Data safety form: game progress stored on the server (cloud save)
+- [x] Privacy policy: Google sign-in, in-app account deletion, section 6 deletion wording (Oct 30)
+- [ ] Privacy policy: cloud save (progress is no longer device-only)
+- [x] Data deletion URL in Play Console (Oct 30: the page lists the in-game steps)
 
 **Achievements** (Week 5)
 - [ ] Data safety form and privacy policy: achievement progress
