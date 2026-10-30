@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
+using Unity.Services.CloudCode;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +17,8 @@ public enum LinkResult
 
 public static class AccountService
 {
+    private const string DELETE_SCORES_SCRIPT = "DeletePlayerScores";
+
     // A guest (anonymous) account has no external sign-ins linked to it
     public static bool IsGuest
     {
@@ -54,12 +58,19 @@ public static class AccountService
         }
     }
 
-    // Deletes the UGS account, then everything this install keeps about the player. Call RestartGame after a success.
-    // Returns false if the account couldn't be deleted (e.g. offline); nothing local is touched then.
+    // Deletes the player's leaderboard scores and the UGS account, then everything this install keeps about the player.
+    // Call RestartGame after a success. Returns false if either deletion failed (e.g. offline); the account and
+    // everything local are kept then.
     public static async Task<bool> DeleteAccountAsync()
     {
         var auth = AuthenticationService.Instance;
         if (!auth.IsSignedIn)
+        {
+            return false;
+        }
+
+        // Scores first, while still signed in: Cloud Code identifies the player by the session
+        if (!await DeleteLeaderboardScoresAsync())
         {
             return false;
         }
@@ -91,6 +102,27 @@ public static class AccountService
         }
 
         return true;
+    }
+
+    // Runs the DeletePlayerScores Cloud Code script (CloudCode/DeletePlayerScores.js); the client SDK can't delete scores
+    private static async Task<bool> DeleteLeaderboardScoresAsync()
+    {
+        try
+        {
+            await CloudCodeService.Instance.CallEndpointAsync(DELETE_SCORES_SCRIPT, new Dictionary<string, object>());
+            Debug.Log("Leaderboard scores deleted");
+            return true;
+        }
+        catch (CloudCodeException e)
+        {
+            Debug.LogWarning("Deleting leaderboard scores failed: " + e);
+            return false;
+        }
+        catch (RequestFailedException e)
+        {
+            Debug.LogWarning("Deleting leaderboard scores failed: " + e);
+            return false;
+        }
     }
 
     // Destroys our persistent objects and starts over from Bootstrap, so no service keeps the deleted player's data.
