@@ -92,6 +92,13 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     [SerializeField] private ThreatLevel debugUnitPrio;
     [SerializeField] private bool debugIsTargetable;
+
+    // The debug stats above are display-only; these set health while playing (works for the castle too)
+    [Header("Debug Edit (play mode)")]
+    [Tooltip("Health to set when Apply Health is ticked; may exceed max health, 0 or less kills the unit")]
+    [SerializeField] private int debugSetHealth;
+    [Tooltip("Tick to apply Set Health; unticks itself")]
+    [SerializeField] private bool debugApplyHealth;
 #endif
 
     protected virtual void Awake()
@@ -112,6 +119,14 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     // Physics can push moving units through the walls (e.g. many spawning at once); they weren't killed, so no OnDeath
     private void Update()
     {
+#if UNITY_EDITOR
+        if (debugApplyHealth)
+        {
+            debugApplyHealth = false;
+            DebugSetHealth(debugSetHealth);
+        }
+#endif
+
         if (unitRigidbody == null || unitRigidbody.bodyType != RigidbodyType2D.Dynamic) return;
 
         playAreaCheckTimer -= Time.deltaTime;
@@ -150,22 +165,26 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
         SyncDebugStats();
 #endif
 
-        if (HealthbarManager.Instance != null)
-        {
-            if (healthBar == null)
-            {
-                healthBar = HealthbarManager.Instance.RequestHealthBar(this);
-            }
-
-            healthBar.CancelFade();
-
-            healthBar.UpdateValue(currentHealth, MaxHealth);
-        }
+        ShowHealthBar();
 
         if (currentHealth <= 0)
         {
             Die();
         }
+    }
+
+    private void ShowHealthBar()
+    {
+        if (HealthbarManager.Instance == null) return;
+
+        if (healthBar == null)
+        {
+            healthBar = HealthbarManager.Instance.RequestHealthBar(this);
+        }
+
+        healthBar.CancelFade();
+
+        healthBar.UpdateValue(currentHealth, MaxHealth);
     }
 
     public void Heal(int amount)
@@ -421,6 +440,29 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
         debugUnitPrio = runtimeStats.unitPrio;
         debugIsTargetable = runtimeStats.isTargetable;
+    }
+
+    private void DebugSetHealth(int health)
+    {
+        if (isDying) return;
+
+        currentHealth = health;
+        SyncDebugStats();
+        ShowHealthBar();
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    // Ticking Apply outside play mode would save it into the prefab or scene and fire on the next spawn
+    protected virtual void OnValidate()
+    {
+        if (!Application.isPlaying)
+        {
+            debugApplyHealth = false;
+        }
     }
 #endif
 }
