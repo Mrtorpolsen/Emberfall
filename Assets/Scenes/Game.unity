@@ -51318,7 +51318,7 @@ MonoBehaviour:
   generalSpawn: {fileID: 912368480}
   southSpawn: {fileID: 605416890}
   bossPosition: {fileID: 848399306}
-  totalWaves: 100
+  totalWaves: 2000
   timeBetweenWaves: 10
   allGenerals:
   - {fileID: 11400000, guid: aab9a1372240a1046b71acc935d43880, type: 2}

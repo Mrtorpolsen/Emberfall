@@ -14,10 +14,11 @@ public class GeneralComponent : MonoBehaviour
         movement = GetComponent<MovementComponent>();
     }
 
-    public void Initialize(GeneralDefinition generalDefinition, Transform bossPosition, int currentWaveIndex)
+    // sendOnWave: display wave number on which the general stops idling and attacks
+    public void Initialize(GeneralDefinition generalDefinition, Transform bossPosition, int sendOnWave)
     {
         this.generalDefinition = generalDefinition;
-        this.generalWave = generalDefinition.spawnLimit + currentWaveIndex;
+        this.generalWave = sendOnWave;
 
         SetImmortalState(true);
 

@@ -439,8 +439,10 @@ public class WaveGeneratorTests
 
             foreach (var group in wave.enemiesToSpawn)
             {
-                if (group.isBoss)
-                    continue;
+                Assert.That(
+                    group.isBoss,
+                    Is.False,
+                    $"Wave {waveNumber + 1} contains a general.");
 
                 Assert.That(
                     group.prefab,
@@ -448,6 +450,36 @@ public class WaveGeneratorTests
                     $"Wave {waveNumber + 1} contains " +
                     $"unexpected unit: {group.prefab.name}");
             }
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    [Test]
+    public void GenerateWave_GeneralDueOnAssassinWave_ArrivesNextWave()
+    {
+        var fighter = _spawnDB.GetSpawn("spawn_fighter");
+        var generalUnit = _spawnDB.GetSpawn("spawn_giant");
+        var general = CreateGeneral("Test General", generalUnit, new List<SpawnDefinition> { fighter });
+
+        try
+        {
+            var generator = CreateGenerator(() => 1f); // no sappers
+
+            // Wave 21 is an assassin wave and the first wave of this general
+            var assassinWave = generator.GenerateWave(20, general);
+            var nextWave = generator.GenerateWave(21, general);
+            var waveAfter = generator.GenerateWave(22, general);
+
+            Assert.That(assassinWave.enemiesToSpawn.Any(group => group.isBoss), Is.False);
+
+            var boss = nextWave.enemiesToSpawn.FirstOrDefault(group => group.isBoss);
+            Assert.That(boss, Is.Not.Null, "General should arrive the wave after the assassin wave.");
+            Assert.That(boss.prefab, Is.EqualTo(generalUnit.UnitPrefab));
+
+            Assert.That(waveAfter.enemiesToSpawn.Any(group => group.isBoss), Is.False, "General should only spawn once.");
         }
         finally
         {
