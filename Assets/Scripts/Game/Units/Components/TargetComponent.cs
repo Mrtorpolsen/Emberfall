@@ -220,6 +220,8 @@ public class TargetComponent : MonoBehaviour
     {
         if (currentTarget == null) return false;
         if (!currentTarget.IsAlive) return false;
+        // e.g. a general turning immortal again; otherwise units keep walking at it
+        if (!currentTarget.IsTargetable) return false;
 
         float sqrDist = (currentTarget.Transform.position - transform.position).sqrMagnitude;
         return sqrDist <= DetectionRange * DetectionRange;

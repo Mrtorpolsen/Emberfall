@@ -1922,7 +1922,7 @@
       ]
     },
     "houndmaster": {
-      "iconId": "place_holder_icon",
+      "iconId": "houndmaster_icon",
       "costPreset": "rare",
       "archetype": "ranged",
       "tags": [],

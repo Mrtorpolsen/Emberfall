@@ -166,6 +166,54 @@ public class WaveGeneratorTests
     }
 
 
+    [Test]
+    public void GenerateWave_SameGeneral_OnlyAddsGeneralOnce()
+    {
+        var general = CreateGeneral("General A", _spawnDB.GetSpawn("spawn_giant"));
+
+        try
+        {
+            var generator = CreateGenerator();
+
+            generator.GenerateWave(0, general);
+            var secondWave = generator.GenerateWave(1, general);
+
+            Assert.That(secondWave.enemiesToSpawn.Any(group => group.isBoss), Is.False);
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+    [Test]
+    public void GenerateWave_SameGeneralQueuedAgain_AddsGeneralAgain()
+    {
+        var generalUnit = _spawnDB.GetSpawn("spawn_giant");
+        var general = CreateGeneral("General A", generalUnit);
+
+        try
+        {
+            var generator = CreateGenerator();
+
+            generator.GenerateWave(0, general);
+
+            // The general pool looped back around to the same general
+            generator.QueueGeneralSpawn();
+            var wave = generator.GenerateWave(10, general);
+
+            var boss = wave.enemiesToSpawn.FirstOrDefault(group => group.isBoss);
+
+            Assert.That(boss, Is.Not.Null);
+            Assert.That(boss.prefab, Is.EqualTo(generalUnit.UnitPrefab));
+        }
+        finally
+        {
+            DestroyGeneral(general);
+        }
+    }
+
+
     // ------------------------------------------------------------------------
     // Normal waves - threat system
     // ------------------------------------------------------------------------
@@ -454,8 +502,9 @@ public void GenerateWave_AssassinWave_CountIsBasedOnThreatBudget(
                 waveNumber);
 
         var expectedCount =
-            Mathf.FloorToInt(
-                threatBudget / assassinThreat);
+            Mathf.Max(1, Mathf.FloorToInt(
+                threatBudget * WaveGenerator.AssassinWaveThreatMultiplier
+                / assassinThreat));
 
         Assert.That(
             assassinGroup.count,

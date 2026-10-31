@@ -10,6 +10,9 @@ public class MovementComponent : MonoBehaviour
 
     [Header("Ranged Settings")]
     [SerializeField] private float rangedZoneRadius = 0.1f;
+    // Each player ranged unit holds its own spot this far left/right of its rally point,
+    // so they spread out instead of piling onto one spot and shoving each other
+    [SerializeField] private float rangedSpreadX = 0.45f;
 
     [Header("Movement")]
     [SerializeField] private float arrivalRadius = 0.3f;
@@ -43,6 +46,10 @@ public class MovementComponent : MonoBehaviour
 
     private bool hasTemporaryPosition;
     private Vector2 temporaryPosition;
+    // Where the unit was heading when it got stuck; if that moves (rally changed), stop waiting
+    private Vector2 stuckDestination;
+
+    private float rangedSlotXOffset;
 
     private bool hasForcedDestination;
     private Vector2 forcedDestination;
@@ -60,7 +67,6 @@ public class MovementComponent : MonoBehaviour
         rangedStats = GetComponent<RangedShooter>();
 
         south = GameManager.Instance.South;
-        rangedRally = GameManager.Instance.GetNextRangedRally();
         meleeRally = GameManager.Instance.MeleeRally;
 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -72,8 +78,17 @@ public class MovementComponent : MonoBehaviour
         };
 
         unitFallbackXOffSet = Random.Range(-fallbackXOffSet, fallbackXOffSet);
+        rangedSlotXOffset = Random.Range(-rangedSpreadX, rangedSpreadX);
 
         lastProgressPosition = rb.position;
+    }
+
+    private void Start()
+    {
+        // The team is set by SpawnManager after Instantiate (so after Awake). Only player
+        // ranged units take a rally, so enemies and melee don't skew the alternation.
+        if (rangedStats != null && unitMetadata.Team == Team.South)
+            rangedRally = GameManager.Instance.GetNextRangedRally();
     }
 
     private void FixedUpdate()
@@ -127,20 +142,14 @@ public class MovementComponent : MonoBehaviour
             return forcedDestination;
         }
 
-        if (isRanged && unitMetadata.Team == Team.South)
+        if (isRanged && unitMetadata.Team == Team.South && rangedRally != null)
         {
-            Vector2 zoneCenter = rangedRally.position;
+            // Ranged units hold their spot whether or not they have a target. One radius for
+            // both cases so getting or losing a target doesn't make them shuffle.
+            Vector2 slot = GetRangedSlot();
 
-            if (target != null && target.IsAlive)
-            {
-                if ((currentPos - zoneCenter).sqrMagnitude > rangedZoneRadius * rangedZoneRadius)
-                    return zoneCenter;
-
-                return null;
-            }
-
-            if ((currentPos - zoneCenter).sqrMagnitude > arrivalRadius * arrivalRadius)
-                return zoneCenter;
+            if ((currentPos - slot).sqrMagnitude > arrivalRadius * arrivalRadius)
+                return slot;
 
             return null;
         }
@@ -155,16 +164,6 @@ public class MovementComponent : MonoBehaviour
             return target.Transform.position;
         }
 
-        if (hasTemporaryPosition)
-        {
-            retryTimer -= Time.fixedDeltaTime;
-
-            if (retryTimer > 0)
-                return temporaryPosition;
-
-            hasTemporaryPosition = false;
-        }
-
         Transform fallback = GetFallbackPoint();
 
         if (fallback == null)
@@ -173,6 +172,23 @@ public class MovementComponent : MonoBehaviour
         Vector2 destination =
             (Vector2)fallback.position +
             Vector2.right * unitFallbackXOffSet;
+
+        if (hasTemporaryPosition)
+        {
+            retryTimer -= Time.fixedDeltaTime;
+
+            // Keep waiting out the jam, unless the rally moved and there's a new place to go
+            bool destinationMoved = (destination - stuckDestination).sqrMagnitude > arrivalRadius * arrivalRadius;
+
+            if (retryTimer > 0 && !destinationMoved)
+                return temporaryPosition;
+
+            // Give the unit a fresh stuck window. Without this the stuck timer was still
+            // past stuckTime, so the unit got stuck again on the very next step and stood
+            // still until an enemy came into range.
+            hasTemporaryPosition = false;
+            ResetStuckDetection();
+        }
 
         if ((destination - currentPos).sqrMagnitude <= arrivalRadius * arrivalRadius)
             return null;
@@ -226,6 +242,7 @@ public class MovementComponent : MonoBehaviour
         {
             hasTemporaryPosition = true;
             temporaryPosition = rb.position;
+            stuckDestination = target;
             retryTimer = retryDelay;
 
             rb.linearVelocity = Vector2.zero;
@@ -253,7 +270,9 @@ public class MovementComponent : MonoBehaviour
 
     private Vector2 ApplyTeamBoundary(Vector2 target)
     {
-        if (unitMetadata.Team != Team.South)
+        // Player ranged units are kept to their own rally zone instead (ApplyRangedZoneBoundary);
+        // clamping them to the melee line too pulled them off their spot when melee fell back
+        if (unitMetadata.Team != Team.South || rangedStats != null)
             return target;
 
         float maxY = meleeRally.position.y;
@@ -267,13 +286,18 @@ public class MovementComponent : MonoBehaviour
         if (rangedStats == null || rangedRally == null || unitMetadata.Team != Team.South)
             return target;
 
-        Vector2 center = rangedRally.position;
+        Vector2 center = GetRangedSlot();
         Vector2 offset = target - center;
 
         if (offset.sqrMagnitude > rangedZoneRadius * rangedZoneRadius)
             return center + offset.normalized * rangedZoneRadius;
 
         return target;
+    }
+
+    private Vector2 GetRangedSlot()
+    {
+        return (Vector2)rangedRally.position + Vector2.right * rangedSlotXOffset;
     }
 
     private Vector2 GetSeparationOffset(Vector2 target)

@@ -106,6 +106,7 @@ public class WaveController : MonoBehaviour
             {
                 currentGeneral = waveRules.GetGeneral();
                 generalSpawnIndex += currentGeneral.spawnLimit;
+                waveGenerator.QueueGeneralSpawn();
             }
 
             var wave = waveGenerator.GenerateWave(currentWaveIndex, currentGeneral);

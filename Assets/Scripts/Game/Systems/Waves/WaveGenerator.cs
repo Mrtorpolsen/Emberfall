@@ -6,6 +6,9 @@ public class WaveGenerator
 {
     private int sapperCount = 1;
 
+    // Assassin waves get this much more threat than a normal wave, so they're a real spike
+    public const float AssassinWaveThreatMultiplier = 1.5f;
+
     private int sapperWaveCooldown = 0;
 
     private readonly Func<float> randomFunc;
@@ -23,6 +26,13 @@ public class WaveGenerator
         this.randomFunc = randomFunc ?? (() => UnityEngine.Random.value);
         this.spawnDB = spawnDB;
         this.waveThreatCalculator = waveThreatCalculator;
+    }
+
+    // Makes the next wave spawn its general even if it's the same general as before,
+    // e.g. when the general pool loops back around to the one that just finished
+    public void QueueGeneralSpawn()
+    {
+        currentGeneral = null;
     }
 
     public WaveDefinition GenerateWave(int waveNumber, GeneralDefinition generalDefinition)
@@ -51,7 +61,7 @@ public class WaveGenerator
         {
             float threatCost = threatCalculator.CalculateThreat(spawnDB.GetSpawn("spawn_assassin").Stats);
 
-            int assassinCountForWave = Mathf.FloorToInt(threatValue / threatCost);
+            int assassinCountForWave = GetAssassinCount(threatValue, threatCost);
 
             wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_assassin").UnitPrefab, assassinCountForWave, spawnDelay));
         }
@@ -97,6 +107,11 @@ public class WaveGenerator
         }
 
         return wave;
+    }
+
+    public static int GetAssassinCount(float threatValue, float assassinThreat)
+    {
+        return Mathf.Max(1, Mathf.FloorToInt(threatValue * AssassinWaveThreatMultiplier / assassinThreat));
     }
 
     public static bool IsMilestone(
