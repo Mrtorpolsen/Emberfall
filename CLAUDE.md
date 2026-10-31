@@ -52,6 +52,8 @@ Menus are UI Toolkit (UXML/USS under `Assets/UI Toolkit/`), not uGUI. `UIScreenR
 
 Init order is View → Controller → Events; on swap, Events and Controller are cleaned up. Adding a screen = create the three classes under `Scripts/Menu/<Feature>/`, a UXML, a `VisualTreeAsset` field on `UIScreenRouter`, and a `RegisterScreen` call. Long-lived per-feature state lives in `*Service` classes (`TalentService`, `ResearchService`, `LoadoutService`, `LeaderboardService`).
 
+`LeaderboardService.AddScore` never drops a score: it goes into `PendingScoreQueue` (PlayerPrefs, best per player ID and difficulty, plain C# and tested) and is removed only after the server accepts it (or already has a higher one). `SubmitPendingScoresAsync` sends the queue when signed in; `Bootstrapper` calls it after loading the player's scores.
+
 Tapping the username in the top bar opens `AccountPopup` (guests: link Play Games; account deletion via `AccountService`, which first deletes the player's leaderboard scores through the `DeletePlayerScores` Cloud Code script, then restarts the game from Bootstrap by destroying our DontDestroyOnLoad objects). The script's source is `CloudCode/DeletePlayerScores.js`; it's deployed by pasting it into the Unity Dashboard, and it reads a service account key from Secret Manager.
 
 Short player-facing messages (errors, confirmations) go through `Toast.Show(message)`, a drop-down banner built in code; `LoginManager` and `Bootstrapper` attach it to their UIDocument roots. Modal popups with buttons use `PopupManager`.

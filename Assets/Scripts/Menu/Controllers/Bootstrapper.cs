@@ -47,6 +47,9 @@ public class Bootstrapper : MonoBehaviour
 
         await Task.WhenAll(loadTasks);
 
+        // Scores from offline matches or failed submits; after GetUserScore so the "too low" check sees the server's scores
+        LeaderboardService.Instance.SubmitPendingScoresInBackground();
+
         UnitStatsManager.Instance.Initialize();
 
         InitializeTopBar();

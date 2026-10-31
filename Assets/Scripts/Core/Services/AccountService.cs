@@ -88,6 +88,13 @@ public static class AccountService
         Debug.Log("Account deleted");
 
         await SaveService.Instance.DeleteSaveFilesAsync();
+
+        // Before ClearCachedPlayer: the queue is keyed by player ID, which falls back to the cache once signed out
+        if (LeaderboardService.Instance != null)
+        {
+            LeaderboardService.Instance.ClearPendingScores();
+        }
+
         UnityAuthIdentity.ClearCachedPlayer();
         PlayerPrefs.DeleteKey(LoginManager.LAST_PLAYER_NAME_KEY);
         PlayerPrefs.Save();
