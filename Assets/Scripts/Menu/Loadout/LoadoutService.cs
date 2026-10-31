@@ -75,7 +75,7 @@ public class LoadoutService : MonoBehaviour
 
         definitionMap = AbilityDatabase.Instance.GetAllAbilities()
             .Cast<LoadoutDefinition>()
-            .Concat(SpawnDatabase.Instance.GetAllSpawns())
+            .Concat(SpawnDatabase.Instance.GetAllSpawns().Where(spawn => !spawn.EnemyOnly))
             .ToDictionary(x => x.Id);
     }
 

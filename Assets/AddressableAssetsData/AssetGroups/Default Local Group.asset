@@ -113,6 +113,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fe1d4ec02c7c4641ba515a72614e9e6
+    m_Address: houndmaster_icon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - preload
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4268482a2e4716145b3579c038a3fb47
     m_Address: pikeman_icon
     m_ReadOnly: 0
@@ -133,6 +139,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 46708895c269def418234a7dbe5f6b91
     m_Address: melee_damage_4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b55b3f09fecf454c87039aa15cb490c
+    m_Address: hound_icon
     m_ReadOnly: 0
     m_SerializedLabels:
     - preload

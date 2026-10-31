@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: spawn_elitecavalier
   unlockId: unlock_unit_elitecavalier
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 8916063152254937078, guid: 6b3eab09fc8104a4ca35f6c11d02b1e8, type: 3}
   stats: {fileID: 11400000, guid: 649e75f0602485142a45fea833aea99d, type: 2}
+  enemyOnly: 1

@@ -19,6 +19,9 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: "Slow to reload, but every shot hits very hard. He has the
+    longest reach and the biggest single hit of any foot soldier, so he\u2019s best
+    at picking off tough targets."
   id: spawn_musketeer
   unlockId: unlock_unit_musketeer
   unlockedByDefault: 1
@@ -26,3 +29,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 3501163535796704365, guid: 0c9c4b45148c4c047b7b33adea866fef, type: 3}
   stats: {fileID: 11400000, guid: 22eb9ed632672954d8803a8e8e665ef8, type: 2}
+  enemyOnly: 0

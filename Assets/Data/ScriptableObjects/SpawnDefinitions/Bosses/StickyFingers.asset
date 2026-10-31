@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: unit_stickyfingers
   unlockId: spawn_stickyfingers
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 66f18c8fe8b8ec64c9bef0aef790cd78, type: 3}
   stats: {fileID: 11400000, guid: ca5855a775cf7824a8ca4a7f40e505b8, type: 2}
+  enemyOnly: 1

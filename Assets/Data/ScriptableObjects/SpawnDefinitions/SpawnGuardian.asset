@@ -19,6 +19,9 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: "A heavily armored wall of a man. He\u2019s almost impossible
+    to wear down and too heavy to push back, but barely deals damage. He holds the
+    line so others can do the killing."
   id: spawn_guardian
   unlockId: unlock_unit_guardian
   unlockedByDefault: 1
@@ -26,3 +29,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: f08e813d68e87fb4dab4d49f6770fdff, type: 3}
   stats: {fileID: 11400000, guid: 61b8de39fe91045479d6ca88b499243d, type: 2}
+  enemyOnly: 0

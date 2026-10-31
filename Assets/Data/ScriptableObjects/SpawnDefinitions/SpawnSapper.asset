@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: spawn_sapper
   unlockId: unlock_unit_sapper
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 205569ef057d3e245a6bf6d578fb495a, type: 3}
   stats: {fileID: 11400000, guid: 8d42d355c2c80f9479fe8f75a9660968, type: 2}
+  enemyOnly: 1

@@ -167,8 +167,8 @@ MonoBehaviour:
   statsDef: {fileID: 11400000, guid: c69c17170bb08f94281b742fb0f93529, type: 2}
   unitCollider: {fileID: 5301206489407447251}
   unitRigidbody: {fileID: 4453514862014735567}
-  showRangeGizmo: 0
-  currentHealth: 0
+  showRangeGizmo1: 0
+  showRangeGizmo2: 0
   healthBarScale: {x: 0, y: 0, z: 0}
   debugCost: 0
   debugMaxHealth: 0
@@ -185,6 +185,8 @@ MonoBehaviour:
   debugCritDamage: 0
   debugUnitPrio: 0
   debugIsTargetable: 0
+  debugSetHealth: 0
+  debugApplyHealth: 0
 --- !u!114 &-8600937096272662933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +399,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 211fdcb07f12a264bbbe763df1bc39e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3fe1d4ec02c7c4641ba515a72614e9e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

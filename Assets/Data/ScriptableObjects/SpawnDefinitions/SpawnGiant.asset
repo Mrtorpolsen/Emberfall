@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: spawn_giant
   unlockId: unlock_unit_giant
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: f2fe719a871f149459004dfd737cc548, type: 3}
   stats: {fileID: 11400000, guid: 5e5df7e5fc317d040abc8e98991ce499, type: 2}
+  enemyOnly: 1

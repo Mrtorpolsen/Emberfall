@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: Slow, heavy bolts from a good range.
   id: spawn_crossbowman
   unlockId: unlock_unit_crossbowman
   unlockedByDefault: 1
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 3501163535796704365, guid: 7cf9b933ae504f945b839816d445d00f, type: 3}
   stats: {fileID: 11400000, guid: 5fbc3762502dd5d4488e4ad266a3e34a, type: 2}
+  enemyOnly: 0
