@@ -33,6 +33,14 @@ public class GameManager : MonoBehaviour
 
     public bool IsGameOver => isGameOver;
 
+#if UNITY_EDITOR
+    [Header("Debug Edit (play mode)")]
+    [Tooltip("Player (South) currency to set when Apply Currency is ticked")]
+    [SerializeField] private int debugSetSouthCurrency;
+    [Tooltip("Tick to apply Set South Currency; unticks itself")]
+    [SerializeField] private bool debugApplyCurrency;
+#endif
+
     [Header("Rally Settings")]
     [SerializeField] private float maxYMeleeRally = 0.1f;
     [SerializeField] private float minYMeleeRally = -4.15f;
@@ -69,6 +77,15 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+#if UNITY_EDITOR
+        if (debugApplyCurrency)
+        {
+            debugApplyCurrency = false;
+            // Add the difference so CurrencyChanged fires and the HUD updates
+            Economy.Add(Team.South, debugSetSouthCurrency - Economy.Get(Team.South));
+        }
+#endif
+
         if (isGameRunning)
         {
             Economy.Tick(Time.deltaTime);
@@ -213,4 +230,15 @@ public class GameManager : MonoBehaviour
 
         rallyPoint.position = newPosition;
     }
+
+#if UNITY_EDITOR
+    // Ticking Apply outside play mode would save it into the scene and fire on the next play
+    private void OnValidate()
+    {
+        if (!Application.isPlaying)
+        {
+            debugApplyCurrency = false;
+        }
+    }
+#endif
 }

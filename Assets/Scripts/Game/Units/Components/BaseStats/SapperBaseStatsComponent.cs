@@ -8,8 +8,6 @@ public class SapperBaseStatsComponent : BaseUnitStats, IAttack
     private ContactFilter2D contactFilter;
     private LayerMask enemyLayer;
 
-    private bool hasExploded = false;
-
     protected override void Awake()
     {
         base.Awake();
@@ -62,16 +60,6 @@ public class SapperBaseStatsComponent : BaseUnitStats, IAttack
         }
         //To invalidate itself as a target.
         currentHealth = 0;
-
-        hasExploded = true;
-    }
-
-    protected override void OnDeath()
-    {
-        if (!hasExploded)
-        {
-            Explode();
-        }
     }
 
     protected override void OnDrawGizmosSelected()

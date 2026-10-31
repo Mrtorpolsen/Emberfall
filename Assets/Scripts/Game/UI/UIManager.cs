@@ -473,11 +473,11 @@ public class UIManager : MonoBehaviour
     private void HandleIncomeChanged()
     {
         UpdateIncomeText(GameManager.Instance.Economy.IncomePerTick);
-        incomeCostText.text = GameManager.Instance.Economy.IncomeUpgradeCost.ToString();
+        incomeCostText.text = Mathf.RoundToInt(GameManager.Instance.Economy.IncomeUpgradeCost).ToString();
     }
     private void UpdateIncomeText(float incomePerTick)
     {
-        incomeMultiplierText.text = incomePerTick.ToString();
+        incomeMultiplierText.text = ((int)incomePerTick).ToString();
     }
 
     private void UpdateWaveCountText(int waveNumber)

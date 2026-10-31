@@ -2,9 +2,10 @@
 
 public class MatchEconomyTests
 {
-    private static MatchEconomy CreateEconomy() =>
-        new MatchEconomy(southCurrency: 300, northCurrency: 1000, baseIncomePerTick: 20, incomeInterval: 1f,
-            incomeMultiplier: 1f, incomeUpgradeCost: 200);
+    private static MatchEconomy CreateEconomy(float southCurrency = 300, float baseIncomePerTick = 20,
+        float incomeMultiplier = 1f) =>
+        new MatchEconomy(southCurrency, northCurrency: 1000, baseIncomePerTick, incomeInterval: 1f,
+            incomeMultiplier, incomeUpgradeCost: 200);
 
     [Test]
     public void TrySpend_NotEnough_ReturnsFalseAndKeepsCurrency()
@@ -61,5 +62,47 @@ public class MatchEconomyTests
         Assert.IsFalse(economy.TryUpgradeIncome());
         Assert.AreEqual(1f, economy.IncomeMultiplier);
         Assert.AreEqual(200, economy.IncomeUpgradeCost);
+    }
+
+    [Test]
+    public void IncomePerTick_Fractional_RoundsToWholeNumber()
+    {
+        // 13 * 1.2 = 15.6
+        var economy = CreateEconomy(baseIncomePerTick: 13, incomeMultiplier: 1.2f);
+
+        Assert.AreEqual(16f, economy.IncomePerTick);
+    }
+
+    [Test]
+    public void IncomePerTick_Midpoint_RoundsUp()
+    {
+        // 15 * 1.5 = 22.5 exactly; banker's rounding would give 22
+        var economy = CreateEconomy(baseIncomePerTick: 15, incomeMultiplier: 1.5f);
+
+        Assert.AreEqual(23f, economy.IncomePerTick);
+    }
+
+    [Test]
+    public void IncomePerTick_AfterManyUpgrades_HasNoFloatDrift()
+    {
+        // Adding 0.2f five times leaves the multiplier slightly off 2
+        var economy = CreateEconomy(southCurrency: 10000);
+
+        for (int i = 0; i < 5; i++)
+        {
+            Assert.IsTrue(economy.TryUpgradeIncome());
+        }
+
+        Assert.AreEqual(40f, economy.IncomePerTick);
+    }
+
+    [Test]
+    public void Tick_PaysRoundedIncome()
+    {
+        var economy = CreateEconomy(baseIncomePerTick: 13, incomeMultiplier: 1.2f);
+
+        economy.Tick(1f);
+
+        Assert.AreEqual(316f, economy.Get(Team.South));
     }
 }

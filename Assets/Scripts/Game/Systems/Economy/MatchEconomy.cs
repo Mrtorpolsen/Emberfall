@@ -15,7 +15,7 @@ public class MatchEconomy
 
     public float IncomeMultiplier { get; private set; }
     public float IncomeUpgradeCost { get; private set; }
-    public float IncomePerTick => baseIncomePerTick * IncomeMultiplier;
+    public float IncomePerTick => MathF.Round(baseIncomePerTick * IncomeMultiplier, MidpointRounding.AwayFromZero);
 
     public event Action<Team, float> CurrencyChanged;
     public event Action IncomeChanged;
