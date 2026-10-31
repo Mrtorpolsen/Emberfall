@@ -41,9 +41,6 @@ public class LoginManager : MonoBehaviour
     {
         await UnityServices.InitializeAsync();
 
-        //Clears saved token FOR TESTING
-        //AuthenticationService.Instance.ClearSessionToken();
-
         var auth = AuthenticationService.Instance;
 
         // A cached session (guest or Google) is restored without asking; only first launches get the sign-in choice
