@@ -41,6 +41,29 @@ public class LeaderboardService : MonoBehaviour
         pendingScores = new PendingScoreQueue(new PlayerPrefsScoreStore());
     }
 
+    private void Start()
+    {
+        // IdentityService is created in Bootstrap, before this object's scene (Login) loads
+        if (IdentityService.Instance != null)
+        {
+            IdentityService.Instance.Reconnected += OnReconnected;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this && IdentityService.Instance != null)
+        {
+            IdentityService.Instance.Reconnected -= OnReconnected;
+        }
+    }
+
+    // The high scores are the offline zeros until now, so reload them first (this also refreshes them for the menu)
+    private void OnReconnected()
+    {
+        SubmitPendingScoresInBackground(refreshScoresFirst: true);
+    }
+
     // The score is queued first and only removed from the queue once the server has it, so a match played offline
     // (or a failed submit) is sent after the next sign-in or reconnect instead of being lost.
     public async void AddScore(float timeSurvived, DifficultyLevel difficultyLevel)
@@ -69,7 +92,9 @@ public class LeaderboardService : MonoBehaviour
 
         if (!IsLoggedIn())
         {
+            // A successful reconnect submits the queue (OnReconnected)
             Debug.Log("Not logged in; score queued until the next sign-in");
+            _ = IdentityService.Instance.TryReconnectAsync();
             return;
         }
 

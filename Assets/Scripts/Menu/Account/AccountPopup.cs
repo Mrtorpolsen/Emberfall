@@ -1,8 +1,17 @@
+using System.Threading.Tasks;
+
 // The account popup, opened by tapping the username in the top bar: link Play Games (guests on Android) and delete the account.
 public static class AccountPopup
 {
     public static void Open()
     {
+        // A session that started offline may be able to sign in now. The popup opens right away with what's known;
+        // Link and Delete wait for a running attempt when tapped.
+        if (!UserProfile.Instance.IsLoggedIn())
+        {
+            _ = IdentityService.Instance.TryReconnectAsync();
+        }
+
         var deleteButton = new PopupButtonDefinition
         {
             BtnText = "Delete account",
@@ -38,7 +47,7 @@ public static class AccountPopup
 
     private static async void LinkPlayGames()
     {
-        if (!UserProfile.Instance.IsLoggedIn())
+        if (!await EnsureSignedInAsync())
         {
             Toast.Show("Connect to the internet to link Play Games.");
             return;
@@ -74,6 +83,24 @@ public static class AccountPopup
         }
     }
 
+    private static async Task<bool> EnsureSignedInAsync()
+    {
+        if (UserProfile.Instance.IsLoggedIn())
+        {
+            return true;
+        }
+
+        LoadingSpinner.Instance.ShowSpinner();
+        try
+        {
+            return await IdentityService.Instance.TryReconnectAsync();
+        }
+        finally
+        {
+            LoadingSpinner.Instance.HideSpinner();
+        }
+    }
+
     private static void OpenDeleteConfirmation()
     {
         PopupManager.Instance.OpenPopup_ImgDescBtn(
@@ -89,7 +116,7 @@ public static class AccountPopup
 
     private static async void DeleteAccount()
     {
-        if (!UserProfile.Instance.IsLoggedIn())
+        if (!await EnsureSignedInAsync())
         {
             Toast.Show("Connect to the internet to delete your account.");
             return;
