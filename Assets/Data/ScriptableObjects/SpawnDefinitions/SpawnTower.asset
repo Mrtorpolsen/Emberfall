@@ -20,6 +20,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
     m_EditorAssetChanged: 1
+  loadoutDescription: "A reliable archer tower that fires steadily at anything in
+    range. It\u2019s the cheapest tower and a solid base for your defense."
   id: spawn_tower
   unlockId: unlock_tower_tower
   unlockedByDefault: 1
@@ -27,3 +29,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 87936472045436742, guid: 65f0b2b9586b80346a7573e22fecc536, type: 3}
   stats: {fileID: 11400000, guid: 002d4c92b41d2be44a087178c1d69a66, type: 2}
+  enemyOnly: 0

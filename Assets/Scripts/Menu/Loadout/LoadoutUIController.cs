@@ -97,7 +97,7 @@ public class LoadoutUIController : IUIScreenController
 
                     var stats = UnitStatsManager.Instance.FinalStatsByUnit[unitKey];
 
-                    description = BuildUnitStatsDescription(loadoutSlot.Definition, stats);
+                    description = AppendUnitDescription(loadoutSlot.Definition, BuildUnitStatsDescription(loadoutSlot.Definition, stats));
                 }
                 else if (loadoutSlot.SlotType == DefinitionCategory.Utility)
                 {
@@ -155,7 +155,7 @@ public class LoadoutUIController : IUIScreenController
                     Debug.LogError("Stats were null for " + loadoutDefinition.DisplayName);
                     return;
                 }
-                description = BuildUnitStatsDescription(loadoutDefinition, stats);
+                description = AppendUnitDescription(loadoutDefinition, BuildUnitStatsDescription(loadoutDefinition, stats));
             }
             else
             {
@@ -435,6 +435,15 @@ public class LoadoutUIController : IUIScreenController
         }
 
         return description;
+    }
+
+    // For now the unit description shares the popup's description field with the stats
+    private string AppendUnitDescription(LoadoutDefinition loadoutDefinition, string statsDescription)
+    {
+        if (string.IsNullOrWhiteSpace(loadoutDefinition.LoadoutDescription))
+            return statsDescription;
+
+        return statsDescription + "\n\n" + loadoutDefinition.LoadoutDescription;
     }
 
     private string BuildAbilityDescription(LoadoutDefinition loadoutDefinition)

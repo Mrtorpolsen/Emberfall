@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: spawn_generalrichefield
   unlockId: unit_generalrichefield
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 5ccff7e0c63bb0944b1a2f00c074155c, type: 3}
   stats: {fileID: 11400000, guid: c162392ed619a90488d31669be1b0c4b, type: 2}
+  enemyOnly: 1

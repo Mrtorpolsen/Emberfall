@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: spawn_sirtutorthethird
   unlockId: unit_sirtutorthethird
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 3e4c75d1fdf3b9f4a95991a9d7818373, type: 3}
   stats: {fileID: 11400000, guid: 984869db916081943b0f362ea7e30532, type: 2}
+  enemyOnly: 1

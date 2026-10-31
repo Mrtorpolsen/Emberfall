@@ -19,6 +19,8 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: An archer who brings war hounds into the fight. The hound is
+    a fast, unarmored biter that charges ahead and harasses enemies.
   id: spawn_houndmaster
   unlockId: unlock_unit_houndmaster
   unlockedByDefault: 1
@@ -26,3 +28,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 3501163535796704365, guid: 438798abf79901c46a5dd416aa23eaf1, type: 3}
   stats: {fileID: 11400000, guid: c69c17170bb08f94281b742fb0f93529, type: 2}
+  enemyOnly: 0

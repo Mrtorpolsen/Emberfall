@@ -19,6 +19,8 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: A spearman whose long reach lets him strike from behind the
+    front rank.
   id: spawn_pikeman
   unlockId: unlock_unit_pikeman
   unlockedByDefault: 1
@@ -26,3 +28,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 19f299e5d8fb7774d89f6f4f7ea5806a, type: 3}
   stats: {fileID: 11400000, guid: b5b8b9dbdf4ab404a94a0d46f6a72a9b, type: 2}
+  enemyOnly: 0

@@ -19,6 +19,8 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: A reckless brawler with no armor and the fastest attacks of
+    any foot soldier. He hits hard and quick but has nothing to protect him.
   id: spawn_berserker
   unlockId: unlock_unit_berserker
   unlockedByDefault: 1
@@ -26,3 +28,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 3be627035f33c474bb682b9988254594, type: 3}
   stats: {fileID: 11400000, guid: e1ba1a6a0cabcfb4697f53f87937fb7a, type: 2}
+  enemyOnly: 0

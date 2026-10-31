@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: spawn_countfilofulus
   unlockId: unit_countfilofulus
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: f84bb2d0a555ef74fbccd0c6ad124e11, type: 3}
   stats: {fileID: 11400000, guid: 14f30c6dcb4ae70409431eea907e3e75, type: 2}
+  enemyOnly: 1

@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: spawn_elitefighter
   unlockId: unlock_unit_elitefighter
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 5d2664f44da324848827e56f5f1ab402, type: 3}
   stats: {fileID: 11400000, guid: a2668b22ea2857445b3557b070e32e97, type: 2}
+  enemyOnly: 1

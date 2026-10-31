@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: spawn_rupertvonlargius
   unlockId: unit_rupertvonlargius
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: 5c0b6e5537c1c0a4c82972a15965ab47, type: 3}
   stats: {fileID: 11400000, guid: 617a9e59edd0a1d49bd44648c2a34e65, type: 2}
+  enemyOnly: 1

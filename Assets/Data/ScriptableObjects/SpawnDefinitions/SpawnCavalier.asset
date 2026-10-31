@@ -20,6 +20,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
     m_EditorAssetChanged: 1
+  loadoutDescription: A fast, armored rider who charges in twice as fast as foot
+    soldiers and pushes smaller units aside.
   id: spawn_cavalier
   unlockId: unlock_unit_cavalier
   unlockedByDefault: 1
@@ -27,3 +29,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 8916063152254937078, guid: b162035f5f53c22428a2ddeb61f1c82f, type: 3}
   stats: {fileID: 11400000, guid: f5d336250c7dbf644b2de1d239ceb949, type: 2}
+  enemyOnly: 0

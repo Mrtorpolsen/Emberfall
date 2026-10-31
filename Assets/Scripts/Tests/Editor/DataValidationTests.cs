@@ -107,6 +107,29 @@ public class DataValidationTests
     }
 
     [Test]
+    public void PlayerSpawnDefinitions_HaveLoadoutDescriptions()
+    {
+        // Enemy-only units never show in the loadout, so they need no loadout description
+        var errors = new List<string>();
+
+        foreach (string guid in AssetDatabase.FindAssets("t:SpawnDefinition"))
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            var spawn = AssetDatabase.LoadAssetAtPath<SpawnDefinition>(path);
+
+            if (spawn.EnemyOnly) continue;
+
+            if (string.IsNullOrWhiteSpace(spawn.LoadoutDescription))
+            {
+                errors.Add($"{path} ({spawn.DisplayName}) has no loadout description");
+            }
+        }
+
+        Assert.IsEmpty(errors, string.Join("\n", errors));
+    }
+
+
+    [Test]
     public void TalentUnitKeys_MatchUnitStatsDefinitions()
     {
         // Talents apply to a unit when its stats asset name (lowercased) equals its key in Talents.json.

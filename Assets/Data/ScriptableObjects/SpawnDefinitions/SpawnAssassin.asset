@@ -19,6 +19,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  loadoutDescription: 
   id: spawn_assassin
   unlockId: unlock_unit_assassin
   unlockedByDefault: 0
@@ -26,3 +27,4 @@ MonoBehaviour:
   cooldown: 0
   unitPrefab: {fileID: 6717628542700303866, guid: d9d7fb1ea3c00da439656c73e0522fae, type: 3}
   stats: {fileID: 11400000, guid: f26e67d815635184b8a481c0859587a6, type: 2}
+  enemyOnly: 1
