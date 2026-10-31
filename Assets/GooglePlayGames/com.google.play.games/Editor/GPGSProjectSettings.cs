@@ -180,6 +180,9 @@ namespace GooglePlayGames.Editor
             }
 
             StreamWriter wr = new StreamWriter(mFile, false);
+            // Emberfall patch: write LF to match .gitattributes; GPGSUpgrader re-saves on every
+            // domain reload and CRLF made git show the file as modified. Re-apply after plugin upgrades.
+            wr.NewLine = "\n";
             foreach (string key in mDict.Keys)
             {
                 wr.WriteLine(key + "=" + mDict[key]);
