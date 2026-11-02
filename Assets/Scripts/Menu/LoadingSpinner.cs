@@ -29,6 +29,8 @@ public class LoadingSpinner : MonoBehaviour
 
     public void ShowSpinner()
     {
+        // The popup is added to the same container at runtime (UIScreenRouter.SetupPopup), after this overlay
+        overlay.BringToFront();
         overlay.style.display = DisplayStyle.Flex;
 
         spinTask = spinner.schedule.Execute(() =>
