@@ -105,6 +105,7 @@ The thing you're thinking of is probably **developer account (identity) verifica
 
 - [ ] Run a **closed test with at least 12 opted-in testers for 14 consecutive days**. Internal testing doesn't count. Then answer the production access questionnaire. Start this early, because it's the long pole and other work can happen in parallel.
   - Progress (Oct 28): closed track submitted and approved; 8 testers confirmed, still recruiting. The 14-day clock starts when 12 are opted in (write the date here). Aim for 15–20 testers as a buffer.
+  - Progress (Nov 2): at least 12 opted-in testers confirmed. Play Console shows 2 consecutive days, so the clock started around Oct 31 and the 14 days end around Nov 14, in time for the ~Nov 16 production access application. The days must be consecutive, so keep recruiting past 12 in case a tester opts out. The exact count above 12 isn't known yet.
 - [ ] Finish developer identity/contact verification if the console still shows it as pending.
 
 The App content section in Play Console needs all of these:
