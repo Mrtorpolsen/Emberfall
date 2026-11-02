@@ -105,6 +105,16 @@ public class TargetComponent : MonoBehaviour
         using (UpdateMarker.Auto())
 #endif
         {
+            // Sappers switch to the closest enemy (by edge) every frame, even while they have a valid target, so they head
+            // for the first enemy they can reach. They explode on contact with any enemy (SapperBaseStatsComponent).
+            // Temporary until the targeting rework.
+            if (alwaysRetargetClosest)
+            {
+                CollectTargets();
+                currentTarget = targetSelector.GetClosestByEdge(possibleTargets, transform.position);
+                return;
+            }
+
             retargetTimer -= Time.deltaTime;
             if (retargetTimer > 0f)
                 return;
@@ -115,13 +125,6 @@ public class TargetComponent : MonoBehaviour
                 engagementStallTimer += retargetInterval;
             else
                 engagementStallTimer = 0f;
-
-            //temporary solution to make sapper work, since sapper needs to retarget closest every frame to work properly, until we rework the targeting system
-            if (alwaysRetargetClosest)
-            {
-                FindClosestTarget();
-                return;
-            }
 
             if (!IsTargetStillValid() || ShouldRetargetDueToStall())
             {
