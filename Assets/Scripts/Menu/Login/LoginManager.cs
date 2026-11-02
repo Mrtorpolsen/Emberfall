@@ -41,9 +41,6 @@ public class LoginManager : MonoBehaviour
     {
         await UnityServices.InitializeAsync();
 
-        //Clears saved token FOR TESTING
-        //AuthenticationService.Instance.ClearSessionToken();
-
         var auth = AuthenticationService.Instance;
 
         // A cached session (guest or Google) is restored without asking; only first launches get the sign-in choice
@@ -79,8 +76,9 @@ public class LoginManager : MonoBehaviour
         uiDocument.rootVisualElement.schedule.Execute(_ => InitializeUI());
     }
 
-    // Plays locally as the last signed-in player (UnityAuthIdentity falls back to the cached ID); sign-in is retried
-    // on the next launch. Needs a previous online launch to have cached the ID and name.
+    // Plays locally as the last signed-in player (UnityAuthIdentity falls back to the cached ID). IdentityService
+    // retries the sign-in during the session (periodically, and when the leaderboard or account popup opens).
+    // Needs a previous online launch to have cached the ID and name.
     private bool TryStartOffline()
     {
         string playerName = PlayerPrefs.GetString(LAST_PLAYER_NAME_KEY, null);
@@ -90,13 +88,14 @@ public class LoginManager : MonoBehaviour
         }
 
         UserProfile.Instance.userName = playerName;
+        IdentityService.Instance.MarkStartedOffline();
         Toast.Show("Couldn't connect. Playing offline; leaderboards are unavailable.");
         Login();
         return true;
     }
 
     // Cached for offline launches
-    private static void ApplyUserName(string playerName)
+    public static void ApplyUserName(string playerName)
     {
         UserProfile.Instance.userName = playerName;
         PlayerPrefs.SetString(LAST_PLAYER_NAME_KEY, playerName);

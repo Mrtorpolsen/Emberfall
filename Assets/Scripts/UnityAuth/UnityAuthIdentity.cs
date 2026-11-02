@@ -17,8 +17,11 @@ public class UnityAuthIdentity : IPlayerIdentity
             return playerId;
         }
 
-        return PlayerPrefs.GetString(LAST_PLAYER_ID_KEY, null);
+        return CachedPlayerId;
     }
+
+    // The last signed-in player's ID, whether or not anyone is signed in now
+    public static string CachedPlayerId => PlayerPrefs.GetString(LAST_PLAYER_ID_KEY, null);
 
     public static void ClearCachedPlayer()
     {
