@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "definitionsVersion": 6,
+  "definitionsVersion": 7,
   "gameVersion": "0.7.0",
   "costPresets": {
     "common": {
@@ -1922,7 +1922,7 @@
       ]
     },
     "houndmaster": {
-      "iconId": "place_holder_icon",
+      "iconId": "houndmaster_icon",
       "costPreset": "rare",
       "archetype": "ranged",
       "tags": [],

@@ -13,6 +13,8 @@ public class WaveRules
         availableGenerals = new List<GeneralDefinition>(allGenerals);
     }
 
+    private GeneralDefinition lastGeneral;
+
     public GeneralDefinition GetGeneral()
     {
         if (availableGenerals.Count == 0)
@@ -21,8 +23,16 @@ public class WaveRules
             Debug.Log("All generals have been used. Resetting available generals.");
         }
 
-        var general = availableGenerals[Random.Range(0, availableGenerals.Count)];
+        int index = Random.Range(0, availableGenerals.Count);
+
+        // Don't open a new cycle with the general that just ended the last one,
+        // so the same general never runs twice in a row
+        if (availableGenerals.Count > 1 && availableGenerals[index] == lastGeneral)
+            index = (index + Random.Range(1, availableGenerals.Count)) % availableGenerals.Count;
+
+        var general = availableGenerals[index];
         availableGenerals.Remove(general);
+        lastGeneral = general;
         return general;
     }
 }

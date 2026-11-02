@@ -288,6 +288,8 @@ public class UIManager : MonoBehaviour
 
     public void SetupAbilityButtons(AbilityDefinition[] loadout)
     {
+        bool hasAbility = false;
+
         for (int i = 0; i < abilityButtons.Count; i++)
         {
             if (i >= loadout.Length)
@@ -320,7 +322,11 @@ public class UIManager : MonoBehaviour
             });
 
             boundButtons.Add(abilityButtons[i]);
+            hasAbility = true;
         }
+
+        // Nothing to open when the ability loadout is empty
+        abilitiesButton.interactable = hasAbility;
     }
 
     public void SetupTowerBuildMenuButtons(SpawnDefinition[] loadout)

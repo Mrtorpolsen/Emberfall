@@ -60,4 +60,23 @@ public class TargetSelector
         }
         return nearestEnemy;
     }
+
+    // Closest by distance to the target's edge (center distance minus HitRadius), so a big target the unit is next to
+    // beats a small one whose center is nearer. Used by sappers, which explode on the first enemy they reach.
+    public ITargetable GetClosestByEdge(List<ITargetable> possibleTargets, Vector2 selfPos)
+    {
+        float closestEdgeDistance = float.PositiveInfinity;
+        ITargetable nearestEnemy = null;
+
+        foreach (var target in possibleTargets)
+        {
+            float edgeDistance = Vector2.Distance(selfPos, target.Transform.position) - target.HitRadius;
+            if (edgeDistance < closestEdgeDistance)
+            {
+                closestEdgeDistance = edgeDistance;
+                nearestEnemy = target;
+            }
+        }
+        return nearestEnemy;
+    }
 }

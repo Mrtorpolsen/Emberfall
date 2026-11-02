@@ -27,7 +27,7 @@ public class WaveController : MonoBehaviour
     [SerializeField] private Transform generalSpawn;
     [SerializeField] private Transform southSpawn;
     [SerializeField] private Transform bossPosition;
-    [SerializeField] private int totalWaves = 1000;
+    [SerializeField] private int totalWaves = 2000;
     [SerializeField] private float timeBetweenWaves = 10f;
 
     [Header("Generals")]
@@ -36,6 +36,8 @@ public class WaveController : MonoBehaviour
     [SerializeField] private GeneralDefinition tutorialGeneral;
 
     private GeneralDefinition currentGeneral;
+    // Wave index where the next general takes over
+    private int generalSpawnIndex;
 
     private int currentWaveIndex = 0;
     private bool isSpawning = false;
@@ -98,12 +100,14 @@ public class WaveController : MonoBehaviour
     {
         //Get the starting general
         currentGeneral = waveRules.GetGeneral();
-        int generalSpawnIndex = currentGeneral.spawnLimit;
+        generalSpawnIndex = currentGeneral.spawnLimit;
 
         while (currentWaveIndex < totalWaves && !GameManager.Instance.IsGameOver)
         {
             if (currentWaveIndex >= generalSpawnIndex)
             {
+                // WaveRules never repeats a general when it has several, so a pick is always a new boss.
+                // With a single general (the tutorial's Sir Tutor) the same one stays and no second boss spawns.
                 currentGeneral = waveRules.GetGeneral();
                 generalSpawnIndex += currentGeneral.spawnLimit;
             }
@@ -139,7 +143,8 @@ public class WaveController : MonoBehaviour
                 {
                     SpawnManager.Instance.SpawnUnitAtPoint(group.prefab, generalSpawn, Team.North, out var bossPrefab, stats);
                     var generalComponent = bossPrefab.AddComponent<GeneralComponent>();
-                    generalComponent.Initialize(currentGeneral, bossPosition, currentWaveIndex);
+                    // Sent on the last wave of its run (display number), even if it arrived late
+                    generalComponent.Initialize(currentGeneral, bossPosition, generalSpawnIndex);
                 }
                 else
                 {

@@ -1,15 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class BombTowerBaseStatsComponent : TowerUnitStats, IProjectileImpact
 {
-    private Collider2D[] hitBuffer;
+    private readonly List<Collider2D> explosionHits = new();
     private ContactFilter2D contactFilter;
     private LayerMask enemyLayer;
 
     protected override void Awake()
     {
         base.Awake();
-        hitBuffer = new Collider2D[16];
         enemyLayer = LayerMask.GetMask("NorthTeam");
 
         contactFilter = new ContactFilter2D
@@ -28,22 +28,16 @@ public class BombTowerBaseStatsComponent : TowerUnitStats, IProjectileImpact
 
     private void Explode(Vector2 position)
     {
-        int hitCount = Physics2D.OverlapCircle(
+        // The list overload grows as needed, so a big crowd can't overflow it and escape the blast
+        Physics2D.OverlapCircle(
             position,
             base.SplashRadius,
             contactFilter,
-            hitBuffer
+            explosionHits
         );
 
-        if (hitCount == hitBuffer.Length)
+        foreach (Collider2D hit in explosionHits)
         {
-            Debug.LogWarning("Overflow detected in bombtower!!!");
-        }
-
-        for (int i = 0; i < hitCount; i++)
-        {
-            Collider2D hit = hitBuffer[i];
-
             if (!hit.TryGetComponent<ITargetable>(out var target))
                 continue;
 

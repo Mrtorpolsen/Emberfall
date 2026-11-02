@@ -6,6 +6,9 @@ public class WaveGenerator
 {
     private int sapperCount = 1;
 
+    // Assassin waves get this much more threat than a normal wave, so they're a real spike
+    public const float AssassinWaveThreatMultiplier = 1.5f;
+
     private int sapperWaveCooldown = 0;
 
     private readonly Func<float> randomFunc;
@@ -41,17 +44,20 @@ public class WaveGenerator
             enemiesToSpawn = new List<EnemyGroup>(),
         };
 
-        if (currentGeneral != generalDefinition)
+        bool isAssassinWave = IsMilestone(waveNumber, 7, 0, 21); //start wave 21, and runs every 7 level
+
+        // Assassin waves are only assassins: a general due this wave arrives with the next one
+        if (currentGeneral != generalDefinition && !isAssassinWave)
         {
             wave.enemiesToSpawn.Add(new EnemyGroup(generalDefinition.generalUnit.UnitPrefab, 1, spawnDelay, true));
             currentGeneral = generalDefinition;
         }
 
-        if (IsMilestone(waveNumber, 7, 0, 21)) //start wave 21, and runs every 7 level
+        if (isAssassinWave)
         {
             float threatCost = threatCalculator.CalculateThreat(spawnDB.GetSpawn("spawn_assassin").Stats);
 
-            int assassinCountForWave = Mathf.FloorToInt(threatValue / threatCost);
+            int assassinCountForWave = GetAssassinCount(threatValue, threatCost);
 
             wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_assassin").UnitPrefab, assassinCountForWave, spawnDelay));
         }
@@ -86,7 +92,7 @@ public class WaveGenerator
             }
         }
 
-        if (waveNumberDisplay > 10 && sapperWaveCooldown == 0 && randomFunc() < 0.2f && !IsMilestone(waveNumber, 7, 0, 21))
+        if (waveNumberDisplay > 10 && sapperWaveCooldown == 0 && randomFunc() < 0.2f && !isAssassinWave)
         {
             wave.enemiesToSpawn.Add(new EnemyGroup(spawnDB.GetSpawn("spawn_sapper").UnitPrefab, sapperCount, spawnDelay));
             sapperWaveCooldown = 4; // Set cooldown for 5 waves
@@ -97,6 +103,11 @@ public class WaveGenerator
         }
 
         return wave;
+    }
+
+    public static int GetAssassinCount(float threatValue, float assassinThreat)
+    {
+        return Mathf.Max(1, Mathf.FloorToInt(threatValue * AssassinWaveThreatMultiplier / assassinThreat));
     }
 
     public static bool IsMilestone(

@@ -35,7 +35,8 @@ namespace GooglePlayGames.Editor
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode)
                 return;
-            Debug.Log("GPGSUpgrader start");
+            // Emberfall patch: removed the "GPGSUpgrader start/done" logs, which printed on every recompile.
+            // Re-apply after plugin upgrades.
 
             GPGSProjectSettings.Instance.Set(GPGSUtil.LASTUPGRADEKEY, PluginVersion.VersionKey);
             GPGSProjectSettings.Instance.Set(GPGSUtil.PLUGINVERSIONKEY,
@@ -54,7 +55,6 @@ namespace GooglePlayGames.Editor
             {
                 AssetDatabase.Refresh();
             }
-            Debug.Log("GPGSUpgrader done");
         }
     }
 }
