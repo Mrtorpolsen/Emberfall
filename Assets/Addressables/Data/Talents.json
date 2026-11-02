@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "definitionsVersion": 6,
+  "definitionsVersion": 7,
   "gameVersion": "0.7.0",
   "costPresets": {
     "common": {
