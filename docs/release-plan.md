@@ -2,6 +2,11 @@
 
 Status: in progress, as of v0.7.0 (code 15), live on the closed track since Nov 2 with unit descriptions in the loadout and gameplay fixes. v0.6.0 (code 14), with Google Play Games sign-in and account deletion, passed review and went live before it. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done.
 
+Unreleased on `master` (next release v0.8.0, since it adds features):
+- **#159:** offline score queue, mid-session reconnect, debug tools stripped from release builds.
+- **#160:** wave and unit fixes: generals no longer skip a run, assassin-only waves, sappers explode on contact, towers take no damage, stuck units and ranged rally fixed.
+- **#160 also fixes a v0.7.0 problem:** spawning stops after wave 100 (`totalWaves` was 100 in `Game.unity`; now 2000). Threat scaling past wave 100 hasn't been tuned yet.
+
 ## Where things stand
 
 | Area | Current state in the repo |
@@ -258,7 +263,7 @@ Store declarations and the privacy policy must match the build on the track. Whe
 
 ## Releasing
 
-Releases are tags on `master`; there are no release branches.
+Releases are tags on `master`; there are no release branches. Every release from v0.2.0 has a tag (`v0.2.0`–`v0.5.1` were release branches until Nov 2, now converted to tags). Feature branches are deleted once their PR is merged.
 
 **Versions**
 - Version name (`bundleVersion` in Player Settings): `MAJOR.MINOR.PATCH`. Bump PATCH for fixes, MINOR for features.
