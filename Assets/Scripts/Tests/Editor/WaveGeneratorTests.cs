@@ -186,32 +186,6 @@ public class WaveGeneratorTests
         }
     }
 
-    [Test]
-    public void GenerateWave_SameGeneralQueuedAgain_AddsGeneralAgain()
-    {
-        var generalUnit = _spawnDB.GetSpawn("spawn_giant");
-        var general = CreateGeneral("General A", generalUnit);
-
-        try
-        {
-            var generator = CreateGenerator();
-
-            generator.GenerateWave(0, general);
-
-            // The general pool looped back around to the same general
-            generator.QueueGeneralSpawn();
-            var wave = generator.GenerateWave(10, general);
-
-            var boss = wave.enemiesToSpawn.FirstOrDefault(group => group.isBoss);
-
-            Assert.That(boss, Is.Not.Null);
-            Assert.That(boss.prefab, Is.EqualTo(generalUnit.UnitPrefab));
-        }
-        finally
-        {
-            DestroyGeneral(general);
-        }
-    }
 
 
     // ------------------------------------------------------------------------

@@ -28,13 +28,6 @@ public class WaveGenerator
         this.waveThreatCalculator = waveThreatCalculator;
     }
 
-    // Makes the next wave spawn its general even if it's the same general as before,
-    // e.g. when the general pool loops back around to the one that just finished
-    public void QueueGeneralSpawn()
-    {
-        currentGeneral = null;
-    }
-
     public WaveDefinition GenerateWave(int waveNumber, GeneralDefinition generalDefinition)
     {
         int waveNumberDisplay = waveNumber + 1;

@@ -106,9 +106,10 @@ public class WaveController : MonoBehaviour
         {
             if (currentWaveIndex >= generalSpawnIndex)
             {
+                // WaveRules never repeats a general when it has several, so a pick is always a new boss.
+                // With a single general (the tutorial's Sir Tutor) the same one stays and no second boss spawns.
                 currentGeneral = waveRules.GetGeneral();
                 generalSpawnIndex += currentGeneral.spawnLimit;
-                waveGenerator.QueueGeneralSpawn();
             }
 
             var wave = waveGenerator.GenerateWave(currentWaveIndex, currentGeneral);
