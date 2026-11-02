@@ -157,7 +157,8 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
 
     public virtual void TakeDamage(int amount)
     {
-        if (IsInvulnerable) return;
+        // Untargetable units (towers, an immortal general) can't be hurt either, e.g. by splash that hits everything in range
+        if (IsInvulnerable || !IsTargetable) return;
 
         currentHealth -= DamageCalculator.ApplyArmor(amount, Armor);
 
