@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SapperBaseStatsComponent : BaseUnitStats, IAttack
 {
     public override ThreatLevel UnitPrio => ThreatLevel.Immediate;
 
-    private Collider2D[] hitBuffer;
+    private readonly List<Collider2D> explosionHits = new();
     private Collider2D[] contactBuffer;
     private ContactFilter2D contactFilter;
     private LayerMask enemyLayer;
@@ -12,7 +13,6 @@ public class SapperBaseStatsComponent : BaseUnitStats, IAttack
     protected override void Awake()
     {
         base.Awake();
-        hitBuffer = new Collider2D[32];
         contactBuffer = new Collider2D[8];
         enemyLayer = LayerMask.GetMask("SouthTeam");
 
@@ -53,22 +53,16 @@ public class SapperBaseStatsComponent : BaseUnitStats, IAttack
 
     private void Explode()
     {
-        int hitCount = Physics2D.OverlapCircle(
+        // The list overload grows as needed, so a big crowd can't overflow it and escape the blast
+        Physics2D.OverlapCircle(
             transform.position,
             base.SplashRadius,
             contactFilter,
-            hitBuffer
+            explosionHits
         );
 
-        if (hitCount == hitBuffer.Length)
+        foreach (Collider2D hit in explosionHits)
         {
-            Debug.LogWarning("Overflow detected in sapper");
-        }
-
-        for (int i = 0; i < hitCount; i++)
-        {
-            Collider2D hit = hitBuffer[i];
-
             if (!hit.TryGetComponent<ITargetable>(out var target))
                 continue;
 
