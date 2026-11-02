@@ -69,6 +69,8 @@ public class IdentityService : GlobalSystem<IdentityService>
         var auth = AuthenticationService.Instance;
         if (auth.IsSignedIn)
         {
+            // Signed in some other way; nothing left to retry
+            startedOffline = false;
             return true;
         }
 
