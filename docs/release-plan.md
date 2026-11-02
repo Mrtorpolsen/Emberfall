@@ -1,12 +1,12 @@
 # Emberfall release plan
 
-Status: in progress, as of v0.6.0 (code 14), uploaded Oct 30 for review with Google Play Games sign-in and account deletion. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done.
+Status: in progress, as of v0.7.0 (code 15), live on the closed track since Nov 2 with unit descriptions in the loadout and gameplay fixes. v0.6.0 (code 14), with Google Play Games sign-in and account deletion, passed review and went live before it. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done.
 
 ## Where things stand
 
 | Area | Current state in the repo |
 |---|---|
-| Login | On `feature/gpgs-sign-in` (tested on a device, Oct 30): `LoginManager` offers "Sign in with Play Games" or "Continue as guest", restores cached sessions silently, and plays offline with the cached player when a saved session can't be restored. Guests link Play Games and anyone deletes their account from the Account popup. |
+| Login | Shipped in v0.6.0: `LoginManager` offers "Sign in with Play Games" or "Continue as guest", restores cached sessions silently, and plays offline with the cached player when a saved session can't be restored. Guests link Play Games and anyone deletes their account from the Account popup. |
 | Google Play Games | Plugin v2.1.0 (`Assets/GooglePlayGames`). `PlayGamesManager` gets the server auth code for Unity Authentication; release builds need the plugin's keep rules in `Assets/Plugins/Android/proguard-user.txt` (R8 strips `PlayGames` otherwise). The console side (game project, credentials, UGS provider, testers) is set up. |
 | Save | `SaveService` writes `{playerId}_save.json` to `persistentDataPath` (local only, save version 4). |
 | Talents / research data | `Talents.json` / `Research.json` are bundled Addressables. |
@@ -14,7 +14,7 @@ Status: in progress, as of v0.6.0 (code 14), uploaded Oct 30 for review with Goo
 | Currencies | `Cinders`, `Embers` live in the local save. Nothing is validated on a server. |
 | Achievements / shop / ads | None. |
 | Crash reporting | Unity Diagnostics (since v0.5.4). |
-| Android build | v0.6.0 / versionCode 14 uploaded Oct 30 (in review; v0.5.4 / 13 before it), minSdk 25, targetSdk = "highest installed". |
+| Android build | v0.7.0 / versionCode 15 on the closed track, uploaded Nov 2 (v0.6.0 / 14 before it), minSdk 25, targetSdk = "highest installed". |
 | iOS | Not set up. |
 
 ## Two things to decide first
@@ -105,6 +105,7 @@ The thing you're thinking of is probably **developer account (identity) verifica
 
 - [ ] Run a **closed test with at least 12 opted-in testers for 14 consecutive days**. Internal testing doesn't count. Then answer the production access questionnaire. Start this early, because it's the long pole and other work can happen in parallel.
   - Progress (Oct 28): closed track submitted and approved; 8 testers confirmed, still recruiting. The 14-day clock starts when 12 are opted in (write the date here). Aim for 15–20 testers as a buffer.
+  - Progress (Nov 2): at least 12 opted-in testers confirmed. Play Console shows 2 consecutive days, so the clock started around Oct 31 and the 14 days end around Nov 14, in time for the ~Nov 16 production access application. The days must be consecutive, so keep recruiting past 12 in case a tester opts out. The exact count above 12 isn't known yet.
 - [ ] Finish developer identity/contact verification if the console still shows it as pending.
 
 The App content section in Play Console needs all of these:
