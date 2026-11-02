@@ -130,10 +130,23 @@ public class LeaderboardService : MonoBehaviour
         return submitTask;
     }
 
-    // Removes this player's queued scores, e.g. when the account is deleted
-    public void ClearPendingScores()
+    // Removes this player's queued scores and waits for a submit already in flight, so nothing reaches the
+    // leaderboard once this returns. Account deletion calls it before purging the player's scores.
+    public async Task ClearPendingScoresAsync()
     {
         pendingScores.Clear(IdentityService.Instance.Current.GetPlayerId());
+
+        if (submitTask != null && !submitTask.IsCompleted)
+        {
+            try
+            {
+                await submitTask;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogException(e);
+            }
+        }
     }
 
     private async Task RunSubmitLoopAsync(bool refreshScoresFirst)

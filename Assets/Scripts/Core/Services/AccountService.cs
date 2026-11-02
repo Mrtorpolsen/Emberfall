@@ -69,6 +69,13 @@ public static class AccountService
             return false;
         }
 
+        // Stop queued scores before the purge, or a submit could put one back afterwards. If the deletion then fails,
+        // those queued scores are lost; the player's best ones are already on the leaderboard.
+        if (LeaderboardService.Instance != null)
+        {
+            await LeaderboardService.Instance.ClearPendingScoresAsync();
+        }
+
         // Scores first, while still signed in: Cloud Code identifies the player by the session
         if (!await DeleteLeaderboardScoresAsync())
         {
@@ -88,12 +95,6 @@ public static class AccountService
         Debug.Log("Account deleted");
 
         await SaveService.Instance.DeleteSaveFilesAsync();
-
-        // Before ClearCachedPlayer: the queue is keyed by player ID, which falls back to the cache once signed out
-        if (LeaderboardService.Instance != null)
-        {
-            LeaderboardService.Instance.ClearPendingScores();
-        }
 
         UnityAuthIdentity.ClearCachedPlayer();
         PlayerPrefs.DeleteKey(LoginManager.LAST_PLAYER_NAME_KEY);
