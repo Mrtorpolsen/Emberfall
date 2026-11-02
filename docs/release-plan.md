@@ -1,12 +1,12 @@
 # Emberfall release plan
 
-Status: in progress, as of v0.6.0 (code 14), uploaded Oct 30 for review with Google Play Games sign-in and account deletion. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done.
+Status: in progress, as of v0.7.0 (code 15), live on the closed track since Nov 2 with unit descriptions in the loadout and gameplay fixes. v0.6.0 (code 14), with Google Play Games sign-in and account deletion, passed review and went live before it. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done.
 
 ## Where things stand
 
 | Area | Current state in the repo |
 |---|---|
-| Login | On `feature/gpgs-sign-in` (tested on a device, Oct 30): `LoginManager` offers "Sign in with Play Games" or "Continue as guest", restores cached sessions silently, and plays offline with the cached player when a saved session can't be restored. Guests link Play Games and anyone deletes their account from the Account popup. |
+| Login | Shipped in v0.6.0: `LoginManager` offers "Sign in with Play Games" or "Continue as guest", restores cached sessions silently, and plays offline with the cached player when a saved session can't be restored. Guests link Play Games and anyone deletes their account from the Account popup. |
 | Google Play Games | Plugin v2.1.0 (`Assets/GooglePlayGames`). `PlayGamesManager` gets the server auth code for Unity Authentication; release builds need the plugin's keep rules in `Assets/Plugins/Android/proguard-user.txt` (R8 strips `PlayGames` otherwise). The console side (game project, credentials, UGS provider, testers) is set up. |
 | Save | `SaveService` writes `{playerId}_save.json` to `persistentDataPath` (local only, save version 4). |
 | Talents / research data | `Talents.json` / `Research.json` are bundled Addressables. |
@@ -14,7 +14,7 @@ Status: in progress, as of v0.6.0 (code 14), uploaded Oct 30 for review with Goo
 | Currencies | `Cinders`, `Embers` live in the local save. Nothing is validated on a server. |
 | Achievements / shop / ads | None. |
 | Crash reporting | Unity Diagnostics (since v0.5.4). |
-| Android build | v0.6.0 / versionCode 14 uploaded Oct 30 (in review; v0.5.4 / 13 before it), minSdk 25, targetSdk = "highest installed". |
+| Android build | v0.7.0 / versionCode 15 on the closed track, uploaded Nov 2 (v0.6.0 / 14 before it), minSdk 25, targetSdk = "highest installed". |
 | iOS | Not set up. |
 
 ## Two things to decide first
@@ -46,7 +46,7 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
   - Decided (Oct 29): keep the prompt; for new Play Games accounts it's prefilled with the Play Games name (whitespace removed, cut to 12 characters). Tested on a device Oct 30.
   - Names are checked by `ProfanityFilter` against `Assets/Data/ProfanityWords.txt` (curated LDNOOBW list plus an allowlist).
 - [x] Replace the `"offline"` player ID in `UnityAuthIdentity`. Offline play needs a defined behavior (play locally with a cached ID, then sync later).
-  - Done (tested on a device Oct 30): if restoring a saved session fails, `LoginManager` plays offline with the last player ID and name cached in PlayerPrefs (`UnityAuthIdentity`); leaderboards are unavailable and sign-in is retried on the next launch. A first launch still needs a connection. Scores from offline matches are still dropped (see "Offline and failure handling" under Release readiness).
+  - Done (tested on a device Oct 30): if restoring a saved session fails, `LoginManager` plays offline with the last player ID and name cached in PlayerPrefs (`UnityAuthIdentity`); leaderboards are unavailable until `IdentityService.TryReconnectAsync` restores the session mid-session (see Release readiness). A first launch still needs a connection. Scores from offline matches are queued and submitted once the player is signed in again (see "Offline and failure handling" under Release readiness).
 - [x] **Account deletion** (required by both Google Play and Apple when accounts exist): an in-app "delete account" option that calls `DeleteAccountAsync` and clears Cloud Save, plus a web URL/form for the Play Console data-deletion field.
   - Done in code (Oct 29), tested on a device Oct 30: tap the username in the top bar → Account popup → Delete account → confirm. `AccountService` deletes the UGS account, the local save and backups, the cached ID/name and the session, then restarts from Bootstrap. Leaderboard scores are deleted first (see the next item). Shipped in v0.6.0; the delete-account page lists the in-game steps, with email as the fallback. Cloud Save clearing comes with workstream 2.
 - [x] **Delete the player's leaderboard scores on account deletion (Cloud Code).** `DeleteAccountAsync` only deletes the Authentication account; Unity's docs say the game must delete the player's data in other UGS services. The Leaderboards client SDK can't delete scores, only the Admin API can (`DeleteLeaderboardPlayerScoreAllLiveLeaderboards`), and that needs server credentials. Do this before the sign-in build ships, since the deletion page and Data safety form will say the data is removed.
@@ -105,6 +105,7 @@ The thing you're thinking of is probably **developer account (identity) verifica
 
 - [ ] Run a **closed test with at least 12 opted-in testers for 14 consecutive days**. Internal testing doesn't count. Then answer the production access questionnaire. Start this early, because it's the long pole and other work can happen in parallel.
   - Progress (Oct 28): closed track submitted and approved; 8 testers confirmed, still recruiting. The 14-day clock starts when 12 are opted in (write the date here). Aim for 15–20 testers as a buffer.
+  - Progress (Nov 2): at least 12 opted-in testers confirmed. Play Console shows 2 consecutive days, so the clock started around Oct 31 and the 14 days end around Nov 14, in time for the ~Nov 16 production access application. The days must be consecutive, so keep recruiting past 12 in case a tester opts out. The exact count above 12 isn't known yet.
 - [ ] Finish developer identity/contact verification if the console still shows it as pending.
 
 The App content section in Play Console needs all of these:
@@ -149,10 +150,13 @@ Store listing and build:
 
 - [x] Crash reporting: Unity Diagnostics, shipped in v0.5.4 (code 13). Sessions, managed exceptions and native crashes are reported, and native stack traces are symbolicated once the build's symbols are uploaded (see Releasing). There's no in-game opt-out yet. That belongs on the settings screen below. Note: a report's scene field is the scene open when the report is sent on the next launch, not where the crash happened.
 - [ ] Analytics: Unity Analytics or similar, still to decide.
-- [ ] Offline and failure handling: no internet at launch, a service outage, or sign-in failure shouldn't hard-block the game. The leaderboard already has a TODO for queueing scores.
+- [x] Offline and failure handling: no internet at launch, a service outage, or sign-in failure shouldn't hard-block the game.
+  - Offline score queue: done (Oct 31), tested on a device Nov 2. `LeaderboardService.AddScore` queues the score in PlayerPrefs (`PendingScoreQueue`, best per player and difficulty, Tutorial skipped) and removes it only after `AddPlayerScoreAsync` succeeds or the server already has a higher score. The queue is submitted after the splash screen loads the player's scores and after every new score; account deletion clears it before purging the player's scores (and waits for a submit in flight).
   - Reconnect mid-session: a session that starts offline (cached player) stays signed out until the next launch. Retry restoring the session when the connection comes back (e.g. on opening the leaderboard or account popup, or periodically) so the player doesn't have to restart the app.
+    - Done (Oct 31), tested on a device Nov 2: `IdentityService.TryReconnectAsync` calls `SignInAnonymouslyAsync` only if a session token exists (never a fresh account), joins an attempt already running, and refuses a different player ID than the cached one. When the player opens the account popup or leaderboard, a running attempt that fails is followed by one more (it may have started while still offline). It runs when the leaderboard screen or account popup opens, when a score is queued offline, and every 2 minutes after an offline launch. On success it raises `Reconnected`: `LeaderboardService` reloads the high scores and submits the queue, and the top bar refreshes the name and shows "Back online.". A first launch still needs a connection.
 - [ ] Settings screen: audio, account (link Google, delete account), privacy/consent, restore purchases, credits/licenses.
-- [ ] Remove debug tools from release builds (`Game/Debug`, the `ClearSessionToken` comment in `LoginManager`) and check that Development Build is off. `CrashReportingTester` (on GameManager in `Game.unity`) is already safe: release builds compile only a stub that destroys itself.
+- [x] Remove debug tools from release builds (`Game/Debug`, the `ClearSessionToken` comment in `LoginManager`) and check that Development Build is off. `CrashReportingTester` (on GameManager in `Game.unity`) is already safe: release builds compile only a stub that destroys itself.
+  - Done (Oct 31): `ClickDebugger`, `VelocityInspector` (`VelocityDebugger.cs`) and `DrawCircle` work the same way now: the real code only compiles in the Editor and development builds, release builds get a stub that destroys itself, so the scene and prefab references stay valid. The `ClearSessionToken` comment is gone. Still check that Development Build is off in the build profile for every release.
 - [ ] Performance pass on low-end Android (profile captures already exist).
 - [x] **Separate UGS environments** (`development` and `production`), so test saves and test scores don't mix with real players'. Check free-tier quotas and rate limits and set a billing alert. Created Oct 28: `production` (the original, holds the existing leaderboards and accounts) and `development` (empty; recreate leaderboards there before using it).
 - [ ] **Android auto-backup:** once cloud save exists, turn it off or exclude the save file so an OS restore can't conflict with the cloud copy.

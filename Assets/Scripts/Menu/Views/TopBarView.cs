@@ -23,11 +23,21 @@ public class TopBarView : MonoBehaviour
     {
         CurrencyManager.Instance.OnCindersChanged += SetCurrency;
         btn_account.clicked += AccountPopup.Open;
+
+        if (IdentityService.Instance != null)
+        {
+            IdentityService.Instance.Reconnected += OnReconnected;
+        }
     }
 
     private void OnDisable()
     {
         btn_account.clicked -= AccountPopup.Open;
+
+        if (IdentityService.Instance != null)
+        {
+            IdentityService.Instance.Reconnected -= OnReconnected;
+        }
 
         if (CurrencyManager.Instance != null)
         {
@@ -39,6 +49,13 @@ public class TopBarView : MonoBehaviour
     {
         SetUserName(userName);
         SetCurrency(startingCinders);
+    }
+
+    // The name may have changed on another device while this session was offline
+    private void OnReconnected()
+    {
+        SetUserName(UserProfile.Instance.userName);
+        Toast.Show("Back online.");
     }
 
     private void SetUserName(string userName)
