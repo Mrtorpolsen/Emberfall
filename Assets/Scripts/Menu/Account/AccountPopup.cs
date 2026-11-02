@@ -9,7 +9,7 @@ public static class AccountPopup
         // Link and Delete wait for a running attempt when tapped.
         if (!UserProfile.Instance.IsLoggedIn())
         {
-            _ = IdentityService.Instance.TryReconnectAsync();
+            _ = IdentityService.Instance.TryReconnectAsync(playerAction: true);
         }
 
         var deleteButton = new PopupButtonDefinition
@@ -93,7 +93,7 @@ public static class AccountPopup
         LoadingSpinner.Instance.ShowSpinner();
         try
         {
-            return await IdentityService.Instance.TryReconnectAsync();
+            return await IdentityService.Instance.TryReconnectAsync(playerAction: true);
         }
         finally
         {

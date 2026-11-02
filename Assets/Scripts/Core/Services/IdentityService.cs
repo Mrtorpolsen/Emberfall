@@ -15,6 +15,8 @@ public class IdentityService : GlobalSystem<IdentityService>
     public event Action Reconnected;
 
     private Task<bool> reconnectTask;
+    // reconnectTask started after a player action, or already retries after one; joining it is up to date
+    private bool reconnectTaskRetries;
     private bool startedOffline;
     private float nextAutoReconnectTime;
 
@@ -48,15 +50,35 @@ public class IdentityService : GlobalSystem<IdentityService>
     // Returns true if signed in afterwards. Only uses the saved session token: with no token it does nothing, because
     // a fresh anonymous account would orphan the player's existing one. Calls made while an attempt is running get
     // that attempt's result instead of starting another.
-    public Task<bool> TryReconnectAsync()
+    // playerAction: the player just did something that needs the connection (account popup, leaderboard). A running
+    // attempt may have started while still offline and only fail after a network timeout, so if it fails, one more
+    // attempt is made with the current connection.
+    public Task<bool> TryReconnectAsync(bool playerAction = false)
     {
         if (reconnectTask != null && !reconnectTask.IsCompleted)
         {
+            if (playerAction && !reconnectTaskRetries)
+            {
+                reconnectTask = RetryIfFailedAsync(reconnectTask);
+                reconnectTaskRetries = true;
+            }
+
             return reconnectTask;
         }
 
         reconnectTask = ReconnectAsync();
+        reconnectTaskRetries = playerAction;
         return reconnectTask;
+    }
+
+    private async Task<bool> RetryIfFailedAsync(Task<bool> runningAttempt)
+    {
+        if (await runningAttempt)
+        {
+            return true;
+        }
+
+        return await ReconnectAsync();
     }
 
     private async Task<bool> ReconnectAsync()

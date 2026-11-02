@@ -27,7 +27,7 @@ public class LeaderboardUIController : IUIScreenController
         try
         {
             // A session that started offline may be able to sign in now
-            if (!LeaderboardService.Instance.IsLoggedIn() && await IdentityService.Instance.TryReconnectAsync())
+            if (!LeaderboardService.Instance.IsLoggedIn() && await IdentityService.Instance.TryReconnectAsync(playerAction: true))
             {
                 // Wait for the queued scores the reconnect is submitting, so the player's own score shows up
                 await LeaderboardService.Instance.SubmitPendingScoresAsync();
