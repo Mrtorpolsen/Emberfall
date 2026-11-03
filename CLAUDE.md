@@ -58,7 +58,9 @@ Tapping the username in the top bar opens `AccountPopup` (guests: link Play Game
 
 Short player-facing messages (errors, confirmations) go through `Toast.Show(message)`, a drop-down banner built in code; `LoginManager` and `Bootstrapper` attach it to their UIDocument roots. Modal popups with buttons use `PopupManager`.
 
-The in-game HUD (`Game/UI/UIManager`, `ActionButton`) is separate from the menu router.
+The in-game HUD (`Game/UI/UIManager`, `ActionButton`) is separate from the menu router. Unit buttons send one unit per tap and keep sending while held (`ActionButton.SetHoldAction`).
+
+Rally points (`GameManager.MeleeRally` and the two ranged rallies) are moved by dragging, not a menu: `RallyDragController` (runs before other input via `DefaultExecutionOrder`) grabs the nearest rally within `grabRadius`, and `GameManager.MoveRally` keeps it inside its boundary trigger (`meleeRallyBoundary`/`rangedRallyBoundary`, the `RallyBoundary` polygon in `Game.unity`) with `ClosestPoint`. While `RallyDragController.IsDragging`, `CameraController` doesn't pan and `ClickTracker` ignores the press. Units re-read their rally's position every frame, so they follow a drag without extra code.
 
 ### Persistence
 `SaveService` writes a single JSON file (Newtonsoft) per player ID; the JSON ↔ `SaveGame` step (parse, migrate, fill missing sections) is the plain C# `SaveSerializer`, covered by `SaveLoadTests`. `SaveGame` (`Shared/Persistence/SaveGame.cs`) is the root; `CurrentSaveVersion.CURRENT_SAVE_VERSION` gates migration. **When changing the save shape**: bump the version, keep the old shape as a `SaveGameN` class (legacy types live under `SaveMigration/vN/`), and add a `MigrateNToM` case in `SaveService.Migrate`. Corrupt saves are copied aside rather than overwritten.
