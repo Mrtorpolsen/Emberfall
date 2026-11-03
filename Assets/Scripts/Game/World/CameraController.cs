@@ -13,7 +13,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float maxZoom = 7f;
     [SerializeField] private float zoomSpeed = 0.01f;
 
+    [Header("Panning")]
+    [Tooltip("If the view can move less than this (world units) on an axis, it stays centred on that axis instead of sliding a tiny bit")]
+    [SerializeField] private float minPanRoom = 0.25f;
+    [Tooltip("How far (dp, about 1/160 inch) a finger must move before the camera starts panning, so taps that wobble don't nudge it")]
+    [SerializeField] private float panSlopDp = 8f;
+
     private Vector2 previousTouchPosition; 
+    // The finger being tracked for panning, where it went down, and whether it has moved past the slop yet
+    private int panTouchId = -1;
+    private Vector2 panStartPosition;
+    private bool isPanning;
     private float previousPinchDistance;
 
     private void Awake()
@@ -49,27 +59,37 @@ public class CameraController : MonoBehaviour
         }
         else if (touches.Count == 2)
         {
+            // The finger left after a pinch starts a fresh pan instead of jumping from its pre-pinch position
+            panTouchId = -1;
             HandlePinch(touches[0], touches[1]);
         }
     }
 
     private void HandlePan(Touch touch)
     {
-        // The finger is moving a rally point; keep tracking it so panning doesn't jump if the drag ends mid-touch
-        if (RallyDragController.IsDragging)
+        // New finger, or the finger is moving a rally point: (re)start tracking from here, so panning doesn't
+        // jump if a drag ends mid-touch
+        if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began || touch.touchId != panTouchId || RallyDragController.IsDragging)
         {
+            panTouchId = touch.touchId;
+            panStartPosition = touch.screenPosition;
             previousTouchPosition = touch.screenPosition;
-            return;
-        }
-
-        if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
-        {
-            previousTouchPosition = touch.screenPosition;
+            isPanning = false;
             return;
         }
 
         if (touch.phase != UnityEngine.InputSystem.TouchPhase.Moved)
             return;
+
+        if (!isPanning)
+        {
+            if (Vector2.Distance(touch.screenPosition, panStartPosition) < GetPanSlopPixels())
+                return;
+
+            // Pan from where the finger went down, so the map stays under it instead of lagging the slop behind
+            isPanning = true;
+            previousTouchPosition = panStartPosition;
+        }
 
         Vector3 previousWorld = ScreenToWorld(previousTouchPosition);
         Vector3 currentWorld = ScreenToWorld(touch.screenPosition);
@@ -79,6 +99,13 @@ public class CameraController : MonoBehaviour
         ClampCameraPosition();
 
         previousTouchPosition = touch.screenPosition;
+    }
+
+    private float GetPanSlopPixels()
+    {
+        // Screen.dpi is 0 when unknown (e.g. some editors); fall back to treating dp as pixels
+        float dpi = Screen.dpi > 0f ? Screen.dpi : 160f;
+        return panSlopDp * dpi / 160f;
     }
 
     private void HandlePinch(Touch firstTouch, Touch secondTouch)
@@ -122,10 +149,20 @@ public class CameraController : MonoBehaviour
 
         Vector3 position = targetCamera.transform.position;
 
-        position.x = Mathf.Clamp(position.x, minX, maxX);
-        position.y = Mathf.Clamp(position.y, minY, maxY);
+        position.x = ClampAxis(position.x, minX, maxX, bounds.center.x);
+        position.y = ClampAxis(position.y, minY, maxY, bounds.center.y);
 
         targetCamera.transform.position = position;
+    }
+
+    // On screens slightly off the bounds' aspect, max zoom leaves a sliver of room; panning through it just
+    // jiggles the view (e.g. side to side on a missed rally tap), so that axis is locked to the centre
+    private float ClampAxis(float value, float min, float max, float center)
+    {
+        if (max - min < minPanRoom)
+            return center;
+
+        return Mathf.Clamp(value, min, max);
     }
 
     private void Zoom(float zoomDelta, Vector2 screenPosition)
