@@ -17,6 +17,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform meleeRally;
     public Transform MeleeRally => meleeRally;
 
+    [Header("Rally Boundaries")]
+    [Tooltip("Trigger outlining where the melee rally can be dragged")]
+    [SerializeField] private Collider2D meleeRallyBoundary;
+    [Tooltip("Trigger outlining where the ranged rallies can be dragged; can be the same as the melee one")]
+    [SerializeField] private Collider2D rangedRallyBoundary;
+
     public MatchEconomy Economy { get; private set; }
 
     [Header("References")]
@@ -40,16 +46,6 @@ public class GameManager : MonoBehaviour
     [Tooltip("Tick to apply Set South Currency; unticks itself")]
     [SerializeField] private bool debugApplyCurrency;
 #endif
-
-    [Header("Rally Settings")]
-    [SerializeField] private float maxYMeleeRally = 0.1f;
-    [SerializeField] private float minYMeleeRally = -4.15f;
-    [SerializeField] private float maxYRangedRally = -0.25f;
-    [SerializeField] private float minYRangedRally = -4.5f;
-    //[SerializeField] private float startYMeleeRally = 0.1f;
-    //[SerializeField] private float startYRangedRally = -1.25f;
-
-    private float rallyJump = 1f;
 
     private bool hasReceivedReward = false;
     private bool isTutorial = false;
@@ -196,39 +192,34 @@ public class GameManager : MonoBehaviour
         return selected;
     }
 
-    public void AdvanceMeleeRally()
+    // The rally points RallyDragController can pick up
+    public IEnumerable<Transform> DraggableRallies
     {
-        MoveRally(meleeRally, minYMeleeRally, maxYMeleeRally, rallyJump);
-    }
-
-    public void FallbackMeleeRally()
-    {
-        MoveRally(meleeRally, minYMeleeRally, maxYMeleeRally, -rallyJump);
-    }
-
-    public void AdvanceRangedRally()
-    {
-        foreach (Transform rally in playerRangedRallies)
+        get
         {
-            MoveRally(rally, minYRangedRally, maxYRangedRally, rallyJump);
+            yield return meleeRally;
+
+            foreach (Transform rally in playerRangedRallies)
+                yield return rally;
         }
     }
 
-    public void FallbackRangedRally()
+    // Moves a rally to target, kept inside its boundary: ClosestPoint returns target itself when it's inside,
+    // otherwise the nearest point on the edge, so dragging past the edge slides along it
+    public void MoveRally(Transform rally, Vector2 target)
     {
-        foreach (Transform rally in playerRangedRallies)
+        Collider2D boundary = rally == meleeRally ? meleeRallyBoundary : rangedRallyBoundary;
+
+        if (boundary != null)
         {
-            MoveRally(rally, minYRangedRally, maxYRangedRally, -rallyJump);
+            target = boundary.ClosestPoint(target);
         }
-    }
+        else
+        {
+            Debug.LogError($"No rally boundary assigned on GameManager for {rally.name}");
+        }
 
-    public void MoveRally(Transform rallyPoint, float minY, float maxY, float amount)
-    {
-        Vector2 newPosition = rallyPoint.position;
-
-        newPosition.y = Mathf.Clamp(rallyPoint.position.y + amount, minY, maxY);
-
-        rallyPoint.position = newPosition;
+        rally.position = new Vector3(target.x, target.y, rally.position.z);
     }
 
 #if UNITY_EDITOR

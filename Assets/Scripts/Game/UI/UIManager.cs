@@ -27,12 +27,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Button incomeButton;
     [SerializeField] private Button unitsButton;
     [SerializeField] private Button abilitiesButton;
-    [SerializeField] private Button orderButton;
     [SerializeField] private List<ActionButton> unitButtons;
     [SerializeField] private List<ActionButton> abilityButtons;
     [SerializeField] private GameObject unitButtonsPanel;
     [SerializeField] private GameObject abilityButtonsPanel;
-    [SerializeField] private GameObject orderButtonsPanel;
     [SerializeField] private List<ActionButton> towerBuildMenuWestButtons;
     [SerializeField] private List<ActionButton> towerMenuWestButtons;
     [SerializeField] private List<ActionButton> towerBuildMenuEastButtons;
@@ -266,7 +264,6 @@ public class UIManager : MonoBehaviour
     {
         unitsButton.onClick.AddListener(() => ToggleButtonPanel(unitButtonsPanel));
         abilitiesButton.onClick.AddListener(() => ToggleButtonPanel(abilityButtonsPanel));
-        orderButton.onClick.AddListener(() => ToggleButtonPanel(orderButtonsPanel));
         topMenuButton.onClick.AddListener(() => GoToMainMenu());
         bottomMenuButton.onClick.AddListener(() => RestartGame());
     }
@@ -461,7 +458,6 @@ public class UIManager : MonoBehaviour
             button.Refresh();
         }
         incomeButton.interactable = (!PauseManager.IsPaused && GameManager.Instance.Economy.CanAfford(Team.South, GameManager.Instance.Economy.IncomeUpgradeCost));
-        orderButton.interactable = (!PauseManager.IsPaused);
     }
 
     public void SpawnSouthTowerClickAction(GameObject prefab, SpawnSide spawnSide)

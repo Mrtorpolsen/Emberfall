@@ -16,6 +16,8 @@ public class ClickTracker : MonoBehaviour
     {
         if (Pointer.current == null) return;
         if (!Pointer.current.press.wasPressedThisFrame) return;
+        // This press grabbed a rally point (RallyDragController runs first)
+        if (RallyDragController.IsDragging) return;
 
         Vector2 screenPos = Pointer.current.position.ReadValue();
         Vector2 worldPos = cam.ScreenToWorldPoint(screenPos);
