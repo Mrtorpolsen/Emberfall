@@ -17,6 +17,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform meleeRally;
     public Transform MeleeRally => meleeRally;
 
+    [Header("Rally Boundaries")]
+    [Tooltip("Trigger outlining where the melee rally can be dragged")]
+    [SerializeField] private Collider2D meleeRallyBoundary;
+    [Tooltip("Trigger outlining where the ranged rallies can be dragged; can be the same as the melee one")]
+    [SerializeField] private Collider2D rangedRallyBoundary;
+
     public MatchEconomy Economy { get; private set; }
 
     [Header("References")]
@@ -194,6 +200,36 @@ public class GameManager : MonoBehaviour
         Transform selected = playerRangedRallies[nextRangedSpawn];
         nextRangedSpawn = (nextRangedSpawn + 1) % playerRangedRallies.Length;
         return selected;
+    }
+
+    // The rally points RallyDragController can pick up
+    public IEnumerable<Transform> DraggableRallies
+    {
+        get
+        {
+            yield return meleeRally;
+
+            foreach (Transform rally in playerRangedRallies)
+                yield return rally;
+        }
+    }
+
+    // Moves a rally to target, kept inside its boundary: ClosestPoint returns target itself when it's inside,
+    // otherwise the nearest point on the edge, so dragging past the edge slides along it
+    public void MoveRally(Transform rally, Vector2 target)
+    {
+        Collider2D boundary = rally == meleeRally ? meleeRallyBoundary : rangedRallyBoundary;
+
+        if (boundary != null)
+        {
+            target = boundary.ClosestPoint(target);
+        }
+        else
+        {
+            Debug.LogError($"No rally boundary assigned on GameManager for {rally.name}");
+        }
+
+        rally.position = new Vector3(target.x, target.y, rally.position.z);
     }
 
     public void AdvanceMeleeRally()

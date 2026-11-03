@@ -55,6 +55,13 @@ public class CameraController : MonoBehaviour
 
     private void HandlePan(Touch touch)
     {
+        // The finger is moving a rally point; keep tracking it so panning doesn't jump if the drag ends mid-touch
+        if (RallyDragController.IsDragging)
+        {
+            previousTouchPosition = touch.screenPosition;
+            return;
+        }
+
         if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
         {
             previousTouchPosition = touch.screenPosition;
