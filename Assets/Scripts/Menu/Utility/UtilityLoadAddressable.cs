@@ -104,6 +104,8 @@ public static class UtilityLoadAddressable
 
     private static void InternalLoad(string key, VisualElement target)
     {
+        key = ToCacheKey(key);
+
         if (KnownMissingIcons.Contains(key))
         {
             target.style.backgroundImage =
@@ -186,6 +188,23 @@ public static class UtilityLoadAddressable
             target.style.backgroundImage =
                 new StyleBackground(placeholderSprite);
         }
+    }
+
+    // Icons are cached under their address (PreloadIcons), but AssetReferences pass their GUID, with the sprite's
+    // name for sub-asset references ("guid[cavalier_icon_512x512]"), and popups pass the bare GUID. Resolve
+    // both to the address so every caller hits the preloaded sprite; unknown keys are used as they are.
+    private static string ToCacheKey(string key)
+    {
+        int subObjectStart = key.IndexOf('[');
+        string baseKey = subObjectStart >= 0 ? key.Substring(0, subObjectStart) : key;
+
+        foreach (var locator in Addressables.ResourceLocators)
+        {
+            if (locator.Locate(baseKey, typeof(Sprite), out var locations) && locations.Count > 0)
+                return RemoveResolutionSuffix(locations[0].PrimaryKey);
+        }
+
+        return key;
     }
 
     private static string RemoveResolutionSuffix(string fileName)
