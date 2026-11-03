@@ -3,11 +3,12 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class ActionButton : MonoBehaviour
+public class ActionButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
     [Header("UI")]
     [SerializeField] private Button button;
@@ -16,6 +17,12 @@ public class ActionButton : MonoBehaviour
     [SerializeField] private TMP_Text bottomText;
     [SerializeField] private TMP_Text cooldownText;
 
+    [Header("Hold")]
+    [Tooltip("Seconds the button must be held before the hold action starts repeating")]
+    [SerializeField] private float holdDelay = 0.4f;
+    [Tooltip("Seconds between repeats while held")]
+    [SerializeField] private float holdRepeatInterval = 0.25f;
+
     private AsyncOperationHandle<Sprite>? iconHandle;
 
     private string cooldownKey;
@@ -23,6 +30,12 @@ public class ActionButton : MonoBehaviour
 
     private Action clickAction;
     private Func<bool> canInteract;
+
+    private Action holdAction;
+    private Coroutine holdRoutine;
+    private int holdPointerId;
+    // Set once a hold has fired, so releasing doesn't also trigger the normal click
+    private bool suppressClick;
 
     public void Setup(string title, float cost, AssetReference icon, float cooldown, Func<bool> canInteractFunc)
     {
@@ -85,12 +98,79 @@ public class ActionButton : MonoBehaviour
 
     public void OnClick()
     {
+        if (suppressClick)
+        {
+            suppressClick = false;
+            return;
+        }
+
         clickAction?.Invoke();
     }
 
     public void SetClickAction(Action action)
     {
         clickAction = action;
+    }
+
+    // Repeats while the button is held; a short tap still only runs the click action
+    public void SetHoldAction(Action action)
+    {
+        holdAction = action;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        suppressClick = false;
+
+        if (holdAction == null || eventData.button != PointerEventData.InputButton.Left)
+            return;
+
+        StopHold();
+        holdPointerId = eventData.pointerId;
+        holdRoutine = StartCoroutine(HoldRoutine());
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (eventData.pointerId == holdPointerId)
+            StopHold();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (eventData.pointerId == holdPointerId)
+            StopHold();
+    }
+
+    // Realtime so the repeat rate doesn't depend on timeScale; canInteract already blocks it while paused
+    private IEnumerator HoldRoutine()
+    {
+        yield return new WaitForSecondsRealtime(holdDelay);
+
+        suppressClick = true;
+
+        while (true)
+        {
+            // Keeps waiting while unaffordable, so holding sends again as soon as there's money
+            if (canInteract == null || canInteract())
+                holdAction?.Invoke();
+
+            yield return new WaitForSecondsRealtime(holdRepeatInterval);
+        }
+    }
+
+    private void StopHold()
+    {
+        if (holdRoutine != null)
+        {
+            StopCoroutine(holdRoutine);
+            holdRoutine = null;
+        }
+    }
+
+    private void OnDisable()
+    {
+        StopHold();
     }
 
     private void LoadIcon(AssetReference iconReference)
