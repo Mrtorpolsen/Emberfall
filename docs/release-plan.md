@@ -1,11 +1,8 @@
 # Emberfall release plan
 
-Status: in progress, as of v0.7.0 (code 15), live on the closed track since Nov 2 with unit descriptions in the loadout and gameplay fixes. v0.6.0 (code 14), with Google Play Games sign-in and account deletion, passed review and went live before it. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done.
+Status: in progress, as of v0.8.0 (code 16), uploaded to the closed track Nov 3: draggable rally points (replacing the Orders menu), hold-to-send unit buttons, offline score queue and mid-session reconnect, wave and unit fixes, talent refunds re-locking units, and camera and loadout icon fixes. v0.7.0 (code 15), with unit descriptions in the loadout and gameplay fixes, went live on the closed track Nov 2; v0.6.0 (code 14), with Google Play Games sign-in and account deletion, before it. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done.
 
-Unreleased on `master` (next release v0.8.0, since it adds features):
-- **#159:** offline score queue, mid-session reconnect, debug tools stripped from release builds.
-- **#160:** wave and unit fixes: generals no longer skip a run, assassin-only waves, sappers explode on contact, towers take no damage, stuck units and ranged rally fixed.
-- **#160 also fixes a v0.7.0 problem:** spawning stops after wave 100 (`totalWaves` was 100 in `Game.unity`; now 2000). Threat scaling past wave 100 hasn't been tuned yet.
+Nothing unreleased on `master`. Known open point from v0.8.0: runs now go to wave 2000 (`totalWaves`), but threat scaling past wave 100 hasn't been tuned yet.
 
 ## Where things stand
 
@@ -19,7 +16,7 @@ Unreleased on `master` (next release v0.8.0, since it adds features):
 | Currencies | `Cinders`, `Embers` live in the local save. Nothing is validated on a server. |
 | Achievements / shop / ads | None. |
 | Crash reporting | Unity Diagnostics (since v0.5.4). |
-| Android build | v0.7.0 / versionCode 15 on the closed track, uploaded Nov 2 (v0.6.0 / 14 before it), minSdk 25, targetSdk = "highest installed". |
+| Android build | v0.8.0 / versionCode 16 on the closed track, uploaded Nov 3 (v0.7.0 / 15 before it), minSdk 25, targetSdk = "highest installed". |
 | iOS | Not set up. |
 
 ## Two things to decide first
