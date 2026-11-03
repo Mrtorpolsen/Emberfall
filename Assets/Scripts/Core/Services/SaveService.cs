@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -58,53 +56,33 @@ public class SaveService : GlobalSystem<SaveService>
         }
 
         string json = await Task.Run(() => File.ReadAllText(savePath));
+        SaveLoadResult result = SaveSerializer.Deserialize(json);
 
-        JObject root;
-        int version;
+        switch (result.Status)
+        {
+            case SaveLoadStatus.Corrupt:
+                Debug.LogError($"Failed to parse save file, creating new save: {result.Error}");
+                await BackupSave(json, "corrupt");
+                await CreateNewSave();
+                return;
 
-        try
-        {
-            root = JObject.Parse(json);
-            version = root.Value<int>("Version");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to parse save file, creating new save: {e.Message}");
-            await BackupSave(json, "corrupt");
-            await CreateNewSave();
-            return;
-        }
+            case SaveLoadStatus.Unsupported:
+                Debug.LogError($"Save version {result.Version} is too old to migrate, creating new save");
+                await BackupSave(json, $"unsupported-v{result.Version}");
+                await CreateNewSave();
+                return;
 
-        if (version < SaveMigrator.OldestSupportedVersion)
-        {
-            Debug.LogError($"Save version {version} is too old to migrate, creating new save");
-            await BackupSave(json, $"unsupported-v{version}");
-            await CreateNewSave();
-            return;
-        }
-
-        bool migrated = version < CurrentSaveVersion.CURRENT_SAVE_VERSION;
-        SaveGame loaded;
-
-        try
-        {
-            loaded = migrated
-                ? SaveMigrator.Migrate(root)
-                : JsonConvert.DeserializeObject<SaveGame>(json);
-        }
-        catch (Exception e)
-        {
-            // Valid JSON that doesn't fit SaveGame or fails to migrate; keep a copy so it can be recovered
-            Debug.LogError($"Failed to load save version {version}, creating new save: {e}");
-            await BackupSave(json, $"failed-v{version}");
-            await CreateNewSave();
-            return;
+            case SaveLoadStatus.Failed:
+                // Keep a copy so it can be recovered
+                Debug.LogError($"Failed to load save version {result.Version}, creating new save: {result.Error}");
+                await BackupSave(json, $"failed-v{result.Version}");
+                await CreateNewSave();
+                return;
         }
 
-        Current = loaded;
-        ValidateSave();
+        Current = result.Save;
 
-        if (migrated)
+        if (result.Status == SaveLoadStatus.Migrated)
         {
             await SaveAsync();
         }
@@ -115,7 +93,7 @@ public class SaveService : GlobalSystem<SaveService>
     public Task SaveAsync()
     {
         // Serializing on the main thread at call time is the snapshot
-        string json = JsonConvert.SerializeObject(Current);
+        string json = SaveSerializer.Serialize(Current);
         return SaveInternal(json, ++requestedSaveSequence);
     }
 
@@ -178,8 +156,9 @@ public class SaveService : GlobalSystem<SaveService>
         }
     }
 
-    // Write to a temp file, then swap it in, so a crash or kill mid-write can't leave a truncated save
-    private static void WriteAtomic(string path, string contents)
+    // Write to a temp file, then swap it in, so a crash or kill mid-write can't leave a truncated save.
+    // Public for tests.
+    public static void WriteAtomic(string path, string contents)
     {
         string tempPath = path + ".tmp";
 
@@ -235,19 +214,6 @@ public class SaveService : GlobalSystem<SaveService>
 
     private void ValidateSave()
     {
-        Current ??= new SaveGame();
-
-        Current.Talents ??= new PlayerTalentState();
-        Current.Talents.Purchases ??= new Dictionary<string, UnitSaveData>();
-        Current.Talents.CurrencySpent ??= new Dictionary<CurrencyTypes, int>();
-
-        Current.Research ??= new PlayerResearchState();
-        Current.Research.CompletedResearch ??= new Dictionary<string, int>();
-        Current.Research.ActiveResearch ??= new List<ActiveResearch>();
-
-        Current.Currency ??= new CurrencyData();
-
-        Current.Loadouts ??= new PlayerLoadoutCollection();
-        Current.Flags ??= new PlayerFlagsState();
+        Current = SaveSerializer.EnsureDefaults(Current);
     }
 }

@@ -61,7 +61,7 @@ Short player-facing messages (errors, confirmations) go through `Toast.Show(mess
 The in-game HUD (`Game/UI/UIManager`, `ActionButton`) is separate from the menu router.
 
 ### Persistence
-`SaveService` writes a single JSON file (Newtonsoft) per player ID. `SaveGame` (`Shared/Persistence/SaveGame.cs`) is the root; `CurrentSaveVersion.CURRENT_SAVE_VERSION` gates migration. **When changing the save shape**: bump the version, keep the old shape as a `SaveGameN` class (legacy types live under `SaveMigration/vN/`), and add a `MigrateNToM` case in `SaveService.Migrate`. Corrupt saves are copied aside rather than overwritten.
+`SaveService` writes a single JSON file (Newtonsoft) per player ID; the JSON ↔ `SaveGame` step (parse, migrate, fill missing sections) is the plain C# `SaveSerializer`, covered by `SaveLoadTests`. `SaveGame` (`Shared/Persistence/SaveGame.cs`) is the root; `CurrentSaveVersion.CURRENT_SAVE_VERSION` gates migration. **When changing the save shape**: bump the version, keep the old shape as a `SaveGameN` class (legacy types live under `SaveMigration/vN/`), and add a `MigrateNToM` case in `SaveService.Migrate`. Corrupt saves are copied aside rather than overwritten.
 
 ### Data definitions
 - ScriptableObjects under `Assets/Data/ScriptableObjects/` define units (`UnitStatsDefinition`), spawnable entries (`SpawnDefinition`), generals/bosses (`GeneralDefinition`), abilities (`AbilityDefinition` + `AbilityAction` assets), and targeting. They're referenced directly (scenes/prefabs), not loaded by path.
