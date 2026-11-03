@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "definitionsVersion": 7,
-  "gameVersion": "0.7.0",
+  "gameVersion": "0.8.0",
   "costPresets": {
     "common": {
       "tiers": {
