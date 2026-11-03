@@ -125,12 +125,7 @@ public class LoadoutService : MonoBehaviour
 
             if (activePreset != null)
             {
-                CurrentLoadout = new ActiveLoadout
-                {
-                    UnitLoadout = Array.ConvertAll(activePreset.State.UnitLoadout, id => SpawnDatabase.Instance.GetSpawn(id)),
-                    TowerLoadout = Array.ConvertAll(activePreset.State.TowerLoadout, id => SpawnDatabase.Instance.GetSpawn(id)),
-                    AbilityLoadout = Array.ConvertAll(activePreset.State.AbilityLoadout, id => AbilityDatabase.Instance.GetAbility(id))
-                };
+                CurrentLoadout = FromState(activePreset.State);
             }
             else
             {
@@ -139,6 +134,16 @@ public class LoadoutService : MonoBehaviour
             }
         }
 
+    }
+
+    private static ActiveLoadout FromState(PlayerLoadoutState state)
+    {
+        return new ActiveLoadout
+        {
+            UnitLoadout = Array.ConvertAll(state.UnitLoadout, id => SpawnDatabase.Instance.GetSpawn(id)),
+            TowerLoadout = Array.ConvertAll(state.TowerLoadout, id => SpawnDatabase.Instance.GetSpawn(id)),
+            AbilityLoadout = Array.ConvertAll(state.AbilityLoadout, id => AbilityDatabase.Instance.GetAbility(id))
+        };
     }
 
     private async Task SetDefaultLoadout()
@@ -264,9 +269,38 @@ public class LoadoutService : MonoBehaviour
 
     public List<LoadoutDefinition> GetAllAvailableLoadoutDefinitions()
     {
-        //Todo determine which loadouts are available based on player progress, for now just return all thats on by default
+        return GetAllDefinitions().Where(IsAvailable).ToList();
+    }
 
-        return GetAllDefinitions().Where(def => def.UnlockedByDefault == true || UnlockService.Instance.IsUnlocked(def.UnlockId)).ToList();
+    private static bool IsAvailable(LoadoutDefinition def)
+    {
+        return def.UnlockedByDefault || UnlockService.Instance.IsUnlocked(def.UnlockId);
+    }
+
+    // Empties slots (in every preset) holding something no longer unlocked, e.g. after a talent refund, and
+    // rebuilds the current loadout. Doesn't save; returns whether anything was removed.
+    public bool RemoveLockedDefinitions()
+    {
+        bool removed = false;
+
+        foreach (var preset in SaveService.Instance.Current.Loadouts.Presets)
+        {
+            // Unknown IDs (definitions removed from the game) are dropped too
+            removed |= LoadoutPruner.RemoveUnavailable(preset.State,
+                id => definitionMap.TryGetValue(id, out var def) && IsAvailable(def));
+        }
+
+        if (removed)
+        {
+            var activePreset = SaveService.Instance.Current.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
+
+            if (activePreset != null)
+            {
+                CurrentLoadout = FromState(activePreset.State);
+            }
+        }
+
+        return removed;
     }
 
     public string GetCurrentLoadoutDisplayName()
