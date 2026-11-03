@@ -44,7 +44,7 @@ public class ServiceInitializer : MonoBehaviour
         {
             if (definition.UnlockedByDefault)
             {
-                UnlockService.Instance.Unlock(definition.UnlockId);
+                UnlockService.Instance.UnlockPermanently(definition.UnlockId);
             }
         }
     }

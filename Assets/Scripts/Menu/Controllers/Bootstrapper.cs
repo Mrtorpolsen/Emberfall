@@ -37,6 +37,13 @@ public class Bootstrapper : MonoBehaviour
         SaveService.Instance.InitializeForPlayer(IdentityService.Instance.Current.GetPlayerId());
         await SaveService.Instance.Load();
 
+        // Unlocks are known once Load returns (its handlers have run); repairs loadouts still holding units
+        // whose talents were refunded before refunds re-locked them
+        if (LoadoutService.Instance != null && LoadoutService.Instance.RemoveLockedDefinitions())
+        {
+            await SaveService.Instance.SaveAsync();
+        }
+
         // Load all needed data
         var loadTasks = new List<Task>
         {

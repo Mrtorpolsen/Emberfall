@@ -86,6 +86,20 @@ public class UIManager : MonoBehaviour
         SetupUnitButtons(loadOutUnits);
         SetupTowerBuildMenuButtons(loadOutTowers);
         SetupAbilityButtons(loadOutAbilities);
+
+        SyncHudWithEconomy();
+    }
+
+    // The HUD otherwise only updates on economy events, so it would show scene placeholders
+    // and disabled buttons until the first income tick
+    private void SyncHudWithEconomy()
+    {
+        if (GameManager.Instance == null)
+            return;
+
+        var economy = GameManager.Instance.Economy;
+        HandleCurrencyChanged(Team.South, economy.Get(Team.South)); // also refreshes the buttons
+        HandleIncomeChanged();
     }
 
     private async Task InitializeAsync()

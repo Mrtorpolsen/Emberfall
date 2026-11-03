@@ -192,6 +192,31 @@ public class TalentService : MonoBehaviour
         }
     }
 
+    // Gives back all currency spent on talents and re-locks what talents unlocked, removing those from loadouts
+    public async Task RefundAllAsync()
+    {
+        var talents = SaveService.Instance.Current.Talents;
+
+        foreach (var currency in talents.CurrencySpent)
+        {
+            CurrencyManager.Instance.Add(currency.Key, currency.Value);
+        }
+
+        talents.Purchases.Clear();
+        talents.CurrencySpent.Clear();
+        TalentUnlockManager.Instance.ResetAll();
+
+        // Only talent unlocks: research and default unlocks stay
+        foreach (var talent in unlockTalents)
+        {
+            UnlockService.Instance.Lock(talent.talentId);
+        }
+
+        LoadoutService.Instance.RemoveLockedDefinitions();
+
+        await SaveService.Instance.SaveAsync();
+    }
+
     public bool CanAfford(int cost)
     {
         return cost <= CurrencyManager.Instance.Get(CurrencyTypes.Cinders);

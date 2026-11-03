@@ -175,14 +175,12 @@ public class ForgeUIController : IUIScreenController
 
     public async Task RefundTalentsAsync()
     {
-        foreach (var currency in SaveService.Instance.Current.Talents.CurrencySpent)
-        {
-            CurrencyManager.Instance.Add(currency.Key, currency.Value);
-        }
-        SaveService.Instance.Current.Talents.Purchases.Clear();
-        SaveService.Instance.Current.Talents.CurrencySpent.Clear();
-        TalentUnlockManager.Instance.ResetAll();
-        await SaveService.Instance.SaveAsync();
+        await TalentService.Instance.RefundAllAsync();
+
+        // Always re-render after the refund: talent-unlocked units are locked again, and isDirty is
+        // already cleared by BackToForge by the time the refund button can be pressed
+        view.RenderUnitContainers(GenerateUnitContainers());
+        isDirty = false;
     }
 
     private bool IsUnlocked(string unitName)
