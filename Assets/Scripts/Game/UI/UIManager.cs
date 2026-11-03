@@ -281,6 +281,11 @@ public class UIManager : MonoBehaviour
             {
                 SpawnManager.Instance.SpawnSouthUnit(def.UnitPrefab);
             });
+            // Holding keeps sending
+            unitButtons[i].SetHoldAction(() =>
+            {
+                SpawnManager.Instance.SpawnSouthUnit(def.UnitPrefab);
+            });
 
             boundButtons.Add(unitButtons[i]);
         }
