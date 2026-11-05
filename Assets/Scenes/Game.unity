@@ -4472,6 +4472,8 @@ MonoBehaviour:
   minZoom: 4
   maxZoom: 7
   zoomSpeed: 0.01
+  minPanRoom: 0.25
+  panSlopDp: 8
 --- !u!1001 &520825885
 PrefabInstance:
   m_ObjectHideFlags: 0
