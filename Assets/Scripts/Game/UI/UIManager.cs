@@ -198,7 +198,10 @@ public class UIManager : MonoBehaviour
 
     private void TogglePauseMenu(bool paused)
     {
+        int cinders = CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes());
+
         pauseMenu.gameObject.SetActive(paused);
+        pauseTitleText.SetText(cinders > 0 ? $"Paused... \nEarned {cinders} <voffset=0.35em><sprite=0></voffset>" : "Paused...");
         RefreshAllButtons();
     }
 
