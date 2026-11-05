@@ -4472,6 +4472,8 @@ MonoBehaviour:
   minZoom: 4
   maxZoom: 7
   zoomSpeed: 0.01
+  minPanRoom: 0.25
+  panSlopDp: 8
 --- !u!1001 &520825885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8080,7 +8082,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 3d1b80b1b73a9be4980479b50684454a, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
