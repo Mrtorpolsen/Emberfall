@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable disable // Unity code is nullable-oblivious; the Cloud Code module compiles this file with nullable on
+using System.Collections.Generic;
 
 public class PlayerTalentState
 {

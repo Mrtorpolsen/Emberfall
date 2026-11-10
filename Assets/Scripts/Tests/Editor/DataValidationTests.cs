@@ -22,6 +22,21 @@ public class DataValidationTests
         Assert.DoesNotThrow(() => JsonConvert.DeserializeObject<TalentTree>(json));
     }
 
+    // Purchases are saved under the built talent IDs, so building must work and give unique IDs per unit
+    [Test]
+    public void TalentsJson_BuildsUniqueTalentIdsPerUnit()
+    {
+        var tree = JsonConvert.DeserializeObject<TalentTree>(LoadText(TalentsPath));
+
+        Assert.DoesNotThrow(() => tree.BuildTalentsByUnit());
+
+        foreach (var unit in tree.TalentsByUnit)
+        {
+            var duplicates = unit.Value.GroupBy(t => t.Id).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
+            Assert.That(duplicates, Is.Empty, $"Duplicate talent IDs for {unit.Key}");
+        }
+    }
+
     [Test]
     public void ResearchJson_DeserializesIntoResearchTree()
     {

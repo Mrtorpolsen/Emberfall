@@ -27,9 +27,6 @@ public class ForgeUIController : IUIScreenController
         forgePanel = forgeView.ForgePanel;
         talentTreePanel = forgeView.TalentTreePanel;
 
-        //Get prerequisites from talents
-        TalentUnlockManager.Instance.InitializeFromForge();
-
         //Enforce correct state
         talentTreePanel.style.display = DisplayStyle.None;
         forgePanel.style.display = DisplayStyle.Flex;
@@ -131,8 +128,7 @@ public class ForgeUIController : IUIScreenController
             int purchasedNow = TalentService.Instance.GetPurchasedTalent(unitName, talent.Id);
             bool canPurchase = purchasedNow < max;
 
-            bool prerequisitesMet = TalentUnlockManager.Instance.ArePrerequisitesMet(unitName.ToLowerInvariant()
-                .ToLowerInvariant(), talent.Prerequisites);
+            bool prerequisitesMet = TalentService.Instance.ArePrerequisitesMet(unitName, talent);
 
             int currentCost = talent.GetCurrentCost();
             bool hasEnoughCurrency = TalentService.Instance.CanAfford(currentCost);

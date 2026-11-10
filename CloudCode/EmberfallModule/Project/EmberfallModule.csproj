@@ -14,6 +14,13 @@
     <Compile Include="..\..\..\Assets\Scripts\DataModels\DifficultyLevelEnum.cs" Link="Shared\DifficultyLevelEnum.cs" />
     <Compile Include="..\..\..\Assets\Scripts\Game\Systems\Difficulty.cs" Link="Shared\Difficulty.cs" />
     <Compile Include="..\..\..\Assets\Scripts\Game\Data\CinderRewardCalculator.cs" Link="Shared\CinderRewardCalculator.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\CurrencyTypesEnum.cs" Link="Shared\CurrencyTypesEnum.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\Talent.cs" Link="Shared\Talent.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\Unlock.cs" Link="Shared\Unlock.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Game\Units\Stats\StatEffects.cs" Link="Shared\StatEffects.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Game\Units\Stats\StatTypeEnum.cs" Link="Shared\StatTypeEnum.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\PlayerTalentState.cs" Link="Shared\PlayerTalentState.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Rules\TalentRules.cs" Link="Shared\TalentRules.cs" />
   </ItemGroup>
   <PropertyGroup>
     <PublishReadyToRunComposite>true</PublishReadyToRunComposite>

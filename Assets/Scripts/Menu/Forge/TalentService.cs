@@ -55,7 +55,8 @@ public class TalentService : MonoBehaviour
             var tree = JsonConvert.DeserializeObject<TalentTree>(jsonAsset.text);
             playerTalentTree = tree;
 
-            BuildTalentsByUnit(playerTalentTree);
+            playerTalentTree.BuildTalentsByUnit();
+            CollectUnlockTalents();
 
             ProvideUnlocked();
         }
@@ -65,91 +66,19 @@ public class TalentService : MonoBehaviour
         }
     }
 
-    private void BuildTalentsByUnit(TalentTree talentTree)
+    private void CollectUnlockTalents()
     {
         unlockTalents.Clear();
-        talentTree.TalentsByUnit.Clear();
 
-        foreach (var unitEntry in talentTree.UnitDefinitions)
+        foreach (var unitEntry in playerTalentTree.TalentsByUnit)
         {
-            string unitName = unitEntry.Key;
-            UnitDefinition unitDef = unitEntry.Value;
-
-            var tempList = new List<Talent>();
-
-            var idCounts = new Dictionary<string, int>();
-
-            foreach (var talentNode in unitDef.Talents)
+            foreach (var talent in unitEntry.Value)
             {
-                TalentOverride archetypeOverride = talentTree.GetArchetypeOverride(unitDef.Archetype, talentNode.DefinitionId);
-                TalentData talentData = talentTree.GetTalentData(talentNode.DefinitionId);
-
-
-                string talentId = talentNode.DefinitionId;
-
-                if (talentData.Type == TalentType.AbilityUnlock ||
-                    talentData.Type == TalentType.UnitUnlock ||
-                    talentData.Type == TalentType.TowerUnlock)
+                if (talent.IsUnlockType)
                 {
-                    unlockTalents.Add((unitName, talentNode.DefinitionId));
-                } 
-                else
-                {
-                    //For talents with the same definition ID and tier, we need to create unique IDs for each instance of the talent. We can do this by appending a count to the base ID.
-                    string baseId = $"{talentNode.DefinitionId}_T{talentNode.Tier}";
-
-                    if (!idCounts.TryAdd(baseId, 0))
-                    {
-                        idCounts[baseId]++;
-                    }
-
-                    talentId = idCounts[baseId] == 0 ? baseId : $"{baseId}_{idCounts[baseId]}";
+                    unlockTalents.Add((unitEntry.Key, talent.Id));
                 }
-
-                var talent = new Talent
-                {
-                    Id = talentId,
-                    IconId = archetypeOverride.IconId,
-                    Name = archetypeOverride.Name,
-                    Description = talentData.Description,
-                    Category = talentNode.Category,
-                    Type = talentData.Type,
-                    Tier = talentNode.Tier,
-                    Effects = talentData.Effects,
-                    Unlocks = talentData.Unlocks,
-                    Purchase = talentData.Purchase,
-                    Prerequisites = talentNode.Prerequisites,
-                    Cost = talentTree.GetCostModel(unitDef.CostPreset, talentNode.Tier)
-                };
-
-                tempList.Add(talent);
             }
-
-            talentTree.TalentsByUnit.Add(unitName, tempList);
-        }
-    }
-
-    public void AddTalent(string unitName, string talentId)
-    {
-        var purchases = SaveService.Instance.Current.Talents.Purchases;
-
-        if (!purchases.TryGetValue(unitName, out var unitPurchases))
-        {
-            unitPurchases = new UnitSaveData
-            {
-                PurchasedTalents = new Dictionary<string, int>()
-            };
-
-            purchases[unitName] = unitPurchases;
-        }
-
-        if (unitPurchases.PurchasedTalents.TryGetValue(talentId, out var count))
-        {
-            unitPurchases.PurchasedTalents[talentId] = count + 1;
-        }
-        else
-        {
-            unitPurchases.PurchasedTalents[talentId] = 1;
         }
     }
 
@@ -204,7 +133,6 @@ public class TalentService : MonoBehaviour
 
         talents.Purchases.Clear();
         talents.CurrencySpent.Clear();
-        TalentUnlockManager.Instance.ResetAll();
 
         // Only talent unlocks: research and default unlocks stay
         foreach (var talent in unlockTalents)
@@ -225,11 +153,19 @@ public class TalentService : MonoBehaviour
     public async Task<TalentPurchaseResult> TryPurchaseAsync(string unitName, Talent talent)
     {
         int max = talent.Purchase.MaxPurchases;
+        var talents = SaveService.Instance.Current.Talents;
 
         //Repull live state
         int owned = GetPurchasedTalent(unitName, talent.Id);
-        if (owned >= max)
+
+        var check = TalentRules.CanPurchase(playerTalentTree, talents, unitName, talent.Id,
+            CurrencyManager.Instance.Get(CurrencyTypes.Cinders));
+
+        if (check != TalentPurchaseCheck.Ok)
+        {
+            Debug.LogWarning($"Can't buy talent {talent.Id} for {unitName}: {check}");
             return TalentPurchaseResult.Failed(owned);
+        }
 
         int cost = talent.GetCurrentCost();
         if (!CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, cost))
@@ -238,10 +174,7 @@ public class TalentService : MonoBehaviour
             return TalentPurchaseResult.Failed(owned);
         }
 
-        AddTalent(unitName, talent.Id);
-        RecordCurrencySpent(CurrencyTypes.Cinders, cost);
-
-        TalentUnlockManager.Instance.AddPoints(unitName.ToLowerInvariant(), talent.Tier, 1);
+        TalentRules.ApplyPurchase(talents, unitName, talent.Id, cost);
 
         if (talent.IsUnlockType)
         {
@@ -256,23 +189,14 @@ public class TalentService : MonoBehaviour
         return new TalentPurchaseResult(true, owned, canBuyMore);
     }
 
-    private void RecordCurrencySpent(CurrencyTypes currency, int amount)
-    {
-        var currencySpent = SaveService.Instance.Current.Talents.CurrencySpent;
-
-        currencySpent.TryGetValue(currency, out int spent);
-        currencySpent[currency] = spent + amount;
-    }
-
     public int GetPurchasedTalent(string unitName, string talentId)
     {
-        if (SaveService.Instance.Current.Talents.Purchases.TryGetValue(unitName, out var unitPurchase) &&
-            unitPurchase.PurchasedTalents.TryGetValue(talentId, out var count))
-        {
-            return count;
-        }
+        return TalentRules.GetOwned(SaveService.Instance.Current.Talents, unitName, talentId);
+    }
 
-        return 0;
+    public bool ArePrerequisitesMet(string unitName, Talent talent)
+    {
+        return TalentRules.ArePrerequisitesMet(playerTalentTree, SaveService.Instance.Current.Talents, unitName, talent.Prerequisites);
     }
 }
 
