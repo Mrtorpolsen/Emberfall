@@ -34,7 +34,7 @@ What the server can't do: verify that a run really happened. The game simulates 
 LocalCache { Version 5, Progress (last server copy), Client, PendingRuns[], LastServerTimeUtc }
 ```
 
-Per the save-shape convention: keep the v4 shape as `SaveGame4`, add `Migrate4To5`. `SaveSerializer` keeps parsing/migrating the cache; `ServerProgress` gets its own version so the module can migrate it too.
+Per the save-shape convention: keep the v4 shape as `SaveGame4`, add `Migrate4To5`. Like the current save classes, the new ones are plain C# without `[Serializable]` (Newtonsoft serializes them, Unity never does; see CLAUDE.md). `SaveSerializer` keeps parsing/migrating the cache; `ServerProgress` gets its own version so the module can migrate it too.
 
 ### Existing players
 
@@ -99,7 +99,7 @@ Cost/duration/reward calculations must give the same answer on client and server
 ## Tooling
 
 - **.NET SDK** on Windows (free dev tool, nothing ships in the APK). Version: the docs disagree (the current module docs say modules target .NET 10, the overview says up to .NET 9). Pick it from the module template when creating the project.
-- **Editor deploy:** the new Cloud Code 3.0 editor workflow (`.ccmu`) needs Unity 6.7+, so it doesn't apply to 6000.3. Use the **module reference workflow**: `com.unity.services.deployment` + a `.ccmr` file in `Assets/` pointing at the module solution (Unity 2021.3+, Cloud Code package 2.6.1+; we have 2.10.4). Alternative: UGS CLI `ugs deploy <module>.ccm`.
+- **Editor deploy:** the new Cloud Code 3.0 editor workflow (`.ccmu`) needs Unity 6.7+ (alpha/beta as of Nov 2026), so it doesn't apply to our 6000.6.8f1. Use the **module reference workflow**: `com.unity.services.deployment` + a `.ccmr` file in `Assets/` pointing at the module solution (Unity 2021.3+, Cloud Code package 2.6.1+; we have 2.10.4). Alternative: UGS CLI `ugs deploy <module>.ccm`.
 - **Repo layout:** `CloudCode/EmberfallModule/` (outside `Assets/`, so Unity doesn't compile it). `.gitignore` ignores `*.csproj`/`*.sln`; add exceptions for `CloudCode/**`, and ignore its `bin/`/`obj/`.
 - Packages: `Com.Unity.Services.CloudCode.Core` (`[CloudCodeFunction("Name")]`) and the Cloud Code APIs package for Cloud Save/Remote Config clients.
 - Client calls: `CloudCodeService.Instance.CallModuleEndpointAsync("EmberfallModule", "BuyTalent", args)`, wrapped in one `ProgressService` (or similar) that owns the cache.
