@@ -51,22 +51,12 @@ public class ResearchUIController : IUIScreenController
         node.researchLevelNext = targetLevel;
         node.maxLevel = research.MaxLevel;
         node.description = research.Description;
-        node.researchTime = TimeFormatter.FormatCondensedTime(research.TimeScaling.GetAmountForLevel(targetLevel));
+        node.researchTime = TimeFormatter.FormatCondensedTime(ResearchRules.GetDurationSeconds(research, targetLevel));
         node.category = research.Category;
-        node.cost = research.CostScaling.GetAmountForLevel(targetLevel);
+        node.cost = ResearchRules.GetCost(research, targetLevel);
 
-        node.onClick = async () =>
-        {
-            bool succes = CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, node.cost);
-
-            if (!succes)
-            {
-                //throw error maybe dropdown stating not enough currency or something
-                Debug.LogWarning("Failed to spend currency / buy talent");
-                return;
-            }
-            await ResearchService.Instance.StartResearch(research.Id);
-        };
+        // Checks before paying, so a refused start never costs Cinders
+        node.onClick = () => ResearchService.Instance.TryStartResearchAsync(research.Id);
 
         return node;
     }

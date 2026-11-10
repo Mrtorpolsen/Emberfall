@@ -45,6 +45,20 @@ public class DataValidationTests
         Assert.DoesNotThrow(() => JsonConvert.DeserializeObject<ResearchTree>(json));
     }
 
+    // Unknown categories are skipped at load (for older clients), so ours must all be known; and every
+    // scaling preset must exist, or the research would cost its base value at every level
+    [Test]
+    public void ResearchJson_CategoriesAreKnownAndScalingResolves()
+    {
+        var tree = JsonConvert.DeserializeObject<ResearchTree>(LoadText(ResearchPath));
+
+        tree.NormalizeCategoryKeys();
+
+        Assert.That(tree.ResearchByCategoryEnum.Count, Is.EqualTo(tree.ResearchByCategory.Count),
+            "Research.json has a category key that isn't a ResearchCategory");
+        Assert.DoesNotThrow(() => tree.ApplyScalingPresets());
+    }
+
     [Test]
     public void StatModifierTalents_HaveValidEffects()
     {

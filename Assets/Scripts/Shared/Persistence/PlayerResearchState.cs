@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿#nullable disable // Unity code is nullable-oblivious; the Cloud Code module compiles this file with nullable on
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,13 @@ public class ActiveResearch
         ResearchCategory category,
         string researchId,
         int targetLevel,
-        string researchName)
+        string researchName,
+        long startTime)
     {
         ResearchCategory = category;
         ResearchId = researchId;
         TargetLevel = targetLevel;
-        StartTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        StartTime = startTime;
         ResearchName = researchName;
     }
 }

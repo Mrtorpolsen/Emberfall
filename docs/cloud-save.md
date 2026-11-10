@@ -92,7 +92,7 @@ The server needs the same costs the client shows, so the talent/research definit
 Cost/duration/reward calculations must give the same answer on client and server. The module's `.csproj` compiles plain C# files from `Assets/` via `<Compile Include="..." Link="..." />`, so both sides run the same file. Those files must not use `UnityEngine`:
 
 - Talent rules: done (Nov 10). `TalentTree.BuildTalentsByUnit` (talent IDs), `Talent.GetCurrentCost` (flat per tier, as the game has always charged; `CostMultiplier` unused) and `TalentRules` (`CanPurchase`: known talent, purchasable type (stat or unit unlock), `MaxPurchases` (0 = not for sale), tier and talent prerequisites, enough Cinders; `ApplyPurchase`). `TalentUnlockManager` is gone; tier points are computed from the state.
-- Research cost/time: `ResearchDefinition.cs` (uses `UnityEngine`; extract the math).
+- Research rules: done (Nov 10). `ResearchDefinition.cs` is plain C# (missing scaling preset throws, unknown categories are skipped for older clients) and `ResearchRules` (`CanStart`: known research, category free, below `MaxLevel`, prerequisites, enough Cinders; `Start` with a caller-given time, `GetEndTime`/`IsDone`, `Complete`).
 - `CinderRewardCalculator`: done (Nov 10), takes the difficulty as a parameter.
 - Validation rules (can buy talent? can start research?) as plain C# classes, covered by EditMode tests in Unity. Module functions stay thin: load → validate with shared code → write.
 

@@ -35,8 +35,7 @@ public class SaveLoadTests
         save.Talents.CurrencySpent[CurrencyTypes.Embers] = 3;
 
         save.Research.CompletedResearch["unit_damage_1"] = 4;
-        var active = new ActiveResearch(ResearchCategory.Tower, "tower_range_1", 2, "Tower Range");
-        active.StartTime = 1_700_000_000;
+        var active = new ActiveResearch(ResearchCategory.Tower, "tower_range_1", 2, "Tower Range", 1_700_000_000);
         save.Research.ActiveResearch.Add(active);
 
         save.Currency.Cinders = 345;

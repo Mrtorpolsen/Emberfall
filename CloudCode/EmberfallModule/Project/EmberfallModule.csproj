@@ -21,6 +21,9 @@
     <Compile Include="..\..\..\Assets\Scripts\Game\Units\Stats\StatTypeEnum.cs" Link="Shared\StatTypeEnum.cs" />
     <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\PlayerTalentState.cs" Link="Shared\PlayerTalentState.cs" />
     <Compile Include="..\..\..\Assets\Scripts\Shared\Rules\TalentRules.cs" Link="Shared\TalentRules.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\ResearchDefinition.cs" Link="Shared\ResearchDefinition.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\PlayerResearchState.cs" Link="Shared\PlayerResearchState.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Rules\ResearchRules.cs" Link="Shared\ResearchRules.cs" />
   </ItemGroup>
   <PropertyGroup>
     <PublishReadyToRunComposite>true</PublishReadyToRunComposite>

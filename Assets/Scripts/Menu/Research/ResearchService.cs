@@ -77,67 +77,57 @@ public class ResearchService : MonoBehaviour
         }
     }
 
-    public async Task StartResearch(string id)
+    // Checks the rules, pays and starts the next level. False (nothing spent) when it can't start.
+    public async Task<bool> TryStartResearchAsync(string id)
     {
-        //Checks if category already being researched
+        var state = SaveService.Instance.Current.Research;
+
+        var check = ResearchRules.CanStart(playerResearchTree, state, id, CurrencyManager.Instance.Get(CurrencyTypes.Cinders));
+
+        if (check != ResearchStartCheck.Ok)
+        {
+            Debug.LogWarning($"Can't start research {id}: {check}");
+            return false;
+        }
+
         ResearchDefinition research = playerResearchTree.GetResearchById(id);
+        int cost = ResearchRules.GetCost(research, ResearchRules.GetLevel(state, id) + 1);
 
-        if (SaveService.Instance.Current.Research.ActiveResearch
-            .Find(activeResearch => activeResearch.ResearchCategory == research.Category) != null)
+        if (!CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, cost))
         {
-            Debug.LogWarning("Category already being researched");
-            return;
-        }
-
-        int currentLevel = 0;
-
-        if (SaveService.Instance.Current.Research.CompletedResearch.TryGetValue(id, out var level))
-        {
-            currentLevel = level;
-        }
-
-        if (currentLevel == research.MaxLevel)
-        {
-            throw new InvalidOperationException("Current research maxed");
+            Debug.LogWarning("Failed to spend currency / start research");
+            return false;
         }
 
         OnResearchStarted?.Invoke(research.Category);
 
-        ActiveResearch researchToStart = new ActiveResearch(research.Category, research.Id, (currentLevel + 1), research.Name);
+        ActiveResearch researchToStart = ResearchRules.Start(playerResearchTree, state, id, DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
-        SaveService.Instance.Current.Research.ActiveResearch.Add(researchToStart);
-
-        var coroutine = StartCoroutine(ResearchTimerRoutine(researchToStart, research));
+        var coroutine = StartCoroutine(ResearchTimerRoutine(researchToStart));
         researchCoroutines[researchToStart.ResearchId] = coroutine;
 
         await SaveService.Instance.SaveAsync();
+        return true;
     }
 
     private void CompleteResearch(ActiveResearch active)
     {
-        SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
-        SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
+        CompleteResearchInternal(active);
         SaveService.Instance.Save();
-
-        PostUnlock(active);
-
-        OnResearchCompleted?.Invoke(active.ResearchCategory);
     }
 
     private void CompleteResearchInternal(ActiveResearch active)
     {
-        SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
-        SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
+        ResearchRules.Complete(SaveService.Instance.Current.Research, active);
 
         PostUnlock(active);
 
         OnResearchCompleted?.Invoke(active.ResearchCategory);
     }
 
-    private IEnumerator ResearchTimerRoutine(ActiveResearch active, ResearchDefinition research)
+    private IEnumerator ResearchTimerRoutine(ActiveResearch active)
     {
-        int duration = research.TimeScaling.GetAmountForLevel(active.TargetLevel);
-        long endTime = active.StartTime + duration;
+        long endTime = ResearchRules.GetEndTime(playerResearchTree, active);
 
         while (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < endTime)
         {
@@ -164,18 +154,13 @@ public class ResearchService : MonoBehaviour
 
         foreach (var active in SaveService.Instance.Current.Research.ActiveResearch.ToList())
         {
-            ResearchDefinition def = playerResearchTree.GetResearchById(active.ResearchId);
-
-            int duration = def.TimeScaling.GetAmountForLevel(active.TargetLevel);
-            long endTime = active.StartTime + duration;
-
-            if (now >= endTime)
+            if (ResearchRules.IsDone(playerResearchTree, active, now))
             {
                 expired.Add(active);
             }
             else
             {
-                var coroutine = StartCoroutine(ResearchTimerRoutine(active, def));
+                var coroutine = StartCoroutine(ResearchTimerRoutine(active));
                 researchCoroutines[active.ResearchId] = coroutine;
             }
         }
@@ -193,10 +178,7 @@ public class ResearchService : MonoBehaviour
 
     public long GetRemainingSeconds(ActiveResearch active)
     {
-        ResearchDefinition def = playerResearchTree.GetResearchById(active.ResearchId);
-        int duration = def.TimeScaling.GetAmountForLevel(active.TargetLevel);
-
-        long endTime = active.StartTime + duration;
+        long endTime = ResearchRules.GetEndTime(playerResearchTree, active);
         long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         return Math.Max(0, endTime - now);
@@ -205,7 +187,7 @@ public class ResearchService : MonoBehaviour
     public float GetProgress(ActiveResearch active)
     {
         var def = playerResearchTree.GetResearchById(active.ResearchId);
-        int duration = def.TimeScaling.GetAmountForLevel(active.TargetLevel);
+        int duration = ResearchRules.GetDurationSeconds(def, active.TargetLevel);
 
         long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         float elapsed = now - active.StartTime;
@@ -215,19 +197,13 @@ public class ResearchService : MonoBehaviour
 
     public ActiveResearch IsActiveCategory(ResearchCategory category)
     {
-        return SaveService.Instance.Current?.Research.ActiveResearch
-            .Find(r => r.ResearchCategory == category);
+        var state = SaveService.Instance.Current?.Research;
+        return state == null ? null : ResearchRules.GetActiveInCategory(state, category);
     }
 
     public int GetCurrentResearchLevel(string researchId)
     {
-        if (SaveService.Instance.Current.Research.CompletedResearch
-            .TryGetValue(researchId, out int level))
-        {
-            return level;
-        }
-
-        return 0;
+        return ResearchRules.GetLevel(SaveService.Instance.Current.Research, researchId);
     }
 
     private void PostUnlock(ActiveResearch active)
