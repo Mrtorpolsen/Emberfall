@@ -35,4 +35,12 @@ public class ProgressModule
 
         return response.Data.Results.FirstOrDefault()?.Value?.ToString();
     }
+
+    // The talent and research definitions this module checks purchases against, as
+    // { "talents": ..., "research": ... }. The game uses them when they're newer than its bundled copy.
+    [CloudCodeFunction("GetDefinitions")]
+    public string GetDefinitions()
+    {
+        return DefinitionsStore.CombinedJson;
+    }
 }

@@ -7,6 +7,8 @@
     <IsPackable>false</IsPackable>
     <!-- Prevents unit test from being published. Can also be done in the solution configuration -->
     <IsPublishable>false</IsPublishable>
+    <!-- Run on any newer installed .NET (the module itself targets net9.0, which Cloud Code runs) -->
+    <RollForward>Major</RollForward>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.2" />

@@ -59,7 +59,11 @@ public class ResearchService : MonoBehaviour
 
         try
         {
-            var tree = JsonConvert.DeserializeObject<ResearchTree>(jsonAsset.text);
+            // The server's definitions when they're newer: those are the costs it will charge
+            bool useServer = DefinitionsSelector.PreferServer(jsonAsset.text, ServerDefinitions.ResearchJson);
+            string json = useServer ? ServerDefinitions.ResearchJson : jsonAsset.text;
+            Debug.Log($"Research definitions: {(useServer ? "server" : "bundled")} copy");
+            var tree = JsonConvert.DeserializeObject<ResearchTree>(json);
             tree.NormalizeCategoryKeys();
             tree.ApplyScalingPresets();
             playerResearchTree = tree;

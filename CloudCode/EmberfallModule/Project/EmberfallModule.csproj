@@ -25,6 +25,12 @@
     <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\PlayerResearchState.cs" Link="Shared\PlayerResearchState.cs" />
     <Compile Include="..\..\..\Assets\Scripts\Shared\Rules\ResearchRules.cs" Link="Shared\ResearchRules.cs" />
   </ItemGroup>
+  <!-- The talent and research definitions, embedded at build time: deploying the module publishes the JSON
+       in the repo, which GetDefinitions hands to the game and the server-side checks use -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\Assets\Addressables\Data\Talents.json" LogicalName="Talents.json" />
+    <EmbeddedResource Include="..\..\..\Assets\Addressables\Data\Research.json" LogicalName="Research.json" />
+  </ItemGroup>
   <PropertyGroup>
     <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
   </PropertyGroup>

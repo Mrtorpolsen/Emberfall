@@ -25,5 +25,15 @@ namespace Unity.Services.CloudCode.GeneratedBindings
                 {
                 });
         }
+
+        public async Task<string> GetDefinitions()
+        {
+            return await k_Service.CallModuleEndpointAsync<string>(
+                "EmberfallModule",
+                "GetDefinitions",
+                new Dictionary<string, object>()
+                {
+                });
+        }
     }
 }

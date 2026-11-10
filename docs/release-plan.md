@@ -60,15 +60,15 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
   - Done (Oct 30), tested in the Editor: Cloud Code script `DeletePlayerScores` (source in `CloudCode/DeletePlayerScores.js`, pasted into the dashboard) sends `DELETE .../leaderboards/scores/players/{playerId}/purge` with a service account key (Leaderboards Admin role) read from Secret Manager (`LEADERBOARDS_SA_KEY_ID`, `LEADERBOARDS_SA_SECRET`). The Cloud Code token can't call admin endpoints. Deployed to `development` and `production` (Oct 30). The secrets are project-level, so both environments read them.
 ### 2. Cloud save and remote data
 
-Decided Nov 9: progress is server-authoritative (Cloud Save Protected data written only by a Cloud Code C# module), and talent/research definitions move to Remote Config. The design is in `docs/cloud-save.md`; it replaces the local-sync items below where they conflict.
+Decided Nov 9: progress is server-authoritative (Cloud Save Protected data written only by a Cloud Code C# module), and talent/research definitions are embedded in that module and served to the game (decided Nov 10, instead of Remote Config). The design is in `docs/cloud-save.md`; it replaces the local-sync items below where they conflict.
 
-- [ ] Add packages: `com.unity.services.cloudsave` (and Remote Config or CCD for definitions).
+- [x] Add packages: `com.unity.services.cloudsave` and `com.unity.services.deployment` (Nov 10).
 - [ ] `SaveService`: keep the local JSON as a cache/offline copy and add cloud sync (save `SaveGame` as one key, or one key per section).
   - Add `LastModifiedUtc` and/or a revision counter to `SaveGame` → **save version 5** (`SaveGame4` legacy class plus `Migrate4To5`, per the CLAUDE.md convention).
   - Conflict rule on load: newer revision wins. Decide whether to prompt the player when both copies changed (e.g. two devices).
   - Debounce or batch writes to stay within Cloud Save rate limits. Don't sync on every currency tick.
 - [ ] First cloud login migrates the existing local save upward.
-- [ ] Move talent/research definitions to Remote Config or CCD, keeping the bundled JSON as a fallback. Version the data so an old client doesn't load an incompatible tree.
+- [x] Serve talent/research definitions from the server, keeping the bundled JSON as a fallback, versioned by `schemaVersion`/`definitionsVersion` (Nov 10: embedded in the Cloud Code module, see `docs/cloud-save.md`).
 - [ ] **Cheating / trust:** a local JSON save is trivially editable. Before real-money purchases exist, decide how much matters:
   - Minimum: Embers (premium) are granted only through validated purchases.
   - Better: Economy and/or Cloud Code own premium currency balances and purchase validation, so the client can't change them directly.
@@ -267,13 +267,13 @@ Releases are tags on `master`; there are no release branches. Every release from
 **Versions**
 - Version name (`bundleVersion` in Player Settings): `MAJOR.MINOR.PATCH`. Bump PATCH for fixes, MINOR for features.
 - Version code (`AndroidBundleVersionCode`): +1 for every upload to Play, on any track (internal testing included). Play rejects a code that has been uploaded before.
-- `gameVersion` in `Talents.json` and `Research.json` matches the version name. Bump `definitionsVersion` in a file whenever its content changes.
+- `gameVersion` in `Talents.json` and `Research.json` matches the version name. Bump `definitionsVersion` in a file whenever its content changes. Clients use the module's copy only when its `definitionsVersion` is higher than their bundled one, and only with the same `schemaVersion`: bump `schemaVersion` when a shape change would break older builds.
 
 **Steps**
 1. Commit the version bump on `master`: version name, version code, and the JSON versions.
 2. Build Addressables (Window → Asset Management → Addressables → Groups → Build → New Build → Default Build Script). They are not built with the player, so skipping this ships the old data.
 3. Run the EditMode tests.
-   - Release builds use the UGS `production` environment, the editor and development builds `development` (`ServicesEnvironment`). Anything server-side the build needs must be in `production` first: deploy the Cloud Code module (Services → Deployment, environment `production`, then switch the selection back to `development`), and later the Remote Config definitions.
+   - Release builds use the UGS `production` environment, the editor and development builds `development` (`ServicesEnvironment`). Anything server-side the build needs must be in `production` first: deploy the Cloud Code module (Services → Deployment, environment `production`, then switch the selection back to `development`). The module embeds `Talents.json`/`Research.json`, so a definitions change goes live by deploying the module, even without a new build.
 4. Build the AAB from that commit and upload it.
    - Build Profiles → Android: Development Build off (the `CrashReportingTester` trigger only exists in development builds), Debug Symbols Level `Full`, Format `Zip` and `Include In Bundle`.
    - `Include In Bundle` gives Play the symbols for Android vitals crashes and ANRs. If Play still warns that debug symbols are missing (bundle over `androidSymbolsSizeThreshold`, 800 MB), upload the `*.symbols.zip` under App bundle explorer → the version code → Downloads → Native debug symbols.
@@ -300,7 +300,7 @@ When `master` has nothing unreleased, fix on `master` instead.
 
 ## Open questions
 
-- Game data: Remote Config (simple key/value JSON) or CCD remote Addressables (more setup, also handles icons)?
+- ~~Game data: Remote Config or CCD remote Addressables?~~ Neither: embedded in the Cloud Code module (Nov 10). Icons stay bundled.
 - How server-authoritative should the economy be at launch?
 - Keep the custom username prompt, or use the Google/Game Center display name?
 - What does Embers buy, and what does a "fair" free-to-play pace look like?

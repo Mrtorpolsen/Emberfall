@@ -78,14 +78,14 @@ Online and offline runs use the same path, so there's one code path to test. Off
 - Talents, research, refunds: need a connection. Buttons show "Connect to buy" when signed out. Research that finishes while offline completes on the next `CompleteResearch` call.
 - Menus show the cached progress.
 
-## Definitions: Remote Config
+## Definitions: embedded in the module
 
-The server needs the same costs the client shows, so the talent/research definitions move to **Remote Config**. This settles the plan's "Remote Config or CCD" question:
+The server needs the same costs the client shows. Decided Nov 10: instead of Remote Config, the module **embeds** `Talents.json` and `Research.json` from `Assets/Addressables/Data/` at build time (`EmbeddedResource` in `EmberfallModule.csproj`). One source of truth in git, checked by `DataValidationTests`, no Dashboard copy, no size question. This settles the plan's "Remote Config or CCD" question (neither). What we give up: editing values in the Dashboard without a deploy, and Remote Config A/B overrides.
 
-- Two settings of type **JSON**: `talents`, `research`. Strings are capped at 10,000 characters, so they must be JSON settings (`Talents.json` is ~74 KB; the docs give no JSON size limit — verify it uploads).
-- Don't put Game Overrides on these keys: the module caches them in memory, which the docs only allow for configs that target all players.
-- Module: `RemoteConfigSettings.AssignSettingsGetAsync(...)` with an in-memory cache of a few minutes (as in Unity's quest-system sample).
-- Client: fetch at boot (`Bootstrapper`), fall back to the bundled Addressables JSON when offline. The bundled copy stays the source we edit; upload it to Remote Config as part of the release process.
+- Module: `DefinitionsStore` reads and parses them once per worker; `GetDefinitions` returns `{ "talents": ..., "research": ... }`. The module's `TestProject` checks they parse on the server's .NET.
+- Client: `Bootstrapper` calls `ServerDefinitions.FetchAsync()` before loading the save (skipped when signed out, 4 s timeout). `TalentService`/`ResearchService` use the server's copy when `DefinitionsSelector` prefers it: same `schemaVersion` and a higher `definitionsVersion` than the bundled Addressables copy, which stays the offline fallback.
+- **A balance change**: edit the JSON, bump its `definitionsVersion`, run the tests, deploy the module (development, then production). Players get it on their next launch without a store update; the next build bundles it too.
+- Old builds keep calling the newest module, so `schemaVersion` must change whenever the JSON's shape changes in a way old builds can't read; they then keep their bundled copy.
 
 ## Shared logic
 
@@ -101,10 +101,10 @@ Cost/duration/reward calculations must give the same answer on client and server
 - **.NET SDK** on Windows (free dev tool, nothing ships in the APK). Version: the docs disagree (the current module docs say modules target .NET 10, the overview says up to .NET 9). Pick it from the module template when creating the project.
 - **Editor deploy:** the new Cloud Code 3.0 editor workflow (`.ccmu`) needs Unity 6.7+ (alpha/beta as of Nov 2026), so it doesn't apply to our 6000.6.8f1. Use the **module reference workflow**: `com.unity.services.deployment` + a `.ccmr` file in `Assets/` pointing at the module solution (Unity 2021.3+, Cloud Code package 2.6.1+; we have 2.10.4). Alternative: UGS CLI `ugs deploy <module>.ccm`.
 - **Repo layout:** `CloudCode/EmberfallModule/` (outside `Assets/`, so Unity doesn't compile it). `.gitignore` ignores `*.csproj`/`*.sln`; add exceptions for `CloudCode/**`, and ignore its `bin/`/`obj/`.
-- Packages: `Com.Unity.Services.CloudCode.Core` (`[CloudCodeFunction("Name")]`) and the Cloud Code APIs package for Cloud Save/Remote Config clients.
+- Packages: `Com.Unity.Services.CloudCode.Core` (`[CloudCodeFunction("Name")]`) and the Cloud Code APIs package for the Cloud Save client.
 - Client calls: `CloudCodeService.Instance.CallModuleEndpointAsync("EmberfallModule", "BuyTalent", args)`, wrapped in one `ProgressService` (or similar) that owns the cache.
 - Limits (docs): 15 s per call, 10 MB per module, 20 modules per project, 600 Cloud Code requests per minute per player.
-- **Environments:** the editor and development builds use UGS `development`, release builds `production` (`ServicesEnvironment`). Develop and deploy against `development`; deploy the module (and Remote Config) to `production` before the release that needs it (see Releasing in `docs/release-plan.md`).
+- **Environments:** the editor and development builds use UGS `development`, release builds `production` (`ServicesEnvironment`). Develop and deploy against `development`; deploy the module to `production` before the release that needs it (see Releasing in `docs/release-plan.md`).
 - `DeletePlayerScores.js` can stay a JS script, or move into the module later.
 
 ## Implementation order
@@ -112,7 +112,7 @@ Cost/duration/reward calculations must give the same answer on client and server
 1. `.NET` SDK, module skeleton with one `GetProgress`, `.ccmr` deploy, called from the client. Proves the pipeline end to end.
 2. Shared plain-C# logic (cost, research, rewards) extracted with tests; the client switches to it first with no behavior change.
 3. Save v5 split (`ServerProgress`/`ClientState`/`LocalCache`), migration and tests. Done (Nov 10): the local cache kept the name `SaveGame` (`Progress`, `Client`, `PendingRuns`); `LastServerTimeUtc` comes with the step that uses it.
-4. Remote Config definitions (module + client fetch with bundled fallback).
+4. Definitions from the module (embedded JSON + client fetch with bundled fallback). Done (Nov 10).
 5. `BuyTalent` end to end, then `RefundTalents`, research, `ClaimTutorialGift`.
 6. `ClaimRunRewards` with the pending-run queue.
 7. `ImportLocalSave` for existing players, `DeleteMyData` in account deletion.
@@ -127,9 +127,8 @@ From "Re-check when features ship" in `docs/release-plan.md`: Data safety form (
 ## Still to verify while building
 
 - Client SDK: exact `LoadAsync` call for Protected data (`LoadOptions` with `ProtectedReadAccessClassOptions`, Cloud Save 3.x).
-- Module: `SetProtectedItemAsync` with `context.ServiceToken` for writes, `GetProtectedItemsAsync` for reads, and whether `writeLock` is on `SetItemBody` (docs: protected writes need a server authority; omitting `writeLock` ignores conflicts).
+- Module: `SetProtectedItemAsync` (with `context.ServiceToken`?) for writes and how `writeLock` is passed. The methods and the write-lock conflict fields exist in `Com.Unity.Services.CloudCode.Apis` 0.0.26; `GetProtectedItemsAsync` with `context.AccessToken` works (`GetProgress`).
 - Whether deleting a UGS player also deletes their Cloud Save data (we delete explicitly either way).
-- Remote Config JSON setting size with the full `Talents.json`.
 
 ## Decisions
 

@@ -34,6 +34,9 @@ public class Bootstrapper : MonoBehaviour
             return;
         }
 
+        // Before the save loads: loading it builds the talent and research trees from these
+        await ServerDefinitions.FetchAsync();
+
         SaveService.Instance.InitializeForPlayer(IdentityService.Instance.Current.GetPlayerId());
         await SaveService.Instance.Load();
 

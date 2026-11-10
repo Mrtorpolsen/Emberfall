@@ -52,7 +52,11 @@ public class TalentService : MonoBehaviour
 
         try
         {
-            var tree = JsonConvert.DeserializeObject<TalentTree>(jsonAsset.text);
+            // The server's definitions when they're newer: those are the costs it will charge
+            bool useServer = DefinitionsSelector.PreferServer(jsonAsset.text, ServerDefinitions.TalentsJson);
+            string json = useServer ? ServerDefinitions.TalentsJson : jsonAsset.text;
+            Debug.Log($"Talents definitions: {(useServer ? "server" : "bundled")} copy");
+            var tree = JsonConvert.DeserializeObject<TalentTree>(json);
             playerTalentTree = tree;
 
             playerTalentTree.BuildTalentsByUnit();
