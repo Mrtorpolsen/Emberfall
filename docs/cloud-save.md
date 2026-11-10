@@ -135,6 +135,7 @@ From "Re-check when features ship" in `docs/release-plan.md`: Data safety form (
 
 - [x] Server-authoritative progress via Cloud Code + Protected data (Nov 9).
 - [x] Cloud Code language: C# module (Nov 9).
-- [ ] Offline run rewards: queued and bounded by server time (recommended), or offline runs earn nothing.
-- [ ] Existing local saves: one-time import (recommended) or fresh start.
-- [ ] `MaxBankedHours` and the per-run minute cap.
+- [x] Offline run rewards: queued and bounded by server time (Nov 10).
+- [x] Existing local saves: one-time import, clamped (Nov 10).
+- [x] `MaxBankedHours` = 12 (Nov 10).
+- [x] Per-run minute cap: a single constant, 120 minutes for now (Nov 10). The game is likely moving from endless runs to levels of about 10–15 minutes, which will change how run rewards are earned; revisit the reward claim then rather than tuning the cap.
