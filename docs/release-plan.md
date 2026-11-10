@@ -16,7 +16,7 @@ Nothing unreleased on `master`. Known open point from v0.8.0: runs now go to wav
 | Currencies | `Cinders`, `Embers` live in the local save. Nothing is validated on a server. |
 | Achievements / shop / ads | None. |
 | Crash reporting | Unity Diagnostics (since v0.5.4). |
-| Android build | v0.8.0 / versionCode 16 on the closed track, uploaded Nov 3 (v0.7.0 / 15 before it), minSdk 25, targetSdk = "highest installed". |
+| Android build | v0.8.0 / versionCode 16 on the closed track, uploaded Nov 3 (v0.7.0 / 15 before it), minSdk 25 (26 from the next build: the Unity 6000.6 upgrade raised it, dropping Android 7.1), targetSdk = "highest installed". |
 | iOS | Not set up. |
 
 ## Two things to decide first
