@@ -60,6 +60,8 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
   - Done (Oct 30), tested in the Editor: Cloud Code script `DeletePlayerScores` (source in `CloudCode/DeletePlayerScores.js`, pasted into the dashboard) sends `DELETE .../leaderboards/scores/players/{playerId}/purge` with a service account key (Leaderboards Admin role) read from Secret Manager (`LEADERBOARDS_SA_KEY_ID`, `LEADERBOARDS_SA_SECRET`). The Cloud Code token can't call admin endpoints. Deployed to `development` and `production` (Oct 30). The secrets are project-level, so both environments read them.
 ### 2. Cloud save and remote data
 
+Decided Nov 9: progress is server-authoritative (Cloud Save Protected data written only by a Cloud Code C# module), and talent/research definitions move to Remote Config. The design is in `docs/cloud-save.md`; it replaces the local-sync items below where they conflict.
+
 - [ ] Add packages: `com.unity.services.cloudsave` (and Remote Config or CCD for definitions).
 - [ ] `SaveService`: keep the local JSON as a cache/offline copy and add cloud sync (save `SaveGame` as one key, or one key per section).
   - Add `LastModifiedUtc` and/or a revision counter to `SaveGame` → **save version 5** (`SaveGame4` legacy class plus `Migrate4To5`, per the CLAUDE.md convention).
