@@ -1,11 +1,10 @@
-﻿using System;
-
-public static class CurrentSaveVersion
+﻿public static class CurrentSaveVersion
 {
     public const int CURRENT_SAVE_VERSION = 4;
 }
 
-[Serializable]
+// The save is written by Newtonsoft (SaveSerializer), never by Unity, so save classes
+// don't need [Serializable]. Don't mark save fields [NonSerialized] either: Newtonsoft skips them.
 public class SaveGame
 {
     public int Version;
@@ -21,7 +20,6 @@ public class SaveGame
     public PlayerFlagsState Flags = new();
 }
 
-[Serializable]
 public class SaveGame3
 {
     public int Version;

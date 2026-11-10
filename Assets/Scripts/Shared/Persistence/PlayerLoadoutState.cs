@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-[Serializable]
 public class PlayerLoadoutState
 {
     public string[] UnitLoadout = new string[4];
@@ -9,7 +7,6 @@ public class PlayerLoadoutState
     public string[] AbilityLoadout = new string[2];
 }
 
-[Serializable]
 public class SavedLoadout
 {
     public int Id;
@@ -17,7 +14,6 @@ public class SavedLoadout
     public PlayerLoadoutState State;
 }
 
-[Serializable]
 public class PlayerLoadoutCollection
 {
     public List<SavedLoadout> Presets = new();
