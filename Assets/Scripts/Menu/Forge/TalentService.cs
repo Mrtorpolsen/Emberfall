@@ -86,7 +86,7 @@ public class TalentService : MonoBehaviour
     {
         string unitName = "fighter";
         string talentId = "stat_health_1_T1";
-        var purchases = SaveService.Instance.Current.Talents.Purchases;
+        var purchases = SaveService.Instance.Current.Progress.Talents.Purchases;
 
         if (!purchases.TryGetValue(unitName, out var unitPurchases))
         {
@@ -124,7 +124,7 @@ public class TalentService : MonoBehaviour
     // Gives back all currency spent on talents and re-locks what talents unlocked, removing those from loadouts
     public async Task RefundAllAsync()
     {
-        var talents = SaveService.Instance.Current.Talents;
+        var talents = SaveService.Instance.Current.Progress.Talents;
 
         foreach (var currency in talents.CurrencySpent)
         {
@@ -153,7 +153,7 @@ public class TalentService : MonoBehaviour
     public async Task<TalentPurchaseResult> TryPurchaseAsync(string unitName, Talent talent)
     {
         int max = talent.Purchase.MaxPurchases;
-        var talents = SaveService.Instance.Current.Talents;
+        var talents = SaveService.Instance.Current.Progress.Talents;
 
         //Repull live state
         int owned = GetPurchasedTalent(unitName, talent.Id);
@@ -191,12 +191,12 @@ public class TalentService : MonoBehaviour
 
     public int GetPurchasedTalent(string unitName, string talentId)
     {
-        return TalentRules.GetOwned(SaveService.Instance.Current.Talents, unitName, talentId);
+        return TalentRules.GetOwned(SaveService.Instance.Current.Progress.Talents, unitName, talentId);
     }
 
     public bool ArePrerequisitesMet(string unitName, Talent talent)
     {
-        return TalentRules.ArePrerequisitesMet(playerTalentTree, SaveService.Instance.Current.Talents, unitName, talent.Prerequisites);
+        return TalentRules.ArePrerequisitesMet(playerTalentTree, SaveService.Instance.Current.Progress.Talents, unitName, talent.Prerequisites);
     }
 }
 

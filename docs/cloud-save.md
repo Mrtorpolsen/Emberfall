@@ -111,7 +111,7 @@ Cost/duration/reward calculations must give the same answer on client and server
 
 1. `.NET` SDK, module skeleton with one `GetProgress`, `.ccmr` deploy, called from the client. Proves the pipeline end to end.
 2. Shared plain-C# logic (cost, research, rewards) extracted with tests; the client switches to it first with no behavior change.
-3. Save v5 split (`ServerProgress`/`ClientState`/`LocalCache`), migration and tests.
+3. Save v5 split (`ServerProgress`/`ClientState`/`LocalCache`), migration and tests. Done (Nov 10): the local cache kept the name `SaveGame` (`Progress`, `Client`, `PendingRuns`); `LastServerTimeUtc` comes with the step that uses it.
 4. Remote Config definitions (module + client fetch with bundled fallback).
 5. `BuyTalent` end to end, then `RefundTalents`, research, `ClaimTutorialGift`.
 6. `ClaimRunRewards` with the pending-run queue.

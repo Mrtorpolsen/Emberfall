@@ -13,13 +13,13 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
     public int Get(CurrencyTypes type)
     {
         EnsureCurrencyAvailable();
-        return SaveService.Instance.Current.Currency.Get(type);
+        return SaveService.Instance.Current.Progress.Currency.Get(type);
     }
 
     public void Add(CurrencyTypes type, int amount)
     {
         EnsureCurrencyAvailable();
-        SaveService.Instance.Current.Currency.Add(type, amount);
+        SaveService.Instance.Current.Progress.Currency.Add(type, amount);
         SaveService.Instance.Save();
         OnPlayerCurrencyChanged?.Invoke(type);
         RaiseIfCinders(type);
@@ -28,7 +28,7 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
     public bool Spend(CurrencyTypes type, int amount)
     {
         EnsureCurrencyAvailable();
-        bool success = SaveService.Instance.Current.Currency.Spend(type, amount);
+        bool success = SaveService.Instance.Current.Progress.Currency.Spend(type, amount);
 
         if (success)
         {
@@ -57,7 +57,7 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
         {
             throw new InvalidOperationException("SaveService.Current is null.");
         }
-        if (SaveService.Instance.Current.Currency == null)
+        if (SaveService.Instance.Current.Progress.Currency == null)
         {
             throw new InvalidOperationException("CurrencyData is null.");
         }

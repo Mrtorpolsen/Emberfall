@@ -64,7 +64,7 @@ public class ResearchService : MonoBehaviour
             tree.ApplyScalingPresets();
             playerResearchTree = tree;
 
-            if (SaveService.Instance.Current.Research.ActiveResearch.Count > 0)
+            if (SaveService.Instance.Current.Progress.Research.ActiveResearch.Count > 0)
             {
                 RestartActiveResearchTimers();
             }
@@ -80,7 +80,7 @@ public class ResearchService : MonoBehaviour
     // Checks the rules, pays and starts the next level. False (nothing spent) when it can't start.
     public async Task<bool> TryStartResearchAsync(string id)
     {
-        var state = SaveService.Instance.Current.Research;
+        var state = SaveService.Instance.Current.Progress.Research;
 
         var check = ResearchRules.CanStart(playerResearchTree, state, id, CurrencyManager.Instance.Get(CurrencyTypes.Cinders));
 
@@ -118,7 +118,7 @@ public class ResearchService : MonoBehaviour
 
     private void CompleteResearchInternal(ActiveResearch active)
     {
-        ResearchRules.Complete(SaveService.Instance.Current.Research, active);
+        ResearchRules.Complete(SaveService.Instance.Current.Progress.Research, active);
 
         PostUnlock(active);
 
@@ -152,7 +152,7 @@ public class ResearchService : MonoBehaviour
 
         long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-        foreach (var active in SaveService.Instance.Current.Research.ActiveResearch.ToList())
+        foreach (var active in SaveService.Instance.Current.Progress.Research.ActiveResearch.ToList())
         {
             if (ResearchRules.IsDone(playerResearchTree, active, now))
             {
@@ -197,13 +197,13 @@ public class ResearchService : MonoBehaviour
 
     public ActiveResearch IsActiveCategory(ResearchCategory category)
     {
-        var state = SaveService.Instance.Current?.Research;
+        var state = SaveService.Instance.Current?.Progress.Research;
         return state == null ? null : ResearchRules.GetActiveInCategory(state, category);
     }
 
     public int GetCurrentResearchLevel(string researchId)
     {
-        return ResearchRules.GetLevel(SaveService.Instance.Current.Research, researchId);
+        return ResearchRules.GetLevel(SaveService.Instance.Current.Progress.Research, researchId);
     }
 
     private void PostUnlock(ActiveResearch active)
@@ -231,7 +231,7 @@ public class ResearchService : MonoBehaviour
 
         foreach (var research in playerResearchTree.GetResearchByCategory(ResearchCategory.GlobalAbility))
         {
-            if (SaveService.Instance.Current.Research.CompletedResearch.TryGetValue(research.Id, out int level) && level > 0)
+            if (SaveService.Instance.Current.Progress.Research.CompletedResearch.TryGetValue(research.Id, out int level) && level > 0)
             {
                 UnlockService.Instance.Unlock(research.Id);
             }
@@ -248,14 +248,14 @@ public class ResearchService : MonoBehaviour
             researchCoroutines.Remove(researchId);
         }
 
-        var active = SaveService.Instance.Current.Research.ActiveResearch
+        var active = SaveService.Instance.Current.Progress.Research.ActiveResearch
             .Find(x => x.ResearchId == researchId);
 
         if (active != null)
         {
-            SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
+            SaveService.Instance.Current.Progress.Research.ActiveResearch.Remove(active);
         }
 
-        SaveService.Instance.Current.Research.CompletedResearch[researchId] = 0;
+        SaveService.Instance.Current.Progress.Research.CompletedResearch[researchId] = 0;
     }
 }

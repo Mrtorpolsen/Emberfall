@@ -162,10 +162,10 @@ public class GameManager : MonoBehaviour
     public void EndOfTutorial()
     {
         //move this to a reward manager or service later
-        if (!SaveService.Instance.Current.Flags.HasReceivedLoginGift)
+        if (!SaveService.Instance.Current.Progress.HasReceivedLoginGift)
         {
             CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
-            SaveService.Instance.Current.Flags.HasReceivedLoginGift = true;
+            SaveService.Instance.Current.Progress.HasReceivedLoginGift = true;
             SaveService.Instance.Save();
         }
         //Emit tutorial over

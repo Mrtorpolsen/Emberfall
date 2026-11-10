@@ -501,7 +501,7 @@ public class TutorialFlow : MonoBehaviour
 
         hasInitialized = true;
 
-        if (!SaveService.Instance.Current.Flags.HasCompletedTutorial)
+        if (!SaveService.Instance.Current.Client.HasCompletedTutorial)
         {
             isPlayingTutorial = true;
         }
@@ -553,7 +553,7 @@ public class TutorialFlow : MonoBehaviour
     private void TutorialCompleted()
     {
         tutorialPresenter.Hide();
-        SaveService.Instance.Current.Flags.HasCompletedTutorial = true;
+        SaveService.Instance.Current.Client.HasCompletedTutorial = true;
         SaveService.Instance.Save();
     }
 }
