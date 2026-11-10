@@ -43,6 +43,14 @@ ExportedObj/
 *.booproj
 *.svd
 *.pdb
+
+# The Cloud Code module is a real .NET project (not Unity-generated): keep its
+# solution and project files, ignore its build output
+!/CloudCode/**/*.csproj
+!/CloudCode/**/*.sln
+!/CloudCode/**/*.slnx
+/CloudCode/**/bin/
+/CloudCode/**/obj/
 *.mdb
 *.opendb
 *.VC.db
