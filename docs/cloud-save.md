@@ -104,6 +104,7 @@ Cost/duration/reward calculations must give the same answer on client and server
 - Packages: `Com.Unity.Services.CloudCode.Core` (`[CloudCodeFunction("Name")]`) and the Cloud Code APIs package for Cloud Save/Remote Config clients.
 - Client calls: `CloudCodeService.Instance.CallModuleEndpointAsync("EmberfallModule", "BuyTalent", args)`, wrapped in one `ProgressService` (or similar) that owns the cache.
 - Limits (docs): 15 s per call, 10 MB per module, 20 modules per project, 600 Cloud Code requests per minute per player.
+- **Environments:** the editor and development builds use UGS `development`, release builds `production` (`ServicesEnvironment`). Develop and deploy against `development`; deploy the module (and Remote Config) to `production` before the release that needs it (see Releasing in `docs/release-plan.md`).
 - `DeletePlayerScores.js` can stay a JS script, or move into the module later.
 
 ## Implementation order

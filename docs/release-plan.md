@@ -273,6 +273,7 @@ Releases are tags on `master`; there are no release branches. Every release from
 1. Commit the version bump on `master`: version name, version code, and the JSON versions.
 2. Build Addressables (Window → Asset Management → Addressables → Groups → Build → New Build → Default Build Script). They are not built with the player, so skipping this ships the old data.
 3. Run the EditMode tests.
+   - Release builds use the UGS `production` environment, the editor and development builds `development` (`ServicesEnvironment`). Anything server-side the build needs must be in `production` first: deploy the Cloud Code module (Services → Deployment, environment `production`, then switch the selection back to `development`), and later the Remote Config definitions.
 4. Build the AAB from that commit and upload it.
    - Build Profiles → Android: Development Build off (the `CrashReportingTester` trigger only exists in development builds), Debug Symbols Level `Full`, Format `Zip` and `Include In Bundle`.
    - `Include In Bundle` gives Play the symbols for Android vitals crashes and ANRs. If Play still warns that debug symbols are missing (bundle over `androidSymbolsSizeThreshold`, 800 MB), upload the `*.symbols.zip` under App bundle explorer → the version code → Downloads → Native debug symbols.

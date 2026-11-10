@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
+using Unity.Services.Core.Environments;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -39,7 +40,9 @@ public class LoginManager : MonoBehaviour
 
     private async void Start()
     {
-        await UnityServices.InitializeAsync();
+        string environment = ServicesEnvironment.Current;
+        Debug.Log($"Unity Services environment: {environment}");
+        await UnityServices.InitializeAsync(new InitializationOptions().SetEnvironmentName(environment));
 
         var auth = AuthenticationService.Instance;
 
