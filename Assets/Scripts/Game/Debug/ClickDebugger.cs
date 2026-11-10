@@ -2,17 +2,21 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Logs what a tap hits (2D raycast) while enabledDebug is set.
-// Release builds compile only a stub that destroys itself, so it can stay on scene objects (Game.unity, "Game - Cam 5 Map.unity").
+// Destroys itself in release builds, so it can stay on scene objects (Game.unity, "Game - Cam 5 Map.unity").
 public class ClickDebugger : MonoBehaviour
 {
     public bool enabledDebug;
 
-#if !DEVELOPMENT_BUILD && !UNITY_EDITOR
+    // Release builds: remove the component (disabled first so Update never runs).
     void Awake()
     {
-        Destroy(this);
+        if (!Debug.isDebugBuild)
+        {
+            enabled = false;
+            Destroy(this);
+        }
     }
-#else
+
     void Update()
     {
         if (!enabledDebug) return;
@@ -35,5 +39,4 @@ public class ClickDebugger : MonoBehaviour
             }
         }
     }
-#endif
 }
