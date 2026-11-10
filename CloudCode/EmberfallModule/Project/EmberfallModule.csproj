@@ -9,6 +9,12 @@
     <PackageReference Include="Com.Unity.Services.CloudCode.Core" Version="0.0.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
   </ItemGroup>
+  <!-- Plain C# shared with the game (no UnityEngine), so the server computes the same rewards and costs -->
+  <ItemGroup>
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\DifficultyLevelEnum.cs" Link="Shared\DifficultyLevelEnum.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Game\Systems\Difficulty.cs" Link="Shared\Difficulty.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Game\Data\CinderRewardCalculator.cs" Link="Shared\CinderRewardCalculator.cs" />
+  </ItemGroup>
   <PropertyGroup>
     <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
   </PropertyGroup>

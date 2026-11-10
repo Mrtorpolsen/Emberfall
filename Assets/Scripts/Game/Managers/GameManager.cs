@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
         LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTimeInMiliseconds(), GameSettingsService.Instance.Difficulty);
         //add cinders
         CurrencyManager.Instance.Add(CurrencyTypes.Cinders,
-            CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes()));
+            CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes(), GameSettingsService.Instance.Difficulty));
     }
 
     public Transform GetNextRangedRally()
