@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Emberfall is a 2D tower defense game (Unity **6000.3.9f1**, URP, C#), targeting Android (Google Play Games login, Unity Leaderboards). Development happens on Windows; this repo is accessed from WSL at `/mnt/c/...`.
+Emberfall is a 2D tower defense game (Unity **6000.6.8f1**, URP, C#), targeting Android (Google Play Games login, Unity Leaderboards). Development happens on Windows; this repo is accessed from WSL at `/mnt/c/...`.
 
 ## Building and testing
 
@@ -13,10 +13,10 @@ There is no CLI build script — builds and play-testing happen in the Unity Edi
 Tests are NUnit **EditMode** tests in `Assets/Scripts/Tests/Editor/` (compiled into the default `Assembly-CSharp-Editor`; the project has no custom `.asmdef`s). Run them via Window → General → Test Runner, or headless from Windows (the editor must not already have the project open):
 
 ```
-"C:\Program Files\Unity\Hub\Editor\6000.3.9f1\Editor\Unity.exe" -batchmode -projectPath . -runTests -testPlatform EditMode -testResults results.xml [-testFilter WaveGeneratorTests]
+"C:\Program Files\Unity\Hub\Editor\6000.6.8f1\Editor\Unity.exe" -batchmode -projectPath . -runTests -testPlatform EditMode -testResults results.xml [-testFilter WaveGeneratorTests]
 ```
 
-Crash reporting is Unity Diagnostics, enabled in the project settings. Debug symbols are set in Build Profiles, not Player Settings, so they aren't committed. Upload each shipped build's symbols as described under "Releasing" in `docs/release-plan.md`. `CrashReportingTester` (on GameManager) only works in development builds: hold the top-left corner to throw an exception, or the top-right corner to force a native crash. The other tools in `Game/Debug` (`ClickDebugger`, `VelocityInspector`, `DrawCircle`) work in the Editor and development builds; release builds compile only a stub that destroys itself. Wrap new debug components the same way rather than removing them from scenes and prefabs.
+Crash reporting is Unity Diagnostics, enabled in the project settings. Debug symbols are set in Build Profiles, not Player Settings, so they aren't committed. Upload each shipped build's symbols as described under "Releasing" in `docs/release-plan.md`. `CrashReportingTester` (on GameManager) only works in development builds: hold the top-left corner to throw an exception, or the top-right corner to force a native crash. The other tools in `Game/Debug` (`ClickDebugger`, `VelocityInspector`, `DrawCircle`) work in the Editor and development builds; in release builds they destroy themselves in `Awake` (runtime `Debug.isDebugBuild` check; the `DEVELOPMENT_BUILD` define is deprecated since Unity 6.6). Wrap new debug components the same way rather than removing them from scenes and prefabs.
 
 Some tests load real ScriptableObject assets through `AssetDatabase` (e.g. `WaveGeneratorTests` loads every `SpawnDefinition`), so changing data assets can break tests.
 
@@ -63,7 +63,7 @@ The in-game HUD (`Game/UI/UIManager`, `ActionButton`) is separate from the menu 
 Rally points (`GameManager.MeleeRally` and the two ranged rallies) are moved by dragging, not a menu: `RallyDragController` (runs before other input via `DefaultExecutionOrder`) grabs the nearest rally within `grabRadius`, and `GameManager.MoveRally` keeps it inside its boundary trigger (`meleeRallyBoundary`/`rangedRallyBoundary`, the `RallyBoundary` polygon in `Game.unity`) with `ClosestPoint`. While `RallyDragController.IsDragging`, `CameraController` doesn't pan and `ClickTracker` ignores the press. Units re-read their rally's position every frame, so they follow a drag without extra code.
 
 ### Persistence
-`SaveService` writes a single JSON file (Newtonsoft) per player ID; the JSON ↔ `SaveGame` step (parse, migrate, fill missing sections) is the plain C# `SaveSerializer`, covered by `SaveLoadTests`. `SaveGame` (`Shared/Persistence/SaveGame.cs`) is the root; `CurrentSaveVersion.CURRENT_SAVE_VERSION` gates migration. **When changing the save shape**: bump the version, keep the old shape as a `SaveGameN` class (legacy types live under `SaveMigration/vN/`), and add a `MigrateNToM` case in `SaveService.Migrate`. Corrupt saves are copied aside rather than overwritten.
+`SaveService` writes a single JSON file (Newtonsoft) per player ID; the JSON ↔ `SaveGame` step (parse, migrate, fill missing sections) is the plain C# `SaveSerializer`, covered by `SaveLoadTests`. Save classes are plain C# without `[Serializable]` (Unity never serializes them); never put `[NonSerialized]` on a save field, since Newtonsoft skips those too. `SaveGame` (`Shared/Persistence/SaveGame.cs`) is the root; `CurrentSaveVersion.CURRENT_SAVE_VERSION` gates migration. **When changing the save shape**: bump the version, keep the old shape as a `SaveGameN` class (legacy types live under `SaveMigration/vN/`), and add a `MigrateNToM` case in `SaveService.Migrate`. Corrupt saves are copied aside rather than overwritten.
 
 ### Data definitions
 - ScriptableObjects under `Assets/Data/ScriptableObjects/` define units (`UnitStatsDefinition`), spawnable entries (`SpawnDefinition`), generals/bosses (`GeneralDefinition`), abilities (`AbilityDefinition` + `AbilityAction` assets), and targeting. They're referenced directly (scenes/prefabs), not loaded by path.

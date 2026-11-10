@@ -94,6 +94,6 @@ public class AbilityCooldownManager : MonoBehaviour
         if (caster == null)
             return ability.Id;
 
-        return $"{ability.Id}_{caster.GetInstanceID()}";
+        return $"{ability.Id}_{caster.GetEntityId()}";
     }
 }

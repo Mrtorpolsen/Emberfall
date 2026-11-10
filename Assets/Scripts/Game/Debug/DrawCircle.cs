@@ -1,21 +1,24 @@
 using UnityEngine;
 
 // Draws a radius gizmo on the selected object.
-// Release builds compile only a stub that destroys itself.
+// Destroys itself in release builds.
 public class DrawCircle : MonoBehaviour
 {
     [SerializeField] public float radius;
 
-#if !DEVELOPMENT_BUILD && !UNITY_EDITOR
+    // Release builds: remove the component (disabled first so Update never runs).
     void Awake()
     {
-        Destroy(this);
+        if (!Debug.isDebugBuild)
+        {
+            enabled = false;
+            Destroy(this);
+        }
     }
-#else
+
     public void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, radius);
     }
-#endif
 }

@@ -179,7 +179,7 @@ public class UIScreenRouter : MonoBehaviour
 
         Debug.Log("UI_Root loaded, reinitializing MenuManager UI references");
 
-        UIDocument newUIDocument = FindFirstObjectByType<UIDocument>();
+        UIDocument newUIDocument = FindAnyObjectByType<UIDocument>();
 
         if (newUIDocument == null)
         {

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-[Serializable]
 public class PlayerTalentState
 {
     public Dictionary<string, UnitSaveData> Purchases = new();

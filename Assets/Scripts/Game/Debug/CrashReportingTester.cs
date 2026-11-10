@@ -12,19 +12,21 @@ public class CrashReportingTester : MonoBehaviour
     [SerializeField] float holdSeconds = 3f;
     [SerializeField, Range(0.05f, 0.5f)] float cornerSize = 0.15f;
 
-#if !DEVELOPMENT_BUILD || UNITY_EDITOR
-    void Awake()
-    {
-        Destroy(this);
-    }
-#else
     enum Corner { None, TopLeft, TopRight }
 
     float holdTime;
     Corner heldCorner;
 
+    // Only active in development player builds (not the Editor, not release).
     void Awake()
     {
+        if (Application.isEditor || !Debug.isDebugBuild)
+        {
+            enabled = false;
+            Destroy(this);
+            return;
+        }
+
         Debug.Log("CrashReportingTester active: hold top-left for exception, top-right for crash");
     }
 
@@ -77,5 +79,4 @@ public class CrashReportingTester : MonoBehaviour
         if (position.x >= Screen.width - size) return Corner.TopRight;
         return Corner.None;
     }
-#endif
 }

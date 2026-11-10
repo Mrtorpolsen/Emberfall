@@ -3,14 +3,12 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
-[Serializable]
 public class PlayerResearchState
 {
     public Dictionary<string, int> CompletedResearch = new();   //id,stacks
     public List<ActiveResearch> ActiveResearch = new();
 }
 
-[Serializable]
 public class ActiveResearch
 {
     [JsonConverter(typeof(StringEnumConverter))]

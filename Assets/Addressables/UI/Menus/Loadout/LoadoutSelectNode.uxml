@@ -4,7 +4,7 @@
     <ui:VisualElement name="LoadoutSlot" class="btnBackground1x1 loadoutSelectNodeContainer">
         <ui:VisualElement name="EmptyContainer" style="flex-grow: 1; display: flex;">
             <ui:VisualElement name="ImgContainer" style="flex-grow: 1; width: auto; padding-bottom: 0%; align-content: center; justify-content: center; aspect-ratio: 1;">
-                <ui:VisualElement name="ImgEmpty" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=3316425174430470091&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash@2x&quot;); margin-bottom: 0;"/>
+                <ui:VisualElement name="ImgEmpty" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=-6527069497977903076&amp;guid=6cbaf819f3bdb324388d85c3d1e972f2&amp;type=3#check-dash&quot;); margin-bottom: 0;"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="OccupiedContainer" style="flex-grow: 1; display: none;">
