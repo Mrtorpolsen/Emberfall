@@ -37,9 +37,6 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           testMode: editmode
-          # The Code Coverage package isn't installed, so coverage produced nothing; with it on,
-          # Unity 6000.6 was killed (exit 137) during startup in most runs.
-          coverageEnabled: false
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           checkName: EditMode test results
 
