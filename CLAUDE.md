@@ -10,7 +10,7 @@ Emberfall is a 2D tower defense game (Unity **6000.6.8f1**, URP, C#), targeting 
 
 There is no CLI build script — builds and play-testing happen in the Unity Editor. Always start Play mode from `Assets/Scenes/Bootstrap.unity`; other scenes depend on singletons it creates.
 
-Tests are NUnit **EditMode** tests in `Assets/Scripts/Tests/Editor/` (compiled into the default `Assembly-CSharp-Editor`; the project has no custom `.asmdef`s). Run them via Window → General → Test Runner, or headless from Windows (the editor must not already have the project open):
+Tests are NUnit **EditMode** tests in `Assets/Scripts/Tests/Editor/` (compiled into the default `Assembly-CSharp-Editor`; the only `.asmdef` is the generated Cloud Code bindings' under `Assets/CloudCode/`). Run them via Window → General → Test Runner, or headless from Windows (the editor must not already have the project open):
 
 ```
 "C:\Program Files\Unity\Hub\Editor\6000.6.8f1\Editor\Unity.exe" -batchmode -projectPath . -runTests -testPlatform EditMode -testResults results.xml [-testFilter WaveGeneratorTests]
@@ -64,6 +64,8 @@ Rally points (`GameManager.MeleeRally` and the two ranged rallies) are moved by 
 
 ### Persistence
 `SaveService` writes a single JSON file (Newtonsoft) per player ID; the JSON ↔ `SaveGame` step (parse, migrate, fill missing sections) is the plain C# `SaveSerializer`, covered by `SaveLoadTests`. Save classes are plain C# without `[Serializable]` (Unity never serializes them); never put `[NonSerialized]` on a save field, since Newtonsoft skips those too. `SaveGame` (`Shared/Persistence/SaveGame.cs`) is the root; `CurrentSaveVersion.CURRENT_SAVE_VERSION` gates migration. **When changing the save shape**: bump the version, keep the old shape as a `SaveGameN` class (legacy types live under `SaveMigration/vN/`), and add a `MigrateNToM` case in `SaveService.Migrate`. Corrupt saves are copied aside rather than overwritten.
+
+Cloud save is in progress (`feat/cloud-save`, design in `docs/cloud-save.md`): progress becomes Cloud Save Protected data written only by the Cloud Code C# module `EmberfallModule`. Its .NET solution is `CloudCode/EmberfallModule/` (`Project/` is the module, `TestProject/` its NUnit tests; targets `net9.0`, outside `Assets/` so Unity doesn't compile it). `Assets/CloudCode/EmberfallModule.ccmr` points at it: deploy from Services → Deployment, then regenerate the bindings from the `.ccmr` Inspector. The generated client wrappers (`Assets/CloudCode/GeneratedModuleBindings/`, e.g. `ProgressModuleBindings`) are overwritten on regeneration, so don't edit them. Module code uses a namespace (`EmberfallModule`); the global-namespace rule is for Unity scripts.
 
 ### Data definitions
 - ScriptableObjects under `Assets/Data/ScriptableObjects/` define units (`UnitStatsDefinition`), spawnable entries (`SpawnDefinition`), generals/bosses (`GeneralDefinition`), abilities (`AbilityDefinition` + `AbilityAction` assets), and targeting. They're referenced directly (scenes/prefabs), not loaded by path.
