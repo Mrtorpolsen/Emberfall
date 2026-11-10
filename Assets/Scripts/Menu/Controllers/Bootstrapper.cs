@@ -79,7 +79,7 @@ public class Bootstrapper : MonoBehaviour
 
     private void InitializeTopBar()
     {
-        var topBar = FindFirstObjectByType<TopBarView>();
+        var topBar = FindAnyObjectByType<TopBarView>();
         if (topBar == null)
         {
             Debug.LogError("TopBarView not found");

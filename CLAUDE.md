@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Emberfall is a 2D tower defense game (Unity **6000.3.9f1**, URP, C#), targeting Android (Google Play Games login, Unity Leaderboards). Development happens on Windows; this repo is accessed from WSL at `/mnt/c/...`.
+Emberfall is a 2D tower defense game (Unity **6000.6.8f1**, URP, C#), targeting Android (Google Play Games login, Unity Leaderboards). Development happens on Windows; this repo is accessed from WSL at `/mnt/c/...`.
 
 ## Building and testing
 
@@ -13,7 +13,7 @@ There is no CLI build script — builds and play-testing happen in the Unity Edi
 Tests are NUnit **EditMode** tests in `Assets/Scripts/Tests/Editor/` (compiled into the default `Assembly-CSharp-Editor`; the project has no custom `.asmdef`s). Run them via Window → General → Test Runner, or headless from Windows (the editor must not already have the project open):
 
 ```
-"C:\Program Files\Unity\Hub\Editor\6000.3.9f1\Editor\Unity.exe" -batchmode -projectPath . -runTests -testPlatform EditMode -testResults results.xml [-testFilter WaveGeneratorTests]
+"C:\Program Files\Unity\Hub\Editor\6000.6.8f1\Editor\Unity.exe" -batchmode -projectPath . -runTests -testPlatform EditMode -testResults results.xml [-testFilter WaveGeneratorTests]
 ```
 
 Crash reporting is Unity Diagnostics, enabled in the project settings. Debug symbols are set in Build Profiles, not Player Settings, so they aren't committed. Upload each shipped build's symbols as described under "Releasing" in `docs/release-plan.md`. `CrashReportingTester` (on GameManager) only works in development builds: hold the top-left corner to throw an exception, or the top-right corner to force a native crash. The other tools in `Game/Debug` (`ClickDebugger`, `VelocityInspector`, `DrawCircle`) work in the Editor and development builds; release builds compile only a stub that destroys itself. Wrap new debug components the same way rather than removing them from scenes and prefabs.
