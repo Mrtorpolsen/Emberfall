@@ -8,7 +8,7 @@ public class AbilityDatabase : MonoBehaviour
     public static AbilityDatabase Instance { get; private set; }
 
     [SerializeField] private List<AbilityDefinition> abilities;
-    public Dictionary<string, AbilityDefinition> abilityMap;
+    [NonSerialized] public Dictionary<string, AbilityDefinition> abilityMap;
 
     public void Awake()
     {

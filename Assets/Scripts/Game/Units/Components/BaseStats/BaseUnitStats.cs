@@ -27,7 +27,7 @@ public abstract class BaseUnitStats : MonoBehaviour, IUnit, ITargetable
     private StatBlock baseStats;
     private readonly StatBlock currentStats = new();
 
-    public List<ActiveEffect> ActiveEffects = new();
+    [NonSerialized] public List<ActiveEffect> ActiveEffects = new();
 
     private readonly Dictionary<StatType, List<StatModifier>> modifiersByStat = new();
     private readonly HashSet<StatType> dirtyStats = new();

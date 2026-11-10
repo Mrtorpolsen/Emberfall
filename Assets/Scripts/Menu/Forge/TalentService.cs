@@ -7,7 +7,7 @@ using UnityEngine.AddressableAssets;
 public class TalentService : MonoBehaviour
 {
     public static TalentService Instance { get; private set; }
-    public TalentTree playerTalentTree;
+    [System.NonSerialized] public TalentTree playerTalentTree;
 
     private const string TALENTS_ADDRESSABLE = "Talents";
 
