@@ -137,6 +137,7 @@ Tests deferred to a device build (collected Nov 11; the editor can't easily go o
 - [x] New guest, online: the tutorial runs, the gift arrives after the gameplay part, the tutorial's talent and research purchases work.
 - [ ] *(Skipped Nov 11: testers know it's a test build. Do before the production release.)* Upgrade from the store build (v0.8.0, save v4) to this build: progress is imported once (`No server progress yet, importing the local save`), within the caps (250,000 Cinders, talent and research levels at most their max).
 - [x] Reinstall, or a second device with the same Play Games account: progress comes back from the server; the tutorial is skipped if the player has research. Loadouts and the tutorial flag come back too.
+- [x] After clearing data, sign in with Play Games on an account that has a name: no name prompt, the existing name is used (fixed and verified on a fresh install Nov 11; it used to ask again and suggest the Play Games name, overwriting a custom one).
 - [ ] *(Skipped Nov 11: no second device.)* Two devices at once: buy on both quickly; no double charge, and both end up with the same progress after an action or relaunch.
 - [x] Edit a loadout offline, relaunch online: the offline edit is kept (and uploaded), not replaced by the server's copy.
 - [x] Delete the account (Account popup): scores, Cloud Save data and the account are deleted in that order, and the game restarts at login (Nov 11).

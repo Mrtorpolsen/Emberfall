@@ -68,11 +68,16 @@ public class LoginManager : MonoBehaviour
             }
         }
 
-        if (auth.IsSignedIn && !string.IsNullOrEmpty(auth.PlayerName))
+        if (auth.IsSignedIn)
         {
-            ApplyUserName(auth.PlayerName);
-            Login();
-            return;
+            string existingName = await FetchPlayerNameAsync(auth);
+
+            if (!string.IsNullOrEmpty(existingName))
+            {
+                ApplyUserName(existingName);
+                Login();
+                return;
+            }
         }
 
         // ensure rootVisualElement is ready
@@ -156,7 +161,7 @@ public class LoginManager : MonoBehaviour
 
             await auth.SignInWithGooglePlayGamesAsync(authCode);
 
-            // Suggested in the name prompt, which only shows if the account has no name yet
+            // Suggested in the name prompt, which only shows if the account has no name yet (FetchPlayerNameAsync)
             input_name.value = ToNameSuggestion(PlayGamesManager.GetDisplayName());
             return true;
         }, "Couldn't sign in with Play Games. Try again or continue as guest.");
@@ -198,14 +203,33 @@ public class LoginManager : MonoBehaviour
 
         Debug.Log("Signed in! PlayerID: " + auth.PlayerId);
 
-        if (!string.IsNullOrEmpty(auth.PlayerName))
+        string existingName = await FetchPlayerNameAsync(auth);
+
+        if (!string.IsNullOrEmpty(existingName))
         {
-            ApplyUserName(auth.PlayerName);
+            ApplyUserName(existingName);
             Login();
             return;
         }
 
         ShowPanel(panel_name);
+    }
+
+    // The account's name from the server. After a fresh sign-in (reinstall, cleared data, new device) the
+    // locally cached auth.PlayerName is empty even when the account has a name, so checking only that asked for a
+    // name again, suggesting the Play Games one and overwriting a custom name. Empty when the account has none:
+    // autoGenerate false, so no random name is created. On a failure, the cached name (maybe empty) is used.
+    private static async Task<string> FetchPlayerNameAsync(IAuthenticationService auth)
+    {
+        try
+        {
+            return await auth.GetPlayerNameAsync(autoGenerate: false);
+        }
+        catch (RequestFailedException e)
+        {
+            Debug.LogWarning("Couldn't load the player name: " + e.Message);
+            return auth.PlayerName;
+        }
     }
 
     // Player names can't contain whitespace and the field caps the length
