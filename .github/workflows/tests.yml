@@ -46,3 +46,31 @@ jobs:
         with:
           name: Test results
           path: ${{ steps.tests.outputs.artifactsPath }}
+
+  # The Cloud Code module (CloudCode/EmberfallModule) is a plain .NET solution: it builds against the shared game
+  # files and the embedded Talents.json/Research.json, so these tests also catch shared code that stops compiling
+  # outside Unity (e.g. a UnityEngine reference). No Unity license needed.
+  module:
+    name: Cloud Code module tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # The module targets net9.0, the runtime Cloud Code uses
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      # The test project, not the .sln: the solution leaves TestProject out of its Release build (so it isn't
+      # deployed with the module), and testing the solution would run nothing and still pass
+      - name: Run module tests
+        run: dotnet test CloudCode/EmberfallModule/TestProject/TestProject.csproj -c Release --logger "console;verbosity=normal" --logger "trx;LogFileName=module-tests.trx" --results-directory module-test-results
+
+      - name: Upload module test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Module test results
+          path: module-test-results

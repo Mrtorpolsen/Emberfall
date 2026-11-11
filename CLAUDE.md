@@ -18,6 +18,8 @@ Tests are NUnit **EditMode** tests in `Assets/Scripts/Tests/Editor/` (compiled i
 
 Crash reporting is Unity Diagnostics, enabled in the project settings. Debug symbols are set in Build Profiles, not Player Settings, so they aren't committed. Upload each shipped build's symbols as described under "Releasing" in `docs/release-plan.md`. `CrashReportingTester` (on GameManager) only works in development builds: hold the top-left corner to throw an exception, or the top-right corner to force a native crash. The other tools in `Game/Debug` (`ClickDebugger`, `VelocityInspector`, `DrawCircle`) work in the Editor and development builds; in release builds they destroy themselves in `Awake` (runtime `Debug.isDebugBuild` check; the `DEVELOPMENT_BUILD` define is deprecated since Unity 6.6). Wrap new debug components the same way rather than removing them from scenes and prefabs.
 
+The Cloud Code module has its own NUnit tests (`CloudCode/EmberfallModule/TestProject/`, run on the server's .NET against the real `Talents.json`/`Research.json`): `dotnet test CloudCode/EmberfallModule/TestProject/TestProject.csproj -c Release`. Test the project, not the `.sln`: the solution leaves `TestProject` out of its Release build (so it isn't deployed), and testing it runs nothing. CI (`.github/workflows/tests.yml`) runs both the EditMode tests and these.
+
 Some tests load real ScriptableObject assets through `AssetDatabase` (e.g. `WaveGeneratorTests` loads every `SpawnDefinition`), so changing data assets can break tests.
 
 ## Repo conventions
