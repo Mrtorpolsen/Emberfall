@@ -175,9 +175,8 @@ public class GameManager : MonoBehaviour
         hasReceivedReward = true;
         //save score, throws error if not logged in
         LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTimeInMiliseconds(), GameSettingsService.Instance.Difficulty);
-        //add cinders
-        CurrencyManager.Instance.Add(CurrencyTypes.Cinders,
-            CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes(), GameSettingsService.Instance.Difficulty));
+        // Cinders are granted by the server; offline the run waits in the queue
+        RunRewardQueue.Add(TimerManager.Instance.GetElapsedTimeInMinutes(), GameSettingsService.Instance.Difficulty);
     }
 
     public Transform GetNextRangedRally()

@@ -1,3 +1,4 @@
+#nullable disable // Unity code is nullable-oblivious; the Cloud Code module compiles this file with nullable on
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 

@@ -1,5 +1,7 @@
 using System;
 
+// Read-only view of the player's Cinders and Embers. The server owns them (docs/cloud-save.md): they change
+// only through server actions (ServerActions), which call NotifyChanged.
 public class CurrencyManager : GlobalSystem<CurrencyManager>
 {
     public event Action<int> OnCindersChanged;
@@ -16,29 +18,6 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
         return SaveService.Instance.Current.Progress.Currency.Get(type);
     }
 
-    public void Add(CurrencyTypes type, int amount)
-    {
-        EnsureCurrencyAvailable();
-        SaveService.Instance.Current.Progress.Currency.Add(type, amount);
-        SaveService.Instance.Save();
-        OnPlayerCurrencyChanged?.Invoke(type);
-        RaiseIfCinders(type);
-    }
-
-    public bool Spend(CurrencyTypes type, int amount)
-    {
-        EnsureCurrencyAvailable();
-        bool success = SaveService.Instance.Current.Progress.Currency.Spend(type, amount);
-
-        if (success)
-        {
-            SaveService.Instance.Save();
-            RaiseIfCinders(type);
-            OnPlayerCurrencyChanged?.Invoke(type);
-        }
-        return success;
-    }
-
     // After the progress was replaced (a server answer): both balances may have changed
     public void NotifyChanged()
     {
@@ -46,14 +25,6 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
         {
             OnPlayerCurrencyChanged?.Invoke(type);
         }
-
-        OnCindersChanged?.Invoke(Get(CurrencyTypes.Cinders));
-    }
-
-    private void RaiseIfCinders(CurrencyTypes type)
-    {
-        if (type != CurrencyTypes.Cinders)
-            return;
 
         OnCindersChanged?.Invoke(Get(CurrencyTypes.Cinders));
     }

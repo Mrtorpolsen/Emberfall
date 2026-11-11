@@ -5,8 +5,10 @@ using System.Collections.Generic;
 // Cloud Code module. Plain C# so the module can share it: no UnityEngine.
 public class ServerProgress
 {
-    // Separate from the local save version: the module migrates the server copy on its own
-    public const int CurrentVersion = 1;
+    // Separate from the local save version: the module migrates the server copy on its own.
+    // 2: RewardClock and ClaimedRunIds (run rewards). Fields are only added, with defaults, so EnsureDefaults
+    // upgrades older copies.
+    public const int CurrentVersion = 2;
 
     public int Version = CurrentVersion;
 
@@ -17,6 +19,13 @@ public class ServerProgress
     public PlayerResearchState Research = new();
 
     public bool HasReceivedLoginGift;
+
+    // Run rewards (RunRewards in the module): real time, on the server's clock (unix seconds), up to which minutes
+    // of runs have been paid. 0 = never claimed.
+    public long RewardClock;
+
+    // The last claimed PendingRun.RunIds, so a retried claim pays once
+    public List<string> ClaimedRunIds = new();
 
     // Fills sections missing from older or hand-edited progress, so callers never null-check them
     public ServerProgress EnsureDefaults()
@@ -30,6 +39,13 @@ public class ServerProgress
         Research.ActiveResearch ??= new List<ActiveResearch>();
 
         Currency ??= new CurrencyData();
+
+        ClaimedRunIds ??= new List<string>();
+
+        if (Version < CurrentVersion)
+        {
+            Version = CurrentVersion;
+        }
 
         return this;
     }

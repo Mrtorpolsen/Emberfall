@@ -57,6 +57,10 @@ public class Bootstrapper : MonoBehaviour
 
         await Task.WhenAll(loadTasks);
 
+        // Runs that ended offline or whose claim failed
+        RunRewardQueue.ListenForReconnect();
+        await RunRewardQueue.ClaimAsync();
+
         // The tutorial finished offline: its gift is still due
         if (SaveService.Instance.Current.Client.HasCompletedTutorial)
         {

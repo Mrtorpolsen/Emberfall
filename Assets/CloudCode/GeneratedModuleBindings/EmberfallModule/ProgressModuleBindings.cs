@@ -95,6 +95,17 @@ namespace Unity.Services.CloudCode.GeneratedBindings
                 });
         }
 
+        public async Task<string> ClaimRunRewards(string runsJson)
+        {
+            return await k_Service.CallModuleEndpointAsync<string>(
+                "EmberfallModule",
+                "ClaimRunRewards",
+                new Dictionary<string, object>()
+                {
+                    {"runsJson", runsJson},
+                });
+        }
+
         public async Task<string> GetDefinitions()
         {
             return await k_Service.CallModuleEndpointAsync<string>(

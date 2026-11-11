@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -104,6 +105,26 @@ public class ProgressModule
     public Task<string> ClaimTutorialGift(IExecutionContext context)
     {
         return MutateAsync(context, ProgressActions.ClaimTutorialGift);
+    }
+
+    // Pays finished runs (a JSON list of PendingRun), limited by real time on the server's clock (RunRewards).
+    // Runs already paid are skipped, so the game can resend its queue after a lost answer. Returns a ProgressResponse.
+    [CloudCodeFunction("ClaimRunRewards")]
+    public Task<string> ClaimRunRewards(IExecutionContext context, string runsJson)
+    {
+        List<PendingRun> runs;
+
+        try
+        {
+            runs = JsonConvert.DeserializeObject<List<PendingRun>>(runsJson ?? "") ?? new List<PendingRun>();
+        }
+        catch (JsonException e)
+        {
+            m_Logger.LogWarning("Unreadable runs from {PlayerId}: {Error}", context.PlayerId, e.Message);
+            runs = new List<PendingRun>();
+        }
+
+        return MutateAsync(context, progress => RunRewards.Claim(progress, runs, Now()));
     }
 
     static long Now() => DateTimeOffset.UtcNow.ToUnixTimeSeconds();
