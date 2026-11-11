@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 // Finished runs whose Cinders the server hasn't granted yet (SaveGame.PendingRuns). A run is queued when it
-// ends and claimed right away; offline or on a failure it stays queued and is claimed on reconnect or at the
-// next launch. The server pays each run once (by RunId) and limits the rate (RunRewards in the module).
+// ends and claimed right away; offline or on a failure it stays queued and is claimed when the connection
+// comes back (PendingServerWork) or at the next launch. The server pays each run once (by RunId) and limits the rate (RunRewards in the module).
 public static class RunRewardQueue
 {
     // The server handles at most this many per claim (RunRewards.MaxRunsPerClaim)
     private const int MaxRunsPerClaim = 50;
 
     private static bool claiming;
-    private static bool listening;
 
     public static void Add(int minutes, DifficultyLevel difficulty)
     {
@@ -31,15 +30,6 @@ public static class RunRewardQueue
 
         SaveService.Instance.Save();
         _ = ClaimAsync();
-    }
-
-    public static void ListenForReconnect()
-    {
-        if (listening || IdentityService.Instance == null)
-            return;
-
-        IdentityService.Instance.Reconnected += () => _ = ClaimAsync();
-        listening = true;
     }
 
     public static async Task ClaimAsync()

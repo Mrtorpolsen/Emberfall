@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
 using UnityEngine;
 
@@ -24,7 +23,7 @@ public static class ClientStateSync
     // created (missing, corrupt), so the local copy holds no edits even if this device uploaded before.
     public static async Task<ClientState> LoadAsync(string playerId, ClientState local, bool localIsNew)
     {
-        if (!AuthenticationService.Instance.IsSignedIn)
+        if (!ServerActions.IsOnline)
             return null;
 
         string serverJson;
@@ -92,7 +91,7 @@ public static class ClientStateSync
         var save = SaveService.Instance != null ? SaveService.Instance.Current : null;
         string playerId = IdentityService.Instance?.Current?.GetPlayerId();
 
-        if (save == null || string.IsNullOrEmpty(playerId) || !AuthenticationService.Instance.IsSignedIn)
+        if (save == null || string.IsNullOrEmpty(playerId) || !ServerActions.IsOnline)
             return;
 
         string json = JsonConvert.SerializeObject(save.Client);

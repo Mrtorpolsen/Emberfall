@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Unity.Services.Authentication;
 using Unity.Services.CloudCode.GeneratedBindings;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ public static class ServerProgressSync
     // The server's progress, or null when signed out or the server can't be reached (then the local copy is used)
     public static async Task<ServerProgress> LoadOrImportAsync(ServerProgress localProgress)
     {
-        if (!AuthenticationService.Instance.IsSignedIn)
+        if (!ServerActions.IsOnline)
             return null;
 
         try

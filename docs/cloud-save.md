@@ -129,8 +129,8 @@ Tests deferred to a device build (collected Nov 11; the editor can't easily go o
 - [ ] Offline, buy a talent, start research, refund: a "Connect to the internet" Toast, nothing changes.
 - [ ] End a run offline: the game-over screen shows the Cinders; the top bar doesn't change yet. Back online, relaunch: the Cinders arrive.
 - [ ] Start offline, play a run, then reconnect mid-session (open the leaderboard or wait up to 2 minutes): the queued run is claimed without a relaunch.
-- [ ] Lose the network mid-session (started online), end a run: the claim fails and the run stays queued; it's claimed at the next run's end or the next launch (a mid-session drop doesn't trigger a reconnect).
-- [ ] A research finishes while offline: it completes on reconnect or at the next online launch, and the level goes up.
+- [ ] Lose the network mid-session (started online), end a run: the claim fails and the run stays queued; when the network comes back it's claimed within a few seconds (`NetworkWatcher`), without a relaunch.
+- [ ] A research finishes while offline (started online): it completes within a few seconds of the network coming back, and the level goes up.
 - [ ] Tutorial gift: sign in as a new guest online, go offline before the gameplay tutorial ends; back online, relaunch: +2,000 Cinders.
 
 **Accounts and installs**

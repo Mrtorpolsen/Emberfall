@@ -61,6 +61,8 @@ public class ResearchService : MonoBehaviour
         {
             IdentityService.Instance.Reconnected += HandleReconnected;
         }
+
+        NetworkWatcher.NetworkRestored += HandleReconnected;
     }
 
     private void OnDestroy()
@@ -69,9 +71,15 @@ public class ResearchService : MonoBehaviour
         {
             IdentityService.Instance.Reconnected -= HandleReconnected;
         }
+
+        if (Instance == this)
+        {
+            NetworkWatcher.NetworkRestored -= HandleReconnected;
+        }
     }
 
-    // Research that finished while offline completes once the server can be reached
+    // Research that finished while offline completes once the server can be reached (a running retry loop is
+    // woken by NetworkWatcher.WaitAsync instead)
     private void HandleReconnected()
     {
         if (playerResearchTree != null)
@@ -221,8 +229,14 @@ public class ResearchService : MonoBehaviour
                     return;
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(retrySeconds));
-                retrySeconds = Math.Min(retrySeconds * 2, MaxRetrySeconds);
+                // Cut short when the connection comes back; then the backoff starts over, in case the first try
+                // after it still fails
+                int restoredBefore = NetworkWatcher.RestoredCount;
+                await NetworkWatcher.WaitAsync(TimeSpan.FromSeconds(retrySeconds));
+
+                retrySeconds = NetworkWatcher.RestoredCount != restoredBefore
+                    ? FirstRetrySeconds
+                    : Math.Min(retrySeconds * 2, MaxRetrySeconds);
 
                 if (this == null)
                     return;

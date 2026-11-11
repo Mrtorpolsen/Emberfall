@@ -11,8 +11,11 @@ public static class ServerActions
 {
     private const int TimeoutMilliseconds = 8000;
 
-    // Actions need the server; offline the game shows the cached progress but can't change it
-    public static bool IsOnline => AuthenticationService.Instance.IsSignedIn;
+    // Actions need the server; offline the game shows the cached progress but can't change it. Signed in isn't
+    // enough: a session that started online stays signed in when the network drops, and a call then only fails
+    // after the Cloud Code package has logged an error.
+    public static bool IsOnline =>
+        AuthenticationService.Instance.IsSignedIn && Application.internetReachability != NetworkReachability.NotReachable;
 
     // The server's answer, with its progress already applied; null when the server couldn't be reached
     public static async Task<ProgressResponse> SendAsync(Func<ProgressModuleBindings, Task<string>> action)

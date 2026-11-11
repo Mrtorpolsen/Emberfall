@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Unity.Services.Authentication;
 using Unity.Services.CloudCode.GeneratedBindings;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ public static class ServerDefinitions
         TalentsJson = null;
         ResearchJson = null;
 
-        if (!AuthenticationService.Instance.IsSignedIn)
+        if (!ServerActions.IsOnline)
             return;
 
         try

@@ -57,8 +57,8 @@ public class Bootstrapper : MonoBehaviour
 
         await Task.WhenAll(loadTasks);
 
-        // Runs that ended offline or whose claim failed
-        RunRewardQueue.ListenForReconnect();
+        // Runs that ended offline or whose claim failed; later failures are retried when the connection comes back
+        PendingServerWork.Listen();
         await RunRewardQueue.ClaimAsync();
 
         // The tutorial finished offline: its gift is still due
