@@ -54,7 +54,7 @@ Init order is View → Controller → Events; on swap, Events and Controller are
 
 `LeaderboardService.AddScore` never drops a score: it goes into `PendingScoreQueue` (PlayerPrefs, best per player ID and difficulty, plain C# and tested) and is removed only after the server accepts it (or already has a higher one). `SubmitPendingScoresAsync` sends the queue when signed in; `Bootstrapper` calls it after loading the player's scores, and a reconnect does too.
 
-Tapping the username in the top bar opens `AccountPopup` (guests: link Play Games; account deletion via `AccountService`, which first deletes the player's leaderboard scores through the `DeletePlayerScores` Cloud Code script, then restarts the game from Bootstrap by destroying our DontDestroyOnLoad objects). The script's source is `CloudCode/DeletePlayerScores.js`; it's deployed by pasting it into the Unity Dashboard, and it reads a service account key from Secret Manager.
+Tapping the username in the top bar opens `AccountPopup` (guests: link Play Games; account deletion via `AccountService`, which first deletes the player's leaderboard scores through the `DeletePlayerScores` Cloud Code script and their Cloud Save data through the module's `DeleteMyData`, then restarts the game from Bootstrap by destroying our DontDestroyOnLoad objects). The script's source is `CloudCode/DeletePlayerScores.js`; it's deployed by pasting it into the Unity Dashboard, and it reads a service account key from Secret Manager.
 
 Short player-facing messages (errors, confirmations) go through `Toast.Show(message)`, a drop-down banner built in code; `LoginManager` and `Bootstrapper` attach it to their UIDocument roots. Modal popups with buttons use `PopupManager`.
 

@@ -106,6 +106,16 @@ namespace Unity.Services.CloudCode.GeneratedBindings
                 });
         }
 
+        public async Task DeleteMyData()
+        {
+            await k_Service.CallModuleEndpointAsync(
+                "EmberfallModule",
+                "DeleteMyData",
+                new Dictionary<string, object>()
+                {
+                });
+        }
+
         public async Task<string> GetDefinitions()
         {
             return await k_Service.CallModuleEndpointAsync<string>(

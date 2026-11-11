@@ -127,6 +127,15 @@ public class ProgressModule
         return MutateAsync(context, progress => RunRewards.Claim(progress, runs, Now()));
     }
 
+    // Account deletion: removes everything Cloud Save holds for the player (progress and client state). Called
+    // before the account itself is deleted, while the player can still be identified.
+    [CloudCodeFunction("DeleteMyData")]
+    public async Task DeleteMyData(IExecutionContext context)
+    {
+        await m_Store.DeleteAllAsync(context);
+        m_Logger.LogInformation("Deleted the Cloud Save data of {PlayerId}", context.PlayerId);
+    }
+
     static long Now() => DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
     // Loads the progress, runs the action on it and writes it back with the write lock it was read with.

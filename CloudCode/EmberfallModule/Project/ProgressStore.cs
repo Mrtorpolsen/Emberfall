@@ -16,6 +16,9 @@ public class ProgressStore
 {
     public const string ProgressKey = "progress";
 
+    // ClientState (loadouts, tutorial flag): Default access, written by the game itself (docs/cloud-save.md)
+    public const string ClientKey = "client";
+
     readonly IGameApiClient m_GameApiClient;
 
     public ProgressStore(IGameApiClient gameApiClient)
@@ -53,6 +56,28 @@ public class ProgressStore
             context.ProjectId,
             context.PlayerId!,
             new SetItemBody(ProgressKey, value, writeLock!));
+    }
+
+    // Deletes the progress key and the client key (account deletion). A key that doesn't exist is fine.
+    public async Task DeleteAllAsync(IExecutionContext context)
+    {
+        // Named: every parameter is a string, so a wrong order would still compile
+        await IgnoreNotFound(m_GameApiClient.CloudSaveData.DeleteProtectedItemAsync(
+            context, accessToken: context.ServiceToken, projectId: context.ProjectId, playerId: context.PlayerId!, key: ProgressKey));
+
+        await IgnoreNotFound(m_GameApiClient.CloudSaveData.DeleteItemAsync(
+            context, accessToken: context.AccessToken, projectId: context.ProjectId, playerId: context.PlayerId!, key: ClientKey));
+    }
+
+    static async Task IgnoreNotFound(Task call)
+    {
+        try
+        {
+            await call;
+        }
+        catch (ApiException e) when (e.Response?.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+        }
     }
 
     public static string ToJson(ServerProgress progress) => JsonConvert.SerializeObject(progress);
