@@ -22,6 +22,11 @@ public static class ServerActions
             string json = await CloudCall.WithTimeout(action(new ProgressModuleBindings()), TimeoutMilliseconds);
             var response = JsonConvert.DeserializeObject<ProgressResponse>(json);
 
+            if (response != null)
+            {
+                ServerClock.Sync(response.ServerTime);
+            }
+
             if (response?.Progress != null)
             {
                 await ApplyAsync(response.Progress.EnsureDefaults());
@@ -54,6 +59,7 @@ public static class ServerActions
         nameof(TalentPurchaseCheck.NotEnoughCurrency) => "Not enough cinders.",
         nameof(TalentPurchaseCheck.MaxedOut) => "Already at the maximum level.",
         nameof(TalentPurchaseCheck.PrerequisitesNotMet) => "Requirements not met yet.",
+        nameof(ResearchStartCheck.CategoryBusy) => "Something is already being researched in this category.",
         ProgressResponse.DefinitionsOutdated => "The game data was updated. Restart the game to continue.",
         ProgressResponse.OutOfSync => "Your progress was refreshed from the server.",
         ProgressResponse.Conflict => "Something went wrong. Try again.",

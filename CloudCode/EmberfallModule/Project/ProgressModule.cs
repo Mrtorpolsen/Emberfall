@@ -21,25 +21,25 @@ public class ProgressModule
         m_Logger = logger;
     }
 
-    // The player's progress as ServerProgress JSON, or null if they have none yet (then the game imports its
-    // local save with ImportLocalSave)
+    // The player's progress as a ProgressResponse; its Progress is null if they have none yet (then the game
+    // imports its local save with ImportLocalSave)
     [CloudCodeFunction("GetProgress")]
-    public async Task<string?> GetProgress(IExecutionContext context)
+    public async Task<string> GetProgress(IExecutionContext context)
     {
         var (progress, _) = await m_Store.LoadAsync(context);
-        return progress == null ? null : ProgressStore.ToJson(progress);
+        return Respond(null, progress);
     }
 
     // First cloud login: turns the player's local progress (ServerProgress JSON) into their server progress,
     // limited to what the definitions allow (ProgressImport). Only works once: when the player already has
-    // server progress it is returned unchanged.
+    // server progress it is returned unchanged. Returns a ProgressResponse.
     [CloudCodeFunction("ImportLocalSave")]
     public async Task<string> ImportLocalSave(IExecutionContext context, string progressJson)
     {
         var (existing, _) = await m_Store.LoadAsync(context);
 
         if (existing != null)
-            return ProgressStore.ToJson(existing);
+            return Respond(null, existing);
 
         ServerProgress? local = null;
 
@@ -52,11 +52,10 @@ public class ProgressModule
             m_Logger.LogWarning("Unreadable local progress for {PlayerId}, starting fresh: {Error}", context.PlayerId, e.Message);
         }
 
-        var progress = ProgressImport.Sanitize(local, DefinitionsStore.Talents, DefinitionsStore.Research,
-            DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        var progress = ProgressImport.Sanitize(local, DefinitionsStore.Talents, DefinitionsStore.Research, Now());
 
         await m_Store.SaveAsync(context, progress, writeLock: null);
-        return ProgressStore.ToJson(progress);
+        return Respond(null, progress);
     }
 
     // Buys the next level of a talent: fromLevel is the level the game shows, definitionsVersion the talent
@@ -71,6 +70,29 @@ public class ProgressModule
 
         return MutateAsync(context, progress => TalentPurchase.Apply(progress, tree, unit, talentId, fromLevel));
     }
+
+    // Starts the next level of a research: fromLevel is the level the game shows, definitionsVersion the research
+    // definitions it priced it from. The start time is the server's. Returns a ProgressResponse.
+    [CloudCodeFunction("StartResearch")]
+    public Task<string> StartResearch(IExecutionContext context, string researchId, int fromLevel, int definitionsVersion)
+    {
+        ResearchTree tree = DefinitionsStore.Research;
+
+        if (definitionsVersion != tree.DefinitionsVersion)
+            return Task.FromResult(Respond(ProgressResponse.DefinitionsOutdated, null));
+
+        return MutateAsync(context, progress => ResearchActions.Start(progress, tree, researchId, fromLevel, Now()));
+    }
+
+    // Completes a running research once its time is up on the server's clock (NotDone before that).
+    // Returns a ProgressResponse.
+    [CloudCodeFunction("CompleteResearch")]
+    public Task<string> CompleteResearch(IExecutionContext context, string researchId)
+    {
+        return MutateAsync(context, progress => ResearchActions.Complete(progress, DefinitionsStore.Research, researchId, Now()));
+    }
+
+    static long Now() => DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
     // Loads the progress, runs the action on it and writes it back with the write lock it was read with.
     // If another write got in between (the player acting on two devices at once), the whole thing runs once more.
@@ -106,7 +128,7 @@ public class ProgressModule
     }
 
     static string Respond(string? error, ServerProgress? progress) =>
-        JsonConvert.SerializeObject(new ProgressResponse { Error = error, Progress = progress });
+        JsonConvert.SerializeObject(new ProgressResponse { Error = error, Progress = progress, ServerTime = Now() });
 
     // The talent and research definitions this module checks purchases against, as
     // { "talents": ..., "research": ... }. The game uses them when they're newer than its bundled copy.

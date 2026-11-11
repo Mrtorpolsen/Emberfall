@@ -20,15 +20,18 @@ public static class ServerProgressSync
         try
         {
             var module = new ProgressModuleBindings();
-            string json = await CloudCall.WithTimeout(module.GetProgress(), TimeoutMilliseconds);
+            ProgressResponse response = ParseResponse(await CloudCall.WithTimeout(module.GetProgress(), TimeoutMilliseconds));
 
-            if (string.IsNullOrEmpty(json))
+            if (response.Progress == null)
             {
                 Debug.Log("No server progress yet, importing the local save");
-                json = await CloudCall.WithTimeout(module.ImportLocalSave(JsonConvert.SerializeObject(localProgress)), TimeoutMilliseconds);
+                string localJson = JsonConvert.SerializeObject(localProgress);
+                response = ParseResponse(await CloudCall.WithTimeout(module.ImportLocalSave(localJson), TimeoutMilliseconds));
             }
 
-            return Parse(json);
+            ServerClock.Sync(response.ServerTime);
+
+            return response.Progress?.EnsureDefaults() ?? throw new JsonException("The server returned no progress");
         }
         catch (Exception e)
         {
@@ -37,11 +40,12 @@ public static class ServerProgressSync
         }
     }
 
-    public static ServerProgress Parse(string json)
+    public static ProgressResponse ParseResponse(string json)
     {
-        var progress = JsonConvert.DeserializeObject<ServerProgress>(json)
-            ?? throw new JsonException("Server progress is empty");
+        var response = JsonConvert.DeserializeObject<ProgressResponse>(json)
+            ?? throw new JsonException("Empty answer from the server");
 
-        return progress.EnsureDefaults();
+        response.Progress?.EnsureDefaults();
+        return response;
     }
 }

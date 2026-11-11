@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -384,7 +385,6 @@ public class TutorialFlow : MonoBehaviour
                 },
                 onComplete = () => {
                     currentStep++;
-                    ResearchService.Instance.SetTutorialResearchState();
                     PlayMenuStep(currentStep);
                 },
             },
@@ -501,10 +501,26 @@ public class TutorialFlow : MonoBehaviour
 
         hasInitialized = true;
 
-        if (!SaveService.Instance.Current.Client.HasCompletedTutorial)
+        var save = SaveService.Instance.Current;
+
+        // The tutorial's last action is starting a research. A player who already has research (a reinstall, or
+        // quitting after that step) is past it; replaying would ask them to start research that may be running
+        // or maxed, which the server would refuse.
+        if (!save.Client.HasCompletedTutorial && IsPastResearchStep(save.Progress.Research))
+        {
+            save.Client.HasCompletedTutorial = true;
+            SaveService.Instance.Save();
+        }
+
+        if (!save.Client.HasCompletedTutorial)
         {
             isPlayingTutorial = true;
         }
+    }
+
+    public static bool IsPastResearchStep(PlayerResearchState research)
+    {
+        return research.ActiveResearch.Count > 0 || research.CompletedResearch.Values.Any(level => level > 0);
     }
 
     public void MainMenuReady()

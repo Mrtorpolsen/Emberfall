@@ -51,6 +51,30 @@ namespace Unity.Services.CloudCode.GeneratedBindings
                 });
         }
 
+        public async Task<string> StartResearch(string researchId, int fromLevel, int definitionsVersion)
+        {
+            return await k_Service.CallModuleEndpointAsync<string>(
+                "EmberfallModule",
+                "StartResearch",
+                new Dictionary<string, object>()
+                {
+                    {"researchId", researchId},
+                    {"fromLevel", fromLevel},
+                    {"definitionsVersion", definitionsVersion},
+                });
+        }
+
+        public async Task<string> CompleteResearch(string researchId)
+        {
+            return await k_Service.CallModuleEndpointAsync<string>(
+                "EmberfallModule",
+                "CompleteResearch",
+                new Dictionary<string, object>()
+                {
+                    {"researchId", researchId},
+                });
+        }
+
         public async Task<string> GetDefinitions()
         {
             return await k_Service.CallModuleEndpointAsync<string>(

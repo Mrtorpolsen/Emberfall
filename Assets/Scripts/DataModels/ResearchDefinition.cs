@@ -9,6 +9,10 @@ using System.Linq;
 
 public class ResearchTree
 {
+    // Bumped whenever the content changes; the server rejects research priced from another version
+    [JsonProperty("definitionsVersion")]
+    public int DefinitionsVersion { get; set; }
+
     [JsonProperty("scalingPresets")]
     public Dictionary<string, ScalingPreset> ScalingPresets { get; set; }
 
