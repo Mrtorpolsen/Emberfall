@@ -134,11 +134,16 @@ Tests deferred to a device build (collected Nov 11; the editor can't easily go o
 - [ ] Tutorial gift: sign in as a new guest online, go offline before the gameplay tutorial ends; back online, relaunch: +2,000 Cinders.
 
 **Accounts and installs**
-- [ ] New guest, online: the tutorial runs, the gift arrives after the gameplay part, the tutorial's talent and research purchases work.
+- [x] New guest, online: the tutorial runs, the gift arrives after the gameplay part, the tutorial's talent and research purchases work.
 - [ ] *(Skipped Nov 11: testers know it's a test build. Do before the production release.)* Upgrade from the store build (v0.8.0, save v4) to this build: progress is imported once (`No server progress yet, importing the local save`), within the caps (250,000 Cinders, talent and research levels at most their max).
-- [ ] Reinstall, or a second device with the same Play Games account: progress comes back from the server; the tutorial is skipped if the player has research. Loadouts and the tutorial flag come back too.
+- [x] Reinstall, or a second device with the same Play Games account: progress comes back from the server; the tutorial is skipped if the player has research. Loadouts and the tutorial flag come back too.
 - [ ] *(Skipped Nov 11: no second device.)* Two devices at once: buy on both quickly; no double charge, and both end up with the same progress after an action or relaunch.
 - [x] Edit a loadout offline, relaunch online: the offline edit is kept (and uploaded), not replaced by the server's copy.
+- [x] Delete the account (Account popup): scores, Cloud Save data and the account are deleted in that order, and the game restarts at login (Nov 11).
+
+**Android**
+- [x] Auto-backup is off: the installed app's flags (`adb shell dumpsys package com.emberfall.dev`) have no `ALLOW_BACKUP` (Nov 11).
+- [ ] The Play Games plugin's permissions are in the build (Bluetooth, Bluetooth admin, Wi-Fi state, change Wi-Fi state, coarse location); see the release plan.
 
 **Clock**
 - [x] Set the phone's clock a few minutes ahead, then behind (automatic time off): a research can't be completed early (passed Nov 11). The timer *display* drifts, see Known issues.
