@@ -71,6 +71,8 @@ public static class AccountService
             return false;
         }
 
+        string playerId = auth.PlayerId;
+
         // Stop queued scores before the purge, or a submit could put one back afterwards. If the deletion then fails,
         // those queued scores are lost; the player's best ones are already on the leaderboard.
         if (LeaderboardService.Instance != null)
@@ -102,6 +104,7 @@ public static class AccountService
         Debug.Log("Account deleted");
 
         await SaveService.Instance.DeleteSaveFilesAsync();
+        ClientStateSync.Forget(playerId);
 
         UnityAuthIdentity.ClearCachedPlayer();
         PlayerPrefs.DeleteKey(LoginManager.LAST_PLAYER_NAME_KEY);
