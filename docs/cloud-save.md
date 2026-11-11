@@ -125,20 +125,20 @@ Cost/duration/reward calculations must give the same answer on client and server
 Tests deferred to a device build (collected Nov 11; the editor can't easily go offline). First deploy the module to the environment the build uses: a development build talks to `development`, a release build to `production`.
 
 **Offline** (airplane mode)
-- [ ] Launch offline: the cached progress shows (Cinders, talents, research).
-- [ ] Offline, buy a talent, start research, refund: a "Connect to the internet" Toast, nothing changes.
-- [ ] End a run offline: the game-over screen shows the Cinders; the top bar doesn't change yet. Back online, relaunch: the Cinders arrive.
-- [ ] Start offline, play a run, then reconnect mid-session (open the leaderboard or wait up to 2 minutes): the queued run is claimed without a relaunch.
-- [ ] Lose the network mid-session (started online), end a run: the claim fails and the run stays queued; when the network comes back it's claimed within a few seconds (`NetworkWatcher`), without a relaunch.
-- [ ] A research finishes while offline (started online): it completes within a few seconds of the network coming back, and the level goes up.
+- [x] Launch offline: the cached progress shows (Cinders, talents, research).
+- [x] Offline, buy a talent, start research, refund: a "Connect to the internet" Toast, nothing changes.
+- [x] End a run offline: the game-over screen shows the Cinders; the top bar doesn't change yet. Back online, relaunch: the Cinders arrive.
+- [x] Start offline, play a run, then reconnect mid-session (open the leaderboard or wait up to 2 minutes): the queued run is claimed without a relaunch.
+- [x] Lose the network mid-session (started online), end a run: the claim fails and the run stays queued; when the network comes back it's claimed within a few seconds (`NetworkWatcher`), without a relaunch.
+- [x] A research finishes while offline (started online): it completes within a few seconds of the network coming back, and the level goes up.
 - [ ] Tutorial gift: sign in as a new guest online, go offline before the gameplay tutorial ends; back online, relaunch: +2,000 Cinders.
 
 **Accounts and installs**
 - [ ] New guest, online: the tutorial runs, the gift arrives after the gameplay part, the tutorial's talent and research purchases work.
-- [ ] Upgrade from the store build (v0.8.0, save v4) to this build: progress is imported once (`No server progress yet, importing the local save`), within the caps (250,000 Cinders, talent and research levels at most their max).
+- [ ] *(Skipped Nov 11: testers know it's a test build. Do before the production release.)* Upgrade from the store build (v0.8.0, save v4) to this build: progress is imported once (`No server progress yet, importing the local save`), within the caps (250,000 Cinders, talent and research levels at most their max).
 - [ ] Reinstall, or a second device with the same Play Games account: progress comes back from the server; the tutorial is skipped if the player has research. Loadouts and the tutorial flag come back too.
-- [ ] Two devices at once: buy on both quickly; no double charge, and both end up with the same progress after an action or relaunch.
-- [ ] Edit a loadout offline, relaunch online: the offline edit is kept (and uploaded), not replaced by the server's copy.
+- [ ] *(Skipped Nov 11: no second device.)* Two devices at once: buy on both quickly; no double charge, and both end up with the same progress after an action or relaunch.
+- [x] Edit a loadout offline, relaunch online: the offline edit is kept (and uploaded), not replaced by the server's copy.
 
 **Clock**
 - [x] Set the phone's clock a few minutes ahead, then behind (automatic time off): a research can't be completed early (passed Nov 11). The timer *display* drifts, see Known issues.
