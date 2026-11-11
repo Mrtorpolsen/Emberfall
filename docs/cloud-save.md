@@ -118,7 +118,29 @@ Cost/duration/reward calculations must give the same answer on client and server
 7. `DeleteMyData` in account deletion.
 8. Lock `client` writes to debounced points; remove direct `SaveService.Save` calls for progress.
 9. Android auto-backup: exclude the cache file.
-10. Device test: fresh install, existing v4 save import, offline run then reconnect, two devices.
+10. Device test, with the checklist below.
+
+## Device test checklist
+
+Tests deferred to a device build (collected Nov 11; the editor can't easily go offline). First deploy the module to the environment the build uses: a development build talks to `development`, a release build to `production`.
+
+**Offline** (airplane mode)
+- [ ] Launch offline: the cached progress shows (Cinders, talents, research).
+- [ ] Offline, buy a talent, start research, refund: a "Connect to the internet" Toast, nothing changes.
+- [ ] End a run offline: the game-over screen shows the Cinders; the top bar doesn't change yet. Back online, relaunch: the Cinders arrive.
+- [ ] Start offline, play a run, then reconnect mid-session (open the leaderboard or wait up to 2 minutes): the queued run is claimed without a relaunch.
+- [ ] Lose the network mid-session (started online), end a run: the claim fails and the run stays queued; it's claimed at the next run's end or the next launch (a mid-session drop doesn't trigger a reconnect).
+- [ ] A research finishes while offline: it completes on reconnect or at the next online launch, and the level goes up.
+- [ ] Tutorial gift: sign in as a new guest online, go offline before the gameplay tutorial ends; back online, relaunch: +2,000 Cinders.
+
+**Accounts and installs**
+- [ ] New guest, online: the tutorial runs, the gift arrives after the gameplay part, the tutorial's talent and research purchases work.
+- [ ] Upgrade from the store build (v0.8.0, save v4) to this build: progress is imported once (`No server progress yet, importing the local save`), within the caps (250,000 Cinders, talent and research levels at most their max).
+- [ ] Reinstall, or a second device with the same Play Games account: progress comes back from the server; the tutorial is skipped if the player has research. Loadouts and the tutorial flag don't come back yet (step 8).
+- [ ] Two devices at once: buy on both quickly; no double charge, and both end up with the same progress after an action or relaunch.
+
+**Clock**
+- [ ] Set the phone's clock a few minutes ahead, then behind (automatic time off): research timers still show the right time, and a research can't be completed early.
 
 ## Release checklist when this ships
 
