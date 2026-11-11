@@ -7,6 +7,10 @@ using System.Collections.Generic;
 
 public class TalentTree
 {
+    // Bumped whenever the content changes; the server rejects purchases priced from another version
+    [JsonProperty("definitionsVersion")]
+    public int DefinitionsVersion { get; set; }
+
     [JsonProperty("costPresets")]
     public Dictionary<CostPreset, TalentCostPreset> CostPresets { get; set; }
 

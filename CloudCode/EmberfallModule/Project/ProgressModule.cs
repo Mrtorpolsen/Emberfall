@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Unity.Services.CloudCode.Apis;
 using Unity.Services.CloudCode.Core;
+using Unity.Services.CloudCode.Shared;
 
 namespace EmberfallModule;
 
@@ -57,6 +58,55 @@ public class ProgressModule
         await m_Store.SaveAsync(context, progress, writeLock: null);
         return ProgressStore.ToJson(progress);
     }
+
+    // Buys the next level of a talent: fromLevel is the level the game shows, definitionsVersion the talent
+    // definitions it priced it from. Returns a ProgressResponse.
+    [CloudCodeFunction("BuyTalent")]
+    public Task<string> BuyTalent(IExecutionContext context, string unit, string talentId, int fromLevel, int definitionsVersion)
+    {
+        TalentTree tree = DefinitionsStore.Talents;
+
+        if (definitionsVersion != tree.DefinitionsVersion)
+            return Task.FromResult(Respond(ProgressResponse.DefinitionsOutdated, null));
+
+        return MutateAsync(context, progress => TalentPurchase.Apply(progress, tree, unit, talentId, fromLevel));
+    }
+
+    // Loads the progress, runs the action on it and writes it back with the write lock it was read with.
+    // If another write got in between (the player acting on two devices at once), the whole thing runs once more.
+    async Task<string> MutateAsync(IExecutionContext context, Func<ServerProgress, ActionOutcome> action)
+    {
+        for (int attempt = 0; ; attempt++)
+        {
+            var (progress, writeLock) = await m_Store.LoadAsync(context);
+
+            if (progress == null)
+                return Respond(ProgressResponse.NoProgress, null);
+
+            progress.EnsureDefaults();
+            ActionOutcome outcome = action(progress);
+
+            if (!outcome.Changed)
+                return Respond(outcome.Error, progress);
+
+            try
+            {
+                await m_Store.SaveAsync(context, progress, writeLock);
+                return Respond(null, progress);
+            }
+            catch (ApiException e) when (ProgressStore.IsWriteConflict(e))
+            {
+                if (attempt >= 1)
+                {
+                    m_Logger.LogWarning("Write conflict on {PlayerId}'s progress, giving up", context.PlayerId);
+                    return Respond(ProgressResponse.Conflict, null);
+                }
+            }
+        }
+    }
+
+    static string Respond(string? error, ServerProgress? progress) =>
+        JsonConvert.SerializeObject(new ProgressResponse { Error = error, Progress = progress });
 
     // The talent and research definitions this module checks purchases against, as
     // { "talents": ..., "research": ... }. The game uses them when they're newer than its bundled copy.

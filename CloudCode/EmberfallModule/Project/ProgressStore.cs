@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Unity.Services.CloudCode.Apis;
 using Unity.Services.CloudCode.Core;
+using Unity.Services.CloudCode.Shared;
 using Unity.Services.CloudSave.Model;
 
 namespace EmberfallModule;
@@ -55,4 +56,7 @@ public class ProgressStore
     }
 
     public static string ToJson(ServerProgress progress) => JsonConvert.SerializeObject(progress);
+
+    // Cloud Save refuses a write whose write lock no longer matches (someone wrote since it was read)
+    public static bool IsWriteConflict(ApiException e) => e.Response?.StatusCode == System.Net.HttpStatusCode.Conflict;
 }

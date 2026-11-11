@@ -154,15 +154,15 @@ public class TalentService : MonoBehaviour
         return cost <= CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
     }
 
+    // Buys the next level on the server (it checks and charges; docs/cloud-save.md) and shows the progress it returns
     public async Task<TalentPurchaseResult> TryPurchaseAsync(string unitName, Talent talent)
     {
         int max = talent.Purchase.MaxPurchases;
-        var talents = SaveService.Instance.Current.Progress.Talents;
 
         //Repull live state
         int owned = GetPurchasedTalent(unitName, talent.Id);
 
-        var check = TalentRules.CanPurchase(playerTalentTree, talents, unitName, talent.Id,
+        var check = TalentRules.CanPurchase(playerTalentTree, SaveService.Instance.Current.Progress.Talents, unitName, talent.Id,
             CurrencyManager.Instance.Get(CurrencyTypes.Cinders));
 
         if (check != TalentPurchaseCheck.Ok)
@@ -171,23 +171,34 @@ public class TalentService : MonoBehaviour
             return TalentPurchaseResult.Failed(owned);
         }
 
-        int cost = talent.GetCurrentCost();
-        if (!CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, cost))
+        if (!ServerActions.IsOnline)
         {
-            Debug.LogWarning("Failed to spend currency / buy talent");
+            Toast.Show("Connect to the internet to buy talents.");
             return TalentPurchaseResult.Failed(owned);
         }
 
-        TalentRules.ApplyPurchase(talents, unitName, talent.Id, cost);
+        var response = await ServerActions.SendAsync(module =>
+            module.BuyTalent(unitName, talent.Id, owned, playerTalentTree.DefinitionsVersion));
+
+        if (response == null)
+        {
+            Toast.Show("Couldn't reach the server. Try again.");
+            return TalentPurchaseResult.Failed(owned);
+        }
+
+        owned = GetPurchasedTalent(unitName, talent.Id);
+
+        if (!string.IsNullOrEmpty(response.Error))
+        {
+            Toast.Show(ServerActions.Describe(response.Error));
+            return TalentPurchaseResult.Failed(owned);
+        }
 
         if (talent.IsUnlockType)
         {
             UnlockService.Instance.Unlock(talent.Id);
         }
 
-        await SaveService.Instance.SaveAsync();
-
-        owned = GetPurchasedTalent(unitName, talent.Id);
         bool canBuyMore = owned < max && CanAfford(talent.GetCurrentCost());
 
         return new TalentPurchaseResult(true, owned, canBuyMore);

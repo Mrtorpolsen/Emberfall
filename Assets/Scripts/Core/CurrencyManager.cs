@@ -39,6 +39,17 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
         return success;
     }
 
+    // After the progress was replaced (a server answer): both balances may have changed
+    public void NotifyChanged()
+    {
+        foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
+        {
+            OnPlayerCurrencyChanged?.Invoke(type);
+        }
+
+        OnCindersChanged?.Invoke(Get(CurrencyTypes.Cinders));
+    }
+
     private void RaiseIfCinders(CurrencyTypes type)
     {
         if (type != CurrencyTypes.Cinders)

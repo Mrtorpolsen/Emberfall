@@ -79,7 +79,7 @@ public static class SaveSerializer
         save ??= new SaveGame();
 
         save.Progress ??= new ServerProgress();
-        EnsureDefaults(save.Progress);
+        save.Progress.EnsureDefaults();
 
         save.Client ??= new ClientState();
         save.Client.Loadouts ??= new PlayerLoadoutCollection();
@@ -87,20 +87,5 @@ public static class SaveSerializer
         save.PendingRuns ??= new List<PendingRun>();
 
         return save;
-    }
-
-    public static ServerProgress EnsureDefaults(ServerProgress progress)
-    {
-        progress.Talents ??= new PlayerTalentState();
-        progress.Talents.Purchases ??= new Dictionary<string, UnitSaveData>();
-        progress.Talents.CurrencySpent ??= new Dictionary<CurrencyTypes, int>();
-
-        progress.Research ??= new PlayerResearchState();
-        progress.Research.CompletedResearch ??= new Dictionary<string, int>();
-        progress.Research.ActiveResearch ??= new List<ActiveResearch>();
-
-        progress.Currency ??= new CurrencyData();
-
-        return progress;
     }
 }

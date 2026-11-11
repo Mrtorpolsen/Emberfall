@@ -37,6 +37,20 @@ namespace Unity.Services.CloudCode.GeneratedBindings
                 });
         }
 
+        public async Task<string> BuyTalent(string unit, string talentId, int fromLevel, int definitionsVersion)
+        {
+            return await k_Service.CallModuleEndpointAsync<string>(
+                "EmberfallModule",
+                "BuyTalent",
+                new Dictionary<string, object>()
+                {
+                    {"unit", unit},
+                    {"talentId", talentId},
+                    {"fromLevel", fromLevel},
+                    {"definitionsVersion", definitionsVersion},
+                });
+        }
+
         public async Task<string> GetDefinitions()
         {
             return await k_Service.CallModuleEndpointAsync<string>(

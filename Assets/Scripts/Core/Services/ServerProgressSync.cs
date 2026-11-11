@@ -42,6 +42,6 @@ public static class ServerProgressSync
         var progress = JsonConvert.DeserializeObject<ServerProgress>(json)
             ?? throw new JsonException("Server progress is empty");
 
-        return SaveSerializer.EnsureDefaults(progress);
+        return progress.EnsureDefaults();
     }
 }
