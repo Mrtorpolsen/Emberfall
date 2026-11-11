@@ -1,6 +1,6 @@
 # Cloud save design (server-authoritative)
 
-Status: design, Nov 9 2026. Branch `feat/cloud-save`. Replaces the "sync the local JSON" plan in workstream 2 of `docs/release-plan.md`.
+Status: implemented, merged to `master` in #169 (Nov 11 2026), not released yet. Designed Nov 9. Replaces the "sync the local JSON" plan in workstream 2 of `docs/release-plan.md`.
 
 ## Goal
 

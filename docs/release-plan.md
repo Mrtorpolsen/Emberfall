@@ -1,8 +1,8 @@
 # Emberfall release plan
 
-Status: in progress, as of v0.8.0 (code 16), uploaded to the closed track Nov 3: draggable rally points (replacing the Orders menu), hold-to-send unit buttons, offline score queue and mid-session reconnect, wave and unit fixes, talent refunds re-locking units, and camera and loadout icon fixes. v0.7.0 (code 15), with unit descriptions in the loadout and gameplay fixes, went live on the closed track Nov 2; v0.6.0 (code 14), with Google Play Games sign-in and account deletion, before it. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done.
+Status: in progress, as of v0.8.0 (code 16), uploaded to the closed track Nov 3: draggable rally points (replacing the Orders menu), hold-to-send unit buttons, offline score queue and mid-session reconnect, wave and unit fixes, talent refunds re-locking units, and camera and loadout icon fixes. v0.7.0 (code 15), with unit descriptions in the loadout and gameplay fixes, went live on the closed track Nov 2; v0.6.0 (code 14), with Google Play Games sign-in and account deletion, before it. Week 1 admin, crash reporting and workstream 1 (Google sign-in, planned for week 2) are done. Workstream 2 (cloud save, planned for weeks 3–4) is done in code and device-tested, merged Nov 11 (#169), not released yet.
 
-Nothing unreleased on `master`. Known open point from v0.8.0: runs now go to wave 2000 (`totalWaves`), but threat scaling past wave 100 hasn't been tuned yet.
+Unreleased on `master`: the Unity 6000.6.8f1 upgrade (#167, minSdk 26) and server-authoritative cloud save (#169, Nov 11; deploy `EmberfallModule` to production and update Data safety, privacy policy and the delete-account page in the same release). Known open point from v0.8.0: runs now go to wave 2000 (`totalWaves`), but threat scaling past wave 100 hasn't been tuned yet.
 
 ## Where things stand
 
@@ -10,10 +10,10 @@ Nothing unreleased on `master`. Known open point from v0.8.0: runs now go to wav
 |---|---|
 | Login | Shipped in v0.6.0: `LoginManager` offers "Sign in with Play Games" or "Continue as guest", restores cached sessions silently, and plays offline with the cached player when a saved session can't be restored. Guests link Play Games and anyone deletes their account from the Account popup. |
 | Google Play Games | Plugin v2.1.0 (`Assets/GooglePlayGames`). `PlayGamesManager` gets the server auth code for Unity Authentication; release builds need the plugin's keep rules in `Assets/Plugins/Android/proguard-user.txt` (R8 strips `PlayGames` otherwise). The console side (game project, credentials, UGS provider, testers) is set up. |
-| Save | `SaveService` writes `{playerId}_save.json` to `persistentDataPath` (local only, save version 4). |
-| Talents / research data | `Talents.json` / `Research.json` are bundled Addressables. |
+| Save | On `master` (#169, unreleased): server-authoritative. Progress (currencies, talents, research) is Cloud Save Protected data written only by the Cloud Code C# module `EmberfallModule`; loadouts and the tutorial flag sync through a Default `client` key. `SaveService` keeps `{playerId}_save.json` (save version 5) as the offline cache. The v0.8.0 build still saves locally only (save version 4). |
+| Talents / research data | `Talents.json` / `Research.json` are bundled Addressables and, on `master`, also embedded in the Cloud Code module, which serves them (`GetDefinitions`): a balance change ships by bumping `definitionsVersion` and deploying the module. |
 | Leaderboards | Unity Leaderboards (`High_Scores_<Difficulty>`). The GPGS leaderboard in `GPGSIds` isn't used. |
-| Currencies | `Cinders`, `Embers` live in the local save. Nothing is validated on a server. |
+| Currencies | On `master`: owned by the server; every change is a module action checked with the shared rules (`BuyTalent`, `StartResearch`, `ClaimRunRewards`, …). Run rewards are rate-limited by server time (12 h bank, 120 min per run). The v0.8.0 build keeps them in the local save. |
 | Achievements / shop / ads | None. |
 | Crash reporting | Unity Diagnostics (since v0.5.4). |
 | Android build | v0.8.0 / versionCode 16 on the closed track, uploaded Nov 3 (v0.7.0 / 15 before it), minSdk 25 (26 from the next build: the Unity 6000.6 upgrade raised it, dropping Android 7.1), targetSdk = "highest installed". |
@@ -50,7 +50,7 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
 - [x] Replace the `"offline"` player ID in `UnityAuthIdentity`. Offline play needs a defined behavior (play locally with a cached ID, then sync later).
   - Done (tested on a device Oct 30): if restoring a saved session fails, `LoginManager` plays offline with the last player ID and name cached in PlayerPrefs (`UnityAuthIdentity`); leaderboards are unavailable until `IdentityService.TryReconnectAsync` restores the session mid-session (see Release readiness). A first launch still needs a connection. Scores from offline matches are queued and submitted once the player is signed in again (see "Offline and failure handling" under Release readiness).
 - [x] **Account deletion** (required by both Google Play and Apple when accounts exist): an in-app "delete account" option that calls `DeleteAccountAsync` and clears Cloud Save, plus a web URL/form for the Play Console data-deletion field.
-  - Done in code (Oct 29), tested on a device Oct 30: tap the username in the top bar → Account popup → Delete account → confirm. `AccountService` deletes the UGS account, the local save and backups, the cached ID/name and the session, then restarts from Bootstrap. Leaderboard scores are deleted first (see the next item). Shipped in v0.6.0; the delete-account page lists the in-game steps, with email as the fallback. Cloud Save clearing comes with workstream 2.
+  - Done in code (Oct 29), tested on a device Oct 30: tap the username in the top bar → Account popup → Delete account → confirm. `AccountService` deletes the UGS account, the local save and backups, the cached ID/name and the session, then restarts from Bootstrap. Leaderboard scores are deleted first (see the next item). Shipped in v0.6.0; the delete-account page lists the in-game steps, with email as the fallback. Cloud Save data is deleted too since #169 (`DeleteMyData` in the module, before the account).
 - [x] **Delete the player's leaderboard scores on account deletion (Cloud Code).** `DeleteAccountAsync` only deletes the Authentication account; Unity's docs say the game must delete the player's data in other UGS services. The Leaderboards client SDK can't delete scores, only the Admin API can (`DeleteLeaderboardPlayerScoreAllLiveLeaderboards`), and that needs server credentials. Do this before the sign-in build ships, since the deletion page and Data safety form will say the data is removed.
   - Add `com.unity.services.cloudcode` and one Cloud Code function (JS script or C# module) that deletes the calling player's scores from all live leaderboards.
   - Give it Admin API access (probably a service account key in Secret Manager; confirm whether Cloud Code can call the Admin API without one) and deploy it.
@@ -63,16 +63,13 @@ Everything below depends on a stable, recoverable player ID. Right now, a player
 Decided Nov 9: progress is server-authoritative (Cloud Save Protected data written only by a Cloud Code C# module), and talent/research definitions are embedded in that module and served to the game (decided Nov 10, instead of Remote Config). The design is in `docs/cloud-save.md`; it replaces the local-sync items below where they conflict.
 
 - [x] Add packages: `com.unity.services.cloudsave` and `com.unity.services.deployment` (Nov 10).
-- [ ] `SaveService`: keep the local JSON as a cache/offline copy and add cloud sync (save `SaveGame` as one key, or one key per section).
-  - Add `LastModifiedUtc` and/or a revision counter to `SaveGame` → **save version 5** (`SaveGame4` legacy class plus `Migrate4To5`, per the CLAUDE.md convention).
-  - Conflict rule on load: newer revision wins. Decide whether to prompt the player when both copies changed (e.g. two devices).
-  - Debounce or batch writes to stay within Cloud Save rate limits. Don't sync on every currency tick.
-- [ ] First cloud login migrates the existing local save upward.
+- [x] `SaveService` keeps the local JSON as a cache/offline copy; the server copy wins (Nov 11). Instead of syncing the whole save, progress is server-authoritative, so there are no progress conflicts. Save version 5 splits it by owner (`Progress`, `Client`, `PendingRuns`). Loadouts and the tutorial flag sync through the `client` key, uploaded 5 s after a change and on app pause (last upload wins).
+- [x] First cloud login imports the existing local save once, limited to what the definitions allow (`ImportLocalSave`, 250,000 Cinders cap) (Nov 11).
 - [x] Serve talent/research definitions from the server, keeping the bundled JSON as a fallback, versioned by `schemaVersion`/`definitionsVersion` (Nov 10: embedded in the Cloud Code module, see `docs/cloud-save.md`).
-- [ ] **Cheating / trust:** a local JSON save is trivially editable. Before real-money purchases exist, decide how much matters:
-  - Minimum: Embers (premium) are granted only through validated purchases.
-  - Better: Economy and/or Cloud Code own premium currency balances and purchase validation, so the client can't change them directly.
-- [ ] Update `WaveGeneratorTests` and the other asset-dependent tests if data loading changes.
+- [x] **Cheating / trust:** decided Nov 9 and done Nov 11: Cloud Code owns all progress, including Embers, so the client can't change balances. IAP (workstream 4) only needs a module function that grants Embers after receipt validation.
+- [x] Tests: the asset-dependent tests still pass; the module has its own NUnit tests (47, `CloudCode/EmberfallModule/TestProject/`), which CI runs too.
+- [ ] Before the production release: deploy `EmberfallModule` to `production`, and run the two skipped device tests in `docs/cloud-save.md` (upgrade from the store build with the save import, two devices at once).
+- Known issue, not blocking: research timers drift if the player changes the device clock mid-session (display only; see `docs/cloud-save.md`).
 
 ### 3. Achievements
 
@@ -158,6 +155,7 @@ Store listing and build:
 - [x] Offline and failure handling: no internet at launch, a service outage, or sign-in failure shouldn't hard-block the game.
   - Offline score queue: done (Oct 31), tested on a device Nov 2. `LeaderboardService.AddScore` queues the score in PlayerPrefs (`PendingScoreQueue`, best per player and difficulty, Tutorial skipped) and removes it only after `AddPlayerScoreAsync` succeeds or the server already has a higher score. The queue is submitted after the splash screen loads the player's scores and after every new score; account deletion clears it before purging the player's scores (and waits for a submit in flight).
   - Reconnect mid-session: a session that starts offline (cached player) stays signed out until the next launch. Retry restoring the session when the connection comes back (e.g. on opening the leaderboard or account popup, or periodically) so the player doesn't have to restart the app.
+    - A session that started *online* stays signed in through a network drop, so that path never fired for it. Since #169, `NetworkWatcher` raises `NetworkRestored` once the connection has been up 3 s, and queued scores, run rewards, research completion and client-state uploads retry on it (device-tested Nov 11).
     - Done (Oct 31), tested on a device Nov 2: `IdentityService.TryReconnectAsync` calls `SignInAnonymouslyAsync` only if a session token exists (never a fresh account), joins an attempt already running, and refuses a different player ID than the cached one. When the player opens the account popup or leaderboard, a running attempt that fails is followed by one more (it may have started while still offline). It runs when the leaderboard screen or account popup opens, when a score is queued offline, and every 2 minutes after an offline launch. On success it raises `Reconnected`: `LeaderboardService` reloads the high scores and submits the queue, and the top bar refreshes the name and shows "Back online.". A first launch still needs a connection.
 - [ ] Settings screen: audio, account (link Google, delete account), privacy/consent, restore purchases, credits/licenses.
 - [x] Remove debug tools from release builds (`Game/Debug`, the `ClearSessionToken` comment in `LoginManager`) and check that Development Build is off. `CrashReportingTester` (on GameManager in `Game.unity`) is already safe: release builds compile only a stub that destroys itself.
@@ -165,7 +163,7 @@ Store listing and build:
 - [ ] Performance pass on low-end Android (profile captures already exist).
 - [x] **Separate UGS environments** (`development` and `production`), so test saves and test scores don't mix with real players'. Check free-tier quotas and rate limits and set a billing alert. Created Oct 28: `production` (the original, holds the existing leaderboards and accounts) and `development` (empty; recreate leaderboards there before using it).
 - [x] **Android auto-backup:** off (`android:allowBackup="false"` in `Assets/Plugins/Android/AndroidManifest.xml`, the custom main manifest, Nov 11), since cloud save restores progress and loadouts and a restored backup could bring back stale PlayerPrefs. Guests who reinstall start as a new guest unless they linked Play Games.
-- [ ] **Use server time** for anything time-gated (daily rewards, login gifts), because device clocks can be changed. Optionally add the Play Integrity API and a sanity check that rejects impossible leaderboard scores.
+- [ ] **Use server time** for anything time-gated (daily rewards, login gifts), because device clocks can be changed. Research and run rewards already use the server's clock (#169); daily rewards and login gifts will need the same. Optionally add the Play Integrity API and a sanity check that rejects impossible leaderboard scores.
 - [ ] **Minimum version / forced update** via Remote Config, to block old clients after a save-format change.
 - [ ] In-app review prompt (Google/Apple review APIs) after a good moment, such as a win.
 - [ ] **Upgrade test before every release that changes the save:** install the previous build on a real device, play, update, and check that progress survives.
@@ -205,7 +203,7 @@ Target: **Android 1.0 live before Feb 1, 2027**. iOS follows if time allows. Pla
 |---|---|---|---|
 | 1 | Oct 26 – Nov 1 | Phase 0 admin (testers, closed track, privacy/support site, Play forms, trader/payments/tax, UGS environments). **Crash reporting** (cheap, and it captures testers' crashes from day one). Play Games console setup. | Closed test running |
 | 2 | Nov 2 – Nov 8 | Google Play Games sign-in, linking anonymous accounts, account deletion | |
-| 3–4 | Nov 9 – Nov 22 | Cloud save (save v5, sync, conflict handling), remote talent/research data | ~Nov 16: **apply for production access** |
+| 3–4 | Nov 9 – Nov 22 | Cloud save (save v5, sync, conflict handling), remote talent/research data. **Done Nov 11** (#169), server-authoritative; the rest of the weeks are free to start on achievements early. | ~Nov 16: **apply for production access** |
 | 5 | Nov 23 – Nov 29 | Achievements | |
 | 6–7 | Nov 30 – Dec 13 | IAP shop, receipt validation, restore/pending purchases | Payments profile approved |
 | 8 | Dec 14 – Dec 20 | Ads + consent form | **Feature complete**, build on closed track |
@@ -239,6 +237,8 @@ Store declarations and the privacy policy must match the build on the track. Whe
 - [x] Privacy policy: Google sign-in, in-app account deletion, section 6 deletion wording (Oct 30)
 - [ ] Privacy policy: cloud save (progress is no longer device-only)
 - [x] Data deletion URL in Play Console (Oct 30: the page lists the in-game steps)
+- [ ] Delete-account page: say that cloud progress is deleted too (#169)
+- [ ] Permissions: the release with #169 no longer requests location, Bluetooth or Wi-Fi state (removed from the Play Games plugin's manifest). If any Play Console declaration mentions them, update it.
 
 **Achievements** (Week 5)
 - [ ] Data safety form and privacy policy: achievement progress
