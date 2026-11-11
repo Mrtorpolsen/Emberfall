@@ -31,28 +31,40 @@ public class SaveService : GlobalSystem<SaveService>
         );
     }
 
-    public async Task CreateNewSave()
-    {
-        Current = new SaveGame
-        {
-            Version = CurrentSaveVersion.CURRENT_SAVE_VERSION
-        };
-
-        ValidateSave();
-        await SaveAsync();
-        await InvokeOnSaveLoaded();
-    }
-
+    // Loads the save file, then replaces its progress with the server's (docs/cloud-save.md). Offline, or
+    // when the server can't be reached, the local progress is used.
     public async Task Load()
     {
         if (!ValidateSavePath())
             return;
 
+        bool needsWrite = await LoadLocalAsync();
+
+        ServerProgress serverProgress = await ServerProgressSync.LoadOrImportAsync(Current.Progress);
+
+        if (serverProgress != null)
+        {
+            Current.Progress = serverProgress;
+            needsWrite = true;
+        }
+
+        if (needsWrite)
+        {
+            await SaveAsync();
+        }
+
+        await InvokeOnSaveLoaded();
+    }
+
+    // Sets Current from the save file, or to a new save when there is none or it can't be used.
+    // True when Current differs from the file (new or migrated) and should be written.
+    private async Task<bool> LoadLocalAsync()
+    {
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No save file found, creating new save file");
-            await CreateNewSave();
-            return;
+            Current = NewSave();
+            return true;
         }
 
         string json = await Task.Run(() => File.ReadAllText(savePath));
@@ -63,31 +75,33 @@ public class SaveService : GlobalSystem<SaveService>
             case SaveLoadStatus.Corrupt:
                 Debug.LogError($"Failed to parse save file, creating new save: {result.Error}");
                 await BackupSave(json, "corrupt");
-                await CreateNewSave();
-                return;
+                Current = NewSave();
+                return true;
 
             case SaveLoadStatus.Unsupported:
                 Debug.LogError($"Save version {result.Version} is too old to migrate, creating new save");
                 await BackupSave(json, $"unsupported-v{result.Version}");
-                await CreateNewSave();
-                return;
+                Current = NewSave();
+                return true;
 
             case SaveLoadStatus.Failed:
                 // Keep a copy so it can be recovered
                 Debug.LogError($"Failed to load save version {result.Version}, creating new save: {result.Error}");
                 await BackupSave(json, $"failed-v{result.Version}");
-                await CreateNewSave();
-                return;
+                Current = NewSave();
+                return true;
         }
 
         Current = result.Save;
+        return result.Status == SaveLoadStatus.Migrated;
+    }
 
-        if (result.Status == SaveLoadStatus.Migrated)
+    private static SaveGame NewSave()
+    {
+        return SaveSerializer.EnsureDefaults(new SaveGame
         {
-            await SaveAsync();
-        }
-
-        await InvokeOnSaveLoaded();
+            Version = CurrentSaveVersion.CURRENT_SAVE_VERSION
+        });
     }
 
     public Task SaveAsync()
@@ -210,10 +224,5 @@ public class SaveService : GlobalSystem<SaveService>
         }
 
         await Task.WhenAll(tasks);
-    }
-
-    private void ValidateSave()
-    {
-        Current = SaveSerializer.EnsureDefaults(Current);
     }
 }

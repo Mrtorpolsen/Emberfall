@@ -27,16 +27,9 @@ public static class ServerDefinitions
 
         try
         {
-            Task<string> call = new ProgressModuleBindings().GetDefinitions();
+            string json = await CloudCall.WithTimeout(new ProgressModuleBindings().GetDefinitions(), TimeoutMilliseconds);
 
-            if (await Task.WhenAny(call, Task.Delay(TimeoutMilliseconds)) != call)
-            {
-                Debug.LogWarning("Fetching definitions timed out, using the bundled ones");
-                _ = call.ContinueWith(t => _ = t.Exception, TaskContinuationOptions.OnlyOnFaulted);
-                return;
-            }
-
-            JObject combined = JObject.Parse(await call);
+            JObject combined = JObject.Parse(json);
             TalentsJson = combined["talents"]?.ToString(Formatting.None);
             ResearchJson = combined["research"]?.ToString(Formatting.None);
         }

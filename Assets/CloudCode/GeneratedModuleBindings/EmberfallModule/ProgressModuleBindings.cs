@@ -26,6 +26,17 @@ namespace Unity.Services.CloudCode.GeneratedBindings
                 });
         }
 
+        public async Task<string> ImportLocalSave(string progressJson)
+        {
+            return await k_Service.CallModuleEndpointAsync<string>(
+                "EmberfallModule",
+                "ImportLocalSave",
+                new Dictionary<string, object>()
+                {
+                    {"progressJson", progressJson},
+                });
+        }
+
         public async Task<string> GetDefinitions()
         {
             return await k_Service.CallModuleEndpointAsync<string>(

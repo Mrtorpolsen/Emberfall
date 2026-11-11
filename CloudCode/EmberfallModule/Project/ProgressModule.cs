@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Unity.Services.CloudCode.Apis;
 using Unity.Services.CloudCode.Core;
 
@@ -11,29 +11,51 @@ namespace EmberfallModule;
 // player data: the client can read it, only this module writes it.
 public class ProgressModule
 {
-    const string ProgressKey = "progress";
-
-    readonly IGameApiClient m_GameApiClient;
+    readonly ProgressStore m_Store;
     readonly ILogger<ProgressModule> m_Logger;
 
     public ProgressModule(IGameApiClient gameApiClient, ILogger<ProgressModule> logger)
     {
-        m_GameApiClient = gameApiClient;
+        m_Store = new ProgressStore(gameApiClient);
         m_Logger = logger;
     }
 
-    // Returns the player's progress JSON, or null if they have none yet
+    // The player's progress as ServerProgress JSON, or null if they have none yet (then the game imports its
+    // local save with ImportLocalSave)
     [CloudCodeFunction("GetProgress")]
     public async Task<string?> GetProgress(IExecutionContext context)
     {
-        var response = await m_GameApiClient.CloudSaveData.GetProtectedItemsAsync(
-            context,
-            context.AccessToken,
-            context.ProjectId,
-            context.PlayerId!,
-            new List<string> { ProgressKey });
+        var (progress, _) = await m_Store.LoadAsync(context);
+        return progress == null ? null : ProgressStore.ToJson(progress);
+    }
 
-        return response.Data.Results.FirstOrDefault()?.Value?.ToString();
+    // First cloud login: turns the player's local progress (ServerProgress JSON) into their server progress,
+    // limited to what the definitions allow (ProgressImport). Only works once: when the player already has
+    // server progress it is returned unchanged.
+    [CloudCodeFunction("ImportLocalSave")]
+    public async Task<string> ImportLocalSave(IExecutionContext context, string progressJson)
+    {
+        var (existing, _) = await m_Store.LoadAsync(context);
+
+        if (existing != null)
+            return ProgressStore.ToJson(existing);
+
+        ServerProgress? local = null;
+
+        try
+        {
+            local = JsonConvert.DeserializeObject<ServerProgress>(progressJson ?? "");
+        }
+        catch (JsonException e)
+        {
+            m_Logger.LogWarning("Unreadable local progress for {PlayerId}, starting fresh: {Error}", context.PlayerId, e.Message);
+        }
+
+        var progress = ProgressImport.Sanitize(local, DefinitionsStore.Talents, DefinitionsStore.Research,
+            DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+
+        await m_Store.SaveAsync(context, progress, writeLock: null);
+        return ProgressStore.ToJson(progress);
     }
 
     // The talent and research definitions this module checks purchases against, as

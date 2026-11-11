@@ -24,6 +24,8 @@
     <Compile Include="..\..\..\Assets\Scripts\DataModels\ResearchDefinition.cs" Link="Shared\ResearchDefinition.cs" />
     <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\PlayerResearchState.cs" Link="Shared\PlayerResearchState.cs" />
     <Compile Include="..\..\..\Assets\Scripts\Shared\Rules\ResearchRules.cs" Link="Shared\ResearchRules.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\CurrencyData.cs" Link="Shared\CurrencyData.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\ServerProgress.cs" Link="Shared\ServerProgress.cs" />
   </ItemGroup>
   <!-- The talent and research definitions, embedded at build time: deploying the module publishes the JSON
        in the repo, which GetDefinitions hands to the game and the server-side checks use -->
