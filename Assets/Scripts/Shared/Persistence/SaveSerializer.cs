@@ -78,18 +78,13 @@ public static class SaveSerializer
     {
         save ??= new SaveGame();
 
-        save.Talents ??= new PlayerTalentState();
-        save.Talents.Purchases ??= new Dictionary<string, UnitSaveData>();
-        save.Talents.CurrencySpent ??= new Dictionary<CurrencyTypes, int>();
+        save.Progress ??= new ServerProgress();
+        save.Progress.EnsureDefaults();
 
-        save.Research ??= new PlayerResearchState();
-        save.Research.CompletedResearch ??= new Dictionary<string, int>();
-        save.Research.ActiveResearch ??= new List<ActiveResearch>();
+        save.Client ??= new ClientState();
+        save.Client.Loadouts ??= new PlayerLoadoutCollection();
 
-        save.Currency ??= new CurrencyData();
-
-        save.Loadouts ??= new PlayerLoadoutCollection();
-        save.Flags ??= new PlayerFlagsState();
+        save.PendingRuns ??= new List<PendingRun>();
 
         return save;
     }

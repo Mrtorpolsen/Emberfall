@@ -25,6 +25,25 @@ public class IdentityService : GlobalSystem<IdentityService>
         base.Awake();
 
         Current = new UnityAuthIdentity();
+
+        // An offline session retries signing in as soon as the connection is back, not only on its timer
+        NetworkWatcher.NetworkRestored += OnNetworkRestored;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            NetworkWatcher.NetworkRestored -= OnNetworkRestored;
+        }
+    }
+
+    private void OnNetworkRestored()
+    {
+        if (startedOffline)
+        {
+            _ = TryReconnectAsync();
+        }
     }
 
     // Called by LoginManager when restoring the session failed and the game plays offline as the cached player.

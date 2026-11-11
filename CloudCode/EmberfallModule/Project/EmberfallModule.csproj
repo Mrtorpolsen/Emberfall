@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Com.Unity.Services.CloudCode.Apis" Version="0.0.26" />
+    <PackageReference Include="Com.Unity.Services.CloudCode.Core" Version="0.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+  </ItemGroup>
+  <!-- Plain C# shared with the game (no UnityEngine), so the server computes the same rewards and costs -->
+  <ItemGroup>
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\DifficultyLevelEnum.cs" Link="Shared\DifficultyLevelEnum.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Game\Systems\Difficulty.cs" Link="Shared\Difficulty.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Game\Data\CinderRewardCalculator.cs" Link="Shared\CinderRewardCalculator.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\CurrencyTypesEnum.cs" Link="Shared\CurrencyTypesEnum.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\Talent.cs" Link="Shared\Talent.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\Unlock.cs" Link="Shared\Unlock.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Game\Units\Stats\StatEffects.cs" Link="Shared\StatEffects.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Game\Units\Stats\StatTypeEnum.cs" Link="Shared\StatTypeEnum.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\PlayerTalentState.cs" Link="Shared\PlayerTalentState.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Rules\TalentRules.cs" Link="Shared\TalentRules.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\ResearchDefinition.cs" Link="Shared\ResearchDefinition.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\PlayerResearchState.cs" Link="Shared\PlayerResearchState.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Rules\ResearchRules.cs" Link="Shared\ResearchRules.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\DataModels\CurrencyData.cs" Link="Shared\CurrencyData.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\ServerProgress.cs" Link="Shared\ServerProgress.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\ProgressResponse.cs" Link="Shared\ProgressResponse.cs" />
+    <Compile Include="..\..\..\Assets\Scripts\Shared\Persistence\PendingRun.cs" Link="Shared\PendingRun.cs" />
+  </ItemGroup>
+  <!-- The talent and research definitions, embedded at build time: deploying the module publishes the JSON
+       in the repo, which GetDefinitions hands to the game and the server-side checks use -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\Assets\Addressables\Data\Talents.json" LogicalName="Talents.json" />
+    <EmbeddedResource Include="..\..\..\Assets\Addressables\Data\Research.json" LogicalName="Research.json" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+  </PropertyGroup>
+  <!--    <Target Name="Zip" AfterTargets="Publish">-->
+  <!--        <Message Importance="high" Text="Zipping output!!"/>-->
+  <!--        <Exec Command="zip -r $(SolutionDir)ExampleModule.ccm $(PublishDir)" />-->
+  <!--    </Target>-->
+</Project>

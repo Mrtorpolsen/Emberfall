@@ -52,10 +52,15 @@ public class TalentService : MonoBehaviour
 
         try
         {
-            var tree = JsonConvert.DeserializeObject<TalentTree>(jsonAsset.text);
+            // The server's definitions when they're newer: those are the costs it will charge
+            bool useServer = DefinitionsSelector.PreferServer(jsonAsset.text, ServerDefinitions.TalentsJson);
+            string json = useServer ? ServerDefinitions.TalentsJson : jsonAsset.text;
+            Debug.Log($"Talents definitions: {(useServer ? "server" : "bundled")} copy");
+            var tree = JsonConvert.DeserializeObject<TalentTree>(json);
             playerTalentTree = tree;
 
-            BuildTalentsByUnit(playerTalentTree);
+            playerTalentTree.BuildTalentsByUnit();
+            CollectUnlockTalents();
 
             ProvideUnlocked();
         }
@@ -65,91 +70,19 @@ public class TalentService : MonoBehaviour
         }
     }
 
-    private void BuildTalentsByUnit(TalentTree talentTree)
+    private void CollectUnlockTalents()
     {
         unlockTalents.Clear();
-        talentTree.TalentsByUnit.Clear();
 
-        foreach (var unitEntry in talentTree.UnitDefinitions)
+        foreach (var unitEntry in playerTalentTree.TalentsByUnit)
         {
-            string unitName = unitEntry.Key;
-            UnitDefinition unitDef = unitEntry.Value;
-
-            var tempList = new List<Talent>();
-
-            var idCounts = new Dictionary<string, int>();
-
-            foreach (var talentNode in unitDef.Talents)
+            foreach (var talent in unitEntry.Value)
             {
-                TalentOverride archetypeOverride = talentTree.GetArchetypeOverride(unitDef.Archetype, talentNode.DefinitionId);
-                TalentData talentData = talentTree.GetTalentData(talentNode.DefinitionId);
-
-
-                string talentId = talentNode.DefinitionId;
-
-                if (talentData.Type == TalentType.AbilityUnlock ||
-                    talentData.Type == TalentType.UnitUnlock ||
-                    talentData.Type == TalentType.TowerUnlock)
+                if (talent.IsUnlockType)
                 {
-                    unlockTalents.Add((unitName, talentNode.DefinitionId));
-                } 
-                else
-                {
-                    //For talents with the same definition ID and tier, we need to create unique IDs for each instance of the talent. We can do this by appending a count to the base ID.
-                    string baseId = $"{talentNode.DefinitionId}_T{talentNode.Tier}";
-
-                    if (!idCounts.TryAdd(baseId, 0))
-                    {
-                        idCounts[baseId]++;
-                    }
-
-                    talentId = idCounts[baseId] == 0 ? baseId : $"{baseId}_{idCounts[baseId]}";
+                    unlockTalents.Add((unitEntry.Key, talent.Id));
                 }
-
-                var talent = new Talent
-                {
-                    Id = talentId,
-                    IconId = archetypeOverride.IconId,
-                    Name = archetypeOverride.Name,
-                    Description = talentData.Description,
-                    Category = talentNode.Category,
-                    Type = talentData.Type,
-                    Tier = talentNode.Tier,
-                    Effects = talentData.Effects,
-                    Unlocks = talentData.Unlocks,
-                    Purchase = talentData.Purchase,
-                    Prerequisites = talentNode.Prerequisites,
-                    Cost = talentTree.GetCostModel(unitDef.CostPreset, talentNode.Tier)
-                };
-
-                tempList.Add(talent);
             }
-
-            talentTree.TalentsByUnit.Add(unitName, tempList);
-        }
-    }
-
-    public void AddTalent(string unitName, string talentId)
-    {
-        var purchases = SaveService.Instance.Current.Talents.Purchases;
-
-        if (!purchases.TryGetValue(unitName, out var unitPurchases))
-        {
-            unitPurchases = new UnitSaveData
-            {
-                PurchasedTalents = new Dictionary<string, int>()
-            };
-
-            purchases[unitName] = unitPurchases;
-        }
-
-        if (unitPurchases.PurchasedTalents.TryGetValue(talentId, out var count))
-        {
-            unitPurchases.PurchasedTalents[talentId] = count + 1;
-        }
-        else
-        {
-            unitPurchases.PurchasedTalents[talentId] = 1;
         }
     }
 
@@ -157,7 +90,7 @@ public class TalentService : MonoBehaviour
     {
         string unitName = "fighter";
         string talentId = "stat_health_1_T1";
-        var purchases = SaveService.Instance.Current.Talents.Purchases;
+        var purchases = SaveService.Instance.Current.Progress.Talents.Purchases;
 
         if (!purchases.TryGetValue(unitName, out var unitPurchases))
         {
@@ -193,18 +126,28 @@ public class TalentService : MonoBehaviour
     }
 
     // Gives back all currency spent on talents and re-locks what talents unlocked, removing those from loadouts
-    public async Task RefundAllAsync()
+    // The server gives the Cinders back and clears the talents (docs/cloud-save.md). False when it couldn't.
+    public async Task<bool> RefundAllAsync()
     {
-        var talents = SaveService.Instance.Current.Talents;
-
-        foreach (var currency in talents.CurrencySpent)
+        if (!ServerActions.IsOnline)
         {
-            CurrencyManager.Instance.Add(currency.Key, currency.Value);
+            Toast.Show("Connect to the internet to refund talents.");
+            return false;
         }
 
-        talents.Purchases.Clear();
-        talents.CurrencySpent.Clear();
-        TalentUnlockManager.Instance.ResetAll();
+        var response = await ServerActions.SendAsync(module => module.RefundTalents());
+
+        if (response == null)
+        {
+            Toast.Show("Couldn't reach the server. Try again.");
+            return false;
+        }
+
+        if (!string.IsNullOrEmpty(response.Error))
+        {
+            Toast.Show(ServerActions.Describe(response.Error));
+            return false;
+        }
 
         // Only talent unlocks: research and default unlocks stay
         foreach (var talent in unlockTalents)
@@ -215,6 +158,7 @@ public class TalentService : MonoBehaviour
         LoadoutService.Instance.RemoveLockedDefinitions();
 
         await SaveService.Instance.SaveAsync();
+        return true;
     }
 
     public bool CanAfford(int cost)
@@ -222,57 +166,64 @@ public class TalentService : MonoBehaviour
         return cost <= CurrencyManager.Instance.Get(CurrencyTypes.Cinders);
     }
 
+    // Buys the next level on the server (it checks and charges; docs/cloud-save.md) and shows the progress it returns
     public async Task<TalentPurchaseResult> TryPurchaseAsync(string unitName, Talent talent)
     {
         int max = talent.Purchase.MaxPurchases;
 
         //Repull live state
         int owned = GetPurchasedTalent(unitName, talent.Id);
-        if (owned >= max)
-            return TalentPurchaseResult.Failed(owned);
 
-        int cost = talent.GetCurrentCost();
-        if (!CurrencyManager.Instance.Spend(CurrencyTypes.Cinders, cost))
+        var check = TalentRules.CanPurchase(playerTalentTree, SaveService.Instance.Current.Progress.Talents, unitName, talent.Id,
+            CurrencyManager.Instance.Get(CurrencyTypes.Cinders));
+
+        if (check != TalentPurchaseCheck.Ok)
         {
-            Debug.LogWarning("Failed to spend currency / buy talent");
+            Debug.LogWarning($"Can't buy talent {talent.Id} for {unitName}: {check}");
             return TalentPurchaseResult.Failed(owned);
         }
 
-        AddTalent(unitName, talent.Id);
-        RecordCurrencySpent(CurrencyTypes.Cinders, cost);
+        if (!ServerActions.IsOnline)
+        {
+            Toast.Show("Connect to the internet to buy talents.");
+            return TalentPurchaseResult.Failed(owned);
+        }
 
-        TalentUnlockManager.Instance.AddPoints(unitName.ToLowerInvariant(), talent.Tier, 1);
+        var response = await ServerActions.SendAsync(module =>
+            module.BuyTalent(unitName, talent.Id, owned, playerTalentTree.DefinitionsVersion));
+
+        if (response == null)
+        {
+            Toast.Show("Couldn't reach the server. Try again.");
+            return TalentPurchaseResult.Failed(owned);
+        }
+
+        owned = GetPurchasedTalent(unitName, talent.Id);
+
+        if (!string.IsNullOrEmpty(response.Error))
+        {
+            Toast.Show(ServerActions.Describe(response.Error));
+            return TalentPurchaseResult.Failed(owned);
+        }
 
         if (talent.IsUnlockType)
         {
             UnlockService.Instance.Unlock(talent.Id);
         }
 
-        await SaveService.Instance.SaveAsync();
-
-        owned = GetPurchasedTalent(unitName, talent.Id);
         bool canBuyMore = owned < max && CanAfford(talent.GetCurrentCost());
 
         return new TalentPurchaseResult(true, owned, canBuyMore);
     }
 
-    private void RecordCurrencySpent(CurrencyTypes currency, int amount)
-    {
-        var currencySpent = SaveService.Instance.Current.Talents.CurrencySpent;
-
-        currencySpent.TryGetValue(currency, out int spent);
-        currencySpent[currency] = spent + amount;
-    }
-
     public int GetPurchasedTalent(string unitName, string talentId)
     {
-        if (SaveService.Instance.Current.Talents.Purchases.TryGetValue(unitName, out var unitPurchase) &&
-            unitPurchase.PurchasedTalents.TryGetValue(talentId, out var count))
-        {
-            return count;
-        }
+        return TalentRules.GetOwned(SaveService.Instance.Current.Progress.Talents, unitName, talentId);
+    }
 
-        return 0;
+    public bool ArePrerequisitesMet(string unitName, Talent talent)
+    {
+        return TalentRules.ArePrerequisitesMet(playerTalentTree, SaveService.Instance.Current.Progress.Talents, unitName, talent.Prerequisites);
     }
 }
 

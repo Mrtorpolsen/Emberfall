@@ -18,6 +18,13 @@ public class ResearchService : MonoBehaviour
 
     private readonly Dictionary<string, Coroutine> researchCoroutines = new();
 
+    // Research IDs with a CompleteResearch call in flight, so the timer and a reconnect don't both send one
+    private readonly HashSet<string> completing = new();
+
+    // Retry delays while the server says NotDone (the device clock is ahead) or can't be reached
+    private const float FirstRetrySeconds = 10f;
+    private const float MaxRetrySeconds = 300f;
+
     private const string RESEARCH_ADDRESSABLE = "Research";
 
     private void Awake()
@@ -47,6 +54,40 @@ public class ResearchService : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        // IdentityService is created in Bootstrap, before this object's scene (Login) loads
+        if (IdentityService.Instance != null)
+        {
+            IdentityService.Instance.Reconnected += HandleReconnected;
+        }
+
+        NetworkWatcher.NetworkRestored += HandleReconnected;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this && IdentityService.Instance != null)
+        {
+            IdentityService.Instance.Reconnected -= HandleReconnected;
+        }
+
+        if (Instance == this)
+        {
+            NetworkWatcher.NetworkRestored -= HandleReconnected;
+        }
+    }
+
+    // Research that finished while offline completes once the server can be reached (a running retry loop is
+    // woken by NetworkWatcher.WaitAsync instead)
+    private void HandleReconnected()
+    {
+        if (playerResearchTree != null)
+        {
+            RestartActiveResearchTimers();
+        }
+    }
+
     private Task HandleSaveLoadedAsync()
     {
         return LoadPlayerResearchAsync();
@@ -59,12 +100,16 @@ public class ResearchService : MonoBehaviour
 
         try
         {
-            var tree = JsonConvert.DeserializeObject<ResearchTree>(jsonAsset.text);
+            // The server's definitions when they're newer: those are the costs it will charge
+            bool useServer = DefinitionsSelector.PreferServer(jsonAsset.text, ServerDefinitions.ResearchJson);
+            string json = useServer ? ServerDefinitions.ResearchJson : jsonAsset.text;
+            Debug.Log($"Research definitions: {(useServer ? "server" : "bundled")} copy");
+            var tree = JsonConvert.DeserializeObject<ResearchTree>(json);
             tree.NormalizeCategoryKeys();
             tree.ApplyScalingPresets();
             playerResearchTree = tree;
 
-            if (SaveService.Instance.Current.Research.ActiveResearch.Count > 0)
+            if (SaveService.Instance.Current.Progress.Research.ActiveResearch.Count > 0)
             {
                 RestartActiveResearchTimers();
             }
@@ -77,71 +122,71 @@ public class ResearchService : MonoBehaviour
         }
     }
 
-    public async Task StartResearch(string id)
+    // Starts the next level on the server (it checks, charges and times it; docs/cloud-save.md).
+    // False (nothing spent) when it can't start.
+    public async Task<bool> TryStartResearchAsync(string id)
     {
-        //Checks if category already being researched
-        ResearchDefinition research = playerResearchTree.GetResearchById(id);
+        var state = SaveService.Instance.Current.Progress.Research;
 
-        if (SaveService.Instance.Current.Research.ActiveResearch
-            .Find(activeResearch => activeResearch.ResearchCategory == research.Category) != null)
+        var check = ResearchRules.CanStart(playerResearchTree, state, id, CurrencyManager.Instance.Get(CurrencyTypes.Cinders));
+
+        if (check != ResearchStartCheck.Ok)
         {
-            Debug.LogWarning("Category already being researched");
-            return;
+            Debug.LogWarning($"Can't start research {id}: {check}");
+            return false;
         }
 
-        int currentLevel = 0;
-
-        if (SaveService.Instance.Current.Research.CompletedResearch.TryGetValue(id, out var level))
+        if (!ServerActions.IsOnline)
         {
-            currentLevel = level;
+            Toast.Show("Connect to the internet to start research.");
+            return false;
         }
 
-        if (currentLevel == research.MaxLevel)
+        int fromLevel = ResearchRules.GetLevel(state, id);
+
+        var response = await ServerActions.SendAsync(module =>
+            module.StartResearch(id, fromLevel, playerResearchTree.DefinitionsVersion));
+
+        if (response == null)
         {
-            throw new InvalidOperationException("Current research maxed");
+            Toast.Show("Couldn't reach the server. Try again.");
+            return false;
         }
 
-        OnResearchStarted?.Invoke(research.Category);
-
-        ActiveResearch researchToStart = new ActiveResearch(research.Category, research.Id, (currentLevel + 1), research.Name);
-
-        SaveService.Instance.Current.Research.ActiveResearch.Add(researchToStart);
-
-        var coroutine = StartCoroutine(ResearchTimerRoutine(researchToStart, research));
-        researchCoroutines[researchToStart.ResearchId] = coroutine;
-
-        await SaveService.Instance.SaveAsync();
-    }
-
-    private void CompleteResearch(ActiveResearch active)
-    {
-        SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
-        SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
-        SaveService.Instance.Save();
-
-        PostUnlock(active);
-
-        OnResearchCompleted?.Invoke(active.ResearchCategory);
-    }
-
-    private void CompleteResearchInternal(ActiveResearch active)
-    {
-        SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
-        SaveService.Instance.Current.Research.CompletedResearch[active.ResearchId] = active.TargetLevel;
-
-        PostUnlock(active);
-
-        OnResearchCompleted?.Invoke(active.ResearchCategory);
-    }
-
-    private IEnumerator ResearchTimerRoutine(ActiveResearch active, ResearchDefinition research)
-    {
-        int duration = research.TimeScaling.GetAmountForLevel(active.TargetLevel);
-        long endTime = active.StartTime + duration;
-
-        while (DateTimeOffset.UtcNow.ToUnixTimeSeconds() < endTime)
+        if (!string.IsNullOrEmpty(response.Error))
         {
-            long remaining = endTime - DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            Toast.Show(ServerActions.Describe(response.Error));
+            return false;
+        }
+
+        var active = SaveService.Instance.Current.Progress.Research.ActiveResearch.Find(a => a.ResearchId == id);
+
+        if (active == null)
+            return false;
+
+        OnResearchStarted?.Invoke(active.ResearchCategory);
+        StartTimer(active);
+
+        return true;
+    }
+
+    private void StartTimer(ActiveResearch active)
+    {
+        if (researchCoroutines.TryGetValue(active.ResearchId, out var running))
+        {
+            StopCoroutine(running);
+        }
+
+        researchCoroutines[active.ResearchId] = StartCoroutine(ResearchTimerRoutine(active));
+    }
+
+    private IEnumerator ResearchTimerRoutine(ActiveResearch active)
+    {
+        long endTime = ResearchRules.GetEndTime(playerResearchTree, active);
+
+        while (ServerClock.Now < endTime)
+        {
+            long remaining = endTime - ServerClock.Now;
 
             OnResearchTimeUpdated?.Invoke(active.ResearchCategory, remaining);
 
@@ -151,53 +196,80 @@ public class ResearchService : MonoBehaviour
         // Final update to 0
         OnResearchTimeUpdated?.Invoke(active.ResearchCategory, 0);
 
-        CompleteResearch(active);
         researchCoroutines.Remove(active.ResearchId);
+        _ = CompleteOnServerAsync(active.ResearchId, active.ResearchCategory);
     }
 
-    private async void RestartActiveResearchTimers()
+    // Asks the server to complete the research. It checks the time on its own clock, so when this device's clock
+    // is ahead (NotDone) or the server can't be reached, it asks again later. Offline it waits for a reconnect.
+    private async Task CompleteOnServerAsync(string researchId, ResearchCategory category)
     {
-        //To batch expired while offline, and save at once
-        var expired = new List<ActiveResearch>();
+        if (!completing.Add(researchId))
+            return;
 
-        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-        foreach (var active in SaveService.Instance.Current.Research.ActiveResearch.ToList())
+        try
         {
-            ResearchDefinition def = playerResearchTree.GetResearchById(active.ResearchId);
+            float retrySeconds = FirstRetrySeconds;
 
-            int duration = def.TimeScaling.GetAmountForLevel(active.TargetLevel);
-            long endTime = active.StartTime + duration;
-
-            if (now >= endTime)
+            while (ServerActions.IsOnline)
             {
-                expired.Add(active);
+                var response = await ServerActions.SendAsync(module => module.CompleteResearch(researchId));
+
+                if (this == null)
+                    return;
+
+                if (response != null && response.Error != ProgressResponse.NotDone)
+                {
+                    if (string.IsNullOrEmpty(response.Error))
+                    {
+                        PostUnlock(researchId, category);
+                        OnResearchCompleted?.Invoke(category);
+                    }
+
+                    return;
+                }
+
+                // Cut short when the connection comes back; then the backoff starts over, in case the first try
+                // after it still fails
+                int restoredBefore = NetworkWatcher.RestoredCount;
+                await NetworkWatcher.WaitAsync(TimeSpan.FromSeconds(retrySeconds));
+
+                retrySeconds = NetworkWatcher.RestoredCount != restoredBefore
+                    ? FirstRetrySeconds
+                    : Math.Min(retrySeconds * 2, MaxRetrySeconds);
+
+                if (this == null)
+                    return;
+            }
+        }
+        finally
+        {
+            completing.Remove(researchId);
+        }
+    }
+
+    // Finished research is completed on the server; the rest gets a timer
+    private void RestartActiveResearchTimers()
+    {
+        long now = ServerClock.Now;
+
+        foreach (var active in SaveService.Instance.Current.Progress.Research.ActiveResearch.ToList())
+        {
+            if (ResearchRules.IsDone(playerResearchTree, active, now))
+            {
+                _ = CompleteOnServerAsync(active.ResearchId, active.ResearchCategory);
             }
             else
             {
-                var coroutine = StartCoroutine(ResearchTimerRoutine(active, def));
-                researchCoroutines[active.ResearchId] = coroutine;
+                StartTimer(active);
             }
-        }
-
-        if (expired.Count > 0)
-        {
-            foreach (var active in expired)
-            {
-                CompleteResearchInternal(active);
-            }
-
-            await SaveService.Instance.SaveAsync();
         }
     }
 
     public long GetRemainingSeconds(ActiveResearch active)
     {
-        ResearchDefinition def = playerResearchTree.GetResearchById(active.ResearchId);
-        int duration = def.TimeScaling.GetAmountForLevel(active.TargetLevel);
-
-        long endTime = active.StartTime + duration;
-        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        long endTime = ResearchRules.GetEndTime(playerResearchTree, active);
+        long now = ServerClock.Now;
 
         return Math.Max(0, endTime - now);
     }
@@ -205,9 +277,9 @@ public class ResearchService : MonoBehaviour
     public float GetProgress(ActiveResearch active)
     {
         var def = playerResearchTree.GetResearchById(active.ResearchId);
-        int duration = def.TimeScaling.GetAmountForLevel(active.TargetLevel);
+        int duration = ResearchRules.GetDurationSeconds(def, active.TargetLevel);
 
-        long now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        long now = ServerClock.Now;
         float elapsed = now - active.StartTime;
 
         return Mathf.Clamp01(elapsed / duration);
@@ -215,28 +287,22 @@ public class ResearchService : MonoBehaviour
 
     public ActiveResearch IsActiveCategory(ResearchCategory category)
     {
-        return SaveService.Instance.Current?.Research.ActiveResearch
-            .Find(r => r.ResearchCategory == category);
+        var state = SaveService.Instance.Current?.Progress.Research;
+        return state == null ? null : ResearchRules.GetActiveInCategory(state, category);
     }
 
     public int GetCurrentResearchLevel(string researchId)
     {
-        if (SaveService.Instance.Current.Research.CompletedResearch
-            .TryGetValue(researchId, out int level))
-        {
-            return level;
-        }
-
-        return 0;
+        return ResearchRules.GetLevel(SaveService.Instance.Current.Progress.Research, researchId);
     }
 
-    private void PostUnlock(ActiveResearch active)
+    private void PostUnlock(string researchId, ResearchCategory category)
     {
-        if (active.ResearchCategory == ResearchCategory.GlobalAbility)
+        if (category == ResearchCategory.GlobalAbility)
         {
             if (UnlockService.Instance != null)
             {
-                UnlockService.Instance.Unlock(active.ResearchId);
+                UnlockService.Instance.Unlock(researchId);
             }
             else
             {
@@ -255,31 +321,10 @@ public class ResearchService : MonoBehaviour
 
         foreach (var research in playerResearchTree.GetResearchByCategory(ResearchCategory.GlobalAbility))
         {
-            if (SaveService.Instance.Current.Research.CompletedResearch.TryGetValue(research.Id, out int level) && level > 0)
+            if (SaveService.Instance.Current.Progress.Research.CompletedResearch.TryGetValue(research.Id, out int level) && level > 0)
             {
                 UnlockService.Instance.Unlock(research.Id);
             }
         }
-    }
-
-    public void SetTutorialResearchState()
-    {
-        var researchId = "unit_statsmodifier_health";
-
-        if (researchCoroutines.TryGetValue(researchId, out var coroutine))
-        {
-            StopCoroutine(coroutine);
-            researchCoroutines.Remove(researchId);
-        }
-
-        var active = SaveService.Instance.Current.Research.ActiveResearch
-            .Find(x => x.ResearchId == researchId);
-
-        if (active != null)
-        {
-            SaveService.Instance.Current.Research.ActiveResearch.Remove(active);
-        }
-
-        SaveService.Instance.Current.Research.CompletedResearch[researchId] = 0;
     }
 }

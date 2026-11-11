@@ -22,12 +22,41 @@ public class DataValidationTests
         Assert.DoesNotThrow(() => JsonConvert.DeserializeObject<TalentTree>(json));
     }
 
+    // Purchases are saved under the built talent IDs, so building must work and give unique IDs per unit
+    [Test]
+    public void TalentsJson_BuildsUniqueTalentIdsPerUnit()
+    {
+        var tree = JsonConvert.DeserializeObject<TalentTree>(LoadText(TalentsPath));
+
+        Assert.DoesNotThrow(() => tree.BuildTalentsByUnit());
+
+        foreach (var unit in tree.TalentsByUnit)
+        {
+            var duplicates = unit.Value.GroupBy(t => t.Id).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
+            Assert.That(duplicates, Is.Empty, $"Duplicate talent IDs for {unit.Key}");
+        }
+    }
+
     [Test]
     public void ResearchJson_DeserializesIntoResearchTree()
     {
         string json = LoadText(ResearchPath);
 
         Assert.DoesNotThrow(() => JsonConvert.DeserializeObject<ResearchTree>(json));
+    }
+
+    // Unknown categories are skipped at load (for older clients), so ours must all be known; and every
+    // scaling preset must exist, or the research would cost its base value at every level
+    [Test]
+    public void ResearchJson_CategoriesAreKnownAndScalingResolves()
+    {
+        var tree = JsonConvert.DeserializeObject<ResearchTree>(LoadText(ResearchPath));
+
+        tree.NormalizeCategoryKeys();
+
+        Assert.That(tree.ResearchByCategoryEnum.Count, Is.EqualTo(tree.ResearchByCategory.Count),
+            "Research.json has a category key that isn't a ResearchCategory");
+        Assert.DoesNotThrow(() => tree.ApplyScalingPresets());
     }
 
     [Test]

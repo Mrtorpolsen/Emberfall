@@ -1,5 +1,7 @@
 using System;
 
+// Read-only view of the player's Cinders and Embers. The server owns them (docs/cloud-save.md): they change
+// only through server actions (ServerActions), which call NotifyChanged.
 public class CurrencyManager : GlobalSystem<CurrencyManager>
 {
     public event Action<int> OnCindersChanged;
@@ -13,36 +15,16 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
     public int Get(CurrencyTypes type)
     {
         EnsureCurrencyAvailable();
-        return SaveService.Instance.Current.Currency.Get(type);
+        return SaveService.Instance.Current.Progress.Currency.Get(type);
     }
 
-    public void Add(CurrencyTypes type, int amount)
+    // After the progress was replaced (a server answer): both balances may have changed
+    public void NotifyChanged()
     {
-        EnsureCurrencyAvailable();
-        SaveService.Instance.Current.Currency.Add(type, amount);
-        SaveService.Instance.Save();
-        OnPlayerCurrencyChanged?.Invoke(type);
-        RaiseIfCinders(type);
-    }
-
-    public bool Spend(CurrencyTypes type, int amount)
-    {
-        EnsureCurrencyAvailable();
-        bool success = SaveService.Instance.Current.Currency.Spend(type, amount);
-
-        if (success)
+        foreach (CurrencyTypes type in Enum.GetValues(typeof(CurrencyTypes)))
         {
-            SaveService.Instance.Save();
-            RaiseIfCinders(type);
             OnPlayerCurrencyChanged?.Invoke(type);
         }
-        return success;
-    }
-
-    private void RaiseIfCinders(CurrencyTypes type)
-    {
-        if (type != CurrencyTypes.Cinders)
-            return;
 
         OnCindersChanged?.Invoke(Get(CurrencyTypes.Cinders));
     }
@@ -57,7 +39,7 @@ public class CurrencyManager : GlobalSystem<CurrencyManager>
         {
             throw new InvalidOperationException("SaveService.Current is null.");
         }
-        if (SaveService.Instance.Current.Currency == null)
+        if (SaveService.Instance.Current.Progress.Currency == null)
         {
             throw new InvalidOperationException("CurrencyData is null.");
         }

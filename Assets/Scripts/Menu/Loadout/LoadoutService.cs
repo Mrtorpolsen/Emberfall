@@ -57,7 +57,7 @@ public class LoadoutService : MonoBehaviour
         }
     }
 
-    public int CurrentLoadoutId => SaveService.Instance.Current.Loadouts.ActiveLoadoutId;
+    public int CurrentLoadoutId => SaveService.Instance.Current.Client.Loadouts.ActiveLoadoutId;
     public ActiveLoadout CurrentLoadout { get; private set; }
 
     private Dictionary<string, LoadoutDefinition> definitionMap;
@@ -114,14 +114,14 @@ public class LoadoutService : MonoBehaviour
             return;
         }
 
-        if (SaveService.Instance.Current.Loadouts.Presets.Count == 0)
+        if (SaveService.Instance.Current.Client.Loadouts.Presets.Count == 0)
         {
             await SetDefaultLoadout();
             return;
         }
         else
         {
-            var activePreset = SaveService.Instance.Current.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
+            var activePreset = SaveService.Instance.Current.Client.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
 
             if (activePreset != null)
             {
@@ -148,7 +148,7 @@ public class LoadoutService : MonoBehaviour
 
     private async Task SetDefaultLoadout()
     {
-        SaveService.Instance.Current.Loadouts.ActiveLoadoutId = GenerateLoadoutId();
+        SaveService.Instance.Current.Client.Loadouts.ActiveLoadoutId = GenerateLoadoutId();
 
         CurrentLoadout = new ActiveLoadout
         {
@@ -238,7 +238,7 @@ public class LoadoutService : MonoBehaviour
         }
 
         var existingPreset =
-            SaveService.Instance.Current.Loadouts.Presets
+            SaveService.Instance.Current.Client.Loadouts.Presets
                 .Find(p => p.Id == CurrentLoadoutId);
 
         if (existingPreset != null)
@@ -247,7 +247,7 @@ public class LoadoutService : MonoBehaviour
         }
         else
         {
-            SaveService.Instance.Current.Loadouts.Presets.Add(
+            SaveService.Instance.Current.Client.Loadouts.Presets.Add(
                 new SavedLoadout
                 {
                     Id = CurrentLoadoutId,
@@ -264,7 +264,7 @@ public class LoadoutService : MonoBehaviour
 
     private int GenerateLoadoutId()
     {
-        return SaveService.Instance.Current.Loadouts.NextLoadoutId++;
+        return SaveService.Instance.Current.Client.Loadouts.NextLoadoutId++;
     }
 
     public List<LoadoutDefinition> GetAllAvailableLoadoutDefinitions()
@@ -283,7 +283,7 @@ public class LoadoutService : MonoBehaviour
     {
         bool removed = false;
 
-        foreach (var preset in SaveService.Instance.Current.Loadouts.Presets)
+        foreach (var preset in SaveService.Instance.Current.Client.Loadouts.Presets)
         {
             // Unknown IDs (definitions removed from the game) are dropped too
             removed |= LoadoutPruner.RemoveUnavailable(preset.State,
@@ -292,7 +292,7 @@ public class LoadoutService : MonoBehaviour
 
         if (removed)
         {
-            var activePreset = SaveService.Instance.Current.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
+            var activePreset = SaveService.Instance.Current.Client.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
 
             if (activePreset != null)
             {
@@ -305,7 +305,7 @@ public class LoadoutService : MonoBehaviour
 
     public string GetCurrentLoadoutDisplayName()
     {
-        var activePreset = SaveService.Instance.Current.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
+        var activePreset = SaveService.Instance.Current.Client.Loadouts.Presets.Find(p => p.Id == CurrentLoadoutId);
         return activePreset != null ? activePreset.DisplayName : "Unknown Loadout";
     }
     public List<LoadoutDefinition> GetAllDefinitions() => definitionMap.Values.ToList();

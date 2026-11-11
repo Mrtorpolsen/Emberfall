@@ -1,11 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿#nullable disable // Unity code is nullable-oblivious; the Cloud Code module compiles this file with nullable on
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+
+// Research definitions (Research.json). Shared with the Cloud Code module (CloudCode/EmberfallModule), which
+// validates research on the server, so keep this plain C#: no UnityEngine.
 
 public class ResearchTree
 {
+    // Bumped whenever the content changes; the server rejects research priced from another version
+    [JsonProperty("definitionsVersion")]
+    public int DefinitionsVersion { get; set; }
+
     [JsonProperty("scalingPresets")]
     public Dictionary<string, ScalingPreset> ScalingPresets { get; set; }
 
@@ -31,18 +38,11 @@ public class ResearchTree
     private ScalingStage[] ResolveScaling(ResearchScaling scaling)
     {
         if (scaling == null)
-        {
-            Debug.LogWarning("Scaling is null. Returning empty stages.");
             return Array.Empty<ScalingStage>();
-        }
 
-        var preset = GetScalingPreset(scaling.Preset);
-
-        if (preset == null)
-        {
-            Debug.LogWarning($"Preset '{scaling.Preset}' not found for scaling. Returning empty stages.");
-            return Array.Empty<ScalingStage>();
-        }
+        // A missing preset would silently charge the base value at every level (DataValidationTests catch it)
+        var preset = GetScalingPreset(scaling.Preset)
+            ?? throw new InvalidOperationException($"Research scaling preset '{scaling.Preset}' not found");
 
         // clone preset (avoid shared references)
         var stages = preset.Stages
@@ -117,10 +117,8 @@ public class ResearchTree
             {
                 ResearchByCategoryEnum[category] = kvp.Value;
             }
-            else
-            {
-                Debug.LogWarning($"Unknown category key in JSON: {kvp.Key}");
-            }
+            // Unknown categories are skipped, so a client older than the definitions still loads them
+            // (DataValidationTests require every category in our JSON to be known)
         }
     }
 }
@@ -180,10 +178,10 @@ public class ResearchScaling
 
             int count = end - start + 1;
 
-            value *= Mathf.Pow(stage.MultiplierPerLevel, count);
+            value *= (float)Math.Pow(stage.MultiplierPerLevel, count);
         }
 
-        return Mathf.RoundToInt(value);
+        return (int)Math.Round(value);
     }
 
 }

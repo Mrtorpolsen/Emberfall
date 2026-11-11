@@ -198,7 +198,7 @@ public class UIManager : MonoBehaviour
 
     private void TogglePauseMenu(bool paused)
     {
-        int cinders = CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes());
+        int cinders = CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes(), GameSettingsService.Instance.Difficulty);
 
         pauseMenu.gameObject.SetActive(paused);
         pauseTitleText.SetText(cinders > 0 ? $"Paused... \nEarned {cinders} <voffset=0.35em><sprite=0></voffset>" : "Paused...");
@@ -213,7 +213,7 @@ public class UIManager : MonoBehaviour
 
     public void SetGameOverMessage()
     {
-        int cinders = CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes());
+        int cinders = CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes(), GameSettingsService.Instance.Difficulty);
         if (cinders > 0)
         {
             survivalText.SetText($"You survived {TimerManager.Instance.GetFormattedTime()} and earned {cinders} cinders <voffset=0.35em><sprite=0></voffset>");

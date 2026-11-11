@@ -1,9 +1,16 @@
+#nullable disable // Unity code is nullable-oblivious; the Cloud Code module compiles this file with nullable on
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using UnityEngine;
+
+// Talent definitions (Talents.json). Shared with the Cloud Code module (CloudCode/EmberfallModule), which
+// validates purchases on the server, so keep this plain C#: no UnityEngine.
 
 public class TalentTree
 {
+    // Bumped whenever the content changes; the server rejects purchases priced from another version
+    [JsonProperty("definitionsVersion")]
+    public int DefinitionsVersion { get; set; }
+
     [JsonProperty("costPresets")]
     public Dictionary<CostPreset, TalentCostPreset> CostPresets { get; set; }
 
@@ -17,6 +24,61 @@ public class TalentTree
     public Dictionary<Archetype, Dictionary<string, TalentOverride>> ArchetypeOverrides { get; set; }
 
     public Dictionary<string, List<Talent>> TalentsByUnit { get; set; } = new();
+
+    // Builds TalentsByUnit from the unit definitions. Purchases are saved under these IDs, so the client and
+    // the server must derive them the same way: unlock talents use their DefinitionId, every other talent
+    // "<DefinitionId>_T<tier>", with "_1", "_2", ... appended for repeats of the same definition and tier.
+    public void BuildTalentsByUnit()
+    {
+        TalentsByUnit.Clear();
+
+        foreach (var unitEntry in UnitDefinitions)
+        {
+            string unitName = unitEntry.Key;
+            UnitDefinition unitDef = unitEntry.Value;
+
+            var talents = new List<Talent>();
+            var idCounts = new Dictionary<string, int>();
+
+            foreach (var talentNode in unitDef.Talents)
+            {
+                TalentOverride archetypeOverride = GetArchetypeOverride(unitDef.Archetype, talentNode.DefinitionId);
+                TalentData talentData = GetTalentData(talentNode.DefinitionId);
+
+                string talentId = talentNode.DefinitionId;
+
+                if (!Talent.IsUnlock(talentData.Type))
+                {
+                    string baseId = $"{talentNode.DefinitionId}_T{talentNode.Tier}";
+
+                    if (!idCounts.TryAdd(baseId, 0))
+                    {
+                        idCounts[baseId]++;
+                    }
+
+                    talentId = idCounts[baseId] == 0 ? baseId : $"{baseId}_{idCounts[baseId]}";
+                }
+
+                talents.Add(new Talent
+                {
+                    Id = talentId,
+                    IconId = archetypeOverride.IconId,
+                    Name = archetypeOverride.Name,
+                    Description = talentData.Description,
+                    Category = talentNode.Category,
+                    Type = talentData.Type,
+                    Tier = talentNode.Tier,
+                    Effects = talentData.Effects,
+                    Unlocks = talentData.Unlocks,
+                    Purchase = talentData.Purchase,
+                    Prerequisites = talentNode.Prerequisites,
+                    Cost = GetCostModel(unitDef.CostPreset, talentNode.Tier)
+                });
+            }
+
+            TalentsByUnit.Add(unitName, talents);
+        }
+    }
 
     public List<Talent> GetTalentsByClass(string unitName)
     {
@@ -100,18 +162,17 @@ public class Talent
 
     public TalentCostModel Cost;            // built from presets on load
 
-    public bool IsUnlockType =>
-        Type == TalentType.UnitUnlock ||
-        Type == TalentType.AbilityUnlock ||
-        Type == TalentType.TowerUnlock;
+    public bool IsUnlockType => IsUnlock(Type);
 
+    public static bool IsUnlock(TalentType type) =>
+        type == TalentType.UnitUnlock ||
+        type == TalentType.AbilityUnlock ||
+        type == TalentType.TowerUnlock;
+
+    // Flat: every level of a talent costs its tier's BaseCost (CostMultiplier is not used)
     public int GetCurrentCost()
     {
-        float baseCost = Cost.BaseCost;      // e.g. 100
-        float multiplier = Cost.CostMultiplier; // e.g. 1.5
-        int purchased = Purchase.Purchased;
-
-        return Mathf.FloorToInt(baseCost + (baseCost * multiplier * purchased));
+        return (int)System.Math.Floor(Cost.BaseCost);
     }
 }
 
@@ -186,13 +247,12 @@ public class TalentCostPreset
 public class TalentCostModel
 {
     public float BaseCost;
-    public float CostMultiplier; // e.g 1.5
+    public float CostMultiplier; // Not used: talent costs are flat per tier
 }
 
 public class TalentPurchaseModel
 {
-    public int Purchased;
-    public int MaxPurchases;  // 0 = infinite
+    public int MaxPurchases;  // 0 = can't be bought
 }
 
 public class TalentPrerequisite
@@ -202,7 +262,7 @@ public class TalentPrerequisite
     public int RequiredTier;
     public int RequiredPointsInTier;
 
-    public string RequiredAchievementId; // e.g “KillBoss5”
+    public string RequiredAchievementId; // e.g "KillBoss5"
 }
 
 public class TalentOverride

@@ -161,13 +161,8 @@ public class GameManager : MonoBehaviour
 
     public void EndOfTutorial()
     {
-        //move this to a reward manager or service later
-        if (!SaveService.Instance.Current.Flags.HasReceivedLoginGift)
-        {
-            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
-            SaveService.Instance.Current.Flags.HasReceivedLoginGift = true;
-            SaveService.Instance.Save();
-        }
+        // Granted by the server, once; offline it's claimed at the next launch
+        _ = TutorialGift.ClaimIfDueAsync();
         //Emit tutorial over
         TutorialFlow.Instance.SetGamePlayTutorialOver();
     }
@@ -180,9 +175,8 @@ public class GameManager : MonoBehaviour
         hasReceivedReward = true;
         //save score, throws error if not logged in
         LeaderboardService.Instance.AddScore(TimerManager.Instance.GetElapsedTimeInMiliseconds(), GameSettingsService.Instance.Difficulty);
-        //add cinders
-        CurrencyManager.Instance.Add(CurrencyTypes.Cinders,
-            CinderRewardCalculator.GetCinders(TimerManager.Instance.GetElapsedTimeInMinutes()));
+        // Cinders are granted by the server; offline the run waits in the queue
+        RunRewardQueue.Add(TimerManager.Instance.GetElapsedTimeInMinutes(), GameSettingsService.Instance.Difficulty);
     }
 
     public Transform GetNextRangedRally()

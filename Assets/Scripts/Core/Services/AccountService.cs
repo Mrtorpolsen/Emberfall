@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.CloudCode;
+using Unity.Services.CloudCode.GeneratedBindings;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -58,7 +59,8 @@ public static class AccountService
         }
     }
 
-    // Deletes the player's leaderboard scores and the UGS account, then everything this install keeps about the player.
+    // Deletes the player's leaderboard scores, Cloud Save data and the UGS account, then everything this install keeps
+    // about the player.
     // Call RestartGame after a success. Returns false if either deletion failed (e.g. offline); the account and
     // everything local are kept then.
     public static async Task<bool> DeleteAccountAsync()
@@ -69,6 +71,8 @@ public static class AccountService
             return false;
         }
 
+        string playerId = auth.PlayerId;
+
         // Stop queued scores before the purge, or a submit could put one back afterwards. If the deletion then fails,
         // those queued scores are lost; the player's best ones are already on the leaderboard.
         if (LeaderboardService.Instance != null)
@@ -76,8 +80,13 @@ public static class AccountService
             await LeaderboardService.Instance.ClearPendingScoresAsync();
         }
 
-        // Scores first, while still signed in: Cloud Code identifies the player by the session
+        // Scores and cloud data first, while still signed in: Cloud Code identifies the player by the session
         if (!await DeleteLeaderboardScoresAsync())
+        {
+            return false;
+        }
+
+        if (!await DeleteCloudDataAsync())
         {
             return false;
         }
@@ -95,6 +104,7 @@ public static class AccountService
         Debug.Log("Account deleted");
 
         await SaveService.Instance.DeleteSaveFilesAsync();
+        ClientStateSync.Forget(playerId);
 
         UnityAuthIdentity.ClearCachedPlayer();
         PlayerPrefs.DeleteKey(LoginManager.LAST_PLAYER_NAME_KEY);
@@ -129,6 +139,28 @@ public static class AccountService
         catch (RequestFailedException e)
         {
             Debug.LogWarning("Deleting leaderboard scores failed: " + e);
+            return false;
+        }
+    }
+
+    // The player's Cloud Save data (progress and client state), through the Cloud Code module: the client can't
+    // delete the server-owned progress itself
+    private static async Task<bool> DeleteCloudDataAsync()
+    {
+        try
+        {
+            await new ProgressModuleBindings().DeleteMyData();
+            Debug.Log("Cloud Save data deleted");
+            return true;
+        }
+        catch (CloudCodeException e)
+        {
+            Debug.LogWarning("Deleting Cloud Save data failed: " + e);
+            return false;
+        }
+        catch (RequestFailedException e)
+        {
+            Debug.LogWarning("Deleting Cloud Save data failed: " + e);
             return false;
         }
     }

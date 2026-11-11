@@ -17,6 +17,7 @@ public static class SaveMigrator
             root = version switch
             {
                 3 => JObject.FromObject(Migrate3To4(root.ToObject<SaveGame3>())),
+                4 => JObject.FromObject(Migrate4To5(root.ToObject<SaveGame4>())),
                 _ => throw new Exception($"No migration found for version {version}")
             };
 
@@ -26,10 +27,10 @@ public static class SaveMigrator
         return root.ToObject<SaveGame>();
     }
 
-    private static SaveGame Migrate3To4(SaveGame3 oldSave)
+    private static SaveGame4 Migrate3To4(SaveGame3 oldSave)
     {
         Debug.Log("running Migrate3To4");
-        SaveGame newSave = new SaveGame
+        SaveGame4 newSave = new SaveGame4
         {
             Version = 4,
             Talents = oldSave.Talents,
@@ -54,5 +55,27 @@ public static class SaveMigrator
         newSave.Flags.HasReceivedLoginGift = oldSave.HasReceivedLoginGift;
 
         return newSave;
+    }
+
+    // Splits the save by owner for cloud save: progress (server), client state (game), no pending runs yet
+    private static SaveGame Migrate4To5(SaveGame4 oldSave)
+    {
+        Debug.Log("running Migrate4To5");
+        return new SaveGame
+        {
+            Version = 5,
+            Progress = new ServerProgress
+            {
+                Currency = oldSave.Currency,
+                Talents = oldSave.Talents,
+                Research = oldSave.Research,
+                HasReceivedLoginGift = oldSave.Flags?.HasReceivedLoginGift ?? false
+            },
+            Client = new ClientState
+            {
+                Loadouts = oldSave.Loadouts,
+                HasCompletedTutorial = oldSave.Flags?.HasCompletedTutorial ?? false
+            }
+        };
     }
 }

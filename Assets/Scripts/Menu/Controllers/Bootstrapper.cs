@@ -34,6 +34,9 @@ public class Bootstrapper : MonoBehaviour
             return;
         }
 
+        // Before the save loads: loading it builds the talent and research trees from these
+        await ServerDefinitions.FetchAsync();
+
         SaveService.Instance.InitializeForPlayer(IdentityService.Instance.Current.GetPlayerId());
         await SaveService.Instance.Load();
 
@@ -53,6 +56,16 @@ public class Bootstrapper : MonoBehaviour
         };
 
         await Task.WhenAll(loadTasks);
+
+        // Runs that ended offline or whose claim failed; later failures are retried when the connection comes back
+        PendingServerWork.Listen();
+        await RunRewardQueue.ClaimAsync();
+
+        // The tutorial finished offline: its gift is still due
+        if (SaveService.Instance.Current.Client.HasCompletedTutorial)
+        {
+            await TutorialGift.ClaimIfDueAsync();
+        }
 
         // Scores from offline matches or failed submits; after GetUserScore so the "too low" check sees the server's scores
         LeaderboardService.Instance.SubmitPendingScoresInBackground();

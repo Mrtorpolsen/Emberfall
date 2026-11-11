@@ -30,7 +30,7 @@ public class StatsBootstrapper
     {
         talentsToApply = new List<TalentsToApply>();
 
-        foreach (var kvp in SaveService.Instance.Current.Talents.Purchases)
+        foreach (var kvp in SaveService.Instance.Current.Progress.Talents.Purchases)
         {
             foreach (var talent in kvp.Value.PurchasedTalents)
             {
@@ -67,7 +67,7 @@ public class StatsBootstrapper
     {
         researchToApply = new List<ResearchToApply>();
 
-        foreach (var kvp in SaveService.Instance.Current.Research.CompletedResearch)
+        foreach (var kvp in SaveService.Instance.Current.Progress.Research.CompletedResearch)
         {
             ResearchDefinition researchDef = ResearchService.Instance.playerResearchTree.GetResearchById(kvp.Key);
 

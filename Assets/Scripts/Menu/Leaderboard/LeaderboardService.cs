@@ -48,6 +48,14 @@ public class LeaderboardService : MonoBehaviour
         {
             IdentityService.Instance.Reconnected += OnReconnected;
         }
+
+        // A session that started online stays signed in through a network drop; send what queued up meanwhile
+        NetworkWatcher.NetworkRestored += OnNetworkRestored;
+    }
+
+    private void OnNetworkRestored()
+    {
+        SubmitPendingScoresInBackground();
     }
 
     private void OnDestroy()
@@ -55,6 +63,11 @@ public class LeaderboardService : MonoBehaviour
         if (Instance == this && IdentityService.Instance != null)
         {
             IdentityService.Instance.Reconnected -= OnReconnected;
+        }
+
+        if (Instance == this)
+        {
+            NetworkWatcher.NetworkRestored -= OnNetworkRestored;
         }
     }
 

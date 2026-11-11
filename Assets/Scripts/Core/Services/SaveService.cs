@@ -10,6 +10,7 @@ public class SaveService : GlobalSystem<SaveService>
     public SaveGame Current { get; private set; }
 
     private string savePath;
+    private string playerId;
 
     // Saves are written one at a time; each request is numbered so an older snapshot never overwrites a newer one
     private readonly SemaphoreSlim saveLock = new(1, 1);
@@ -23,36 +24,75 @@ public class SaveService : GlobalSystem<SaveService>
         base.Awake();
     }
 
+    // The app may be killed in the background: upload pending client state changes now
+    private void OnApplicationPause(bool paused)
+    {
+        if (paused && Current != null)
+        {
+            _ = ClientStateSync.UploadIfChangedAsync();
+        }
+    }
+
     public void InitializeForPlayer(string playerId)
     {
+        this.playerId = playerId;
         savePath = Path.Combine(
             Application.persistentDataPath,
             $"{playerId}_save.json"
         );
     }
 
-    public async Task CreateNewSave()
-    {
-        Current = new SaveGame
-        {
-            Version = CurrentSaveVersion.CURRENT_SAVE_VERSION
-        };
-
-        ValidateSave();
-        await SaveAsync();
-        await InvokeOnSaveLoaded();
-    }
-
+    // Loads the save file, then replaces its progress with the server's and syncs its client state
+    // (docs/cloud-save.md). Offline, or when the server can't be reached, the local copies are used.
     public async Task Load()
     {
         if (!ValidateSavePath())
             return;
 
+        LocalLoad local = await LoadLocalAsync();
+        bool needsWrite = local != LocalLoad.Unchanged;
+
+        ServerProgress serverProgress = await ServerProgressSync.LoadOrImportAsync(Current.Progress);
+
+        if (serverProgress != null)
+        {
+            Current.Progress = serverProgress;
+            needsWrite = true;
+        }
+
+        // Loadouts and the tutorial flag, synced through the player's "client" key
+        ClientState serverClient = await ClientStateSync.LoadAsync(playerId, Current.Client, localIsNew: local == LocalLoad.New);
+
+        if (serverClient != null)
+        {
+            Current.Client = serverClient;
+            needsWrite = true;
+        }
+
+        if (needsWrite)
+        {
+            await SaveAsync();
+        }
+
+        await InvokeOnSaveLoaded();
+    }
+
+    private enum LocalLoad
+    {
+        Unchanged,
+        Migrated,
+        // No usable file: Current is a new save
+        New
+    }
+
+    // Sets Current from the save file, or to a new save when there is none or it can't be used
+    private async Task<LocalLoad> LoadLocalAsync()
+    {
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No save file found, creating new save file");
-            await CreateNewSave();
-            return;
+            Current = NewSave();
+            return LocalLoad.New;
         }
 
         string json = await Task.Run(() => File.ReadAllText(savePath));
@@ -63,37 +103,42 @@ public class SaveService : GlobalSystem<SaveService>
             case SaveLoadStatus.Corrupt:
                 Debug.LogError($"Failed to parse save file, creating new save: {result.Error}");
                 await BackupSave(json, "corrupt");
-                await CreateNewSave();
-                return;
+                Current = NewSave();
+                return LocalLoad.New;
 
             case SaveLoadStatus.Unsupported:
                 Debug.LogError($"Save version {result.Version} is too old to migrate, creating new save");
                 await BackupSave(json, $"unsupported-v{result.Version}");
-                await CreateNewSave();
-                return;
+                Current = NewSave();
+                return LocalLoad.New;
 
             case SaveLoadStatus.Failed:
                 // Keep a copy so it can be recovered
                 Debug.LogError($"Failed to load save version {result.Version}, creating new save: {result.Error}");
                 await BackupSave(json, $"failed-v{result.Version}");
-                await CreateNewSave();
-                return;
+                Current = NewSave();
+                return LocalLoad.New;
         }
 
         Current = result.Save;
+        return result.Status == SaveLoadStatus.Migrated ? LocalLoad.Migrated : LocalLoad.Unchanged;
+    }
 
-        if (result.Status == SaveLoadStatus.Migrated)
+    private static SaveGame NewSave()
+    {
+        return SaveSerializer.EnsureDefaults(new SaveGame
         {
-            await SaveAsync();
-        }
-
-        await InvokeOnSaveLoaded();
+            Version = CurrentSaveVersion.CURRENT_SAVE_VERSION
+        });
     }
 
     public Task SaveAsync()
     {
         // Serializing on the main thread at call time is the snapshot
         string json = SaveSerializer.Serialize(Current);
+
+        // Changes to loadouts or the tutorial flag go to the cloud too (only when they changed)
+        ClientStateSync.ScheduleUpload();
         return SaveInternal(json, ++requestedSaveSequence);
     }
 
@@ -210,10 +255,5 @@ public class SaveService : GlobalSystem<SaveService>
         }
 
         await Task.WhenAll(tasks);
-    }
-
-    private void ValidateSave()
-    {
-        Current = SaveSerializer.EnsureDefaults(Current);
     }
 }
