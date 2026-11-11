@@ -143,7 +143,7 @@ Tests deferred to a device build (collected Nov 11; the editor can't easily go o
 
 **Android**
 - [x] Auto-backup is off: the installed app's flags (`adb shell dumpsys package com.emberfall.dev`) have no `ALLOW_BACKUP` (Nov 11).
-- [ ] The Play Games plugin's permissions are in the build (Bluetooth, Bluetooth admin, Wi-Fi state, change Wi-Fi state, coarse location); see the release plan.
+- [x] The Play Games plugin's Nearby permissions (Bluetooth, Bluetooth admin, Wi-Fi state, change Wi-Fi state, coarse location) are removed by the main manifest: `dumpsys package` lists only INTERNET and ACCESS_NETWORK_STATE (plus the app's own receiver permission), and Play Games sign-in still works (verified Nov 11: same account after clearing data).
 
 **Clock**
 - [x] Set the phone's clock a few minutes ahead, then behind (automatic time off): a research can't be completed early (passed Nov 11). The timer *display* drifts, see Known issues.
