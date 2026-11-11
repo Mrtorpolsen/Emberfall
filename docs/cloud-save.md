@@ -141,7 +141,7 @@ Tests deferred to a device build (collected Nov 11; the editor can't easily go o
 - [ ] Edit a loadout offline, relaunch online: the offline edit is kept (and uploaded), not replaced by the server's copy.
 
 **Clock**
-- [ ] Set the phone's clock a few minutes ahead, then behind (automatic time off): research timers still show the right time, and a research can't be completed early.
+- [x] Set the phone's clock a few minutes ahead, then behind (automatic time off): a research can't be completed early (passed Nov 11). The timer *display* drifts, see Known issues.
 
 ## Release checklist when this ships
 
@@ -151,6 +151,10 @@ From "Re-check when features ship" in `docs/release-plan.md`: Data safety form (
 
 - ~~Client SDK `LoadAsync` for Protected data~~ not needed: the game reads its progress through the module's `GetProgress`. The Cloud Save package is only used for the `client` key (step 8).
 - ~~Module write API~~ verified Nov 11: `SetProtectedItemAsync(context, ServiceToken, projectId, playerId, new SetItemBody(key, value, writeLock))`; deletes are `(context, token, projectId, playerId, key)`.
+
+## Known issues
+
+- **Research timers drift when the player changes the device clock mid-session** (device test, Nov 11). `ServerClock.Now` is the device clock plus the offset from the last server answer, so moving the clock shifts the timers until the next answer resyncs it: 10 min ahead, the timer reaches 00:00 early (the server answers `NotDone`, nothing completes early); set back, timers show extra minutes. Display only. Fix later: count time since the last sync with a monotonic clock, and since Android's monotonic clock stops in deep sleep, also resync with a light server call when the app returns to the foreground.
 
 ## Decisions
 
