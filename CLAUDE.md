@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Emberfall is a 2D tower defense game (Unity **6000.6.8f1**, URP, C#), targeting Android (Google Play Games login, Unity Leaderboards). Development happens on Windows; this repo is accessed from WSL at `/mnt/c/...`.
+Emberfall is a 2D tower defense game (Unity **6000.6.8f1**, URP, C#), targeting Android (Google Play Games login, Unity Leaderboards). Development happens on Windows; this repo is accessed from WSL at `/mnt/c/...`. Android uses GameActivity and a custom main manifest (`Assets/Plugins/Android/AndroidManifest.xml`), which turns auto-backup off: Cloud Save is the backup.
 
 ## Building and testing
 

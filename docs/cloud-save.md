@@ -117,7 +117,7 @@ Cost/duration/reward calculations must give the same answer on client and server
 6. `ClaimRunRewards` with the pending-run queue. Done (Nov 11): `RunRewards.Claim` (12 h bank, 120 min per run, last 100 run IDs remembered, 50 runs per claim) with `ServerProgress` v2 (`RewardClock`, `ClaimedRunIds`; a never-claimed clock counts as 12 h available); the game's `RunRewardQueue`. `CurrencyManager` is read-only now.
 7. `DeleteMyData` in account deletion. Done (Nov 11): deletes the `progress` and `client` keys before the account; a failure keeps the account, like a failed score deletion.
 8. `client` key sync. Done (Nov 11): `ClientStateSync` (Cloud Save SDK, Default access) uploads 5 s after a save that changed the client state and on app pause; at load the server's copy wins unless this device changed its copy since its last upload (remembered in PlayerPrefs per player, so a fresh install takes the server's; a save file created this launch, because it was missing or corrupt, always takes the server's too, since PlayerPrefs can outlive the file). The loadout screen saves when you leave it, so that's when its upload is scheduled. Last upload wins between devices.
-9. Android auto-backup: exclude the cache file.
+9. Android auto-backup: off. Done (Nov 11): `allowBackup="false"` in the custom main manifest (it would restore stale PlayerPrefs, like the client-state upload marker; device-to-device transfers on Android 12+ still copy files and PlayerPrefs together, which stays consistent).
 10. Device test, with the checklist below.
 
 ## Device test checklist
