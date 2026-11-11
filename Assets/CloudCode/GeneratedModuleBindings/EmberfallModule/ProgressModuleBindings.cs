@@ -75,6 +75,26 @@ namespace Unity.Services.CloudCode.GeneratedBindings
                 });
         }
 
+        public async Task<string> RefundTalents()
+        {
+            return await k_Service.CallModuleEndpointAsync<string>(
+                "EmberfallModule",
+                "RefundTalents",
+                new Dictionary<string, object>()
+                {
+                });
+        }
+
+        public async Task<string> ClaimTutorialGift()
+        {
+            return await k_Service.CallModuleEndpointAsync<string>(
+                "EmberfallModule",
+                "ClaimTutorialGift",
+                new Dictionary<string, object>()
+                {
+                });
+        }
+
         public async Task<string> GetDefinitions()
         {
             return await k_Service.CallModuleEndpointAsync<string>(

@@ -57,6 +57,12 @@ public class Bootstrapper : MonoBehaviour
 
         await Task.WhenAll(loadTasks);
 
+        // The tutorial finished offline: its gift is still due
+        if (SaveService.Instance.Current.Client.HasCompletedTutorial)
+        {
+            await TutorialGift.ClaimIfDueAsync();
+        }
+
         // Scores from offline matches or failed submits; after GetUserScore so the "too low" check sees the server's scores
         LeaderboardService.Instance.SubmitPendingScoresInBackground();
 

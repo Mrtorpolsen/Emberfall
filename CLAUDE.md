@@ -94,7 +94,7 @@ In-match currency and income live in `MatchEconomy` (plain C#, tested), owned by
 - Abilities: `AbilityDefinition` → `AbilityAction`s (`Heal`, `StatModification`, `Summon`), triggered via `AbilityTriggerFactory`/`AbilityTrigger` (e.g. cooldown-based), executed by `AbilitySystem` with `AbilityCooldownManager`.
 
 ### Tutorial
-`TutorialFlow` (persistent) owns menu tutorial steps and the `ClientState.HasCompletedTutorial` flag (the tutorial gift is `ServerProgress.HasReceivedLoginGift`); a player who already has research (`TutorialFlow.IsPastResearchStep`, e.g. after a reinstall) is treated as having finished it; `GamePlayTutorialPresenter` handles the in-game tutorial. `GameManager` has an `isTutorial` mode that changes spawning (e.g. the tutorial boss `SirTutorTheThird`) — check tutorial vs. normal paths when touching spawning/waves.
+`TutorialFlow` (persistent) owns menu tutorial steps and the `ClientState.HasCompletedTutorial` flag (the tutorial gift is `ServerProgress.HasReceivedLoginGift`, granted by the server through `TutorialGift.ClaimIfDueAsync` when the gameplay tutorial ends, or at the next launch if offline); a player who already has research (`TutorialFlow.IsPastResearchStep`, e.g. after a reinstall) is treated as having finished it; `GamePlayTutorialPresenter` handles the in-game tutorial. `GameManager` has an `isTutorial` mode that changes spawning (e.g. the tutorial boss `SirTutorTheThird`) — check tutorial vs. normal paths when touching spawning/waves.
 
 ## Roadmap
 Pre-release work (GPGS sign-in, cloud save, achievements, IAP/ads, Play production, iOS) is planned in `docs/release-plan.md`.

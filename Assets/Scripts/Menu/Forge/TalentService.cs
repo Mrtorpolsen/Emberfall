@@ -126,17 +126,28 @@ public class TalentService : MonoBehaviour
     }
 
     // Gives back all currency spent on talents and re-locks what talents unlocked, removing those from loadouts
-    public async Task RefundAllAsync()
+    // The server gives the Cinders back and clears the talents (docs/cloud-save.md). False when it couldn't.
+    public async Task<bool> RefundAllAsync()
     {
-        var talents = SaveService.Instance.Current.Progress.Talents;
-
-        foreach (var currency in talents.CurrencySpent)
+        if (!ServerActions.IsOnline)
         {
-            CurrencyManager.Instance.Add(currency.Key, currency.Value);
+            Toast.Show("Connect to the internet to refund talents.");
+            return false;
         }
 
-        talents.Purchases.Clear();
-        talents.CurrencySpent.Clear();
+        var response = await ServerActions.SendAsync(module => module.RefundTalents());
+
+        if (response == null)
+        {
+            Toast.Show("Couldn't reach the server. Try again.");
+            return false;
+        }
+
+        if (!string.IsNullOrEmpty(response.Error))
+        {
+            Toast.Show(ServerActions.Describe(response.Error));
+            return false;
+        }
 
         // Only talent unlocks: research and default unlocks stay
         foreach (var talent in unlockTalents)
@@ -147,6 +158,7 @@ public class TalentService : MonoBehaviour
         LoadoutService.Instance.RemoveLockedDefinitions();
 
         await SaveService.Instance.SaveAsync();
+        return true;
     }
 
     public bool CanAfford(int cost)

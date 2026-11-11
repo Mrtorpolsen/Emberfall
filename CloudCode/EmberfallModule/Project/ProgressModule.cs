@@ -92,6 +92,20 @@ public class ProgressModule
         return MutateAsync(context, progress => ResearchActions.Complete(progress, DefinitionsStore.Research, researchId, Now()));
     }
 
+    // Refunds every talent (the Cinders recorded as spent) and clears them. Returns a ProgressResponse.
+    [CloudCodeFunction("RefundTalents")]
+    public Task<string> RefundTalents(IExecutionContext context)
+    {
+        return MutateAsync(context, ProgressActions.RefundTalents);
+    }
+
+    // The gameplay tutorial's Cinders, once per player. Returns a ProgressResponse.
+    [CloudCodeFunction("ClaimTutorialGift")]
+    public Task<string> ClaimTutorialGift(IExecutionContext context)
+    {
+        return MutateAsync(context, ProgressActions.ClaimTutorialGift);
+    }
+
     static long Now() => DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
     // Loads the progress, runs the action on it and writes it back with the write lock it was read with.

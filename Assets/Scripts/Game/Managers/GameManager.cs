@@ -161,13 +161,8 @@ public class GameManager : MonoBehaviour
 
     public void EndOfTutorial()
     {
-        //move this to a reward manager or service later
-        if (!SaveService.Instance.Current.Progress.HasReceivedLoginGift)
-        {
-            CurrencyManager.Instance.Add(CurrencyTypes.Cinders, 2000);
-            SaveService.Instance.Current.Progress.HasReceivedLoginGift = true;
-            SaveService.Instance.Save();
-        }
+        // Granted by the server, once; offline it's claimed at the next launch
+        _ = TutorialGift.ClaimIfDueAsync();
         //Emit tutorial over
         TutorialFlow.Instance.SetGamePlayTutorialOver();
     }
